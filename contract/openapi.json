@@ -890,6 +890,29 @@
         "title": "AvailabilityRequest",
         "type": "object"
       },
+      "BankChapter": {
+        "properties": {
+          "chapterId": {
+            "title": "Chapterid",
+            "type": "string"
+          },
+          "chapterName": {
+            "title": "Chaptername",
+            "type": "string"
+          },
+          "questionCount": {
+            "title": "Questioncount",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "chapterId",
+          "chapterName",
+          "questionCount"
+        ],
+        "title": "BankChapter",
+        "type": "object"
+      },
       "BellScheduleRequest": {
         "additionalProperties": false,
         "properties": {
@@ -3077,6 +3100,55 @@
         "title": "EvaluateSheetResponse",
         "type": "object"
       },
+      "EvaluationItem": {
+        "properties": {
+          "awardedMarks": {
+            "title": "Awardedmarks",
+            "type": "number"
+          },
+          "maxMarks": {
+            "title": "Maxmarks",
+            "type": "integer"
+          },
+          "modelAnswer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modelanswer"
+          },
+          "needsReview": {
+            "title": "Needsreview",
+            "type": "boolean"
+          },
+          "questionId": {
+            "title": "Questionid",
+            "type": "string"
+          },
+          "reasoning": {
+            "title": "Reasoning",
+            "type": "string"
+          },
+          "verdict": {
+            "title": "Verdict",
+            "type": "string"
+          }
+        },
+        "required": [
+          "questionId",
+          "awardedMarks",
+          "maxMarks",
+          "verdict",
+          "reasoning",
+          "needsReview"
+        ],
+        "title": "EvaluationItem",
+        "type": "object"
+      },
       "EvaluationResponse": {
         "properties": {
           "awardedMarks": {
@@ -3655,6 +3727,32 @@
         "title": "GeneratedSectionSchema",
         "type": "object"
       },
+      "GradeRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "feedback": {
+            "anyOf": [
+              {
+                "maxLength": 2000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feedback"
+          },
+          "marks": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Marks",
+            "type": "object"
+          }
+        },
+        "title": "GradeRequest",
+        "type": "object"
+      },
       "GradeResponse": {
         "properties": {
           "academicYearId": {
@@ -3763,6 +3861,276 @@
           "kind"
         ],
         "title": "HolidayResponse",
+        "type": "object"
+      },
+      "HomeworkCreateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "chapterIds": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "title": "Chapterids",
+            "type": "array"
+          },
+          "count": {
+            "default": 5,
+            "maximum": 30.0,
+            "minimum": 1.0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "dueDate": {
+            "title": "Duedate",
+            "type": "string"
+          },
+          "instructions": {
+            "default": "",
+            "maxLength": 2000,
+            "title": "Instructions",
+            "type": "string"
+          },
+          "publish": {
+            "default": true,
+            "title": "Publish",
+            "type": "boolean"
+          },
+          "questionIds": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 30,
+            "title": "Questionids",
+            "type": "array"
+          },
+          "sectionIds": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "minItems": 1,
+            "title": "Sectionids",
+            "type": "array"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subjectId",
+          "sectionIds",
+          "title",
+          "dueDate"
+        ],
+        "title": "HomeworkCreateRequest",
+        "type": "object"
+      },
+      "HomeworkDetail": {
+        "properties": {
+          "chapterIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Chapterids",
+            "type": "array"
+          },
+          "dueDate": {
+            "title": "Duedate",
+            "type": "string"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "graded": {
+            "default": 0,
+            "title": "Graded",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "instructions": {
+            "title": "Instructions",
+            "type": "string"
+          },
+          "questionCount": {
+            "title": "Questioncount",
+            "type": "integer"
+          },
+          "questions": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Questions",
+            "type": "array"
+          },
+          "sectionIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sectionids",
+            "type": "array"
+          },
+          "sectionNames": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sectionnames",
+            "type": "array"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "students": {
+            "default": 0,
+            "title": "Students",
+            "type": "integer"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "subjectName": {
+            "title": "Subjectname",
+            "type": "string"
+          },
+          "submitted": {
+            "default": 0,
+            "title": "Submitted",
+            "type": "integer"
+          },
+          "teacherId": {
+            "title": "Teacherid",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "totalMarks": {
+            "title": "Totalmarks",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "subjectId",
+          "subjectName",
+          "grade",
+          "sectionIds",
+          "sectionNames",
+          "teacherId",
+          "dueDate",
+          "status",
+          "questionCount",
+          "totalMarks",
+          "instructions",
+          "chapterIds",
+          "questions"
+        ],
+        "title": "HomeworkDetail",
+        "type": "object"
+      },
+      "HomeworkSummary": {
+        "properties": {
+          "dueDate": {
+            "title": "Duedate",
+            "type": "string"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "graded": {
+            "default": 0,
+            "title": "Graded",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "questionCount": {
+            "title": "Questioncount",
+            "type": "integer"
+          },
+          "sectionIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sectionids",
+            "type": "array"
+          },
+          "sectionNames": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sectionnames",
+            "type": "array"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "students": {
+            "default": 0,
+            "title": "Students",
+            "type": "integer"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "subjectName": {
+            "title": "Subjectname",
+            "type": "string"
+          },
+          "submitted": {
+            "default": 0,
+            "title": "Submitted",
+            "type": "integer"
+          },
+          "teacherId": {
+            "title": "Teacherid",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "totalMarks": {
+            "title": "Totalmarks",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "subjectId",
+          "subjectName",
+          "grade",
+          "sectionIds",
+          "sectionNames",
+          "teacherId",
+          "dueDate",
+          "status",
+          "questionCount",
+          "totalMarks"
+        ],
+        "title": "HomeworkSummary",
         "type": "object"
       },
       "InboxResponse": {
@@ -4433,6 +4801,162 @@
           "subtopicName"
         ],
         "title": "MyClassScheduleEntryResponse",
+        "type": "object"
+      },
+      "MyHomeworkDetail": {
+        "properties": {
+          "answers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Answers",
+            "type": "object"
+          },
+          "dueDate": {
+            "title": "Duedate",
+            "type": "string"
+          },
+          "evaluations": {
+            "items": {
+              "$ref": "#/components/schemas/EvaluationItem"
+            },
+            "title": "Evaluations",
+            "type": "array"
+          },
+          "feedback": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feedback"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "instructions": {
+            "title": "Instructions",
+            "type": "string"
+          },
+          "marks": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Marks"
+          },
+          "myStatus": {
+            "title": "Mystatus",
+            "type": "string"
+          },
+          "overdue": {
+            "title": "Overdue",
+            "type": "boolean"
+          },
+          "questions": {
+            "items": {
+              "$ref": "#/components/schemas/StudentQuestion"
+            },
+            "title": "Questions",
+            "type": "array"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "subjectName": {
+            "title": "Subjectname",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "totalMarks": {
+            "title": "Totalmarks",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "subjectName",
+          "dueDate",
+          "status",
+          "myStatus",
+          "overdue",
+          "totalMarks",
+          "instructions",
+          "questions"
+        ],
+        "title": "MyHomeworkDetail",
+        "type": "object"
+      },
+      "MyHomeworkItem": {
+        "properties": {
+          "dueDate": {
+            "title": "Duedate",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "marks": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Marks"
+          },
+          "myStatus": {
+            "title": "Mystatus",
+            "type": "string"
+          },
+          "overdue": {
+            "title": "Overdue",
+            "type": "boolean"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "subjectName": {
+            "title": "Subjectname",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "totalMarks": {
+            "title": "Totalmarks",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "subjectName",
+          "dueDate",
+          "status",
+          "myStatus",
+          "overdue",
+          "totalMarks"
+        ],
+        "title": "MyHomeworkItem",
         "type": "object"
       },
       "MyProgressResponse": {
@@ -6351,6 +6875,34 @@
           "marks"
         ],
         "title": "QuestionPartSchema",
+        "type": "object"
+      },
+      "QuestionPreview": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "marks": {
+            "title": "Marks",
+            "type": "integer"
+          },
+          "stem": {
+            "title": "Stem",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "stem",
+          "marks"
+        ],
+        "title": "QuestionPreview",
         "type": "object"
       },
       "QuestionSchema": {
@@ -9131,6 +9683,42 @@
         "title": "StudentMasteryResponse",
         "type": "object"
       },
+      "StudentQuestion": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "marks": {
+            "title": "Marks",
+            "type": "integer"
+          },
+          "parts": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Parts",
+            "type": "array"
+          },
+          "stem": {
+            "title": "Stem",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "stem",
+          "marks"
+        ],
+        "title": "StudentQuestion",
+        "type": "object"
+      },
       "StudyPlanRequest": {
         "properties": {
           "capacity_minutes": {
@@ -9527,6 +10115,129 @@
         "title": "SubjectTemplateReportResponse",
         "type": "object"
       },
+      "SubmissionRow": {
+        "properties": {
+          "answers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Answers",
+            "type": "object"
+          },
+          "attempts": {
+            "default": 0,
+            "title": "Attempts",
+            "type": "integer"
+          },
+          "autoMarks": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Automarks"
+          },
+          "evaluations": {
+            "items": {
+              "$ref": "#/components/schemas/EvaluationItem"
+            },
+            "title": "Evaluations",
+            "type": "array"
+          },
+          "feedback": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feedback"
+          },
+          "late": {
+            "default": false,
+            "title": "Late",
+            "type": "boolean"
+          },
+          "marks": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Marks"
+          },
+          "maxMarks": {
+            "title": "Maxmarks",
+            "type": "integer"
+          },
+          "needsReview": {
+            "default": 0,
+            "title": "Needsreview",
+            "type": "integer"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          },
+          "studentName": {
+            "title": "Studentname",
+            "type": "string"
+          },
+          "submittedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Submittedat"
+          }
+        },
+        "required": [
+          "studentId",
+          "studentName",
+          "sectionId",
+          "status",
+          "maxMarks"
+        ],
+        "title": "SubmissionRow",
+        "type": "object"
+      },
+      "SubmitRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "answers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Answers",
+            "type": "object"
+          }
+        },
+        "required": [
+          "answers"
+        ],
+        "title": "SubmitRequest",
+        "type": "object"
+      },
       "SubstitutionResponse": {
         "properties": {
           "absentTeacherId": {
@@ -9721,6 +10432,84 @@
           "sourceType"
         ],
         "title": "SubtopicResponse",
+        "type": "object"
+      },
+      "SuggestionResponse": {
+        "properties": {
+          "bankChapters": {
+            "items": {
+              "$ref": "#/components/schemas/BankChapter"
+            },
+            "title": "Bankchapters",
+            "type": "array"
+          },
+          "chapterName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chaptername"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "lessonFound": {
+            "title": "Lessonfound",
+            "type": "boolean"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "questions": {
+            "items": {
+              "$ref": "#/components/schemas/QuestionPreview"
+            },
+            "title": "Questions",
+            "type": "array"
+          },
+          "subtopicName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subtopicname"
+          },
+          "topicName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Topicname"
+          }
+        },
+        "required": [
+          "date",
+          "lessonFound",
+          "bankChapters",
+          "questions"
+        ],
+        "title": "SuggestionResponse",
         "type": "object"
       },
       "SwapCounts": {
@@ -18344,6 +19133,483 @@
         "summary": "Review Sheet Answer"
       }
     },
+    "/api/v1/homework": {
+      "get": {
+        "description": "The principal sees the school's homework; a teacher what they set or\nwhat is set in a subject and section they teach.",
+        "operationId": "list_homework_api_v1_homework_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sectionId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sectionid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/HomeworkSummary"
+                  },
+                  "title": "Response List Homework Api V1 Homework Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Homework"
+      },
+      "post": {
+        "description": "Set homework. A teacher only for sections they teach this subject in;\nthe principal for any section of the school. Questions are the ones named,\nor `count` picked from the chapters named. Published at once unless\n`publish` is false, and then the students are told.",
+        "operationId": "create_homework_api_v1_homework_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HomeworkCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomeworkDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Homework"
+      }
+    },
+    "/api/v1/homework/suggestion": {
+      "get": {
+        "description": "What to set after the lesson the section's plan has on `date` (today\nby default, else the latest lesson before it): the bank chapters that\nmatch that lesson's chapter by name, and up to ten of their questions.\nThe school's book and the bank's chapters are not always one edition;\nwhen no name matches, the note says so and the teacher picks chapters.",
+        "operationId": "suggest_api_v1_homework_suggestion_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sectionId",
+            "required": true,
+            "schema": {
+              "title": "Sectionid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "subjectId",
+            "required": true,
+            "schema": {
+              "title": "Subjectid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "date",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuggestionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Suggest"
+      }
+    },
+    "/api/v1/homework/{homework_id}": {
+      "get": {
+        "operationId": "get_homework_api_v1_homework__homework_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomeworkDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Homework"
+      }
+    },
+    "/api/v1/homework/{homework_id}/close": {
+      "post": {
+        "description": "No more submissions. Marking what has come in goes on.",
+        "operationId": "close_homework_api_v1_homework__homework_id__close_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomeworkSummary"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Close Homework"
+      }
+    },
+    "/api/v1/homework/{homework_id}/publish": {
+      "post": {
+        "operationId": "publish_homework_api_v1_homework__homework_id__publish_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomeworkSummary"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Publish Homework"
+      }
+    },
+    "/api/v1/homework/{homework_id}/remind": {
+      "post": {
+        "description": "Tell every student who has not submitted. Once a day at most per\nstudent, however often it is pressed.",
+        "operationId": "remind_api_v1_homework__homework_id__remind_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Remind Api V1 Homework  Homework Id  Remind Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Remind"
+      }
+    },
+    "/api/v1/homework/{homework_id}/submissions": {
+      "get": {
+        "description": "Every student of the sections, submitted or not, with their answers\nand the evaluator's marks per question.",
+        "operationId": "list_submissions_api_v1_homework__homework_id__submissions_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SubmissionRow"
+                  },
+                  "title": "Response List Submissions Api V1 Homework  Homework Id  Submissions Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Submissions"
+      }
+    },
+    "/api/v1/homework/{homework_id}/submissions/{student_id}/grade": {
+      "post": {
+        "description": "Final marks for one student: the evaluator's award for every question\nnot named, the teacher's for each one named. The student is told.",
+        "operationId": "grade_submission_api_v1_homework__homework_id__submissions__student_id__grade_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GradeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubmissionRow"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Grade Submission"
+      }
+    },
     "/api/v1/ingest/school-documents": {
       "post": {
         "operationId": "ingest_school_document_api_v1_ingest_school_documents_post",
@@ -18652,6 +19918,134 @@
           }
         },
         "summary": "Mail Status"
+      }
+    },
+    "/api/v1/my-homework": {
+      "get": {
+        "description": "The caller's section's homework, newest due date first, with where\nthey stand on each.",
+        "operationId": "my_homework_api_v1_my_homework_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/MyHomeworkItem"
+                  },
+                  "title": "Response My Homework Api V1 My Homework Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Homework"
+      }
+    },
+    "/api/v1/my-homework/{homework_id}": {
+      "get": {
+        "description": "The questions without answers; after marking, the marks per question\nand the model answers.",
+        "operationId": "my_homework_detail_api_v1_my_homework__homework_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyHomeworkDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Homework Detail"
+      }
+    },
+    "/api/v1/my-homework/{homework_id}/submit": {
+      "post": {
+        "description": "Send answers ({questionId: answer}; an MCQ answer is its option\nletter). May be sent again until it is marked or the homework closes.\nAfter the due date it is accepted and marked late.",
+        "operationId": "submit_api_v1_my_homework__homework_id__submit_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyHomeworkDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Submit"
       }
     },
     "/api/v1/notification-preferences": {
