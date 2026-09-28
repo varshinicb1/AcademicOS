@@ -35,6 +35,44 @@ class GradeResponse(Camel):
     section: Optional[str] = None
 
 
+class CamelRequest(Camel):
+    """A request body that refuses a field it does not know. The older
+    curriculum requests ignore one (audit D7: a misspelled field is dropped
+    and the call succeeds); new ones start strict."""
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, extra="forbid")
+
+
+class SectionResponse(Camel):
+    """One class of a grade ("10-B", M1.1). studentCount is how many
+    students are enrolled in it now."""
+    id: str
+    academic_year_id: str
+    grade_id: str
+    grade_number: int
+    name: str
+    class_teacher_id: Optional[str] = None
+    student_count: int = 0
+
+
+class CreateSectionRequest(CamelRequest):
+    name: str = Field(min_length=1, max_length=20)
+    class_teacher_id: Optional[str] = None
+
+
+class UpdateSectionRequest(CamelRequest):
+    """A field left out is unchanged; classTeacherId null clears it."""
+    name: Optional[str] = Field(default=None, min_length=1, max_length=20)
+    class_teacher_id: Optional[str] = None
+
+
+class SectionStudentResponse(Camel):
+    """A student enrolled in a section. Ids only: the console already
+    holds the school's user list, so no name or email travels twice."""
+    student_id: str
+    enrollment_id: str
+    enrolled_at: str
+
+
 class SubjectResponse(Camel):
     id: str
     grade_id: str
@@ -564,8 +602,12 @@ class RescheduleHistoryEntryResponse(Camel):
 # transcript.
 
 class EnrollStudentRequest(Camel):
+    """sectionId is the class (M1.1). gradeId alone still works for a
+    grade with one section, as it did before sections existed; for a grade
+    with several it is a 422 naming them."""
     student_id: str = Field(min_length=1)
-    grade_id: str = Field(min_length=1)
+    grade_id: Optional[str] = Field(default=None, min_length=1)
+    section_id: Optional[str] = Field(default=None, min_length=1)
 
 
 class StudentEnrollmentResponse(Camel):
@@ -573,6 +615,7 @@ class StudentEnrollmentResponse(Camel):
     school_id: str
     student_id: str
     grade_id: str
+    section_id: Optional[str] = None
     created_at: str
 
 

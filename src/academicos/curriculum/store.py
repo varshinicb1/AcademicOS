@@ -83,6 +83,9 @@ from .models import (
     RECORDED_STATUSES,
     STATUS_VALUES,
     ScheduledLesson,
+    DEFAULT_SECTION_NAME,
+    SECTION_NAME_MAX,
+    Section,
     StudentEnrollment,
     Subject,
     Subtopic,
@@ -137,6 +140,25 @@ CREATE TABLE IF NOT EXISTS grades (
   section      TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_grades_year ON grades(academic_year_id);
+
+-- Sections (M1.1, docs/plans/m1-school-data-model.md): the class of a grade a
+-- student is enrolled in. Until 2026-09-28 a section was only the optional
+-- grades.section label. Every grade has at least one: create_grade makes the
+-- first, and _migrate gives an existing grade without one a section named
+-- after its old label, or "A". New table, so CREATE TABLE IF NOT EXISTS is
+-- enough; the name rule is also a constraint, case-insensitive like the check.
+CREATE TABLE IF NOT EXISTS sections (
+  id           TEXT PRIMARY KEY,
+  school_id    TEXT NOT NULL,
+  academic_year_id TEXT NOT NULL,
+  grade_id     TEXT NOT NULL,
+  name         TEXT NOT NULL COLLATE NOCASE,
+  class_teacher_id TEXT,
+  created_at   TEXT NOT NULL,
+  UNIQUE(grade_id, name)
+);
+CREATE INDEX IF NOT EXISTS idx_sections_year ON sections(academic_year_id);
+CREATE INDEX IF NOT EXISTS idx_sections_grade ON sections(grade_id);
 
 CREATE TABLE IF NOT EXISTS subjects (
   id           TEXT PRIMARY KEY,
@@ -364,7 +386,8 @@ CREATE TABLE IF NOT EXISTS student_enrollments (
   school_id    TEXT NOT NULL,
   student_id   TEXT NOT NULL UNIQUE,
   grade_id     TEXT NOT NULL,
-  created_at   TEXT NOT NULL
+  created_at   TEXT NOT NULL,
+  section_id   TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_se_grade ON student_enrollments(grade_id);
 """
@@ -372,6 +395,11 @@ CREATE INDEX IF NOT EXISTS idx_se_grade ON student_enrollments(grade_id);
 
 def new_id(prefix: str) -> str:
     return f"{prefix}_{uuid.uuid4().hex[:12]}"
+
+
+class SectionInUse(Exception):
+    """A section cannot be removed: students are enrolled in it, or it is
+    its grade's last. The route's 409."""
 
 
 class CurriculumStore:
@@ -387,7 +415,8 @@ class CurriculumStore:
         # Restores the last snapshot into db_path before the connect below;
         # upload, conflicts and flush live there too (storage/snapshot_sync.py).
         self._snapshots = SnapshotSync("curriculum-snapshots", self._SNAPSHOT_KEY, db_path,
-                                       self._conn_lock, debounce_seconds=self._SNAPSHOT_DEBOUNCE_SECONDS)
+                                       self._conn_lock, debounce_seconds=self._SNAPSHOT_DEBOUNCE_SECONDS,
+                                       on_reload=self._bring_up_to_date)
 
         db_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -396,9 +425,20 @@ class CurriculumStore:
         self._exec("PRAGMA journal_mode=WAL")
         self._exec("PRAGMA busy_timeout=60000")
         self._exec("PRAGMA foreign_keys=ON")
-        self.conn.executescript(SCHEMA)
-        self._migrate()
-        self._commit()
+        self._bring_up_to_date()
+        # The migration's rows (M1.1's first sections) are the same on every
+        # instance that starts from this snapshot, so starting does not upload
+        # them: that would turn every rollout into a snapshot conflict with
+        # the instance being replaced (SnapshotSync.commit_derived).
+        self._snapshots.commit_derived(self.conn)
+
+    def _bring_up_to_date(self) -> None:
+        """This release's schema and migrations over whatever the file holds:
+        on start, and after a snapshot conflict reloads one an older release
+        wrote. Executes only; the caller commits."""
+        with self._conn_lock:
+            self.conn.executescript(SCHEMA)
+            self._migrate()
 
     def _migrate(self) -> None:
         """CREATE TABLE IF NOT EXISTS never adds a column to a table that
@@ -414,6 +454,52 @@ class CurriculumStore:
         term_cols = {r["name"] for r in self._fetchall("PRAGMA table_info(terms)")}
         if term_cols and "manual_baseline_minutes" not in term_cols:
             self._exec("ALTER TABLE terms ADD COLUMN manual_baseline_minutes REAL")
+        # Sections (M1.1). The index lives here, not in SCHEMA: SCHEMA runs
+        # before this, while an existing enrollments table has no such column.
+        enrol_cols = {r["name"] for r in self._fetchall("PRAGMA table_info(student_enrollments)")}
+        if "section_id" not in enrol_cols:
+            self._exec("ALTER TABLE student_enrollments ADD COLUMN section_id TEXT")
+        self._exec("CREATE INDEX IF NOT EXISTS idx_se_section ON student_enrollments(section_id)")
+        self._migrate_sections()
+
+    def _migrate_sections(self) -> None:
+        """Give every grade that has no section its first one, and place
+        every enrollment that has no section in its grade's. Idempotent: a
+        grade that already has a section and an enrollment that already has
+        one are left alone, so this runs on every start at no cost.
+
+        A grade's first section is named after its old `grades.section`
+        label when it had one, else DEFAULT_SECTION_NAME; so a school that
+        never named sections has "10-A", and the students enrolled in grade
+        10 are in 10-A. An enrollment is placed only in a grade with exactly
+        one section: after the first pass every migrated grade has one, and
+        a grade whose principal has since added more is never guessed at.
+
+        The section's id is derived from its grade's, so every instance that
+        migrates the same snapshot writes the same rows (a rollout runs two);
+        which is why the start does not upload them (commit_derived)."""
+        import hashlib
+        from datetime import datetime, timezone
+        now = datetime.now(timezone.utc).isoformat()
+        with self._conn_lock:
+            unsectioned = self._fetchall(
+                "SELECT g.id, g.academic_year_id, g.section, y.school_id FROM grades g "
+                "JOIN academic_years y ON g.academic_year_id = y.id "
+                "WHERE NOT EXISTS (SELECT 1 FROM sections s WHERE s.grade_id = g.id)")
+            for g in unsectioned:
+                name = (g["section"] or "").strip()[:SECTION_NAME_MAX] or DEFAULT_SECTION_NAME
+                sid = "section_" + hashlib.sha1(f"first-section:{g['id']}".encode()).hexdigest()[:12]
+                self._exec(
+                    "INSERT INTO sections (id, school_id, academic_year_id, grade_id, name, created_at) "
+                    "VALUES (?,?,?,?,?,?)",
+                    (sid, g["school_id"], g["academic_year_id"], g["id"], name, now))
+            self._exec(
+                "UPDATE student_enrollments SET section_id = "
+                "(SELECT s.id FROM sections s WHERE s.grade_id = student_enrollments.grade_id) "
+                "WHERE section_id IS NULL AND "
+                "(SELECT COUNT(*) FROM sections s WHERE s.grade_id = student_enrollments.grade_id) = 1")
+        if unsectioned:
+            logger.info("sections migration: gave %d grade(s) their first section", len(unsectioned))
 
     # ------------------------------------------------------------------
     # Serialized SQLite access. The store holds ONE shared connection with
@@ -633,10 +719,20 @@ class CurriculumStore:
 
     def create_grade(self, *, academic_year_id: str, number: int,
                      section: Optional[str] = None) -> Grade:
+        """The grade and its first Section, named `section` when given, else
+        DEFAULT_SECTION_NAME: a grade is never without a class to enrol in."""
         g = Grade(id=new_id("grade"), academic_year_id=academic_year_id, number=number, section=section)
-        self._exec(
-            "INSERT INTO grades (id, academic_year_id, number, section) VALUES (?,?,?,?)",
-            (g.id, g.academic_year_id, g.number, g.section))
+        # Checked before anything is written: a refused name must not leave a
+        # grade row behind for the next commit to save.
+        name = self._clean_section_name(section) if section else DEFAULT_SECTION_NAME
+        with self._conn_lock:
+            self._exec(
+                "INSERT INTO grades (id, academic_year_id, number, section) VALUES (?,?,?,?)",
+                (g.id, g.academic_year_id, g.number, g.section))
+            year = self.get_academic_year(academic_year_id)
+            if year is not None:
+                self._insert_section(school_id=year.school_id, academic_year_id=academic_year_id,
+                                     grade_id=g.id, name=name)
         self._commit()
         return g
 
@@ -658,6 +754,138 @@ class CurriculumStore:
             "SELECT * FROM grades WHERE academic_year_id=? AND number=? AND section IS ?",
             (academic_year_id, number, section))
         return Grade(**dict(r)) if r else None
+
+    # ---------------- sections (M1.1) ----------------
+    # create/update raise ValueError (the route's 422) for a bad or repeated
+    # name, KeyError for an unknown id, and SectionInUse (409) for a delete
+    # that would strand students or leave the grade with no section. The
+    # check and the write share one _conn_lock hold, as the terms' do.
+
+    @staticmethod
+    def _clean_section_name(name: Optional[str]) -> str:
+        cleaned = " ".join((name or "").split())
+        if not cleaned:
+            raise ValueError("a section needs a name, such as A or Rose")
+        if len(cleaned) > SECTION_NAME_MAX:
+            raise ValueError(f"a section name is at most {SECTION_NAME_MAX} characters")
+        return cleaned
+
+    def _insert_section(self, *, school_id: str, academic_year_id: str, grade_id: str,
+                        name: str, class_teacher_id: Optional[str] = None) -> Section:
+        """Caller holds _conn_lock, has cleaned the name, and commits."""
+        from datetime import datetime, timezone
+        sec = Section(id=new_id("section"), school_id=school_id,
+                      academic_year_id=academic_year_id, grade_id=grade_id, name=name,
+                      class_teacher_id=class_teacher_id,
+                      created_at=datetime.now(timezone.utc).isoformat())
+        self._exec(
+            "INSERT INTO sections (id, school_id, academic_year_id, grade_id, name, "
+            "class_teacher_id, created_at) VALUES (?,?,?,?,?,?,?)",
+            (sec.id, sec.school_id, sec.academic_year_id, sec.grade_id, sec.name,
+             sec.class_teacher_id, sec.created_at))
+        return sec
+
+    def _check_section_name_free(self, grade_id: str, name: str,
+                                 exclude_section_id: Optional[str] = None) -> None:
+        for other in self.sections_for_grade(grade_id):
+            if other.id != exclude_section_id and other.name.casefold() == name.casefold():
+                raise ValueError(f"this class already has a section named {other.name!r}")
+
+    def create_section(self, *, grade_id: str, name: str,
+                       class_teacher_id: Optional[str] = None) -> Section:
+        name = self._clean_section_name(name)
+        with self._conn_lock:
+            grade = self.get_grade(grade_id)
+            year = self.get_academic_year(grade.academic_year_id) if grade else None
+            if grade is None or year is None:
+                raise KeyError(grade_id)
+            self._check_section_name_free(grade_id, name)
+            sec = self._insert_section(school_id=year.school_id, academic_year_id=year.id,
+                                       grade_id=grade_id, name=name,
+                                       class_teacher_id=class_teacher_id)
+        self._commit()
+        return sec
+
+    def get_section(self, section_id: str) -> Optional[Section]:
+        r = self._fetchone("SELECT * FROM sections WHERE id=?", (section_id,))
+        return Section(**dict(r)) if r else None
+
+    def school_id_for_section(self, section_id: str) -> Optional[str]:
+        r = self._fetchone("SELECT school_id FROM sections WHERE id=?", (section_id,))
+        return r["school_id"] if r else None
+
+    def sections_for_grade(self, grade_id: str) -> list[Section]:
+        rows = self._fetchall(
+            "SELECT * FROM sections WHERE grade_id=? ORDER BY name COLLATE NOCASE", (grade_id,))
+        return [Section(**dict(r)) for r in rows]
+
+    def sections_for_year(self, academic_year_id: str) -> list[Section]:
+        """In class order: grade number, then section name."""
+        rows = self._fetchall(
+            "SELECT s.* FROM sections s JOIN grades g ON s.grade_id = g.id "
+            "WHERE s.academic_year_id=? ORDER BY g.number, s.name COLLATE NOCASE",
+            (academic_year_id,))
+        return [Section(**dict(r)) for r in rows]
+
+    _UNCHANGED: Any = object()
+
+    def update_section(self, section_id: str, *, name: Any = _UNCHANGED,
+                       class_teacher_id: Any = _UNCHANGED) -> tuple[Section, Section]:
+        """Rename a section and/or set its class teacher (None clears it).
+        An argument left out is not changed. Returns (before, after), for
+        the audit entry."""
+        with self._conn_lock:
+            before = self.get_section(section_id)
+            if before is None:
+                raise KeyError(section_id)
+            new_name = before.name
+            if name is not self._UNCHANGED:
+                new_name = self._clean_section_name(name)
+                self._check_section_name_free(before.grade_id, new_name,
+                                              exclude_section_id=section_id)
+            new_teacher = (before.class_teacher_id if class_teacher_id is self._UNCHANGED
+                           else class_teacher_id)
+            self._exec("UPDATE sections SET name=?, class_teacher_id=? WHERE id=?",
+                       (new_name, new_teacher, section_id))
+        self._commit()
+        after = Section(id=before.id, school_id=before.school_id,
+                        academic_year_id=before.academic_year_id, grade_id=before.grade_id,
+                        name=new_name, class_teacher_id=new_teacher, created_at=before.created_at)
+        return before, after
+
+    def delete_section(self, section_id: str) -> Section:
+        """Refused while a student is enrolled in it (move them first: their
+        class would silently disappear), and for a grade's last section (a
+        grade always has a class to enrol in)."""
+        with self._conn_lock:
+            sec = self.get_section(section_id)
+            if sec is None:
+                raise KeyError(section_id)
+            if len(self.sections_for_grade(sec.grade_id)) <= 1:
+                raise SectionInUse("a class keeps at least one section; rename this one instead")
+            enrolled = self.enrollments_for_section(section_id)
+            if enrolled:
+                raise SectionInUse(
+                    f"{len(enrolled)} student(s) are enrolled in this section; "
+                    "enroll them in another section first")
+            self._exec("DELETE FROM sections WHERE id=?", (section_id,))
+        self._commit()
+        return sec
+
+    def enrollments_for_section(self, section_id: str) -> list[StudentEnrollment]:
+        rows = self._fetchall(
+            "SELECT * FROM student_enrollments WHERE section_id=? ORDER BY created_at",
+            (section_id,))
+        return [StudentEnrollment(**dict(r)) for r in rows]
+
+    def enrollment_counts_for_year(self, academic_year_id: str) -> dict[str, int]:
+        """Students enrolled per section of the year, by section id; a
+        section with none is absent."""
+        rows = self._fetchall(
+            "SELECT e.section_id, COUNT(*) AS n FROM student_enrollments e "
+            "JOIN sections s ON e.section_id = s.id WHERE s.academic_year_id=? "
+            "GROUP BY e.section_id", (academic_year_id,))
+        return {r["section_id"]: r["n"] for r in rows}
 
     # ---------------- subjects ----------------
 
@@ -1769,28 +1997,62 @@ class CurriculumStore:
 
     # ---------------- student enrollment (§18 -- student visibility) ----------------
 
-    def enroll_student(self, *, school_id: str, student_id: str, grade_id: str) -> StudentEnrollment:
+    def enroll_student(self, *, school_id: str, student_id: str,
+                       grade_id: Optional[str] = None,
+                       section_id: Optional[str] = None) -> StudentEnrollment:
         """One enrollment per student -- re-enrolling (e.g. a promotion to
-        a new grade) replaces the existing row rather than erroring or
-        leaving two, since a real student is only ever in one class at a
-        time."""
-        existing = self._fetchone(
-            "SELECT * FROM student_enrollments WHERE student_id=?", (student_id,))
+        a new grade, or a move from 10-A to 10-B) replaces the existing row
+        rather than erroring or leaving two, since a real student is only
+        ever in one class at a time.
+
+        The enrollment is in a section (M1.1); the grade is the section's.
+        `grade_id` alone still works for a grade with one section, so the
+        callers that predate sections keep working; for a grade with
+        several it is a ValueError naming them, never a guess. Both given
+        must agree. KeyError for an unknown grade or section."""
         from datetime import datetime, timezone
-        if existing:
-            self._exec("UPDATE student_enrollments SET grade_id=?, school_id=? WHERE student_id=?",
-                              (grade_id, school_id, student_id))
-            self._commit()
-            return StudentEnrollment(id=existing["id"], school_id=school_id, student_id=student_id,
-                                     grade_id=grade_id, created_at=existing["created_at"])
-        e = StudentEnrollment(id=new_id("enroll"), school_id=school_id, student_id=student_id,
-                              grade_id=grade_id, created_at=datetime.now(timezone.utc).isoformat())
-        self._exec(
-            "INSERT INTO student_enrollments (id, school_id, student_id, grade_id, created_at) "
-            "VALUES (?,?,?,?,?)",
-            (e.id, e.school_id, e.student_id, e.grade_id, e.created_at))
+        with self._conn_lock:
+            section = self._section_for_enrollment(grade_id, section_id)
+            existing = self._fetchone(
+                "SELECT * FROM student_enrollments WHERE student_id=?", (student_id,))
+            if existing:
+                self._exec("UPDATE student_enrollments SET grade_id=?, section_id=?, school_id=? "
+                           "WHERE student_id=?",
+                           (section.grade_id, section.id, school_id, student_id))
+                e = StudentEnrollment(id=existing["id"], school_id=school_id,
+                                      student_id=student_id, grade_id=section.grade_id,
+                                      created_at=existing["created_at"], section_id=section.id)
+            else:
+                e = StudentEnrollment(id=new_id("enroll"), school_id=school_id,
+                                      student_id=student_id, grade_id=section.grade_id,
+                                      created_at=datetime.now(timezone.utc).isoformat(),
+                                      section_id=section.id)
+                self._exec(
+                    "INSERT INTO student_enrollments (id, school_id, student_id, grade_id, "
+                    "created_at, section_id) VALUES (?,?,?,?,?,?)",
+                    (e.id, e.school_id, e.student_id, e.grade_id, e.created_at, e.section_id))
         self._commit()
         return e
+
+    def _section_for_enrollment(self, grade_id: Optional[str],
+                                section_id: Optional[str]) -> Section:
+        if section_id is not None:
+            section = self.get_section(section_id)
+            if section is None:
+                raise KeyError(section_id)
+            if grade_id is not None and grade_id != section.grade_id:
+                raise ValueError("that section is not in that grade")
+            return section
+        if grade_id is None:
+            raise ValueError("say which section the student is in")
+        if self.get_grade(grade_id) is None:
+            raise KeyError(grade_id)
+        sections = self.sections_for_grade(grade_id)
+        if len(sections) != 1:
+            names = ", ".join(s.name for s in sections) or "none"
+            raise ValueError(f"this class has {len(sections)} sections ({names}); "
+                             "say which one the student is in")
+        return sections[0]
 
     def enrollment_for_student(self, student_id: str) -> Optional[StudentEnrollment]:
         r = self._fetchone(

@@ -1,6 +1,7 @@
 # M1 — the school data model (plan)
 
-Status: **draft, 2026-09-28.** Written after M0 went live (`09649eb`). Nothing here is built yet.
+Status: **draft, 2026-09-28.** Written after M0 went live (`09649eb`). M1.1 is built on `feat/m1-sections`
+(pull request, not yet merged or live); M1.2-M1.6 are not started.
 
 Every v3 product (the teacher app's timetable, leave and substitution; homework per section; the student
 app; the dashboard filtered by section) needs the school modelled as it actually runs: sections, who
@@ -12,7 +13,7 @@ and M4/M5 (the apps) possible, in the order they depend on each other.
 
 | Concept | Today | Where |
 |---|---|---|
-| Class and section | `Grade(number, section)` — the section is a **label on a grade row**; nothing is scheduled, enrolled or reported per section | `curriculum/models.py:57` |
+| Class and section | `Grade(number, section)` — the section is a **label on a grade row**; nothing is scheduled, enrolled or reported per section. **M1.1 replaces this with `Section` rows.** | `curriculum/models.py:57` |
 | Who teaches what | `TeacherAssignment(teacher_id, book_id)` — a teacher teaches a **book**, with no section | `curriculum/models.py` (TeacherAssignment) |
 | Periods per subject | `SubjectPeriodAllocation(subject, periods_per_week)` — **school-wide by subject name**, not per section | same |
 | Timetable | `SubjectTimetableSlot(subject, day_of_week, period_number)` — school-wide, no section, teacher or room | same |

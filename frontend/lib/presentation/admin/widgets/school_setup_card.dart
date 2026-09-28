@@ -7,7 +7,8 @@ import '../../shared/widgets/common_widgets.dart';
 import 'terms_card.dart';
 
 /// A new school's first step on the web: its academic year and the CBSE
-/// classes this release serves, with their subjects, books and chapters.
+/// classes this release serves, with their subjects, books and chapters, and
+/// how many sections each class has (M1.1; 1 gives each class section A).
 ///
 /// The admin console opened on "No curriculum yet. Seed the curriculum ..."
 /// and nothing on the web could seed it -- only the API could (audit D27), so
@@ -36,6 +37,12 @@ class SchoolSetupCard extends StatefulWidget {
     return (label, '$first-04-01', '${first + 1}-03-31');
   }
 
+  static const maxSectionsPerClass = 10;
+
+  /// The sections a class set up with [count] sections has: A, B, C, ...
+  static List<String> sectionNames(int count) =>
+      [for (var i = 0; i < count; i++) String.fromCharCode('A'.codeUnitAt(0) + i)];
+
   @override
   State<SchoolSetupCard> createState() => _SchoolSetupCardState();
 }
@@ -44,6 +51,7 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
   late final TextEditingController _label;
   late final TextEditingController _start;
   late final TextEditingController _end;
+  final _sections = TextEditingController(text: '1');
   bool _busy = false;
   String? _progress;
   String? _error;
@@ -64,6 +72,7 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
     _label.dispose();
     _start.dispose();
     _end.dispose();
+    _sections.dispose();
     super.dispose();
   }
 
@@ -78,6 +87,12 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
       setState(() => _error = 'The year ends before it starts.');
       return;
     }
+    final perClass = int.tryParse(_sections.text.trim());
+    if (perClass == null || perClass < 1 || perClass > SchoolSetupCard.maxSectionsPerClass) {
+      setState(() => _error = 'Sections per class is a whole number from 1 to ${SchoolSetupCard.maxSectionsPerClass}.');
+      return;
+    }
+    final wanted = SchoolSetupCard.sectionNames(perClass);
     setState(() {
       _busy = true;
       _error = null;
@@ -87,7 +102,21 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
       setState(() => _progress = 'Setting up Class $grade (${i + 1} of ${releaseGrades.length})...');
       try {
         final r = await widget.api.seedCbseClass(grade: grade, yearLabel: label, startDate: start, endDate: end);
-        _done.add('Class $grade: ${r.subjectsSeeded} subjects, ${r.chaptersSeeded} chapters');
+        if (perClass > 1) {
+          // A class is seeded with section A. The rest are added unless the
+          // class has them already, so pressing again after a failure adds
+          // only what is missing. Read after this class's seed, which is what
+          // made its A.
+          final existing = await widget.api.sections(r.academicYearId);
+          final have = {
+            for (final sec in existing.where((sec) => sec.gradeId == r.gradeId)) sec.name.toUpperCase()
+          };
+          for (final name in wanted.where((n) => !have.contains(n))) {
+            await widget.api.createSection(r.gradeId, name: name);
+          }
+        }
+        _done.add('Class $grade: ${r.subjectsSeeded} subjects, ${r.chaptersSeeded} chapters'
+            '${perClass > 1 ? ', sections ${wanted.first}-${wanted.last}' : ''}');
       } catch (err) {
         if (!mounted) return;
         setState(() {
@@ -120,9 +149,9 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
           Text('Set up your school year', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
           const Gap(4),
           Text(
-            'Creates the academic year and CBSE classes $classes with their subjects, books and '
-            'chapters. Then add your calendar rules and terms on Calendar & Setup, and choose '
-            'each subject\'s book edition on Roster.',
+            'Creates the academic year and CBSE classes $classes with their subjects, books, '
+            'chapters and sections. Then add your calendar rules and terms on Calendar & Setup, and '
+            'choose each subject\'s book edition and each section\'s class teacher on Roster.',
             style: muted,
           ),
           const Gap(12),
@@ -152,6 +181,18 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
             const Gap(4),
             Text('${TermsCard.readable(_start.text.trim())} to ${TermsCard.readable(_end.text.trim())}', style: muted),
           ],
+          const Gap(12),
+          TextField(
+            key: const ValueKey('setup-sections'),
+            controller: _sections,
+            enabled: !_busy,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              labelText: 'Sections per class',
+              helperText: '1 gives each class section A; 3 gives A, B and C. You can add more later.',
+              border: OutlineInputBorder(),
+            ),
+          ),
           if (_progress != null) ...[
             const Gap(12),
             Text(_progress!, key: const ValueKey('setup-progress')),

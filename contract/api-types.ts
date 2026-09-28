@@ -490,6 +490,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/sections": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Sections
+         * @description Every section of the year, in class order, with how many students
+         *     are enrolled in each.
+         */
+        get: operations["list_sections_api_v1_curriculum_academic_years__academic_year_id__sections_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations": {
         parameters: {
             query?: never;
@@ -1026,6 +1047,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/grades/{grade_id}/sections": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create Section */
+        post: operations["create_section_api_v1_curriculum_grades__grade_id__sections_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/grades/{grade_id}/subjects": {
         parameters: {
             query?: never;
@@ -1278,6 +1316,52 @@ export interface paths {
          *     working day at all.
          */
         post: operations["adjust_lesson_api_v1_curriculum_scheduled_lessons__lesson_id__reschedule_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/sections/{section_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete Section
+         * @description 409 while students are enrolled in it, or when it is its class's
+         *     last section.
+         */
+        delete: operations["delete_section_api_v1_curriculum_sections__section_id__delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update Section
+         * @description Rename a section and/or set its class teacher. A field left out is
+         *     unchanged; classTeacherId null clears the class teacher.
+         */
+        patch: operations["update_section_api_v1_curriculum_sections__section_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/curriculum/sections/{section_id}/students": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Section Students
+         * @description Who is enrolled in this section, and only this section.
+         */
+        get: operations["list_section_students_api_v1_curriculum_sections__section_id__students_get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -3920,6 +4004,13 @@ export interface components {
             /** Studentname */
             studentName: string;
         };
+        /** CreateSectionRequest */
+        CreateSectionRequest: {
+            /** Classteacherid */
+            classTeacherId?: string | null;
+            /** Name */
+            name: string;
+        };
         /** DelayedLessonResponse */
         DelayedLessonResponse: {
             /**
@@ -4013,10 +4104,17 @@ export interface components {
             /** Name */
             name?: string | null;
         };
-        /** EnrollStudentRequest */
+        /**
+         * EnrollStudentRequest
+         * @description sectionId is the class (M1.1). gradeId alone still works for a
+         *     grade with one section, as it did before sections existed; for a grade
+         *     with several it is a 422 naming them.
+         */
         EnrollStudentRequest: {
             /** Gradeid */
-            gradeId: string;
+            gradeId?: string | null;
+            /** Sectionid */
+            sectionId?: string | null;
             /** Studentid */
             studentId: string;
         };
@@ -5916,6 +6014,43 @@ export interface components {
             /** Questiontypes */
             questionTypes?: ("mcq" | "very_short_answer" | "short_answer" | "long_answer" | "very_long_answer" | "case_study" | "assertion_reason" | "map_based" | "diagram_based" | "graph_based" | "table_based" | "competency_based")[] | null;
         };
+        /**
+         * SectionResponse
+         * @description One class of a grade ("10-B", M1.1). studentCount is how many
+         *     students are enrolled in it now.
+         */
+        SectionResponse: {
+            /** Academicyearid */
+            academicYearId: string;
+            /** Classteacherid */
+            classTeacherId?: string | null;
+            /** Gradeid */
+            gradeId: string;
+            /** Gradenumber */
+            gradeNumber: number;
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /**
+             * Studentcount
+             * @default 0
+             */
+            studentCount: number;
+        };
+        /**
+         * SectionStudentResponse
+         * @description A student enrolled in a section. Ids only: the console already
+         *     holds the school's user list, so no name or email travels twice.
+         */
+        SectionStudentResponse: {
+            /** Enrolledat */
+            enrolledAt: string;
+            /** Enrollmentid */
+            enrollmentId: string;
+            /** Studentid */
+            studentId: string;
+        };
         /** SeedCbse10Request */
         SeedCbse10Request: {
             /** Academicyearlabel */
@@ -6161,6 +6296,8 @@ export interface components {
             id: string;
             /** Schoolid */
             schoolId: string;
+            /** Sectionid */
+            sectionId?: string | null;
             /** Studentid */
             studentId: string;
         };
@@ -6810,6 +6947,16 @@ export interface components {
             teacherName?: string | null;
             /** Topicname */
             topicName: string;
+        };
+        /**
+         * UpdateSectionRequest
+         * @description A field left out is unchanged; classTeacherId null clears it.
+         */
+        UpdateSectionRequest: {
+            /** Classteacherid */
+            classTeacherId?: string | null;
+            /** Name */
+            name?: string | null;
         };
         /** UserResponse */
         UserResponse: {
@@ -7902,6 +8049,37 @@ export interface operations {
             };
         };
     };
+    list_sections_api_v1_curriculum_academic_years__academic_year_id__sections_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SectionResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_subject_period_allocations_api_v1_curriculum_academic_years__academic_year_id__subject_period_allocations_get: {
         parameters: {
             query?: never;
@@ -8748,6 +8926,41 @@ export interface operations {
             };
         };
     };
+    create_section_api_v1_curriculum_grades__grade_id__sections_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                grade_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSectionRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SectionResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_subjects_api_v1_curriculum_grades__grade_id__subjects_get: {
         parameters: {
             query?: never;
@@ -9091,6 +9304,105 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ScheduledLessonResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_section_api_v1_curriculum_sections__section_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                section_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_section_api_v1_curriculum_sections__section_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                section_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateSectionRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SectionResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_section_students_api_v1_curriculum_sections__section_id__students_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                section_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SectionStudentResponse"][];
                 };
             };
             /** @description Validation Error */

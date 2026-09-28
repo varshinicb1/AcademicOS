@@ -153,9 +153,35 @@ class TermInfo {
         endDate = j['endDate'] as String;
 }
 
+/// One class of a grade in a year ("10-B"): what a student is enrolled in
+/// (M1.1). Every grade has at least one; a school with one class per grade
+/// has "10-A".
+class SectionSummary {
+  final String id;
+  final String academicYearId;
+  final String gradeId;
+  final int gradeNumber;
+  final String name;
+  final String? classTeacherId;
+  final int studentCount;
+
+  SectionSummary.fromJson(Map<String, dynamic> j)
+      : id = j['id'] as String,
+        academicYearId = j['academicYearId'] as String,
+        gradeId = j['gradeId'] as String,
+        gradeNumber = j['gradeNumber'] as int,
+        name = j['name'] as String,
+        classTeacherId = j['classTeacherId'] as String?,
+        studentCount = j['studentCount'] as int? ?? 0;
+
+  /// "10-B".
+  String get label => '$gradeNumber-$name';
+}
+
 /// What setting up one CBSE class created.
 class SeedSummary {
   final String academicYearId;
+  final String gradeId;
   final int grade;
   final int subjectsSeeded;
   final int chaptersSeeded;
@@ -163,6 +189,7 @@ class SeedSummary {
 
   SeedSummary.fromJson(Map<String, dynamic> j)
       : academicYearId = j['academicYearId'] as String,
+        gradeId = j['gradeId'] as String,
         grade = j['grade'] as int,
         subjectsSeeded = j['subjectsSeeded'] as int? ?? 0,
         chaptersSeeded = j['chaptersSeeded'] as int? ?? 0,
@@ -468,8 +495,48 @@ class CurriculumApi {
 
   /// §18's missing link: which real class a student belongs to.
   /// Principal-gated server-side.
-  Future<void> enrollStudent({required String studentId, required String gradeId}) async {
-    await _dio.post('/curriculum/student-enrollments', data: {'studentId': studentId, 'gradeId': gradeId});
+  /// Principal-only. Enrolls the student in one section (M1.1); enrolling
+  /// again moves them.
+  Future<void> enrollStudent({required String studentId, required String sectionId}) async {
+    await _dio.post('/curriculum/student-enrollments', data: {'studentId': studentId, 'sectionId': sectionId});
+  }
+
+  /// Every section of the year in class order, with its student count.
+  /// Staff only.
+  Future<List<SectionSummary>> sections(String academicYearId) async {
+    final r = await _dio.get('/curriculum/academic-years/$academicYearId/sections');
+    return (r.data as List).map((e) => SectionSummary.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
+  /// Principal-only. A name the class already has, in any case, is a 422
+  /// whose detail says so.
+  Future<SectionSummary> createSection(String gradeId, {required String name, String? classTeacherId}) async {
+    final r = await _dio.post('/curriculum/grades/$gradeId/sections',
+        data: {'name': name, if (classTeacherId != null) 'classTeacherId': classTeacherId});
+    return SectionSummary.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  /// Principal-only. Renames the section; with [changeClassTeacher] also sets
+  /// its class teacher to [classTeacherId] (null clears it). Without it the
+  /// class teacher is not sent, so the server leaves it as it is: a class
+  /// teacher this screen does not list (the principal) survives a rename.
+  Future<SectionSummary> updateSection(String sectionId,
+      {required String name, bool changeClassTeacher = false, String? classTeacherId}) async {
+    final r = await _dio.patch('/curriculum/sections/$sectionId',
+        data: {'name': name, if (changeClassTeacher) 'classTeacherId': classTeacherId});
+    return SectionSummary.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  /// Principal-only. A 409 while students are enrolled in it, or when it is
+  /// its class's last section.
+  Future<void> deleteSection(String sectionId) async {
+    await _dio.delete('/curriculum/sections/$sectionId');
+  }
+
+  /// Principal-only: the ids of the students enrolled in this section.
+  Future<List<String>> sectionStudentIds(String sectionId) async {
+    final r = await _dio.get('/curriculum/sections/$sectionId/students');
+    return [for (final e in r.data as List) (e as Map)['studentId'] as String];
   }
 
   /// `startDate`/`endDate` are ISO dates (yyyy-MM-dd), inclusive -- pass the

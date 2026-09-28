@@ -18,7 +18,7 @@ from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 
-from ..assessment.auth_routes import get_current_user, require_principal
+from ..assessment.auth_routes import get_current_user, require_principal, require_staff
 from ..assessment.authz import require_own_school, require_own_subtopics
 from ..assessment.pool import get_pool
 from ..assessment.users import User
@@ -87,6 +87,10 @@ from .schemas import (
     SubjectPeriodAllocationResponse,
     TimetableSlotResponse,
     StudentEnrollmentResponse,
+    CreateSectionRequest,
+    SectionResponse,
+    SectionStudentResponse,
+    UpdateSectionRequest,
     SubjectProgressResponse,
     SubjectResponse,
     SubtopicResponse,
@@ -105,7 +109,7 @@ from .schemas import (
 )
 from .models import CurriculumExtractionRun
 from .seed_cbse10 import SeedResult, seed_cbse_class_10, seed_cbse_grade
-from .store import CurriculumStore, get_curriculum_store
+from .store import CurriculumStore, SectionInUse, get_curriculum_store
 
 router = APIRouter(prefix="/api/v1/curriculum")
 
@@ -306,6 +310,142 @@ def list_grades(academic_year_id: str,
         GradeResponse(id=g.id, academic_year_id=g.academic_year_id, number=g.number, section=g.section)
         for g in _require().grades_for_year(academic_year_id)
     ]
+
+
+# ---------------- sections (M1.1, docs/plans/m1-school-data-model.md) ----------------
+# A section is the class a student sits in ("10-B"). Reads are staff-only: a
+# section carries its class teacher. Writes are the principal's, school-scoped
+# like every other curriculum write, and each is written to the audit log with
+# what it was before (REQUIREMENTS ROLE-3).
+
+
+def _require_school_owns_section(section_id: str, current: User):
+    section = _require().get_section(section_id)
+    if section is None:
+        raise HTTPException(404, "section not found")
+    if section.school_id != current.school_id:
+        raise HTTPException(403, "this section belongs to a different school")
+    return section
+
+
+def _require_class_teacher(user_id: Optional[str], principal: User) -> None:
+    """A class teacher is a teacher or the principal of the same school."""
+    if user_id is None:
+        return
+    from ..assessment.auth_routes import STAFF_ROLES
+    target = _require_users().get(user_id)
+    if target is None:
+        raise HTTPException(404, "class teacher not found")
+    if target.school_id != principal.school_id:
+        raise HTTPException(403, "that user belongs to a different school")
+    if target.role not in STAFF_ROLES:
+        raise HTTPException(422, "a class teacher must be a teacher or the principal")
+
+
+def _section_response(sec, grade_number: int, student_count: int) -> SectionResponse:
+    return SectionResponse(id=sec.id, academic_year_id=sec.academic_year_id,
+                           grade_id=sec.grade_id, grade_number=grade_number, name=sec.name,
+                           class_teacher_id=sec.class_teacher_id, student_count=student_count)
+
+
+def _section_audit(action: str, principal: User, details: dict[str, Any]) -> None:
+    from ..assessment.audit_log import get_audit_log
+    get_audit_log(_cfg.data_root).append(
+        action, actor=principal.id, details={"schoolId": principal.school_id, **details})
+
+
+def _section_fields(sec) -> dict[str, Any]:
+    return {"name": sec.name, "classTeacherId": sec.class_teacher_id}
+
+
+@router.get("/academic-years/{academic_year_id}/sections", response_model=list[SectionResponse])
+def list_sections(academic_year_id: str,
+                  current: User = Depends(require_staff)) -> list[SectionResponse]:
+    """Every section of the year, in class order, with how many students
+    are enrolled in each."""
+    _require_school_owns_academic_year(academic_year_id, current)
+    store = _require()
+    numbers = {g.id: g.number for g in store.grades_for_year(academic_year_id)}
+    counts = store.enrollment_counts_for_year(academic_year_id)
+    return [_section_response(sec, numbers.get(sec.grade_id, 0), counts.get(sec.id, 0))
+            for sec in store.sections_for_year(academic_year_id)]
+
+
+@router.post("/grades/{grade_id}/sections", response_model=SectionResponse)
+def create_section(grade_id: str, req: CreateSectionRequest,
+                   principal: User = Depends(require_principal)) -> SectionResponse:
+    _require_school_owns_grade(grade_id, principal)
+    _require_class_teacher(req.class_teacher_id, principal)
+    store = _require()
+    try:
+        sec = store.create_section(grade_id=grade_id, name=req.name,
+                                   class_teacher_id=req.class_teacher_id)
+    except KeyError:
+        raise HTTPException(404, "grade not found")
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+    _section_audit("section_created", principal,
+                   {"sectionId": sec.id, "gradeId": grade_id, "after": _section_fields(sec)})
+    return _section_response(sec, store.get_grade(grade_id).number, 0)
+
+
+@router.patch("/sections/{section_id}", response_model=SectionResponse)
+def update_section(section_id: str, req: UpdateSectionRequest,
+                   principal: User = Depends(require_principal)) -> SectionResponse:
+    """Rename a section and/or set its class teacher. A field left out is
+    unchanged; classTeacherId null clears the class teacher."""
+    _require_school_owns_section(section_id, principal)
+    sent = req.model_fields_set
+    if "name" in sent and req.name is None:
+        raise HTTPException(422, "a section needs a name, such as A or Rose")
+    if "class_teacher_id" in sent:
+        _require_class_teacher(req.class_teacher_id, principal)
+    changes: dict[str, Any] = {}
+    if "name" in sent:
+        changes["name"] = req.name
+    if "class_teacher_id" in sent:
+        changes["class_teacher_id"] = req.class_teacher_id
+    store = _require()
+    try:
+        before, after = store.update_section(section_id, **changes)
+    except KeyError:
+        raise HTTPException(404, "section not found")
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+    if _section_fields(before) != _section_fields(after):
+        _section_audit("section_updated", principal,
+                       {"sectionId": section_id, "before": _section_fields(before),
+                        "after": _section_fields(after)})
+    grade = store.get_grade(after.grade_id)
+    return _section_response(after, grade.number if grade else 0,
+                             len(store.enrollments_for_section(section_id)))
+
+
+@router.delete("/sections/{section_id}")
+def delete_section(section_id: str, principal: User = Depends(require_principal)) -> dict:
+    """409 while students are enrolled in it, or when it is its class's
+    last section."""
+    _require_school_owns_section(section_id, principal)
+    try:
+        sec = _require().delete_section(section_id)
+    except KeyError:
+        raise HTTPException(404, "section not found")
+    except SectionInUse as e:
+        raise HTTPException(409, str(e))
+    _section_audit("section_deleted", principal,
+                   {"sectionId": section_id, "gradeId": sec.grade_id,
+                    "before": _section_fields(sec)})
+    return {"ok": True}
+
+
+@router.get("/sections/{section_id}/students", response_model=list[SectionStudentResponse])
+def list_section_students(section_id: str,
+                          principal: User = Depends(require_principal)) -> list[SectionStudentResponse]:
+    """Who is enrolled in this section, and only this section."""
+    _require_school_owns_section(section_id, principal)
+    return [SectionStudentResponse(student_id=e.student_id, enrollment_id=e.id,
+                                   enrolled_at=e.created_at)
+            for e in _require().enrollments_for_section(section_id)]
 
 
 @router.get("/grades/{grade_id}/subjects", response_model=list[SubjectResponse])
@@ -1757,12 +1897,29 @@ def enroll_student(req: EnrollStudentRequest,
         raise HTTPException(404, "student not found")
     if target.school_id != principal.school_id:
         raise HTTPException(403, "that user belongs to a different school")
-    if store.school_id_for_grade(req.grade_id) != principal.school_id:
+    if req.section_id is None and req.grade_id is None:
+        raise HTTPException(422, "say which section the student is in (sectionId)")
+    if req.section_id is not None:
+        _require_school_owns_section(req.section_id, principal)
+    if req.grade_id is not None and store.school_id_for_grade(req.grade_id) != principal.school_id:
         raise HTTPException(403, "that grade belongs to a different school")
-    e = store.enroll_student(school_id=principal.school_id, student_id=req.student_id,
-                             grade_id=req.grade_id)
+    previous = store.enrollment_for_student(req.student_id)
+    try:
+        e = store.enroll_student(school_id=principal.school_id, student_id=req.student_id,
+                                 grade_id=req.grade_id, section_id=req.section_id)
+    except KeyError:
+        raise HTTPException(404, "section not found")
+    except ValueError as err:
+        raise HTTPException(422, str(err))
+    if previous is None or previous.section_id != e.section_id:
+        from ..assessment.audit_log import get_audit_log
+        get_audit_log(_cfg.data_root).append(
+            "student_enrolled", student_id=req.student_id, actor=principal.id,
+            details={"schoolId": principal.school_id, "sectionId": e.section_id,
+                     "previousSectionId": previous.section_id if previous else None})
     return StudentEnrollmentResponse(id=e.id, school_id=e.school_id, student_id=e.student_id,
-                                     grade_id=e.grade_id, created_at=e.created_at)
+                                     grade_id=e.grade_id, section_id=e.section_id,
+                                     created_at=e.created_at)
 
 
 def _require_student_enrollment(store: CurriculumStore, current: User):
@@ -1917,6 +2074,8 @@ def _curriculum_tree_for_export(store: CurriculumStore, school_id: str) -> list[
         year_dict["terms"] = [asdict(t) for t in store.terms_for_year(y.id)]
         for g in store.grades_for_year(y.id):
             grade_dict = asdict(g)
+            # Sections (M1.1) are the school's own classes.
+            grade_dict["sections"] = [asdict(sec) for sec in store.sections_for_grade(g.id)]
             grade_dict["subjects"] = []
             for s in store.subjects_for_grade(g.id):
                 subject_dict = asdict(s)
