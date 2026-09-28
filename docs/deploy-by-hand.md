@@ -2,12 +2,12 @@
 
 A push to `master` that touches a shipped path deploys through `.github/workflows/deploy-gcp.yml`.
 **CI runs again since 2026-09-28**: the merge of #8 (`e0d7d63`) ran the Python suite, built the
-image and deployed Cloud Run by itself. Its web half did not: the workflow installs the newest stable
-Flutter (3.47.5), whose analyzer adds a *warning* the pinned 3.44.9 does not raise
-(`unawaited_return_in_try_block`, `lib/data/repositories/repositories_impl.dart:73`), so
-`frontend-test` fails and the Hosting job is skipped. Until that is fixed (pin the workflow's Flutter
-and add the `await`), deploy the web by hand with steps 4-6 after CI deploys the backend. The owner
-authorised hand deploys on 2026-09-23.
+image and deployed Cloud Run by itself, but skipped Hosting: its unpinned Flutter (3.47.5) failed the
+analyzer. #10 pinned the workflow to 3.44.9, and its merge (`7e4b595`, run 36476002768) deployed both
+halves by itself: tests, Cloud Run, the Flutter checks and Hosting, with a web bundle byte-identical to
+the hand build of the same code (`main.dart.b24cfe4b829b.js`). **CI is the normal path again.** This
+runbook is the fallback when a CI job cannot run; after a CI deploy, still do the checks in section 6.
+The owner authorised hand deploys on 2026-09-23.
 
 CI is the gate normally. By hand, **you** are the gate: run both suites, and
 verify the live commit afterwards. Do not skip the verification — `/health` alone

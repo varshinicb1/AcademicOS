@@ -48,9 +48,9 @@ leave/substitution, homework, notifications) are mostly **not built yet**; see s
 - **The first principal account** on live is created by the owner with the bootstrap key; there are no
   credentials in this repo and none should be added.
 - **GitHub Actions** runs again since 2026-09-28: a push to `master` that touches a shipped path deploys
-  through `.github/workflows/deploy-gcp.yml` (keyless, Workload Identity Federation). Its web half fails on
-  the newest Flutter's analyzer until the workflow pins 3.44.9, so the web is deployed by hand meanwhile
-  ([`docs/deploy-by-hand.md`](docs/deploy-by-hand.md)).
+  through `.github/workflows/deploy-gcp.yml` (keyless, Workload Identity Federation): backend and web, with
+  Flutter pinned to 3.44.9. The hand runbook ([`docs/deploy-by-hand.md`](docs/deploy-by-hand.md)) is the
+  fallback, and its checks follow every deploy.
 
 ## 3. Set up a machine
 
