@@ -26,6 +26,7 @@ from academicos.curriculum.seed_cbse10 import seed_cbse_grade
 from academicos.curriculum.store import CurriculumStore, SectionInUse
 
 from _auth_helpers import register_invited
+from test_blob_factory import clean_env, shared_gcs  # noqa: F401 - fixtures used by name
 from test_assessment_routes_auth import _boot_client, _register
 
 BASE = "/api/v1/curriculum"
@@ -107,6 +108,107 @@ def test_the_migration_never_guesses_a_section_for_a_grade_that_has_several(tmp_
     store._migrate_sections()
     assert store.enrollment_for_student("stu_old").section_id is None
     store.close()
+
+
+# --------------------------------------------------------------------- #
+# The migration during a rollout: two instances, one snapshot blob
+# --------------------------------------------------------------------- #
+# Cloud Run runs the old and the new release side by side for a moment. The
+# new one migrates the snapshot it restored; if that upload happened at boot,
+# the old one's next upload would be refused and its unsaved edits moved to
+# conflicts/. And a conflict can reload a snapshot the old release wrote,
+# which has no sections at all.
+
+def _publish_pre_sections_snapshot(tmp_path, env) -> None:
+    """Upload, as the only snapshot, a seeded school's database in the shape
+    every live one has before M1.1. Built with no bucket configured, so
+    building it uploads nothing; `env` is the monkeypatch the GCS fake uses."""
+    from academicos.storage.blobs import durable_blob_store
+    from test_blob_factory import BUCKET
+
+    env.delenv("ACOS_GCS_BUCKET")
+    local = CurriculumStore(tmp_path / "build" / "curriculum.sqlite")
+    seeded = seed_cbse_grade(local, school_id="school_1", academic_year_label="2026-27",
+                             start_date="2026-04-01", end_date="2027-03-31", grade_number=10)
+    local.enroll_student(school_id="school_1", student_id="stu_10", grade_id=seeded.grade_id)
+    path = _pre_sections_copy(local, tmp_path)
+    env.setenv("ACOS_GCS_BUCKET", BUCKET)
+    durable_blob_store("curriculum-snapshots").upload(
+        "curriculum.sqlite", path.read_bytes(), "application/x-sqlite3")
+
+
+def _tables_in(data: bytes, tmp_path) -> set[str]:
+    path = tmp_path / "inspect.sqlite"
+    path.write_bytes(data)
+    conn = sqlite3.connect(path)
+    try:
+        return {r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+    finally:
+        conn.close()
+
+
+def test_a_new_instance_migrates_without_uploading_until_a_real_edit(shared_gcs, clean_env, tmp_path):
+    from test_blob_factory import _snapshot
+
+    _publish_pre_sections_snapshot(tmp_path, clean_env)
+    before = _snapshot(shared_gcs)
+
+    new = CurriculumStore(tmp_path / "new" / "curriculum.sqlite")
+    other = CurriculumStore(tmp_path / "other" / "curriculum.sqlite")
+    assert _snapshot(shared_gcs)["generation"] == before["generation"], \
+        "starting uploaded the migration, so the instance it replaces would lose its next save"
+    year = new.academic_years_for_school("school_1")[0]
+    [first] = new.sections_for_year(year.id)
+    # Both instances derived the same row from the same snapshot.
+    assert [s.id for s in other.sections_for_year(year.id)] == [first.id]
+    assert new.enrollment_for_student("stu_10").section_id == first.id
+
+    # The next real edit carries the migration with it.
+    new.create_section(grade_id=first.grade_id, name="B")
+    after = _snapshot(shared_gcs)
+    assert after["generation"] > before["generation"]
+    assert "sections" in _tables_in(after["data"], tmp_path)
+    other.close()
+    new.close()
+
+
+def test_a_conflict_that_reloads_an_older_releases_snapshot_migrates_it(shared_gcs, clean_env, tmp_path):
+    import threading
+    from academicos.storage.blobs import CurriculumNotDurable
+    from academicos.storage.snapshot_sync import SnapshotSync
+    from test_blob_factory import _conflict_copies
+
+    _publish_pre_sections_snapshot(tmp_path, clean_env)
+    new = CurriculumStore(tmp_path / "new" / "curriculum.sqlite")
+    year = new.academic_years_for_school("school_1")[0]
+    [grade] = new.grades_for_year(year.id)
+
+    # The old release, still serving, saves an edit of its own: a snapshot in
+    # its shape, with no sections table.
+    lock = threading.RLock()
+    old_path = tmp_path / "old" / "curriculum.sqlite"
+    old_sync = SnapshotSync("curriculum-snapshots", "curriculum.sqlite", old_path, lock)
+    old_conn = sqlite3.connect(str(old_path), check_same_thread=False)
+    with lock:
+        old_conn.execute("INSERT INTO boards (id, name, code) VALUES ('board_st', 'State', 'ST')")
+    old_sync.commit(old_conn)
+
+    # The new release's next save is refused and it reloads the old one's.
+    with pytest.raises(CurriculumNotDurable):
+        new.create_section(grade_id=grade.id, name="B")
+    assert len(_conflict_copies(shared_gcs)) == 1
+    assert new.get_board_by_code("ST") is not None, "the old release's snapshot was not reloaded"
+    assert [s.name for s in new.sections_for_grade(grade.id)] == ["A"], \
+        "the reloaded snapshot was not migrated"
+    assert new.enrollment_for_student("stu_10").section_id is not None
+
+    # And it is not wedged: the retry lands.
+    new._snapshots._last_upload_at = 0.0
+    new.create_section(grade_id=grade.id, name="B")
+    assert [s.name for s in new.sections_for_grade(grade.id)] == ["A", "B"]
+    old_sync.close()
+    old_conn.close()
+    new.close()
 
 
 # --------------------------------------------------------------------- #

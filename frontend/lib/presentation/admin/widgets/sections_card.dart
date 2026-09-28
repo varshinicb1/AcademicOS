@@ -106,7 +106,7 @@ class _SectionsCardState extends State<SectionsCard> {
         title: 'New section in Class ${grade.number}',
         initialName: SectionsCard.nextLetter(ofGrade.map((s) => s.name)),
         teachers: widget.teachers,
-        save: (name, teacherId) => widget.api.createSection(grade.id, name: name, classTeacherId: teacherId),
+        save: (name, teacherId, _) => widget.api.createSection(grade.id, name: name, classTeacherId: teacherId),
       ),
     );
     if (saved == null) return;
@@ -122,7 +122,8 @@ class _SectionsCardState extends State<SectionsCard> {
         initialName: s.name,
         initialTeacherId: s.classTeacherId,
         teachers: widget.teachers,
-        save: (name, teacherId) => widget.api.updateSection(s.id, name: name, classTeacherId: teacherId),
+        save: (name, teacherId, teacherChanged) => widget.api
+            .updateSection(s.id, name: name, changeClassTeacher: teacherChanged, classTeacherId: teacherId),
       ),
     );
     if (saved == null) return;
@@ -217,13 +218,14 @@ class _SectionsCardState extends State<SectionsCard> {
 }
 
 /// Adds or edits one section: its name and class teacher. Saves through
-/// [save] and stays open with the server's sentence when it refuses.
+/// [save], saying whether the class teacher was changed, and stays open with
+/// the server's sentence when it refuses.
 class _SectionDialog extends StatefulWidget {
   final String title;
   final String initialName;
   final String? initialTeacherId;
   final List<AuthUser> teachers;
-  final Future<SectionSummary> Function(String name, String? classTeacherId) save;
+  final Future<SectionSummary> Function(String name, String? classTeacherId, bool classTeacherChanged) save;
 
   const _SectionDialog({
     required this.title,
@@ -239,8 +241,12 @@ class _SectionDialog extends StatefulWidget {
 
 class _SectionDialogState extends State<_SectionDialog> {
   late final TextEditingController _name = TextEditingController(text: widget.initialName);
-  late String? _teacherId =
-      widget.teachers.any((t) => t.id == widget.initialTeacherId) ? widget.initialTeacherId : null;
+  late String? _teacherId = widget.initialTeacherId;
+
+  /// A class teacher who is not in [widget.teachers] (the principal, say): kept
+  /// as an option of its own, so opening the dialog never changes it.
+  bool get _currentIsUnlisted =>
+      widget.initialTeacherId != null && !widget.teachers.any((t) => t.id == widget.initialTeacherId);
   bool _saving = false;
   String? _error;
 
@@ -261,7 +267,7 @@ class _SectionDialogState extends State<_SectionDialog> {
       _error = null;
     });
     try {
-      final saved = await widget.save(name, _teacherId);
+      final saved = await widget.save(name, _teacherId, _teacherId != widget.initialTeacherId);
       if (mounted) Navigator.pop(context, saved);
     } catch (e) {
       if (mounted) {
@@ -296,6 +302,8 @@ class _SectionDialogState extends State<_SectionDialog> {
             decoration: const InputDecoration(labelText: 'Class teacher', border: OutlineInputBorder()),
             items: [
               const DropdownMenuItem<String?>(value: null, child: Text('No class teacher')),
+              if (_currentIsUnlisted)
+                DropdownMenuItem<String?>(value: widget.initialTeacherId, child: const Text('Current class teacher')),
               for (final t in widget.teachers)
                 DropdownMenuItem<String?>(value: t.id, child: Text(t.name, overflow: TextOverflow.ellipsis)),
             ],

@@ -516,11 +516,14 @@ class CurriculumApi {
     return SectionSummary.fromJson(Map<String, dynamic>.from(r.data));
   }
 
-  /// Principal-only. Sends the name and the class teacher; a null
-  /// [classTeacherId] clears it.
-  Future<SectionSummary> updateSection(String sectionId, {required String name, String? classTeacherId}) async {
+  /// Principal-only. Renames the section; with [changeClassTeacher] also sets
+  /// its class teacher to [classTeacherId] (null clears it). Without it the
+  /// class teacher is not sent, so the server leaves it as it is: a class
+  /// teacher this screen does not list (the principal) survives a rename.
+  Future<SectionSummary> updateSection(String sectionId,
+      {required String name, bool changeClassTeacher = false, String? classTeacherId}) async {
     final r = await _dio.patch('/curriculum/sections/$sectionId',
-        data: {'name': name, 'classTeacherId': classTeacherId});
+        data: {'name': name, if (changeClassTeacher) 'classTeacherId': classTeacherId});
     return SectionSummary.fromJson(Map<String, dynamic>.from(r.data));
   }
 

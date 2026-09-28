@@ -31,6 +31,7 @@ class _Backend extends Interceptor {
     {'id': 'sec_10a', 'academicYearId': 'ay_1', 'gradeId': 'g_10', 'gradeNumber': 10, 'name': 'A', 'studentCount': 2},
   ];
   final List<String> calls = [];
+  final List<Map<String, dynamic>> patches = [];
   bool failList = false;
   int _n = 0;
 
@@ -97,7 +98,12 @@ class _Backend extends Interceptor {
       if (o.method == 'PATCH') {
         final taken = _nameTaken(s['gradeId'] as String, body['name'] as String, except: id);
         if (taken != null) return _answer(h, o, 422, {'detail': taken});
-        sections[i] = {...s, 'name': body['name'], 'classTeacherId': body['classTeacherId']};
+        // As the server does: a class teacher left out of the body is unchanged.
+        sections[i] = {
+          ...s, 'name': body['name'],
+          if (body.containsKey('classTeacherId')) 'classTeacherId': body['classTeacherId'],
+        };
+        patches.add(body);
         return _answer(h, o, 200, sections[i]);
       }
     }
@@ -209,9 +215,25 @@ void main() {
     await tester.pumpAndSettle();
     await tapKey(tester, 'section-save');
     expect(backend.calls, contains('PATCH /curriculum/sections/sec_10a'));
+    expect(backend.patches.single, {'name': 'Rose', 'classTeacherId': null});
     expect((backend.sections[1]['name'], backend.sections[1]['classTeacherId']), ('Rose', null));
     expect(messages, ['Section 10-Rose saved.']);
     expect(find.text('10-Rose'), findsOneWidget);
+  });
+
+  testWidgets('renaming keeps a class teacher the card does not list', (tester) async {
+    // The principal may be a class teacher; the card lists teachers only.
+    final backend = _Backend();
+    backend.sections[1]['classTeacherId'] = 'u_principal';
+    await pump(tester, backend);
+    expect(find.text('2 students · Class teacher: a staff member'), findsOneWidget);
+    await tester.tap(find.byTooltip('Edit 10-A'));
+    await tester.pumpAndSettle();
+    expect(find.text('Current class teacher'), findsOneWidget);
+    await tester.enterText(find.byKey(const ValueKey('section-name')), 'Lotus');
+    await tapKey(tester, 'section-save');
+    expect(backend.patches.single, {'name': 'Lotus'}, reason: 'the class teacher is not sent, so not cleared');
+    expect(backend.sections[1]['classTeacherId'], 'u_principal');
   });
 
   testWidgets("removing is confirmed first, and the server's refusal is named", (tester) async {

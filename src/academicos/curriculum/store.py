@@ -415,7 +415,8 @@ class CurriculumStore:
         # Restores the last snapshot into db_path before the connect below;
         # upload, conflicts and flush live there too (storage/snapshot_sync.py).
         self._snapshots = SnapshotSync("curriculum-snapshots", self._SNAPSHOT_KEY, db_path,
-                                       self._conn_lock, debounce_seconds=self._SNAPSHOT_DEBOUNCE_SECONDS)
+                                       self._conn_lock, debounce_seconds=self._SNAPSHOT_DEBOUNCE_SECONDS,
+                                       on_reload=self._bring_up_to_date)
 
         db_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -424,9 +425,20 @@ class CurriculumStore:
         self._exec("PRAGMA journal_mode=WAL")
         self._exec("PRAGMA busy_timeout=60000")
         self._exec("PRAGMA foreign_keys=ON")
-        self.conn.executescript(SCHEMA)
-        self._migrate()
-        self._commit()
+        self._bring_up_to_date()
+        # The migration's rows (M1.1's first sections) are the same on every
+        # instance that starts from this snapshot, so starting does not upload
+        # them: that would turn every rollout into a snapshot conflict with
+        # the instance being replaced (SnapshotSync.commit_derived).
+        self._snapshots.commit_derived(self.conn)
+
+    def _bring_up_to_date(self) -> None:
+        """This release's schema and migrations over whatever the file holds:
+        on start, and after a snapshot conflict reloads one an older release
+        wrote. Executes only; the caller commits."""
+        with self._conn_lock:
+            self.conn.executescript(SCHEMA)
+            self._migrate()
 
     def _migrate(self) -> None:
         """CREATE TABLE IF NOT EXISTS never adds a column to a table that
@@ -461,7 +473,12 @@ class CurriculumStore:
         never named sections has "10-A", and the students enrolled in grade
         10 are in 10-A. An enrollment is placed only in a grade with exactly
         one section: after the first pass every migrated grade has one, and
-        a grade whose principal has since added more is never guessed at."""
+        a grade whose principal has since added more is never guessed at.
+
+        The section's id is derived from its grade's, so every instance that
+        migrates the same snapshot writes the same rows (a rollout runs two);
+        which is why the start does not upload them (commit_derived)."""
+        import hashlib
         from datetime import datetime, timezone
         now = datetime.now(timezone.utc).isoformat()
         with self._conn_lock:
@@ -471,10 +488,11 @@ class CurriculumStore:
                 "WHERE NOT EXISTS (SELECT 1 FROM sections s WHERE s.grade_id = g.id)")
             for g in unsectioned:
                 name = (g["section"] or "").strip()[:SECTION_NAME_MAX] or DEFAULT_SECTION_NAME
+                sid = "section_" + hashlib.sha1(f"first-section:{g['id']}".encode()).hexdigest()[:12]
                 self._exec(
                     "INSERT INTO sections (id, school_id, academic_year_id, grade_id, name, created_at) "
                     "VALUES (?,?,?,?,?,?)",
-                    (new_id("section"), g["school_id"], g["academic_year_id"], g["id"], name, now))
+                    (sid, g["school_id"], g["academic_year_id"], g["id"], name, now))
             self._exec(
                 "UPDATE student_enrollments SET section_id = "
                 "(SELECT s.id FROM sections s WHERE s.grade_id = student_enrollments.grade_id) "
@@ -704,13 +722,15 @@ class CurriculumStore:
         """The grade and its first Section, named `section` when given, else
         DEFAULT_SECTION_NAME: a grade is never without a class to enrol in."""
         g = Grade(id=new_id("grade"), academic_year_id=academic_year_id, number=number, section=section)
+        # Checked before anything is written: a refused name must not leave a
+        # grade row behind for the next commit to save.
+        name = self._clean_section_name(section) if section else DEFAULT_SECTION_NAME
         with self._conn_lock:
             self._exec(
                 "INSERT INTO grades (id, academic_year_id, number, section) VALUES (?,?,?,?)",
                 (g.id, g.academic_year_id, g.number, g.section))
             year = self.get_academic_year(academic_year_id)
             if year is not None:
-                name = self._clean_section_name(section) if section else DEFAULT_SECTION_NAME
                 self._insert_section(school_id=year.school_id, academic_year_id=academic_year_id,
                                      grade_id=g.id, name=name)
         self._commit()
