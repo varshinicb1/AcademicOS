@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'dart:io' show File;
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import '../../domain/entities/entities.dart';
@@ -23,8 +26,29 @@ class CorpusRepository {
 
   List<Question>? _questions;
   bool _fromDownload = false;
+  int _skippedRows = 0;
   bool get isLoaded => _questions != null;
   bool get loadedFromDownload => _fromDownload;
+
+  /// Rows the loaded corpus could not decode. Zero for a healthy corpus.
+  int get skippedRows => _skippedRows;
+
+  DownloadRejection? _downloadRejection;
+
+  /// Why the last reload() refused a checksum-valid download and served the
+  /// bundled asset instead, or null when no download was refused. Settings
+  /// shows it, so "download succeeded" is never reported as "corpus updated"
+  /// when the phone is in fact still on the bundled bank.
+  DownloadRejection? get downloadRejection => _downloadRejection;
+
+  /// The most of a download's rows that may fail to decode before the whole
+  /// download is refused. A download replaces the complete bundled corpus,
+  /// so a lossy one must not win just because some rows survived: a release
+  /// with its 1,834 SQP rows unnormalised would decode ~64% of 5,120 rows and
+  /// look healthy while every SQP question vanished. 1% still lets a
+  /// 3,000-row release carry up to 30 stray rows rather than being refused
+  /// over one typo; the bundled corpus itself is held to zero by its test.
+  static const double maxDownloadSkipRate = 0.01;
 
   Future<void> ensureLoaded() async {
     if (_questions != null) return;
@@ -44,34 +68,101 @@ class CorpusRepository {
     // escapes uncaught here leaves the app on its native white splash
     // forever -- a real regression this fixed (an earlier version only
     // wrapped the existence/checksum check, not the actual read+parse).
-    final downloadedQuestions = await _tryLoadDownloaded();
-    if (downloadedQuestions != null) {
-      _questions = downloadedQuestions;
+    _downloadRejection = null;
+    final downloaded = await _tryLoadDownloaded();
+    if (downloaded != null) {
+      _questions = downloaded.questions;
+      _skippedRows = downloaded.skipped;
       _fromDownload = true;
       return;
     }
     _fromDownload = false;
-    final raw = await rootBundle.loadString('assets/corpus/questions.json');
-    _questions = _parseQuestions(raw);
-  }
-
-  Future<List<Question>?> _tryLoadDownloaded() async {
+    // The bundled asset gets the same guarantee. It used to be parsed
+    // unguarded, so one row Question.fromJson rejected kept the app on its
+    // splash screen -- latent while every bundled row decoded, not once
+    // the SQP/CBE merge adds rows (all 1,834 SQP rows lacked competencyIds
+    // and bloomLevel before normalisation).
     try {
-      final downloaded = await CorpusDownloader.currentDownloadedFile();
-      if (downloaded == null) return null;
-      final raw = await downloaded.readAsString();
-      return _parseQuestions(raw);
-    } catch (_) {
-      return null;
+      final parsed = _parse(await rootBundle.loadString('assets/corpus/questions.json'));
+      _questions = parsed.questions;
+      _skippedRows = parsed.skipped;
+    } catch (err) {
+      // Unreadable JSON or a missing asset. Start with an empty corpus rather
+      // than hang on the splash screen: the catalog comes back empty and
+      // Settings reports 0 questions, which is at least visible.
+      debugPrint('corpus: bundled asset could not be read: $err');
+      _questions = const [];
+      _skippedRows = 0;
     }
   }
 
-  List<Question> _parseQuestions(String raw) {
-    final data = jsonDecode(raw) as Map<String, dynamic>;
-    return (data['questions'] as List)
-        .map((e) => Question.fromJson(Map<String, dynamic>.from(e as Map)))
-        .toList();
+  /// The downloaded corpus, or null when there is none or it cannot be
+  /// used. A download with no readable row, or with more than
+  /// [maxDownloadSkipRate] of its rows unreadable, counts as unusable: the
+  /// bundled asset is served instead and [downloadRejection] says why.
+  Future<ParsedCorpus?> _tryLoadDownloaded() async {
+    final File? downloaded;
+    try {
+      downloaded = await CorpusDownloader.currentDownloadedFile();
+    } catch (_) {
+      return null;
+    }
+    // No file, or one that fails its checksum: nothing was accepted, so
+    // there is nothing to report as rejected.
+    if (downloaded == null) return null;
+    final ParsedCorpus parsed;
+    try {
+      parsed = _parse(await downloaded.readAsString());
+    } catch (err) {
+      debugPrint('corpus: downloaded file could not be read: $err');
+      _downloadRejection = const DownloadRejection.unreadable();
+      return null;
+    }
+    final total = parsed.questions.length + parsed.skipped;
+    if (parsed.questions.isEmpty || parsed.skipped > total * maxDownloadSkipRate) {
+      debugPrint('corpus: download rejected, ${parsed.skipped} of $total rows '
+          'unreadable; serving the bundled corpus');
+      _downloadRejection = DownloadRejection(skipped: parsed.skipped, total: total);
+      return null;
+    }
+    return parsed;
   }
+
+  /// Decode every row that can be decoded, and count the rest.
+  ///
+  /// One row Question.fromJson rejected used to throw out of the whole parse.
+  /// For the bundled asset that ran before runApp(), so a single malformed
+  /// question kept the app on its splash screen for good. A bad row now costs
+  /// that one question and is counted in [skippedRows]. Logged once per parse
+  /// rather than once per row: the unnormalised SQP bank would have been
+  /// 1,834 rejected rows, each a line of startup log.
+  static ParsedCorpus _parse(String raw) {
+    final data = jsonDecode(raw) as Map<String, dynamic>;
+    final rows = (data['questions'] as List?) ?? const [];
+    final out = <Question>[];
+    var skipped = 0;
+    Object? firstError;
+    Object? firstId;
+    for (final e in rows) {
+      try {
+        out.add(Question.fromJson(Map<String, dynamic>.from(e as Map)));
+      } catch (err) {
+        if (skipped == 0) {
+          firstError = err;
+          firstId = e is Map ? e['id'] : null;
+        }
+        skipped++;
+      }
+    }
+    if (skipped > 0) {
+      debugPrint('corpus: skipped $skipped of ${rows.length} rows '
+          'Question.fromJson rejected; first ($firstId): $firstError');
+    }
+    return ParsedCorpus(out, skipped);
+  }
+
+  @visibleForTesting
+  static ParsedCorpus parseQuestionsForTest(String raw) => _parse(raw);
 
   List<Question> get all {
     final q = _questions;
@@ -167,6 +258,31 @@ class CorpusRepository {
     }
     return list;
   }
+}
+
+/// Why a checksum-valid download was not served.
+class DownloadRejection {
+  const DownloadRejection({required this.skipped, required this.total}) : unreadable = false;
+
+  /// The file passed its checksum but is not corpus JSON at all.
+  const DownloadRejection.unreadable()
+      : skipped = 0,
+        total = 0,
+        unreadable = true;
+
+  final int skipped;
+  final int total;
+  final bool unreadable;
+
+  String get reason =>
+      unreadable ? 'the file could not be read' : '$skipped of $total rows unreadable';
+}
+
+/// What a corpus parse produced: the rows that decoded, and how many did not.
+class ParsedCorpus {
+  const ParsedCorpus(this.questions, this.skipped);
+  final List<Question> questions;
+  final int skipped;
 }
 
 class CatalogEntryData {

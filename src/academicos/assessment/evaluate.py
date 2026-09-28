@@ -152,12 +152,20 @@ def evaluate_answer(question: QuestionSchema, scheme: AnswerSchemeSchema,
         # keyless question must fail safe: low confidence, forced review, and a
         # reason that names the missing scheme -- distinct from a genuine
         # zero-credit answer, which a real key still scores confidently.
+        # The model answer, when one is recorded, is the only key the teacher
+        # has; the 345 bundled no-point rows carry none, so it is optional.
+        # Verdict 'noCredit', not 'partialCredit': the review UI renders the
+        # verdict as a label, and "Partial Credit" on 0/N reads as a marking
+        # error. confidence=0.0 and needs_review carry the "unscored" signal,
+        # as in the keyword-less branch of _evaluate_descriptive.
+        model = (scheme.model_answer or "").strip()
         return Evaluation(
             question_id=question.id, awarded_marks=0, max_marks=max_marks,
-            verdict="partialCredit", confidence=0.0,
+            verdict="noCredit", confidence=0.0,
             reasoning=("This question has no marking scheme (no marking points) to "
                        "score against — it cannot be graded automatically; a teacher "
-                       "must mark it manually."),
+                       "must mark it manually."
+                       + (f" Model answer: '{model}'." if model else "")),
             ocr_warnings=ocr_flags, needs_review=True,
         )
 
@@ -194,9 +202,10 @@ def _evaluate_objective(question: QuestionSchema, scheme: AnswerSchemeSchema, an
         ambiguous = len(distinct) > 1
 
     if not key:
+        # 0 marks, so 'noCredit' (see the no-marking-points branch above).
         return Evaluation(
             question_id=question.id, awarded_marks=0, max_marks=max_marks,
-            verdict="partialCredit", confidence=0.0,
+            verdict="noCredit", confidence=0.0,
             reasoning="No correct option recorded in the marking scheme — teacher must set the key.",
             ocr_warnings=ocr_flags, needs_review=True,
         )
@@ -277,6 +286,33 @@ def _unmet(scheme: AnswerSchemeSchema, outcomes: list[MarkingPointOutcome],
 def _evaluate_descriptive(question: QuestionSchema, scheme: AnswerSchemeSchema, answer: str,
                           max_marks: int, ocr_flags: list[str],
                           concept_label: str | None) -> Evaluation:
+    # A point whose keyword and synonyms are all blank cannot be matched, so
+    # "not awarded" says nothing about the answer. When every point is like
+    # that (1,248 of the 2,544 descriptive board-paper questions in the
+    # bundled corpus, measured 2026-09-22, plus every CBE/SQP value point),
+    # the confidence formula below sees ratio 0 and returns 0.9: a confident
+    # 0 with no review. Hand it to the teacher instead. The Dart port
+    # (frontend/lib/core/local_engine/answer_evaluation.dart) returns the same
+    # shape. The outcomes are built fresh because _match_point's miss reason
+    # would read "no mention of '' or its variants" once per point.
+    if all(not (p.keyword or "").strip() and not any((s or "").strip() for s in p.synonyms)
+           for p in scheme.marking_points):
+        return Evaluation(
+            question_id=question.id, awarded_marks=0, max_marks=max_marks,
+            verdict="noCredit", confidence=0.2,
+            reasoning=("The marking scheme has no keywords to match, so this answer "
+                       "could not be scored automatically. Mark it by hand against the "
+                       f"official value point: '{scheme.marking_points[0].description}'."),
+            marking_points=[
+                MarkingPointOutcome(
+                    marking_point_id=p.id, description=p.description, awarded=False,
+                    marks=0, reason="no keyword in the scheme; mark by hand", similarity=0.0,
+                )
+                for p in scheme.marking_points
+            ],
+            ocr_warnings=ocr_flags, needs_review=True,
+        )
+
     words = _normalise(answer)
     low = answer.lower()
     outcomes = [_match_point(p, words, low) for p in scheme.marking_points]
