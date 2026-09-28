@@ -170,6 +170,22 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability"),
     ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}"),
+    ("POST", "/api/v1/curriculum/leave-requests"),
+    ("GET", "/api/v1/curriculum/leave-requests"),
+    ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/decision"),
+    ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/cancel"),
+    ("GET", "/api/v1/curriculum/substitutions"),
+    ("GET", "/api/v1/curriculum/substitutions/{sub_id}/candidates"),
+    ("POST", "/api/v1/curriculum/substitutions/{sub_id}/assign"),
+    ("POST", "/api/v1/curriculum/substitutions/{sub_id}/respond"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/lost-periods"),
+    ("GET", "/api/v1/curriculum/lost-periods/{lost_id}/compensation-options"),
+    ("POST", "/api/v1/curriculum/lost-periods/{lost_id}/compensate"),
+    ("POST", "/api/v1/curriculum/lost-periods/{lost_id}/waive"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/closures"),
+    ("GET", "/api/v1/curriculum/day"),
+    ("GET", "/api/v1/curriculum/my-day"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/cover-summary"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -361,6 +377,22 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability"),
     ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}"),
+    ("POST", "/api/v1/curriculum/leave-requests"),
+    ("GET", "/api/v1/curriculum/leave-requests"),
+    ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/decision"),
+    ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/cancel"),
+    ("GET", "/api/v1/curriculum/substitutions"),
+    ("GET", "/api/v1/curriculum/substitutions/{sub_id}/candidates"),
+    ("POST", "/api/v1/curriculum/substitutions/{sub_id}/assign"),
+    ("POST", "/api/v1/curriculum/substitutions/{sub_id}/respond"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/lost-periods"),
+    ("GET", "/api/v1/curriculum/lost-periods/{lost_id}/compensation-options"),
+    ("POST", "/api/v1/curriculum/lost-periods/{lost_id}/compensate"),
+    ("POST", "/api/v1/curriculum/lost-periods/{lost_id}/waive"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/closures"),
+    ("GET", "/api/v1/curriculum/day"),
+    ("GET", "/api/v1/curriculum/my-day"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/cover-summary"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -688,7 +720,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 168: M1.1 added the five sections routes (list, create, update, delete, students).
     # 185: M1.2-M1.3 added 17 school-model routes (allocations, rooms, bell, timetable).
     # 188: SCH-3 added solve and teacher unavailability (list, set).
-    assert len(API_ROUTES) == 188
+    # 204: SCH-5..7 added 16 leave, substitution and compensation routes.
+    assert len(API_ROUTES) == 204
 
 
 def test_docs_routes_present():

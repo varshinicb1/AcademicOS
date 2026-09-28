@@ -701,6 +701,63 @@
         "title": "Assessment",
         "type": "object"
       },
+      "AssignRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "mode": {
+            "default": "substitute",
+            "title": "Mode",
+            "type": "string"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "maxLength": 500,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "substituteId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Substituteid"
+          }
+        },
+        "title": "AssignRequest",
+        "type": "object"
+      },
+      "AssignResponse": {
+        "properties": {
+          "lostPeriod": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LostPeriodResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "substitution": {
+            "$ref": "#/components/schemas/SubstitutionResponse"
+          }
+        },
+        "required": [
+          "substitution"
+        ],
+        "title": "AssignResponse",
+        "type": "object"
+      },
       "AssignTeacherRequest": {
         "properties": {
           "bookId": {
@@ -1493,6 +1550,37 @@
         "title": "CalibrationSchema",
         "type": "object"
       },
+      "CandidateResponse": {
+        "properties": {
+          "qualified": {
+            "title": "Qualified",
+            "type": "boolean"
+          },
+          "reasons": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Reasons",
+            "type": "array"
+          },
+          "score": {
+            "title": "Score",
+            "type": "integer"
+          },
+          "teacherId": {
+            "title": "Teacherid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "teacherId",
+          "score",
+          "qualified",
+          "reasons"
+        ],
+        "title": "CandidateResponse",
+        "type": "object"
+      },
       "CapturedPageResponse": {
         "properties": {
           "cropped": {
@@ -1773,6 +1861,81 @@
           "sharedMistakes"
         ],
         "title": "ClassInsightsResponse",
+        "type": "object"
+      },
+      "ClosureRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "addHoliday": {
+            "default": true,
+            "title": "Addholiday",
+            "type": "boolean"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "reason": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Reason",
+            "type": "string"
+          },
+          "reflowPlans": {
+            "default": true,
+            "title": "Reflowplans",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "date",
+          "reason"
+        ],
+        "title": "ClosureRequest",
+        "type": "object"
+      },
+      "ClosureResponse": {
+        "properties": {
+          "holidayAdded": {
+            "title": "Holidayadded",
+            "type": "boolean"
+          },
+          "lostPeriods": {
+            "title": "Lostperiods",
+            "type": "integer"
+          },
+          "plansReflowed": {
+            "title": "Plansreflowed",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "lostPeriods",
+          "holidayAdded",
+          "plansReflowed"
+        ],
+        "title": "ClosureResponse",
+        "type": "object"
+      },
+      "CompensateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "period": {
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "title": "Period",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "date",
+          "period"
+        ],
+        "title": "CompensateRequest",
         "type": "object"
       },
       "CompetencyCheck": {
@@ -2109,6 +2272,57 @@
         "title": "ConsentStatusResponse",
         "type": "object"
       },
+      "CoverSummaryResponse": {
+        "properties": {
+          "compensated": {
+            "title": "Compensated",
+            "type": "integer"
+          },
+          "debt": {
+            "items": {
+              "$ref": "#/components/schemas/DebtRowResponse"
+            },
+            "title": "Debt",
+            "type": "array"
+          },
+          "filled": {
+            "title": "Filled",
+            "type": "integer"
+          },
+          "lost": {
+            "title": "Lost",
+            "type": "integer"
+          },
+          "owed": {
+            "title": "Owed",
+            "type": "integer"
+          },
+          "substitutionsRequested": {
+            "title": "Substitutionsrequested",
+            "type": "integer"
+          },
+          "supervised": {
+            "title": "Supervised",
+            "type": "integer"
+          },
+          "unfilled": {
+            "title": "Unfilled",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "substitutionsRequested",
+          "filled",
+          "supervised",
+          "unfilled",
+          "lost",
+          "compensated",
+          "owed",
+          "debt"
+        ],
+        "title": "CoverSummaryResponse",
+        "type": "object"
+      },
       "CoverageReportResponse": {
         "properties": {
           "academicYearId": {
@@ -2302,6 +2516,122 @@
           "name"
         ],
         "title": "CreateSectionRequest",
+        "type": "object"
+      },
+      "DayRowResponse": {
+        "properties": {
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "lostPeriodId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lostperiodid"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "period": {
+            "title": "Period",
+            "type": "integer"
+          },
+          "roomId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomid"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "substitutionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Substitutionid"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          }
+        },
+        "required": [
+          "sectionId",
+          "period",
+          "subjectId",
+          "kind"
+        ],
+        "title": "DayRowResponse",
+        "type": "object"
+      },
+      "DebtRowResponse": {
+        "properties": {
+          "compensated": {
+            "title": "Compensated",
+            "type": "integer"
+          },
+          "owed": {
+            "title": "Owed",
+            "type": "integer"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "waived": {
+            "title": "Waived",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "sectionId",
+          "subjectId",
+          "owed",
+          "compensated",
+          "waived"
+        ],
+        "title": "DebtRowResponse",
         "type": "object"
       },
       "DelayedLessonResponse": {
@@ -3585,6 +3915,191 @@
         "title": "InviteResponse",
         "type": "object"
       },
+      "LeaveApplyRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "endDate": {
+            "title": "Enddate",
+            "type": "string"
+          },
+          "handoverNote": {
+            "anyOf": [
+              {
+                "maxLength": 2000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Handovernote"
+          },
+          "kind": {
+            "default": "full_day",
+            "title": "Kind",
+            "type": "string"
+          },
+          "periods": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Periods"
+          },
+          "reason": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Reason",
+            "type": "string"
+          },
+          "startDate": {
+            "title": "Startdate",
+            "type": "string"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          }
+        },
+        "required": [
+          "startDate",
+          "endDate",
+          "reason"
+        ],
+        "title": "LeaveApplyRequest",
+        "type": "object"
+      },
+      "LeaveDecisionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "approve": {
+            "title": "Approve",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "approve"
+        ],
+        "title": "LeaveDecisionRequest",
+        "type": "object"
+      },
+      "LeaveDecisionResponse": {
+        "properties": {
+          "leave": {
+            "$ref": "#/components/schemas/LeaveResponse"
+          },
+          "substitutions": {
+            "items": {
+              "$ref": "#/components/schemas/SubstitutionResponse"
+            },
+            "title": "Substitutions",
+            "type": "array"
+          }
+        },
+        "required": [
+          "leave",
+          "substitutions"
+        ],
+        "title": "LeaveDecisionResponse",
+        "type": "object"
+      },
+      "LeaveResponse": {
+        "properties": {
+          "academicYearId": {
+            "title": "Academicyearid",
+            "type": "string"
+          },
+          "createdBy": {
+            "title": "Createdby",
+            "type": "string"
+          },
+          "decidedBy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decidedby"
+          },
+          "endDate": {
+            "title": "Enddate",
+            "type": "string"
+          },
+          "handoverNote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Handovernote"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "periods": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Periods",
+            "type": "array"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "startDate": {
+            "title": "Startdate",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "teacherId": {
+            "title": "Teacherid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "academicYearId",
+          "teacherId",
+          "startDate",
+          "endDate",
+          "kind",
+          "periods",
+          "reason",
+          "status",
+          "createdBy"
+        ],
+        "title": "LeaveResponse",
+        "type": "object"
+      },
       "LoginRequest": {
         "properties": {
           "email": {
@@ -3601,6 +4116,71 @@
           "password"
         ],
         "title": "LoginRequest",
+        "type": "object"
+      },
+      "LostPeriodResponse": {
+        "properties": {
+          "compensationDate": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Compensationdate"
+          },
+          "compensationPeriod": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Compensationperiod"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "period": {
+            "title": "Period",
+            "type": "integer"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "sectionId",
+          "subjectId",
+          "date",
+          "period",
+          "reason",
+          "status"
+        ],
+        "title": "LostPeriodResponse",
         "type": "object"
       },
       "MailBackendStatus": {
@@ -6388,6 +6968,20 @@
         "title": "RescheduleResultResponse",
         "type": "object"
       },
+      "RespondRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "accept": {
+            "title": "Accept",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "accept"
+        ],
+        "title": "RespondRequest",
+        "type": "object"
+      },
       "ReviewDecisionRequest": {
         "properties": {
           "action": {
@@ -8089,6 +8683,24 @@
         "title": "SheetReviewResponse",
         "type": "object"
       },
+      "SlotResponse": {
+        "properties": {
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "period": {
+            "title": "Period",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "date",
+          "period"
+        ],
+        "title": "SlotResponse",
+        "type": "object"
+      },
       "SolveRequest": {
         "additionalProperties": false,
         "properties": {
@@ -8667,6 +9279,87 @@
           "provenance"
         ],
         "title": "SubjectTemplateReportResponse",
+        "type": "object"
+      },
+      "SubstitutionResponse": {
+        "properties": {
+          "absentTeacherId": {
+            "title": "Absentteacherid",
+            "type": "string"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "leaveId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leaveid"
+          },
+          "mode": {
+            "title": "Mode",
+            "type": "string"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "period": {
+            "title": "Period",
+            "type": "integer"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "substituteId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Substituteid"
+          }
+        },
+        "required": [
+          "id",
+          "date",
+          "sectionId",
+          "period",
+          "subjectId",
+          "absentTeacherId",
+          "status",
+          "mode"
+        ],
+        "title": "SubstitutionResponse",
         "type": "object"
       },
       "SubtopicResponse": {
@@ -11733,6 +12426,124 @@
         "summary": "Update Calendar"
       }
     },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/closures": {
+      "post": {
+        "description": "A day lost at short notice, or after the fact (rain, an event, an exam\nday): every section's periods that day become lost periods, the day's\ncover is cancelled, the holiday goes on the calendar and the section\nplans move past it.",
+        "operationId": "declare_closure_api_v1_curriculum_academic_years__academic_year_id__closures_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClosureRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClosureResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Declare Closure"
+      }
+    },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/cover-summary": {
+      "get": {
+        "description": "Substitutions requested, filled, supervised and unfilled; periods lost,\nowed and made up; the debt per section and subject (ADM-2).",
+        "operationId": "cover_summary_api_v1_curriculum_academic_years__academic_year_id__cover_summary_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "required": true,
+            "schema": {
+              "title": "From",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "required": true,
+            "schema": {
+              "title": "To",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoverSummaryResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Cover Summary"
+      }
+    },
     "/api/v1/curriculum/academic-years/{academic_year_id}/grades": {
       "get": {
         "operationId": "list_grades_api_v1_curriculum_academic_years__academic_year_id__grades_get",
@@ -11935,6 +12746,70 @@
           }
         ],
         "summary": "Delete Holiday"
+      }
+    },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/lost-periods": {
+      "get": {
+        "operationId": "list_lost_periods_api_v1_curriculum_academic_years__academic_year_id__lost_periods_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/LostPeriodResponse"
+                  },
+                  "title": "Response List Lost Periods Api V1 Curriculum Academic Years  Academic Year Id  Lost Periods Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Lost Periods"
       }
     },
     "/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration": {
@@ -13661,6 +14536,71 @@
         "summary": "Approve Chapter Templates"
       }
     },
+    "/api/v1/curriculum/day": {
+      "get": {
+        "description": "A day as it will run, with substitutions, lost and make-up periods.\nStaff: the school or one section. A student: their own section.",
+        "operationId": "day_api_v1_curriculum_day_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "date",
+            "required": true,
+            "schema": {
+              "title": "Date",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sectionId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sectionid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/DayRowResponse"
+                  },
+                  "title": "Response Day Api V1 Curriculum Day Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Day"
+      }
+    },
     "/api/v1/curriculum/export": {
       "get": {
         "description": "Bulk export of everything this principal's school owns, for backup\nor manual transfer to another AcademicOS instance -- the concrete\n\"easy transfer of school data\" feature. school_id always comes from\nthe authenticated principal, never a request parameter, same reason\nseed_cbse10 above does the same: nothing here should let one school's\nadmin pull another school's data by guessing an id.\n\nCovers the full curriculum tree (years/grades/subjects/books/units/\nchapters/topics/subtopics) with period allocations/timetable/holidays,\nassessments, generated papers, practice sets, scan sessions, paper\ntemplates, and this school's user accounts (password hashes/salts\nexcluded -- this is a data export, not a credential dump).\n\nPapers/practice sets/scan sessions were the largest outstanding\ncorrectness gap per docs/system-review.html until 2026-09-17 (those\nthree stores had no school_id column at all). Rows written before that\ncolumn existed are still invisible to list_by_school() -- there's no\nbackfill for data that was never tagged -- see each store's own\ndocstring (paper_store.py / practice_store.py / scan_session_store.py).",
@@ -13888,6 +14828,350 @@
         "summary": "List Subjects"
       }
     },
+    "/api/v1/curriculum/leave-requests": {
+      "get": {
+        "description": "The principal sees the current year's requests; a teacher their own.",
+        "operationId": "list_leave_api_v1_curriculum_leave_requests_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/LeaveResponse"
+                  },
+                  "title": "Response List Leave Api V1 Curriculum Leave Requests Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Leave"
+      },
+      "post": {
+        "description": "A teacher applies for their own leave. The principal may apply on a\nteacher's behalf (a same-day absence reported by phone).",
+        "operationId": "apply_for_leave_api_v1_curriculum_leave_requests_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeaveApplyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Apply For Leave"
+      }
+    },
+    "/api/v1/curriculum/leave-requests/{leave_id}/cancel": {
+      "post": {
+        "operationId": "cancel_leave_api_v1_curriculum_leave_requests__leave_id__cancel_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "leave_id",
+            "required": true,
+            "schema": {
+              "title": "Leave Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Cancel Leave"
+      }
+    },
+    "/api/v1/curriculum/leave-requests/{leave_id}/decision": {
+      "post": {
+        "description": "Approve (every missed period gets a substitution with a proposed\nsubstitute) or reject.",
+        "operationId": "decide_leave_api_v1_curriculum_leave_requests__leave_id__decision_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "leave_id",
+            "required": true,
+            "schema": {
+              "title": "Leave Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeaveDecisionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveDecisionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Decide Leave"
+      }
+    },
+    "/api/v1/curriculum/lost-periods/{lost_id}/compensate": {
+      "post": {
+        "operationId": "compensate_api_v1_curriculum_lost_periods__lost_id__compensate_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lost_id",
+            "required": true,
+            "schema": {
+              "title": "Lost Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompensateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LostPeriodResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Compensate"
+      }
+    },
+    "/api/v1/curriculum/lost-periods/{lost_id}/compensation-options": {
+      "get": {
+        "description": "The section's free periods over the next three weeks when its subject\nteacher is free and under the day's maximum.",
+        "operationId": "compensation_options_api_v1_curriculum_lost_periods__lost_id__compensation_options_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lost_id",
+            "required": true,
+            "schema": {
+              "title": "Lost Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SlotResponse"
+                  },
+                  "title": "Response Compensation Options Api V1 Curriculum Lost Periods  Lost Id  Compensation Options Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Compensation Options"
+      }
+    },
+    "/api/v1/curriculum/lost-periods/{lost_id}/waive": {
+      "post": {
+        "operationId": "waive_api_v1_curriculum_lost_periods__lost_id__waive_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lost_id",
+            "required": true,
+            "schema": {
+              "title": "Lost Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LostPeriodResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Waive"
+      }
+    },
     "/api/v1/curriculum/my-class-schedule": {
       "get": {
         "description": "\"What's being taught, what's completed, upcoming\" -- every real\nlesson across every subject for the student's own real enrolled class,\nin a date range. A reduced subset of ScheduledLesson: no note, no\ncompleted_by -- a student sees the status, not a teacher's private\nremark about it.",
@@ -13944,6 +15228,55 @@
           }
         ],
         "summary": "Get My Class Schedule"
+      }
+    },
+    "/api/v1/curriculum/my-day": {
+      "get": {
+        "description": "The caller's own day: a teacher's periods, duties and make-ups (their\nperiods on leave marked away); a student's section's day.",
+        "operationId": "my_day_api_v1_curriculum_my_day_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "date",
+            "required": true,
+            "schema": {
+              "title": "Date",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/DayRowResponse"
+                  },
+                  "title": "Response My Day Api V1 Curriculum My Day Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Day"
       }
     },
     "/api/v1/curriculum/my-progress": {
@@ -15372,6 +16705,223 @@
           }
         ],
         "summary": "Select Book"
+      }
+    },
+    "/api/v1/curriculum/substitutions": {
+      "get": {
+        "description": "The principal: every substitution in the range. A teacher: their duties.",
+        "operationId": "list_substitutions_api_v1_curriculum_substitutions_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "from",
+            "required": true,
+            "schema": {
+              "title": "From",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "required": true,
+            "schema": {
+              "title": "To",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SubstitutionResponse"
+                  },
+                  "title": "Response List Substitutions Api V1 Curriculum Substitutions Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Substitutions"
+      }
+    },
+    "/api/v1/curriculum/substitutions/{sub_id}/assign": {
+      "post": {
+        "description": "Name the substitute, or run the period without one (supervised,\ncombined, lost). A period no teacher of the subject takes is a lost\nperiod for the section and subject.",
+        "operationId": "assign_substitute_api_v1_curriculum_substitutions__sub_id__assign_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sub_id",
+            "required": true,
+            "schema": {
+              "title": "Sub Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssignResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Assign Substitute"
+      }
+    },
+    "/api/v1/curriculum/substitutions/{sub_id}/candidates": {
+      "get": {
+        "description": "Who is free for this period, best first, with why.",
+        "operationId": "substitution_candidates_api_v1_curriculum_substitutions__sub_id__candidates_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sub_id",
+            "required": true,
+            "schema": {
+              "title": "Sub Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CandidateResponse"
+                  },
+                  "title": "Response Substitution Candidates Api V1 Curriculum Substitutions  Sub Id  Candidates Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Substitution Candidates"
+      }
+    },
+    "/api/v1/curriculum/substitutions/{sub_id}/respond": {
+      "post": {
+        "description": "The proposed substitute accepts or declines; a decline passes the\nperiod to the next candidate.",
+        "operationId": "respond_to_substitution_api_v1_curriculum_substitutions__sub_id__respond_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sub_id",
+            "required": true,
+            "schema": {
+              "title": "Sub Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RespondRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubstitutionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Respond To Substitution"
       }
     },
     "/api/v1/curriculum/subtopics/{subtopic_id}": {

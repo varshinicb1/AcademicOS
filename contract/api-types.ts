@@ -462,6 +462,50 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/closures": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Declare Closure
+         * @description A day lost at short notice, or after the fact (rain, an event, an exam
+         *     day): every section's periods that day become lost periods, the day's
+         *     cover is cancelled, the holiday goes on the calendar and the section
+         *     plans move past it.
+         */
+        post: operations["declare_closure_api_v1_curriculum_academic_years__academic_year_id__closures_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/cover-summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Cover Summary
+         * @description Substitutions requested, filled, supervised and unfilled; periods lost,
+         *     owed and made up; the debt per section and subject (ADM-2).
+         */
+        get: operations["cover_summary_api_v1_curriculum_academic_years__academic_year_id__cover_summary_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/academic-years/{academic_year_id}/grades": {
         parameters: {
             query?: never;
@@ -513,6 +557,23 @@ export interface paths {
          *     without it a typo'd date took a teaching day away for the whole year.
          */
         delete: operations["delete_holiday_api_v1_curriculum_academic_years__academic_year_id__holidays__holiday_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/lost-periods": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Lost Periods */
+        get: operations["list_lost_periods_api_v1_curriculum_academic_years__academic_year_id__lost_periods_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -1141,6 +1202,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/day": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Day
+         * @description A day as it will run, with substitutions, lost and make-up periods.
+         *     Staff: the school or one section. A student: their own section.
+         */
+        get: operations["day_api_v1_curriculum_day_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/export": {
         parameters: {
             query?: never;
@@ -1251,6 +1333,124 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/leave-requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Leave
+         * @description The principal sees the current year's requests; a teacher their own.
+         */
+        get: operations["list_leave_api_v1_curriculum_leave_requests_get"];
+        put?: never;
+        /**
+         * Apply For Leave
+         * @description A teacher applies for their own leave. The principal may apply on a
+         *     teacher's behalf (a same-day absence reported by phone).
+         */
+        post: operations["apply_for_leave_api_v1_curriculum_leave_requests_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/leave-requests/{leave_id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Cancel Leave */
+        post: operations["cancel_leave_api_v1_curriculum_leave_requests__leave_id__cancel_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/leave-requests/{leave_id}/decision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Decide Leave
+         * @description Approve (every missed period gets a substitution with a proposed
+         *     substitute) or reject.
+         */
+        post: operations["decide_leave_api_v1_curriculum_leave_requests__leave_id__decision_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/lost-periods/{lost_id}/compensate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Compensate */
+        post: operations["compensate_api_v1_curriculum_lost_periods__lost_id__compensate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/lost-periods/{lost_id}/compensation-options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Compensation Options
+         * @description The section's free periods over the next three weeks when its subject
+         *     teacher is free and under the day's maximum.
+         */
+        get: operations["compensation_options_api_v1_curriculum_lost_periods__lost_id__compensation_options_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/lost-periods/{lost_id}/waive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Waive */
+        post: operations["waive_api_v1_curriculum_lost_periods__lost_id__waive_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/my-class-schedule": {
         parameters: {
             query?: never;
@@ -1267,6 +1467,27 @@ export interface paths {
          *     remark about it.
          */
         get: operations["get_my_class_schedule_api_v1_curriculum_my_class_schedule_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/my-day": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * My Day
+         * @description The caller's own day: a teacher's periods, duties and make-ups (their
+         *     periods on leave marked away); a student's section's day.
+         */
+        get: operations["my_day_api_v1_curriculum_my_day_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1806,6 +2027,89 @@ export interface paths {
          */
         put: operations["select_book_api_v1_curriculum_subjects__subject_id__selected_book_put"];
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/substitutions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Substitutions
+         * @description The principal: every substitution in the range. A teacher: their duties.
+         */
+        get: operations["list_substitutions_api_v1_curriculum_substitutions_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/substitutions/{sub_id}/assign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Assign Substitute
+         * @description Name the substitute, or run the period without one (supervised,
+         *     combined, lost). A period no teacher of the subject takes is a lost
+         *     period for the section and subject.
+         */
+        post: operations["assign_substitute_api_v1_curriculum_substitutions__sub_id__assign_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/substitutions/{sub_id}/candidates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Substitution Candidates
+         * @description Who is free for this period, best first, with why.
+         */
+        get: operations["substitution_candidates_api_v1_curriculum_substitutions__sub_id__candidates_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/substitutions/{sub_id}/respond": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Respond To Substitution
+         * @description The proposed substitute accepts or declines; a decline passes the
+         *     period to the next candidate.
+         */
+        post: operations["respond_to_substitution_api_v1_curriculum_substitutions__sub_id__respond_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3740,6 +4044,23 @@ export interface components {
              */
             updatedAt: string;
         };
+        /** AssignRequest */
+        AssignRequest: {
+            /**
+             * Mode
+             * @default substitute
+             */
+            mode: string;
+            /** Note */
+            note?: string | null;
+            /** Substituteid */
+            substituteId?: string | null;
+        };
+        /** AssignResponse */
+        AssignResponse: {
+            lostPeriod?: components["schemas"]["LostPeriodResponse"] | null;
+            substitution: components["schemas"]["SubstitutionResponse"];
+        };
         /** AssignTeacherRequest */
         AssignTeacherRequest: {
             /** Bookid */
@@ -4063,6 +4384,17 @@ export interface components {
              */
             sampleSize: number;
         };
+        /** CandidateResponse */
+        CandidateResponse: {
+            /** Qualified */
+            qualified: boolean;
+            /** Reasons */
+            reasons: string[];
+            /** Score */
+            score: number;
+            /** Teacherid */
+            teacherId: string;
+        };
         /** CapturedPageResponse */
         CapturedPageResponse: {
             /** Cropped */
@@ -4162,6 +4494,39 @@ export interface components {
             sharedMistakes: components["schemas"]["SharedMistakeResponse"][];
             /** Students */
             students: number;
+        };
+        /** ClosureRequest */
+        ClosureRequest: {
+            /**
+             * Addholiday
+             * @default true
+             */
+            addHoliday: boolean;
+            /** Date */
+            date: string;
+            /** Reason */
+            reason: string;
+            /**
+             * Reflowplans
+             * @default true
+             */
+            reflowPlans: boolean;
+        };
+        /** ClosureResponse */
+        ClosureResponse: {
+            /** Holidayadded */
+            holidayAdded: boolean;
+            /** Lostperiods */
+            lostPeriods: number;
+            /** Plansreflowed */
+            plansReflowed: number;
+        };
+        /** CompensateRequest */
+        CompensateRequest: {
+            /** Date */
+            date: string;
+            /** Period */
+            period: number;
         };
         /**
          * CompetencyCheck
@@ -4322,6 +4687,25 @@ export interface components {
             hasConsent: boolean;
             record?: components["schemas"]["ParentalConsentRecord"] | null;
         };
+        /** CoverSummaryResponse */
+        CoverSummaryResponse: {
+            /** Compensated */
+            compensated: number;
+            /** Debt */
+            debt: components["schemas"]["DebtRowResponse"][];
+            /** Filled */
+            filled: number;
+            /** Lost */
+            lost: number;
+            /** Owed */
+            owed: number;
+            /** Substitutionsrequested */
+            substitutionsRequested: number;
+            /** Supervised */
+            supervised: number;
+            /** Unfilled */
+            unfilled: number;
+        };
         /** CoverageReportResponse */
         CoverageReportResponse: {
             /** Academicyearid */
@@ -4399,6 +4783,40 @@ export interface components {
             classTeacherId?: string | null;
             /** Name */
             name: string;
+        };
+        /** DayRowResponse */
+        DayRowResponse: {
+            /** Kind */
+            kind: string;
+            /** Lostperiodid */
+            lostPeriodId?: string | null;
+            /** Note */
+            note?: string | null;
+            /** Period */
+            period: number;
+            /** Roomid */
+            roomId?: string | null;
+            /** Sectionid */
+            sectionId: string;
+            /** Subjectid */
+            subjectId: string;
+            /** Substitutionid */
+            substitutionId?: string | null;
+            /** Teacherid */
+            teacherId?: string | null;
+        };
+        /** DebtRowResponse */
+        DebtRowResponse: {
+            /** Compensated */
+            compensated: number;
+            /** Owed */
+            owed: number;
+            /** Sectionid */
+            sectionId: string;
+            /** Subjectid */
+            subjectId: string;
+            /** Waived */
+            waived: number;
         };
         /** DelayedLessonResponse */
         DelayedLessonResponse: {
@@ -4893,12 +5311,91 @@ export interface components {
             /** Usedby */
             usedBy?: string | null;
         };
+        /** LeaveApplyRequest */
+        LeaveApplyRequest: {
+            /** Enddate */
+            endDate: string;
+            /** Handovernote */
+            handoverNote?: string | null;
+            /**
+             * Kind
+             * @default full_day
+             */
+            kind: string;
+            /** Periods */
+            periods?: number[] | null;
+            /** Reason */
+            reason: string;
+            /** Startdate */
+            startDate: string;
+            /** Teacherid */
+            teacherId?: string | null;
+        };
+        /** LeaveDecisionRequest */
+        LeaveDecisionRequest: {
+            /** Approve */
+            approve: boolean;
+        };
+        /** LeaveDecisionResponse */
+        LeaveDecisionResponse: {
+            leave: components["schemas"]["LeaveResponse"];
+            /** Substitutions */
+            substitutions: components["schemas"]["SubstitutionResponse"][];
+        };
+        /** LeaveResponse */
+        LeaveResponse: {
+            /** Academicyearid */
+            academicYearId: string;
+            /** Createdby */
+            createdBy: string;
+            /** Decidedby */
+            decidedBy?: string | null;
+            /** Enddate */
+            endDate: string;
+            /** Handovernote */
+            handoverNote?: string | null;
+            /** Id */
+            id: string;
+            /** Kind */
+            kind: string;
+            /** Periods */
+            periods: number[];
+            /** Reason */
+            reason: string;
+            /** Startdate */
+            startDate: string;
+            /** Status */
+            status: string;
+            /** Teacherid */
+            teacherId: string;
+        };
         /** LoginRequest */
         LoginRequest: {
             /** Email */
             email: string;
             /** Password */
             password: string;
+        };
+        /** LostPeriodResponse */
+        LostPeriodResponse: {
+            /** Compensationdate */
+            compensationDate?: string | null;
+            /** Compensationperiod */
+            compensationPeriod?: number | null;
+            /** Date */
+            date: string;
+            /** Id */
+            id: string;
+            /** Period */
+            period: number;
+            /** Reason */
+            reason: string;
+            /** Sectionid */
+            sectionId: string;
+            /** Status */
+            status: string;
+            /** Subjectid */
+            subjectId: string;
         };
         /** MailBackendStatus */
         MailBackendStatus: {
@@ -5984,6 +6481,11 @@ export interface components {
             /** Subtopicid */
             subtopicId: string;
         };
+        /** RespondRequest */
+        RespondRequest: {
+            /** Accept */
+            accept: boolean;
+        };
         /** ReviewDecisionRequest */
         ReviewDecisionRequest: {
             /** Action */
@@ -6776,6 +7278,13 @@ export interface components {
             /** Questionid */
             questionId: string;
         };
+        /** SlotResponse */
+        SlotResponse: {
+            /** Date */
+            date: string;
+            /** Period */
+            period: number;
+        };
         /** SolveRequest */
         SolveRequest: {
             /**
@@ -7000,6 +7509,31 @@ export interface components {
             subtopicsProposed: number;
             /** Topicsproposed */
             topicsProposed: number;
+        };
+        /** SubstitutionResponse */
+        SubstitutionResponse: {
+            /** Absentteacherid */
+            absentTeacherId: string;
+            /** Date */
+            date: string;
+            /** Id */
+            id: string;
+            /** Leaveid */
+            leaveId?: string | null;
+            /** Mode */
+            mode: string;
+            /** Note */
+            note?: string | null;
+            /** Period */
+            period: number;
+            /** Sectionid */
+            sectionId: string;
+            /** Status */
+            status: string;
+            /** Subjectid */
+            subjectId: string;
+            /** Substituteid */
+            substituteId?: string | null;
         };
         /** SubtopicResponse */
         SubtopicResponse: {
@@ -8608,6 +9142,75 @@ export interface operations {
             };
         };
     };
+    declare_closure_api_v1_curriculum_academic_years__academic_year_id__closures_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ClosureRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClosureResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    cover_summary_api_v1_curriculum_academic_years__academic_year_id__cover_summary_get: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+            };
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CoverSummaryResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_grades_api_v1_curriculum_academic_years__academic_year_id__grades_get: {
         parameters: {
             query?: never;
@@ -8726,6 +9329,39 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_lost_periods_api_v1_curriculum_academic_years__academic_year_id__lost_periods_get: {
+        parameters: {
+            query?: {
+                status?: string | null;
+            };
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LostPeriodResponse"][];
                 };
             };
             /** @description Validation Error */
@@ -9799,6 +10435,38 @@ export interface operations {
             };
         };
     };
+    day_api_v1_curriculum_day_get: {
+        parameters: {
+            query: {
+                date: string;
+                sectionId?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DayRowResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     export_school_data_api_v1_curriculum_export_get: {
         parameters: {
             query?: never;
@@ -9953,6 +10621,233 @@ export interface operations {
             };
         };
     };
+    list_leave_api_v1_curriculum_leave_requests_get: {
+        parameters: {
+            query?: {
+                status?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeaveResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    apply_for_leave_api_v1_curriculum_leave_requests_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LeaveApplyRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeaveResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    cancel_leave_api_v1_curriculum_leave_requests__leave_id__cancel_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                leave_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeaveResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    decide_leave_api_v1_curriculum_leave_requests__leave_id__decision_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                leave_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LeaveDecisionRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeaveDecisionResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    compensate_api_v1_curriculum_lost_periods__lost_id__compensate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lost_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CompensateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LostPeriodResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    compensation_options_api_v1_curriculum_lost_periods__lost_id__compensation_options_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lost_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SlotResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    waive_api_v1_curriculum_lost_periods__lost_id__waive_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lost_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LostPeriodResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     get_my_class_schedule_api_v1_curriculum_my_class_schedule_get: {
         parameters: {
             query: {
@@ -9972,6 +10867,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MyClassScheduleEntryResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    my_day_api_v1_curriculum_my_day_get: {
+        parameters: {
+            query: {
+                date: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DayRowResponse"][];
                 };
             };
             /** @description Validation Error */
@@ -10907,6 +11833,139 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SelectBookResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_substitutions_api_v1_curriculum_substitutions_get: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubstitutionResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    assign_substitute_api_v1_curriculum_substitutions__sub_id__assign_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sub_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AssignRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AssignResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    substitution_candidates_api_v1_curriculum_substitutions__sub_id__candidates_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sub_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CandidateResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    respond_to_substitution_api_v1_curriculum_substitutions__sub_id__respond_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sub_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RespondRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubstitutionResponse"];
                 };
             };
             /** @description Validation Error */
