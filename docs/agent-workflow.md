@@ -22,7 +22,7 @@ rot; re-measure before you rely on one.
   `academicos-backend`, Cloud SQL `academicos-pg`, GCS). **[`HANDOVER.md`](../HANDOVER.md)** has the gap
   analysis against v3 and the milestone order.
 - **Progress is measured by an audited scorecard** against the *live* commit. The v2 instrument
-  (`docs/product-scorecard.md`) measured 61.0; adopt the v3 instrument (`REQUIREMENTS.md` section 12)
+  (`docs/product-scorecard.md`) measured 60.5 at `09649eb`; adopt the v3 instrument (`REQUIREMENTS.md` section 12)
   and take a baseline audit before new work is scored. Nothing moves a score until it is deployed and
   audited. The 5-phase research number in `docs/roadmap.md` (~35%) is separate: report both.
 

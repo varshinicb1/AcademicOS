@@ -14,8 +14,10 @@ their day, their homework and their progress, on their phones.
   Google Cloud Run.
 - **Requirements:** v3, adopted 2026-09-27 ([`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md)).
 - **Status (2026-09-28):**
-  - The web console for classes 6-10 is live as `09649eb` (milestone M0). It measured **61.0 / 100** on the
-    v2 scorecard at the last completed audit. A re-audit of `09649eb` is under way.
+  - The web console for classes 6-10 is live as `09649eb` (milestone M0). Its re-audit measured
+    **60.5 / 100** on the v2 scorecard ([`docs/audits/2026-09-28-09649eb.md`](docs/audits/2026-09-28-09649eb.md)).
+    M0's work gained 2.71, and the calendar lost 3.13 to a timetable stored per subject name rather than per
+    class (D115), which M1 fixes.
   - The v3 teacher and student apps, the scheduling engine (timetable, leave, substitution, compensation),
     homework and notifications are **not built yet**. M1 (the school data model) is next:
     [`docs/plans/m1-school-data-model.md`](docs/plans/m1-school-data-model.md).
@@ -77,7 +79,7 @@ The headlines:
 
 | Area | State |
 |---|---|
-| Web console (classes 6-10) | Live. Paper builder, quick and hand-picked papers, sets, PDF paper and key with value points, a chapter picker that reaches every question, the question bank browser, calendar and terms, dated lesson plans with reschedule, book editions, the principal's coverage/pace, bank and per-term time-saved cards. v2 audit: **61.0 / 100**, with 35 numbered defects ([`docs/audits/2026-09-27-8db6636.md`](docs/audits/2026-09-27-8db6636.md)). |
+| Web console (classes 6-10) | Live. Paper builder, quick and hand-picked papers, sets, PDF paper and key with value points, a chapter picker that reaches every question, the question bank browser, calendar and terms, dated lesson plans with reschedule, book editions, the principal's coverage/pace, bank and per-term time-saved cards. v2 audit of `09649eb`: **60.5 / 100** ([`docs/audits/2026-09-28-09649eb.md`](docs/audits/2026-09-28-09649eb.md)). |
 | Question bank | 5,319 served questions, all keyed: NCERT Exemplar 4,191, CBSE sample papers 743, CBSE competency items 366, board papers 19; rebuilt 2026-09-28 without the questions that cannot be answered as printed. Strong for Maths and Science 6-10. **Grades 1-5: none; English, Hindi and Social Science: nearly none.** |
 | Question bank API | `/v1` and MCP live, and they file chapters exactly as the paper builder does (D39, fixed in M0). There is still no way to issue an API key on live (D38). |
 | Scheduling engine | Calendar, terms, holidays, per-subject weekday slots, lesson plans. **No section x teacher x room timetable, no solver, no leave, substitution or compensation.** |
@@ -88,7 +90,7 @@ The headlines:
 
 The milestones, their order and the first tasks are in [`HANDOVER.md`](HANDOVER.md) section 7.
 
-1. **M0, stabilise:** done and live as `09649eb` (Task 125, D39, D29, D27, D22/D40, D78/D79, the fidelity rebuild). Its re-audit is under way.
+1. **M0, stabilise:** done and live as `09649eb` (Task 125, D39, D29, D27, D22/D40, D78/D79, the fidelity rebuild). Re-audited at 60.5.
 2. **M1, school data model:** sections, teacher allocations, rooms, bell schedules, delegated admin,
    parents, bulk import.
 3. **M2, scheduling engine:** timetable solver, leave -> substitution -> compensation, the edge-case tests.
