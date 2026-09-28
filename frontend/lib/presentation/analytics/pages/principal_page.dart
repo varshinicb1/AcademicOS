@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/session/current_session.dart';
+import '../../../core/sync/network_policy.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
@@ -50,12 +51,15 @@ class _PrincipalPageState extends State<PrincipalPage> {
         actions: [
           // §14/§18's missing piece: real assignment/enrollment, so the
           // teacher and student schedule screens this session built have
-          // anything real to show for a real school.
-          IconButton(
-            tooltip: 'Assign teachers & students',
-            onPressed: () => context.push('/admin'),
-            icon: const Icon(Icons.admin_panel_settings_outlined),
-          ),
+          // anything real to show for a real school. The admin console is
+          // the school's server's roster and calendar: the offline build has
+          // neither, and registers no API to reach them.
+          if (!kOfflineBuild)
+            IconButton(
+              tooltip: 'Assign teachers & students',
+              onPressed: () => context.push('/admin'),
+              icon: const Icon(Icons.admin_panel_settings_outlined),
+            ),
           IconButton(tooltip: 'Refresh', onPressed: _load, icon: const Icon(Icons.refresh)),
         ],
       ),

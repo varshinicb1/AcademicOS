@@ -84,6 +84,9 @@ class _StudentSchedulePageState extends State<StudentSchedulePage> {
   }
 
   Future<_StudentScheduleData> _load() async {
+    // The offline build has no server and registers no CurriculumApi; its
+    // body is the "Needs a connection" state, which never reads this future.
+    if (_offlineMode) return const _StudentScheduleData(progress: null, lessons: []);
     final api = GetIt.I<CurriculumApi>();
     final schoolId = LocalStore.instance.authUser?['schoolId'] as String?;
     if (schoolId == null) {
