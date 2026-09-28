@@ -145,6 +145,11 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/academic-years"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/grades"),
     ("GET", "/api/v1/curriculum/grades/{grade_id}/subjects"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/sections"),
+    ("POST", "/api/v1/curriculum/grades/{grade_id}/sections"),
+    ("PATCH", "/api/v1/curriculum/sections/{section_id}"),
+    ("DELETE", "/api/v1/curriculum/sections/{section_id}"),
+    ("GET", "/api/v1/curriculum/sections/{section_id}/students"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -311,6 +316,11 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/academic-years"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/grades"),
     ("GET", "/api/v1/curriculum/grades/{grade_id}/subjects"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/sections"),
+    ("POST", "/api/v1/curriculum/grades/{grade_id}/sections"),
+    ("PATCH", "/api/v1/curriculum/sections/{section_id}"),
+    ("DELETE", "/api/v1/curriculum/sections/{section_id}"),
+    ("GET", "/api/v1/curriculum/sections/{section_id}/students"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -635,7 +645,8 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 163
+    # 168: M1.1 added the five sections routes (list, create, update, delete, students).
+    assert len(API_ROUTES) == 168
 
 
 def test_docs_routes_present():

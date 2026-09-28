@@ -171,6 +171,17 @@ class _Backend extends Interceptor {
         {'id': 'grade_7', 'number': 7, 'section': null},
         {'id': 'grade_10', 'number': 10, 'section': null},
       ];
+    } else if (path.endsWith('/sections')) {
+      // Two sections of Class 10, so the Roster's Sections card is measured
+      // with more than one row per class.
+      body = [
+        {'id': 'section_7a', 'academicYearId': 'academicYear_1', 'gradeId': 'grade_7', 'gradeNumber': 7,
+          'name': 'A', 'classTeacherId': null, 'studentCount': 0},
+        {'id': 'section_10a', 'academicYearId': 'academicYear_1', 'gradeId': 'grade_10', 'gradeNumber': 10,
+          'name': 'A', 'classTeacherId': null, 'studentCount': 31},
+        {'id': 'section_10b', 'academicYearId': 'academicYear_1', 'gradeId': 'grade_10', 'gradeNumber': 10,
+          'name': 'Rose', 'classTeacherId': null, 'studentCount': 1},
+      ];
     } else if (path == '/auth/users') {
       body = <Object>[];
     } else if (path == '/auth/invites') {

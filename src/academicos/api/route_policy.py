@@ -189,6 +189,13 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/curriculum/academic-years"): _p(ANY_USER, "?school_id= must be the caller's own school (calendar Task 101)"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/grades"): _p(ANY_USER, "school-scoped since calendar Task 101"),
     ("GET", "/api/v1/curriculum/grades/{grade_id}/subjects"): _p(ANY_USER, "school-scoped since calendar Task 101"),
+    # Sections (M1.1): a section carries its class teacher, so reads are staff;
+    # who is enrolled where is the principal's roster.
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/sections"): _p(STAFF, "carries each class teacher"),
+    ("POST", "/api/v1/curriculum/grades/{grade_id}/sections"): _p(PRINCIPAL),
+    ("PATCH", "/api/v1/curriculum/sections/{section_id}"): _p(PRINCIPAL),
+    ("DELETE", "/api/v1/curriculum/sections/{section_id}"): _p(PRINCIPAL),
+    ("GET", "/api/v1/curriculum/sections/{section_id}/students"): _p(PRINCIPAL, "the roster of one class"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"): _p(ANY_USER, "school-scoped since calendar Task 101"),
     ("GET", "/api/v1/curriculum/books/{book_id}/units"): _p(ANY_USER, "school-scoped since calendar Task 101"),
     ("GET", "/api/v1/curriculum/books/{book_id}/chapters"): _p(ANY_USER, "school-scoped since calendar Task 101"),

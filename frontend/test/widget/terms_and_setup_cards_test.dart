@@ -26,6 +26,9 @@ class _Backend extends Interceptor {
   final List<Map<String, dynamic>> terms = [];
   final List<String> calls = [];
   final List<Map<String, dynamic>> seeds = [];
+  // (gradeId, name): as the server keeps them, a seeded class starts with A.
+  final List<(String, String)> sections = [];
+  final List<(String, String)> sectionsAdded = [];
   int? failSeedAt;
   int _n = 0;
 
@@ -84,10 +87,30 @@ class _Backend extends Interceptor {
     if (o.method == 'POST' && o.path == '/curriculum/seed/cbse') {
       if (body['grade'] == failSeedAt) return _answer(h, o, 500, {'detail': 'Internal Server Error'});
       seeds.add(body);
+      final gradeId = 'g_${body['grade']}';
+      if (!sections.any((x) => x.$1 == gradeId)) sections.add((gradeId, 'A'));
       return _answer(h, o, 200, {
         'boardId': 'b', 'academicYearId': 'ay_1', 'gradeId': 'g_${body['grade']}', 'grade': body['grade'],
         'subjectsSeeded': 5, 'unitsSeeded': 10, 'chaptersSeeded': 14, 'subjectsSkipped': <String>[],
       });
+    }
+    if (o.method == 'GET' && o.path == '/curriculum/academic-years/ay_1/sections') {
+      return _answer(h, o, 200, [
+        for (final (i, (g, name)) in sections.indexed)
+          {'id': 'sec_$i', 'academicYearId': 'ay_1', 'gradeId': g, 'gradeNumber': int.parse(g.substring(2)),
+            'name': name, 'studentCount': 0}
+      ]);
+    }
+    final addSection = RegExp(r'^/curriculum/grades/([^/]+)/sections$').firstMatch(o.path);
+    if (o.method == 'POST' && addSection != null) {
+      final g = addSection.group(1)!, name = body['name'] as String;
+      if (sections.contains((g, name))) {
+        return _answer(h, o, 422, {'detail': "this class already has a section named '$name'"});
+      }
+      sections.add((g, name));
+      sectionsAdded.add((g, name));
+      return _answer(h, o, 200, {'id': 'sec_new', 'academicYearId': 'ay_1', 'gradeId': g,
+        'gradeNumber': int.parse(g.substring(2)), 'name': name, 'studentCount': 0});
     }
     _answer(h, o, 404, {'detail': 'no route ${o.method} ${o.path}'});
   }
@@ -237,6 +260,41 @@ void main() {
     expect(backend.seeds.map((s) => (s['academicYearLabel'], s['startDate'], s['endDate'])).toSet(),
         {('2026-27', '2026-04-01', '2027-03-31')});
     expect(done(), isTrue);
+    expect(backend.sectionsAdded, isEmpty, reason: 'one section per class is the A every class starts with');
+    expect(backend.calls.where((c) => c.contains('/sections')), isEmpty);
+  });
+
+  testWidgets('three sections per class gives every class A, B and C', (tester) async {
+    final (done, backend) = await pumpSetup(tester);
+    await tester.enterText(find.byKey(const ValueKey('setup-sections')), '3');
+    await tapKey(tester, 'setup-run');
+    expect(done(), isTrue);
+    for (final g in [6, 7, 8, 9, 10]) {
+      expect([for (final (grade, name) in backend.sections) if (grade == 'g_$g') name], ['A', 'B', 'C']);
+    }
+    expect(backend.sectionsAdded, hasLength(10), reason: 'B and C for five classes; A comes with the seed');
+  });
+
+  testWidgets('a section count that is not 1 to 10 is caught before anything is sent', (tester) async {
+    final (done, backend) = await pumpSetup(tester);
+    for (final bad in ['0', '11', 'two']) {
+      await tester.enterText(find.byKey(const ValueKey('setup-sections')), bad);
+      await tapKey(tester, 'setup-run');
+      expect(find.text('Sections per class is a whole number from 1 to 10.'), findsOneWidget);
+    }
+    expect(backend.calls, isEmpty);
+    expect(done(), isFalse);
+  });
+
+  testWidgets('pressing again after a failure adds only the sections still missing', (tester) async {
+    final (done, backend) = await pumpSetup(tester, failAt: 8);
+    await tester.enterText(find.byKey(const ValueKey('setup-sections')), '2');
+    await tapKey(tester, 'setup-run');
+    expect(backend.sectionsAdded, [('g_6', 'B'), ('g_7', 'B')]);
+    backend.failSeedAt = null;
+    await tapKey(tester, 'setup-run');
+    expect(done(), isTrue);
+    expect(backend.sectionsAdded, [('g_6', 'B'), ('g_7', 'B'), ('g_8', 'B'), ('g_9', 'B'), ('g_10', 'B')]);
   });
 
   testWidgets('a class that fails is named, and pressing again continues', (tester) async {

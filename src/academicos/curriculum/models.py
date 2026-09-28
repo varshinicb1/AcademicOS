@@ -58,7 +58,36 @@ class Grade:
     id: str
     academic_year_id: str
     number: int              # 1-12
+    # The label a grade row carried before sections were rows of their own
+    # (M1.1). Read once by the migration, which names the grade's first
+    # Section after it; nothing is scheduled or enrolled by it any more.
     section: Optional[str] = None
+
+
+# A grade's first section, when nothing else names it: a school with one
+# class per grade still has "10-A" (docs/plans/m1-school-data-model.md, M1.1).
+DEFAULT_SECTION_NAME = "A"
+SECTION_NAME_MAX = 20
+
+
+@dataclass
+class Section:
+    """One class of a grade in one year ("10-B"): what a student is enrolled
+    in, and, from M1.2 on, what a teacher is allocated to and a timetable is
+    made for. Until M1.1 a section was only an optional label on a Grade row,
+    so nothing could be enrolled, reported or scheduled per section.
+
+    Every grade has at least one. The name is unique within the grade,
+    case-insensitively, and is free text: schools use letters and names
+    ("Rose", "Lotus") alike. school_id and academic_year_id are copied from
+    the grade so a school's or a year's sections are one lookup."""
+    id: str
+    school_id: str
+    academic_year_id: str
+    grade_id: str
+    name: str
+    class_teacher_id: Optional[str] = None
+    created_at: str = ""
 
 
 @dataclass
@@ -372,17 +401,23 @@ class TeacherAssignment:
 
 @dataclass
 class StudentEnrollment:
-    """Which real Grade (class/section) a real student belongs to -- the
-    missing link needed to scope a student's own view (§18) to their real
-    class, the same gap TeacherAssignment closes for teachers.
+    """Which real Section (and so which Grade) a real student belongs to --
+    the missing link needed to scope a student's own view (§18) to their
+    real class, the same gap TeacherAssignment closes for teachers.
     `assessment/users.py`'s `User` has no class/grade field at all. One
     enrollment per student (unlike a teacher, who can be assigned several
-    books): a real student is in exactly one class."""
+    books): a real student is in exactly one class.
+
+    `section_id` is the enrollment (M1.1); `grade_id` is always the
+    section's grade, kept so the reads that predate sections still work.
+    None only on a row the migration could not place: one whose grade no
+    longer exists."""
     id: str
     school_id: str
     student_id: str
     grade_id: str
     created_at: str = ""
+    section_id: Optional[str] = None
 
 
 # 'unscheduled': a still-to-teach lesson a PUSH could not

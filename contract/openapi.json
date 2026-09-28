@@ -2008,6 +2008,33 @@
         "title": "CreateScanSessionRequest",
         "type": "object"
       },
+      "CreateSectionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "classTeacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Classteacherid"
+          },
+          "name": {
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "CreateSectionRequest",
+        "type": "object"
+      },
       "DelayedLessonResponse": {
         "properties": {
           "bookId": {
@@ -2231,11 +2258,31 @@
         "type": "object"
       },
       "EnrollStudentRequest": {
+        "description": "sectionId is the class (M1.1). gradeId alone still works for a\ngrade with one section, as it did before sections existed; for a grade\nwith several it is a 422 naming them.",
         "properties": {
           "gradeId": {
-            "minLength": 1,
-            "title": "Gradeid",
-            "type": "string"
+            "anyOf": [
+              {
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gradeid"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
           },
           "studentId": {
             "minLength": 1,
@@ -2244,8 +2291,7 @@
           }
         },
         "required": [
-          "studentId",
-          "gradeId"
+          "studentId"
         ],
         "title": "EnrollStudentRequest",
         "type": "object"
@@ -6830,6 +6876,80 @@
         "title": "SectionFix",
         "type": "object"
       },
+      "SectionResponse": {
+        "description": "One class of a grade (\"10-B\", M1.1). studentCount is how many\nstudents are enrolled in it now.",
+        "properties": {
+          "academicYearId": {
+            "title": "Academicyearid",
+            "type": "string"
+          },
+          "classTeacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Classteacherid"
+          },
+          "gradeId": {
+            "title": "Gradeid",
+            "type": "string"
+          },
+          "gradeNumber": {
+            "title": "Gradenumber",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "studentCount": {
+            "default": 0,
+            "title": "Studentcount",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "academicYearId",
+          "gradeId",
+          "gradeNumber",
+          "name"
+        ],
+        "title": "SectionResponse",
+        "type": "object"
+      },
+      "SectionStudentResponse": {
+        "description": "A student enrolled in a section. Ids only: the console already\nholds the school's user list, so no name or email travels twice.",
+        "properties": {
+          "enrolledAt": {
+            "title": "Enrolledat",
+            "type": "string"
+          },
+          "enrollmentId": {
+            "title": "Enrollmentid",
+            "type": "string"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "studentId",
+          "enrollmentId",
+          "enrolledAt"
+        ],
+        "title": "SectionStudentResponse",
+        "type": "object"
+      },
       "SeedCbse10Request": {
         "properties": {
           "academicYearLabel": {
@@ -7324,6 +7444,17 @@
           "schoolId": {
             "title": "Schoolid",
             "type": "string"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
           },
           "studentId": {
             "title": "Studentid",
@@ -8962,6 +9093,38 @@
           "subtopicName"
         ],
         "title": "UnscheduledLessonResponse",
+        "type": "object"
+      },
+      "UpdateSectionRequest": {
+        "additionalProperties": false,
+        "description": "A field left out is unchanged; classTeacherId null clears it.",
+        "properties": {
+          "classTeacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Classteacherid"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "maxLength": 20,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          }
+        },
+        "title": "UpdateSectionRequest",
         "type": "object"
       },
       "UserResponse": {
@@ -10632,6 +10795,55 @@
         "summary": "Set Period Configuration"
       }
     },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/sections": {
+      "get": {
+        "description": "Every section of the year, in class order, with how many students\nare enrolled in each.",
+        "operationId": "list_sections_api_v1_curriculum_academic_years__academic_year_id__sections_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SectionResponse"
+                  },
+                  "title": "Response List Sections Api V1 Curriculum Academic Years  Academic Year Id  Sections Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Sections"
+      }
+    },
     "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations": {
       "get": {
         "operationId": "list_subject_period_allocations_api_v1_curriculum_academic_years__academic_year_id__subject_period_allocations_get",
@@ -11966,6 +12178,60 @@
         "summary": "Approve Extraction Run"
       }
     },
+    "/api/v1/curriculum/grades/{grade_id}/sections": {
+      "post": {
+        "operationId": "create_section_api_v1_curriculum_grades__grade_id__sections_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "grade_id",
+            "required": true,
+            "schema": {
+              "title": "Grade Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSectionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Section"
+      }
+    },
     "/api/v1/curriculum/grades/{grade_id}/subjects": {
       "get": {
         "operationId": "list_subjects_api_v1_curriculum_grades__grade_id__subjects_get",
@@ -12556,6 +12822,155 @@
           }
         ],
         "summary": "Adjust Lesson"
+      }
+    },
+    "/api/v1/curriculum/sections/{section_id}": {
+      "delete": {
+        "description": "409 while students are enrolled in it, or when it is its class's\nlast section.",
+        "operationId": "delete_section_api_v1_curriculum_sections__section_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Delete Section Api V1 Curriculum Sections  Section Id  Delete",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Delete Section"
+      },
+      "patch": {
+        "description": "Rename a section and/or set its class teacher. A field left out is\nunchanged; classTeacherId null clears the class teacher.",
+        "operationId": "update_section_api_v1_curriculum_sections__section_id__patch",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSectionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Update Section"
+      }
+    },
+    "/api/v1/curriculum/sections/{section_id}/students": {
+      "get": {
+        "description": "Who is enrolled in this section, and only this section.",
+        "operationId": "list_section_students_api_v1_curriculum_sections__section_id__students_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SectionStudentResponse"
+                  },
+                  "title": "Response List Section Students Api V1 Curriculum Sections  Section Id  Students Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Section Students"
       }
     },
     "/api/v1/curriculum/seed/cbse": {

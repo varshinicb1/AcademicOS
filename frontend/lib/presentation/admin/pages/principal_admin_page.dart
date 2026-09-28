@@ -14,6 +14,7 @@ import '../widgets/insights_card.dart';
 import '../widgets/invites_panel.dart';
 import '../widgets/pending_topics_card.dart';
 import '../widgets/school_setup_card.dart';
+import '../widgets/sections_card.dart';
 import '../widgets/terms_card.dart';
 
 /// The console's tabs, in display order. The TabBar, the TabBarView and every
@@ -41,8 +42,9 @@ const _noEditionMessage =
 
 /// School Admin console (§2, §11-14, §17, §32):
 /// 1. Roster: Invite teachers and students (the only way anyone joins a
-///    school, see InvitesPanel), choose each subject's book edition
-///    (PRD 12.7), assign teachers to it and enroll students into grades.
+///    school, see InvitesPanel), manage each class's sections and class
+///    teachers (M1.1), choose each subject's book edition (PRD 12.7), assign
+///    teachers to it and enroll students into sections.
 ///    Every action below uses the subject's chosen edition, never the first
 ///    book listed.
 /// 2. Coverage & Pace: Planned vs. actually-taught lessons, coverage %,
@@ -69,8 +71,13 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   bool _assigningTeacher = false;
 
   String? _enrollStudentId;
-  String? _enrollGradeId;
+  String? _enrollSectionId;
   bool _enrollingStudent = false;
+  // The year's sections, as SectionsCard last loaded them: the enroll form
+  // offers the same list. Bumping the version reloads the card, so its
+  // student counts follow an enrollment.
+  List<SectionSummary> _sections = [];
+  int _sectionsVersion = 0;
 
   List<SubjectSummary> _subjectsForAssignGrade = [];
   bool _loadingSubjects = false;
@@ -316,14 +323,16 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   }
 
   Future<void> _submitEnrollStudent() async {
-    if (_enrollStudentId == null || _enrollGradeId == null) return;
+    if (_enrollStudentId == null || _enrollSectionId == null) return;
     setState(() => _enrollingStudent = true);
     try {
-      await GetIt.I<CurriculumApi>().enrollStudent(studentId: _enrollStudentId!, gradeId: _enrollGradeId!);
-      _showMessage('Student enrolled successfully.');
+      await GetIt.I<CurriculumApi>().enrollStudent(studentId: _enrollStudentId!, sectionId: _enrollSectionId!);
+      final section = _sections.where((s) => s.id == _enrollSectionId).firstOrNull;
+      _showMessage(section == null ? 'Student enrolled.' : 'Student enrolled in ${section.label}.');
       setState(() {
         _enrollStudentId = null;
-        _enrollGradeId = null;
+        _enrollSectionId = null;
+        _sectionsVersion++;
       });
     } catch (e) {
       _showMessage('Could not enroll student: ${serverErrorMessage(e)}');
@@ -689,6 +698,22 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       children: [
         const InvitesPanel(),
         const Gap(24),
+        SectionsCard(
+          key: ValueKey('sections-card-$_sectionsVersion'),
+          api: GetIt.I<CurriculumApi>(),
+          academicYearId: data.academicYearId!,
+          grades: data.grades,
+          teachers: data.teachers,
+          onMessage: _showMessage,
+          onLoaded: (sections) {
+            if (!mounted) return;
+            setState(() {
+              _sections = sections;
+              if (!sections.any((s) => s.id == _enrollSectionId)) _enrollSectionId = null;
+            });
+          },
+        ),
+        const Gap(24),
         Text('Book editions', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
         const Gap(4),
         Text('One book per subject for the year, chosen by the school. Scheduling, assigning and reordering use it.',
@@ -750,7 +775,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         const Gap(24),
         Text('Enroll a student', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
         const Gap(4),
-        Text('Which real class a student belongs to.',
+        Text('The section a student is in. Enrolling a student again moves them.',
             style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
         const Gap(12),
         AppCard(
@@ -765,16 +790,17 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 onChanged: (s) => setState(() => _enrollStudentId = s?.id),
               ),
               const Gap(12),
-              _dropdown<GradeSummary>(
-                label: 'Grade',
-                value: data.grades.where((g) => g.id == _enrollGradeId).firstOrNull,
-                items: data.grades,
-                itemLabel: (g) => g.label,
-                onChanged: (g) => setState(() => _enrollGradeId = g?.id),
+              _dropdown<SectionSummary>(
+                key: ValueKey('enroll-section-$_sectionsVersion-${_sections.length}'),
+                label: 'Class and section',
+                value: _sections.where((s) => s.id == _enrollSectionId).firstOrNull,
+                items: _sections,
+                itemLabel: (s) => s.label,
+                onChanged: (s) => setState(() => _enrollSectionId = s?.id),
               ),
               const Gap(16),
               FilledButton(
-                onPressed: (_enrollingStudent || _enrollStudentId == null || _enrollGradeId == null)
+                onPressed: (_enrollingStudent || _enrollStudentId == null || _enrollSectionId == null)
                     ? null
                     : _submitEnrollStudent,
                 style: phoneTapTarget(context),
@@ -1682,6 +1708,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   }
 
   Widget _dropdown<T>({
+    Key? key,
     required String label,
     required T? value,
     required List<T> items,
@@ -1689,6 +1716,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     required void Function(T?) onChanged,
   }) {
     return DropdownButtonFormField<T>(
+      key: key,
       initialValue: value,
       decoration: InputDecoration(labelText: label, border: const OutlineInputBorder()),
       isExpanded: true,
