@@ -13,6 +13,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:academicos/core/local_engine/corpus_repository.dart';
 import 'package:academicos/core/local_engine/local_api_client.dart';
+import 'package:academicos/core/local_engine/offline_identity.dart';
 import 'package:academicos/domain/entities/entities.dart';
 import 'package:academicos/domain/repositories/requests.dart';
 
@@ -131,6 +132,108 @@ void main() {
       expect(refetched.scheduledAt, DateTime(2026, 9, 1, 10, 30),
           reason: 'a reschedule that does not survive a re-fetch is exactly the silent-failure '
               'mode a teacher would only discover by reopening the planner later');
+    });
+  });
+
+  // Against the real bundled corpus. Neither refusal test hard-codes a gap
+  // in today's bank: the merge exists to close those gaps (class 7 Science
+  // gains CBE questions, English 10 may gain SQP 2-markers), and a test
+  // pinned to one would fail, or be weakened, the day the gap closes.
+  group('quickGeneratePaper', () {
+    // The bank is CBSE classes 6-12; class 3 can never have questions. The
+    // old quick path fell back to every grade of the subject, so a request
+    // for a grade with none came back as another grade's questions.
+    test('a grade with no questions refuses instead of serving another grade', () async {
+      await expectLater(
+        () => api.quickGeneratePaper(const QuickPaperRequest(subject: 'Science', grade: 3, totalMarks: 20)),
+        throwsA(isA<NoQuestionsForGradeException>()),
+      );
+      expect(await api.getAssessmentsBySchool(OfflineIdentity.schoolId), isEmpty,
+          reason: 'a refused request must not leave an empty draft in the Assessments list');
+    });
+
+    // English class 10 once held 127 one-markers and no 2- or 3-markers
+    // (2026-09-22), and its paper came out as 5 questions worth 5 marks under
+    // a "20 marks" header. The short request is found at runtime -- a whole
+    // grade, else a single chapter, whose pool cannot fill some section --
+    // so the test keeps biting as the bank fills in.
+    test('a pool that cannot fill a section refuses instead of printing a short paper', () async {
+      final sections = quickPaperSections(20);
+      final pairs = {
+        for (final q in CorpusRepository.instance.all) (q.subject, q.grade),
+      }.toList()
+        ..sort((a, b) => '${a.$1}${a.$2}'.compareTo('${b.$1}${b.$2}'));
+      QuickPaperRequest? short;
+      SectionBlueprint? shortSection;
+      var shortFound = 0;
+      search:
+      for (final (subject, grade) in pairs) {
+        final chapters = {
+          for (final q in CorpusRepository.instance.search(QuestionSearchParams(subject: subject, grade: grade)))
+            ...q.chapterIds,
+        }.toList()
+          ..sort();
+        for (final filter in [<String>[], for (final c in chapters) [c]]) {
+          final pool = CorpusRepository.instance.search(
+              QuestionSearchParams(subject: subject, grade: grade, chapterIds: filter.isEmpty ? null : filter));
+          if (pool.isEmpty) continue;
+          for (final section in sections) {
+            final have = pool.where((q) => q.marks == section.marksPerQuestion).length;
+            if (have < section.questionCount) {
+              short = QuickPaperRequest(subject: subject, grade: grade, chapterIds: filter, totalMarks: 20);
+              shortSection = section;
+              shortFound = have;
+              break search;
+            }
+          }
+        }
+      }
+      expect(short, isNotNull,
+          reason: 'every grade and every single chapter can fill a 20-mark paper: pick another short case');
+      final word = {1: 'one', 2: 'two', 3: 'three'}[shortSection!.marksPerQuestion];
+      await expectLater(
+        () => api.quickGeneratePaper(short!),
+        throwsA(isA<InsufficientQuestionsException>().having((e) => e.toString(), 'message',
+            contains('Only $shortFound of ${shortSection.questionCount} $word-mark questions '
+                'for ${short!.subject} class ${short.grade}'))),
+      );
+      expect(await api.getAssessmentsBySchool(OfflineIdentity.schoolId), isEmpty,
+          reason: 'a refused request must not leave an empty draft in the Assessments list');
+    });
+
+    // The Quick Paper dialog sends 25, 40, 50 or 80 -- never 20. The sections
+    // used to be fixed at 5+6+9 = 20 marks while the header took the
+    // requested total, so a class test printed "25 marks" over 20 marks of
+    // questions.
+    //
+    // Mathematics 10, not Science 10: since the 2026-09-28 fidelity rebuild
+    // the bank holds one 2-mark Science 10 question (its items are 1, 3 and 5
+    // marks), so this 1/2/3-mark layout rightly refuses Science 10. Maths 10
+    // holds 109/83/68 one/two/three-markers and fills every preset.
+    const subject = 'Mathematics';
+    for (final total in const [25, 40, 50, 80]) {
+      test('a $total-mark dialog preset prints $total marks of questions under a $total-mark header', () async {
+        final paper = await api.quickGeneratePaper(
+            QuickPaperRequest(subject: subject, grade: 10, totalMarks: total));
+        expect(paper.metadata.totalMarks, total);
+        expect(paper.sections.fold<int>(0, (s, sec) => s + sec.totalMarks), total);
+        expect(
+            paper.sections.expand((s) => s.questions).fold<int>(0, (s, q) => s + q.marks), total);
+      });
+    }
+
+    test('the paper carries the requested grade and fills every section', () async {
+      final paper = await api.quickGeneratePaper(
+          const QuickPaperRequest(subject: subject, grade: 10, totalMarks: 20));
+      expect(paper.metadata.grade, 10);
+      expect(paper.metadata.subject, subject);
+      final assessment = await api.getAssessment(paper.assessmentId);
+      for (final section in assessment.blueprint.sections) {
+        final generated = paper.sections.firstWhere((s) => s.sectionId == section.id);
+        expect(generated.questions, hasLength(section.questionCount),
+            reason: 'section ${section.id} (${section.marksPerQuestion}-markers) came out short');
+      }
+      expect(paper.sections.fold<int>(0, (s, sec) => s + sec.totalMarks), 20);
     });
   });
 }

@@ -38,6 +38,118 @@ class NotPrincipalException implements Exception {
       'Settings > Profile if you are the principal';
 }
 
+/// No question exists for this subject at this grade. Raised instead of
+/// quietly serving another grade's questions under this grade's name: the
+/// quick path used to fall back to every grade of the subject, so on the
+/// bundled corpus (classes 10 and 12 only) a class 7 Science request came
+/// back as eleven class 10 questions.
+class NoQuestionsForGradeException implements Exception {
+  NoQuestionsForGradeException(this.subject, this.grade);
+  final String subject;
+  final int grade;
+  @override
+  String toString() => 'There are no $subject questions for class $grade yet.';
+}
+
+/// One section the pool could not fill: [found] of the [wanted] questions
+/// worth [marksPerQuestion] marks.
+class SectionShortfall {
+  const SectionShortfall({
+    required this.sectionId,
+    required this.marksPerQuestion,
+    required this.wanted,
+    required this.found,
+  });
+  final String sectionId;
+  final int marksPerQuestion;
+  final int wanted;
+  final int found;
+}
+
+/// The grade has questions, but not enough of some section's marks to fill
+/// it.
+///
+/// Checking only for an empty pool let English class 10 -- 127 one-markers
+/// and no 2- or 3-markers in the bundled corpus (2026-09-22) -- come out as 5
+/// questions worth 5 marks under a "20 marks" header. About 10 of the 25
+/// subject/grade pairs the corpus holds are short like this, and a chapter
+/// filter can make any of the others short too, so the paper is refused
+/// rather than printed with the wrong total.
+class InsufficientQuestionsException implements Exception {
+  InsufficientQuestionsException(this.subject, this.grade, this.shortfalls);
+  final String subject;
+  final int grade;
+  final List<SectionShortfall> shortfalls;
+
+  static const _numberWords = {1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five'};
+
+  @override
+  String toString() => shortfalls
+      .map((s) => 'Only ${s.found} of ${s.wanted} '
+          '${_numberWords[s.marksPerQuestion] ?? '${s.marksPerQuestion}'}-mark '
+          'questions for $subject class $grade.')
+      .join(' ');
+}
+
+/// Fill each section with questions of exactly its marks, in pool order,
+/// never reusing one, and return each section's picks separately so a caller
+/// can see which one came out short.
+List<List<Question>> pickForSections(List<Question> pool, List<SectionBlueprint> sections) {
+  final used = <String>{};
+  final out = <List<Question>>[];
+  for (final section in sections) {
+    final picks = pool
+        .where((q) => q.marks == section.marksPerQuestion && !used.contains(q.id))
+        .take(section.questionCount)
+        .toList();
+    used.addAll(picks.map((q) => q.id));
+    out.add(picks);
+  }
+  return out;
+}
+
+/// [pickForSections], flattened in section order.
+///
+/// The quick path used to take the first eleven search hits whatever their
+/// marks, and generatePaper then dropped every one that fitted no section: a
+/// 20-mark class 9 Science paper came out as 2 questions worth 4 marks.
+List<Question> selectForSections(List<Question> pool, List<SectionBlueprint> sections) =>
+    pickForSections(pool, sections).expand((picks) => picks).toList();
+
+/// The Quick Paper's sections for [totalMarks]: one-, two- and three-mark
+/// sections that add up to exactly [totalMarks].
+///
+/// They used to be fixed at 5 + 6 + 9 = 20 marks while the header took the
+/// requested total, and the dialog never sends 20 -- it sends 25, 40, 50 or
+/// 80 (QuickPaperRequest defaults to 80) -- so every real Quick Paper printed
+/// "25 marks" or more over 20 marks of questions. The 20-mark 5/3/3 layout is
+/// scaled: two- and three-markers keep their 3/20 share each, and the
+/// one-mark section takes the remainder, so 25 -> 5/4/4, 40 -> 10/6/6,
+/// 50 -> 10/8/8, 80 -> 20/12/12. A section that comes out empty is left out.
+List<SectionBlueprint> quickPaperSections(int totalMarks) {
+  if (totalMarks <= 0) {
+    throw ArgumentError.value(totalMarks, 'totalMarks', 'must be positive');
+  }
+  var threes = (totalMarks * 3 / 20).round();
+  var twos = (totalMarks * 3 / 20).round();
+  int ones() => totalMarks - 2 * twos - 3 * threes;
+  while (ones() < 0) {
+    if (threes > 0) {
+      threes--;
+    } else {
+      twos--;
+    }
+  }
+  return [
+    if (ones() > 0)
+      SectionBlueprint(id: 'A', label: 'A', name: 'MCQs', marksPerQuestion: 1, questionCount: ones(), totalMarks: ones(), allowedBloomLevels: const [BloomLevel.remember, BloomLevel.understand], allowedDifficulties: const [Difficulty.easy, Difficulty.medium]),
+    if (twos > 0)
+      SectionBlueprint(id: 'B', label: 'B', name: 'Short Answer', marksPerQuestion: 2, questionCount: twos, totalMarks: 2 * twos, allowedBloomLevels: const [BloomLevel.understand, BloomLevel.apply], allowedDifficulties: const [Difficulty.easy, Difficulty.medium]),
+    if (threes > 0)
+      SectionBlueprint(id: 'C', label: 'C', name: 'Long Answer', marksPerQuestion: 3, questionCount: threes, totalMarks: 3 * threes, allowedBloomLevels: const [BloomLevel.apply, BloomLevel.analyze], allowedDifficulties: const [Difficulty.medium, Difficulty.hard], hasInternalChoice: true, internalChoiceCount: 1),
+  ];
+}
+
 const editableAssessmentStatuses = {
   AssessmentStatus.draft,
   AssessmentStatus.blueprintReady,
@@ -296,8 +408,10 @@ class LocalApiClient extends ApiClient {
       metadata: PaperMetadata(
         assessmentTitle: request.template.name,
         schoolName: LocalStore.instance.schoolName(assessment.schoolId),
-        subject: request.selectedQuestions.firstOrNull?.subject ?? '',
-        grade: request.selectedQuestions.firstOrNull?.grade ?? 0,
+        // The teacher's subject and grade, from the assessment -- not the
+        // first question's, which put "Class 10" on a class 7 request.
+        subject: assessment.subject,
+        grade: assessment.grade,
         totalMarks: request.blueprint.totalMarks,
         durationMinutes: request.blueprint.durationMinutes,
         generatedAt: DateTime.now(),
@@ -372,6 +486,7 @@ class LocalApiClient extends ApiClient {
   Future<GeneratedPaper> quickGeneratePaper(QuickPaperRequest request) async {
     await CorpusRepository.instance.ensureLoaded();
     const schoolId = OfflineIdentity.schoolId;
+    final sections = quickPaperSections(request.totalMarks);
     final assessment = Assessment(
       id: _newId('asm_quick'),
       schoolId: schoolId,
@@ -381,17 +496,15 @@ class LocalApiClient extends ApiClient {
       grade: request.grade,
       chapterIds: request.chapterIds,
       blueprint: Blueprint(
-        totalMarks: request.totalMarks,
+        // From the sections, which add up to the request, so the header can
+        // never again state a total the questions do not.
+        totalMarks: sections.fold(0, (sum, s) => sum + s.totalMarks),
         durationMinutes: request.durationMinutes ?? (request.totalMarks <= 25 ? 45 : request.totalMarks <= 50 ? 90 : 180),
         difficulty: const DifficultyDistribution(easy: 0.3, medium: 0.5, hard: 0.2),
         bloom: const BloomDistribution(remember: 0.2, understand: 0.25, apply: 0.3, analyze: 0.15, evaluate: 0.05, create: 0.05),
         chapterWeights: const ChapterWeights(weights: {}),
         competencyWeights: const CompetencyWeights(weights: {}),
-        sections: [
-          const SectionBlueprint(id: 'A', label: 'A', name: 'MCQs', marksPerQuestion: 1, questionCount: 5, totalMarks: 5, allowedBloomLevels: [BloomLevel.remember, BloomLevel.understand], allowedDifficulties: [Difficulty.easy, Difficulty.medium]),
-          const SectionBlueprint(id: 'B', label: 'B', name: 'Short Answer', marksPerQuestion: 2, questionCount: 3, totalMarks: 6, allowedBloomLevels: [BloomLevel.understand, BloomLevel.apply], allowedDifficulties: [Difficulty.easy, Difficulty.medium]),
-          const SectionBlueprint(id: 'C', label: 'C', name: 'Long Answer', marksPerQuestion: 3, questionCount: 3, totalMarks: 9, allowedBloomLevels: [BloomLevel.apply, BloomLevel.analyze], allowedDifficulties: [Difficulty.medium, Difficulty.hard], hasInternalChoice: true, internalChoiceCount: 1),
-        ],
+        sections: sections,
         tier: request.tier,
         examType: request.examType,
       ),
@@ -399,16 +512,34 @@ class LocalApiClient extends ApiClient {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );
-    LocalStore.instance.upsertAssessment(assessment.toJson());
-
-    final searchParams = QuestionSearchParams(
+    // No limit: every question of the grade is a candidate, so a section
+    // whose marks happen to sit late in corpus order still gets filled.
+    final pool = CorpusRepository.instance.search(QuestionSearchParams(
       subject: request.subject,
       grade: request.grade,
       chapterIds: request.chapterIds.isEmpty ? null : request.chapterIds,
-      limit: 100,
-    );
-    final candidates = CorpusRepository.instance.search(searchParams);
-    final selected = (candidates.isNotEmpty ? candidates : CorpusRepository.instance.all.where((q) => q.subject == request.subject).toList()).take(11).toList();
+    ));
+    if (pool.isEmpty) {
+      throw NoQuestionsForGradeException(request.subject, request.grade);
+    }
+    final picks = pickForSections(pool, sections);
+    final shortfalls = [
+      for (var i = 0; i < sections.length; i++)
+        if (picks[i].length < sections[i].questionCount)
+          SectionShortfall(
+            sectionId: sections[i].id,
+            marksPerQuestion: sections[i].marksPerQuestion,
+            wanted: sections[i].questionCount,
+            found: picks[i].length,
+          ),
+    ];
+    if (shortfalls.isNotEmpty) {
+      throw InsufficientQuestionsException(request.subject, request.grade, shortfalls);
+    }
+    // Saved only once every section can be filled, so a refused request
+    // leaves no empty draft in the Assessments list.
+    LocalStore.instance.upsertAssessment(assessment.toJson());
+    final selected = picks.expand((p) => p).toList();
 
     final templates = await getSchoolPaperTemplates(schoolId);
     final template = templates.firstWhere((t) => t.isDefault, orElse: () => templates.first);
