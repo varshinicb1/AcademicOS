@@ -392,6 +392,51 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/allocations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Allocations
+         * @description Every (section, subject) cell of the year: the teacher and periods a week.
+         */
+        get: operations["list_allocations_api_v1_curriculum_academic_years__academic_year_id__allocations_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/bell-schedules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Bell Schedules
+         * @description The year's bells. Any signed-in user of the school: a student's day
+         *     view needs the period times.
+         */
+        get: operations["list_bell_schedules_api_v1_curriculum_academic_years__academic_year_id__bell_schedules_get"];
+        put?: never;
+        /**
+         * Create Bell Schedule
+         * @description The year's first schedule becomes its default.
+         */
+        post: operations["create_bell_schedule_api_v1_curriculum_academic_years__academic_year_id__bell_schedules_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/academic-years/{academic_year_id}/calendar": {
         parameters: {
             query?: never;
@@ -537,6 +582,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-load": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Teacher Load
+         * @description Per teacher: periods a week allocated and timetabled, and the most in
+         *     one day. The principal's: teacher-level data (REQUIREMENTS ADM-5).
+         */
+        get: operations["teacher_load_api_v1_curriculum_academic_years__academic_year_id__teacher_load_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/academic-years/{academic_year_id}/terms": {
         parameters: {
             query?: never;
@@ -549,6 +615,26 @@ export interface paths {
         put?: never;
         /** Create Term */
         post: operations["create_term_api_v1_curriculum_academic_years__academic_year_id__terms_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/timetable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Year Timetable
+         * @description The year's timetable, optionally one section's or one teacher's.
+         */
+        get: operations["year_timetable_api_v1_curriculum_academic_years__academic_year_id__timetable_get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -595,6 +681,24 @@ export interface paths {
         put?: never;
         post?: never;
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/bell-schedules/{bell_schedule_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update Bell Schedule */
+        put: operations["update_bell_schedule_api_v1_curriculum_bell_schedules__bell_schedule_id__put"];
+        post?: never;
+        /** Delete Bell Schedule */
+        delete: operations["delete_bell_schedule_api_v1_curriculum_bell_schedules__bell_schedule_id__delete"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1158,6 +1262,28 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/my-timetable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * My Timetable
+         * @description The caller's own week: a teacher's periods across sections, a
+         *     student's section's periods. Empty (not an error) until the school has
+         *     a timetable.
+         */
+        get: operations["my_timetable_api_v1_curriculum_my_timetable_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/questions/by-subtopics": {
         parameters: {
             query?: never;
@@ -1222,6 +1348,45 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/rooms": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Rooms */
+        get: operations["list_rooms_api_v1_curriculum_rooms_get"];
+        put?: never;
+        /** Create Room */
+        post: operations["create_room_api_v1_curriculum_rooms_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/rooms/{room_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete Room
+         * @description 409 while the timetable uses the room.
+         */
+        delete: operations["delete_room_api_v1_curriculum_rooms__room_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Room */
+        patch: operations["update_room_api_v1_curriculum_rooms__room_id__patch"];
         trace?: never;
     };
     "/api/v1/curriculum/schedule": {
@@ -1348,6 +1513,51 @@ export interface paths {
         patch: operations["update_section_api_v1_curriculum_sections__section_id__patch"];
         trace?: never;
     };
+    "/api/v1/curriculum/sections/{section_id}/allocations/{subject_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Set Allocation
+         * @description Set one cell of the allocation grid: who teaches this subject to this
+         *     section, and how many periods a week.
+         */
+        put: operations["set_allocation_api_v1_curriculum_sections__section_id__allocations__subject_id__put"];
+        post?: never;
+        /**
+         * Delete Allocation
+         * @description 409 while the timetable still gives the subject periods.
+         */
+        delete: operations["delete_allocation_api_v1_curriculum_sections__section_id__allocations__subject_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/sections/{section_id}/bell-schedule": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Set Section Bell
+         * @description Give a section its own bell (null: the year's default).
+         */
+        put: operations["set_section_bell_api_v1_curriculum_sections__section_id__bell_schedule_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/sections/{section_id}/students": {
         parameters: {
             query?: never;
@@ -1361,6 +1571,34 @@ export interface paths {
          */
         get: operations["list_section_students_api_v1_curriculum_sections__section_id__students_get"];
         put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/sections/{section_id}/timetable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Section Timetable
+         * @description A section's week, its bell, and per subject the periods allocated
+         *     against the periods placed.
+         */
+        get: operations["section_timetable_api_v1_curriculum_sections__section_id__timetable_get"];
+        /**
+         * Replace Section Timetable
+         * @description Replace a section's whole week. Checked before anything is written: a
+         *     teacher or room already busy in another section, a period or day the
+         *     bell does not have, a subject with no allocation or more periods than
+         *     allocated. A 409 lists every clash; the old week is kept.
+         */
+        put: operations["replace_section_timetable_api_v1_curriculum_sections__section_id__timetable_put"];
         post?: never;
         delete?: never;
         options?: never;
@@ -3246,6 +3484,28 @@ export interface components {
             /** Reason */
             reason: string;
         };
+        /** AllocationRequest */
+        AllocationRequest: {
+            /** Periodsperweek */
+            periodsPerWeek: number;
+            /** Teacherid */
+            teacherId?: string | null;
+        };
+        /** AllocationResponse */
+        AllocationResponse: {
+            /** Academicyearid */
+            academicYearId: string;
+            /** Id */
+            id: string;
+            /** Periodsperweek */
+            periodsPerWeek: number;
+            /** Sectionid */
+            sectionId: string;
+            /** Subjectid */
+            subjectId: string;
+            /** Teacherid */
+            teacherId?: string | null;
+        };
         /** AnalyzeRequest */
         AnalyzeRequest: {
             /** Paper Id */
@@ -3459,6 +3719,69 @@ export interface components {
              */
             fillFromOutsideScope: boolean;
             scope?: components["schemas"]["TemplateScope"] | null;
+        };
+        /** BellScheduleRequest */
+        BellScheduleRequest: {
+            /** Days */
+            days?: number[] | null;
+            /** Name */
+            name: string;
+            /** Slots */
+            slots: components["schemas"]["BellSlotBody"][];
+        };
+        /** BellScheduleResponse */
+        BellScheduleResponse: {
+            /** Academicyearid */
+            academicYearId: string;
+            /** Days */
+            days: number[];
+            /** Id */
+            id: string;
+            /** Isdefault */
+            isDefault: boolean;
+            /** Name */
+            name: string;
+            /** Slots */
+            slots: components["schemas"]["BellSlotResponse"][];
+            /** Teachingperiods */
+            teachingPeriods: number;
+        };
+        /** BellScheduleUpdateRequest */
+        BellScheduleUpdateRequest: {
+            /** Days */
+            days?: number[] | null;
+            /**
+             * Makedefault
+             * @default false
+             */
+            makeDefault: boolean;
+            /** Name */
+            name?: string | null;
+            /** Slots */
+            slots?: components["schemas"]["BellSlotBody"][] | null;
+        };
+        /** BellSlotBody */
+        BellSlotBody: {
+            /** End */
+            end: string;
+            /**
+             * Kind
+             * @default teaching
+             */
+            kind: string;
+            /** Start */
+            start: string;
+        };
+        /** BellSlotResponse */
+        BellSlotResponse: {
+            /** End */
+            end: string;
+            /** Kind */
+            kind: string;
+            /** Period */
+            period?: number | null;
+            /** Start */
+            start: string;
         };
         /** BloomDistribution */
         BloomDistribution: {
@@ -4602,6 +4925,21 @@ export interface components {
             /** Topicname */
             topicName: string;
         };
+        /** MyTimetableResponse */
+        MyTimetableResponse: {
+            /** Academicyearid */
+            academicYearId?: string | null;
+            bellSchedule?: components["schemas"]["BellScheduleResponse"] | null;
+            /**
+             * Entries
+             * @default []
+             */
+            entries: components["schemas"]["TimetableEntryResponse"][];
+            /** Role */
+            role: string;
+            /** Sectionid */
+            sectionId?: string | null;
+        };
         /** NodeQuery */
         NodeQuery: {
             /**
@@ -5662,6 +6000,38 @@ export interface components {
              */
             redistribution: "unknown" | "private-only" | "public";
         };
+        /** RoomRequest */
+        RoomRequest: {
+            /** Capacity */
+            capacity?: number | null;
+            /**
+             * Kind
+             * @default classroom
+             */
+            kind: string;
+            /** Name */
+            name: string;
+        };
+        /** RoomResponse */
+        RoomResponse: {
+            /** Capacity */
+            capacity?: number | null;
+            /** Id */
+            id: string;
+            /** Kind */
+            kind: string;
+            /** Name */
+            name: string;
+        };
+        /** RoomUpdateRequest */
+        RoomUpdateRequest: {
+            /** Capacity */
+            capacity?: number | null;
+            /** Kind */
+            kind?: string | null;
+            /** Name */
+            name?: string | null;
+        };
         /** RubricLevelSchema */
         RubricLevelSchema: {
             /**
@@ -5953,6 +6323,11 @@ export interface components {
              */
             withoutKey: number;
         };
+        /** SectionBellRequest */
+        SectionBellRequest: {
+            /** Bellscheduleid */
+            bellScheduleId?: string | null;
+        };
         /** SectionBlueprint */
         SectionBlueprint: {
             /** Allowedbloomlevels */
@@ -6050,6 +6425,22 @@ export interface components {
             enrollmentId: string;
             /** Studentid */
             studentId: string;
+        };
+        /** SectionTimetableRequest */
+        SectionTimetableRequest: {
+            /** Entries */
+            entries: components["schemas"]["TimetableEntryBody"][];
+        };
+        /** SectionTimetableResponse */
+        SectionTimetableResponse: {
+            /** Bellscheduleid */
+            bellScheduleId?: string | null;
+            /** Entries */
+            entries: components["schemas"]["TimetableEntryResponse"][];
+            /** Gaps */
+            gaps: components["schemas"]["TimetableGapResponse"][];
+            /** Sectionid */
+            sectionId: string;
         };
         /** SeedCbse10Request */
         SeedCbse10Request: {
@@ -6610,6 +7001,19 @@ export interface components {
             /** Teacherid */
             teacherId: string;
         };
+        /** TeacherLoadResponse */
+        TeacherLoadResponse: {
+            /** Allocatedperweek */
+            allocatedPerWeek: number;
+            /** Maxinoneday */
+            maxInOneDay: number;
+            /** Sectionsubjects */
+            sectionSubjects: number;
+            /** Teacherid */
+            teacherId: string;
+            /** Timetabledperweek */
+            timetabledPerWeek: number;
+        };
         /** TeachingTimeEstimateResponse */
         TeachingTimeEstimateResponse: {
             /** Academicyearid */
@@ -6794,6 +7198,45 @@ export interface components {
              * @default
              */
             sentence: string;
+        };
+        /** TimetableEntryBody */
+        TimetableEntryBody: {
+            /** Dayofweek */
+            dayOfWeek: number;
+            /** Period */
+            period: number;
+            /** Roomid */
+            roomId?: string | null;
+            /** Subjectid */
+            subjectId: string;
+            /** Teacherid */
+            teacherId?: string | null;
+        };
+        /** TimetableEntryResponse */
+        TimetableEntryResponse: {
+            /** Dayofweek */
+            dayOfWeek: number;
+            /** Id */
+            id: string;
+            /** Period */
+            period: number;
+            /** Roomid */
+            roomId?: string | null;
+            /** Sectionid */
+            sectionId: string;
+            /** Subjectid */
+            subjectId: string;
+            /** Teacherid */
+            teacherId?: string | null;
+        };
+        /** TimetableGapResponse */
+        TimetableGapResponse: {
+            /** Allocated */
+            allocated: number;
+            /** Subjectid */
+            subjectId: string;
+            /** Timetabled */
+            timetabled: number;
         };
         /** TimetableResponse */
         TimetableResponse: {
@@ -7782,6 +8225,103 @@ export interface operations {
             };
         };
     };
+    list_allocations_api_v1_curriculum_academic_years__academic_year_id__allocations_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllocationResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_bell_schedules_api_v1_curriculum_academic_years__academic_year_id__bell_schedules_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BellScheduleResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_bell_schedule_api_v1_curriculum_academic_years__academic_year_id__bell_schedules_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BellScheduleRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BellScheduleResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     get_calendar_api_v1_curriculum_academic_years__academic_year_id__calendar_get: {
         parameters: {
             query?: never;
@@ -8146,6 +8686,37 @@ export interface operations {
             };
         };
     };
+    teacher_load_api_v1_curriculum_academic_years__academic_year_id__teacher_load_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeacherLoadResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_terms_api_v1_curriculum_academic_years__academic_year_id__terms_get: {
         parameters: {
             query?: never;
@@ -8199,6 +8770,40 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["TermResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    year_timetable_api_v1_curriculum_academic_years__academic_year_id__timetable_get: {
+        parameters: {
+            query?: {
+                sectionId?: string | null;
+                teacherId?: string | null;
+            };
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TimetableEntryResponse"][];
                 };
             };
             /** @description Validation Error */
@@ -8298,6 +8903,74 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["WorkingDaysResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_bell_schedule_api_v1_curriculum_bell_schedules__bell_schedule_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bell_schedule_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BellScheduleUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BellScheduleResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_bell_schedule_api_v1_curriculum_bell_schedules__bell_schedule_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bell_schedule_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
             /** @description Validation Error */
@@ -9087,6 +9760,26 @@ export interface operations {
             };
         };
     };
+    my_timetable_api_v1_curriculum_my_timetable_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyTimetableResponse"];
+                };
+            };
+        };
+    };
     questions_by_subtopics_api_v1_curriculum_questions_by_subtopics_post: {
         parameters: {
             query?: never;
@@ -9171,6 +9864,127 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["DelayedTopicsReportResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_rooms_api_v1_curriculum_rooms_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RoomResponse"][];
+                };
+            };
+        };
+    };
+    create_room_api_v1_curriculum_rooms_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RoomRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RoomResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_room_api_v1_curriculum_rooms__room_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                room_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_room_api_v1_curriculum_rooms__room_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                room_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RoomUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RoomResponse"];
                 };
             };
             /** @description Validation Error */
@@ -9385,6 +10199,111 @@ export interface operations {
             };
         };
     };
+    set_allocation_api_v1_curriculum_sections__section_id__allocations__subject_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                section_id: string;
+                subject_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AllocationRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllocationResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_allocation_api_v1_curriculum_sections__section_id__allocations__subject_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                section_id: string;
+                subject_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    set_section_bell_api_v1_curriculum_sections__section_id__bell_schedule_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                section_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SectionBellRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SectionTimetableResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_section_students_api_v1_curriculum_sections__section_id__students_get: {
         parameters: {
             query?: never;
@@ -9403,6 +10322,72 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SectionStudentResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    section_timetable_api_v1_curriculum_sections__section_id__timetable_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                section_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SectionTimetableResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    replace_section_timetable_api_v1_curriculum_sections__section_id__timetable_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                section_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SectionTimetableRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SectionTimetableResponse"];
                 };
             };
             /** @description Validation Error */

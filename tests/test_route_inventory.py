@@ -150,6 +150,23 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PATCH", "/api/v1/curriculum/sections/{section_id}"),
     ("DELETE", "/api/v1/curriculum/sections/{section_id}"),
     ("GET", "/api/v1/curriculum/sections/{section_id}/students"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/allocations"),
+    ("PUT", "/api/v1/curriculum/sections/{section_id}/allocations/{subject_id}"),
+    ("DELETE", "/api/v1/curriculum/sections/{section_id}/allocations/{subject_id}"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-load"),
+    ("GET", "/api/v1/curriculum/rooms"),
+    ("POST", "/api/v1/curriculum/rooms"),
+    ("PATCH", "/api/v1/curriculum/rooms/{room_id}"),
+    ("DELETE", "/api/v1/curriculum/rooms/{room_id}"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/bell-schedules"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/bell-schedules"),
+    ("PUT", "/api/v1/curriculum/bell-schedules/{bell_schedule_id}"),
+    ("DELETE", "/api/v1/curriculum/bell-schedules/{bell_schedule_id}"),
+    ("PUT", "/api/v1/curriculum/sections/{section_id}/bell-schedule"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable"),
+    ("GET", "/api/v1/curriculum/sections/{section_id}/timetable"),
+    ("PUT", "/api/v1/curriculum/sections/{section_id}/timetable"),
+    ("GET", "/api/v1/curriculum/my-timetable"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -321,6 +338,23 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PATCH", "/api/v1/curriculum/sections/{section_id}"),
     ("DELETE", "/api/v1/curriculum/sections/{section_id}"),
     ("GET", "/api/v1/curriculum/sections/{section_id}/students"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/allocations"),
+    ("PUT", "/api/v1/curriculum/sections/{section_id}/allocations/{subject_id}"),
+    ("DELETE", "/api/v1/curriculum/sections/{section_id}/allocations/{subject_id}"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-load"),
+    ("GET", "/api/v1/curriculum/rooms"),
+    ("POST", "/api/v1/curriculum/rooms"),
+    ("PATCH", "/api/v1/curriculum/rooms/{room_id}"),
+    ("DELETE", "/api/v1/curriculum/rooms/{room_id}"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/bell-schedules"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/bell-schedules"),
+    ("PUT", "/api/v1/curriculum/bell-schedules/{bell_schedule_id}"),
+    ("DELETE", "/api/v1/curriculum/bell-schedules/{bell_schedule_id}"),
+    ("PUT", "/api/v1/curriculum/sections/{section_id}/bell-schedule"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable"),
+    ("GET", "/api/v1/curriculum/sections/{section_id}/timetable"),
+    ("PUT", "/api/v1/curriculum/sections/{section_id}/timetable"),
+    ("GET", "/api/v1/curriculum/my-timetable"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -646,7 +680,8 @@ def test_canonical_route_inventory_matches_live_app():
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
     # 168: M1.1 added the five sections routes (list, create, update, delete, students).
-    assert len(API_ROUTES) == 168
+    # 185: M1.2-M1.3 added 17 school-model routes (allocations, rooms, bell, timetable).
+    assert len(API_ROUTES) == 185
 
 
 def test_docs_routes_present():
