@@ -6,16 +6,19 @@ timetable, and keeps them working through leave, substitutions and holidays. It 
 their day, their homework and their progress, on their phones.
 
 > **New here? Read [`HANDOVER.md`](HANDOVER.md) first**, then
-> [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md) (what to build) and
-> [`docs/agent-workflow.md`](docs/agent-workflow.md) (how work is done).
+> [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md) (what to build),
+> [`docs/agent-workflow.md`](docs/agent-workflow.md) (how work is done) and
+> [`CONTRIBUTING.md`](CONTRIBUTING.md) (how a change reaches `master`: always a pull request).
 
 - **Live:** [vidyuthlabs.web.app](https://vidyuthlabs.web.app) (the web console) and a FastAPI backend on
   Google Cloud Run.
 - **Requirements:** v3, adopted 2026-09-27 ([`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md)).
-- **Status (2026-09-27):**
-  - The web console for classes 6-10 is live, and measured **61.0 / 100** on the v2 scorecard.
+- **Status (2026-09-28):**
+  - The web console for classes 6-10 is live as `09649eb` (milestone M0). It measured **61.0 / 100** on the
+    v2 scorecard at the last completed audit. A re-audit of `09649eb` is under way.
   - The v3 teacher and student apps, the scheduling engine (timetable, leave, substitution, compensation),
-    homework and notifications are **not built yet**.
+    homework and notifications are **not built yet**. M1 (the school data model) is next:
+    [`docs/plans/m1-school-data-model.md`](docs/plans/m1-school-data-model.md).
   - The gap analysis and roadmap are in [`HANDOVER.md`](HANDOVER.md) sections 6-7.
 
 ---
@@ -76,16 +79,16 @@ The headlines:
 |---|---|
 | Web console (classes 6-10) | Live. Paper builder, quick and hand-picked papers, sets, PDF paper and key with value points, a chapter picker that reaches every question, the question bank browser, calendar and terms, dated lesson plans with reschedule, book editions, the principal's coverage/pace, bank and per-term time-saved cards. v2 audit: **61.0 / 100**, with 35 numbered defects ([`docs/audits/2026-09-27-8db6636.md`](docs/audits/2026-09-27-8db6636.md)). |
 | Question bank | 5,319 served questions, all keyed: NCERT Exemplar 4,191, CBSE sample papers 743, CBSE competency items 366, board papers 19; rebuilt 2026-09-28 without the questions that cannot be answered as printed. Strong for Maths and Science 6-10. **Grades 1-5: none; English, Hindi and Social Science: nearly none.** |
-| Question bank API | `/v1` and MCP live; key issuance on live missing; one chapter-filter regression (D39). |
+| Question bank API | `/v1` and MCP live, and they file chapters exactly as the paper builder does (D39, fixed in M0). There is still no way to issue an API key on live (D38). |
 | Scheduling engine | Calendar, terms, holidays, per-subject weekday slots, lesson plans. **No section x teacher x room timetable, no solver, no leave, substitution or compensation.** |
 | Teacher and student apps | A shared Flutter codebase with teacher, student and parent pages and an offline Android build. **No separate apps, no homework model, no push notifications.** |
-| Engineering | 3,645 Python and 381 Flutter tests pass; 163 routes, each with a role policy; audit log; school scoping; hand-deploy runbook while CI minutes are out (until 2026-10-01). |
+| Engineering | 3,804 Python and 453 Flutter tests pass on `master` (2026-09-28); 163 routes, each with a role policy; audit log; school scoping; hand-deploy runbook while CI minutes are out (until 2026-10-01). |
 
 ## What has to be done
 
 The milestones, their order and the first tasks are in [`HANDOVER.md`](HANDOVER.md) section 7.
 
-1. **M0, stabilise:** done and live as `09649eb` (Task 125, D39, D29, D27, D22/D40, D78/D79, the fidelity rebuild). Next: a re-audit.
+1. **M0, stabilise:** done and live as `09649eb` (Task 125, D39, D29, D27, D22/D40, D78/D79, the fidelity rebuild). Its re-audit is under way.
 2. **M1, school data model:** sections, teacher allocations, rooms, bell schedules, delegated admin,
    parents, bulk import.
 3. **M2, scheduling engine:** timetable solver, leave -> substitution -> compensation, the edge-case tests.
@@ -101,7 +104,9 @@ audit before M1.
 
 ## How the work is done
 
-Read [`docs/agent-workflow.md`](docs/agent-workflow.md). In short:
+Read [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`docs/agent-workflow.md`](docs/agent-workflow.md). In short:
+- **Pull requests only.** Every change reaches `master` as a PR. The maintainer reviews it, runs the gates
+  on the merge result and merges it; nobody pushes to `master`.
 - **Tests first.**
 - **Gates:** both suites before every merge.
 - **Question bank:** one serving gate, and the bank is rebuilt only in pipeline order.
@@ -161,13 +166,28 @@ PyMuPDF version matches the render fixtures. Don't rebuild
 
 ---
 
+## Contributing
+
+| Who | Role |
+|---|---|
+| [@varshinicb1](https://github.com/varshinicb1) | owner and maintainer: reviews and merges pull requests, deploys, runs the audits |
+| [@bahumanyarg11](https://github.com/bahumanyarg11) | collaborator: builds on branches and opens pull requests |
+
+People and Claude Code agents work the same way: pick a task, branch from `master`, run both gates, and
+open a pull request from the template. The maintainer's Claude reviews it with `/review-pr <n>`
+([`.claude/commands/review-pr.md`](.claude/commands/review-pr.md)), runs the gates on the merge result,
+and merges it or requests changes. The whole process is in [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+---
+
 ## Documentation
 
 **Start here**
 - [HANDOVER.md](HANDOVER.md): what exists, access, set-up, the gap analysis against v3, the roadmap, the traps.
 - [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md): the v3 product requirements (grades 1-10, web console, teacher app, student app, API), with IDs and priorities, and the proposed v3 scorecard.
 - [docs/agent-workflow.md](docs/agent-workflow.md): how work is done here: gates, the bank pipeline, releasing, evidence, and the rules learned the hard way.
-- [docs/plans/](docs/plans/): plans for work in progress (Task 125).
+- [CONTRIBUTING.md](CONTRIBUTING.md): the pull-request process for people and agents: claim, branch, gates, the PR template, review and merge.
+- [docs/plans/](docs/plans/): plans for the next work (M1, the school data model) and past work (Task 125).
 - [docs/integration-candidates.md](docs/integration-candidates.md): third-party APIs reviewed for v3 (sign-in and OTP, holidays, calendar sync, government data, push/SMS/WhatsApp), with liveness checked.
 
 **Measuring the product**

@@ -115,8 +115,10 @@ void main() {
         .where((q) =>
             q.answerScheme.metadata['objective'] != true && _unscorable(q.answerScheme))
         .toList();
-    expect(unscorable.where((q) => q.answerScheme.markingPoints.isEmpty), isNotEmpty,
-        reason: 'the sweep must cover the no-marking-points rows as well');
+    // The 2026-09-22 corpus also held rows with no marking point at all; the
+    // 2026-09-28 bank keys every row, so none is left (and all 3,398 of its
+    // descriptive rows are keyword-less). The no-points branch is covered by
+    // 'a scheme with no marking points at all is sent for review' above.
     expect(unscorable, isNotEmpty,
         reason: 'the bundled corpus is expected to still carry keyword-less schemes; '
             'if the bank no longer has any, this sweep proves nothing and should be revisited');

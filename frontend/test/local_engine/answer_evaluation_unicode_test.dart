@@ -3,8 +3,13 @@
 // at 0.95 confidence with no review flag -- a correct answer zeroed silently.
 // And the keyword tokeniser only kept [A-Za-z] runs, so even a non-blank Hindi
 // answer could never match one of the 213 bundled questions whose marking
-// points carry a Devanagari keyword (measured 2026-09-22). These tests use real
-// bundled rows, so they break if the corpus stops carrying them.
+// points carry a Devanagari keyword (measured 2026-09-22). These tests use two
+// real rows -- Hindi-medium CBSE board-paper questions -- pinned in
+// test/fixtures/hindi_board_rows.json, because the 2026-09-28 bank serves no
+// board paper in Hindi (the language returns with milestone M6).
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:academicos/core/local_engine/answer_evaluation.dart';
 import 'package:academicos/core/local_engine/corpus_repository.dart';
 import 'package:academicos/domain/entities/question.dart';
@@ -16,8 +21,14 @@ const _keywordlessHindiId = 'cbse:q:src:de9d7a7a1c777974c1dd9138:13';
 // Two keyed points: 'प्रबल' (2 marks) and 'दुबिल' (1 mark), total 3.
 const _keyedHindiId = 'cbse:q:src:fad6500a5a65bba203f49410:28';
 
-Question _row(String id) => CorpusRepository.instance.all.firstWhere((q) => q.id == id,
-    orElse: () => throw StateError('$id is no longer in the bundled corpus'));
+final _pinnedRows = [
+  for (final row in (jsonDecode(File('test/fixtures/hindi_board_rows.json').readAsStringSync())
+      as Map<String, dynamic>)['questions'] as List<dynamic>)
+    Question.fromJson(row as Map<String, dynamic>),
+];
+
+Question _row(String id) => _pinnedRows.firstWhere((q) => q.id == id,
+    orElse: () => throw StateError('$id is not in test/fixtures/hindi_board_rows.json'));
 
 bool _hasAsciiAlnum(String s) => RegExp(r'[A-Za-z0-9]').hasMatch(s);
 

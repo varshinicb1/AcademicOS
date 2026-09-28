@@ -1,0 +1,268 @@
+{
+ "_note": "Two real CBSE board-paper rows from the bundled corpus as of 2026-09-22 (feat/product-phone 3570028). The 2026-09-28 bank serves no Hindi, so answer_evaluation_unicode_test.dart pins them here.",
+ "questions": [
+  {
+   "id": "cbse:q:src:de9d7a7a1c777974c1dd9138:13",
+   "questionBankId": "src:de9d7a7a1c777974c1dd9138",
+   "subject": "Science",
+   "grade": 10,
+   "chapterIds": [
+    "chemical-reactions-equations"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "very_short_answer",
+   "stem": "The expressions that relate (i) Q, I and t and (ii) Q, V and W respectively are (Here the symbols have their usual meanings) : Q (ii) W = Q V I (ii) V = Q W Q (ii) Q = W V",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 1,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:de9d7a7a1c777974c1dd9138:13:mp1",
+      "description": "प्लास्तिि अजैि कनम्नीिरर्ीय ह ते हैं, इसकलए िे पयािरर् में लोंबे समय ति",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:de9d7a7a1c777974c1dd9138:13:mp2",
+      "description": "कििल्प - जूट अथिा िपड़े िा थैला",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:de9d7a7a1c777974c1dd9138:13:mp3",
+      "description": "िीटनािि और रासायकनि उििरि अजैि कनम्नीिरर्ीय हैं । िे प्रत्येि",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:de9d7a7a1c777974c1dd9138:13:mp4",
+      "description": "इसे जैि-आिधिन िहते हैं ।",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:de9d7a7a1c777974c1dd9138:13:mp5",
+      "description": "सोंरिना → ब मन सोंपुट व्रक्कार्ु िी एि नकलिा िे िप िे आिार िा कसरा",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:de9d7a7a1c777974c1dd9138:13:mp6",
+      "description": "िायि → ब मन सोंपुट रुकधर से छने हुए मूि ि एिि िरती है।",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:de9d7a7a1c777974c1dd9138:13:mp7",
+      "description": "िह जैि प्रिम कजसमें हाकनिारि उपापियी िर्ज्ि पदाथों जैसे यूररया अथिा",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:de9d7a7a1c777974c1dd9138:13:mp8",
+      "description": "यह किसी भी जीि िे जीकित रहने िे कलए आिश्यि है क् ोंकि उत्सजी",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "प्लास्तिि अजैि कनम्नीिरर्ीय ह ते हैं, इसकलए िे पयािरर् में लोंबे समय ति कििल्प - जूट अथिा िपड़े िा थैला िीटनािि और रासायकनि उििरि अजैि कनम्नीिरर्ीय हैं । िे प्रत्येि इसे जैि-आिधिन िहते हैं । सोंरिना → ब मन सोंपुट व्रक्कार्ु िी एि नकलिा िे िप िे आिार िा कसरा िायि → ब मन सोंपुट रुकधर से छने हुए मूि ि एिि िरती है। िह जैि प्रिम कजसमें हाकनिारि उपापियी िर्ज्ि पदाथों जैसे यूररया अथिा यह किसी भी जीि िे जीकित रहने िे कलए आिश्यि है क् ोंकि उत्सजी",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {},
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "31/5/1",
+    "sourceDocumentId": "src:de9d7a7a1c777974c1dd9138"
+   },
+   "estimatedTimeMinutes": 2,
+   "marks": 1,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Chemical Reactions and Equations"
+   ],
+   "createdAt": "2026-09-15T14:52:35.795384Z",
+   "updatedAt": "2026-09-15T14:52:35.795384Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "chemical-reactions-equations",
+     "score": 0.3729,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:de9d7a7a1c777974c1dd9138",
+    "pageNumber": 9,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:fad6500a5a65bba203f49410:28",
+   "questionBankId": "src:fad6500a5a65bba203f49410",
+   "subject": "Science",
+   "grade": 10,
+   "chapterIds": [
+    "human-eye"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "Define the term power of accommodation of human eye. What happens to the image distance in the eye when we increase the distance of an object from the eye ? Name and explain the role of the part of human eye responsible for it in this case.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:fad6500a5a65bba203f49410:28:mp1",
+      "description": "प्रबल अम्ल जल में अकधि H+ आयन देते हैं।",
+      "marks": 2,
+      "keyword": "प्रबल",
+      "isRequired": true,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:fad6500a5a65bba203f49410:28:mp2",
+      "description": "दुबिल अम्ल जल में िम H+ आयन देते हैं।",
+      "marks": 1,
+      "keyword": "दुबिल",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [
+     {
+      "level": 3,
+      "label": "Complete",
+      "minMarks": 3,
+      "maxMarks": 3,
+      "description": "All required points present and correct."
+     },
+     {
+      "level": 2,
+      "label": "Substantial",
+      "minMarks": 1,
+      "maxMarks": 2,
+      "description": "Most points present; minor omissions."
+     },
+     {
+      "level": 1,
+      "label": "Partial",
+      "minMarks": 1,
+      "maxMarks": 1,
+      "description": "Some relevant content; key ideas missing."
+     },
+     {
+      "level": 0,
+      "label": "No credit",
+      "minMarks": 0,
+      "maxMarks": 0,
+      "description": "Irrelevant, blank, or conceptually wrong."
+     }
+    ],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "प्रबल अम्ल जल में अकधि H+ आयन देते हैं। दुबिल अम्ल जल में िम H+ आयन देते हैं।",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "objective": false
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "31/4/2",
+    "sourceDocumentId": "src:fad6500a5a65bba203f49410"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.8,
+   "tags": [
+    "The Human Eye and the Colourful World"
+   ],
+   "createdAt": "2026-09-15T14:52:35.797507Z",
+   "updatedAt": "2026-09-15T14:52:35.797507Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "human-eye",
+     "score": 0.3593,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:fad6500a5a65bba203f49410",
+    "pageNumber": 15,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  }
+ ]
+}

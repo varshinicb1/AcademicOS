@@ -1,13 +1,14 @@
 # Working in this repo alongside other agents
 
 Read this before you change anything. `CLAUDE.md` and `AGENTS.md` describe the
-system; this file describes **how work gets done here**: several Claude sessions
-at once, each in its own worktree, one integration branch, and a live product.
+system; this file describes **how work gets done here**: several people and Claude
+sessions at once, each on its own branch, every change a pull request into `master`,
+and a live product. **The pull-request process itself is [`CONTRIBUTING.md`](../CONTRIBUTING.md).**
 Every rule below exists because breaking it cost real work once. The reason is
 given with each so you can apply it to a case the rule does not name.
 
-Last reconciled: 2026-09-27 (handover). Counts in prose rot; re-measure before you rely on
-one.
+Last reconciled: 2026-09-28 (pull requests replace the `release/v1` integration merges). Counts in prose
+rot; re-measure before you rely on one.
 
 ---
 
@@ -27,24 +28,29 @@ one.
 
 ## 2. Branches and worktrees
 
-Until the 2026-09-27 handover the work ran in several git worktrees on one laptop, one per stream,
-with `release/v1` as the integration branch. On a new machine, clone the repository. `master` is what is
-live and `release/v1` equals it. Open branches and their state are in `HANDOVER.md` section 8.
+`master` is what is live. **Every change reaches it as a pull request** that the maintainer reviews,
+gates and merges (`CONTRIBUTING.md`); nobody else pushes to `master`. Until the 2026-09-27 handover the
+work ran in several git worktrees on one laptop, with `release/v1` as the integration branch. Since
+2026-09-28 `release/v1` only follows `master` (the maintainer moves it after each merge), and nobody
+branches from it or merges into it. Open branches and their state are in `HANDOVER.md` section 8.
 
-`wip/*` branches on `origin` are snapshots of uncommitted work left behind when a stream stopped. Read
-one before redoing that work; do not merge one blind.
+`wip/*` and `draft/*` branches on `origin` are snapshots of unfinished work. Read one before redoing that
+work; do not merge one blind. `draft/phone-network-guard` is an open draft PR with its missing pieces
+listed.
 
 Rules, if you run more than one stream or session at a time:
 
-- **One stream per worktree** (`git worktree add ../AcademicOS-<name> -b feat/<name> release/v1`).
-  Never edit, check out, reset or clean files in another stream's worktree. Read them freely.
+- **One task per branch, one branch per PR**, branched from `origin/master`:
+  `git switch -c <type>/<topic> origin/master`. With several sessions on one machine, give each its own
+  worktree (`git worktree add ../AcademicOS-<name> -b feat/<name> origin/master`). Never edit, check out,
+  reset or clean files in another stream's worktree. Read them freely.
 - **Never use a bare `git stash`.** The stash stack is shared by every worktree, so `git stash pop` can
   apply another session's changes into yours. Set work aside with a WIP commit instead.
 - **Stage by path** (`git add <files>`), never `git add -A` or `git commit -a`. Every checkout shows the
   Flutter `generated_plugin_registrant.*` / `generated_plugins.cmake` files as modified. They are build
   noise: do not commit them.
-- Branch off `release/v1` for new work, and merge back into it with `--no-ff`, with a message that says
-  what the merge brings and how any conflict was resolved.
+- **If `master` moves, merge it into your branch**, and say in the merge message how any conflict was
+  resolved. Do not rebase a branch you have pushed: review comments are anchored to its commits.
 
 ## 3. Working alongside other sessions
 
@@ -86,8 +92,13 @@ These are the rules that were learned the hard way.
 
 ## 4. Before you commit: the gates
 
-    PYTHONPATH=$PWD/src PYTHONIOENCODING=utf-8 D:/AcademicOS-venv/Scripts/python.exe -m pytest tests -q -p no:cacheprovider
+    PYTHONPATH=$PWD/src PYTHONIOENCODING=utf-8 python -m pytest tests -q -p no:cacheprovider
     cd frontend && flutter analyze --no-fatal-infos && flutter test --exclude-tags live-backend -j 1
+
+`python` is your venv's, with the project's PyMuPDF; on the original laptop that is
+`D:/AcademicOS-venv/Scripts/python.exe`. Paste the counts into the PR (passed / skipped / xfailed, 0
+failed; the analyzer's infos, 7 on 2026-09-28). A clone without the gitignored `academicos-data/`
+extras (`answer_keys.db`, `parse/`) skips the tests that need them. That is expected, but say so.
 
 The checks most likely to catch a new contributor out:
 
@@ -171,13 +182,15 @@ anything**: `scripts/merge_question_banks.py` (the whole pipeline) and
 
 ## 6. Releasing and deploying
 
-1. Merge your branch into `release/v1` (`git switch release/v1 && git merge --no-ff feat/<name>`).
-2. Run both gates there.
-3. `git push origin release/v1:master` and `git push origin release/v1`.
+1. Open a pull request into `master` (`CONTRIBUTING.md` §4) with the gate counts and the evidence.
+2. The maintainer reviews it with `/review-pr <n>` (`.claude/commands/review-pr.md`). That runs both
+   gates on the merge result, re-runs a claim from the description, and merges with a merge commit, or
+   requests changes.
+3. The maintainer moves `release/v1` to `master` (`git push origin origin/master:release/v1`).
 4. CI deploys from `master`. **Until 2026-10-01 CI cannot run** (Actions minutes
-   exhausted), so follow **`docs/deploy-by-hand.md`** and do all four of its
-   verification checks. The user has authorised hand deploys when both suites
-   are green.
+   exhausted), so the maintainer follows **`docs/deploy-by-hand.md`** and does all four of its
+   verification checks. The owner has authorised hand deploys when both suites
+   are green. Once CI runs again, every merge to `master` deploys.
 5. Record the deploy in that file's live-history table.
 
 ## 7. Evidence

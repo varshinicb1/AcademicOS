@@ -10,6 +10,14 @@ product. That file covers the worktrees and who owns what, the rules for not
 destroying each other's work, the gates, the question-bank pipeline order, and how
 to release — including the hand deploy (`docs/deploy-by-hand.md`) while CI cannot run.
 
+**Every change is a pull request into `master`: follow [`CONTRIBUTING.md`](CONTRIBUTING.md).**
+- Branch from `origin/master`, one task per branch.
+- Run both gates.
+- Open a draft PR from the template, with your evidence in it.
+- Never push to `master` or `release/v1`.
+- Never merge or approve your own PR, and never deploy, unless you are the maintainer's session.
+- The maintainer's session reviews with `/review-pr <n>`.
+
 ## Project
 
 **Start with [`docs/PRD.md`](docs/PRD.md)** — what the product is for, who uses it,
