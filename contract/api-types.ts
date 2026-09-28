@@ -2347,6 +2347,43 @@ export interface paths {
         patch: operations["set_unit_sequence_api_v1_curriculum_units__unit_id__sequence_patch"];
         trace?: never;
     };
+    "/api/v1/devices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Register Device
+         * @description Register this device's push token for the caller.
+         */
+        post: operations["register_device_api_v1_devices_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/devices/{token}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Remove Device */
+        delete: operations["remove_device_api_v1_devices__token__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/evaluations/answer": {
         parameters: {
             query?: never;
@@ -2648,6 +2685,83 @@ export interface paths {
         get: operations["mail_status_api_v1_mail_status_get"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/notification-preferences": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Preferences */
+        get: operations["get_preferences_api_v1_notification_preferences_get"];
+        /**
+         * Set Preferences
+         * @description Quiet hours, language (en or hi), and push/email per kind. The inbox
+         *     always receives every notification.
+         */
+        put: operations["set_preferences_api_v1_notification_preferences_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/notifications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Inbox
+         * @description The caller's inbox, newest first. Also sends anything whose quiet
+         *     hours have ended.
+         */
+        get: operations["inbox_api_v1_notifications_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/notifications/read-all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Mark All Read */
+        post: operations["mark_all_read_api_v1_notifications_read_all_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/notifications/{notification_id}/read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Mark Read */
+        post: operations["mark_read_api_v1_notifications__notification_id__read_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -4883,6 +4997,16 @@ export interface components {
              */
             unscheduledLessons: components["schemas"]["UnscheduledLessonResponse"][];
         };
+        /** DeviceRequest */
+        DeviceRequest: {
+            /**
+             * Platform
+             * @default android
+             */
+            platform: string;
+            /** Token */
+            token: string;
+        };
         /** DifficultyDistribution */
         DifficultyDistribution: {
             /** Easy */
@@ -5258,6 +5382,13 @@ export interface components {
             /** Label */
             label: string;
         };
+        /** InboxResponse */
+        InboxResponse: {
+            /** Items */
+            items: components["schemas"]["NotificationResponse"][];
+            /** Unreadcount */
+            unreadCount: number;
+        };
         /** IngestTocRequest */
         IngestTocRequest: {
             /**
@@ -5310,6 +5441,26 @@ export interface components {
             usedAt?: string | null;
             /** Usedby */
             usedBy?: string | null;
+        };
+        /** KindPreference */
+        KindPreference: {
+            /** Email */
+            email: boolean;
+            /** Kind */
+            kind: string;
+            /** Label */
+            label: string;
+            /** Push */
+            push: boolean;
+        };
+        /** KindPreferenceBody */
+        KindPreferenceBody: {
+            /** Email */
+            email?: boolean | null;
+            /** Kind */
+            kind: string;
+            /** Push */
+            push?: boolean | null;
         };
         /** LeaveApplyRequest */
         LeaveApplyRequest: {
@@ -5520,6 +5671,27 @@ export interface components {
             max_depth: number;
             /** Node Id */
             node_id: string;
+        };
+        /** NotificationResponse */
+        NotificationResponse: {
+            /** Body */
+            body: string;
+            /** Createdat */
+            createdAt: string;
+            /** Emailstatus */
+            emailStatus: string;
+            /** Id */
+            id: string;
+            /** Kind */
+            kind: string;
+            /** Link */
+            link?: string | null;
+            /** Pushstatus */
+            pushStatus: string;
+            /** Read */
+            read: boolean;
+            /** Title */
+            title: string;
         };
         /**
          * OtherEditionResponse
@@ -5978,6 +6150,31 @@ export interface components {
             };
             /** Setid */
             setId: string;
+        };
+        /** PreferencesRequest */
+        PreferencesRequest: {
+            /**
+             * Kinds
+             * @default []
+             */
+            kinds: components["schemas"]["KindPreferenceBody"][];
+            /** Language */
+            language?: string | null;
+            /** Quietend */
+            quietEnd?: string | null;
+            /** Quietstart */
+            quietStart?: string | null;
+        };
+        /** PreferencesResponse */
+        PreferencesResponse: {
+            /** Kinds */
+            kinds: components["schemas"]["KindPreference"][];
+            /** Language */
+            language: string;
+            /** Quietend */
+            quietEnd: string;
+            /** Quietstart */
+            quietStart: string;
         };
         /** ProcessSessionResponse */
         ProcessSessionResponse: {
@@ -12457,6 +12654,74 @@ export interface operations {
             };
         };
     };
+    register_device_api_v1_devices_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeviceRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    remove_device_api_v1_devices__token__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                token: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     evaluate_one_api_v1_evaluations_answer_post: {
         parameters: {
             query?: never;
@@ -12875,6 +13140,146 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MailBackendStatus"];
+                };
+            };
+        };
+    };
+    get_preferences_api_v1_notification_preferences_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PreferencesResponse"];
+                };
+            };
+        };
+    };
+    set_preferences_api_v1_notification_preferences_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PreferencesRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PreferencesResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    inbox_api_v1_notifications_get: {
+        parameters: {
+            query?: {
+                unreadOnly?: boolean;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InboxResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    mark_all_read_api_v1_notifications_read_all_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
+    mark_read_api_v1_notifications__notification_id__read_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                notification_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
