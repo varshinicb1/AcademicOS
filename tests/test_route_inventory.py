@@ -167,6 +167,9 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/sections/{section_id}/timetable"),
     ("PUT", "/api/v1/curriculum/sections/{section_id}/timetable"),
     ("GET", "/api/v1/curriculum/my-timetable"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability"),
+    ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -355,6 +358,9 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/sections/{section_id}/timetable"),
     ("PUT", "/api/v1/curriculum/sections/{section_id}/timetable"),
     ("GET", "/api/v1/curriculum/my-timetable"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability"),
+    ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -681,7 +687,8 @@ def test_canonical_route_inventory_matches_live_app():
     )
     # 168: M1.1 added the five sections routes (list, create, update, delete, students).
     # 185: M1.2-M1.3 added 17 school-model routes (allocations, rooms, bell, timetable).
-    assert len(API_ROUTES) == 185
+    # 188: SCH-3 added solve and teacher unavailability (list, set).
+    assert len(API_ROUTES) == 188
 
 
 def test_docs_routes_present():

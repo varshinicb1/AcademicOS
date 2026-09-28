@@ -5025,6 +5025,56 @@
         "title": "ProposalResponse",
         "type": "object"
       },
+      "ProposedEntryResponse": {
+        "properties": {
+          "dayOfWeek": {
+            "title": "Dayofweek",
+            "type": "integer"
+          },
+          "period": {
+            "title": "Period",
+            "type": "integer"
+          },
+          "roomId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomid"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          }
+        },
+        "required": [
+          "sectionId",
+          "dayOfWeek",
+          "period",
+          "subjectId"
+        ],
+        "title": "ProposedEntryResponse",
+        "type": "object"
+      },
       "ProvenanceSchema": {
         "description": "Where in the source document the question text actually sits.\n\n`questionBankId` identifies the document; this identifies the place in it.\nWithout page and box, \"here is the page in the 2023 paper this came from\"\nis a claim the data cannot support, and that claim is the stated moat.",
         "properties": {
@@ -8039,6 +8089,112 @@
         "title": "SheetReviewResponse",
         "type": "object"
       },
+      "SolveRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "apply": {
+            "default": false,
+            "title": "Apply",
+            "type": "boolean"
+          },
+          "keepExisting": {
+            "default": true,
+            "title": "Keepexisting",
+            "type": "boolean"
+          },
+          "maxConsecutive": {
+            "default": 4,
+            "maximum": 12.0,
+            "minimum": 1.0,
+            "title": "Maxconsecutive",
+            "type": "integer"
+          },
+          "maxPerDay": {
+            "default": 7,
+            "maximum": 12.0,
+            "minimum": 1.0,
+            "title": "Maxperday",
+            "type": "integer"
+          },
+          "sectionIds": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionids"
+          },
+          "timeLimitSeconds": {
+            "default": 30,
+            "maximum": 60.0,
+            "minimum": 1.0,
+            "title": "Timelimitseconds",
+            "type": "integer"
+          }
+        },
+        "title": "SolveRequest",
+        "type": "object"
+      },
+      "SolveResponse": {
+        "properties": {
+          "applied": {
+            "title": "Applied",
+            "type": "boolean"
+          },
+          "entries": {
+            "items": {
+              "$ref": "#/components/schemas/ProposedEntryResponse"
+            },
+            "title": "Entries",
+            "type": "array"
+          },
+          "kept": {
+            "title": "Kept",
+            "type": "integer"
+          },
+          "movedOrAdded": {
+            "title": "Movedoradded",
+            "type": "integer"
+          },
+          "problems": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Problems",
+            "type": "array"
+          },
+          "removed": {
+            "title": "Removed",
+            "type": "integer"
+          },
+          "seconds": {
+            "title": "Seconds",
+            "type": "number"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "applied",
+          "problems",
+          "kept",
+          "movedOrAdded",
+          "removed",
+          "seconds",
+          "entries"
+        ],
+        "title": "SolveResponse",
+        "type": "object"
+      },
       "StudentEnrollmentResponse": {
         "properties": {
           "createdAt": {
@@ -8905,6 +9061,44 @@
         "title": "TeacherLoadResponse",
         "type": "object"
       },
+      "TeacherUnavailabilityRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "slots": {
+            "items": {
+              "$ref": "#/components/schemas/UnavailableSlot"
+            },
+            "title": "Slots",
+            "type": "array"
+          }
+        },
+        "required": [
+          "slots"
+        ],
+        "title": "TeacherUnavailabilityRequest",
+        "type": "object"
+      },
+      "TeacherUnavailabilityResponse": {
+        "properties": {
+          "slots": {
+            "items": {
+              "$ref": "#/components/schemas/UnavailableSlot"
+            },
+            "title": "Slots",
+            "type": "array"
+          },
+          "teacherId": {
+            "title": "Teacherid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "teacherId",
+          "slots"
+        ],
+        "title": "TeacherUnavailabilityResponse",
+        "type": "object"
+      },
       "TeachingTimeEstimateResponse": {
         "properties": {
           "academicYearId": {
@@ -9321,6 +9515,11 @@
             "title": "Dayofweek",
             "type": "integer"
           },
+          "locked": {
+            "default": false,
+            "title": "Locked",
+            "type": "boolean"
+          },
           "period": {
             "maximum": 20.0,
             "minimum": 1.0,
@@ -9372,6 +9571,11 @@
           "id": {
             "title": "Id",
             "type": "string"
+          },
+          "locked": {
+            "default": false,
+            "title": "Locked",
+            "type": "boolean"
           },
           "period": {
             "title": "Period",
@@ -9736,6 +9940,29 @@
           "sourceType"
         ],
         "title": "TopicWithSubtopicsResponse",
+        "type": "object"
+      },
+      "UnavailableSlot": {
+        "additionalProperties": false,
+        "properties": {
+          "dayOfWeek": {
+            "maximum": 6.0,
+            "minimum": 0.0,
+            "title": "Dayofweek",
+            "type": "integer"
+          },
+          "period": {
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "title": "Period",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "dayOfWeek",
+          "period"
+        ],
+        "title": "UnavailableSlot",
         "type": "object"
       },
       "UnitAllocationResponse": {
@@ -11963,6 +12190,118 @@
         "summary": "Teacher Load"
       }
     },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability": {
+      "get": {
+        "description": "Periods each teacher cannot teach (the default bell's numbering).\nTeacher-level data: the principal's (ADM-5).",
+        "operationId": "list_teacher_unavailability_api_v1_curriculum_academic_years__academic_year_id__teacher_unavailability_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TeacherUnavailabilityResponse"
+                  },
+                  "title": "Response List Teacher Unavailability Api V1 Curriculum Academic Years  Academic Year Id  Teacher Unavailability Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Teacher Unavailability"
+      }
+    },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}": {
+      "put": {
+        "operationId": "set_teacher_unavailability_api_v1_curriculum_academic_years__academic_year_id__teacher_unavailability__teacher_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "teacher_id",
+            "required": true,
+            "schema": {
+              "title": "Teacher Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeacherUnavailabilityRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeacherUnavailabilityResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set Teacher Unavailability"
+      }
+    },
     "/api/v1/curriculum/academic-years/{academic_year_id}/terms": {
       "get": {
         "operationId": "list_terms_api_v1_curriculum_academic_years__academic_year_id__terms_get",
@@ -12252,6 +12591,61 @@
           }
         ],
         "summary": "Add Timetable Slot"
+      }
+    },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve": {
+      "post": {
+        "description": "Generate a clash-free week for the whole school (or `sectionIds`) from\nthe allocations and bells: no teacher, room or section in two places,\na teacher's maximum a day and in a row, subjects spread across the week,\nunavailable periods free, locked periods kept, and -- with keepExisting\n-- the fewest changes to the current week. `apply: false` returns the\nproposal and its diff without writing; `apply: true` publishes it.",
+        "operationId": "solve_timetable_api_v1_curriculum_academic_years__academic_year_id__timetable_solve_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolveRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SolveResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Solve Timetable"
       }
     },
     "/api/v1/curriculum/academic-years/{academic_year_id}/working-days": {
