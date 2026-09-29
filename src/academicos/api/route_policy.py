@@ -285,6 +285,11 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/api-keys"): _p(PRINCIPAL, "own school keys only"),
     ("DELETE", "/api/v1/api-keys/{key_id}"): _p(PRINCIPAL, "own school keys only"),
     ("GET", "/api/v1/api-keys/{key_id}/usage"): _p(PRINCIPAL, "own school keys only"),
+    # EX-6 paper review (assessment/paper_review_routes.py).
+    ("POST", "/api/v1/assessments/{assessment_id}/review-request"): _p(STAFF, "the author or the principal"),
+    ("POST", "/api/v1/assessments/{assessment_id}/review-decision"): _p(STAFF, "the named reviewer or the principal"),
+    ("GET", "/api/v1/assessments/{assessment_id}/reviews"): _p(STAFF),
+    ("GET", "/api/v1/paper-reviews"): _p(STAFF, "the callers reviews; the principal the schools"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"): _p(ANY_USER, "school-scoped since calendar Task 101"),
     ("GET", "/api/v1/curriculum/books/{book_id}/units"): _p(ANY_USER, "school-scoped since calendar Task 101"),
     ("GET", "/api/v1/curriculum/books/{book_id}/chapters"): _p(ANY_USER, "school-scoped since calendar Task 101"),

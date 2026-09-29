@@ -8583,6 +8583,32 @@
         "title": "RespondRequest",
         "type": "object"
       },
+      "ReviewDecision": {
+        "additionalProperties": false,
+        "properties": {
+          "comment": {
+            "anyOf": [
+              {
+                "maxLength": 2000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comment"
+          },
+          "decision": {
+            "title": "Decision",
+            "type": "string"
+          }
+        },
+        "required": [
+          "decision"
+        ],
+        "title": "ReviewDecision",
+        "type": "object"
+      },
       "ReviewDecisionRequest": {
         "properties": {
           "action": {
@@ -8726,6 +8752,113 @@
           "finalMarks"
         ],
         "title": "ReviewItemResponse",
+        "type": "object"
+      },
+      "ReviewRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "note": {
+            "anyOf": [
+              {
+                "maxLength": 1000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "reviewerId": {
+            "title": "Reviewerid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reviewerId"
+        ],
+        "title": "ReviewRequest",
+        "type": "object"
+      },
+      "ReviewResponse": {
+        "properties": {
+          "assessmentId": {
+            "title": "Assessmentid",
+            "type": "string"
+          },
+          "authorId": {
+            "title": "Authorid",
+            "type": "string"
+          },
+          "comment": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comment"
+          },
+          "decidedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decidedat"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "requestNote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requestnote"
+          },
+          "requestedAt": {
+            "title": "Requestedat",
+            "type": "string"
+          },
+          "reviewerId": {
+            "title": "Reviewerid",
+            "type": "string"
+          },
+          "reviewerName": {
+            "default": "",
+            "title": "Reviewername",
+            "type": "string"
+          },
+          "state": {
+            "title": "State",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "assessmentId",
+          "authorId",
+          "reviewerId",
+          "state",
+          "requestedAt"
+        ],
+        "title": "ReviewResponse",
         "type": "object"
       },
       "ReviseItem": {
@@ -13819,6 +13952,164 @@
           }
         ],
         "summary": "Approve Assessment"
+      }
+    },
+    "/api/v1/assessments/{assessment_id}/review-decision": {
+      "post": {
+        "description": "The reviewer (or the principal) approves the paper for the\nprincipal, or sends it back to its author with a comment.",
+        "operationId": "decide_review_api_v1_assessments__assessment_id__review_decision_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "assessment_id",
+            "required": true,
+            "schema": {
+              "title": "Assessment Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewDecision"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Decide Review"
+      }
+    },
+    "/api/v1/assessments/{assessment_id}/review-request": {
+      "post": {
+        "description": "The author (or the principal) sends the paper to one reviewer. A new\nrequest replaces a pending one.",
+        "operationId": "request_review_api_v1_assessments__assessment_id__review_request_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "assessment_id",
+            "required": true,
+            "schema": {
+              "title": "Assessment Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Request Review"
+      }
+    },
+    "/api/v1/assessments/{assessment_id}/reviews": {
+      "get": {
+        "operationId": "list_reviews_api_v1_assessments__assessment_id__reviews_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "assessment_id",
+            "required": true,
+            "schema": {
+              "title": "Assessment Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ReviewResponse"
+                  },
+                  "title": "Response List Reviews Api V1 Assessments  Assessment Id  Reviews Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Reviews"
       }
     },
     "/api/v1/assessments/{assessment_id}/status": {
@@ -22340,6 +22631,63 @@
           }
         ],
         "summary": "Mark Read"
+      }
+    },
+    "/api/v1/paper-reviews": {
+      "get": {
+        "description": "The papers waiting for the caller's review; the principal sees the\nschool's.",
+        "operationId": "my_reviews_api_v1_paper_reviews_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "state",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": "pending",
+              "title": "State"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ReviewResponse"
+                  },
+                  "title": "Response My Reviews Api V1 Paper Reviews Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Reviews"
       }
     },
     "/api/v1/paper-timing": {
