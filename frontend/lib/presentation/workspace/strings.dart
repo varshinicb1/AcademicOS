@@ -153,4 +153,14 @@ const _hi = <String, String>{
   'No questions for this class yet': 'इस कक्षा के लिए अभी प्रश्न नहीं',
   'How students are doing': 'विद्यार्थी कैसा कर रहे हैं',
   'Chapters at each level, from marked work': 'जाँचे गए कार्य से, हर स्तर पर अध्याय',
+  // profiles on a shared phone (SA-8)
+  'Parent': 'अभिभावक',
+  'Student': 'विद्यार्थी',
+  'Who is using the phone?': 'फ़ोन कौन इस्तेमाल कर रहा है?',
+  'Remove from this phone': 'इस फ़ोन से हटाएँ',
+  'Add someone': 'किसी और को जोड़ें',
+  'Sign in another child or parent on this phone': 'इस फ़ोन पर दूसरे बच्चे या अभिभावक को साइन इन करें',
+  'On this phone': 'इस फ़ोन पर',
+  'Continue as': 'इस नाम से जारी रखें:',
+  'Switch profile': 'प्रोफ़ाइल बदलें',
 };

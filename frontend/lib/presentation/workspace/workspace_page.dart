@@ -5,6 +5,7 @@ import '../../core/session/current_session.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'dashboard_card.dart';
 import 'ops_api.dart';
+import 'profiles.dart';
 import 'strings.dart';
 
 /// The school workspace: every day-to-day tool for the signed-in role on one
@@ -109,6 +110,10 @@ class _WorkspacePageState extends State<WorkspacePage> {
           icon: const Icon(Icons.translate),
           onPressed: () => setState(() => setUiLanguage(uiHindi ? 'en' : 'hi')),
         ),
+        // A shared family phone: switch between the children and parents on it (SA-8).
+        if (CurrentSession.role == 'student' || CurrentSession.role == 'parent')
+          IconButton(tooltip: tr('Switch profile'), icon: const Icon(Icons.switch_account_outlined),
+              onPressed: () => showProfileSwitcher(context)),
         if (CurrentSession.role != 'parent')
           IconButton(tooltip: 'Copy my calendar link', icon: const Icon(Icons.event_available),
               onPressed: () => copyCalendarLink(context)),

@@ -47,6 +47,9 @@ const _exempt = {
   // failed save only means that page is not available offline. Loading the
   // queued-writes count before the local store opens: nothing can be waiting.
   'lib/presentation/workspace/ops_api.dart': 2,
+  // The sign-in page's saved profiles, read before the local store may be
+  // open (widget tests): none is shown, and signing in works as before.
+  'lib/presentation/workspace/profiles.dart': 1,
 };
 
 const _marker = '// not-a-failure:';
