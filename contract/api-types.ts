@@ -356,6 +356,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/auth/google": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sign In With Google
+         * @description Sign in with a Google ID token: the same answer as a password sign-in.
+         */
+        post: operations["sign_in_with_google_api_v1_auth_google_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/auth/invites": {
         parameters: {
             query?: never;
@@ -448,6 +468,27 @@ export interface paths {
         };
         /** Me */
         get: operations["me_api_v1_auth_me_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/auth/providers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Providers
+         * @description Which ways in this deployment offers, for the sign-in page: Google
+         *     (with the public client id the button needs) and emailed codes.
+         */
+        get: operations["providers_api_v1_auth_providers_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7234,6 +7275,11 @@ export interface components {
             /** Totalmarks */
             totalMarks: number;
         };
+        /** GoogleSignIn */
+        GoogleSignIn: {
+            /** Credential */
+            credential: string;
+        };
         /** GradeRequest */
         GradeRequest: {
             /** Feedback */
@@ -12010,6 +12056,39 @@ export interface operations {
             };
         };
     };
+    sign_in_with_google_api_v1_auth_google_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GoogleSignIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_invites_api_v1_auth_invites_get: {
         parameters: {
             query?: never;
@@ -12176,6 +12255,28 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["UserResponse"];
+                };
+            };
+        };
+    };
+    providers_api_v1_auth_providers_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
         };

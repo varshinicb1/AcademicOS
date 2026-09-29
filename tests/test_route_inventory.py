@@ -222,6 +222,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/sections/{section_id}/progress"),
     ("POST", "/api/v1/auth/code/request"),
     ("POST", "/api/v1/auth/code/verify"),
+    ("GET", "/api/v1/auth/providers"),
+    ("POST", "/api/v1/auth/google"),
     ("GET", "/api/v1/homework/suggestion"),
     ("POST", "/api/v1/homework"),
     ("GET", "/api/v1/homework"),
@@ -795,6 +797,8 @@ def _valid_body_for(method: str, path: str) -> dict:
         return {"email": "a@example.com"}
     if path == "/api/v1/auth/code/verify":
         return {"email": "a@example.com", "code": "123456"}
+    if path == "/api/v1/auth/google":
+        return {"credential": "x" * 40}
     if path == "/api/v1/curriculum/terms/{term_id}/baseline":  # PUT
         return {"minutes": 60}
     if path == "/api/v1/curriculum/subjects/{subject_id}/books":  # POST
@@ -905,7 +909,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 284: TA-6 class progress (1).
     # 286: sign-in by emailed code (2).
     # 288: ADM-2/4 the term report and its Excel/PDF export (2).
-    assert len(API_ROUTES) == 288
+    # 290: INT-1 Google sign-in and the sign-in providers (2).
+    assert len(API_ROUTES) == 290
 
 
 def test_docs_routes_present():
