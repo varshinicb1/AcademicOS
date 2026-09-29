@@ -6,7 +6,7 @@ One Flutter codebase (`frontend/`) builds four products:
 |---|---|---|---|
 | Web console | none (default) | the backend | Today (`/home`); parents and students land on School |
 | Teacher app | `--dart-define=ACADEMICOS_APP=teacher` | the backend | My day |
-| Student app (with parent mode) | `--dart-define=ACADEMICOS_APP=student` | the backend | My homework (a parent: My children) |
+| Student app (with parent mode) | `--dart-define=ACADEMICOS_APP=student` | the backend | Today (a parent: My children) |
 | Offline Android app | `--dart-define=ACADEMICOS_OFFLINE=true` | nothing: a local engine and a bundled bank | Today |
 
 The two phone apps use the same pages as the web console's **School** tab

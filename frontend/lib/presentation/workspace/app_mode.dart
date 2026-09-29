@@ -27,7 +27,7 @@ AppMode get appMode => switch (_appModeName) {
 /// Where an app build opens after sign-in.
 String appHome(AppMode mode, {String role = ''}) => switch (mode) {
       AppMode.teacher => '/school/my-day',
-      AppMode.student => role == 'parent' ? '/school/family' : '/school/my-homework',
+      AppMode.student => role == 'parent' ? '/school/family' : '/school/today',
       AppMode.console => '/home',
     };
 
@@ -47,7 +47,7 @@ List<AppTab> appTabs(AppMode mode, {String role = ''}) => switch (mode) {
               (icon: Icons.notifications_outlined, selected: Icons.notifications, label: tr('Inbox'), path: '/school/inbox'),
             ]
           : [
-              (icon: Icons.today_outlined, selected: Icons.today, label: tr('Today'), path: '/student/schedule'),
+              (icon: Icons.today_outlined, selected: Icons.today, label: tr('Today'), path: '/school/today'),
               (icon: Icons.assignment_outlined, selected: Icons.assignment, label: tr('Homework'), path: '/school/my-homework'),
               (icon: Icons.insights_outlined, selected: Icons.insights, label: tr('Progress'), path: '/school/my-learning'),
               (icon: Icons.event_note_outlined, selected: Icons.event_note, label: tr('Exams'), path: '/school/my-exams'),
