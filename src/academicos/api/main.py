@@ -44,7 +44,7 @@ from ..curriculum import cover_routes
 from ..assessment import api_key_routes
 from ..assessment import marks_routes
 from ..assessment import paper_review_routes
-from ..operations import calendar_feed, dashboard_routes, homework_photos
+from ..operations import calendar_feed, dashboard_routes, homework_photos, practice_routes
 from ..operations import exam_routes
 from ..operations import grant_routes
 from ..operations import guardian_routes
@@ -174,6 +174,7 @@ app.include_router(exam_routes.router)
 app.include_router(dashboard_routes.router)
 app.include_router(calendar_feed.router)
 app.include_router(homework_photos.router)
+app.include_router(practice_routes.router)
 app.include_router(api_key_routes.router)
 app.include_router(paper_review_routes.router)
 app.include_router(marks_routes.router)

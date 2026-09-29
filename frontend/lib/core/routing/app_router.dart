@@ -39,6 +39,7 @@ import '../../presentation/workspace/exams_page.dart';
 import '../../presentation/workspace/family_page.dart';
 import '../../presentation/workspace/inbox_page.dart';
 import '../../presentation/workspace/marks_page.dart';
+import '../../presentation/workspace/practice_page.dart';
 import '../../presentation/workspace/student_pages.dart';
 import '../../presentation/workspace/teacher_homework.dart';
 import '../../presentation/workspace/workspace_page.dart';
@@ -261,6 +262,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(path: 'import', builder: (context, state) => const ImportPage()),
               GoRoute(path: 'api-keys', builder: (context, state) => const ApiKeysPage()),
               GoRoute(path: 'grants', builder: (context, state) => const GrantsPage()),
+              GoRoute(path: 'practice/:id',
+                  builder: (context, state) => PracticePage(practiceId: state.pathParameters['id']!)),
               GoRoute(path: 'marks/:paperId',
                   builder: (context, state) => MarksPage(paperId: state.pathParameters['paperId']!)),
             ],

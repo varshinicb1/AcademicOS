@@ -213,6 +213,10 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/my-homework/{homework_id}/photos/{photo_id}"),
     ("DELETE", "/api/v1/my-homework/{homework_id}/photos/{photo_id}"),
     ("GET", "/api/v1/homework/{homework_id}/submissions/{student_id}/photos/{photo_id}"),
+    ("POST", "/api/v1/my-practice"),
+    ("GET", "/api/v1/my-practice"),
+    ("GET", "/api/v1/my-practice/{practice_id}"),
+    ("POST", "/api/v1/my-practice/{practice_id}/submit"),
     ("GET", "/api/v1/homework/suggestion"),
     ("POST", "/api/v1/homework"),
     ("GET", "/api/v1/homework"),
@@ -492,6 +496,10 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/my-homework/{homework_id}/photos/{photo_id}"),
     ("DELETE", "/api/v1/my-homework/{homework_id}/photos/{photo_id}"),
     ("GET", "/api/v1/homework/{homework_id}/submissions/{student_id}/photos/{photo_id}"),
+    ("POST", "/api/v1/my-practice"),
+    ("GET", "/api/v1/my-practice"),
+    ("GET", "/api/v1/my-practice/{practice_id}"),
+    ("POST", "/api/v1/my-practice/{practice_id}/submit"),
     ("GET", "/api/v1/homework/suggestion"),
     ("POST", "/api/v1/homework"),
     ("GET", "/api/v1/homework"),
@@ -881,7 +889,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 268: M1.4 added delegated admin grants (4).
     # 269: the staff directory for pickers (1).
     # 279: dashboard, calendar feed (3), /v1 homework sets, homework photos (5).
-    assert len(API_ROUTES) == 279
+    # 283: SA-4 self-practice (4).
+    assert len(API_ROUTES) == 283
 
 
 def test_docs_routes_present():

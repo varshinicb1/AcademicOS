@@ -268,6 +268,11 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/my-homework/{homework_id}/photos/{photo_id}"): _p(ANY_USER, "students only, own photo"),
     ("DELETE", "/api/v1/my-homework/{homework_id}/photos/{photo_id}"): _p(ANY_USER, "students only, own photo"),
     ("GET", "/api/v1/homework/{homework_id}/submissions/{student_id}/photos/{photo_id}"): _p(STAFF, "the teacher of the homework or the principal; logged"),
+    # SA-4 self-practice (operations/practice_routes.py).
+    ("POST", "/api/v1/my-practice"): _p(ANY_USER, "students only, their own sets"),
+    ("GET", "/api/v1/my-practice"): _p(ANY_USER, "students only, their own sets"),
+    ("GET", "/api/v1/my-practice/{practice_id}"): _p(ANY_USER, "students only, their own sets"),
+    ("POST", "/api/v1/my-practice/{practice_id}/submit"): _p(ANY_USER, "students only, their own sets"),
     # M5 homework (operations/homework_routes.py).
     ("GET", "/api/v1/homework/suggestion"): _p(STAFF, "the teacher of the subject in the section, or the principal"),
     ("POST", "/api/v1/homework"): _p(STAFF, "a teacher only for sections they teach the subject in"),

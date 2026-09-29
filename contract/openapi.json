@@ -8038,6 +8038,39 @@
         "title": "PracticeOutcomeResponse",
         "type": "object"
       },
+      "PracticeRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "chapterIds": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 10,
+            "title": "Chapterids",
+            "type": "array"
+          },
+          "count": {
+            "default": 8,
+            "maximum": 20.0,
+            "minimum": 3.0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "subject": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subject"
+          }
+        },
+        "title": "PracticeRequest",
+        "type": "object"
+      },
       "PracticeRequestBody": {
         "properties": {
           "correctOptions": {
@@ -8165,6 +8198,23 @@
         "title": "PracticeSetResponse",
         "type": "object"
       },
+      "PracticeSubmit": {
+        "additionalProperties": false,
+        "properties": {
+          "answers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Answers",
+            "type": "object"
+          }
+        },
+        "required": [
+          "answers"
+        ],
+        "title": "PracticeSubmit",
+        "type": "object"
+      },
       "PracticeSubmitBody": {
         "properties": {
           "answers": {
@@ -8184,6 +8234,91 @@
           "answers"
         ],
         "title": "PracticeSubmitBody",
+        "type": "object"
+      },
+      "PracticeView": {
+        "properties": {
+          "answers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Answers",
+            "type": "object"
+          },
+          "chapterIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Chapterids",
+            "type": "array"
+          },
+          "createdAt": {
+            "title": "Createdat",
+            "type": "string"
+          },
+          "evaluations": {
+            "items": {
+              "$ref": "#/components/schemas/EvaluationItem"
+            },
+            "title": "Evaluations",
+            "type": "array"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "marks": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Marks"
+          },
+          "maxMarks": {
+            "title": "Maxmarks",
+            "type": "integer"
+          },
+          "questions": {
+            "items": {
+              "$ref": "#/components/schemas/StudentQuestion"
+            },
+            "title": "Questions",
+            "type": "array"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          },
+          "submittedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Submittedat"
+          }
+        },
+        "required": [
+          "id",
+          "subject",
+          "grade",
+          "chapterIds",
+          "questions",
+          "createdAt",
+          "maxMarks"
+        ],
+        "title": "PracticeView",
         "type": "object"
       },
       "PreferencesRequest": {
@@ -24663,6 +24798,174 @@
           }
         ],
         "summary": "My Learning"
+      }
+    },
+    "/api/v1/my-practice": {
+      "get": {
+        "operationId": "list_practice_api_v1_my_practice_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PracticeView"
+                  },
+                  "title": "Response List Practice Api V1 My Practice Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Practice"
+      },
+      "post": {
+        "description": "A practice set from the caller's weakest chapters (or the ones named),\nskipping questions answered in the last two weeks.",
+        "operationId": "start_practice_api_v1_my_practice_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PracticeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PracticeView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Start Practice"
+      }
+    },
+    "/api/v1/my-practice/{practice_id}": {
+      "get": {
+        "operationId": "get_practice_api_v1_my_practice__practice_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "practice_id",
+            "required": true,
+            "schema": {
+              "title": "Practice Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PracticeView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Practice"
+      }
+    },
+    "/api/v1/my-practice/{practice_id}/submit": {
+      "post": {
+        "description": "Marked at once; the marks feed the student's learning progress as\npractice. A set is submitted once -- start another to practise again.",
+        "operationId": "submit_practice_api_v1_my_practice__practice_id__submit_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "practice_id",
+            "required": true,
+            "schema": {
+              "title": "Practice Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PracticeSubmit"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PracticeView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Submit Practice"
       }
     },
     "/api/v1/notification-preferences": {

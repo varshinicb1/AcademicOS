@@ -3722,6 +3722,66 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/my-practice": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Practice */
+        get: operations["list_practice_api_v1_my_practice_get"];
+        put?: never;
+        /**
+         * Start Practice
+         * @description A practice set from the caller's weakest chapters (or the ones named),
+         *     skipping questions answered in the last two weeks.
+         */
+        post: operations["start_practice_api_v1_my_practice_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/my-practice/{practice_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Practice */
+        get: operations["get_practice_api_v1_my_practice__practice_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/my-practice/{practice_id}/submit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Submit Practice
+         * @description Marked at once; the marks feed the student's learning progress as
+         *     practice. A set is submitted once -- start another to practise again.
+         */
+        post: operations["submit_practice_api_v1_my_practice__practice_id__submit_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/notification-preferences": {
         parameters: {
             query?: never;
@@ -8180,6 +8240,18 @@ export interface components {
             /** Masterybefore */
             masteryBefore: number;
         };
+        /** PracticeRequest */
+        PracticeRequest: {
+            /** Chapterids */
+            chapterIds?: string[];
+            /**
+             * Count
+             * @default 8
+             */
+            count: number;
+            /** Subject */
+            subject?: string | null;
+        };
         /** PracticeRequestBody */
         PracticeRequestBody: {
             /** Correctoptions */
@@ -8236,6 +8308,13 @@ export interface components {
             /** Warnings */
             warnings?: string[];
         };
+        /** PracticeSubmit */
+        PracticeSubmit: {
+            /** Answers */
+            answers: {
+                [key: string]: string;
+            };
+        };
         /** PracticeSubmitBody */
         PracticeSubmitBody: {
             /** Answers */
@@ -8244,6 +8323,33 @@ export interface components {
             };
             /** Setid */
             setId: string;
+        };
+        /** PracticeView */
+        PracticeView: {
+            /** Answers */
+            answers?: {
+                [key: string]: string;
+            };
+            /** Chapterids */
+            chapterIds: string[];
+            /** Createdat */
+            createdAt: string;
+            /** Evaluations */
+            evaluations?: components["schemas"]["EvaluationItem"][];
+            /** Grade */
+            grade: number;
+            /** Id */
+            id: string;
+            /** Marks */
+            marks?: number | null;
+            /** Maxmarks */
+            maxMarks: number;
+            /** Questions */
+            questions: components["schemas"]["StudentQuestion"][];
+            /** Subject */
+            subject: string;
+            /** Submittedat */
+            submittedAt?: string | null;
         };
         /** PreferencesRequest */
         PreferencesRequest: {
@@ -17269,6 +17375,125 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["LearningProgressResponse"];
+                };
+            };
+        };
+    };
+    list_practice_api_v1_my_practice_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PracticeView"][];
+                };
+            };
+        };
+    };
+    start_practice_api_v1_my_practice_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PracticeRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PracticeView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_practice_api_v1_my_practice__practice_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                practice_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PracticeView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    submit_practice_api_v1_my_practice__practice_id__submit_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                practice_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PracticeSubmit"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PracticeView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
