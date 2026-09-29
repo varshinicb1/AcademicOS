@@ -80,7 +80,8 @@ class _ChildView extends StatelessWidget {
         Expanded(child: TabBarView(children: [
           _Week(studentId: id),
           _Today(studentId: id),
-          _Homework(studentId: id),
+          _Homework(studentId: id, name: child['name'] as String,
+              young: (child['grade'] as int?) != null && (child['grade'] as int) <= 5),
           LearningView(path: '/children/$id/learning'),
         ])),
       ]),
@@ -203,7 +204,10 @@ class _Today extends StatelessWidget {
 
 class _Homework extends StatelessWidget {
   final String studentId;
-  const _Homework({required this.studentId});
+  final String name;
+  /// Classes 1-5: the parent does the homework with the child (SA-7).
+  final bool young;
+  const _Homework({required this.studentId, required this.name, required this.young});
 
   @override
   Widget build(BuildContext context) {
@@ -218,7 +222,14 @@ class _Homework extends StatelessWidget {
               message: 'Homework the teachers set will appear here.');
         }
         return ListView(padding: const EdgeInsets.all(16), children: [
-          for (final h in items) HomeworkStatusTile(item: h),
+          if (young)
+            Padding(padding: const EdgeInsets.only(bottom: 8), child: Text(
+                'In classes 1-5 you do the homework with $name: open one to answer it together.',
+                style: Theme.of(context).textTheme.bodyMedium)),
+          for (final h in items)
+            HomeworkStatusTile(item: h, onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(
+                builder: (_) => HomeworkDetailPage(homeworkId: h['id'] as String, childId: studentId,
+                    childName: name, young: young)))),
         ]);
       },
     );

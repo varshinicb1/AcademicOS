@@ -305,6 +305,8 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/children/{student_id}/timetable"): _p(ANY_USER, "handler admits the childs linked guardians only"),
     ("GET", "/api/v1/children/{student_id}/day"): _p(ANY_USER, "handler admits the childs linked guardians only"),
     ("GET", "/api/v1/children/{student_id}/homework"): _p(ANY_USER, "handler admits the childs linked guardians only"),
+    ("GET", "/api/v1/children/{student_id}/homework/{homework_id}"): _p(ANY_USER, "handler admits the childs linked guardians only"),
+    ("POST", "/api/v1/children/{student_id}/homework/{homework_id}/submit"): _p(ANY_USER, "a linked guardian of a class 1-5 child only (SA-7); audited"),
     ("GET", "/api/v1/children/{student_id}/learning"): _p(ANY_USER, "handler admits the childs linked guardians only"),
     ("GET", "/api/v1/children/{student_id}/consent"): _p(ANY_USER, "handler admits the childs linked guardians only"),
     ("POST", "/api/v1/children/{student_id}/consent"): _p(ANY_USER, "the linked guardians own consent"),
@@ -459,6 +461,8 @@ PARENT_PATHS = frozenset({
     "/api/v1/children/{student_id}/timetable",
     "/api/v1/children/{student_id}/day",
     "/api/v1/children/{student_id}/homework",
+    "/api/v1/children/{student_id}/homework/{homework_id}",
+    "/api/v1/children/{student_id}/homework/{homework_id}/submit",
     "/api/v1/children/{student_id}/learning",
     "/api/v1/children/{student_id}/consent",
 })

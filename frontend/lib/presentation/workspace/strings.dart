@@ -163,4 +163,7 @@ const _hi = <String, String>{
   'On this phone': 'इस फ़ोन पर',
   'Continue as': 'इस नाम से जारी रखें:',
   'Switch profile': 'प्रोफ़ाइल बदलें',
+  // young learners (SA-7)
+  'How I am doing': 'मैं कैसा कर रहा हूँ',
+  'Messages': 'संदेश',
 };

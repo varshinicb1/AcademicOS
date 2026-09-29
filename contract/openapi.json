@@ -2411,6 +2411,17 @@
             "title": "Consent",
             "type": "string"
           },
+          "grade": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grade"
+          },
           "name": {
             "title": "Name",
             "type": "string"
@@ -2485,6 +2496,17 @@
             },
             "title": "Entries",
             "type": "array"
+          },
+          "grade": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grade"
           },
           "role": {
             "title": "Role",
@@ -7515,6 +7537,17 @@
             },
             "title": "Entries",
             "type": "array"
+          },
+          "grade": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grade"
           },
           "role": {
             "title": "Role",
@@ -17641,6 +17674,124 @@
           }
         ],
         "summary": "Child Homework"
+      }
+    },
+    "/api/v1/children/{student_id}/homework/{homework_id}": {
+      "get": {
+        "description": "One homework as the child sees it: the questions without answers;\nafter marking, the marks and the model answers.",
+        "operationId": "child_homework_detail_api_v1_children__student_id__homework__homework_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyHomeworkDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Child Homework Detail"
+      }
+    },
+    "/api/v1/children/{student_id}/homework/{homework_id}/submit": {
+      "post": {
+        "description": "A parent hands in a young child's answers (SA-7: in classes 1-5 the\nparent does the app with the child). From class 6 the child hands in\ntheir own work. Recorded in the audit log as the parent's action.",
+        "operationId": "child_homework_submit_api_v1_children__student_id__homework__homework_id__submit_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyHomeworkDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Child Homework Submit"
       }
     },
     "/api/v1/children/{student_id}/learning": {
