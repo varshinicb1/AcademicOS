@@ -24,7 +24,7 @@ The previous handover (2026-09-21, answer-key linkage) is kept in `docs/history/
 | Backend (FastAPI) | Cloud Run `academicos-backend`, `asia-south1`, https://academicos-backend-2eskom55ta-el.a.run.app | live, `/health` reports the commit |
 | Database | Cloud SQL Postgres `academicos-pg` (durable tables) + SQLite snapshots | live |
 | Blobs | GCS `vidyuthlabs-academicos-media` | live |
-| Question-bank API | `/v1/*` on the same backend, API-key gated | live; no way yet to issue a key on live (audit D38) |
+| Question-bank API | `/v1/*` on the same backend, API-key gated | live; the principal issues keys from School → API keys (D38 fixed); keys persist in GCS |
 | Older Render release | `academicos-backend.onrender.com` | still answers on an old build; not the product; can be retired |
 
 The live product is the **v2 scope**: a web console for classes 6-10 (paper generation, question bank,
@@ -32,8 +32,14 @@ calendar/lesson plan, principal dashboard). Under the v2 scorecard it measured *
 (`docs/audits/2026-09-27-8db6636.md`); an incremental re-audit of the live `caf5e3d` (Task 125) also measured
 **61.0** (`docs/audits/2026-09-28-caf5e3d.md`), and the full re-audit of M0 (`09649eb`) measured **60.5**
 (`docs/audits/2026-09-28-09649eb.md`: M0's work +2.71; D115, the timetable stored per subject name, -3.13).
-The **v3 requirements** (grades 1-10, teacher and student apps,
-leave/substitution, homework, notifications) are mostly **not built yet**; see section 6.
+Since then the **v3 operations layer** has been built and merged (PRs #11-#30, 2026-09-28/29): sections,
+allocations, rooms, bells, a solver-backed timetable, leave/substitution/compensation, teacher attendance,
+notifications and scheduled automations, homework (with photos), learning progress and self-practice,
+parents, delegated admin, CSV import/export, exam review/datesheet/invigilation/marks, a principal
+dashboard and alerts, calendar feeds, the School tab on the web, and teacher/student app builds
+(`docs/apps.md`). The backend through #25 is live (`aa85cae`); the web School tab goes live with the next
+web deploy. None of it has been through a scored audit yet, so the score above has not moved. What is
+still missing: section 6.
 
 ## 2. Access you need (ask the product owner)
 
@@ -47,10 +53,22 @@ leave/substitution, homework, notifications) are mostly **not built yet**; see s
   `postgres-password`, `acos-llm-api-key` (bound as `ACOS_LLM_API_KEY` and `SARVAM_API_KEY`).
 - **The first principal account** on live is created by the owner with the bootstrap key; there are no
   credentials in this repo and none should be added.
-- **GitHub Actions** runs again since 2026-09-28: a push to `master` that touches a shipped path deploys
-  through `.github/workflows/deploy-gcp.yml` (keyless, Workload Identity Federation): backend and web, with
-  Flutter pinned to 3.44.9. The hand runbook ([`docs/deploy-by-hand.md`](docs/deploy-by-hand.md)) is the
-  fallback, and its checks follow every deploy.
+- **GitHub Actions is blocked since 2026-09-29** by the account's billing (failed payment or spending
+  limit): every job is refused before it starts. Until the owner fixes it in GitHub → Billing & plans,
+  deploy by hand ([`docs/deploy-by-hand.md`](docs/deploy-by-hand.md)) after both suites pass locally.
+  Once fixed, a push to `master` deploys backend and web through `.github/workflows/deploy-gcp.yml` again.
+
+### Owner actions that switch built features on
+
+| Feature | What the owner does |
+|---|---|
+| CI deploys | Fix GitHub billing (above) |
+| Push notifications (phones) | Set `ACOS_FCM_PROJECT` on Cloud Run, give the runtime service account FCM send rights, add the Firebase config files to the Android project |
+| Email notifications and the weekly digest by email | Add SMTP secrets (see `assessment/mailer.py`) |
+| Scheduled automations on a clock | Create secret `ACOS_CRON_KEY`, bind it to Cloud Run, and a Cloud Scheduler job POSTing `/api/v1/automations/run` with header `X-Cron-Key` every 5-15 minutes (until then they run on ordinary traffic) |
+| Teacher and student apps on phones | Gradle flavors with `applicationIdSuffix`, signing keys, store listings (`docs/apps.md`) |
+| Grades 1-5 question bank (M6) | Approve downloading the NCERT class 1-5 textbooks (none are in `ncert-dataset/`) |
+| First principal of a school | Register with the bootstrap key (never in the repo) |
 
 ## 3. Set up a machine
 
