@@ -96,6 +96,11 @@
             "minLength": 1,
             "title": "Label",
             "type": "string"
+          },
+          "moveLessons": {
+            "default": true,
+            "title": "Movelessons",
+            "type": "boolean"
           }
         },
         "required": [
@@ -5737,6 +5742,31 @@
           "label": {
             "title": "Label",
             "type": "string"
+          },
+          "lessonsMoved": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lessonsmoved"
+          },
+          "notMoved": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notmoved"
           }
         },
         "required": [

@@ -5297,6 +5297,11 @@ export interface components {
             kind: string;
             /** Label */
             label: string;
+            /**
+             * Movelessons
+             * @default true
+             */
+            moveLessons: boolean;
         };
         /** AddSubtopicRequest */
         AddSubtopicRequest: {
@@ -7410,6 +7415,10 @@ export interface components {
             kind: string;
             /** Label */
             label: string;
+            /** Lessonsmoved */
+            lessonsMoved?: number | null;
+            /** Notmoved */
+            notMoved?: string[] | null;
         };
         /** Homework */
         Homework: {
