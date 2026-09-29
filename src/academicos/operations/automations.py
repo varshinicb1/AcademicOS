@@ -21,6 +21,12 @@ even two overlapping runs cannot double a message.
   for their marks (TA-7).
 - principal_alerts (from 08:00): sections behind plan, lost periods owed over a
   week, homework overdue in bulk, exams within a week without a full roster (ADM-3).
+- exam_reminders (from 17:00): students with a paper tomorrow, and invigilators
+  with duties tomorrow, in a published exam (NTF-2, SA-5).
+- term_report (from 15:00): on a term's last day, its principal hears the term
+  report is ready (NTF-2 end-of-term reports, ADM-4).
+- user_digests (every run): each person on a daily digest gets it once their
+  chosen time has passed (SA-5).
 
 Triggered by POST /api/v1/automations/run (Cloud Scheduler, with the
 operator's cron key) and, throttled, by ordinary traffic.
@@ -275,6 +281,65 @@ def principal_alerts(ops, cs, users, notify, now: datetime) -> int:
     return n
 
 
+def exam_reminders(ops, cs, users, notify, now: datetime) -> int:
+    """The evening before: each student of a class sitting a paper tomorrow,
+    and each invigilator with duties tomorrow, in a published exam."""
+    tomorrow = (now.astimezone(IST).date() + timedelta(days=1)).isoformat()
+    n = 0
+    for school in _schools(cs):
+        for ex in ops.exams_for_school(school):
+            if ex["status"] != "published" or not (ex["start_date"] <= tomorrow <= ex["end_date"]):
+                continue
+            papers = [p for p in ops.exam_papers(ex["id"]) if p["date"] == tomorrow]
+            if not papers:
+                continue
+            grade_ids = {g.number: g.id for g in cs.grades_for_year(ex["academic_year_id"])}
+            for p in papers:
+                students = [e.student_id for sec in (cs.sections_for_grade(grade_ids[p["grade"]])
+                                                     if p["grade"] in grade_ids else [])
+                            for e in cs.enrollments_for_section(sec.id)]
+                if not students:
+                    continue
+                notify(school_id=school, user_ids=students, kind="exam_reminder",
+                       params={"exam": ex["name"], "subject": p["subject_name"], "start": p["start_time"],
+                               "end": p["end_time"]},
+                       link="/my-exams", dedupe_key=f"examrem:{p['id']}")
+                n += len(students)
+            duties: dict[str, list[dict]] = {}
+            for r in ops.roster(ex["id"]):
+                if r["date"] == tomorrow and r["teacher_id"]:
+                    duties.setdefault(r["teacher_id"], []).append(r)
+            for teacher, rows in duties.items():
+                first = min(rows, key=lambda r: r["start_time"])
+                notify(school_id=school, user_ids=[teacher], kind="duty_reminder",
+                       params={"exam": ex["name"], "count": len(rows),
+                               "first": f"{_label(cs, first['section_id'])} {first['subject_name']} at {first['start_time']}"},
+                       link="/my-exams", dedupe_key=f"dutyrem:{ex['id']}:{teacher}:{tomorrow}")
+                n += 1
+    return n
+
+
+def term_report(ops, cs, users, notify, now: datetime) -> int:
+    """On a term's last day, its school's principals hear the term report is
+    ready (the report itself is built when opened, so it is never stale)."""
+    today = now.astimezone(IST).date().isoformat()
+    n = 0
+    for school in _schools(cs):
+        term = cs.term_for_date(school, today)
+        if term is None or term.end_date != today:
+            continue
+        principals = [u.id for u in users.users_for_school(school, role="principal")]
+        notify(school_id=school, user_ids=principals, kind="term_report_ready",
+               params={"term": term.name, "end": term.end_date}, link="/school/term-report",
+               dedupe_key=f"termreport:{term.id}")
+        n += 1
+    return n
+
+
+def user_digests(ops, cs, users, notify, now: datetime) -> int:
+    return ops.send_digests(now)
+
+
 # (job, opens at IST hour, period: "day" | "week" | "run", weekday or None, function)
 JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
     ("homework_due_tomorrow", 16, "day", None, homework_due_tomorrow),
@@ -284,6 +349,9 @@ JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
     ("principal_weekly_digest", 7, "week", 0, principal_weekly_digest),
     ("principal_alerts", 8, "day", None, principal_alerts),
     ("marking_due", 15, "day", None, marking_due),
+    ("exam_reminders", 17, "day", None, exam_reminders),
+    ("term_report", 15, "day", None, term_report),
+    ("user_digests", 0, "run", None, user_digests),
 ]
 
 

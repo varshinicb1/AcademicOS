@@ -420,9 +420,14 @@ class _GradeDialogState extends State<_GradeDialog> {
       marks[e.key] = v;
     }
     try {
-      await Ops.post('/homework/${widget.homework['id']}/submissions/${widget.row['studentId']}/grade',
-          body: {'marks': marks, if (_feedback.text.trim().isNotEmpty) 'feedback': _feedback.text.trim()});
+      await Ops.send('POST', '/homework/${widget.homework['id']}/submissions/${widget.row['studentId']}/grade',
+          body: {'marks': marks, if (_feedback.text.trim().isNotEmpty) 'feedback': _feedback.text.trim()},
+          label: 'Marks for ${widget.row['studentName'] ?? 'a student'}');
       if (mounted) Navigator.pop(context, true);
+    } on OpsQueued catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
+      Navigator.pop(context, false);
     } catch (e) {
       setState(() => _error = serverErrorMessage(e));
     }

@@ -7,6 +7,8 @@ import '../../../core/local_engine/local_store.dart';
 import '../../../data/datasources/api/api_error.dart';
 import '../../../data/datasources/api/auth_api.dart';
 import '../../shared/widgets/common_widgets.dart';
+import '../../workspace/profiles.dart';
+import '../widgets/google_button.dart';
 
 /// The front door of the online (server-connected) build: the router sends
 /// every signed-out visitor here before any other page loads, so nobody
@@ -46,6 +48,40 @@ class _LoginPageState extends State<LoginPage> {
   bool _firstPrincipal = false;
   bool _obscurePassword = true;
   String? _error;
+  // The Google client id when this deployment has Google sign-in (INT-1).
+  String? _googleClientId;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!GetIt.I.isRegistered<Dio>()) return;     // a widget test with no server
+    GetIt.I<Dio>().get('/auth/providers').then((r) {
+      final g = (r.data as Map)['google'];
+      if (mounted && g is Map) setState(() => _googleClientId = g['clientId'] as String?);
+    }, onError: (Object e) {
+      // Without the answer the page offers the password and the emailed code,
+      // which work regardless; the reason is shown only if Google was asked for.
+      if (mounted) setState(() => _googleClientId = null);
+      debugPrint('sign-in providers: ${serverErrorMessage(e)}');
+    });
+  }
+
+  Future<void> _signInWithGoogle(String credential) async {
+    setState(() {
+      _submitting = true;
+      _error = null;
+    });
+    try {
+      final r = await GetIt.I<Dio>().post('/auth/google', data: {'credential': credential});
+      final result = Map<String, dynamic>.from(r.data as Map);
+      LocalStore.instance.signIn(result['token'] as String, Map<String, dynamic>.from(result['user'] as Map));
+      if (mounted) context.go('/home');
+    } catch (e) {
+      if (mounted) setState(() => _error = serverErrorMessage(e));
+    } finally {
+      if (mounted) setState(() => _submitting = false);
+    }
+  }
 
   @override
   void dispose() {
@@ -101,8 +137,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     ));
     if (result == null || !mounted) return;
-    LocalStore.instance.authToken = result['token'] as String;
-    LocalStore.instance.authUser = Map<String, dynamic>.from(result['user'] as Map);
+    LocalStore.instance.signIn(result['token'] as String, Map<String, dynamic>.from(result['user'] as Map));
     context.go('/home');
   }
 
@@ -128,8 +163,7 @@ class _LoginPageState extends State<LoginPage> {
           email: _email.text.trim(), password: _password.text,
         );
       }
-      LocalStore.instance.authToken = result.token;
-      LocalStore.instance.authUser = result.user.toJson();
+      LocalStore.instance.signIn(result.token, result.user.toJson());
       if (!mounted) return;
       // Home, where the router's roleLanding sends students to their School
       // page and parents to their children (and the phone apps to their
@@ -279,6 +313,8 @@ class _LoginPageState extends State<LoginPage> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          // A shared family phone: continue as a child or parent already signed in (SA-8).
+                          if (!_registering) const SavedProfiles(),
                           if (_error != null)
                             Container(
                               margin: const EdgeInsets.only(bottom: 12),
@@ -390,6 +426,14 @@ class _LoginPageState extends State<LoginPage> {
                               // Students and parents may sign in without a password (ROLE-2).
                               onPressed: _submitting ? null : _signInWithCode,
                               child: const Text('Student or parent? Email me a sign-in code'),
+                            ),
+                          if (!_registering && _googleClientId != null)
+                            Center(
+                              child: GoogleSignInButton(
+                                clientId: _googleClientId!,
+                                onCredential: _signInWithGoogle,
+                                onProblem: (message) => setState(() => _error = message),
+                              ),
                             ),
                         ],
                       ),

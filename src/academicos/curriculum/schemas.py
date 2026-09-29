@@ -369,6 +369,10 @@ class AddHolidayRequest(Camel):
     # Set for a real multi-day block (a 30-45 day summer break) instead of
     # entering one row per date; omitted/None means a single-day holiday.
     end_date: Optional[str] = None
+    # NTF-3: lessons still to teach on these days move to the next teaching
+    # periods, and the teachers and students affected are told. False only
+    # records the day (e.g. entering last year's list before any plan exists).
+    move_lessons: bool = True
 
 
 class HolidayResponse(Camel):
@@ -378,6 +382,10 @@ class HolidayResponse(Camel):
     label: str
     kind: str
     end_date: Optional[str] = None
+    # On the add only: lessons moved off the holiday, and the plans that
+    # could not be moved (no cadence to reflow them on), named.
+    lessons_moved: Optional[int] = None
+    not_moved: Optional[list[str]] = None
 
 
 class TermRequest(Camel):

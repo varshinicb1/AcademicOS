@@ -78,10 +78,12 @@ class _MarksPageState extends State<MarksPage> {
     final present = [for (final r in rows) if (!_absent.contains(r['studentId']) && r['absent'] == true) r['studentId']];
     setState(() => _saving = true);
     try {
-      await Ops.put('/papers/${widget.paperId}/marks', query: {'sectionId': _section},
-          body: {'entries': entries, 'absent': absent, 'present': present});
+      await Ops.send('PUT', '/papers/${widget.paperId}/marks', query: {'sectionId': _section},
+          body: {'entries': entries, 'absent': absent, 'present': present}, label: 'Marks for this paper');
       await _load();
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Marks saved')));
+    } on OpsQueued catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
     } catch (e) {
       setState(() => _error = serverErrorMessage(e));
     } finally {

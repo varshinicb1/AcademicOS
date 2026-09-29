@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../core/local_engine/local_store.dart';
 import '../../core/session/current_session.dart';
+import '../../data/datasources/api/api_error.dart';
 
 /// Thin calls to the school-operations API (homework, progress, parents,
 /// cover, exams, notifications, admin tools). The shared Dio already carries
@@ -31,6 +33,7 @@ class Ops {
       final data = await _call(() => _dio.get(path, queryParameters: query));
       _save(key, data);
       offlineSince.value = null;
+      if (pending.value > 0) syncNow();       // the connection is back: send what waited
       return data;
     } on OpsError catch (e) {
       if (e.status != null) rethrow;          // the server answered: a real refusal, not "offline"
@@ -78,6 +81,15 @@ class Ops {
   static Future<Map<String, dynamic>> map(String path, {Map<String, dynamic>? query}) async =>
       Map<String, dynamic>.from(await get(path, query: query) as Map);
 
+  /// A file the server builds (an Excel workbook, a PDF), fetched with the
+  /// session token -- a bare link would reach the route without it. Never
+  /// answered from the offline copy.
+  static Future<Uint8List> bytes(String path, {Map<String, dynamic>? query}) async {
+    final data = await _call(() => _dio.get<List<int>>(path, queryParameters: query,
+        options: Options(responseType: ResponseType.bytes)));
+    return Uint8List.fromList(data as List<int>);
+  }
+
   static Future<dynamic> _call(Future<Response<dynamic>> Function() send) async {
     try {
       return (await send()).data;
@@ -85,6 +97,128 @@ class Ops {
       throw OpsError.from(e);
     }
   }
+
+  // ---------------------------------------------------------------- queued writes (TA-8)
+
+  /// How many changes are waiting on this phone to be sent.
+  static final ValueNotifier<int> pending = ValueNotifier(0);
+
+  /// Changes the server refused when they were finally sent, with its reason,
+  /// kept until the person has seen them.
+  static final ValueNotifier<List<Map<String, dynamic>>> refused = ValueNotifier(const []);
+
+  /// Why the last attempt to send could not finish (not a refusal: the
+  /// phone's own storage, say); null when it did.
+  static final ValueNotifier<String?> syncProblem = ValueNotifier(null);
+
+  static bool _flushing = false;
+
+  /// Send what waits without holding up the caller; a failure is shown in
+  /// the banner, not dropped.
+  static void syncNow() {
+    flush().then((_) => syncProblem.value = null,
+        onError: (Object e) => syncProblem.value = serverErrorMessage(e));
+  }
+
+  /// A write that may wait: sent now when the server can be reached; with no
+  /// connection at all it is kept on this phone, per signed-in user, and
+  /// [OpsQueued] is thrown so the screen can say so. Only for writes that
+  /// mean the same thing when sent later -- marking a lesson taught, saving
+  /// marks, handing in answers, answering a cover request, reading a
+  /// notification -- never for one whose time is the point (checking in).
+  /// A later change to the same thing replaces the waiting one.
+  static Future<dynamic> send(String method, String path,
+      {Object? body, Map<String, dynamic>? query, required String label}) async {
+    try {
+      final data = await _call(() => _dio.request(path, data: body, queryParameters: query,
+          options: Options(method: method)));
+      if (pending.value > 0) syncNow();
+      return data;
+    } on OpsError catch (e) {
+      if (e.status != null) rethrow;               // the server answered: a real refusal
+      _enqueue({'method': method, 'path': path, 'body': body, 'query': query, 'label': label,
+          'at': DateTime.now().toIso8601String()});
+      throw OpsQueued(label);
+    }
+  }
+
+  static String get _queueKey => 'ops_queue:${CurrentSession.userId}';
+  static String get _refusedKey => 'ops_refused:${CurrentSession.userId}';
+
+  static List<Map<String, dynamic>> _read(String key) {
+    final raw = LocalStore.instance.box.get(key);
+    if (raw is! String) return [];
+    return (jsonDecode(raw) as List).map((e) => Map<String, dynamic>.from(e as Map)).toList();
+  }
+
+  static void _write(String key, List<Map<String, dynamic>> items) =>
+      LocalStore.instance.box.put(key, jsonEncode(items));
+
+  static String _sameThing(Map item) => '${item['method']} ${item['path']} ${jsonEncode(item['query'])}';
+
+  static void _enqueue(Map<String, dynamic> item) {
+    final queue = _read(_queueKey)..removeWhere((q) => _sameThing(q) == _sameThing(item));
+    _write(_queueKey, queue..add(item));
+    pending.value = queue.length;
+  }
+
+  /// Load this user's waiting and refused changes (on start, after sign-in)
+  /// and try to send what waits.
+  static void loadSyncState() {
+    try {
+      pending.value = _read(_queueKey).length;
+      refused.value = _read(_refusedKey);
+    } catch (_) {
+      // not-a-failure: before the local store opens (tests, first frame) nothing can be waiting
+      return;
+    }
+    if (pending.value > 0) syncNow();
+  }
+
+  /// Send what is waiting, oldest first. It stops at the first change that
+  /// still cannot reach the server (or meets a server error, 5xx), so order
+  /// is kept; a change the server refuses (4xx) moves to [refused] with the
+  /// server's reason, and the rest carry on.
+  static Future<void> flush() async {
+    if (_flushing) return;
+    _flushing = true;
+    try {
+      var queue = _read(_queueKey);
+      final refusedNow = _read(_refusedKey);
+      while (queue.isNotEmpty) {
+        final item = queue.first;
+        try {
+          await _call(() => _dio.request(item['path'] as String, data: item['body'],
+              queryParameters: (item['query'] as Map?)?.cast<String, dynamic>(),
+              options: Options(method: item['method'] as String)));
+        } on OpsError catch (e) {
+          if (e.status == null || e.status! >= 500) break;     // still offline, or try again later
+          refusedNow.add({...item, 'reason': serverErrorMessage(e)});
+        }
+        queue = queue.sublist(1);
+        _write(_queueKey, queue);
+      }
+      _write(_refusedKey, refusedNow);
+      pending.value = queue.length;
+      refused.value = refusedNow;
+    } finally {
+      _flushing = false;
+    }
+  }
+
+  /// The person has read why a change was refused.
+  static void clearRefused() {
+    _write(_refusedKey, const []);
+    refused.value = const [];
+  }
+}
+
+/// A write kept on this phone to be sent when the connection is back; its
+/// message is what the screen shows.
+class OpsQueued extends OpsError {
+  final String label;
+  OpsQueued(this.label)
+      : super(null, 'No connection: "$label" is saved on this phone and will be sent when you are back online.');
 }
 
 class OpsError implements Exception {
@@ -116,25 +250,62 @@ class OpsError implements Exception {
 String isoDate(DateTime d) =>
     '${d.year.toString().padLeft(4, '0')}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
 
-/// "Offline: showing what was saved at 09:12", while reads come from the
-/// device's saved copies.
-class OfflineBanner extends StatelessWidget {
+/// "Offline: showing what was saved at 09:12" while reads come from the
+/// device's saved copies; "2 changes waiting to send" while writes wait
+/// (TA-8: a clear sync state); and any change the school refused when it
+/// was finally sent, with the reason.
+class OfflineBanner extends StatefulWidget {
   const OfflineBanner({super.key});
 
   @override
+  State<OfflineBanner> createState() => _OfflineBannerState();
+}
+
+class _OfflineBannerState extends State<OfflineBanner> {
+  @override
+  void initState() {
+    super.initState();
+    Ops.loadSyncState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<DateTime?>(
-      valueListenable: Ops.offlineSince,
-      builder: (context, at, _) {
-        if (at == null) return const SizedBox.shrink();
-        final t = at.toLocal();
-        final hhmm = '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';
-        return MaterialBanner(
-          leading: const Icon(Icons.cloud_off),
-          content: Text('Offline: showing what was saved at $hhmm on ${t.day}/${t.month}. '
-              'Changes need a connection.'),
-          actions: [TextButton(onPressed: () => Ops.offlineSince.value = null, child: const Text('OK'))],
-        );
+    return ListenableBuilder(
+      listenable: Listenable.merge([Ops.offlineSince, Ops.pending, Ops.refused, Ops.syncProblem]),
+      builder: (context, _) {
+        final at = Ops.offlineSince.value;
+        final waiting = Ops.pending.value;
+        final refused = Ops.refused.value;
+        final hhmm = at == null
+            ? ''
+            : '${at.toLocal().hour.toString().padLeft(2, '0')}:${at.toLocal().minute.toString().padLeft(2, '0')}';
+        return Column(mainAxisSize: MainAxisSize.min, children: [
+          if (at != null)
+            MaterialBanner(
+              leading: const Icon(Icons.cloud_off),
+              content: Text('Offline: showing what was saved at $hhmm on ${at.toLocal().day}/${at.toLocal().month}. '
+                  'Changes wait on this phone until you are back online.'),
+              actions: [TextButton(onPressed: () => Ops.offlineSince.value = null, child: const Text('OK'))],
+            ),
+          if (waiting > 0)
+            MaterialBanner(
+              leading: const Icon(Icons.cloud_upload_outlined),
+              content: Text((waiting == 1 ? '1 change is waiting to be sent.' : '$waiting changes are waiting to be sent.') +
+                  (Ops.syncProblem.value == null ? '' : ' The last try did not finish: ${Ops.syncProblem.value}')),
+              actions: const [TextButton(onPressed: Ops.syncNow, child: Text('Send now'))],
+            ),
+          if (refused.isNotEmpty)
+            MaterialBanner(
+              leading: Icon(Icons.error_outline, color: Theme.of(context).colorScheme.error),
+              content: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(refused.length == 1
+                    ? 'The school did not accept a change made offline:'
+                    : 'The school did not accept ${refused.length} changes made offline:'),
+                for (final r in refused) Text('• ${r['label']}: ${r['reason']}'),
+              ]),
+              actions: const [TextButton(onPressed: Ops.clearRefused, child: Text('Got it'))],
+            ),
+        ]);
       },
     );
   }

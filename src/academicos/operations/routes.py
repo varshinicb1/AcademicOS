@@ -100,6 +100,9 @@ class PreferencesResponse(Camel):
     quiet_start: str
     quiet_end: str
     language: str
+    # SA-5: one push and one email a day at this time (IST) instead of each
+    # as it comes; None is "as they come".
+    digest_at: Optional[str] = None
     kinds: list[KindPreference]
 
 
@@ -113,6 +116,8 @@ class PreferencesRequest(_Req):
     quiet_start: Optional[str] = Field(default=None, pattern=r"^([01]\d|2[0-3]):[0-5]\d$")
     quiet_end: Optional[str] = Field(default=None, pattern=r"^([01]\d|2[0-3]):[0-5]\d$")
     language: Optional[str] = None
+    # "HH:MM" turns the daily digest on at that time; "" turns it off.
+    digest_at: Optional[str] = Field(default=None, pattern=r"^(([01]\d|2[0-3]):[0-5]\d)?$")
     kinds: list[KindPreferenceBody] = []
 
 
@@ -132,6 +137,7 @@ def _prefs(user_id: str) -> PreferencesResponse:
     settings = s.settings_for(user_id)
     return PreferencesResponse(
         quiet_start=settings["quiet_start"], quiet_end=settings["quiet_end"], language=settings["language"],
+        digest_at=settings.get("digest_at"),
         kinds=[KindPreference(kind=k.key, label=k.label, push=s.channel_enabled(user_id, k.key, "push"),
                               email=s.channel_enabled(user_id, k.key, "email")) for k in CATALOGUE.values()])
 
@@ -256,6 +262,8 @@ def set_preferences(req: PreferencesRequest, current: User = Depends(get_current
     s = store()
     try:
         s.set_settings(current.id, quiet_start=req.quiet_start, quiet_end=req.quiet_end, language=req.language)
+        if req.digest_at is not None:
+            s.set_digest(current.id, req.digest_at or None)
         for k in req.kinds:
             for ch in CHANNELS:
                 v = getattr(k, ch)

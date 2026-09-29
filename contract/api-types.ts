@@ -13,8 +13,9 @@ export interface paths {
         };
         /**
          * Export
-         * @description The school's data as CSV, in the import's own columns where there is
-         *     an import for it, so an export edited in a spreadsheet imports back.
+         * @description The school's data as CSV or Excel, in the import's own columns where
+         *     there is an import for it, so an export edited in a spreadsheet imports
+         *     back.
          */
         get: operations["export_api_v1_admin_export__kind__get"];
         put?: never;
@@ -75,8 +76,8 @@ export interface paths {
         put?: never;
         /**
          * Bulk Import
-         * @description Plan (and with dryRun=false, apply) a CSV import. The year is the
-         *     one named, else the school's latest.
+         * @description Plan (and with dryRun=false, apply) an import from CSV or an Excel
+         *     workbook. The year is the one named, else the school's latest.
          */
         post: operations["bulk_import_api_v1_admin_import__kind__post"];
         delete?: never;
@@ -94,7 +95,7 @@ export interface paths {
         };
         /**
          * Import Template
-         * @description The CSV header for an import, with one example row.
+         * @description The header for an import, with one example row, as CSV or Excel.
          */
         get: operations["import_template_api_v1_admin_import__kind__template_get"];
         put?: never;
@@ -356,6 +357,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/auth/google": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sign In With Google
+         * @description Sign in with a Google ID token: the same answer as a password sign-in.
+         */
+        post: operations["sign_in_with_google_api_v1_auth_google_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/auth/invites": {
         parameters: {
             query?: never;
@@ -448,6 +469,27 @@ export interface paths {
         };
         /** Me */
         get: operations["me_api_v1_auth_me_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/auth/providers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Providers
+         * @description Which ways in this deployment offers, for the sign-in page: Google
+         *     (with the public client id the button needs) and emailed codes.
+         */
+        get: operations["providers_api_v1_auth_providers_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -708,6 +750,49 @@ export interface paths {
         get: operations["child_homework_api_v1_children__student_id__homework_get"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/children/{student_id}/homework/{homework_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Child Homework Detail
+         * @description One homework as the child sees it: the questions without answers;
+         *     after marking, the marks and the model answers.
+         */
+        get: operations["child_homework_detail_api_v1_children__student_id__homework__homework_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/children/{student_id}/homework/{homework_id}/submit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Child Homework Submit
+         * @description A parent hands in a young child's answers (SA-7: in classes 1-5 the
+         *     parent does the app with the child). From class 6 the child hands in
+         *     their own work. Recorded in the audit log as the parent's action.
+         */
+        post: operations["child_homework_submit_api_v1_children__student_id__homework__homework_id__submit_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2859,6 +2944,49 @@ export interface paths {
          * @description Today at a glance, for the principal (or a reports admin).
          */
         get: operations["summary_api_v1_dashboard_summary_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/dashboard/term": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Term Report
+         * @description The term at a glance, for the principal or a reports admin, filtered
+         *     by class, section or subject. By default the term covering today; with no
+         *     term declared, the year so far (and the response says so).
+         */
+        get: operations["term_report_api_v1_dashboard_term_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/dashboard/term/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Export Term Report
+         * @description The same report as an Excel workbook or a PDF (ADM-4). Every download
+         *     is recorded in the audit log with who took it.
+         */
+        get: operations["export_term_report_api_v1_dashboard_term_export_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5254,6 +5382,11 @@ export interface components {
             kind: string;
             /** Label */
             label: string;
+            /**
+             * Movelessons
+             * @default true
+             */
+            moveLessons: boolean;
         };
         /** AddSubtopicRequest */
         AddSubtopicRequest: {
@@ -5670,6 +5803,19 @@ export interface components {
             chapterName: string;
             /** Questioncount */
             questionCount: number;
+        };
+        /** BankRow */
+        BankRow: {
+            /** Chapters */
+            chapters: number;
+            /** Chapterswithoutquestions */
+            chaptersWithoutQuestions: string[];
+            /** Grade */
+            grade: number;
+            /** Questions */
+            questions: number;
+            /** Subject */
+            subject: string;
         };
         /** BellScheduleRequest */
         BellScheduleRequest: {
@@ -6105,6 +6251,8 @@ export interface components {
         ChildResponse: {
             /** Consent */
             consent: string;
+            /** Grade */
+            grade?: number | null;
             /** Name */
             name: string;
             /** Relation */
@@ -6126,6 +6274,8 @@ export interface components {
              * @default []
              */
             entries: components["schemas"]["TimetableEntryResponse"][];
+            /** Grade */
+            grade?: number | null;
             /** Role */
             role: string;
             /** Sectionid */
@@ -6185,6 +6335,18 @@ export interface components {
             sectionName: string;
             /** Students */
             students: number;
+        };
+        /** ClassSubject */
+        ClassSubject: {
+            /** Grade */
+            grade: number;
+            /**
+             * Papers
+             * @default 0
+             */
+            papers: number;
+            /** Subject */
+            subject: string;
         };
         /** ClosureRequest */
         ClosureRequest: {
@@ -6404,6 +6566,23 @@ export interface components {
             /** Hasconsent */
             hasConsent: boolean;
             record?: components["schemas"]["ParentalConsentRecord"] | null;
+        };
+        /** Cover */
+        Cover: {
+            /** Compensated */
+            compensated: number;
+            /** Filled */
+            filled: number;
+            /** Lost */
+            lost: number;
+            /** Owed */
+            owed: number;
+            /** Requested */
+            requested: number;
+            /** Supervised */
+            supervised: number;
+            /** Unfilled */
+            unfilled: number;
         };
         /** CoverSummaryResponse */
         CoverSummaryResponse: {
@@ -6909,6 +7088,19 @@ export interface components {
              */
             unfilled: string[];
         };
+        /** ExamRow */
+        ExamRow: {
+            /** Enddate */
+            endDate: string;
+            /** Name */
+            name: string;
+            /** Papers */
+            papers: number;
+            /** Startdate */
+            startDate: string;
+            /** Status */
+            status: string;
+        };
         /** ExamSoon */
         ExamSoon: {
             /** Id */
@@ -6919,6 +7111,19 @@ export interface components {
             startDate: string;
             /** Status */
             status: string;
+        };
+        /** Exams */
+        Exams: {
+            /** Covered */
+            covered: components["schemas"]["ClassSubject"][];
+            /** Notyet */
+            notYet: components["schemas"]["ClassSubject"][];
+            /** Papersset */
+            papersSet: number;
+            /** Scheduled */
+            scheduled: components["schemas"]["ExamRow"][];
+            /** Unattributed */
+            unattributed: number;
         };
         /** ExtractRequest */
         ExtractRequest: {
@@ -6956,6 +7161,17 @@ export interface components {
         FeedResponse: {
             /** Url */
             url: string;
+        };
+        /** Filters */
+        Filters: {
+            /** Grade */
+            grade?: number | null;
+            /** Sectionid */
+            sectionId?: string | null;
+            /** Sectionname */
+            sectionName?: string | null;
+            /** Subject */
+            subject?: string | null;
         };
         /** FinalizeResponse */
         FinalizeResponse: {
@@ -7106,6 +7322,11 @@ export interface components {
             sectionId: string;
             /** Totalmarks */
             totalMarks: number;
+        };
+        /** GoogleSignIn */
+        GoogleSignIn: {
+            /** Credential */
+            credential: string;
         };
         /** GradeRequest */
         GradeRequest: {
@@ -7288,6 +7509,23 @@ export interface components {
             kind: string;
             /** Label */
             label: string;
+            /** Lessonsmoved */
+            lessonsMoved?: number | null;
+            /** Notmoved */
+            notMoved?: string[] | null;
+        };
+        /** Homework */
+        Homework: {
+            /** Expected */
+            expected: number;
+            /** Handedin */
+            handedIn: number;
+            /** Issued */
+            issued: number;
+            /** Marked */
+            marked: number;
+            /** Rows */
+            rows: components["schemas"]["HomeworkRow"][];
         };
         /** HomeworkCreateRequest */
         HomeworkCreateRequest: {
@@ -7372,6 +7610,21 @@ export interface components {
             title: string;
             /** Totalmarks */
             totalMarks: number;
+        };
+        /** HomeworkRow */
+        HomeworkRow: {
+            /** Expected */
+            expected: number;
+            /** Grade */
+            grade: number;
+            /** Handedin */
+            handedIn: number;
+            /** Issued */
+            issued: number;
+            /** Marked */
+            marked: number;
+            /** Subject */
+            subject: string;
         };
         /**
          * HomeworkSetRequest
@@ -7460,12 +7713,18 @@ export interface components {
             /** Waitingtomark */
             waitingToMark: number;
         };
-        /** ImportRequest */
+        /**
+         * ImportRequest
+         * @description The rows as CSV text, or as an Excel workbook (.xlsx, base64): its
+         *     first sheet, in the same columns (INT-3).
+         */
         ImportRequest: {
             /** Academicyearid */
             academicYearId?: string | null;
             /** Csv */
-            csv: string;
+            csv?: string | null;
+            /** Xlsx */
+            xlsx?: string | null;
         };
         /** ImportResponse */
         ImportResponse: {
@@ -7885,6 +8144,8 @@ export interface components {
              * @default []
              */
             entries: components["schemas"]["TimetableEntryResponse"][];
+            /** Grade */
+            grade?: number | null;
             /** Role */
             role: string;
             /** Sectionid */
@@ -8473,6 +8734,8 @@ export interface components {
         };
         /** PreferencesRequest */
         PreferencesRequest: {
+            /** Digestat */
+            digestAt?: string | null;
             /**
              * Kinds
              * @default []
@@ -8487,6 +8750,8 @@ export interface components {
         };
         /** PreferencesResponse */
         PreferencesResponse: {
+            /** Digestat */
+            digestAt?: string | null;
             /** Kinds */
             kinds: components["schemas"]["KindPreference"][];
             /** Language */
@@ -8502,6 +8767,23 @@ export interface components {
             items: components["schemas"]["ReviewItemResponse"][];
             /** Warnings */
             warnings?: string[];
+        };
+        /** ProgressRow */
+        ProgressRow: {
+            /** Developing */
+            developing: number;
+            /** Early */
+            early: number;
+            /** Grade */
+            grade: number;
+            /** Mastered */
+            mastered: number;
+            /** Needswork */
+            needsWork: number;
+            /** Studentswithevidence */
+            studentsWithEvidence: number;
+            /** Subject */
+            subject: string;
         };
         /** ProposalResponse */
         ProposalResponse: {
@@ -9468,6 +9750,26 @@ export interface components {
              */
             tagline: string;
         };
+        /** Scope */
+        Scope: {
+            /** Asof */
+            asOf: string;
+            /** Enddate */
+            endDate: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "term" | "year";
+            /** Name */
+            name: string;
+            /** Note */
+            note?: string | null;
+            /** Startdate */
+            startDate: string;
+            /** Termid */
+            termId?: string | null;
+        };
         /** ScoreRequest */
         ScoreRequest: {
             /**
@@ -10382,6 +10684,17 @@ export interface components {
              */
             withoutKey: number;
         };
+        /** Syllabus */
+        Syllabus: {
+            /** Behind */
+            behind: number;
+            /** Plannedtodate */
+            plannedToDate: number;
+            /** Rows */
+            rows: components["schemas"]["SyllabusRow"][];
+            /** Taughttodate */
+            taughtToDate: number;
+        };
         /** SyllabusChapterResponse */
         SyllabusChapterResponse: {
             /** Id */
@@ -10403,6 +10716,29 @@ export interface components {
             totalMarks: number;
             /** Units */
             units: components["schemas"]["SyllabusUnitResponse"][];
+        };
+        /** SyllabusRow */
+        SyllabusRow: {
+            /** Behind */
+            behind: boolean;
+            /** Coveragepct */
+            coveragePct: number;
+            /** Grade */
+            grade: number;
+            /** Pacepct */
+            pacePct: number;
+            /** Plannedtodate */
+            plannedToDate: number;
+            /** Sectionname */
+            sectionName?: string | null;
+            /** Subject */
+            subject: string;
+            /** Taughttodate */
+            taughtToDate: number;
+            /** Totallessons */
+            totalLessons: number;
+            /** Variance */
+            variance: number;
         };
         /** SyllabusUnitResponse */
         SyllabusUnitResponse: {
@@ -10617,6 +10953,20 @@ export interface components {
             /** Minutes */
             minutes: number | null;
         };
+        /** TermReport */
+        TermReport: {
+            /** Bank */
+            bank: components["schemas"]["BankRow"][];
+            cover: components["schemas"]["Cover"];
+            exams: components["schemas"]["Exams"];
+            filters: components["schemas"]["Filters"];
+            homework: components["schemas"]["Homework"];
+            /** Progress */
+            progress: components["schemas"]["ProgressRow"][];
+            scope: components["schemas"]["Scope"];
+            syllabus: components["schemas"]["Syllabus"];
+            timeSaved: components["schemas"]["TimeSaved"];
+        };
         /**
          * TermRequest
          * @description Create and update take the whole term: a term is three fields, and a
@@ -10662,6 +11012,24 @@ export interface components {
              * @default
              */
             sentence: string;
+        };
+        /** TimeSaved */
+        TimeSaved: {
+            /** Baselineminutesperpaper */
+            baselineMinutesPerPaper: number;
+            /** Baselineprovenance */
+            baselineProvenance: string;
+            /**
+             * Estimated
+             * @default true
+             */
+            estimated: boolean;
+            /** Minutesperpaper */
+            minutesPerPaper: number;
+            /** Minutestotal */
+            minutesTotal: number;
+            /** Papers */
+            papers: number;
         };
         /** TimetableEntryBody */
         TimetableEntryBody: {
@@ -11005,6 +11373,7 @@ export interface operations {
         parameters: {
             query?: {
                 academicYearId?: string | null;
+                format?: "csv" | "xlsx";
             };
             header?: never;
             path: {
@@ -11168,7 +11537,9 @@ export interface operations {
     };
     import_template_api_v1_admin_import__kind__template_get: {
         parameters: {
-            query?: never;
+            query?: {
+                format?: "csv" | "xlsx";
+            };
             header?: never;
             path: {
                 kind: string;
@@ -11748,6 +12119,39 @@ export interface operations {
             };
         };
     };
+    sign_in_with_google_api_v1_auth_google_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GoogleSignIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_invites_api_v1_auth_invites_get: {
         parameters: {
             query?: never;
@@ -11914,6 +12318,28 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["UserResponse"];
+                };
+            };
+        };
+    };
+    providers_api_v1_auth_providers_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
         };
@@ -12304,6 +12730,74 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MyHomeworkItem"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    child_homework_detail_api_v1_children__student_id__homework__homework_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+                homework_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyHomeworkDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    child_homework_submit_api_v1_children__student_id__homework__homework_id__submit_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+                homework_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SubmitRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyHomeworkDetail"];
                 };
             };
             /** @description Validation Error */
@@ -16171,6 +16665,75 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["DashboardSummary"];
+                };
+            };
+        };
+    };
+    term_report_api_v1_dashboard_term_get: {
+        parameters: {
+            query?: {
+                termId?: string | null;
+                grade?: number | null;
+                sectionId?: string | null;
+                subject?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TermReport"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    export_term_report_api_v1_dashboard_term_export_get: {
+        parameters: {
+            query?: {
+                format?: "xlsx" | "pdf";
+                termId?: string | null;
+                grade?: number | null;
+                sectionId?: string | null;
+                subject?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

@@ -9,7 +9,12 @@ import 'dart:typed_data';
 /// work -- the browser would request it without the bearer token and get
 /// 401 (the live release's answer-key bug, re-audit 2026-09-22).
 Future<void> savePdf(Uint8List bytes, String filename) async {
-  final blob = html.Blob([bytes], 'application/pdf');
+  final type = filename.endsWith('.xlsx')
+      ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      : filename.endsWith('.docx')
+          ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          : 'application/pdf';
+  final blob = html.Blob([bytes], type);
   final url = html.Url.createObjectUrlFromBlob(blob);
   final anchor = html.AnchorElement(href: url)
     ..download = filename
