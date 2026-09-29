@@ -1832,6 +1832,20 @@
         "title": "Body_upload_scan_page_api_v1_scan_sessions__session_id__pages_post",
         "type": "object"
       },
+      "Body_upload_school_logo_api_v1_curriculum_school_profile_logo_post": {
+        "properties": {
+          "file": {
+            "contentMediaType": "application/octet-stream",
+            "title": "File",
+            "type": "string"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_school_logo_api_v1_curriculum_school_profile_logo_post",
+        "type": "object"
+      },
       "BookResponse": {
         "properties": {
           "boardId": {
@@ -11670,6 +11684,102 @@
           "interventions"
         ],
         "title": "SchoolInsightsResponse",
+        "type": "object"
+      },
+      "SchoolProfileRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "affiliation": {
+            "anyOf": [
+              {
+                "maxLength": 120,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Affiliation"
+          },
+          "name": {
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "SchoolProfileRequest",
+        "type": "object"
+      },
+      "SchoolProfileResponse": {
+        "description": "`name` is null until the principal sets it: papers then print no\nschool name rather than a placeholder.",
+        "properties": {
+          "address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "affiliation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Affiliation"
+          },
+          "hasLogo": {
+            "default": false,
+            "title": "Haslogo",
+            "type": "boolean"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "updatedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updatedat"
+          }
+        },
+        "title": "SchoolProfileResponse",
         "type": "object"
       },
       "SchoolTemplate": {
@@ -22329,6 +22439,156 @@
           }
         ],
         "summary": "Adjust Lesson"
+      }
+    },
+    "/api/v1/curriculum/school-profile": {
+      "get": {
+        "description": "The caller's school's name, address, affiliation line and whether it\nhas a logo. Any signed-in member of the school: the apps show the name.",
+        "operationId": "get_school_profile_api_v1_curriculum_school_profile_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchoolProfileResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get School Profile"
+      },
+      "put": {
+        "description": "Set the name every paper, answer key and report prints at the top.",
+        "operationId": "set_school_profile_api_v1_curriculum_school_profile_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SchoolProfileRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchoolProfileResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set School Profile"
+      }
+    },
+    "/api/v1/curriculum/school-profile/logo": {
+      "delete": {
+        "operationId": "remove_school_logo_api_v1_curriculum_school_profile_logo_delete",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchoolProfileResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Remove School Logo"
+      },
+      "get": {
+        "operationId": "get_school_logo_api_v1_curriculum_school_profile_logo_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get School Logo"
+      },
+      "post": {
+        "description": "A PNG or JPEG of at most 1 MB, printed beside the school's name. The\nschool's name must be set first.",
+        "operationId": "upload_school_logo_api_v1_curriculum_school_profile_logo_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_school_logo_api_v1_curriculum_school_profile_logo_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchoolProfileResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Upload School Logo"
       }
     },
     "/api/v1/curriculum/sections/{section_id}": {
