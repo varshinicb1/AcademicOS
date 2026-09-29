@@ -1121,6 +1121,34 @@
         "title": "AuthResponse",
         "type": "object"
       },
+      "AutomationRun": {
+        "properties": {
+          "job": {
+            "title": "Job",
+            "type": "string"
+          },
+          "notified": {
+            "title": "Notified",
+            "type": "integer"
+          },
+          "periodKey": {
+            "title": "Periodkey",
+            "type": "string"
+          },
+          "ranAt": {
+            "title": "Ranat",
+            "type": "string"
+          }
+        },
+        "required": [
+          "job",
+          "periodKey",
+          "ranAt",
+          "notified"
+        ],
+        "title": "AutomationRun",
+        "type": "object"
+      },
       "AvailabilityReport": {
         "properties": {
           "bankQuestions": {
@@ -14160,6 +14188,83 @@
           }
         ],
         "summary": "List School Users"
+      }
+    },
+    "/api/v1/automations/run": {
+      "post": {
+        "description": "For Cloud Scheduler: run every automation that is due. Needs the\noperator's key (env ACOS_CRON_KEY); 404 when none is configured, so the\nroute does not exist on a deployment that has not opted in.",
+        "operationId": "automations_run_api_v1_automations_run_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-Cron-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Cron-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Automations Run Api V1 Automations Run Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Automations Run"
+      }
+    },
+    "/api/v1/automations/status": {
+      "get": {
+        "description": "The latest automation runs, newest first (runs are not per school).",
+        "operationId": "automations_status_api_v1_automations_status_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AutomationRun"
+                  },
+                  "title": "Response Automations Status Api V1 Automations Status Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Automations Status"
       }
     },
     "/api/v1/blueprints/generate": {

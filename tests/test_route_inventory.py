@@ -196,6 +196,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/notification-preferences"),
     ("POST", "/api/v1/devices"),
     ("DELETE", "/api/v1/devices/{token}"),
+    ("POST", "/api/v1/automations/run"),
+    ("GET", "/api/v1/automations/status"),
     ("GET", "/api/v1/homework/suggestion"),
     ("POST", "/api/v1/homework"),
     ("GET", "/api/v1/homework"),
@@ -446,6 +448,7 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/notification-preferences"),
     ("POST", "/api/v1/devices"),
     ("DELETE", "/api/v1/devices/{token}"),
+    ("GET", "/api/v1/automations/status"),
     ("GET", "/api/v1/homework/suggestion"),
     ("POST", "/api/v1/homework"),
     ("GET", "/api/v1/homework"),
@@ -813,7 +816,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 240: M1.5 added parents (12), M1.6 bulk import and export (3).
     # 244: D38 added API key issuance (4).
     # 247: SCH-9 added teacher attendance (3).
-    assert len(API_ROUTES) == 247
+    # 249: NTF-2 added automations (2).
+    assert len(API_ROUTES) == 249
 
 
 def test_docs_routes_present():
