@@ -67,11 +67,17 @@ def build(folder: Path) -> tuple[list[dict], list[dict], list[dict]]:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--in", dest="src", required=True, type=Path)
+    ap.add_argument("--in", dest="src", required=True, type=Path, nargs="+",
+                    help="transcription folders: board, sqp and cfpq go into one file")
     ap.add_argument("--out", type=Path, default=REPO / "academicos-data" / "corpus" / "cbse-board" / "questions.json")
     ap.add_argument("--check", action="store_true")
     a = ap.parse_args()
-    records, refused, report = build(a.src)
+    records, refused, report = [], [], []
+    for src in a.src:
+        more = build(src)
+        records += more[0]
+        refused += more[1]
+        report += more[2]
     by_subject = Counter((r["grade"], r["subject"]) for r in records)
     print(f"{len(records)} records from {sum(1 for r in report if 'built' in r)} papers; "
           f"{len(refused)} refused: {dict(Counter(r['reason'] for r in refused))}")
