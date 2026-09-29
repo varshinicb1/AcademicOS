@@ -7,6 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'core/constants/app_constants.dart';
 import 'core/di/service_locator.dart';
+import 'core/errors/error_reporter.dart';
 import 'core/local_engine/app_lock.dart';
 import 'core/local_engine/secure_box.dart';
 import 'core/local_server/local_server_manager.dart';
@@ -35,6 +36,11 @@ void main() async {
 
   // Initialize dependencies
   await initDependencies();
+
+  // NFR-7: errors the app catches are reported and grouped on the server
+  // (never from the offline build, which makes no request).
+  final reporter = ErrorReporter.forApp();
+  if (reporter != null) ErrorReporter.install(reporter);
 
   runApp(const ProviderScope(child: AcademicOSApp()));
 }
