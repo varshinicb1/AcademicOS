@@ -121,8 +121,9 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
   Future<void> _submit() async {
     setState(() => _sending = true);
     try {
-      final hw = await Ops.post('/my-homework/${widget.homeworkId}/submit',
-          body: {'answers': {for (final e in _answers.entries) e.key: e.value.text.trim()}});
+      final hw = await Ops.send('POST', '/my-homework/${widget.homeworkId}/submit',
+          body: {'answers': {for (final e in _answers.entries) e.key: e.value.text.trim()}},
+          label: 'Answers for ${_hw?['title'] ?? 'homework'}');
       setState(() => _hw = Map<String, dynamic>.from(hw as Map));
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(

@@ -23,7 +23,7 @@ class _InboxPageState extends State<InboxPage> {
   Future<void> _open(Map<String, dynamic> n) async {
     if (n['read'] != true) {
       try {
-        await Ops.post('/notifications/${n['id']}/read');
+        await Ops.send('POST', '/notifications/${n['id']}/read', label: 'Mark a notification read');
       } catch (_) {
         // not-a-failure: marking as read is a courtesy; opening the notification must not wait on it
       }
@@ -53,8 +53,13 @@ class _InboxPageState extends State<InboxPage> {
       appBar: AppBar(title: Text(tr('Notifications')), actions: [
         TextButton(
           onPressed: () async {
-            await Ops.post('/notifications/read-all');
-            _reload();
+            final messenger = ScaffoldMessenger.of(context);
+            try {
+              await Ops.send('POST', '/notifications/read-all', label: 'Mark all notifications read');
+              _reload();
+            } catch (e) {
+              messenger.showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
+            }
           },
           child: Text(tr('Mark all read')),
         ),
