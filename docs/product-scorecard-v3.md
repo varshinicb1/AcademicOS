@@ -89,3 +89,4 @@ Record each audit under `docs/audits/` and log it below, with its date, commit, 
 
 | Date | Commit | Total | File |
 |---|---|---|---|
+| 2026-09-30 | `e3a64de` | **40.0** (QB 6.15, EX 7.92, SCH 6.67, TA 5.00, SA 3.13, ADM 4.72, API 2.71, NTF/INT 1.88, NFR 1.88) | [`audits/2026-09-30-e3a64de-v3.md`](audits/2026-09-30-e3a64de-v3.md): the v3 baseline |
