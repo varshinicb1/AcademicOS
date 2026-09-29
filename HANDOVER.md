@@ -20,7 +20,7 @@ The previous handover (2026-09-21, answer-key linkage) is kept in `docs/history/
 
 | Piece | Where | State |
 |---|---|---|
-| Web app (Flutter web) | https://vidyuthlabs.web.app (Firebase Hosting, project `vidyuthlabs`) | live, commit `e0d7d63` (2026-09-28) |
+| Web app (Flutter web) | https://vidyuthlabs.web.app (Firebase Hosting, project `vidyuthlabs`) | live, commit `2fc1771` (2026-09-29): the School tab for every role |
 | Backend (FastAPI) | Cloud Run `academicos-backend`, `asia-south1`, https://academicos-backend-2eskom55ta-el.a.run.app | live, `/health` reports the commit |
 | Database | Cloud SQL Postgres `academicos-pg` (durable tables) + SQLite snapshots | live |
 | Blobs | GCS `vidyuthlabs-academicos-media` | live |
@@ -37,8 +37,7 @@ allocations, rooms, bells, a solver-backed timetable, leave/substitution/compens
 notifications and scheduled automations, homework (with photos), learning progress and self-practice,
 parents, delegated admin, CSV import/export, exam review/datesheet/invigilation/marks, a principal
 dashboard and alerts, calendar feeds, the School tab on the web, and teacher/student app builds
-(`docs/apps.md`). The backend through #25 is live (`aa85cae`); the web School tab goes live with the next
-web deploy. None of it has been through a scored audit yet, so the score above has not moved. What is
+(`docs/apps.md`). Backend and web through #32 are live (`2fc1771`, 2026-09-29). None of it has been through a scored audit yet, so the score above has not moved. What is
 still missing: section 6.
 
 ## 2. Access you need (ask the product owner)
