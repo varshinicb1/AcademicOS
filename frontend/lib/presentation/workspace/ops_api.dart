@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -77,6 +78,15 @@ class Ops {
 
   static Future<Map<String, dynamic>> map(String path, {Map<String, dynamic>? query}) async =>
       Map<String, dynamic>.from(await get(path, query: query) as Map);
+
+  /// A file the server builds (an Excel workbook, a PDF), fetched with the
+  /// session token -- a bare link would reach the route without it. Never
+  /// answered from the offline copy.
+  static Future<Uint8List> bytes(String path, {Map<String, dynamic>? query}) async {
+    final data = await _call(() => _dio.get<List<int>>(path, queryParameters: query,
+        options: Options(responseType: ResponseType.bytes)));
+    return Uint8List.fromList(data as List<int>);
+  }
 
   static Future<dynamic> _call(Future<Response<dynamic>> Function() send) async {
     try {

@@ -743,11 +743,11 @@ def get_paper_timing(term_id: Optional[str] = Query(None, alias="termId"),
         if term.manual_baseline_minutes is not None:
             baseline = (float(term.manual_baseline_minutes),
                         f"set by the principal for {term.name}")
-        # The classes 6-10 the school declared for the term's year, and their
+        # The classes 1-10 (requirements v3) the school declared for the term's year, and their
         # subjects: what "not yet" is measured against.
         universe = [(g.number, s.name)
                     for g in curriculum.grades_for_year(term.academic_year_id)
-                    if 6 <= g.number <= 10
+                    if 1 <= g.number <= 10
                     for s in curriculum.subjects_for_grade(g.id)]
     rep = paper_timing.report(
         cfg.data_root, school_id=current.school_id, attribute=attribute, baseline=baseline,

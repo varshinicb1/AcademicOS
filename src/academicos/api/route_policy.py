@@ -259,6 +259,8 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/staff"): _p(STAFF, "names only, for pickers"),
     # ADM-2 dashboard, INT-2 calendar feed, API-2 homework sets, SA-2 photos.
     ("GET", "/api/v1/dashboard/summary"): _p(ADMIN["reports"]),
+    ("GET", "/api/v1/dashboard/term"): _p(ADMIN["reports"]),
+    ("GET", "/api/v1/dashboard/term/export"): _p(ADMIN["reports"]),
     ("GET", "/api/v1/calendar-feed"): _p(ANY_USER, "the callers own feed; staff and students"),
     ("POST", "/api/v1/calendar-feed/reset"): _p(ANY_USER, "the callers own feed"),
     ("GET", "/api/v1/ics/{token}.ics"): _p(PUBLIC, "the unguessable feed token is the key; the owners own dates only"),
