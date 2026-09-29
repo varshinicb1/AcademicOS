@@ -52,6 +52,8 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
   late final TextEditingController _start;
   late final TextEditingController _end;
   final _sections = TextEditingController(text: '1');
+  // The name printed at the top of every paper (EX-5, audit D41).
+  final _schoolName = TextEditingController();
   bool _busy = false;
   String? _progress;
   String? _error;
@@ -73,6 +75,7 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
     _start.dispose();
     _end.dispose();
     _sections.dispose();
+    _schoolName.dispose();
     super.dispose();
   }
 
@@ -93,11 +96,24 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
       return;
     }
     final wanted = SchoolSetupCard.sectionNames(perClass);
+    final schoolName = _schoolName.text.trim();
     setState(() {
       _busy = true;
       _error = null;
       _done.clear();
     });
+    if (schoolName.isNotEmpty) {
+      try {
+        await widget.api.setSchoolName(schoolName);
+      } catch (err) {
+        if (!mounted) return;
+        setState(() {
+          _busy = false;
+          _error = 'The school\'s name was not saved: ${serverErrorMessage(err)} Nothing else was set up yet.';
+        });
+        return;
+      }
+    }
     for (final (i, grade) in releaseGrades.indexed) {
       setState(() => _progress = 'Setting up Class $grade (${i + 1} of ${releaseGrades.length})...');
       try {
@@ -153,6 +169,18 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
             'chapters and sections. Then add your calendar rules and terms on Calendar & Setup, and '
             'choose each subject\'s book edition and each section\'s class teacher on Roster.',
             style: muted,
+          ),
+          const Gap(12),
+          TextField(
+            key: const ValueKey('setup-school-name'),
+            controller: _schoolName,
+            enabled: !_busy,
+            decoration: const InputDecoration(
+              labelText: 'School name',
+              hintText: 'Sunrise Public School',
+              helperText: 'Printed at the top of every paper. You can change it later on the School tab.',
+              border: OutlineInputBorder(),
+            ),
           ),
           const Gap(12),
           TextField(

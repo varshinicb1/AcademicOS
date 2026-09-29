@@ -82,8 +82,9 @@ def _question(gq) -> list[str]:
 
 def _body(paper, template) -> str:
     m = paper.metadata
-    school = (m.school_name or (template.name if template and template.name else "") or "AcademicOS School")
-    paras = [_p(_run(school, bold=True, size=32), align="center", space_after=40)]
+    from .pdf import printable_school_name
+    school = printable_school_name(m.school_name, template)
+    paras = [_p(_run(school, bold=True, size=32), align="center", space_after=40)] if school else []
     if m.exam_name and m.exam_name != m.assessment_title:
         paras.append(_p(_run(m.exam_name, bold=True, size=26), align="center", space_after=40))
     title = m.assessment_title + (f"  |  SET {paper.set_label}" if paper.set_label else "")
@@ -135,8 +136,12 @@ def _plain(markup: str) -> str:
 
 def _footer(paper, template, watermark_id: Optional[str]) -> str:
     code = paper.id.replace("paper_", "").upper()[:10]
-    school = template.name if template and template.name else "AcademicOS"
-    lines = [_p(_run(f"{school}  ·  Q.P. Code {code}", size=15), align="center", space_after=0)]
+    from .pdf import printable_school_name
+    # The PDF footer's rule: the school's printable name or none, never a
+    # placeholder or the product's name (audit D41).
+    school = printable_school_name(paper.metadata.school_name, template)
+    left = f"{school}  ·  Q.P. Code {code}" if school else f"Q.P. Code {code}"
+    lines = [_p(_run(left, size=15), align="center", space_after=0)]
     if watermark_id:
         lines.append(_p(_run(f"Confidential — traceable copy {watermark_id}", size=12), align="center", space_after=0))
     return (f'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:ftr {_W}>' + "".join(lines) + "</w:ftr>")

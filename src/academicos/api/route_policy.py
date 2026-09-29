@@ -224,6 +224,12 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     # personal data, so staff may read them, as they read /rooms.
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability"): _p(STAFF),
     ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability/{room_id}"): _p(ADMIN["timetable"]),
+    # EX-5 / D41: the school's own name and logo, printed on its papers.
+    ("GET", "/api/v1/curriculum/school-profile"): _p(ANY_USER, "the school's name; the apps show it"),
+    ("PUT", "/api/v1/curriculum/school-profile"): _p(PRINCIPAL),
+    ("GET", "/api/v1/curriculum/school-profile/logo"): _p(ANY_USER),
+    ("POST", "/api/v1/curriculum/school-profile/logo"): _p(PRINCIPAL),
+    ("DELETE", "/api/v1/curriculum/school-profile/logo"): _p(PRINCIPAL),
     # SCH-5..7 leave, substitution, compensation (curriculum/cover_routes.py).
     ("POST", "/api/v1/curriculum/leave-requests"): _p(STAFF, "a teacher applies for own leave; the principal for anyone"),
     ("GET", "/api/v1/curriculum/leave-requests"): _p(STAFF, "the principal sees all; a teacher their own"),

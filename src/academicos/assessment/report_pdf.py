@@ -105,12 +105,13 @@ def _action_for(view: ConceptMasteryView) -> str:
 
 def _header(student_name: str, student_id: str, subject: str,
            template: Optional[SchoolTemplate], styles: dict, content_width: float) -> list:
-    school_name = template.name if template and template.name else "AcademicOS School"
+    from .pdf import printable_school_name
+    school_name = printable_school_name(None, template)
     brand = colors.HexColor(template.brand_color) if template and template.brand_color else colors.black
     story: list = []
 
     title_block = [
-        Paragraph(escape(school_name), styles["school"]),
+        *([Paragraph(escape(school_name), styles["school"])] if school_name else []),
         Paragraph("Student Progress Report", styles["title"]),
         Paragraph(f"{escape(student_name)} &nbsp;|&nbsp; Roll/ID: {escape(student_id)} "
                   f"&nbsp;|&nbsp; Subject: {escape(subject)}", styles["meta"]),

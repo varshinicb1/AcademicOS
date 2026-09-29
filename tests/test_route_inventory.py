@@ -172,6 +172,11 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability"),
     ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability/{room_id}"),
+    ("GET", "/api/v1/curriculum/school-profile"),
+    ("PUT", "/api/v1/curriculum/school-profile"),
+    ("GET", "/api/v1/curriculum/school-profile/logo"),
+    ("POST", "/api/v1/curriculum/school-profile/logo"),
+    ("DELETE", "/api/v1/curriculum/school-profile/logo"),
     ("POST", "/api/v1/curriculum/leave-requests"),
     ("GET", "/api/v1/curriculum/leave-requests"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/decision"),
@@ -469,6 +474,11 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability"),
     ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability/{room_id}"),
+    ("GET", "/api/v1/curriculum/school-profile"),
+    ("PUT", "/api/v1/curriculum/school-profile"),
+    ("GET", "/api/v1/curriculum/school-profile/logo"),
+    ("POST", "/api/v1/curriculum/school-profile/logo"),
+    ("DELETE", "/api/v1/curriculum/school-profile/logo"),
     ("POST", "/api/v1/curriculum/leave-requests"),
     ("GET", "/api/v1/curriculum/leave-requests"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/decision"),
@@ -919,8 +929,9 @@ def test_canonical_route_inventory_matches_live_app():
     # 288: ADM-2/4 the term report and its Excel/PDF export (2).
     # 290: INT-1 Google sign-in and the sign-in providers (2).
     # 292: SA-7 a parent opens and hands in a young child's homework (2).
-    # 294: SCH-8 added a room's periods out of use (list, set).
-    assert len(API_ROUTES) == 294
+    # 299: SCH-8 added a room's periods out of use (list, set); EX-5/D41 the school
+    # profile (get, set) and its logo (get, upload, remove).
+    assert len(API_ROUTES) == 299
 
 
 def test_docs_routes_present():

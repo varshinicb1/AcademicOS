@@ -83,6 +83,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
           (icon: Icons.assignment_outlined, title: tr('Homework'), subtitle: tr('Set, mark and follow up'), path: '/school/homework'),
           (icon: Icons.insights_outlined, title: tr('Class progress'), subtitle: tr('Mastery by section and chapter'), path: '/school/class-progress'),
           (icon: Icons.table_chart_outlined, title: tr('Timetable'), subtitle: tr('Allocations, rooms, the bell; generate and publish'), path: '/school/timetable'),
+          (icon: Icons.badge_outlined, title: tr('School profile'), subtitle: tr('The name and logo printed on papers'), path: '/school/school-profile'),
           (icon: Icons.event_note_outlined, title: tr('Exams'), subtitle: tr('Datesheets and invigilation'), path: '/school/exams'),
           (icon: Icons.rate_review_outlined, title: tr('Paper reviews'), subtitle: tr('Papers waiting for review or approval'), path: '/school/reviews'),
           (icon: Icons.upload_file_outlined, title: tr('Import & export'), subtitle: tr('Sections, people, allocations, holidays'), path: '/school/import'),
