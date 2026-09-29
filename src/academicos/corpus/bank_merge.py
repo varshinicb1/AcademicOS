@@ -1035,9 +1035,24 @@ def source_reason(rec: dict) -> str | None:
     if INSTRUCTION.match(_first_answer(rec)):
         return "answer-is-question-text"
     marks = rec.get("marks") if _is_num(rec.get("marks")) else 1
-    if len(answer) > max(600, 450 * max(int(marks), 1)):
+    if len(answer) > max(600, 450 * max(int(marks), 1)) and not _placed_transcription(rec):
         return "answer-bleed"
     return None
+
+
+def _transcription(rec: dict) -> bool:
+    return str((rec.get("metadata") or {}).get("joinedFrom")) == "transcription"
+
+
+def _placed_transcription(rec: dict) -> bool:
+    """A transcribed record whose every value point was found in the official
+    scheme, where its question's answer is (`corpus/transcribed.py`,
+    `misplaced`). Its length is CBSE's own list of acceptable points ("any
+    three of these seven"), not a run-on: the run-on the length rule guards
+    against is exactly what the placement check refuses."""
+    meta = (rec.get("answerScheme") or {}).get("metadata") or {}
+    return (str((rec.get("metadata") or {}).get("joinedFrom")) == "transcription"
+            and meta.get("placeVerified") is True)
 
 
 # --------------------------------------------------------------------------- #
@@ -1896,10 +1911,19 @@ def write_withheld(path: Path, records: list[dict]) -> None:
 
 
 def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
-            held: list[dict] = (), exemplar: list[dict] = ()) -> ComposeResult:
+            held: list[dict] = (), exemplar: list[dict] = (), transcribed: list[dict] = (),
+            textbook: list[dict] = ()) -> ComposeResult:
     """Board records from `served` and then `held` (the withheld ones an
-    earlier run kept, where `served` has no record of that id), then CBE,
-    then SQP, then NCERT Exemplar.
+    earlier run kept, where `served` has no record of that id), then the
+    transcribed papers (`corpus/transcribed.py`: board papers, sample papers
+    and CFPQ sets read with their official schemes), then CBE, then SQP, then
+    NCERT Exemplar, then NCERT textbook exercises.
+
+    Transcribed records come right after the relinked board records: their
+    schemes are the official ones, verified point by point, so where they ask
+    what CBE, SQP or Exemplar also asks, theirs is the copy served. Like every
+    non-board row, they are rebuilt from their source file on every run: a
+    transcribed board record in `served` is not read back on the board path.
 
     Exemplar records go through exactly the gates CBE and SQP records do; they
     come last so that where an Exemplar item asks what a CBSE paper already
@@ -1929,9 +1953,9 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
     seen_ids: set[str] = set()
     seen_stems: set[tuple] = set()
     near = _NearDuplicates()
-    counts = {"board": 0, "cbe": 0, "sqp": 0, "exemplar": 0}
+    counts = {"board": 0, "transcribed": 0, "cbe": 0, "sqp": 0, "exemplar": 0, "textbook": 0}
 
-    board = [r for r in served if r.get("source") == BOARD_SOURCE]
+    board = [r for r in served if r.get("source") == BOARD_SOURCE and not _transcription(r)]
     in_served = {r.get("id") for r in board}
     board += [r for r in held if r.get("source") == BOARD_SOURCE and r.get("id") not in in_served]
     for rec in board:
@@ -1969,7 +1993,8 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
         for name in made:
             repairs[name] = repairs.get(name, 0) + 1
 
-    for label, rows in (("cbe", cbe), ("sqp", sqp), ("exemplar", exemplar)):
+    for label, rows in (("transcribed", transcribed), ("cbe", cbe), ("sqp", sqp), ("exemplar", exemplar),
+                        ("textbook", textbook)):
         runs_on = _runs_on(rows)
         for raw in rows:
             if raw.get("id") in seen_ids:
@@ -2041,6 +2066,11 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
             for name in fidelity_made:
                 repairs[name] = repairs.get(name, 0) + 1
 
+    # A source not supplied is not counted, so a bank composed without the
+    # transcribed papers or the textbooks reads exactly as it did before them.
+    for label, rows in (("transcribed", transcribed), ("textbook", textbook)):
+        if not rows:
+            counts.pop(label)
     return ComposeResult(questions=out, excluded=excluded, counts=counts, withheld=withheld,
                          repairs=repairs)
 
