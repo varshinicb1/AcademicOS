@@ -6,6 +6,7 @@ import '../../core/session/current_session.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'photos_ui.dart';
+import 'strings.dart';
 
 /// What a teacher teaches this year, for pickers: sections, subjects and
 /// the allocations joining them (the principal sees all of them).
@@ -55,14 +56,14 @@ class _TeacherHomeworkPageState extends State<TeacherHomeworkPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Homework')),
+      appBar: AppBar(title: Text(tr('Homework'))),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           final made = await showDialog<bool>(context: context, builder: (_) => const _CreateHomeworkDialog());
           if (made == true) _reload();
         },
         icon: const Icon(Icons.add),
-        label: const Text('Set homework'),
+        label: Text(tr('Set homework')),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _future,
@@ -177,7 +178,7 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
     final theme = Theme.of(context);
     final subjects = ctx == null ? <String>{} : {for (final a in ctx.allocations) a['subjectId'] as String};
     return AlertDialog(
-      title: const Text('Set homework'),
+      title: Text(tr('Set homework')),
       content: SizedBox(
         width: 620,
         child: ctx == null
@@ -269,7 +270,7 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
               ),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+        TextButton(onPressed: () => Navigator.pop(context), child: Text(tr('Cancel'))),
         FilledButton(
           onPressed: _busy || _subjectId == null || _sections.isEmpty || _title.text.trim().isEmpty ||
                   (_questions.isEmpty && _chapters.isEmpty)
@@ -458,7 +459,7 @@ class _GradeDialogState extends State<_GradeDialog> {
         ])),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+        TextButton(onPressed: () => Navigator.pop(context), child: Text(tr('Cancel'))),
         FilledButton(onPressed: _save, child: const Text('Save marks')),
       ],
     );

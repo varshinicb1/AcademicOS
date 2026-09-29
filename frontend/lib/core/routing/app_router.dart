@@ -34,6 +34,7 @@ import '../../presentation/auth/pages/login_page.dart';
 import '../../presentation/shared/widgets/shell.dart';
 import '../../presentation/workspace/admin_pages.dart';
 import '../../presentation/workspace/app_mode.dart';
+import '../../presentation/workspace/class_progress_page.dart';
 import '../../presentation/workspace/cover_pages.dart';
 import '../../presentation/workspace/exams_page.dart';
 import '../../presentation/workspace/family_page.dart';
@@ -262,6 +263,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(path: 'import', builder: (context, state) => const ImportPage()),
               GoRoute(path: 'api-keys', builder: (context, state) => const ApiKeysPage()),
               GoRoute(path: 'grants', builder: (context, state) => const GrantsPage()),
+              GoRoute(path: 'class-progress', builder: (context, state) => const ClassProgressPage()),
               GoRoute(path: 'practice/:id',
                   builder: (context, state) => PracticePage(practiceId: state.pathParameters['id']!)),
               GoRoute(path: 'marks/:paperId',

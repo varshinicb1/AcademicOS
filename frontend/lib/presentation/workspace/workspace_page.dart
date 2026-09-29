@@ -5,6 +5,7 @@ import '../../core/session/current_session.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'dashboard_card.dart';
 import 'ops_api.dart';
+import 'strings.dart';
 
 /// The school workspace: every day-to-day tool for the signed-in role on one
 /// page -- homework, progress, cover, exams, parents, notifications and the
@@ -45,44 +46,46 @@ class _WorkspacePageState extends State<WorkspacePage> {
   }
 
   List<_Tile> _tiles(String role) {
-    const inbox = (icon: Icons.notifications_outlined, title: 'Notifications', subtitle: 'Your inbox, quiet hours and alerts', path: '/school/inbox');
+    final inbox = (icon: Icons.notifications_outlined, title: tr('Notifications'), subtitle: tr('Your inbox, quiet hours and alerts'), path: '/school/inbox');
     switch (role) {
       case 'student':
-        return const [
-          (icon: Icons.assignment_outlined, title: 'My homework', subtitle: 'Due work, answers and marks', path: '/school/my-homework'),
-          (icon: Icons.insights_outlined, title: 'My progress', subtitle: 'Subjects, chapters and what to revise', path: '/school/my-learning'),
-          (icon: Icons.event_note_outlined, title: 'My exams', subtitle: 'Your datesheet', path: '/school/my-exams'),
+        return [
+          (icon: Icons.assignment_outlined, title: tr('My homework'), subtitle: tr('Due work, answers and marks'), path: '/school/my-homework'),
+          (icon: Icons.insights_outlined, title: tr('My progress'), subtitle: tr('Subjects, chapters and what to revise'), path: '/school/my-learning'),
+          (icon: Icons.event_note_outlined, title: tr('My exams'), subtitle: tr('Your datesheet'), path: '/school/my-exams'),
           inbox,
         ];
       case 'parent':
-        return const [
-          (icon: Icons.family_restroom_outlined, title: 'My children', subtitle: 'Timetable, homework, progress and consent', path: '/school/family'),
+        return [
+          (icon: Icons.family_restroom_outlined, title: tr('My children'), subtitle: tr('Timetable, homework, progress and consent'), path: '/school/family'),
           inbox,
         ];
       case 'principal':
-        return const [
-          (icon: Icons.how_to_reg_outlined, title: 'Attendance & cover', subtitle: 'Mark absences, leave and substitutions', path: '/school/cover'),
-          (icon: Icons.assignment_outlined, title: 'Homework', subtitle: 'Set, mark and follow up', path: '/school/homework'),
-          (icon: Icons.event_note_outlined, title: 'Exams', subtitle: 'Datesheets and invigilation', path: '/school/exams'),
-          (icon: Icons.rate_review_outlined, title: 'Paper reviews', subtitle: 'Papers waiting for review or approval', path: '/school/reviews'),
-          (icon: Icons.upload_file_outlined, title: 'Import & export', subtitle: 'Sections, people, allocations, holidays', path: '/school/import'),
-          (icon: Icons.key_outlined, title: 'API keys', subtitle: 'Question bank API access', path: '/school/api-keys'),
-          (icon: Icons.admin_panel_settings_outlined, title: 'Staff permissions', subtitle: 'Make a teacher an admin for one area', path: '/school/grants'),
+        return [
+          (icon: Icons.how_to_reg_outlined, title: tr('Attendance & cover'), subtitle: tr('Mark absences, leave and substitutions'), path: '/school/cover'),
+          (icon: Icons.assignment_outlined, title: tr('Homework'), subtitle: tr('Set, mark and follow up'), path: '/school/homework'),
+          (icon: Icons.insights_outlined, title: tr('Class progress'), subtitle: tr('Mastery by section and chapter'), path: '/school/class-progress'),
+          (icon: Icons.event_note_outlined, title: tr('Exams'), subtitle: tr('Datesheets and invigilation'), path: '/school/exams'),
+          (icon: Icons.rate_review_outlined, title: tr('Paper reviews'), subtitle: tr('Papers waiting for review or approval'), path: '/school/reviews'),
+          (icon: Icons.upload_file_outlined, title: tr('Import & export'), subtitle: tr('Sections, people, allocations, holidays'), path: '/school/import'),
+          (icon: Icons.key_outlined, title: tr('API keys'), subtitle: tr('Question bank API access'), path: '/school/api-keys'),
+          (icon: Icons.admin_panel_settings_outlined, title: tr('Staff permissions'), subtitle: tr('Make a teacher an admin for one area'), path: '/school/grants'),
           inbox,
         ];
       default:
         // A teacher the principal made an admin sees those tools too (M1.4).
         return [
           if (_caps.contains('leave'))
-            (icon: Icons.how_to_reg_outlined, title: 'Attendance & cover', subtitle: 'You manage leave and cover', path: '/school/cover'),
+            (icon: Icons.how_to_reg_outlined, title: tr('Attendance & cover'), subtitle: tr('You manage leave and cover'), path: '/school/cover'),
           if (_caps.contains('exams'))
-            (icon: Icons.event_note_outlined, title: 'Exams', subtitle: 'You manage exam planning', path: '/school/exams'),
+            (icon: Icons.event_note_outlined, title: tr('Exams'), subtitle: tr('You manage exam planning'), path: '/school/exams'),
           if (_caps.contains('users'))
-            (icon: Icons.upload_file_outlined, title: 'Import & export', subtitle: 'You manage people', path: '/school/import'),
-          (icon: Icons.today_outlined, title: 'My day', subtitle: 'Periods, duties and check-in', path: '/school/my-day'),
-          (icon: Icons.assignment_outlined, title: 'Homework', subtitle: 'Set, mark and follow up', path: '/school/homework'),
-          (icon: Icons.rate_review_outlined, title: 'Paper reviews', subtitle: 'Papers others asked you to review', path: '/school/reviews'),
-          (icon: Icons.event_note_outlined, title: 'My exam duties', subtitle: 'Invigilation roster', path: '/school/my-exams'),
+            (icon: Icons.upload_file_outlined, title: tr('Import & export'), subtitle: tr('You manage people'), path: '/school/import'),
+          (icon: Icons.today_outlined, title: tr('My day'), subtitle: tr('Periods, duties and check-in'), path: '/school/my-day'),
+          (icon: Icons.assignment_outlined, title: tr('Homework'), subtitle: tr('Set, mark and follow up'), path: '/school/homework'),
+          (icon: Icons.insights_outlined, title: tr('Class progress'), subtitle: tr('Your sections, and who needs help'), path: '/school/class-progress'),
+          (icon: Icons.rate_review_outlined, title: tr('Paper reviews'), subtitle: tr('Papers others asked you to review'), path: '/school/reviews'),
+          (icon: Icons.event_note_outlined, title: tr('My exam duties'), subtitle: tr('Invigilation roster'), path: '/school/my-exams'),
           inbox,
         ];
     }
@@ -93,7 +96,13 @@ class _WorkspacePageState extends State<WorkspacePage> {
     final theme = Theme.of(context);
     final tiles = _tiles(CurrentSession.role);
     return Scaffold(
-      appBar: AppBar(title: const Text('School'), actions: [
+      appBar: AppBar(title: Text(tr('School')), actions: [
+        // English / हिन्दी for these pages, per device (TA-9).
+        IconButton(
+          tooltip: uiHindi ? 'Switch to English' : 'हिन्दी में देखें',
+          icon: const Icon(Icons.translate),
+          onPressed: () => setState(() => setUiLanguage(uiHindi ? 'en' : 'hi')),
+        ),
         if (CurrentSession.role != 'parent')
           IconButton(tooltip: 'Copy my calendar link', icon: const Icon(Icons.event_available),
               onPressed: () => copyCalendarLink(context)),

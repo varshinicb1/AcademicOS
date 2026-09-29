@@ -6,6 +6,7 @@ import '../../data/datasources/api/api_error.dart';
 import '../../core/session/current_session.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
+import 'strings.dart';
 
 /// Papers waiting for review (EX-6): the reviewer approves one for the
 /// principal or sends it back with what to change.
@@ -30,7 +31,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
         title: const Text('What should change?'),
         content: TextField(controller: c, minLines: 3, maxLines: 6, autofocus: true),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.pop(context, false), child: Text(tr('Cancel'))),
           FilledButton(onPressed: () => Navigator.pop(context, true), child: const Text('Send back')),
         ],
       ));
@@ -49,7 +50,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Paper reviews'), actions: [
+      appBar: AppBar(title: Text(tr('Paper reviews')), actions: [
         SegmentedButton<String>(
           segments: const [ButtonSegment(value: 'pending', label: Text('Waiting')),
             ButtonSegment(value: '', label: Text('All'))],
@@ -151,7 +152,7 @@ class _ImportPageState extends State<ImportPage> {
     final r = _result;
     final counts = r == null ? null : Map<String, dynamic>.from(r['counts'] as Map);
     return Scaffold(
-      appBar: AppBar(title: const Text('Import & export')),
+      appBar: AppBar(title: Text(tr('Import & export'))),
       body: ListView(padding: const EdgeInsets.all(16), children: [
         const SectionHeader(title: 'Import', subtitle: 'Nothing is written until you apply. People get invites, never accounts.'),
         Wrap(spacing: 8, runSpacing: 8, crossAxisAlignment: WrapCrossAlignment.center, children: [
@@ -222,7 +223,7 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
               onChanged: (on) => set(() => on == true ? scopes.add(s) : scopes.remove(s))),
       ]),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+        TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Cancel'))),
         FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Create')),
       ],
     )));
@@ -252,7 +253,7 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('API keys')),
+      appBar: AppBar(title: Text(tr('API keys'))),
       floatingActionButton: FloatingActionButton.extended(onPressed: _mint, icon: const Icon(Icons.key), label: const Text('New key')),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _future,
@@ -330,7 +331,7 @@ class _GrantsPageState extends State<GrantsPage> {
         ]),
       ])),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+        TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Cancel'))),
         FilledButton(onPressed: cap == null ? null : () => Navigator.pop(ctx, true), child: const Text('Grant')),
       ],
     )));
@@ -347,7 +348,7 @@ class _GrantsPageState extends State<GrantsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Staff permissions')),
+      appBar: AppBar(title: Text(tr('Staff permissions'))),
       body: FutureBuilder(
         future: _future,
         builder: (context, snap) {

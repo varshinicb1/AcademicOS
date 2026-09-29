@@ -6,6 +6,7 @@ import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'practice_page.dart';
 import 'photos_ui.dart';
+import 'strings.dart';
 
 /// A student's homework (SA-2): what is due, then each homework's
 /// questions to answer in the app, and the marks and model answers once it
@@ -23,7 +24,7 @@ class _MyHomeworkPageState extends State<MyHomeworkPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My homework')),
+      appBar: AppBar(title: Text(tr('My homework'))),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _future,
         builder: (context, snap) {
@@ -297,7 +298,7 @@ class _LearningViewState extends State<LearningView> {
         final weeks = (d['weekly'] as List).cast<Map>();
         return ListView(padding: const EdgeInsets.all(16), children: [
           if (revise.isNotEmpty) ...[
-            const SectionHeader(title: 'Revise next'),
+            SectionHeader(title: tr('Revise next')),
             for (final r in revise)
               ListTile(
                 leading: const Icon(Icons.replay),
@@ -307,11 +308,11 @@ class _LearningViewState extends State<LearningView> {
                 trailing: widget.path == '/my-learning'
                     ? TextButton(
                         onPressed: () => startPractice(context, subject: r['subject'] as String, chapterId: r['chapterId'] as String),
-                        child: const Text('Practise'))
+                        child: Text(tr('Practise')))
                     : null,
               ),
           ],
-          const SectionHeader(title: 'Week by week'),
+          SectionHeader(title: tr('Week by week')),
           SizedBox(
             height: 90,
             child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
@@ -372,7 +373,7 @@ class MyExamsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Exams')),
+      appBar: AppBar(title: Text(tr('Exams'))),
       body: FutureBuilder<Map<String, dynamic>>(
         future: Ops.map('/my-exams'),
         builder: (context, snap) {

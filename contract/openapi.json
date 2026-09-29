@@ -2235,6 +2235,66 @@
         "title": "ChapterProgress",
         "type": "object"
       },
+      "ChapterProgressRow": {
+        "properties": {
+          "counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Counts",
+            "type": "object"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "meanMastery": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meanmastery"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "studentsWithEvidence": {
+            "title": "Studentswithevidence",
+            "type": "integer"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          },
+          "topics": {
+            "items": {
+              "$ref": "#/components/schemas/UnitProgress"
+            },
+            "title": "Topics",
+            "type": "array"
+          }
+        },
+        "required": [
+          "key",
+          "name",
+          "studentsWithEvidence",
+          "counts",
+          "subject",
+          "grade",
+          "topics"
+        ],
+        "title": "ChapterProgressRow",
+        "type": "object"
+      },
       "ChapterResponse": {
         "properties": {
           "canonicalId": {
@@ -2542,6 +2602,45 @@
           "sharedMistakes"
         ],
         "title": "ClassInsightsResponse",
+        "type": "object"
+      },
+      "ClassProgressResponse": {
+        "properties": {
+          "chapters": {
+            "items": {
+              "$ref": "#/components/schemas/ChapterProgressRow"
+            },
+            "title": "Chapters",
+            "type": "array"
+          },
+          "needingHelp": {
+            "items": {
+              "$ref": "#/components/schemas/StudentHelp"
+            },
+            "title": "Needinghelp",
+            "type": "array"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "sectionName": {
+            "title": "Sectionname",
+            "type": "string"
+          },
+          "students": {
+            "title": "Students",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "sectionId",
+          "sectionName",
+          "students",
+          "chapters",
+          "needingHelp"
+        ],
+        "title": "ClassProgressResponse",
         "type": "object"
       },
       "ClosureRequest": {
@@ -12171,6 +12270,37 @@
         "title": "StudentEnrollmentResponse",
         "type": "object"
       },
+      "StudentHelp": {
+        "properties": {
+          "answers": {
+            "title": "Answers",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "needsWork": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Needswork",
+            "type": "array"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "studentId",
+          "name",
+          "needsWork",
+          "answers"
+        ],
+        "title": "StudentHelp",
+        "type": "object"
+      },
       "StudentMasteryResponse": {
         "properties": {
           "concepts": {
@@ -14373,6 +14503,48 @@
           "suggestedPeriods"
         ],
         "title": "UnitAllocationResponse",
+        "type": "object"
+      },
+      "UnitProgress": {
+        "properties": {
+          "counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Counts",
+            "type": "object"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "meanMastery": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meanmastery"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "studentsWithEvidence": {
+            "title": "Studentswithevidence",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "key",
+          "name",
+          "studentsWithEvidence",
+          "counts"
+        ],
+        "title": "UnitProgress",
         "type": "object"
       },
       "UnitResponse": {
@@ -27357,6 +27529,67 @@
           }
         ],
         "summary": "Get Section Templates"
+      }
+    },
+    "/api/v1/sections/{section_id}/progress": {
+      "get": {
+        "description": "Per chapter (and topic, where the bank tags one): how many of the\nsection's students are at each status and their mean mastery; then the\nstudents with chapters at \"needs work\", most first. `subject` narrows to\none bank subject (e.g. \"Science\").",
+        "operationId": "class_progress_api_v1_sections__section_id__progress_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "subject",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subject"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassProgressResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Class Progress"
       }
     },
     "/api/v1/staff": {
