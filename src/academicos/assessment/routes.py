@@ -813,7 +813,7 @@ def export_paper(paper_id: str, fmt: str, current: User = Depends(require_staff)
             log.exception("answer key for paper %s failed to render", paper_id)
             raise HTTPException(422, f"this answer key could not be rendered: {exc}") from exc
         get_audit_log(cfg.data_root).append(
-            "answer_key_exported", assessment_id=paper.assessment_id,
+            "answer_key_exported", assessment_id=paper.assessment_id, actor=current.id,
             details={"paperId": paper_id, "format": fmt, "file": path.name, "watermarkId": watermark_id},
         )
         return {"url": f"/api/v1/papers/{paper_id}/file?format=answer-key", "watermarkId": watermark_id}
@@ -823,7 +823,7 @@ def export_paper(paper_id: str, fmt: str, current: User = Depends(require_staff)
         log.exception("paper %s failed to render", paper_id)
         raise HTTPException(422, f"this paper could not be rendered: {exc}") from exc
     get_audit_log(cfg.data_root).append(
-        "paper_exported", assessment_id=paper.assessment_id,
+        "paper_exported", assessment_id=paper.assessment_id, actor=current.id,
         details={"paperId": paper_id, "format": fmt, "watermarkId": watermark_id},
     )
     return {"url": f"/api/v1/papers/{paper_id}/file", "watermarkId": watermark_id}
@@ -837,6 +837,11 @@ def get_paper_file(paper_id: str, format: str = "pdf", current: User = Depends(r
     path = cfg.artifacts_dir / "papers" / f"{paper_id}{suffix}"
     if not path.exists():
         raise HTTPException(404, "pdf not generated yet")
+    paper = _require_papers().get(paper_id)
+    get_audit_log(cfg.data_root).append(
+        "paper_downloaded", assessment_id=paper.assessment_id if paper else None, actor=current.id,
+        details={"paperId": paper_id, "format": format, "schoolId": current.school_id},
+    )
     return FileResponse(str(path), media_type="application/pdf", filename=f"{paper_id}{suffix}")
 
 

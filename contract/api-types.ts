@@ -200,6 +200,65 @@ export interface paths {
         patch: operations["approve_assessment_api_v1_assessments__assessment_id__approve_patch"];
         trace?: never;
     };
+    "/api/v1/assessments/{assessment_id}/review-decision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Decide Review
+         * @description The reviewer (or the principal) approves the paper for the
+         *     principal, or sends it back to its author with a comment.
+         */
+        post: operations["decide_review_api_v1_assessments__assessment_id__review_decision_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assessments/{assessment_id}/review-request": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Request Review
+         * @description The author (or the principal) sends the paper to one reviewer. A new
+         *     request replaces a pending one.
+         */
+        post: operations["request_review_api_v1_assessments__assessment_id__review_request_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assessments/{assessment_id}/reviews": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Reviews */
+        get: operations["list_reviews_api_v1_assessments__assessment_id__reviews_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/assessments/{assessment_id}/status": {
         parameters: {
             query?: never;
@@ -3391,6 +3450,27 @@ export interface paths {
         put?: never;
         /** Mark Read */
         post: operations["mark_read_api_v1_notifications__notification_id__read_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/paper-reviews": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * My Reviews
+         * @description The papers waiting for the caller's review; the principal sees the
+         *     school's.
+         */
+        get: operations["my_reviews_api_v1_paper_reviews_get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -7851,6 +7931,13 @@ export interface components {
             /** Accept */
             accept: boolean;
         };
+        /** ReviewDecision */
+        ReviewDecision: {
+            /** Comment */
+            comment?: string | null;
+            /** Decision */
+            decision: string;
+        };
         /** ReviewDecisionRequest */
         ReviewDecisionRequest: {
             /** Action */
@@ -7914,6 +8001,44 @@ export interface components {
             teacherMarks?: number | null;
             /** Verdict */
             verdict: string;
+        };
+        /** ReviewRequest */
+        ReviewRequest: {
+            /** Note */
+            note?: string | null;
+            /** Reviewerid */
+            reviewerId: string;
+        };
+        /** ReviewResponse */
+        ReviewResponse: {
+            /** Assessmentid */
+            assessmentId: string;
+            /** Authorid */
+            authorId: string;
+            /** Comment */
+            comment?: string | null;
+            /** Decidedat */
+            decidedAt?: string | null;
+            /** Id */
+            id: string;
+            /** Requestnote */
+            requestNote?: string | null;
+            /** Requestedat */
+            requestedAt: string;
+            /** Reviewerid */
+            reviewerId: string;
+            /**
+             * Reviewername
+             * @default
+             */
+            reviewerName: string;
+            /** State */
+            state: string;
+            /**
+             * Title
+             * @default
+             */
+            title: string;
         };
         /** ReviseItem */
         ReviseItem: {
@@ -10146,6 +10271,107 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Assessment"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    decide_review_api_v1_assessments__assessment_id__review_decision_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                assessment_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReviewDecision"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReviewResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    request_review_api_v1_assessments__assessment_id__review_request_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                assessment_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReviewRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReviewResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_reviews_api_v1_assessments__assessment_id__reviews_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                assessment_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReviewResponse"][];
                 };
             };
             /** @description Validation Error */
@@ -15662,6 +15888,37 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    my_reviews_api_v1_paper_reviews_get: {
+        parameters: {
+            query?: {
+                state?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReviewResponse"][];
                 };
             };
             /** @description Validation Error */
