@@ -614,7 +614,7 @@ def seed_cbse10(req: SeedCbse10Request,
 @router.post("/seed/cbse", response_model=SeedCbse10Response)
 def seed_cbse_any_grade(req: SeedGradeRequest,
                         principal: User = Depends(require_principal)) -> SeedCbse10Response:
-    """Seeds any grade 6-12 for the caller's own school -- PRD section 0
+    """Seeds any grade 1-12 (requirements v3; 6-12 until 2026-09-29) for the caller's own school -- PRD section 0
     decision 4 ("all grades 6-12, all subjects"), which until 2026-09-22 the
     product could not reach: `seed_cbse_all_grades` existed in seed_cbse10.py
     wired to no route and no CLI command, and `POST /seed/cbse9` was a 404 even
