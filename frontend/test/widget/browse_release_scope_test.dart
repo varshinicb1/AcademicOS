@@ -57,7 +57,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('Syllabus offers classes 6-10 only', (tester) async {
+  testWidgets('Syllabus offers classes 1-10 only', (tester) async {
     final science = inScope.firstWhere((e) => e.subject == 'Science');
     final server = FakeServer({
       'GET /catalog': (200, _catalog()),

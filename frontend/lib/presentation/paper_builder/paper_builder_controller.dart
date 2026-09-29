@@ -17,15 +17,14 @@ enum BuilderStep { classSubject, template, scope, paper, finish }
 typedef PdfSaver = Future<void> Function(Uint8List bytes, String filename);
 
 /// The CBSE classes a teacher can set a paper for, and each class's subjects.
-/// Presets exist for classes 6-10's main subjects (template_presets.py); the
-/// rest start from a template the teacher builds, never a dead end.
+/// Presets exist for classes 1-10's main subjects (template_presets.py: CBSE
+/// patterns for 9-10, suggested school patterns below); the rest start from a
+/// template the teacher builds, never a dead end.
 ///
-/// 6-10, not 6-12: the first release serves those classes (the user, 2026-09-23).
-/// The bank holds nothing at all for class 11 and no Maths or Science paper for
-/// 12 -- correctness-first left only board questions whose answer key was
-/// verified -- so offering them ended in "Unable to find sufficient questions"
-/// after a teacher had chosen a class, a subject and a template. A class we
-/// cannot serve is not offered until we can.
+/// 1-10, not 1-12 (the user, 2026-09-23: "skip 11 and 12 for now"). Which of
+/// them the builder offers is [PaperBuilderController.offeredGrades]: only a
+/// class the bank holds questions for, so a teacher never chooses a class,
+/// a subject and a template to end at "Unable to find sufficient questions".
 const builderGrades = releaseGrades;
 
 /// The subjects the builder knows how to offer for a class, in the order it
@@ -37,10 +36,17 @@ const builderGrades = releaseGrades;
 /// The senior-school branch is unreachable while [builderGrades] stops at 10.
 /// It is kept, not deleted: it is the subject list classes 11-12 come back
 /// with, and rebuilding it from memory later would be worse than reading it.
+///
+/// Classes 1-5 have the subjects NCERT publishes a book for: EVS from class 3
+/// ("The World Around Us"), so class 1 is never told EVS has no questions.
 List<String> builderSubjects(int grade) => grade >= 11
     ? const ['Physics', 'Chemistry', 'Biology', 'Mathematics', 'Accountancy', 'Business Studies',
         'Economics', 'History', 'Political Science', 'Geography', 'English', 'Hindi', 'Computer Science']
-    : const ['Mathematics', 'Science', 'Social Science', 'English', 'Hindi', 'Sanskrit', 'Computer Science'];
+    : grade >= 6
+        ? const ['Mathematics', 'Science', 'Social Science', 'English', 'Hindi', 'Sanskrit', 'Computer Science']
+        : grade >= 3
+            ? const ['Mathematics', 'EVS', 'English', 'Hindi']
+            : const ['Mathematics', 'English', 'Hindi'];
 
 /// The whole builder's state: one class, one flow, no page owns a copy.
 ///
@@ -201,6 +207,14 @@ class PaperBuilderController extends ChangeNotifier {
       _changed();
     }
   }
+
+  /// The classes offered: every [builderGrades] class while the catalog loads,
+  /// then only those the bank holds questions for -- a class with nothing to
+  /// set a paper from is not offered (audit D22, D40).
+  List<int> get offeredGrades => [
+        for (final g in builderGrades)
+          if (_stocked == null || (_stocked![g]?.isNotEmpty ?? false)) g,
+      ];
 
   /// The subjects offered for [grade]: [builderSubjects] that the bank holds
   /// questions for. Empty until the catalog has loaded -- never the whole list
