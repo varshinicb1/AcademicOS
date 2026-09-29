@@ -277,7 +277,10 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
                             model.Add(second[rid] - first[rid] <= 1 - zv)
                         else:
                             # The room is closed for one half: no double there.
-                            model.Add((first.get(rid) or second.get(rid)) <= 1 - zv)
+                            # (Picked by key, never `a or b`: OR-Tools refuses
+                            # to turn a literal into a bool.)
+                            half = first[rid] if rid in first else second[rid]
+                            model.Add(half <= 1 - zv)
         model.Add(sum(z.values()) == a.double_periods)
         for d in days:
             for p in {pp for _, pp, _ in z} | {qq for _, _, qq in z}:

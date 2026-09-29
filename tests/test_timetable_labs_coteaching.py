@@ -396,3 +396,65 @@ def test_forty_sections_with_labs_and_doubles_are_solved_inside_a_minute(store):
     assert elapsed < 60
     store.apply_solved_timetable(year.id, result.entries, {s.id for s in store.sections_for_year(year.id)})
     assert _lab_and_pair_violations(store, year.id) == []
+
+
+# --------------------------------------------------------------------- #
+# Review findings, each held by a test
+# --------------------------------------------------------------------- #
+
+def test_a_lab_closed_for_the_second_half_of_a_double_does_not_crash_the_solver(store):
+    # Two labs, and Lab 1 closed in period 2: the pair (1, 2) is open in Lab 1
+    # for its first half only. `a or b` on two CP-SAT literals raised here.
+    w = _school(store, labs=2, doubles=1)
+    store.set_room_unavailability(w.year, w.labs[0], [(0, 2)])
+    _apply(store, w)
+    assert _lab_and_pair_violations(store, w.year) == []
+
+
+def test_a_co_teacher_back_from_leave_cancels_the_both_away_substitution(store):
+    w, a10 = _co_taught_week(store)
+    dev_leave = store.apply_for_leave(school_id="s1", academic_year_id=w.year, teacher_id="dev", start_date=MON,
+                                      end_date=MON, kind="full_day", reason="unwell", created_by="dev")
+    assert store.decide_leave(dev_leave.id, approve=True, decided_by="p1")[1] == []
+    [sub] = _leave(store, w, "ana0")
+    store.cancel_leave(dev_leave.id, today=MON)
+    assert store.get_substitution(sub.id).status == "cancelled"
+    [row] = [r for r in store.day_view(w.year, MON, section_id=a10) if r["period"] == 1]
+    assert (row["kind"], row["teacherId"]) == ("co_teacher", "dev")
+
+
+def test_naming_a_busy_co_teacher_is_refused_before_anything_is_written(store):
+    w = _school(store, labs=1)
+    a10, b10 = w.sections[:2]
+    store.replace_section_timetable(a10, [{"day_of_week": 0, "period": 1, "subject_id": w.sci, "room_id": w.labs[0]}])
+    store.replace_section_timetable(b10, [{"day_of_week": 0, "period": 1, "subject_id": w.mat}])   # bala0 then
+    with pytest.raises(TimetableClash) as clash:
+        store.set_allocation(section_id=a10, subject_id=w.sci, teacher_id="ana0", periods_per_week=6,
+                             co_teacher_id="bala0")
+    assert "Monday period 1: the co-teacher already teaches 10-B then" in str(clash.value)
+    assert store.allocation_for(a10, w.sci).co_teacher_id is None
+    assert [e.co_teacher_id for e in store.timetable_for_section(a10)] == [None]
+
+
+def test_the_allocation_imports_dry_run_knows_co_teachers_and_doubles(tmp_path, monkeypatch):
+    from test_bulk_import import _imp
+    from test_homework import w as homework_world
+
+    gen = homework_world.__wrapped__(tmp_path, monkeypatch)
+    w = next(gen)
+    try:
+        bala = w.store.allocation_for(w.b10, w.sci10).teacher_id
+        ana = w.store.allocation_for(w.a10, w.sci10).teacher_id
+        w.store.set_allocation(section_id=w.a10, subject_id=w.sci10, teacher_id=ana, periods_per_week=6,
+                               co_teacher_id=bala, double_periods=2)
+        header = "grade,section,subject,teacher_email,periods_per_week\n"
+        [as_co] = _imp(w, "allocations", header + "10,A,Science,bala@example.com,6\n").json()["rows"]
+        [blank] = _imp(w, "allocations", header + "10,A,Science,,6\n").json()["rows"]
+        assert (as_co["status"], blank["status"]) == ("error", "error")
+        assert "already the co-teacher" in as_co["message"] and "name its teacher too" in blank["message"]
+        low = _imp(w, "allocations", header + "10,A,Science,ana@example.com,3\n").json()["rows"]
+        assert low[0]["status"] == "error" and "2 double period(s)" in low[0]["message"]
+        ok = _imp(w, "allocations", header + "10,A,Science,ana@example.com,7\n").json()["rows"]
+        assert ok[0]["status"] == "ok"
+    finally:
+        gen.close()

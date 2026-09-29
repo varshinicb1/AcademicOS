@@ -410,8 +410,29 @@ class CoverMixin:
             self._exec("UPDATE substitutions SET status='cancelled', updated_at=? WHERE leave_id=? AND date>=? "
                        "AND status<>'resolved'", (_now(), leave_id, today))
             leave.status = "cancelled"
+            self._release_co_taught_cover(leave, today)
         self._commit()
         return leave
+
+    def _release_co_taught_cover(self, leave: LeaveRequest, today: str) -> None:
+        """SCH-8: a co-taught period got a substitute only because both of
+        its teachers were away. When one of them is back (their leave
+        cancelled, or marked present), the period has a teacher again: its
+        substitution, opened under the other teacher's leave, is cancelled."""
+        sections = {s.id: s for s in self.sections_for_year(leave.academic_year_id)}
+        entries = {(e.section_id, e.day_of_week, e.period): e for e in self.timetable_for_year(leave.academic_year_id)
+                   if e.co_teacher_id}
+        for sub in self._subs_where("academic_year_id=? AND date>=? AND date>=? AND date<=? "
+                                    "AND status IN ('open','proposed','accepted') AND leave_id<>?",
+                                    (leave.academic_year_id, today, leave.start_date, leave.end_date, leave.id)):
+            e = entries.get((sub.section_id, date.fromisoformat(sub.date).weekday(), sub.period))
+            sec = sections.get(sub.section_id)
+            if e is None or sec is None or leave.teacher_id not in (e.teacher_id, e.co_teacher_id):
+                continue
+            if self._on_leave(leave.teacher_id, sub.date, sec, sub.period):
+                continue          # still away through another leave
+            self._exec("UPDATE substitutions SET status='cancelled', note=?, updated_at=? WHERE id=?",
+                       ("the co-teacher is back and takes the class", _now(), sub.id))
 
     # ---------------- teacher attendance (SCH-9) ----------------
 

@@ -449,11 +449,14 @@ class _RoomsTabState extends State<_RoomsTab> {
   }
 
   Future<void> _closures(Map<String, dynamic> room, List<dynamic> current) async {
-    final bells = await Ops.list('$_base/academic-years/${widget.data.yearId}/bell-schedules')
-        .catchError((Object e) {
-      setState(() => _error = serverErrorMessage(e));
-      return <Map<String, dynamic>>[];
-    });
+    final List<Map<String, dynamic>> bells;
+    try {
+      bells = await Ops.list('$_base/academic-years/${widget.data.yearId}/bell-schedules');
+    } catch (e) {
+      // The load failed: say why, not "set up the bell first".
+      if (mounted) setState(() => _error = serverErrorMessage(e));
+      return;
+    }
     if (!mounted) return;
     final bell = bells.where((b) => b['isDefault'] == true).firstOrNull ?? bells.firstOrNull;
     if (bell == null) {
