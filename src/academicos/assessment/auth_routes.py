@@ -189,6 +189,10 @@ def get_current_user(
         route = request.scope.get("route")
         if getattr(route, "path", None) not in PARENT_PATHS:
             raise HTTPException(403, "a parent account can see only their children's pages")
+    # The school this request acts for, read by the question pool to leave out
+    # the questions its reviewers rejected (operations/question_reviews.py).
+    from .pool import CURRENT_SCHOOL
+    CURRENT_SCHOOL.set(user.school_id)
     return user
 
 

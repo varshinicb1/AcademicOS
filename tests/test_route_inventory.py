@@ -223,6 +223,9 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/auth/code/request"),
     ("POST", "/api/v1/auth/code/verify"),
     ("GET", "/api/v1/auth/providers"),
+    ("GET", "/api/v1/qbank/coverage-map"),
+    ("GET", "/api/v1/qbank/review-queue"),
+    ("POST", "/api/v1/qbank/review/{question_id}"),
     ("POST", "/api/v1/auth/google"),
     ("GET", "/api/v1/homework/suggestion"),
     ("POST", "/api/v1/homework"),
@@ -499,6 +502,9 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/staff"),
     ("GET", "/api/v1/dashboard/summary"),
     ("GET", "/api/v1/dashboard/term"),
+    ("GET", "/api/v1/qbank/coverage-map"),
+    ("GET", "/api/v1/qbank/review-queue"),
+    ("POST", "/api/v1/qbank/review/{question_id}"),
     ("GET", "/api/v1/dashboard/term/export"),
     ("GET", "/api/v1/calendar-feed"),
     ("POST", "/api/v1/calendar-feed/reset"),
@@ -915,7 +921,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 288: ADM-2/4 the term report and its Excel/PDF export (2).
     # 290: INT-1 Google sign-in and the sign-in providers (2).
     # 292: SA-7 a parent opens and hands in a young child's homework (2).
-    assert len(API_ROUTES) == 292
+    # 295: the question bank's coverage map and review queue (3).
+    assert len(API_ROUTES) == 295
 
 
 def test_docs_routes_present():
