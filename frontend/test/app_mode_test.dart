@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('each app build opens on its own first page', () {
     expect(appHome(AppMode.teacher), '/school/my-day');
-    expect(appHome(AppMode.student), '/school/my-homework');
+    expect(appHome(AppMode.student), '/school/today');
     expect(appHome(AppMode.student, role: 'parent'), '/school/family');
     expect(appHome(AppMode.console), '/home');
   });

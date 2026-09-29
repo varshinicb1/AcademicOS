@@ -21,7 +21,7 @@ void main() {
 
   test('the teacher and student apps land on their own first page', () {
     expect(roleLanding('/home', role: 'teacher', offlineBuild: false, mode: AppMode.teacher), '/school/my-day');
-    expect(roleLanding('/home', role: 'student', offlineBuild: false, mode: AppMode.student), '/school/my-homework');
+    expect(roleLanding('/home', role: 'student', offlineBuild: false, mode: AppMode.student), '/school/today');
     expect(roleLanding('/home', role: 'parent', offlineBuild: false, mode: AppMode.student), '/school/family');
     expect(roleLanding('/home', role: '', offlineBuild: false, mode: AppMode.teacher), isNull);
   });

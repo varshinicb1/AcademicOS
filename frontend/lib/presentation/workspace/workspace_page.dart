@@ -50,6 +50,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
     switch (role) {
       case 'student':
         return [
+          (icon: Icons.today_outlined, title: tr('Today'), subtitle: tr('Your periods, homework due and the next exam'), path: '/school/today'),
           (icon: Icons.assignment_outlined, title: tr('My homework'), subtitle: tr('Due work, answers and marks'), path: '/school/my-homework'),
           (icon: Icons.insights_outlined, title: tr('My progress'), subtitle: tr('Subjects, chapters and what to revise'), path: '/school/my-learning'),
           (icon: Icons.event_note_outlined, title: tr('My exams'), subtitle: tr('Your datesheet'), path: '/school/my-exams'),

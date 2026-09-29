@@ -3505,9 +3505,31 @@
             "title": "Sectionid",
             "type": "string"
           },
+          "sectionName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionname"
+          },
           "subjectId": {
             "title": "Subjectid",
             "type": "string"
+          },
+          "subjectName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subjectname"
           },
           "substitutionId": {
             "anyOf": [
@@ -3530,6 +3552,17 @@
               }
             ],
             "title": "Teacherid"
+          },
+          "teacherName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teachername"
           }
         },
         "required": [

@@ -6496,12 +6496,18 @@ export interface components {
             roomId?: string | null;
             /** Sectionid */
             sectionId: string;
+            /** Sectionname */
+            sectionName?: string | null;
             /** Subjectid */
             subjectId: string;
+            /** Subjectname */
+            subjectName?: string | null;
             /** Substitutionid */
             substitutionId?: string | null;
             /** Teacherid */
             teacherId?: string | null;
+            /** Teachername */
+            teacherName?: string | null;
         };
         /** DebtRowResponse */
         DebtRowResponse: {

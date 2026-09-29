@@ -151,6 +151,11 @@ class DayRowResponse(Camel):
     substitution_id: Optional[str] = None
     lost_period_id: Optional[str] = None
     note: Optional[str] = None
+    # Names for the app and the web, so a student or parent (who cannot read
+    # the curriculum) and a teacher see "10-B Science" without a second call.
+    subject_name: Optional[str] = None
+    section_name: Optional[str] = None
+    teacher_name: Optional[str] = None
 
 
 class DebtRowResponse(Camel):
@@ -494,9 +499,16 @@ def declare_closure(academic_year_id: str, req: ClosureRequest,
 # ---------------- the day ----------------
 
 def _row(r: dict) -> DayRowResponse:
+    store = cr._require()
+    subject = store.get_subject(r["subjectId"])
+    section = store.get_section(r["sectionId"])
+    teacher = cr._require_users().get(r["teacherId"]) if r.get("teacherId") else None
     return DayRowResponse(section_id=r["sectionId"], period=r["period"], subject_id=r["subjectId"],
                           teacher_id=r["teacherId"], room_id=r["roomId"], kind=r["kind"],
-                          substitution_id=r["substitutionId"], lost_period_id=r["lostPeriodId"], note=r["note"])
+                          substitution_id=r["substitutionId"], lost_period_id=r["lostPeriodId"], note=r["note"],
+                          subject_name=subject.name if subject else None,
+                          section_name=store._section_label(section) if section else None,
+                          teacher_name=teacher.name if teacher else None)
 
 
 @router.get("/day", response_model=list[DayRowResponse])
