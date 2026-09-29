@@ -160,3 +160,20 @@ def test_withdrawing_consent_stops_what_is_waiting(w):
     gone = w.c.put("/api/v1/me/contact", json={"phone": None}, headers=w.t).json()
     assert gone["phone"] is None
     assert w.store.message_status(n.id) == {"sms": "skipped", "whatsapp": "skipped"}
+
+
+def test_a_parent_gives_their_number_the_route_is_open_to_parents(tmp_path, monkeypatch):
+    """Parents may call only route_policy.PARENT_PATHS; the consent route is
+    one of them (a parent is who SMS and WhatsApp are mostly for)."""
+    from test_guardians import _h, _parent
+    from test_homework import w as homework_world
+
+    gen = homework_world.__wrapped__(tmp_path, monkeypatch)
+    hw = next(gen)
+    try:
+        mum = _h(_parent(hw))
+        r = hw.c.put("/api/v1/me/contact", json={"phone": "9876543210", "whatsappOk": True}, headers=mum)
+        assert r.status_code == 200, r.text
+        assert hw.c.get("/api/v1/me/contact", headers=mum).json()["whatsappOk"] is True
+    finally:
+        gen.close()

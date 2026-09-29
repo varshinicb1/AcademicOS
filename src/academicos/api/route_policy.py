@@ -474,6 +474,8 @@ PARENT_PATHS = frozenset({
     "/api/v1/notification-preferences",
     "/api/v1/devices",
     "/api/v1/devices/{token}",
+    # INT-2: a parent's own number and SMS/WhatsApp consent.
+    "/api/v1/me/contact",
     "/api/v1/my-children",
     "/api/v1/children/{student_id}/timetable",
     "/api/v1/children/{student_id}/day",
