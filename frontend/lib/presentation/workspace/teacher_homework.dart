@@ -118,6 +118,7 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
   final Set<String> _chapters = {};
   final Set<String> _questions = {};
   int _count = 5;
+  final Set<String> _types = {};
   bool _busy = false;
 
   @override
@@ -163,6 +164,7 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
         'subjectId': _subjectId, 'sectionIds': _sections.toList(), 'title': _title.text.trim(),
         'instructions': _instructions.text.trim(), 'dueDate': isoDate(_due),
         'questionIds': _questions.toList(), 'chapterIds': _chapters.toList(), 'count': _count,
+        if (_types.isNotEmpty) 'types': _types.toList(),
       });
       if (mounted) Navigator.pop(context, true);
     } catch (e) {
@@ -256,6 +258,12 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
                           subtitle: Text('${q['type']} · ${q['marks']} marks'),
                         ),
                     ],
+                    Wrap(spacing: 6, children: [
+                      for (final t in const [('mcq', 'MCQ'), ('very_short_answer', 'Very short'),
+                        ('short_answer', 'Short'), ('long_answer', 'Long')])
+                        FilterChip(label: Text(t.$2), selected: _types.contains(t.$1),
+                            onSelected: (on) => setState(() => on ? _types.add(t.$1) : _types.remove(t.$1))),
+                    ]),
                     Row(children: [
                       const Text('Pick'),
                       Expanded(child: Slider(value: _count.toDouble(), min: 1, max: 20, divisions: 19,
