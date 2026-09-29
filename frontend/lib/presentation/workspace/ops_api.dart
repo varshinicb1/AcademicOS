@@ -20,6 +20,8 @@ class Ops {
   static Future<dynamic> put(String path, {Object? body, Map<String, dynamic>? query}) =>
       _call(() => _dio.put(path, data: body, queryParameters: query));
 
+  static Future<dynamic> patch(String path, {Object? body}) => _call(() => _dio.patch(path, data: body));
+
   static Future<dynamic> delete(String path) => _call(() => _dio.delete(path));
 
   static Future<List<Map<String, dynamic>>> list(String path, {Map<String, dynamic>? query}) async {

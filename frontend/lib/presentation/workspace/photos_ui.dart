@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../data/datasources/api/api_error.dart';
 import 'ops_api.dart';
+import 'strings.dart';
 
 /// Photos of written homework (SA-2). Images are fetched as bytes through the
 /// signed-in client: on the web an image URL cannot carry the session token.
@@ -109,9 +110,9 @@ class _MyHomeworkPhotosState extends State<MyHomeworkPhotos> {
               ),
             if (widget.editable && photos.length < 6) ...[
               OutlinedButton.icon(onPressed: _busy ? null : () => _add(ImageSource.camera),
-                  icon: const Icon(Icons.photo_camera_outlined), label: const Text('Take photo')),
+                  icon: const Icon(Icons.photo_camera_outlined), label: Text(tr('Take photo'))),
               OutlinedButton.icon(onPressed: _busy ? null : () => _add(ImageSource.gallery),
-                  icon: const Icon(Icons.photo_library_outlined), label: const Text('Choose photo')),
+                  icon: const Icon(Icons.photo_library_outlined), label: Text(tr('Choose photo'))),
             ],
           ]),
           if (widget.editable && photos.isNotEmpty)

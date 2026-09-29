@@ -4582,6 +4582,29 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/sections/{section_id}/progress": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Class Progress
+         * @description Per chapter (and topic, where the bank tags one): how many of the
+         *     section's students are at each status and their mean mastery; then the
+         *     students with chapters at "needs work", most first. `subject` narrows to
+         *     one bank subject (e.g. "Science").
+         */
+        get: operations["class_progress_api_v1_sections__section_id__progress_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/staff": {
         parameters: {
             query?: never;
@@ -5987,6 +6010,27 @@ export interface components {
             /** Topics */
             topics: components["schemas"]["TopicProgress"][];
         };
+        /** ChapterProgressRow */
+        ChapterProgressRow: {
+            /** Counts */
+            counts: {
+                [key: string]: number;
+            };
+            /** Grade */
+            grade: number;
+            /** Key */
+            key: string;
+            /** Meanmastery */
+            meanMastery?: number | null;
+            /** Name */
+            name: string;
+            /** Studentswithevidence */
+            studentsWithEvidence: number;
+            /** Subject */
+            subject: string;
+            /** Topics */
+            topics: components["schemas"]["UnitProgress"][];
+        };
         /** ChapterResponse */
         ChapterResponse: {
             /** Canonicalid */
@@ -6085,6 +6129,19 @@ export interface components {
             headline: string;
             /** Sharedmistakes */
             sharedMistakes: components["schemas"]["SharedMistakeResponse"][];
+            /** Students */
+            students: number;
+        };
+        /** ClassProgressResponse */
+        ClassProgressResponse: {
+            /** Chapters */
+            chapters: components["schemas"]["ChapterProgressRow"][];
+            /** Needinghelp */
+            needingHelp: components["schemas"]["StudentHelp"][];
+            /** Sectionid */
+            sectionId: string;
+            /** Sectionname */
+            sectionName: string;
             /** Students */
             students: number;
         };
@@ -9880,6 +9937,17 @@ export interface components {
             /** Studentid */
             studentId: string;
         };
+        /** StudentHelp */
+        StudentHelp: {
+            /** Answers */
+            answers: number;
+            /** Name */
+            name: string;
+            /** Needswork */
+            needsWork: string[];
+            /** Studentid */
+            studentId: string;
+        };
         /** StudentMasteryResponse */
         StudentMasteryResponse: {
             /** Concepts */
@@ -10699,6 +10767,21 @@ export interface components {
             suggestedPeriods: number;
             /** Unitname */
             unitName: string;
+        };
+        /** UnitProgress */
+        UnitProgress: {
+            /** Counts */
+            counts: {
+                [key: string]: number;
+            };
+            /** Key */
+            key: string;
+            /** Meanmastery */
+            meanMastery?: number | null;
+            /** Name */
+            name: string;
+            /** Studentswithevidence */
+            studentsWithEvidence: number;
         };
         /** UnitResponse */
         UnitResponse: {
@@ -19018,6 +19101,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SectionBlueprint"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    class_progress_api_v1_sections__section_id__progress_get: {
+        parameters: {
+            query?: {
+                subject?: string | null;
+            };
+            header?: never;
+            path: {
+                section_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClassProgressResponse"];
                 };
             };
             /** @description Validation Error */

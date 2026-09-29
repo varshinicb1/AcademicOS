@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../core/session/current_session.dart';
+
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'teacher_homework.dart' show TeachingContext;
+import 'strings.dart';
 
 const _base = '/curriculum';
 
@@ -102,7 +105,7 @@ class _CoverPageState extends State<CoverPage> {
       'second_half_absent': 'Absent 2nd half',
     };
     return Scaffold(
-      appBar: AppBar(title: const Text('Attendance & cover'), actions: [
+      appBar: AppBar(title: Text(tr('Attendance & cover')), actions: [
         TextButton.icon(
           icon: const Icon(Icons.calendar_today),
           label: Text(_date),
@@ -252,6 +255,8 @@ class MyDayPage extends StatefulWidget {
 class _MyDayPageState extends State<MyDayPage> {
   List<Map<String, dynamic>>? _rows;
   List<Map<String, dynamic>> _duties = [];
+  List<Map<String, dynamic>> _leave = [];
+  List<Map<String, dynamic>> _lessons = [];
   TeachingContext? _ctx;
   String? _error;
   String? _checkedIn;
@@ -271,12 +276,100 @@ class _MyDayPageState extends State<MyDayPage> {
           .map((e) => Map<String, dynamic>.from(e as Map)).toList();
       final duties = await Ops.list('$_base/substitutions', query: {'from': _today,
         'to': isoDate(DateTime.now().add(const Duration(days: 7)))});
+      final leave = await Ops.list('$_base/leave-requests');
+      final lessons = await Ops.list('$_base/my-schedule', query: {'start_date': _today, 'end_date': _today});
       setState(() {
         _rows = rows;
         _duties = duties;
+        _lessons = lessons;
+        _leave = leave.where((l) => l['teacherId'] == CurrentSession.userId &&
+            (l['endDate'] as String).compareTo(_today) >= 0).toList();
       });
     } catch (e) {
       setState(() => _error = serverErrorMessage(e));
+    }
+  }
+
+  Future<void> _applyForLeave() async {
+    DateTimeRange? range;
+    var kind = 'full_day';
+    final reason = TextEditingController();
+    final handover = TextEditingController();
+    final ok = await showDialog<bool>(context: context, builder: (ctx) => StatefulBuilder(builder: (ctx, set) => AlertDialog(
+      title: Text(tr('Apply for leave')),
+      content: SizedBox(width: 440, child: Column(mainAxisSize: MainAxisSize.min, children: [
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(range == null ? 'Choose the days' : '${isoDate(range!.start)} to ${isoDate(range!.end)}'),
+          trailing: const Icon(Icons.date_range),
+          onTap: () async {
+            final r = await showDateRangePicker(context: ctx, firstDate: DateTime.now().subtract(const Duration(days: 1)),
+                lastDate: DateTime.now().add(const Duration(days: 180)));
+            if (r != null) set(() => range = r);
+          },
+        ),
+        SegmentedButton<String>(
+          segments: const [
+            ButtonSegment(value: 'full_day', label: Text('Full day')),
+            ButtonSegment(value: 'first_half', label: Text('1st half')),
+            ButtonSegment(value: 'second_half', label: Text('2nd half')),
+          ],
+          selected: {kind},
+          onSelectionChanged: (v) => set(() => kind = v.first),
+        ),
+        TextField(controller: reason, decoration: const InputDecoration(labelText: 'Reason')),
+        TextField(controller: handover, minLines: 2, maxLines: 4,
+            decoration: const InputDecoration(labelText: 'Note for whoever covers (optional)')),
+      ])),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Cancel'))),
+        FilledButton(onPressed: range == null ? null : () => Navigator.pop(ctx, true), child: const Text('Apply')),
+      ],
+    )));
+    if (ok != true || range == null) return;
+    try {
+      await Ops.post('$_base/leave-requests', body: {
+        'startDate': isoDate(range!.start), 'endDate': isoDate(range!.end), 'kind': kind,
+        'reason': reason.text.trim().isEmpty ? 'Leave' : reason.text.trim(),
+        if (handover.text.trim().isNotEmpty) 'handoverNote': handover.text.trim(),
+      });
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Leave applied; the principal has been asked')));
+      _load();
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
+    }
+  }
+
+  /// Mark today's lesson taught or not (TA-1); a skipped lesson reflows the plan.
+  Future<void> _markLesson(String id, String status) async {
+    String? note;
+    if (status == 'skipped') {
+      final c = TextEditingController();
+      final ok = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(
+        title: const Text('Why was it not taught?'),
+        content: TextField(controller: c, autofocus: true),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Cancel'))),
+          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: Text(tr('Save'))),
+        ],
+      ));
+      if (ok != true) return;
+      note = c.text.trim().isEmpty ? null : c.text.trim();
+    }
+    try {
+      await Ops.patch('$_base/scheduled-lessons/$id', body: {'status': status, if (note != null) 'note': note});
+      _load();
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
+    }
+  }
+
+  Future<void> _cancelLeave(String id) async {
+    try {
+      await Ops.post('$_base/leave-requests/$id/cancel');
+      _load();
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
     }
   }
 
@@ -306,7 +399,7 @@ class _MyDayPageState extends State<MyDayPage> {
     };
     final pending = _duties.where((d) => d['status'] == 'proposed').toList();
     return Scaffold(
-      appBar: AppBar(title: const Text('My day'), actions: [
+      appBar: AppBar(title: Text(tr('My day')), actions: [
         FilledButton.tonalIcon(
           onPressed: _checkedIn == null ? _checkIn : null,
           icon: const Icon(Icons.how_to_reg),
@@ -320,19 +413,51 @@ class _MyDayPageState extends State<MyDayPage> {
               ? const LoadingIndicator()
               : ListView(padding: const EdgeInsets.all(16), children: [
                   if (pending.isNotEmpty) ...[
-                    const SectionHeader(title: 'Cover asked of you'),
+                    SectionHeader(title: tr('Cover asked of you')),
                     for (final d in pending)
                       ListTile(
                         title: Text('${d['date']} · period ${d['period']} · '
                             '${_ctx?.sectionLabels[d['sectionId']] ?? d['sectionId']}'),
                         subtitle: Text(_ctx?.subjectNames[d['subjectId']] ?? ''),
                         trailing: Wrap(spacing: 8, children: [
-                          OutlinedButton(onPressed: () => _respond(d['id'], false), child: const Text('Decline')),
-                          FilledButton(onPressed: () => _respond(d['id'], true), child: const Text('Accept')),
+                          OutlinedButton(onPressed: () => _respond(d['id'], false), child: Text(tr('Decline'))),
+                          FilledButton(onPressed: () => _respond(d['id'], true), child: Text(tr('Accept'))),
                         ]),
                       ),
                   ],
-                  SectionHeader(title: 'Today', subtitle: '${_rows!.length} periods'),
+                  if (_lessons.isNotEmpty) ...[
+                    SectionHeader(title: tr("Today's lessons")),
+                    for (final l in _lessons)
+                      ListTile(
+                        title: Text('${l['sectionName'] ?? ''} ${l['subjectName']}: ${l['subtopicName']}'),
+                        subtitle: Text('${l['chapterName']} · ${l['topicName']}'),
+                        trailing: l['status'] == 'scheduled'
+                            ? Wrap(spacing: 6, children: [
+                                OutlinedButton(onPressed: () => _markLesson(l['lessonId'] as String, 'skipped'),
+                                    child: Text(tr('Not taught'))),
+                                FilledButton(onPressed: () => _markLesson(l['lessonId'] as String, 'completed'),
+                                    child: Text(tr('Taught'))),
+                              ])
+                            : ChipTag(label: l['status'] == 'completed' ? 'Taught' : 'Not taught'),
+                      ),
+                  ],
+                  SectionHeader(
+                    title: 'My leave',
+                    action: OutlinedButton.icon(onPressed: _applyForLeave, icon: const Icon(Icons.event_busy),
+                        label: Text(tr('Apply for leave'))),
+                  ),
+                  for (final l in _leave)
+                    ListTile(
+                      dense: true,
+                      title: Text('${l['startDate']}${l['endDate'] != l['startDate'] ? ' to ${l['endDate']}' : ''} · ${l['kind']}'),
+                      subtitle: Text(l['reason'] ?? ''),
+                      trailing: Wrap(spacing: 8, crossAxisAlignment: WrapCrossAlignment.center, children: [
+                        ChipTag(label: l['status'] as String),
+                        if (l['status'] == 'pending' || l['status'] == 'approved')
+                          TextButton(onPressed: () => _cancelLeave(l['id'] as String), child: Text(tr('Cancel'))),
+                      ]),
+                    ),
+                  SectionHeader(title: tr('Today'), subtitle: '${_rows!.length} periods'),
                   if (_rows!.isEmpty) const Text('No periods today.'),
                   for (final r in _rows!)
                     ListTile(

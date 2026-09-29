@@ -40,6 +40,9 @@ const _exempt = {
   // Marking a notification read on open: opening it must not wait on, or be
   // blocked by, that courtesy call.
   'lib/presentation/workspace/inbox_page.dart': 1,
+  // The UI language is read before the local store may be open (tests, the
+  // first frame); it falls back to English, which is not a failure.
+  'lib/presentation/workspace/strings.dart': 1,
 };
 
 const _marker = '// not-a-failure:';

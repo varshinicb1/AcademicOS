@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'strings.dart';
 
 /// Which product this build is (M4, M5). One codebase, three online faces:
 ///
@@ -32,26 +33,26 @@ String appHome(AppMode mode, {String role = ''}) => switch (mode) {
 typedef AppTab = ({IconData icon, IconData selected, String label, String path});
 
 List<AppTab> appTabs(AppMode mode, {String role = ''}) => switch (mode) {
-      AppMode.teacher => const [
-          (icon: Icons.today_outlined, selected: Icons.today, label: 'My day', path: '/school/my-day'),
-          (icon: Icons.assignment_outlined, selected: Icons.assignment, label: 'Homework', path: '/school/homework'),
-          (icon: Icons.description_outlined, selected: Icons.description, label: 'Papers', path: '/assessment'),
-          (icon: Icons.notifications_outlined, selected: Icons.notifications, label: 'Inbox', path: '/school/inbox'),
-          (icon: Icons.apps_outlined, selected: Icons.apps, label: 'More', path: '/school'),
+      AppMode.teacher => [
+          (icon: Icons.today_outlined, selected: Icons.today, label: tr('My day'), path: '/school/my-day'),
+          (icon: Icons.assignment_outlined, selected: Icons.assignment, label: tr('Homework'), path: '/school/homework'),
+          (icon: Icons.description_outlined, selected: Icons.description, label: tr('Papers'), path: '/assessment'),
+          (icon: Icons.notifications_outlined, selected: Icons.notifications, label: tr('Inbox'), path: '/school/inbox'),
+          (icon: Icons.apps_outlined, selected: Icons.apps, label: tr('More'), path: '/school'),
         ],
       AppMode.student => role == 'parent'
-          ? const [
-              (icon: Icons.family_restroom_outlined, selected: Icons.family_restroom, label: 'Children', path: '/school/family'),
-              (icon: Icons.notifications_outlined, selected: Icons.notifications, label: 'Inbox', path: '/school/inbox'),
+          ? [
+              (icon: Icons.family_restroom_outlined, selected: Icons.family_restroom, label: tr('Children'), path: '/school/family'),
+              (icon: Icons.notifications_outlined, selected: Icons.notifications, label: tr('Inbox'), path: '/school/inbox'),
             ]
-          : const [
-              (icon: Icons.today_outlined, selected: Icons.today, label: 'Today', path: '/student/schedule'),
-              (icon: Icons.assignment_outlined, selected: Icons.assignment, label: 'Homework', path: '/school/my-homework'),
-              (icon: Icons.insights_outlined, selected: Icons.insights, label: 'Progress', path: '/school/my-learning'),
-              (icon: Icons.event_note_outlined, selected: Icons.event_note, label: 'Exams', path: '/school/my-exams'),
-              (icon: Icons.notifications_outlined, selected: Icons.notifications, label: 'Inbox', path: '/school/inbox'),
+          : [
+              (icon: Icons.today_outlined, selected: Icons.today, label: tr('Today'), path: '/student/schedule'),
+              (icon: Icons.assignment_outlined, selected: Icons.assignment, label: tr('Homework'), path: '/school/my-homework'),
+              (icon: Icons.insights_outlined, selected: Icons.insights, label: tr('Progress'), path: '/school/my-learning'),
+              (icon: Icons.event_note_outlined, selected: Icons.event_note, label: tr('Exams'), path: '/school/my-exams'),
+              (icon: Icons.notifications_outlined, selected: Icons.notifications, label: tr('Inbox'), path: '/school/inbox'),
             ],
-      AppMode.console => const [],
+      AppMode.console => <AppTab>[],
     };
 
 /// The index of the tab a location belongs to: the longest tab path that

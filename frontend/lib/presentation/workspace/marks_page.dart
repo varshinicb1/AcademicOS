@@ -4,6 +4,7 @@ import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'teacher_homework.dart' show TeachingContext;
+import 'strings.dart';
 
 /// Marks entry for a paper sat on paper (EX-8): one section's students by
 /// the paper's questions, typed cell by cell, then the analysis by question,
@@ -101,7 +102,7 @@ class _MarksPageState extends State<MarksPage> {
           actions: [
             if (g != null)
               FilledButton(onPressed: _saving || _dirty.isEmpty && _absentChanged() == 0 ? null : _save,
-                  child: const Text('Save')),
+                  child: Text(tr('Save'))),
             const SizedBox(width: 12),
           ],
           bottom: const TabBar(tabs: [Tab(text: 'Enter'), Tab(text: 'Analysis')]),
@@ -205,7 +206,7 @@ class _MarksPageState extends State<MarksPage> {
           trailing: SizedBox(width: 120, child: LinearProgressIndicator(value: (q['facility'] as num?)?.toDouble() ?? 0)),
         ),
       if ((a['chapters'] as List).isNotEmpty) ...[
-        const SectionHeader(title: 'By chapter'),
+        SectionHeader(title: tr('By chapter')),
         for (final c in (a['chapters'] as List).cast<Map>())
           ListTile(dense: true, title: Text(c['name']), subtitle: Text('${c['questions']} questions'),
               trailing: Text(c['facility'] == null ? '-' : '${((c['facility'] as num) * 100).round()}%')),
@@ -232,7 +233,7 @@ Future<void> requestReview(BuildContext context, String assessmentId) async {
       TextField(controller: note, decoration: const InputDecoration(labelText: 'Note (optional)')),
     ])),
     actions: [
-      TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+      TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Cancel'))),
       FilledButton(onPressed: reviewer == null ? null : () => Navigator.pop(ctx, true), child: const Text('Send')),
     ],
   )));

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
+import 'strings.dart';
 
 /// The caller's notifications (NTF-1): newest first, unread marked, and the
 /// settings -- quiet hours, language, and push/email per kind.
@@ -49,13 +50,13 @@ class _InboxPageState extends State<InboxPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Notifications'), actions: [
+      appBar: AppBar(title: Text(tr('Notifications')), actions: [
         TextButton(
           onPressed: () async {
             await Ops.post('/notifications/read-all');
             _reload();
           },
-          child: const Text('Mark all read'),
+          child: Text(tr('Mark all read')),
         ),
         IconButton(
           tooltip: 'Settings',

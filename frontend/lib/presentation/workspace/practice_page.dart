@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
+import 'strings.dart';
 
 /// Starts a practice set on the student's weakest chapters -- or the one
 /// named -- and opens it (SA-4).
@@ -81,7 +82,7 @@ class _PracticePageState extends State<PracticePage> {
             child: Row(children: [
               Expanded(child: Text('You got ${p['marks']} of ${p['maxMarks']}', style: theme.textTheme.titleMedium)),
               FilledButton.tonal(onPressed: () => startPractice(context, subject: p['subject'] as String),
-                  child: const Text('Practise again')),
+                  child: Text(tr('Practise again'))),
             ]),
           ),
         for (final (i, q) in (p['questions'] as List).cast<Map>().indexed)
@@ -119,7 +120,7 @@ class _PracticePageState extends State<PracticePage> {
             ]),
           ),
         if (!done)
-          FilledButton.icon(onPressed: _busy ? null : _submit, icon: const Icon(Icons.check), label: const Text('Check my answers')),
+          FilledButton.icon(onPressed: _busy ? null : _submit, icon: const Icon(Icons.check), label: Text(tr('Check my answers'))),
       ]),
     );
   }

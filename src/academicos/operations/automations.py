@@ -17,6 +17,8 @@ even two overlapping runs cannot double a message.
 - teacher_daily_digest (from 18:00): each teacher's periods and duties for
   tomorrow, when they have any.
 - principal_weekly_digest (Monday from 07:00): last week's cover and homework.
+- principal_alerts (from 08:00): sections behind plan, lost periods owed over a
+  week, homework overdue in bulk, exams within a week without a full roster (ADM-3).
 
 Triggered by POST /api/v1/automations/run (Cloud Scheduler, with the
 operator's cron key) and, throttled, by ordinary traffic.
@@ -186,6 +188,65 @@ def principal_weekly_digest(ops, cs, users, notify, now: datetime) -> int:
     return n
 
 
+BEHIND_LESSONS = 5          # a section this many lessons behind its plan is "falling behind"
+OWED_AFTER_DAYS = 7         # a lost period owed this long is flagged
+
+
+def principal_alerts(ops, cs, users, notify, now: datetime) -> int:
+    """ADM-3, once a morning: what needs the principal today, in one
+    message -- sections falling behind their plan, lost periods not made up,
+    homework overdue in bulk, exams within a week without a full roster.
+    Nothing to report sends nothing."""
+    today = now.astimezone(IST).date()
+    n = 0
+    for school in _schools(cs):
+        principals = [u.id for u in users.users_for_school(school, role="principal")]
+        year = _year_on(cs, school, today.isoformat())
+        if not principals or year is None:
+            continue
+        lines = []
+        delayed = cs.get_delayed_topics(school_id=school, academic_year_id=year.id, as_of_date=today.isoformat())
+        behind: dict[str, int] = {}
+        for lesson in delayed["delayed_lessons"]:
+            if lesson.get("section_id"):
+                behind[lesson["section_id"]] = behind.get(lesson["section_id"], 0) + 1
+        for sid, count in sorted(behind.items(), key=lambda kv: -kv[1]):
+            if count >= BEHIND_LESSONS:
+                lines.append(f"{_label(cs, sid)} is {count} lessons behind its plan")
+        cutoff = (today - timedelta(days=OWED_AFTER_DAYS)).isoformat()
+        owed = [l for l in cs.lost_periods_for_year(year.id, "owed") if l.date <= cutoff]
+        if owed:
+            lines.append(f"{len(owed)} lost periods not made up for over a week")
+        bulk = 0
+        for hw in ops.homework_for_school(school, status="published"):
+            if hw.due_date >= today.isoformat():
+                continue
+            roster = sum(len(cs.enrollments_for_section(sid)) for sid in hw.section_ids)
+            handed = len(ops.submissions_for(hw.id))
+            if roster and handed < roster / 2:
+                bulk += 1
+        if bulk:
+            lines.append(f"{bulk} homework past due with fewer than half handed in")
+        soon = (today + timedelta(days=7)).isoformat()
+        for ex in ops.exams_for_school(school):
+            if not (today.isoformat() <= ex["start_date"] <= soon):
+                continue
+            papers = ops.exam_papers(ex["id"])
+            empty = sum(1 for r in ops.roster(ex["id"]) if not r["teacher_id"])
+            if not papers:
+                lines.append(f"{ex['name']} starts {ex['start_date']} with no datesheet")
+            elif empty or ex["status"] != "published":
+                lines.append(f"{ex['name']} starts {ex['start_date']}: "
+                             + (f"{empty} rooms without an invigilator" if empty else "not published yet"))
+        if not lines:
+            continue
+        notify(school_id=school, user_ids=principals, kind="principal_alert",
+               params={"title": f"Needs attention today ({len(lines)})", "body": "; ".join(lines) + "."},
+               link="/dashboard", dedupe_key=f"alerts:{school}:{today.isoformat()}")
+        n += 1
+    return n
+
+
 # (job, opens at IST hour, period: "day" | "week" | "run", weekday or None, function)
 JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
     ("homework_due_tomorrow", 16, "day", None, homework_due_tomorrow),
@@ -193,6 +254,7 @@ JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
     ("substitution_escalation", 7, "run", None, substitution_escalation),
     ("teacher_daily_digest", 18, "day", None, teacher_daily_digest),
     ("principal_weekly_digest", 7, "week", 0, principal_weekly_digest),
+    ("principal_alerts", 8, "day", None, principal_alerts),
 ]
 
 
