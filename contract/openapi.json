@@ -2267,6 +2267,29 @@
         "title": "ChapterWeights",
         "type": "object"
       },
+      "ChildDayResponse": {
+        "properties": {
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/DayRowResponse"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "subjectNames": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Subjectnames",
+            "type": "object"
+          }
+        },
+        "required": [
+          "rows"
+        ],
+        "title": "ChildDayResponse",
+        "type": "object"
+      },
       "ChildResponse": {
         "properties": {
           "consent": {
@@ -2315,6 +2338,66 @@
           "consent"
         ],
         "title": "ChildResponse",
+        "type": "object"
+      },
+      "ChildTimetableResponse": {
+        "properties": {
+          "academicYearId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Academicyearid"
+          },
+          "bellSchedule": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BellScheduleResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "entries": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/TimetableEntryResponse"
+            },
+            "title": "Entries",
+            "type": "array"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
+          },
+          "subjectNames": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Subjectnames",
+            "type": "object"
+          }
+        },
+        "required": [
+          "role"
+        ],
+        "title": "ChildTimetableResponse",
         "type": "object"
       },
       "ClassAnalysis": {
@@ -11582,6 +11665,29 @@
         "title": "SolveResponse",
         "type": "object"
       },
+      "StaffMember": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "role"
+        ],
+        "title": "StaffMember",
+        "type": "object"
+      },
       "StudentEnrollmentResponse": {
         "properties": {
           "createdAt": {
@@ -15909,11 +16015,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/DayRowResponse"
-                  },
-                  "title": "Response Child Day Api V1 Children  Student Id  Day Get",
-                  "type": "array"
+                  "$ref": "#/components/schemas/ChildDayResponse"
                 }
               }
             },
@@ -16051,7 +16153,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MyTimetableResponse"
+                  "$ref": "#/components/schemas/ChildTimetableResponse"
                 }
               }
             },
@@ -26264,6 +26366,34 @@
           }
         ],
         "summary": "Get Section Templates"
+      }
+    },
+    "/api/v1/staff": {
+      "get": {
+        "description": "The school's teachers and principal by name, for pickers (a reviewer,\nan invigilator). No emails: the full user list stays with whoever\nadministers people.",
+        "operationId": "staff_directory_api_v1_staff_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/StaffMember"
+                  },
+                  "title": "Response Staff Directory Api V1 Staff Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Staff Directory"
       }
     },
     "/api/v1/students/{student_id}/guardian-invites": {

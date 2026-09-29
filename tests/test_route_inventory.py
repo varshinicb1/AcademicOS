@@ -202,6 +202,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/admin/grants"),
     ("DELETE", "/api/v1/admin/grants/{grant_id}"),
     ("GET", "/api/v1/my-grants"),
+    ("GET", "/api/v1/staff"),
     ("GET", "/api/v1/homework/suggestion"),
     ("POST", "/api/v1/homework"),
     ("GET", "/api/v1/homework"),
@@ -472,6 +473,7 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/admin/grants"),
     ("DELETE", "/api/v1/admin/grants/{grant_id}"),
     ("GET", "/api/v1/my-grants"),
+    ("GET", "/api/v1/staff"),
     ("GET", "/api/v1/homework/suggestion"),
     ("POST", "/api/v1/homework"),
     ("GET", "/api/v1/homework"),
@@ -859,7 +861,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 256: EX-8 added marks entry and analysis (3).
     # 264: EX-7 added exam planning (8).
     # 268: M1.4 added delegated admin grants (4).
-    assert len(API_ROUTES) == 268
+    # 269: the staff directory for pickers (1).
+    assert len(API_ROUTES) == 269
 
 
 def test_docs_routes_present():

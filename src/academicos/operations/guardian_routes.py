@@ -73,6 +73,25 @@ class ChildResponse(Camel):
     consent: str                   # granted | revoked | none
 
 
+class ChildTimetableResponse(MyTimetableResponse):
+    subject_names: dict[str, str] = Field(default_factory=dict)
+
+
+class ChildDayResponse(Camel):
+    rows: list[DayRowResponse]
+    subject_names: dict[str, str] = Field(default_factory=dict)
+
+
+def _subject_names(ids) -> dict[str, str]:
+    cs = cr._require()
+    out = {}
+    for sid in set(ids):
+        s = cs.get_subject(sid)
+        if s is not None:
+            out[sid] = s.name
+    return out
+
+
 class ConsentResponse(Camel):
     student_id: str
     status: str                    # granted | revoked | none
@@ -268,7 +287,7 @@ def my_children(current: User = Depends(get_current_user)) -> list[ChildResponse
     return out
 
 
-@router.get("/children/{student_id}/timetable", response_model=MyTimetableResponse)
+@router.get("/children/{student_id}/timetable", response_model=ChildTimetableResponse)
 def child_timetable(student_id: str, current: User = Depends(get_current_user)):
     """The child's section's week and bell, as the student app shows it."""
     from ..curriculum import school_model_routes as smr
@@ -276,14 +295,16 @@ def child_timetable(student_id: str, current: User = Depends(get_current_user)):
     cs = cr._require()
     section = _section_of(student_id)
     if section is None:
-        return smr.MyTimetableResponse(role="student")
+        return ChildTimetableResponse(role="student")
     bell = cs.bell_for_section(section)
-    return smr.MyTimetableResponse(role="student", academic_year_id=section.academic_year_id, section_id=section.id,
-                                   bell_schedule=smr._bell(bell) if bell else None,
-                                   entries=[smr._entry(e) for e in cs.timetable_for_section(section.id)])
+    entries = cs.timetable_for_section(section.id)
+    return ChildTimetableResponse(role="student", academic_year_id=section.academic_year_id, section_id=section.id,
+                                  bell_schedule=smr._bell(bell) if bell else None,
+                                  entries=[smr._entry(e) for e in entries],
+                                  subject_names=_subject_names(e.subject_id for e in entries))
 
 
-@router.get("/children/{student_id}/day", response_model=list[DayRowResponse])
+@router.get("/children/{student_id}/day", response_model=ChildDayResponse)
 def child_day(student_id: str, on: str = Query(alias="date"), current: User = Depends(get_current_user)):
     """The child's day as it will run: substitutions, lost and make-up periods."""
     from ..curriculum import cover_routes
@@ -293,10 +314,11 @@ def child_day(student_id: str, on: str = Query(alias="date"), current: User = De
     try:
         year = cover_routes._year_for(cs, child.school_id, on)
     except HTTPException:
-        return []
+        return ChildDayResponse(rows=[])
     if section is None:
-        return []
-    return [cover_routes._row(r) for r in cs.day_view(year.id, on, section_id=section.id)]
+        return ChildDayResponse(rows=[])
+    rows = [cover_routes._row(r) for r in cs.day_view(year.id, on, section_id=section.id)]
+    return ChildDayResponse(rows=rows, subject_names=_subject_names(r.subject_id for r in rows))
 
 
 @router.get("/children/{student_id}/homework", response_model=list[MyHomeworkItem])

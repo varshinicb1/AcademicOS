@@ -104,3 +104,12 @@ def test_parents_are_invited_only_for_a_student(w):
     assert w.c.post(f"/api/v1/students/{w.ids['s1']}/guardian-invites", json={}, headers=w.p2).status_code == 403
     assert w.c.post(f"/api/v1/students/{w.ids['s1']}/guardian-invites", json={"relation": "aunt"},
                     headers=w.p).status_code == 422
+
+
+def test_the_staff_directory_gives_names_not_emails(w):
+    rows = w.c.get("/api/v1/staff", headers=w.ana).json()
+    assert {r["name"] for r in rows} >= {"Ana", "Bala", "Priya"}
+    assert all(set(r) == {"id", "name", "role"} for r in rows), "no emails in a picker"
+    assert w.c.get("/api/v1/staff", headers=w.s1).status_code == 403
+    mum = _parent(w)
+    assert w.c.get("/api/v1/staff", headers=_h(mum)).status_code == 403

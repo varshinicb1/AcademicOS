@@ -78,6 +78,7 @@ class MainShell extends StatelessWidget {
     (icon: Icons.psychology_outlined, selectedIcon: Icons.psychology, label: 'Mastery'),
     (icon: Icons.insights_outlined, selectedIcon: Icons.insights, label: 'Teacher'),
     (icon: Icons.account_balance_outlined, selectedIcon: Icons.account_balance, label: 'Principal'),
+    (icon: Icons.school_outlined, selectedIcon: Icons.school, label: 'School'),
   ];
 
   @override
@@ -179,6 +180,7 @@ class MainShell extends StatelessWidget {
     if (location.startsWith('/analytics/gaps')) return 7;
     if (location.startsWith('/analytics/school')) return 8;
     if (location.startsWith('/analytics')) return 6;
+    if (location.startsWith('/school')) return 9;
     return 0;
   }
 
@@ -210,6 +212,9 @@ class MainShell extends StatelessWidget {
         break;
       case 8:
         context.go('/analytics/school');
+        break;
+      case 9:
+        context.go('/school');
         break;
     }
   }

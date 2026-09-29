@@ -33,6 +33,13 @@ const _exempt = {
   // web (guarded by ACADEMICOS_OFFLINE) and the app is fully usable unseeded;
   // the failure is logged with its stack.
   'lib/presentation/home/pages/home_page.dart': 1,
+  // The School workspace's unread badge and a teacher's admin-grant lookup:
+  // both only decide whether to show a count or extra tiles, and every page
+  // they lead to reports its own failures through serverErrorMessage.
+  'lib/presentation/workspace/workspace_page.dart': 2,
+  // Marking a notification read on open: opening it must not wait on, or be
+  // blocked by, that courtesy call.
+  'lib/presentation/workspace/inbox_page.dart': 1,
 };
 
 const _marker = '// not-a-failure:';

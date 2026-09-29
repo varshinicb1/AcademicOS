@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:get_it/get_it.dart';
 import 'package:printing/printing.dart';
 
@@ -17,6 +18,7 @@ import '../../blocs/assessment_bloc.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 import '../widgets/paper_delivery_sheet.dart';
+import '../../workspace/marks_page.dart' show requestReview;
 
 class AssessmentReviewPage extends StatefulWidget {
   final String assessmentId;
@@ -117,7 +119,25 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
         : paper;
 
     return Scaffold(
-      appBar: AppBar(leading: shellLeading(context), title: Text(assessment?.title ?? 'Assessment')),
+      appBar: AppBar(
+        leading: shellLeading(context),
+        title: Text(assessment?.title ?? 'Assessment'),
+        actions: [
+          // Review and marks entry are school workflows on the web build only.
+          if (!const bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false) && assessment != null)
+            PopupMenuButton<String>(
+              tooltip: 'Workflow',
+              onSelected: (v) {
+                if (v == 'review') requestReview(context, assessment.id);
+                if (v == 'marks' && paper != null) context.push('/school/marks/${paper.id}');
+              },
+              itemBuilder: (_) => [
+                const PopupMenuItem(value: 'review', child: Text('Send for review')),
+                if (paper != null) const PopupMenuItem(value: 'marks', child: Text('Enter marks')),
+              ],
+            ),
+        ],
+      ),
       body: _reopening
           ? const Center(child: CircularProgressIndicator())
           : assessment == null || paper == null || activePaper == null
