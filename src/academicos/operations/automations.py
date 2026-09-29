@@ -17,6 +17,8 @@ even two overlapping runs cannot double a message.
 - teacher_daily_digest (from 18:00): each teacher's periods and duties for
   tomorrow, when they have any.
 - principal_weekly_digest (Monday from 07:00): last week's cover and homework.
+- marking_due (from 15:00): teachers with submissions waiting over two days
+  for their marks (TA-7).
 - principal_alerts (from 08:00): sections behind plan, lost periods owed over a
   week, homework overdue in bulk, exams within a week without a full roster (ADM-3).
 
@@ -188,6 +190,32 @@ def principal_weekly_digest(ops, cs, users, notify, now: datetime) -> int:
     return n
 
 
+MARKING_AFTER_DAYS = 2      # submissions waiting this long remind their teacher
+
+
+def marking_due(ops, cs, users, notify, now: datetime) -> int:
+    """TA-7, once an afternoon: each teacher with homework submissions
+    waiting over MARKING_AFTER_DAYS days for their marks hears how many."""
+    cutoff = (now - timedelta(days=MARKING_AFTER_DAYS)).isoformat()
+    today = now.astimezone(IST).date().isoformat()
+    n = 0
+    for school in _schools(cs):
+        waiting: dict[str, list[tuple[str, str]]] = {}
+        for hw in ops.homework_for_school(school):
+            if hw.status == "draft":
+                continue
+            for sub in ops.submissions_for(hw.id):
+                if sub.status == "submitted" and sub.submitted_at <= cutoff:
+                    waiting.setdefault(hw.teacher_id, []).append((sub.submitted_at, hw.title))
+        for teacher, items in waiting.items():
+            items.sort()
+            notify(school_id=school, user_ids=[teacher], kind="marking_due",
+                   params={"count": len(items), "days": MARKING_AFTER_DAYS, "title": items[0][1]},
+                   link="/homework", dedupe_key=f"marking:{teacher}:{today}")
+            n += 1
+    return n
+
+
 BEHIND_LESSONS = 5          # a section this many lessons behind its plan is "falling behind"
 OWED_AFTER_DAYS = 7         # a lost period owed this long is flagged
 
@@ -255,6 +283,7 @@ JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
     ("teacher_daily_digest", 18, "day", None, teacher_daily_digest),
     ("principal_weekly_digest", 7, "week", 0, principal_weekly_digest),
     ("principal_alerts", 8, "day", None, principal_alerts),
+    ("marking_due", 15, "day", None, marking_due),
 ]
 
 
