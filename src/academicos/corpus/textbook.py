@@ -87,6 +87,16 @@ def final_answer_key(s: Any) -> str:
     return _norm(raw).replace(" ", "")
 
 
+# A stem that points at a picture the student cannot see.
+_REFERS_TO_PICTURE = re.compile(
+    r"\b(shown|given|marked|drawn)\b.{0,40}\b(map|figure|fig|picture|diagram|table|graph|chart|image|photo|illustration)s?\b"
+    r"|\b(look at|see|observe|study|refer to|use|using) the (above |following |given )?(map|figure|fig|picture|diagram|table|graph|chart|image|photo|illustration)s?\b"
+    r"|\bin the (above |following |given )?(figure|fig|picture|diagram|table|graph|chart|image|photo|illustration)s?\b"
+    r"|\b(above|below|adjacent|alongside)\W+(map|figure|fig|picture|diagram|table|graph|chart|image|photo|illustration)s?\b"
+    r"|\b(map|figure|fig|picture|diagram|table|graph|chart|image|photo|illustration)s?\W+(below|above)\b",
+    re.I)
+
+
 def refusal(q: dict, book: BookText, second: Optional[dict[str, str]]) -> Optional[str]:
     a = q.get("answer") or {}
     src = a.get("source")
@@ -94,6 +104,12 @@ def refusal(q: dict, book: BookText, second: Optional[dict[str, str]]) -> Option
         return "figure-unavailable"
     if src == "open":
         return "generated-open" if q.get("origin") == "generated" else "open-ended"
+    # "the arrows shown in the map", "the table below": a picture the student
+    # cannot see -- the merge's own test, applied where it is cheapest.
+    from .bank_merge import needs_missing_figure
+    stem = str(q.get("stem") or "")
+    if needs_missing_figure(stem) or _REFERS_TO_PICTURE.search(stem):
+        return "figure-referenced"
     # A book question must be the book's; a generated one is new by design, and
     # stands on its answer alone (grounded or solved, checked below).
     if q.get("origin") != "generated" and not _has(book, str(q.get("stem") or "")):

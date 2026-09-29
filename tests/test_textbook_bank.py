@@ -96,3 +96,12 @@ def test_a_hindi_chapter_is_checked_in_its_own_script():
            {"source": "grounded", "points": [{"text": "पूरब में", "evidence": "सूरज पूरब में उगता है"}]})
     b = tb.build({"book": book, "chapter": {"number": 1, "title": "सूरज"}, "questions": [q]}, hindi)
     assert b.refused == [] and b.records[0]["language"] == "hi"
+
+
+def test_a_question_about_a_picture_the_student_cannot_see_is_refused():
+    q = _q("G1", "What is the purpose of the four arrows shown in the top right corner of the city map?",
+           {"source": "grounded", "points": [{"text": "Directions", "evidence": "The four main directions are north, "
+                                              "south, east and west."}]}, origin="generated")
+    assert tb.build(_tb([q]), CHAPTER).refused[0]["reason"] == "figure-referenced"
+    # a word problem about a map's scale needs no picture
+    assert tb.build(_tb([QS[4]]), CHAPTER, second={"Q5": "15"}).records
