@@ -358,6 +358,16 @@ def child_homework_detail(student_id: str, homework_id: str, current: User = Dep
     return hr.my_homework_detail(homework_id, child)
 
 
+@router.get("/children/{student_id}/homework/{homework_id}/questions/{question_id}/audio")
+def child_question_audio(student_id: str, homework_id: str, question_id: str,
+                         current: User = Depends(get_current_user)):
+    """A question of the child's homework read aloud, for doing it together."""
+    from . import homework_routes as hr
+    child = _my_child(student_id, current)
+    hw, _ = hr._my_homework(homework_id, child)
+    return hr.question_audio(hw, question_id, current)
+
+
 @router.post("/children/{student_id}/homework/{homework_id}/submit", response_model=MyHomeworkDetail)
 def child_homework_submit(student_id: str, homework_id: str, req: SubmitRequest,
                           current: User = Depends(get_current_user)):

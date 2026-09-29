@@ -600,6 +600,41 @@ def my_homework_detail(homework_id: str, current: User = Depends(get_current_use
                     feedback=sub.feedback if graded else None)
 
 
+# ---------------- read-aloud (SA-7, INT-4) ----------------
+
+_audio_limiter = None
+
+
+def question_audio(hw: Homework, question_id: str, user: User) -> Response:
+    """One question read aloud: its stem and parts as the student sees them
+    (never an answer), as WAV. Rate-limited per person."""
+    global _audio_limiter
+    from ..api.rate_limit import RateLimiter
+    from ..llm import sarvam_tts
+    if _audio_limiter is None:
+        _audio_limiter = RateLimiter(max_requests=60, window_seconds=600)
+    q = next((q for q in hw.questions if q.get("id") == question_id), None)
+    if q is None:
+        raise HTTPException(404, "no such question in this homework")
+    _audio_limiter.check(f"user:{user.id}")
+    seen = _student_question(q)
+    text = " ".join([seen.stem] + [f"({p.get('partNumber')}) {p.get('text', '')}" for p in seen.parts])
+    try:
+        audio = sarvam_tts.speak(text)
+    except sarvam_tts.TTSUnavailable as e:
+        raise HTTPException(503, str(e))
+    except sarvam_tts.TTSError as e:
+        raise HTTPException(502, str(e))
+    return Response(audio, media_type="audio/wav", headers={"Cache-Control": "private, max-age=86400"})
+
+
+@router.get("/my-homework/{homework_id}/questions/{question_id}/audio")
+def my_question_audio(homework_id: str, question_id: str, current: User = Depends(get_current_user)) -> Response:
+    """A question of the caller's homework read aloud (for young learners)."""
+    hw, _ = _my_homework(homework_id, current)
+    return question_audio(hw, question_id, current)
+
+
 @router.post("/my-homework/{homework_id}/submit", response_model=MyHomeworkDetail)
 def submit(homework_id: str, req: SubmitRequest, current: User = Depends(get_current_user)) -> MyHomeworkDetail:
     """Send answers ({questionId: answer}; an MCQ answer is its option

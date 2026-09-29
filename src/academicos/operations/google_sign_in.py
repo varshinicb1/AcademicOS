@@ -66,10 +66,14 @@ class GoogleSignIn(Camel):
 @router.get("/providers")
 def providers() -> dict:
     """Which ways in this deployment offers, for the sign-in page: Google
-    (with the public client id the button needs) and emailed codes."""
+    (with the public client id the button needs) and emailed codes; and
+    whether read-aloud is available."""
     from ..assessment import mailer
+    from ..llm import sarvam_tts
     return {"google": {"clientId": client_id()} if client_id() else None,
-            "emailCode": any(b.get("configured") for b in mailer.available_backends().values())}
+            "emailCode": any(b.get("configured") for b in mailer.available_backends().values()),
+            # Read-aloud of homework questions (SA-7), when the speech service is set up.
+            "readAloud": sarvam_tts.api_key() is not None}
 
 
 @router.post("/google")

@@ -248,6 +248,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/children/{student_id}/homework"),
     ("GET", "/api/v1/children/{student_id}/homework/{homework_id}"),
     ("POST", "/api/v1/children/{student_id}/homework/{homework_id}/submit"),
+    ("GET", "/api/v1/children/{student_id}/homework/{homework_id}/questions/{question_id}/audio"),
+    ("GET", "/api/v1/my-homework/{homework_id}/questions/{question_id}/audio"),
     ("GET", "/api/v1/children/{student_id}/learning"),
     ("GET", "/api/v1/children/{student_id}/consent"),
     ("POST", "/api/v1/children/{student_id}/consent"),
@@ -536,6 +538,8 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/children/{student_id}/homework"),
     ("GET", "/api/v1/children/{student_id}/homework/{homework_id}"),
     ("POST", "/api/v1/children/{student_id}/homework/{homework_id}/submit"),
+    ("GET", "/api/v1/children/{student_id}/homework/{homework_id}/questions/{question_id}/audio"),
+    ("GET", "/api/v1/my-homework/{homework_id}/questions/{question_id}/audio"),
     ("GET", "/api/v1/children/{student_id}/learning"),
     ("GET", "/api/v1/children/{student_id}/consent"),
     ("POST", "/api/v1/children/{student_id}/consent"),
@@ -915,7 +919,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 288: ADM-2/4 the term report and its Excel/PDF export (2).
     # 290: INT-1 Google sign-in and the sign-in providers (2).
     # 292: SA-7 a parent opens and hands in a young child's homework (2).
-    assert len(API_ROUTES) == 292
+    # 294: SA-7/INT-4 read-aloud of a homework question, for the student and the parent (2).
+    assert len(API_ROUTES) == 294
 
 
 def test_docs_routes_present():
