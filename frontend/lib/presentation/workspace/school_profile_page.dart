@@ -141,7 +141,7 @@ class _SchoolProfilePageState extends State<SchoolProfilePage> {
             if (!named) ...[
               const Gap(8),
               Text(key: const ValueKey('profile-unnamed'),
-                  tr('Papers print no school name until you set one here.'),
+                  tr('No name set yet: papers print no school name, or only a name given in the Template Maker.'),
                   style: TextStyle(color: theme.colorScheme.error)),
             ],
             const Gap(12),
