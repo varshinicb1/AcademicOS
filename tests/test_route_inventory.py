@@ -950,6 +950,7 @@ def test_non_gated_routes_work_without_startup():
             "/api/v1/blueprints/generate", json=blueprint_body()
         ).status_code == 401
         assert client.get("/api/v1/mail/status").status_code == 200
+        assert client.get("/api/v1/auth/providers").status_code == 200
 
         assert client.get("/api/v1/syllabus/Science/10").status_code == 200
         assert client.get("/api/v1/syllabus/Science/10/timetable").status_code == 200
@@ -981,6 +982,9 @@ def test_gated_routes_return_503_without_startup():
                 ("GET", "/health/storage"),
                 ("POST", "/api/v1/blueprints/generate"),
                 ("GET", "/api/v1/mail/status"),
+                # Which ways in are set up: read from the environment, so it
+                # answers before startup like /mail/status (asserted above).
+                ("GET", "/api/v1/auth/providers"),
                 ("GET", "/api/v1/syllabus/{subject}/{grade}"),
                 ("GET", "/api/v1/syllabus/{subject}/{grade}/timetable"),
             }:
