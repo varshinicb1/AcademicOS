@@ -24,7 +24,7 @@ from .authz import (
     require_own_school, require_own_subtopics, require_school_owns_assessment,
     require_school_owns_paper,
 )
-from .auth_routes import get_current_user, require_principal, require_staff
+from .auth_routes import get_current_user, require_admin, require_principal, require_staff
 from .competency import CBSE_COMPETENCY_TARGET
 from .users import User, get_user_store
 from .mapping import grade_to_int, to_question_schema
@@ -701,7 +701,7 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(r
 
 @router.get("/paper-timing")
 def get_paper_timing(term_id: Optional[str] = Query(None, alias="termId"),
-                     current: User = Depends(require_principal)) -> dict:
+                     current: User = Depends(require_admin("reports"))) -> dict:
     """Time saved and exam coverage, for one term -- the renewal criterion and
     the principal's first dashboard metric, made answerable.
 
@@ -984,7 +984,7 @@ def update_status(assessment_id: str, body: dict, current: User = Depends(requir
 # users.py's "first registrant per school" bootstrap rule) rather than a
 # bare status PATCH anyone could call.
 @router.patch("/assessments/{assessment_id}/approve", response_model=Assessment)
-def approve_assessment(assessment_id: str, principal: User = Depends(require_principal)) -> Assessment:
+def approve_assessment(assessment_id: str, principal: User = Depends(require_admin("exams"))) -> Assessment:
     cfg, store = _require()
     a = store.get(assessment_id)
     if a is None:

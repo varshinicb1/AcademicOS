@@ -14,7 +14,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
-from ..assessment.auth_routes import get_current_user, require_principal, require_staff
+from ..assessment.auth_routes import get_current_user, require_admin, require_principal, require_staff
 from ..assessment.users import User
 from . import routes as cr
 from .schemas import Camel
@@ -233,7 +233,7 @@ def list_allocations(academic_year_id: str,
 
 @router.put("/sections/{section_id}/allocations/{subject_id}", response_model=AllocationResponse)
 def set_allocation(section_id: str, subject_id: str, req: AllocationRequest,
-                   principal: User = Depends(require_principal)) -> AllocationResponse:
+                   principal: User = Depends(require_admin("timetable"))) -> AllocationResponse:
     """Set one cell of the allocation grid: who teaches this subject to this
     section, and how many periods a week."""
     cr._require_school_owns_section(section_id, principal)
@@ -256,7 +256,7 @@ def set_allocation(section_id: str, subject_id: str, req: AllocationRequest,
 
 @router.delete("/sections/{section_id}/allocations/{subject_id}")
 def delete_allocation(section_id: str, subject_id: str,
-                      principal: User = Depends(require_principal)) -> dict:
+                      principal: User = Depends(require_admin("timetable"))) -> dict:
     """409 while the timetable still gives the subject periods."""
     cr._require_school_owns_section(section_id, principal)
     try:
@@ -273,7 +273,7 @@ def delete_allocation(section_id: str, subject_id: str,
 
 @router.get("/academic-years/{academic_year_id}/teacher-load", response_model=list[TeacherLoadResponse])
 def teacher_load(academic_year_id: str,
-                 principal: User = Depends(require_principal)) -> list[TeacherLoadResponse]:
+                 principal: User = Depends(require_admin("timetable"))) -> list[TeacherLoadResponse]:
     """Per teacher: periods a week allocated and timetabled, and the most in
     one day. The principal's: teacher-level data (REQUIREMENTS ADM-5)."""
     cr._require_school_owns_academic_year(academic_year_id, principal)
@@ -292,7 +292,7 @@ def list_rooms(current: User = Depends(require_staff)) -> list[RoomResponse]:
 
 
 @router.post("/rooms", response_model=RoomResponse)
-def create_room(req: RoomRequest, principal: User = Depends(require_principal)) -> RoomResponse:
+def create_room(req: RoomRequest, principal: User = Depends(require_admin("timetable"))) -> RoomResponse:
     try:
         room = cr._require().create_room(school_id=principal.school_id, name=req.name, kind=req.kind,
                                          capacity=req.capacity)
@@ -305,7 +305,7 @@ def create_room(req: RoomRequest, principal: User = Depends(require_principal)) 
 
 @router.patch("/rooms/{room_id}", response_model=RoomResponse)
 def update_room(room_id: str, req: RoomUpdateRequest,
-                principal: User = Depends(require_principal)) -> RoomResponse:
+                principal: User = Depends(require_admin("timetable"))) -> RoomResponse:
     _owned_room(room_id, principal)
     sent = req.model_fields_set
     try:
@@ -322,7 +322,7 @@ def update_room(room_id: str, req: RoomUpdateRequest,
 
 
 @router.delete("/rooms/{room_id}")
-def delete_room(room_id: str, principal: User = Depends(require_principal)) -> dict:
+def delete_room(room_id: str, principal: User = Depends(require_admin("timetable"))) -> dict:
     """409 while the timetable uses the room."""
     _owned_room(room_id, principal)
     try:
@@ -346,7 +346,7 @@ def list_bell_schedules(academic_year_id: str,
 
 @router.post("/academic-years/{academic_year_id}/bell-schedules", response_model=BellScheduleResponse)
 def create_bell_schedule(academic_year_id: str, req: BellScheduleRequest,
-                         principal: User = Depends(require_principal)) -> BellScheduleResponse:
+                         principal: User = Depends(require_admin("timetable"))) -> BellScheduleResponse:
     """The year's first schedule becomes its default."""
     cr._require_school_owns_academic_year(academic_year_id, principal)
     try:
@@ -362,7 +362,7 @@ def create_bell_schedule(academic_year_id: str, req: BellScheduleRequest,
 
 @router.put("/bell-schedules/{bell_schedule_id}", response_model=BellScheduleResponse)
 def update_bell_schedule(bell_schedule_id: str, req: BellScheduleUpdateRequest,
-                         principal: User = Depends(require_principal)) -> BellScheduleResponse:
+                         principal: User = Depends(require_admin("timetable"))) -> BellScheduleResponse:
     before = _owned_bell(bell_schedule_id, principal)
     try:
         after = cr._require().update_bell_schedule(
@@ -381,7 +381,7 @@ def update_bell_schedule(bell_schedule_id: str, req: BellScheduleUpdateRequest,
 
 
 @router.delete("/bell-schedules/{bell_schedule_id}")
-def delete_bell_schedule(bell_schedule_id: str, principal: User = Depends(require_principal)) -> dict:
+def delete_bell_schedule(bell_schedule_id: str, principal: User = Depends(require_admin("timetable"))) -> dict:
     _owned_bell(bell_schedule_id, principal)
     try:
         b = cr._require().delete_bell_schedule(bell_schedule_id)
@@ -393,7 +393,7 @@ def delete_bell_schedule(bell_schedule_id: str, principal: User = Depends(requir
 
 @router.put("/sections/{section_id}/bell-schedule", response_model=SectionTimetableResponse)
 def set_section_bell(section_id: str, req: SectionBellRequest,
-                     principal: User = Depends(require_principal)) -> SectionTimetableResponse:
+                     principal: User = Depends(require_admin("timetable"))) -> SectionTimetableResponse:
     """Give a section its own bell (null: the year's default)."""
     section = cr._require_school_owns_section(section_id, principal)
     try:
@@ -430,7 +430,7 @@ def section_timetable(section_id: str, current: User = Depends(require_staff)) -
 
 @router.put("/sections/{section_id}/timetable", response_model=SectionTimetableResponse)
 def replace_section_timetable(section_id: str, req: SectionTimetableRequest,
-                              principal: User = Depends(require_principal)) -> SectionTimetableResponse:
+                              principal: User = Depends(require_admin("timetable"))) -> SectionTimetableResponse:
     """Replace a section's whole week. Checked before anything is written: a
     teacher or room already busy in another section, a period or day the
     bell does not have, a subject with no allocation or more periods than
@@ -519,7 +519,7 @@ class SolveResponse(Camel):
 
 @router.post("/academic-years/{academic_year_id}/timetable/solve", response_model=SolveResponse)
 def solve_timetable(academic_year_id: str, req: SolveRequest,
-                    principal: User = Depends(require_principal)) -> SolveResponse:
+                    principal: User = Depends(require_admin("timetable"))) -> SolveResponse:
     """Generate a clash-free week for the whole school (or `sectionIds`) from
     the allocations and bells: no teacher, room or section in two places,
     a teacher's maximum a day and in a row, subjects spread across the week,
@@ -576,7 +576,7 @@ class TeacherUnavailabilityResponse(Camel):
 @router.get("/academic-years/{academic_year_id}/teacher-unavailability",
             response_model=list[TeacherUnavailabilityResponse])
 def list_teacher_unavailability(academic_year_id: str,
-                                principal: User = Depends(require_principal)
+                                principal: User = Depends(require_admin("timetable"))
                                 ) -> list[TeacherUnavailabilityResponse]:
     """Periods each teacher cannot teach (the default bell's numbering).
     Teacher-level data: the principal's (ADM-5)."""
@@ -590,7 +590,7 @@ def list_teacher_unavailability(academic_year_id: str,
 @router.put("/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}",
             response_model=TeacherUnavailabilityResponse)
 def set_teacher_unavailability(academic_year_id: str, teacher_id: str, req: TeacherUnavailabilityRequest,
-                               principal: User = Depends(require_principal)
+                               principal: User = Depends(require_admin("timetable"))
                                ) -> TeacherUnavailabilityResponse:
     cr._require_school_owns_academic_year(academic_year_id, principal)
     _staff_member(teacher_id, principal)

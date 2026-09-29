@@ -15,7 +15,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
-from ..assessment.auth_routes import get_current_user, require_principal, require_staff
+from ..assessment.auth_routes import get_current_user, require_admin, require_principal, require_staff
 from ..assessment.users import User
 from ..curriculum import routes as cr
 from ..curriculum.schemas import Camel
@@ -191,7 +191,7 @@ def on_register(user: User, invite_code: Optional[str]) -> None:
 
 @router.post("/students/{student_id}/guardian-invites", response_model=GuardianInviteResponse)
 def invite_guardian(student_id: str, req: GuardianInviteRequest,
-                    principal: User = Depends(require_principal)) -> GuardianInviteResponse:
+                    principal: User = Depends(require_admin("users"))) -> GuardianInviteResponse:
     """A single-use invite for one of this student's guardians. Whoever
     registers with it gets a parent account linked to this student."""
     _student_of_school(student_id, principal)
@@ -219,7 +219,7 @@ def list_guardians(student_id: str, include_ended: bool = Query(default=False, a
 
 
 @router.post("/guardianships", response_model=GuardianResponse)
-def link(req: LinkRequest, principal: User = Depends(require_principal)) -> GuardianResponse:
+def link(req: LinkRequest, principal: User = Depends(require_admin("users"))) -> GuardianResponse:
     """Link an existing parent account to a student, e.g. a second child."""
     _student_of_school(req.student_id, principal)
     _parent_of_school(req.parent_id, principal)
@@ -236,7 +236,7 @@ def link(req: LinkRequest, principal: User = Depends(require_principal)) -> Guar
 
 
 @router.delete("/guardianships/{parent_id}/{student_id}", response_model=GuardianResponse)
-def unlink(parent_id: str, student_id: str, principal: User = Depends(require_principal)) -> GuardianResponse:
+def unlink(parent_id: str, student_id: str, principal: User = Depends(require_admin("users"))) -> GuardianResponse:
     _student_of_school(student_id, principal)
     _parent_of_school(parent_id, principal)
     g = store().end_guardianship(parent_id, student_id, revoked_by=principal.id)

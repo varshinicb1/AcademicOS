@@ -16,7 +16,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
-from ..assessment.auth_routes import STAFF_ROLES, get_current_user, require_principal, require_staff
+from ..assessment.auth_routes import STAFF_ROLES, get_current_user, holds, require_admin, require_principal, require_staff
 from ..assessment.users import User
 from . import routes as cr
 from .cover import CoverError
@@ -289,7 +289,7 @@ def apply_for_leave(req: LeaveApplyRequest, current: User = Depends(require_staf
 def list_leave(status: Optional[str] = None, current: User = Depends(require_staff)) -> list[LeaveResponse]:
     """The principal sees the current year's requests; a teacher their own."""
     store = cr._require()
-    if current.role == "principal":
+    if holds(current, "leave"):
         year = _current_year(store, current.school_id)
         rows = store.leave_for_year(year.id, status) if year else []
     else:
@@ -299,7 +299,7 @@ def list_leave(status: Optional[str] = None, current: User = Depends(require_sta
 
 @router.post("/leave-requests/{leave_id}/decision", response_model=LeaveDecisionResponse)
 def decide_leave(leave_id: str, req: LeaveDecisionRequest,
-                 principal: User = Depends(require_principal)) -> LeaveDecisionResponse:
+                 principal: User = Depends(require_admin("leave"))) -> LeaveDecisionResponse:
     """Approve (every missed period gets a substitution with a proposed
     substitute) or reject."""
     _owned_leave(leave_id, principal)
@@ -350,7 +350,7 @@ def list_substitutions(from_date: str = Query(alias="from"), to_date: str = Quer
                        current: User = Depends(require_staff)) -> list[SubstitutionResponse]:
     """The principal: every substitution in the range. A teacher: their duties."""
     store = cr._require()
-    if current.role != "principal":
+    if not holds(current, "leave"):
         return [_sub(s) for s in store.duties_for(current.id, from_date, to_date)]
     year = _current_year(store, current.school_id)
     if year is None:
@@ -360,7 +360,7 @@ def list_substitutions(from_date: str = Query(alias="from"), to_date: str = Quer
 
 
 @router.get("/substitutions/{sub_id}/candidates", response_model=list[CandidateResponse])
-def substitution_candidates(sub_id: str, principal: User = Depends(require_principal)) -> list[CandidateResponse]:
+def substitution_candidates(sub_id: str, principal: User = Depends(require_admin("leave"))) -> list[CandidateResponse]:
     """Who is free for this period, best first, with why."""
     _owned_sub(sub_id, principal)
     return [CandidateResponse(teacher_id=c.teacher_id, score=c.score, qualified=c.qualified, reasons=c.reasons)
@@ -369,7 +369,7 @@ def substitution_candidates(sub_id: str, principal: User = Depends(require_princ
 
 @router.post("/substitutions/{sub_id}/assign", response_model=AssignResponse)
 def assign_substitute(sub_id: str, req: AssignRequest,
-                      principal: User = Depends(require_principal)) -> AssignResponse:
+                      principal: User = Depends(require_admin("leave"))) -> AssignResponse:
     """Name the substitute, or run the period without one (supervised,
     combined, lost). A period no teacher of the subject takes is a lost
     period for the section and subject."""
@@ -417,7 +417,7 @@ def list_lost_periods(academic_year_id: str, status: Optional[str] = None,
 
 
 @router.get("/lost-periods/{lost_id}/compensation-options", response_model=list[SlotResponse])
-def compensation_options(lost_id: str, principal: User = Depends(require_principal)) -> list[SlotResponse]:
+def compensation_options(lost_id: str, principal: User = Depends(require_admin("leave"))) -> list[SlotResponse]:
     """The section's free periods over the next three weeks when its subject
     teacher is free and under the day's maximum."""
     _owned_lost(lost_id, principal)
@@ -427,7 +427,7 @@ def compensation_options(lost_id: str, principal: User = Depends(require_princip
 
 @router.post("/lost-periods/{lost_id}/compensate", response_model=LostPeriodResponse)
 def compensate(lost_id: str, req: CompensateRequest,
-               principal: User = Depends(require_principal)) -> LostPeriodResponse:
+               principal: User = Depends(require_admin("leave"))) -> LostPeriodResponse:
     before = _owned_lost(lost_id, principal)
     try:
         after = cr._require().compensate(lost_id, on=req.date, period=req.period, today=_today())
@@ -439,7 +439,7 @@ def compensate(lost_id: str, req: CompensateRequest,
 
 
 @router.post("/lost-periods/{lost_id}/waive", response_model=LostPeriodResponse)
-def waive(lost_id: str, principal: User = Depends(require_principal)) -> LostPeriodResponse:
+def waive(lost_id: str, principal: User = Depends(require_admin("leave"))) -> LostPeriodResponse:
     _owned_lost(lost_id, principal)
     try:
         after = cr._require().waive_lost(lost_id)
@@ -451,7 +451,7 @@ def waive(lost_id: str, principal: User = Depends(require_principal)) -> LostPer
 
 @router.post("/academic-years/{academic_year_id}/closures", response_model=ClosureResponse)
 def declare_closure(academic_year_id: str, req: ClosureRequest,
-                    principal: User = Depends(require_principal)) -> ClosureResponse:
+                    principal: User = Depends(require_admin("calendar"))) -> ClosureResponse:
     """A day lost at short notice, or after the fact (rain, an event, an exam
     day): every section's periods that day become lost periods, the day's
     cover is cancelled, the holiday goes on the calendar and the section
@@ -583,7 +583,7 @@ def _attendance(on: str, current: User, opened: Optional[list] = None) -> Attend
 
 @router.get("/teacher-attendance", response_model=AttendanceResponse)
 def teacher_attendance(on: Optional[str] = Query(default=None, alias="date"),
-                       principal: User = Depends(require_principal)) -> AttendanceResponse:
+                       principal: User = Depends(require_admin("leave"))) -> AttendanceResponse:
     """Every staff member's attendance for a day (today by default): as
     marked, on leave, or not marked yet."""
     return _attendance(on or _today(), principal)
@@ -591,7 +591,7 @@ def teacher_attendance(on: Optional[str] = Query(default=None, alias="date"),
 
 @router.put("/teacher-attendance", response_model=AttendanceResponse)
 def mark_teacher_attendance(req: AttendanceRequest, on: Optional[str] = Query(default=None, alias="date"),
-                            principal: User = Depends(require_principal)) -> AttendanceResponse:
+                            principal: User = Depends(require_admin("leave"))) -> AttendanceResponse:
     """Mark attendance. An absence with no leave opens same-day cover at
     once -- every missed period gets a substitution and a proposed
     substitute, who is told -- and the result lists them."""
@@ -634,7 +634,7 @@ def check_in(current: User = Depends(require_staff)) -> AttendanceRow:
 
 @router.get("/academic-years/{academic_year_id}/cover-summary", response_model=CoverSummaryResponse)
 def cover_summary(academic_year_id: str, from_date: str = Query(alias="from"), to_date: str = Query(alias="to"),
-                  principal: User = Depends(require_principal)) -> CoverSummaryResponse:
+                  principal: User = Depends(require_admin("reports"))) -> CoverSummaryResponse:
     """Substitutions requested, filled, supervised and unfilled; periods lost,
     owed and made up; the debt per section and subject (ADM-2)."""
     cr._require_school_owns_academic_year(academic_year_id, principal)

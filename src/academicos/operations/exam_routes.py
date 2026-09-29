@@ -10,7 +10,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
-from ..assessment.auth_routes import get_current_user, require_principal
+from ..assessment.auth_routes import get_current_user, require_admin, require_principal
 from ..assessment.users import User
 from ..curriculum import routes as cr
 from ..curriculum.schemas import Camel
@@ -127,7 +127,7 @@ def _response(e: dict, unfilled: Optional[list[str]] = None) -> ExamResponse:
 
 
 @router.post("/exams", response_model=ExamResponse)
-def create_exam(req: ExamCreate, principal: User = Depends(require_principal)) -> ExamResponse:
+def create_exam(req: ExamCreate, principal: User = Depends(require_admin("exams"))) -> ExamResponse:
     cs = cr._require()
     try:
         start, end = date.fromisoformat(req.start_date), date.fromisoformat(req.end_date)
@@ -155,17 +155,17 @@ def create_exam(req: ExamCreate, principal: User = Depends(require_principal)) -
 
 
 @router.get("/exams", response_model=list[ExamResponse])
-def list_exams(current: User = Depends(require_principal)) -> list[ExamResponse]:
+def list_exams(current: User = Depends(require_admin("exams"))) -> list[ExamResponse]:
     return [_response(e) for e in store().exams_for_school(current.school_id)]
 
 
 @router.get("/exams/{exam_id}", response_model=ExamResponse)
-def get_exam(exam_id: str, principal: User = Depends(require_principal)) -> ExamResponse:
+def get_exam(exam_id: str, principal: User = Depends(require_admin("exams"))) -> ExamResponse:
     return _response(_exam(exam_id, principal))
 
 
 @router.put("/exams/{exam_id}/datesheet", response_model=ExamResponse)
-def set_datesheet(exam_id: str, req: DatesheetRequest, principal: User = Depends(require_principal)) -> ExamResponse:
+def set_datesheet(exam_id: str, req: DatesheetRequest, principal: User = Depends(require_admin("exams"))) -> ExamResponse:
     """Replace the whole datesheet. Every clash (two papers for a class on a
     day, a holiday, a date outside the exam) is reported at once; the old
     datesheet and its roster are kept on any problem, and dropped with it
@@ -192,7 +192,7 @@ def set_datesheet(exam_id: str, req: DatesheetRequest, principal: User = Depends
 
 
 @router.post("/exams/{exam_id}/invigilation/auto", response_model=ExamResponse)
-def auto_invigilation(exam_id: str, principal: User = Depends(require_principal)) -> ExamResponse:
+def auto_invigilation(exam_id: str, principal: User = Depends(require_admin("exams"))) -> ExamResponse:
     """Fill every empty duty: no one on leave, no one who teaches that
     subject to that section, no one in two rooms at once, fewest duties
     first. Duties already set are kept; what cannot be filled is listed."""
@@ -218,7 +218,7 @@ def auto_invigilation(exam_id: str, principal: User = Depends(require_principal)
 
 
 @router.put("/exams/{exam_id}/invigilation", response_model=ExamResponse)
-def set_invigilation(exam_id: str, req: RosterRequest, principal: User = Depends(require_principal)) -> ExamResponse:
+def set_invigilation(exam_id: str, req: RosterRequest, principal: User = Depends(require_admin("exams"))) -> ExamResponse:
     e = _exam(exam_id, principal)
     papers = {p["id"] for p in store().exam_papers(e["id"])}
     users = cr._require_users()
@@ -236,7 +236,7 @@ def set_invigilation(exam_id: str, req: RosterRequest, principal: User = Depends
 
 
 @router.post("/exams/{exam_id}/publish", response_model=ExamResponse)
-def publish(exam_id: str, principal: User = Depends(require_principal)) -> ExamResponse:
+def publish(exam_id: str, principal: User = Depends(require_admin("exams"))) -> ExamResponse:
     """Publish: students of the exam's classes get their datesheet, each
     invigilator their duties."""
     e = _exam(exam_id, principal)

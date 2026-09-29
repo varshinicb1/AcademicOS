@@ -33,6 +33,8 @@ from fastapi.testclient import TestClient
 from academicos.algorithms.learner_model import Interaction
 from academicos.api import main as api_main
 from academicos.api.main import app
+from academicos.api.route_policy import LEVELS as ROUTE_POLICY_LEVELS
+from academicos.assessment.auth_routes import ADMIN_DETAIL
 from academicos.api.route_policy import (
     ANY_USER, API_KEY, PRINCIPAL, PUBLIC, ROUTE_POLICY, SELF_OR_STAFF, STAFF,
     app_operations, iter_routes,
@@ -81,6 +83,9 @@ def _level_from_code(route) -> str:
     if dependant is None:  # the OpenAPI/docs routes are plain Starlette routes
         return PUBLIC
     calls = _dependency_calls(dependant)
+    admin = next((c for c in calls if getattr(c, "capability", None)), None)
+    if admin is not None:
+        return f"admin:{admin.capability}"
     if auth_routes.require_principal in calls:
         return PRINCIPAL
     if auth_routes.require_staff in calls:
@@ -178,7 +183,9 @@ def _call(client: TestClient, method: str, path: str, headers: dict):
     return client.request(method, path, json={}, headers=headers)
 
 
-_GATED = sorted(k for k, p in ROUTE_POLICY.items() if p.level in (STAFF, PRINCIPAL))
+_ADMIN_LEVELS = {lvl for lvl in ROUTE_POLICY_LEVELS if lvl.startswith("admin:")}
+_GATED = sorted(k for k, p in ROUTE_POLICY.items() if p.level in (STAFF, PRINCIPAL) or p.level in _ADMIN_LEVELS)
+_ADMIN_ONLY = sorted(k for k, p in ROUTE_POLICY.items() if p.level in _ADMIN_LEVELS)
 _PRINCIPAL_ONLY = sorted(k for k, p in ROUTE_POLICY.items() if p.level == PRINCIPAL)
 
 
@@ -188,7 +195,9 @@ def test_a_student_is_refused_every_staff_and_principal_route(world, method, pat
     student = people["student"]
     r = _call(client, method, _concrete(path, student["user"]["schoolId"]), _auth(student))
     assert r.status_code == 403, f"{method} {path} -> {r.status_code} {r.text[:200]}"
-    expected = PRINCIPAL_DETAIL if ROUTE_POLICY[(method, path)].level == PRINCIPAL else STAFF_DETAIL
+    level = ROUTE_POLICY[(method, path)].level
+    expected = (PRINCIPAL_DETAIL if level == PRINCIPAL else ADMIN_DETAIL if level in _ADMIN_LEVELS
+                else STAFF_DETAIL)
     assert r.json()["detail"] == expected
 
 
@@ -199,6 +208,15 @@ def test_a_teacher_is_refused_every_principal_route(world, method, path):
     r = _call(client, method, _concrete(path, teacher["user"]["schoolId"]), _auth(teacher))
     assert r.status_code == 403, f"{method} {path} -> {r.status_code} {r.text[:200]}"
     assert r.json()["detail"] == PRINCIPAL_DETAIL
+
+
+@pytest.mark.parametrize("method,path", _ADMIN_ONLY, ids=[f"{m} {p}" for m, p in _ADMIN_ONLY])
+def test_a_teacher_without_a_grant_is_refused_every_admin_route(world, method, path):
+    client, people = world
+    teacher = people["teacher"]
+    r = _call(client, method, _concrete(path, teacher["user"]["schoolId"]), _auth(teacher))
+    assert r.status_code == 403, f"{method} {path} -> {r.status_code} {r.text[:200]}"
+    assert r.json()["detail"] == ADMIN_DETAIL
 
 
 # --------------------------------------------------------------- self_or_staff

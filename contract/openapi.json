@@ -1958,6 +1958,24 @@
         "title": "CandidateResponse",
         "type": "object"
       },
+      "CapabilityInfo": {
+        "properties": {
+          "capability": {
+            "title": "Capability",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          }
+        },
+        "required": [
+          "capability",
+          "label"
+        ],
+        "title": "CapabilityInfo",
+        "type": "object"
+      },
       "CapturedPageResponse": {
         "properties": {
           "cropped": {
@@ -4664,6 +4682,128 @@
         "title": "GradeResponse",
         "type": "object"
       },
+      "GrantRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "capability": {
+            "title": "Capability",
+            "type": "string"
+          },
+          "scope": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GrantScope"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "userId": {
+            "title": "Userid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId",
+          "capability"
+        ],
+        "title": "GrantRequest",
+        "type": "object"
+      },
+      "GrantResponse": {
+        "properties": {
+          "active": {
+            "title": "Active",
+            "type": "boolean"
+          },
+          "capability": {
+            "title": "Capability",
+            "type": "string"
+          },
+          "grantedAt": {
+            "title": "Grantedat",
+            "type": "string"
+          },
+          "grantedBy": {
+            "title": "Grantedby",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "revokedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revokedat"
+          },
+          "scope": {
+            "additionalProperties": true,
+            "title": "Scope",
+            "type": "object"
+          },
+          "userId": {
+            "title": "Userid",
+            "type": "string"
+          },
+          "userName": {
+            "default": "",
+            "title": "Username",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "userId",
+          "capability",
+          "label",
+          "scope",
+          "grantedBy",
+          "grantedAt",
+          "active"
+        ],
+        "title": "GrantResponse",
+        "type": "object"
+      },
+      "GrantScope": {
+        "additionalProperties": false,
+        "properties": {
+          "grades": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Grades",
+            "type": "array"
+          },
+          "sectionIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sectionids",
+            "type": "array"
+          },
+          "subjectIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Subjectids",
+            "type": "array"
+          }
+        },
+        "title": "GrantScope",
+        "type": "object"
+      },
       "GraphResult": {
         "properties": {
           "count": {
@@ -6187,6 +6327,38 @@
           "exams"
         ],
         "title": "MyExams",
+        "type": "object"
+      },
+      "MyGrantsResponse": {
+        "properties": {
+          "available": {
+            "items": {
+              "$ref": "#/components/schemas/CapabilityInfo"
+            },
+            "title": "Available",
+            "type": "array"
+          },
+          "capabilities": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Capabilities",
+            "type": "array"
+          },
+          "grants": {
+            "items": {
+              "$ref": "#/components/schemas/GrantResponse"
+            },
+            "title": "Grants",
+            "type": "array"
+          }
+        },
+        "required": [
+          "capabilities",
+          "grants",
+          "available"
+        ],
+        "title": "MyGrantsResponse",
         "type": "object"
       },
       "MyHomeworkDetail": {
@@ -14099,6 +14271,141 @@
           }
         ],
         "summary": "Export"
+      }
+    },
+    "/api/v1/admin/grants": {
+      "get": {
+        "operationId": "list_grants_api_v1_admin_grants_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "include_revoked",
+            "required": false,
+            "schema": {
+              "default": false,
+              "title": "Include Revoked",
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/GrantResponse"
+                  },
+                  "title": "Response List Grants Api V1 Admin Grants Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Grants"
+      },
+      "post": {
+        "description": "Give a teacher one admin capability, for the whole school or limited\nto classes, sections or subjects. Granting again replaces the scope.",
+        "operationId": "grant_api_v1_admin_grants_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrantRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrantResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Grant"
+      }
+    },
+    "/api/v1/admin/grants/{grant_id}": {
+      "delete": {
+        "operationId": "revoke_api_v1_admin_grants__grant_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "grant_id",
+            "required": true,
+            "schema": {
+              "title": "Grant Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrantResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Revoke"
       }
     },
     "/api/v1/admin/import/{kind}": {
@@ -23390,6 +23697,30 @@
           }
         ],
         "summary": "My Exams"
+      }
+    },
+    "/api/v1/my-grants": {
+      "get": {
+        "description": "What the caller may administer: every capability for the principal,\ntheir grants for a teacher, nothing for anyone else. The web shows the\nmatching admin tools from this.",
+        "operationId": "my_grants_api_v1_my_grants_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyGrantsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Grants"
       }
     },
     "/api/v1/my-homework": {

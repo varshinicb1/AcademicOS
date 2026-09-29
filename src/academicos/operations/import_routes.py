@@ -27,7 +27,7 @@ from fastapi.responses import PlainTextResponse
 from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
-from ..assessment.auth_routes import require_principal
+from ..assessment.auth_routes import require_admin, require_principal
 from ..assessment.users import User
 from ..curriculum import routes as cr
 from ..curriculum.schemas import Camel
@@ -378,7 +378,7 @@ def _kind(kind: str) -> str:
 
 @router.post("/import/{kind}", response_model=ImportResponse)
 def bulk_import(kind: str, req: ImportRequest, dry_run: bool = Query(default=True, alias="dryRun"),
-                principal: User = Depends(require_principal)) -> ImportResponse:
+                principal: User = Depends(require_admin("users"))) -> ImportResponse:
     """Plan (and with dryRun=false, apply) a CSV import. The year is the
     one named, else the school's latest."""
     from ..assessment.audit_log import get_audit_log
@@ -429,7 +429,7 @@ def _csv(header: list[str], rows: list[list[Any]], filename: str) -> PlainTextRe
 
 
 @router.get("/import/{kind}/template", response_class=PlainTextResponse)
-def import_template(kind: str, principal: User = Depends(require_principal)) -> PlainTextResponse:
+def import_template(kind: str, principal: User = Depends(require_admin("users"))) -> PlainTextResponse:
     """The CSV header for an import, with one example row."""
     return _csv(COLUMNS[_kind(kind)], [EXAMPLES[kind]], f"{kind}-template.csv")
 
@@ -439,7 +439,7 @@ EXPORTS = ("sections", "people", "allocations", "holidays", "timetable")
 
 @router.get("/export/{kind}", response_class=PlainTextResponse)
 def export(kind: str, academic_year_id: Optional[str] = Query(default=None, alias="academicYearId"),
-           principal: User = Depends(require_principal)) -> PlainTextResponse:
+           principal: User = Depends(require_admin("users"))) -> PlainTextResponse:
     """The school's data as CSV, in the import's own columns where there is
     an import for it, so an export edited in a spreadsheet imports back."""
     if kind not in EXPORTS:

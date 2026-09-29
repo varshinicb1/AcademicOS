@@ -208,6 +208,53 @@ def require_principal(current: User = Depends(get_current_user)) -> User:
     return current
 
 
+# ---------------- delegated admin (M1.4, ROLE-1) ----------------
+#
+# A principal-only action that a teacher may be granted. The principal
+# always passes; a teacher passes with an active grant of that capability
+# (operations/grants.py), whose scope some routes check further. The grant
+# store lives in the operations package, which imports this module, so it
+# plugs its check in at start-up (set_grant_checker) instead of importing.
+
+ADMIN_CAPABILITIES = ("users", "calendar", "timetable", "leave", "exams", "qbank_review", "reports")
+ADMIN_DETAIL = "this action needs the principal, or a teacher the principal has made an admin for it"
+_grant_checker = None
+_ADMIN_DEPS: dict = {}
+
+
+def set_grant_checker(fn) -> None:
+    global _grant_checker
+    _grant_checker = fn
+
+
+def holds(user: User, capability: str, **target) -> bool:
+    """Whether `user` may administer `capability` (for `target`, when the
+    route names a grade, section or subject)."""
+    if user.role == "principal":
+        return True
+    if user.role != "teacher" or _grant_checker is None:
+        return False
+    return bool(_grant_checker(user.id, capability, **target))
+
+
+def require_admin(capability: str):
+    """The dependency for a delegable principal route. One function object
+    per capability, so tests/test_role_gates.py can read the capability off
+    a route's dependency chain."""
+    if capability not in ADMIN_CAPABILITIES:
+        raise ValueError(f"unknown admin capability {capability!r}")
+    dep = _ADMIN_DEPS.get(capability)
+    if dep is None:
+        def dep(current: User = Depends(get_current_user)) -> User:
+            if not holds(current, capability):
+                raise HTTPException(403, ADMIN_DETAIL)
+            return current
+        dep.capability = capability
+        dep.__name__ = f"require_admin_{capability}"
+        _ADMIN_DEPS[capability] = dep
+    return dep
+
+
 # The roles that may do a teacher's work. A tuple of what is allowed, not a
 # check for "student": a role added later (parent, guardian) is refused here
 # until someone decides otherwise.
@@ -232,7 +279,7 @@ def me(current: User = Depends(get_current_user)) -> UserResponse:
 
 @router.get("/users", response_model=list[UserResponse])
 def list_school_users(role: Optional[str] = None,
-                      principal: User = Depends(require_principal)) -> list[UserResponse]:
+                      principal: User = Depends(require_admin("users"))) -> list[UserResponse]:
     """The real roster an admin UI needs to assign a teacher to a book or
     enroll a student in a class -- without a name-searchable list, those
     actions would require already knowing a raw user id. Principal-gated
@@ -281,7 +328,7 @@ def _invite_response(invite: Invite) -> InviteResponse:
 
 @router.post("/invites", response_model=InviteResponse)
 def create_invite(req: InviteCreateRequest,
-                  principal: User = Depends(require_principal)) -> InviteResponse:
+                  principal: User = Depends(require_admin("users"))) -> InviteResponse:
     """A single-use invite to the CALLER's school. There is no school field
     to send: a principal can only ever invite people into their own school.
     A parent is invited for one student instead (POST
@@ -299,14 +346,14 @@ def create_invite(req: InviteCreateRequest,
 
 
 @router.get("/invites", response_model=list[InviteResponse])
-def list_invites(principal: User = Depends(require_principal)) -> list[InviteResponse]:
+def list_invites(principal: User = Depends(require_admin("users"))) -> list[InviteResponse]:
     """The caller's school's invites, used and unused, newest first. Each
     row says who created it and which account used it and when."""
     return [_invite_response(i) for i in _require().invites_for_school(principal.school_id)]
 
 
 @router.delete("/invites/{code}", response_model=InviteResponse)
-def revoke_invite(code: str, principal: User = Depends(require_principal)) -> InviteResponse:
+def revoke_invite(code: str, principal: User = Depends(require_admin("users"))) -> InviteResponse:
     """Withdraw an unused invite. Another school's code is a 404, the same as
     an unknown one."""
     try:
