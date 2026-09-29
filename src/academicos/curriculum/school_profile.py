@@ -37,8 +37,9 @@ CREATE TABLE IF NOT EXISTS school_profiles (
 );
 """
 
-# The branding template's placeholder name: never a school's name, never printed.
-PLACEHOLDER_NAMES = frozenset({"Default CBSE Template"})
+# Names that are placeholders, never a school's: the default branding
+# template's, and the Template Maker's when its "Template name" is left blank.
+PLACEHOLDER_NAMES = frozenset({"Default CBSE Template", "School Template"})
 LOGO_TYPES = {"image/png": "png", "image/jpeg": "jpg"}
 MAX_LOGO_BYTES = 1024 * 1024
 BLOB_PURPOSE = "school-media"
@@ -174,19 +175,23 @@ def printed_branding(template, profile: Optional[SchoolProfile], logo: Optional[
     """The branding a paper or report prints: the school's own name and logo
     over the branding template (its colour, fonts and tagline stay).
 
-    The template's own name is never printed as the school's: the Template
-    Maker labels it "Template name" and defaults it to "School Template", and
-    the placeholder reads "Default CBSE Template". Without a profile the name
-    is left empty, so the header prints no school name rather than a wrong
-    one. (A teacher's paper header that names the school travels on the
-    paper itself and still prints first.) Returns a SchoolTemplate, or None
-    when there is nothing to print but the neutral header."""
+    The profile's name wins. Without a profile, a branding template the
+    school named itself still prints its name (schools that set their name
+    through /school-templates keep it), but a placeholder -- the default
+    template's "Default CBSE Template", the Template Maker's blank-name
+    "School Template" -- prints as nothing rather than as a school's name.
+    (A teacher's paper header that names the school travels on the paper
+    itself and still prints first.) Returns a SchoolTemplate, or None when
+    there is nothing to print but the neutral header."""
     from ..assessment.schemas import SchoolTemplate
 
     if template is None and profile is None:
         return None
     base = template or SchoolTemplate(id="profile", school_id=school_id, name="")
-    update: dict = {"name": profile.name if profile is not None else ""}
+    if profile is not None:
+        update: dict = {"name": profile.name}
+    else:
+        update = {"name": "" if base.name in PLACEHOLDER_NAMES else base.name}
     if logo is not None:
         update["logo_url"] = str(logo)
     elif base.logo_url and not Path(base.logo_url).is_file():
