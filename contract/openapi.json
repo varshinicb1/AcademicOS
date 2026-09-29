@@ -6280,6 +6280,7 @@
       },
       "ImportRequest": {
         "additionalProperties": false,
+        "description": "The rows as CSV text, or as an Excel workbook (.xlsx, base64): its\nfirst sheet, in the same columns (INT-3).",
         "properties": {
           "academicYearId": {
             "anyOf": [
@@ -6293,14 +6294,30 @@
             "title": "Academicyearid"
           },
           "csv": {
-            "maxLength": 1000000,
-            "title": "Csv",
-            "type": "string"
+            "anyOf": [
+              {
+                "maxLength": 1000000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Csv"
+          },
+          "xlsx": {
+            "anyOf": [
+              {
+                "maxLength": 2000000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Xlsx"
           }
         },
-        "required": [
-          "csv"
-        ],
         "title": "ImportRequest",
         "type": "object"
       },
@@ -15723,7 +15740,7 @@
   "paths": {
     "/api/v1/admin/export/{kind}": {
       "get": {
-        "description": "The school's data as CSV, in the import's own columns where there is\nan import for it, so an export edited in a spreadsheet imports back.",
+        "description": "The school's data as CSV or Excel, in the import's own columns where\nthere is an import for it, so an export edited in a spreadsheet imports\nback.",
         "operationId": "export_api_v1_admin_export__kind__get",
         "parameters": [
           {
@@ -15749,6 +15766,20 @@
                 }
               ],
               "title": "Academicyearid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "required": false,
+            "schema": {
+              "default": "csv",
+              "enum": [
+                "csv",
+                "xlsx"
+              ],
+              "title": "Format",
+              "type": "string"
             }
           }
         ],
@@ -15919,7 +15950,7 @@
     },
     "/api/v1/admin/import/{kind}": {
       "post": {
-        "description": "Plan (and with dryRun=false, apply) a CSV import. The year is the\none named, else the school's latest.",
+        "description": "Plan (and with dryRun=false, apply) an import from CSV or an Excel\nworkbook. The year is the one named, else the school's latest.",
         "operationId": "bulk_import_api_v1_admin_import__kind__post",
         "parameters": [
           {
@@ -15984,7 +16015,7 @@
     },
     "/api/v1/admin/import/{kind}/template": {
       "get": {
-        "description": "The CSV header for an import, with one example row.",
+        "description": "The header for an import, with one example row, as CSV or Excel.",
         "operationId": "import_template_api_v1_admin_import__kind__template_get",
         "parameters": [
           {
@@ -15993,6 +16024,20 @@
             "required": true,
             "schema": {
               "title": "Kind",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "required": false,
+            "schema": {
+              "default": "csv",
+              "enum": [
+                "csv",
+                "xlsx"
+              ],
+              "title": "Format",
               "type": "string"
             }
           }

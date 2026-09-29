@@ -20,10 +20,10 @@ import io
 import re
 from dataclasses import dataclass, field
 from datetime import date
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Literal, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import PlainTextResponse, Response
 from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
@@ -70,7 +70,10 @@ class _Req(Camel):
 
 
 class ImportRequest(_Req):
-    csv: str = Field(max_length=MAX_BYTES)
+    """The rows as CSV text, or as an Excel workbook (.xlsx, base64): its
+    first sheet, in the same columns (INT-3)."""
+    csv: Optional[str] = Field(default=None, max_length=MAX_BYTES)
+    xlsx: Optional[str] = Field(default=None, max_length=MAX_BYTES * 2)
     academic_year_id: Optional[str] = None
 
 
@@ -113,8 +116,27 @@ def _norm(h: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", (h or "").strip().lower()).strip("_")
 
 
-def _parse(kind: str, text: str) -> list[tuple[int, dict[str, str]]]:
-    reader = csv.reader(io.StringIO(text.lstrip("﻿")))
+def _file_rows(req: ImportRequest) -> list[list[str]]:
+    """The file's rows, from the CSV text or the Excel workbook."""
+    if (req.csv is None) == (req.xlsx is None):
+        raise HTTPException(422, "send the rows as csv or as xlsx, one of the two")
+    if req.csv is not None:
+        return list(csv.reader(io.StringIO(req.csv.lstrip("﻿"))))
+    import base64
+    import binascii
+    from .xlsx import XlsxError, read_rows
+    try:
+        data = base64.b64decode(req.xlsx, validate=True)
+    except (binascii.Error, ValueError):
+        raise HTTPException(422, "the Excel file did not arrive whole; choose it again")
+    try:
+        return read_rows(data)
+    except XlsxError as e:
+        raise HTTPException(422, str(e))
+
+
+def _parse(kind: str, rows_in: list[list[str]]) -> list[tuple[int, dict[str, str]]]:
+    reader = iter(rows_in)
     try:
         header = [_norm(h) for h in next(reader)]
     except StopIteration:
@@ -379,14 +401,14 @@ def _kind(kind: str) -> str:
 @router.post("/import/{kind}", response_model=ImportResponse)
 def bulk_import(kind: str, req: ImportRequest, dry_run: bool = Query(default=True, alias="dryRun"),
                 principal: User = Depends(require_admin("users"))) -> ImportResponse:
-    """Plan (and with dryRun=false, apply) a CSV import. The year is the
-    one named, else the school's latest."""
+    """Plan (and with dryRun=false, apply) an import from CSV or an Excel
+    workbook. The year is the one named, else the school's latest."""
     from ..assessment.audit_log import get_audit_log
     _kind(kind)
     ctx = _Ctx(principal=principal, year=_year(req.academic_year_id, principal), cs=cr._require(),
                users=cr._require_users(), ops=store())
     ctx.grades = {g.number: g for g in ctx.cs.grades_for_year(ctx.year.id)}
-    plan = [PLANNERS[kind](ctx, line, row) for line, row in _parse(kind, req.csv)]
+    plan = [PLANNERS[kind](ctx, line, row) for line, row in _parse(kind, _file_rows(req))]
     counts = {s: sum(1 for p in plan if p.status == s) for s in ("ok", "skip", "error")}
     applied = False
     if not dry_run:
@@ -419,7 +441,13 @@ def bulk_import(kind: str, req: ImportRequest, dry_run: bool = Query(default=Tru
                                            invite_code=p.code if isinstance(p.code, str) else None) for p in plan])
 
 
-def _csv(header: list[str], rows: list[list[Any]], filename: str) -> PlainTextResponse:
+def _csv(header: list[str], rows: list[list[Any]], filename: str, fmt: str = "csv") -> Response:
+    if fmt == "xlsx":
+        from .xlsx import workbook
+        return Response(workbook([(filename.rsplit(".", 1)[0], [header] + rows)]),
+                        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        headers={"Content-Disposition":
+                                 f'attachment; filename="{filename.rsplit(".", 1)[0]}.xlsx"'})
     buf = io.StringIO()
     w = csv.writer(buf, lineterminator="\n")
     w.writerow(header)
@@ -429,9 +457,10 @@ def _csv(header: list[str], rows: list[list[Any]], filename: str) -> PlainTextRe
 
 
 @router.get("/import/{kind}/template", response_class=PlainTextResponse)
-def import_template(kind: str, principal: User = Depends(require_admin("users"))) -> PlainTextResponse:
-    """The CSV header for an import, with one example row."""
-    return _csv(COLUMNS[_kind(kind)], [EXAMPLES[kind]], f"{kind}-template.csv")
+def import_template(kind: str, format: Literal["csv", "xlsx"] = "csv",
+                    principal: User = Depends(require_admin("users"))) -> Response:
+    """The header for an import, with one example row, as CSV or Excel."""
+    return _csv(COLUMNS[_kind(kind)], [EXAMPLES[kind]], f"{kind}-template.csv", format)
 
 
 EXPORTS = ("sections", "people", "allocations", "holidays", "timetable")
@@ -439,9 +468,11 @@ EXPORTS = ("sections", "people", "allocations", "holidays", "timetable")
 
 @router.get("/export/{kind}", response_class=PlainTextResponse)
 def export(kind: str, academic_year_id: Optional[str] = Query(default=None, alias="academicYearId"),
-           principal: User = Depends(require_admin("users"))) -> PlainTextResponse:
-    """The school's data as CSV, in the import's own columns where there is
-    an import for it, so an export edited in a spreadsheet imports back."""
+           format: Literal["csv", "xlsx"] = "csv",
+           principal: User = Depends(require_admin("users"))) -> Response:
+    """The school's data as CSV or Excel, in the import's own columns where
+    there is an import for it, so an export edited in a spreadsheet imports
+    back."""
     if kind not in EXPORTS:
         raise HTTPException(404, f"no export of {kind!r}; one of {', '.join(EXPORTS)}")
     cs, users = cr._require(), cr._require_users()
@@ -452,14 +483,14 @@ def export(kind: str, academic_year_id: Optional[str] = Query(default=None, alia
     if kind == "sections":
         rows = [[grade_no[s.grade_id], s.name, email.get(getattr(s, "class_teacher_id", None) or "", "")]
                 for s in sorted(sections.values(), key=lambda s: (grade_no[s.grade_id], s.name))]
-        return _csv(COLUMNS["sections"], rows, "sections.csv")
+        return _csv(COLUMNS["sections"], rows, "sections.csv", format)
     if kind == "people":
         rows = []
         for u in sorted(users.users_for_school(principal.school_id), key=lambda u: (u.role, u.name.lower())):
             e = cs.enrollment_for_student(u.id) if u.role == "student" else None
             s = sections.get(e.section_id) if e and e.section_id else None
             rows.append([u.name, u.email, u.role, grade_no.get(s.grade_id) if s else "", s.name if s else ""])
-        return _csv(["name", "email", "role", "grade", "section"], rows, "people.csv")
+        return _csv(["name", "email", "role", "grade", "section"], rows, "people.csv", format)
     if kind == "allocations":
         subjects = {}
         rows = []
@@ -471,12 +502,12 @@ def export(kind: str, academic_year_id: Optional[str] = Query(default=None, alia
             subjects[a.subject_id] = subj
             rows.append([grade_no[s.grade_id], s.name, subj.name if subj else a.subject_id,
                          email.get(a.teacher_id or "", ""), a.periods_per_week])
-        return _csv(COLUMNS["allocations"], sorted(rows, key=lambda r: (r[0], r[1], r[2])), "allocations.csv")
+        return _csv(COLUMNS["allocations"], sorted(rows, key=lambda r: (r[0], r[1], r[2])), "allocations.csv", format)
     if kind == "holidays":
         cal = cs.get_calendar_for_year(year.id)
         hs = cs.holidays_for_calendar(cal.id) if cal else []
         return _csv(COLUMNS["holidays"], [[h.date, h.end_date, h.label, h.kind] for h in sorted(hs, key=lambda h: h.date)],
-                    "holidays.csv")
+                    "holidays.csv", format)
     rooms = {r.id: r.name for r in cs.rooms_for_school(principal.school_id)}
     names = {}
     rows = []
@@ -489,4 +520,4 @@ def export(kind: str, academic_year_id: Optional[str] = Query(default=None, alia
         rows.append([grade_no[s.grade_id], s.name, e.day_of_week + 1, e.period, subj.name if subj else e.subject_id,
                      email.get(e.teacher_id or "", ""), rooms.get(e.room_id or "", "")])
     return _csv(["grade", "section", "day", "period", "subject", "teacher_email", "room"],
-                sorted(rows, key=lambda r: (r[0], r[1], r[2], r[3])), "timetable.csv")
+                sorted(rows, key=lambda r: (r[0], r[1], r[2], r[3])), "timetable.csv", format)
