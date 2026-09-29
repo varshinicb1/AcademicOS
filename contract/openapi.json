@@ -5241,6 +5241,21 @@
         "title": "GeneratedSectionSchema",
         "type": "object"
       },
+      "GoogleSignIn": {
+        "properties": {
+          "credential": {
+            "maxLength": 4096,
+            "minLength": 20,
+            "title": "Credential",
+            "type": "string"
+          }
+        },
+        "required": [
+          "credential"
+        ],
+        "title": "GoogleSignIn",
+        "type": "object"
+      },
       "GradeRequest": {
         "additionalProperties": false,
         "properties": {
@@ -16784,6 +16799,43 @@
         "summary": "Verify Code"
       }
     },
+    "/api/v1/auth/google": {
+      "post": {
+        "description": "Sign in with a Google ID token: the same answer as a password sign-in.",
+        "operationId": "sign_in_with_google_api_v1_auth_google_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoogleSignIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Sign In With Google"
+      }
+    },
     "/api/v1/auth/invites": {
       "get": {
         "description": "The caller's school's invites, used and unused, newest first. Each\nrow says who created it and which account used it and when.",
@@ -17000,6 +17052,27 @@
           }
         ],
         "summary": "Me"
+      }
+    },
+    "/api/v1/auth/providers": {
+      "get": {
+        "description": "Which ways in this deployment offers, for the sign-in page: Google\n(with the public client id the button needs) and emailed codes.",
+        "operationId": "providers_api_v1_auth_providers_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Providers Api V1 Auth Providers Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Providers"
       }
     },
     "/api/v1/auth/register": {
