@@ -289,6 +289,13 @@ def _on_llm_not_enabled(_request: Any, exc: LLMNotEnabled) -> JSONResponse:
                         content={"detail": str(exc), "code": "llm_not_enabled"})
 
 
+# NFR-7: every exception no handler above answers is recorded, grouped and
+# written as a Cloud Error Reporting event; the apps report theirs too.
+from . import error_tracking  # noqa: E402
+
+error_tracking.install(app)
+
+
 class SearchRequest(BaseModel):
     query: str = Field(min_length=2, max_length=MAX_QUERY_CHARS)
     limit: int = Field(default=10, ge=1, le=50)

@@ -836,6 +836,28 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/client-errors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Report Client Error
+         * @description What the web or phone app caught. Open to a signed-out app too (the
+         *     sign-in page can fail), limited per address, and kept scrubbed: no user
+         *     id, only the school.
+         */
+        post: operations["report_client_error_api_v1_client_errors_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/consent": {
         parameters: {
             query?: never;
@@ -4118,6 +4140,28 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/ops/errors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Errors
+         * @description This process's error groups, most recent first, for the operator.
+         *     Needs the operator's key (env ACOS_OPS_KEY); 404 when none is
+         *     configured, so the route does not exist until someone sets one.
+         */
+        get: operations["list_errors_api_v1_ops_errors_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/paper-reviews": {
         parameters: {
             query?: never;
@@ -4998,6 +5042,26 @@ export interface paths {
          *     job now fails unless `commit` is the commit it just deployed.
          */
         get: operations["health_health_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/health/errors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Error Counts
+         * @description Counts only -- never a message -- so it can be public like /health.
+         */
+        get: operations["error_counts_health_errors_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6465,6 +6529,26 @@ export interface components {
             /** Subject */
             subject: string;
         };
+        /** ClientErrorRequest */
+        ClientErrorRequest: {
+            /** Appversion */
+            appVersion?: string | null;
+            /** Message */
+            message: string;
+            /** Route */
+            route?: string | null;
+            /** Source */
+            source: string;
+            /** Stack */
+            stack?: string | null;
+        };
+        /** ClientErrorResponse */
+        ClientErrorResponse: {
+            /** Errorref */
+            errorRef?: string | null;
+            /** Recorded */
+            recorded: boolean;
+        };
         /** ClosureRequest */
         ClosureRequest: {
             /**
@@ -7027,6 +7111,29 @@ export interface components {
             sectionId?: string | null;
             /** Studentid */
             studentId: string;
+        };
+        /** ErrorGroupResponse */
+        ErrorGroupResponse: {
+            /** Count */
+            count: number;
+            /** Fingerprint */
+            fingerprint: string;
+            /** Firstseen */
+            firstSeen: string;
+            /** Kind */
+            kind: string;
+            /** Lastseen */
+            lastSeen: string;
+            /** Message */
+            message: string;
+            /** Release */
+            release: string;
+            /** Route */
+            route: string;
+            /** Schools */
+            schools: number;
+            /** Source */
+            source: string;
         };
         /** EvaluateAnswerRequest */
         EvaluateAnswerRequest: {
@@ -13038,6 +13145,41 @@ export interface operations {
             };
         };
     };
+    report_client_error_api_v1_client_errors_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ClientErrorRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClientErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_consents_api_v1_consent_get: {
         parameters: {
             query?: never;
@@ -18779,6 +18921,37 @@ export interface operations {
             };
         };
     };
+    list_errors_api_v1_ops_errors_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Ops-Key"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorGroupResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     my_reviews_api_v1_paper_reviews_get: {
         parameters: {
             query?: {
@@ -20392,6 +20565,28 @@ export interface operations {
         };
     };
     health_health_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
+    error_counts_health_errors_get: {
         parameters: {
             query?: never;
             header?: never;
