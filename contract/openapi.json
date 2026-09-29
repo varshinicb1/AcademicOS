@@ -3390,6 +3390,81 @@
         "title": "ConsentStatusResponse",
         "type": "object"
       },
+      "ContactRequest": {
+        "additionalProperties": false,
+        "description": "phone null removes the number and withdraws both.",
+        "properties": {
+          "phone": {
+            "anyOf": [
+              {
+                "maxLength": 20,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "smsOk": {
+            "default": false,
+            "title": "Smsok",
+            "type": "boolean"
+          },
+          "whatsappOk": {
+            "default": false,
+            "title": "Whatsappok",
+            "type": "boolean"
+          }
+        },
+        "title": "ContactRequest",
+        "type": "object"
+      },
+      "ContactResponse": {
+        "properties": {
+          "kinds": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Kinds",
+            "type": "array"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "smsAvailable": {
+            "default": false,
+            "title": "Smsavailable",
+            "type": "boolean"
+          },
+          "smsOk": {
+            "default": false,
+            "title": "Smsok",
+            "type": "boolean"
+          },
+          "whatsappAvailable": {
+            "default": false,
+            "title": "Whatsappavailable",
+            "type": "boolean"
+          },
+          "whatsappOk": {
+            "default": false,
+            "title": "Whatsappok",
+            "type": "boolean"
+          }
+        },
+        "title": "ContactResponse",
+        "type": "object"
+      },
       "Cover": {
         "properties": {
           "compensated": {
@@ -26568,6 +26643,72 @@
           }
         },
         "summary": "Mail Status"
+      }
+    },
+    "/api/v1/me/contact": {
+      "get": {
+        "description": "The caller's own number and consent. Nobody else can read it.",
+        "operationId": "my_contact_api_v1_me_contact_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Contact"
+      },
+      "put": {
+        "description": "Give, change or remove the caller's own number, and say per channel\nwhether they want SMS and WhatsApp. The consent is audited (not the\nnumber: its last two digits only).",
+        "operationId": "set_my_contact_api_v1_me_contact_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set My Contact"
       }
     },
     "/api/v1/my-children": {
