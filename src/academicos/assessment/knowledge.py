@@ -43,12 +43,13 @@ once satisfied it costs nothing.
 from __future__ import annotations
 
 import json
+import logging
 import os
 import threading
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Callable, Optional
 
 from ..algorithms.learner_model import ConceptState, Interaction, LearnerModel
 from ..algorithms.mastery import KnowledgeMastery
@@ -57,6 +58,27 @@ from .evaluate import Evaluation
 from .postgres_kv import PostgresTable, durable_table
 from .supabase_kv import SupabaseUnavailable
 from .schemas import QuestionSchema
+
+# Called with (student_id, results, source) after marked answers are
+# recorded -- operations/learning.py keeps its per-topic evidence this way, so
+# every flow that feeds mastery (answer sheets, scans, practice, homework)
+# feeds learning progress too without knowing about it. A listener that
+# fails is logged and never undoes or blocks the recording.
+_LISTENERS: list[Callable[[str, list, Optional[str]], None]] = []
+
+
+def add_listener(fn: Callable[[str, list, Optional[str]], None]) -> None:
+    if fn not in _LISTENERS:
+        _LISTENERS.append(fn)
+
+
+def _tell(student_id: str, results: list, source: Optional[str]) -> None:
+    for fn in list(_LISTENERS):
+        try:
+            fn(student_id, results, source)
+        except Exception:  # noqa: BLE001
+            logging.getLogger(__name__).warning("a knowledge listener failed for %s", student_id, exc_info=True)
+
 
 MASTERY_TARGET = 0.85   # the remediation loop drives toward this
 WEAK_THRESHOLD = 0.55
@@ -241,6 +263,7 @@ class KnowledgeStore:
         for i in self._interactions(results, None):
             model.observe(i)
         self.save(model)
+        _tell(student_id, results, None)
         return model
 
     # -- a finalized sheet: replaceable as a unit ---------------------------
@@ -325,6 +348,7 @@ class KnowledgeStore:
                 state.last_seen = (max((i.ts for i in state.history), key=_ts_key)
                                    if state.history else None)
         self.save(model)
+        _tell(student_id, results, source)
         return True
 
     def mastery(self, student_id: str,

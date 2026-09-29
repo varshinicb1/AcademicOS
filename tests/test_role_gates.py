@@ -232,6 +232,8 @@ _SELF_OR_STAFF_CALLS = {
         lambda c, p, cid: ("/v1/revise", {"learner": cid}),
     ("POST", "/v1/plan"):
         lambda c, p, cid: ("/v1/plan", {"target": "anything", "learner": cid}),
+    ("GET", "/api/v1/students/{student_id}/learning"):
+        lambda c, p, cid: (f"/api/v1/students/{cid}/learning", None),
 }
 _SELF_OR_STAFF = sorted(k for k, p in ROUTE_POLICY.items() if p.level == SELF_OR_STAFF)
 

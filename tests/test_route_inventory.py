@@ -205,6 +205,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/my-homework"),
     ("GET", "/api/v1/my-homework/{homework_id}"),
     ("POST", "/api/v1/my-homework/{homework_id}/submit"),
+    ("GET", "/api/v1/my-learning"),
+    ("GET", "/api/v1/students/{student_id}/learning"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -431,6 +433,8 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/my-homework"),
     ("GET", "/api/v1/my-homework/{homework_id}"),
     ("POST", "/api/v1/my-homework/{homework_id}/submit"),
+    ("GET", "/api/v1/my-learning"),
+    ("GET", "/api/v1/students/{student_id}/learning"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -761,7 +765,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 204: SCH-5..7 added 16 leave, substitution and compensation routes.
     # 211: M3 added the inbox, preferences and devices (7).
     # 223: M5 added homework (12).
-    assert len(API_ROUTES) == 223
+    # 225: SA-3 added learning progress (2).
+    assert len(API_ROUTES) == 225
 
 
 def test_docs_routes_present():

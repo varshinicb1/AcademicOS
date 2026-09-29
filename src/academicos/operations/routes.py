@@ -35,6 +35,15 @@ def init(cfg: Config) -> None:
         return getattr(u, "email", None) if u else None
     OperationsStore.email_for = staticmethod(_email)
 
+    # Learning progress (SA-3) records every marked answer the knowledge
+    # store records: sheets, scans, practice and homework.
+    from ..assessment import knowledge
+    knowledge.add_listener(_record_learning)
+
+
+def _record_learning(student_id: str, results: list, source: Optional[str]) -> None:
+    store().record_learning(student_id, results, source)
+
 
 def store() -> OperationsStore:
     if _cfg is None:

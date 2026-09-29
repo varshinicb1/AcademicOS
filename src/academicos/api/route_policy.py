@@ -255,6 +255,9 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/my-homework"): _p(ANY_USER, "handler admits students only, their own section"),
     ("GET", "/api/v1/my-homework/{homework_id}"): _p(ANY_USER, "handler admits students only, their own section; no answers before marking"),
     ("POST", "/api/v1/my-homework/{homework_id}/submit"): _p(ANY_USER, "handler admits students only, their own section; needs consent"),
+    # SA-3 learning progress (operations/learning_routes.py).
+    ("GET", "/api/v1/my-learning"): _p(ANY_USER, "handler admits students only, their own progress"),
+    ("GET", "/api/v1/students/{student_id}/learning"): _p(SELF_OR_STAFF),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"): _p(ANY_USER, "school-scoped since calendar Task 101"),
     ("GET", "/api/v1/curriculum/books/{book_id}/units"): _p(ANY_USER, "school-scoped since calendar Task 101"),
     ("GET", "/api/v1/curriculum/books/{book_id}/chapters"): _p(ANY_USER, "school-scoped since calendar Task 101"),

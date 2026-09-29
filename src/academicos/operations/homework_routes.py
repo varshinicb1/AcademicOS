@@ -11,6 +11,7 @@ the parent's consent (authz.require_consent).
 """
 from __future__ import annotations
 
+import logging
 import random
 from datetime import date
 from typing import Any, Optional
@@ -26,6 +27,7 @@ from ..curriculum.schemas import Camel
 from .homework import MAX_QUESTIONS, Homework, HomeworkError, Submission
 from .routes import notify_safely, store
 
+logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/v1")
 
 # Curriculum subject names as schools type them, against the bank's.
@@ -69,6 +71,12 @@ def _audit(action: str, user: User, details: dict[str, Any]) -> None:
     from ..assessment.audit_log import get_audit_log
     get_audit_log(cr._cfg.data_root).append(action, actor=user.id,
                                             details={"schoolId": user.school_id, **details})
+
+
+def _log_read(current: User, what: str, **kw: Any) -> None:
+    """A staff read of named students' work is logged (docs/compliance.md box 2)."""
+    from ..assessment.audit_log import get_audit_log, record_pii_read
+    record_pii_read(get_audit_log(cr._cfg.data_root), actor=current.id, what=what, **kw)
 
 
 def _consent(school_id: str, student_id: str) -> None:
@@ -285,7 +293,29 @@ def _parse_date(value: str) -> date:
         raise HTTPException(422, f"{value!r} is not a date (YYYY-MM-DD)")
 
 
+def _record_mastery(hw: Homework, sub: Submission) -> None:
+    """Final marks feed the student's mastery and learning progress, as a
+    finalized answer sheet does; a re-mark replaces the homework's earlier
+    copy (KnowledgeStore.record_sheet). Marks are already saved, so a failure
+    here is logged, not raised."""
+    from ..assessment import pillar_routes
+    from ..assessment.evaluate import Evaluation
+    from ..assessment.schemas import QuestionSchema
+    by_id = {q["id"]: q for q in hw.questions}
+    graded = [(QuestionSchema.model_validate(by_id[e["questionId"]]),
+               Evaluation(question_id=e["questionId"], awarded_marks=e["awardedMarks"], max_marks=e["maxMarks"],
+                          verdict=e["verdict"], confidence=e["confidence"], reasoning=e["reasoning"],
+                          needs_review=False))
+              for e in sub.evaluations if e["questionId"] in by_id]
+    try:
+        _, knowledge, _ = pillar_routes._require()
+        knowledge.record_sheet(sub.student_id, graded, f"homework:{hw.id}")
+    except Exception:  # noqa: BLE001
+        logger.warning("homework %s: mastery not recorded for %s", hw.id, sub.student_id, exc_info=True)
+
+
 def _notify_graded(hw: Homework, sub: Submission) -> None:
+    _record_mastery(hw, sub)
     marks = sub.marks if sub.marks is not None else sub.auto_marks
     notify_safely(school_id=hw.school_id, user_ids=[sub.student_id], kind="homework_graded",
                   params={"subject": hw.subject_name, "title": hw.title,
@@ -447,6 +477,7 @@ def list_submissions(homework_id: str, current: User = Depends(require_staff)) -
     and the evaluator's marks per question."""
     hw = _require_managed(homework_id, current)
     subs = {s.student_id: s for s in store().submissions_for(hw.id)}
+    _log_read(current, "homework_submissions", student_ids=[sid for sid, _ in _students(hw)], homework_id=hw.id)
     users = cr._require_users()
     rows = []
     for sid, section_id in _students(hw):
