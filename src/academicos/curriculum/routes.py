@@ -1301,8 +1301,72 @@ def add_holiday(academic_year_id: str, req: AddHolidayRequest,
         raise HTTPException(422, str(e))
     h = store.add_holiday(calendar_id=cal.id, date=req.date, label=req.label, kind=req.kind,
                           end_date=req.end_date)
+    moved, not_moved = (_move_lessons_off_holiday(store, year, h, principal)
+                        if req.move_lessons and h.kind != "event" else (None, None))
     return HolidayResponse(id=h.id, calendar_id=h.calendar_id, date=h.date, label=h.label,
-                           kind=h.kind, end_date=h.end_date)
+                           kind=h.kind, end_date=h.end_date, lessons_moved=moved, not_moved=not_moved)
+
+
+HOLIDAY_NOTICE_DAYS = 14
+
+
+def _move_lessons_off_holiday(store: CurriculumStore, year, holiday, principal: User) -> tuple[int, list[str]]:
+    """NTF-3: holiday declared -> the plans reflow -> the people affected
+    hear. Every plan (book, and section when the plan is a section's) with a
+    lesson still to teach on the holiday's days, from the school's today on,
+    is pushed past them onto its next teaching periods; each such plan's
+    teacher and students get one message, and the rest of the school's
+    students and teachers hear of the holiday itself. A plan with no cadence
+    to reflow on is named in the answer rather than silently left."""
+    from ..assessment.audit_log import get_audit_log
+    from ..operations.routes import notify_safely
+    first = max(holiday.date, _school_today().isoformat())
+    last = holiday.end_date or holiday.date
+    if first > last:
+        return 0, []
+    plans = store._fetchall(
+        "SELECT DISTINCT book_id, section_id FROM scheduled_lessons WHERE academic_year_id=? AND status='scheduled'"
+        " AND date>=? AND date<=?", (year.id, first, last))
+    dates = holiday.date if not holiday.end_date else f"{holiday.date} to {holiday.end_date}"
+    moved_total, not_moved = 0, []
+    told: set[str] = set()
+    for plan in plans:
+        book = store.get_book(plan["book_id"])
+        subject = store.get_subject(book.subject_id) if book else None
+        sections = ([plan["section_id"]] if plan["section_id"]
+                    else [s.id for s in store.sections_for_grade(subject.grade_id)] if subject else [])
+        label = ", ".join(store._section_label(store.get_section(s)) for s in sections) or (book.title if book else "")
+        try:
+            result = scheduling_mod.push_lessons_after(
+                store, get_audit_log(_cfg.data_root), academic_year_id=year.id, book_id=plan["book_id"],
+                from_date=first, reason=f"holiday: {holiday.label}", changed_by=principal.id,
+                section_id=plan["section_id"])
+        except ValueError as e:
+            not_moved.append(f"{subject.name if subject else plan['book_id']} ({label}): {e}")
+            continue
+        moved_total += result.lessons_pushed
+        teachers = {a.teacher_id for s in sections
+                    for a in [store.allocation_for(s, subject.id) if subject else None] if a and a.teacher_id}
+        students = {e.student_id for s in sections for e in store.enrollments_for_section(s)}
+        moved = (f"{result.lessons_pushed} {subject.name if subject else ''} lessons for {label} move to the "
+                 "next teaching days.")
+        moved_hi = f"{label} के {result.lessons_pushed} {subject.name if subject else ''} पाठ अगले शिक्षण दिवसों पर।"
+        for uid in teachers | students:
+            notify_safely(school_id=principal.school_id, user_ids=[uid], kind="holiday_declared",
+                          params={"label": holiday.label, "dates": dates, "moved": moved, "moved_hi": moved_hi},
+                          link="/week", dedupe_key=f"holiday:{holiday.id}:{uid}:{plan['book_id']}:{plan['section_id']}")
+        told |= teachers | students
+    # Everyone else hears of the holiday itself only when it is close enough
+    # to change their plans: a list of next term's holidays entered today
+    # is not news anyone acts on (NTF-1).
+    soon = (_school_today() + timedelta(days=HOLIDAY_NOTICE_DAYS)).isoformat()
+    rest = [u.id for u in _require_users().users_for_school(principal.school_id)
+            if u.role in ("teacher", "student") and u.id not in told] if holiday.date <= soon else []
+    if rest:
+        notify_safely(school_id=principal.school_id, user_ids=rest, kind="holiday_declared",
+                      params={"label": holiday.label, "dates": dates, "moved": "", "moved_hi": ""},
+                      link="/week", dedupe_key=f"holiday:{holiday.id}")
+    return moved_total, not_moved
 
 
 @router.delete("/academic-years/{academic_year_id}/holidays/{holiday_id}")
