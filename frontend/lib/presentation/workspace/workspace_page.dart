@@ -108,6 +108,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
               onPressed: () => copyCalendarLink(context)),
       ]),
       body: Column(children: [
+        const OfflineBanner(),
         // The principal and reports admins see today at a glance (ADM-2).
         if (CurrentSession.role == 'principal' || _caps.contains('reports')) const DashboardCard(),
         Expanded(child: RefreshIndicator(

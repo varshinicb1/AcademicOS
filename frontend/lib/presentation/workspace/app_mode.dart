@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'ops_api.dart';
 import 'strings.dart';
 
 /// Which product this build is (M4, M5). One codebase, three online faces:
@@ -84,7 +85,7 @@ class AppModeShell extends StatelessWidget {
     if (tabs.length < 2) return child;
     final index = tabIndexFor(tabs, GoRouterState.of(context).uri.path);
     return Scaffold(
-      body: child,
+      body: Column(children: [const OfflineBanner(), Expanded(child: child)]),
       bottomNavigationBar: NavigationBar(
         selectedIndex: index,
         onDestinationSelected: (i) => context.go(tabs[i].path),
