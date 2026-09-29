@@ -1,6 +1,12 @@
+import 'dart:convert';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../core/download/pdf_saver.dart';
 
 import '../../data/datasources/api/api_error.dart';
 import '../../core/session/current_session.dart';
@@ -102,9 +108,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
   }
 }
 
-/// Bulk import and export (M1.6): paste or type a CSV, see every row's
-/// outcome before anything is written, then apply. Templates and exports
-/// are copied to the clipboard as CSV.
+/// Bulk import and export (M1.6, INT-3): paste a CSV or choose a .csv or
+/// Excel file, see every row's outcome before anything is written, then
+/// apply. Templates and exports copy as CSV or download as Excel.
 class ImportPage extends StatefulWidget {
   const ImportPage({super.key});
 
@@ -117,6 +123,9 @@ class _ImportPageState extends State<ImportPage> {
   static const _exports = ['sections', 'people', 'allocations', 'holidays', 'timetable'];
   String _kind = 'sections';
   final _csv = TextEditingController();
+  // A chosen Excel workbook, sent as it is; editing the text box drops it.
+  Uint8List? _xlsx;
+  String? _fileName;
   Map<String, dynamic>? _result;
   String? _error;
   bool _busy = false;
@@ -127,12 +136,45 @@ class _ImportPageState extends State<ImportPage> {
       _error = null;
     });
     try {
-      final r = await Ops.post('/admin/import/$_kind', body: {'csv': _csv.text}, query: {'dryRun': (!apply).toString()});
+      final r = await Ops.post('/admin/import/$_kind',
+          body: _xlsx != null ? {'xlsx': base64Encode(_xlsx!)} : {'csv': _csv.text},
+          query: {'dryRun': (!apply).toString()});
       setState(() => _result = Map<String, dynamic>.from(r as Map));
     } catch (e) {
       setState(() => _error = serverErrorMessage(e));
     } finally {
       setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _choose() async {
+    try {
+      final picked = await FilePicker.pickFiles(type: FileType.custom, allowedExtensions: ['csv', 'xlsx']);
+      if (picked == null || picked.files.isEmpty) return;
+      final f = picked.files.single;
+      final bytes = await f.readAsBytes();
+      setState(() {
+        _result = null;
+        _fileName = f.name;
+        if (f.name.toLowerCase().endsWith('.xlsx')) {
+          _xlsx = bytes;
+          _csv.clear();
+        } else {
+          _xlsx = null;
+          _csv.text = utf8.decode(bytes, allowMalformed: true);
+        }
+      });
+    } catch (e) {
+      setState(() => _error = serverErrorMessage(e));
+    }
+  }
+
+  Future<void> _download(String path, String name) async {
+    try {
+      final bytes = await Ops.bytes(path, query: {'format': 'xlsx'});
+      await GetIt.I<PdfSaver>().save(bytes, '$name.xlsx');
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
     }
   }
 
@@ -163,9 +205,22 @@ class _ImportPageState extends State<ImportPage> {
                   })),
           TextButton.icon(onPressed: () => _copy('/admin/import/$_kind/template', 'Template'),
               icon: const Icon(Icons.copy), label: const Text('Copy template')),
+          TextButton.icon(onPressed: () => _download('/admin/import/$_kind/template', '$_kind-template'),
+              icon: const Icon(Icons.grid_on_outlined), label: const Text('Excel template')),
+          OutlinedButton.icon(onPressed: _busy ? null : _choose,
+              icon: const Icon(Icons.upload_file), label: const Text('Choose a .csv or Excel file')),
         ]),
-        TextField(controller: _csv, minLines: 8, maxLines: 20, style: const TextStyle(fontFamily: 'monospace'),
-            decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Paste CSV here, header first')),
+        if (_xlsx != null)
+          ListTile(
+            leading: const Icon(Icons.grid_on_outlined),
+            title: Text('Excel file: $_fileName'),
+            subtitle: const Text('Its first sheet is imported, in the same columns as the template.'),
+            trailing: IconButton(tooltip: 'Remove', icon: const Icon(Icons.close),
+                onPressed: () => setState(() { _xlsx = null; _fileName = null; _result = null; })),
+          )
+        else
+          TextField(controller: _csv, minLines: 8, maxLines: 20, style: const TextStyle(fontFamily: 'monospace'),
+              decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Paste CSV here, header first')),
         const SizedBox(height: 8),
         Wrap(spacing: 8, children: [
           OutlinedButton(onPressed: _busy ? null : () => _run(apply: false), child: const Text('Check')),
@@ -189,11 +244,16 @@ class _ImportPageState extends State<ImportPage> {
             ),
         ],
         const SizedBox(height: 24),
-        const SectionHeader(title: 'Export', subtitle: 'Copied as CSV in the import columns, so an edited export imports back.'),
-        Wrap(spacing: 8, children: [
-          for (final k in _exports)
-            OutlinedButton(onPressed: () => _copy('/admin/export/$k', k), child: Text(k)),
-        ]),
+        const SectionHeader(title: 'Export', subtitle: 'In the import columns, so an edited export imports back.'),
+        for (final k in _exports)
+          ListTile(
+            dense: true,
+            title: Text(k),
+            trailing: Wrap(spacing: 8, children: [
+              TextButton(onPressed: () => _copy('/admin/export/$k', k), child: const Text('Copy CSV')),
+              TextButton(onPressed: () => _download('/admin/export/$k', k), child: const Text('Excel')),
+            ]),
+          ),
       ]),
     );
   }

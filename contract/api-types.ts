@@ -13,8 +13,9 @@ export interface paths {
         };
         /**
          * Export
-         * @description The school's data as CSV, in the import's own columns where there is
-         *     an import for it, so an export edited in a spreadsheet imports back.
+         * @description The school's data as CSV or Excel, in the import's own columns where
+         *     there is an import for it, so an export edited in a spreadsheet imports
+         *     back.
          */
         get: operations["export_api_v1_admin_export__kind__get"];
         put?: never;
@@ -75,8 +76,8 @@ export interface paths {
         put?: never;
         /**
          * Bulk Import
-         * @description Plan (and with dryRun=false, apply) a CSV import. The year is the
-         *     one named, else the school's latest.
+         * @description Plan (and with dryRun=false, apply) an import from CSV or an Excel
+         *     workbook. The year is the one named, else the school's latest.
          */
         post: operations["bulk_import_api_v1_admin_import__kind__post"];
         delete?: never;
@@ -94,7 +95,7 @@ export interface paths {
         };
         /**
          * Import Template
-         * @description The CSV header for an import, with one example row.
+         * @description The header for an import, with one example row, as CSV or Excel.
          */
         get: operations["import_template_api_v1_admin_import__kind__template_get"];
         put?: never;
@@ -7712,12 +7713,18 @@ export interface components {
             /** Waitingtomark */
             waitingToMark: number;
         };
-        /** ImportRequest */
+        /**
+         * ImportRequest
+         * @description The rows as CSV text, or as an Excel workbook (.xlsx, base64): its
+         *     first sheet, in the same columns (INT-3).
+         */
         ImportRequest: {
             /** Academicyearid */
             academicYearId?: string | null;
             /** Csv */
-            csv: string;
+            csv?: string | null;
+            /** Xlsx */
+            xlsx?: string | null;
         };
         /** ImportResponse */
         ImportResponse: {
@@ -11362,6 +11369,7 @@ export interface operations {
         parameters: {
             query?: {
                 academicYearId?: string | null;
+                format?: "csv" | "xlsx";
             };
             header?: never;
             path: {
@@ -11525,7 +11533,9 @@ export interface operations {
     };
     import_template_api_v1_admin_import__kind__template_get: {
         parameters: {
-            query?: never;
+            query?: {
+                format?: "csv" | "xlsx";
+            };
             header?: never;
             path: {
                 kind: string;
