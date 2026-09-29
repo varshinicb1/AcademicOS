@@ -146,8 +146,11 @@ class DayRowResponse(Camel):
     period: int
     subject_id: str
     teacher_id: Optional[str] = None
+    # SCH-8: the other teacher in the room for a co-taught period, when both
+    # are there. `co_teacher` as the kind: the co-teacher takes it alone.
+    co_teacher_id: Optional[str] = None
     room_id: Optional[str] = None
-    kind: str        # regular | substitute | supervised | combined | lost | uncovered | away | makeup
+    kind: str        # regular | substitute | supervised | combined | lost | uncovered | away | makeup | co_teacher
     substitution_id: Optional[str] = None
     lost_period_id: Optional[str] = None
     note: Optional[str] = None
@@ -156,6 +159,7 @@ class DayRowResponse(Camel):
     subject_name: Optional[str] = None
     section_name: Optional[str] = None
     teacher_name: Optional[str] = None
+    co_teacher_name: Optional[str] = None
 
 
 class DebtRowResponse(Camel):
@@ -502,13 +506,16 @@ def _row(r: dict) -> DayRowResponse:
     store = cr._require()
     subject = store.get_subject(r["subjectId"])
     section = store.get_section(r["sectionId"])
-    teacher = cr._require_users().get(r["teacherId"]) if r.get("teacherId") else None
+    users = cr._require_users()
+    teacher = users.get(r["teacherId"]) if r.get("teacherId") else None
+    co = users.get(r["coTeacherId"]) if r.get("coTeacherId") else None
     return DayRowResponse(section_id=r["sectionId"], period=r["period"], subject_id=r["subjectId"],
-                          teacher_id=r["teacherId"], room_id=r["roomId"], kind=r["kind"],
-                          substitution_id=r["substitutionId"], lost_period_id=r["lostPeriodId"], note=r["note"],
-                          subject_name=subject.name if subject else None,
+                          teacher_id=r["teacherId"], co_teacher_id=r.get("coTeacherId"), room_id=r["roomId"],
+                          kind=r["kind"], substitution_id=r["substitutionId"], lost_period_id=r["lostPeriodId"],
+                          note=r["note"], subject_name=subject.name if subject else None,
                           section_name=store._section_label(section) if section else None,
-                          teacher_name=teacher.name if teacher else None)
+                          teacher_name=teacher.name if teacher else None,
+                          co_teacher_name=co.name if co else None)
 
 
 @router.get("/day", response_model=list[DayRowResponse])

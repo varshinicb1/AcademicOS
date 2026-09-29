@@ -218,12 +218,42 @@
       },
       "AllocationRequest": {
         "additionalProperties": false,
+        "description": "coTeacherId, roomKind and doublePeriods left out keep what the cell\nhas; null clears the co-teacher or the room kind (SCH-2, SCH-8).",
         "properties": {
+          "coTeacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coteacherid"
+          },
+          "doublePeriods": {
+            "default": 0,
+            "maximum": 30.0,
+            "minimum": 0.0,
+            "title": "Doubleperiods",
+            "type": "integer"
+          },
           "periodsPerWeek": {
             "maximum": 60.0,
             "minimum": 1.0,
             "title": "Periodsperweek",
             "type": "integer"
+          },
+          "roomKind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomkind"
           },
           "teacherId": {
             "anyOf": [
@@ -249,6 +279,22 @@
             "title": "Academicyearid",
             "type": "string"
           },
+          "coTeacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coteacherid"
+          },
+          "doublePeriods": {
+            "default": 0,
+            "title": "Doubleperiods",
+            "type": "integer"
+          },
           "id": {
             "title": "Id",
             "type": "string"
@@ -256,6 +302,17 @@
           "periodsPerWeek": {
             "title": "Periodsperweek",
             "type": "integer"
+          },
+          "roomKind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomkind"
           },
           "sectionId": {
             "title": "Sectionid",
@@ -3626,6 +3683,28 @@
       },
       "DayRowResponse": {
         "properties": {
+          "coTeacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coteacherid"
+          },
+          "coTeacherName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coteachername"
+          },
           "kind": {
             "title": "Kind",
             "type": "string"
@@ -9161,6 +9240,17 @@
       },
       "ProposedEntryResponse": {
         "properties": {
+          "coTeacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coteacherid"
+          },
           "dayOfWeek": {
             "title": "Dayofweek",
             "type": "integer"
@@ -11095,6 +11185,27 @@
           "kind"
         ],
         "title": "RoomResponse",
+        "type": "object"
+      },
+      "RoomUnavailabilityResponse": {
+        "properties": {
+          "roomId": {
+            "title": "Roomid",
+            "type": "string"
+          },
+          "slots": {
+            "items": {
+              "$ref": "#/components/schemas/UnavailableSlot"
+            },
+            "title": "Slots",
+            "type": "array"
+          }
+        },
+        "required": [
+          "roomId",
+          "slots"
+        ],
+        "title": "RoomUnavailabilityResponse",
         "type": "object"
       },
       "RoomUpdateRequest": {
@@ -14812,6 +14923,28 @@
       },
       "TimetableEntryResponse": {
         "properties": {
+          "coTeacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coteacherid"
+          },
+          "coTeacherName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coteachername"
+          },
           "dayOfWeek": {
             "title": "Dayofweek",
             "type": "integer"
@@ -14839,6 +14972,17 @@
               }
             ],
             "title": "Roomid"
+          },
+          "roomName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomname"
           },
           "sectionId": {
             "title": "Sectionid",
@@ -18958,6 +19102,119 @@
           }
         ],
         "summary": "Set Period Configuration"
+      }
+    },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability": {
+      "get": {
+        "description": "Periods each room cannot be used this year (a lab closed for its\nweekly maintenance, say). The solver books nothing there.",
+        "operationId": "list_room_unavailability_api_v1_curriculum_academic_years__academic_year_id__room_unavailability_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/RoomUnavailabilityResponse"
+                  },
+                  "title": "Response List Room Unavailability Api V1 Curriculum Academic Years  Academic Year Id  Room Unavailability Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Room Unavailability"
+      }
+    },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability/{room_id}": {
+      "put": {
+        "description": "Replace one room's periods out of use. 409 while the timetable books\nthe room in one of them: move those periods first.",
+        "operationId": "set_room_unavailability_api_v1_curriculum_academic_years__academic_year_id__room_unavailability__room_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "room_id",
+            "required": true,
+            "schema": {
+              "title": "Room Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeacherUnavailabilityRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomUnavailabilityResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set Room Unavailability"
       }
     },
     "/api/v1/curriculum/academic-years/{academic_year_id}/sections": {

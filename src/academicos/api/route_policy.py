@@ -220,6 +220,10 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve"): _p(ADMIN["timetable"]),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability"): _p(ADMIN["timetable"], "teacher-level data is for the principal (ADM-5)"),
     ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}"): _p(ADMIN["timetable"]),
+    # SCH-8: a room out of use (a lab's maintenance slot). Rooms are no one's
+    # personal data, so staff may read them, as they read /rooms.
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability"): _p(STAFF),
+    ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability/{room_id}"): _p(ADMIN["timetable"]),
     # SCH-5..7 leave, substitution, compensation (curriculum/cover_routes.py).
     ("POST", "/api/v1/curriculum/leave-requests"): _p(STAFF, "a teacher applies for own leave; the principal for anyone"),
     ("GET", "/api/v1/curriculum/leave-requests"): _p(STAFF, "the principal sees all; a teacher their own"),

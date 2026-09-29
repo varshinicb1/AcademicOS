@@ -30,8 +30,13 @@ class _Req(Camel):
 # ---------------- request / response shapes ----------------
 
 class AllocationRequest(_Req):
+    """coTeacherId, roomKind and doublePeriods left out keep what the cell
+    has; null clears the co-teacher or the room kind (SCH-2, SCH-8)."""
     teacher_id: Optional[str] = None
     periods_per_week: int = Field(ge=1, le=60)
+    co_teacher_id: Optional[str] = None
+    room_kind: Optional[str] = None
+    double_periods: int = Field(default=0, ge=0, le=30)
 
 
 class AllocationResponse(Camel):
@@ -41,6 +46,9 @@ class AllocationResponse(Camel):
     subject_id: str
     teacher_id: Optional[str] = None
     periods_per_week: int
+    co_teacher_id: Optional[str] = None
+    room_kind: Optional[str] = None
+    double_periods: int = 0
 
 
 class TeacherLoadResponse(Camel):
@@ -132,10 +140,13 @@ class TimetableEntryResponse(Camel):
     teacher_id: Optional[str] = None
     room_id: Optional[str] = None
     locked: bool = False
+    co_teacher_id: Optional[str] = None      # SCH-8: in the room too
     # Names, so a week grid reads "10-B Science" without more calls.
     subject_name: Optional[str] = None
     section_name: Optional[str] = None
     teacher_name: Optional[str] = None
+    co_teacher_name: Optional[str] = None
+    room_name: Optional[str] = None
 
 
 class TimetableGapResponse(Camel):
@@ -176,7 +187,8 @@ def _staff_member(user_id: Optional[str], principal: User) -> None:
 def _alloc(a) -> AllocationResponse:
     return AllocationResponse(id=a.id, academic_year_id=a.academic_year_id, section_id=a.section_id,
                               subject_id=a.subject_id, teacher_id=a.teacher_id,
-                              periods_per_week=a.periods_per_week)
+                              periods_per_week=a.periods_per_week, co_teacher_id=a.co_teacher_id,
+                              room_kind=a.room_kind, double_periods=a.double_periods)
 
 
 def _room(r) -> RoomResponse:
@@ -194,13 +206,18 @@ def _entry(e) -> TimetableEntryResponse:
     store = cr._require()
     subject = store.get_subject(e.subject_id)
     section = store.get_section(e.section_id)
-    teacher = cr._require_users().get(e.teacher_id) if e.teacher_id else None
+    users = cr._require_users()
+    teacher = users.get(e.teacher_id) if e.teacher_id else None
+    co = users.get(e.co_teacher_id) if e.co_teacher_id else None
+    room = store.get_room(e.room_id) if e.room_id else None
     return TimetableEntryResponse(id=e.id, section_id=e.section_id, day_of_week=e.day_of_week,
                                   period=e.period, subject_id=e.subject_id, teacher_id=e.teacher_id,
-                                  room_id=e.room_id, locked=bool(e.locked),
+                                  room_id=e.room_id, locked=bool(e.locked), co_teacher_id=e.co_teacher_id,
                                   subject_name=subject.name if subject else None,
                                   section_name=store._section_label(section) if section else None,
-                                  teacher_name=teacher.name if teacher else None)
+                                  teacher_name=teacher.name if teacher else None,
+                                  co_teacher_name=co.name if co else None,
+                                  room_name=room.name if room else None)
 
 
 def _section_week(section) -> SectionTimetableResponse:
@@ -249,15 +266,33 @@ def set_allocation(section_id: str, subject_id: str, req: AllocationRequest,
     section, and how many periods a week."""
     cr._require_school_owns_section(section_id, principal)
     _staff_member(req.teacher_id, principal)
+    sent = req.model_fields_set
+    extra: dict[str, Any] = {}
+    if "co_teacher_id" in sent:
+        _staff_member(req.co_teacher_id, principal)
+        extra["co_teacher_id"] = req.co_teacher_id
+    if "room_kind" in sent:
+        extra["room_kind"] = req.room_kind
+    if "double_periods" in sent:
+        extra["double_periods"] = req.double_periods
     try:
         before, after = cr._require().set_allocation(section_id=section_id, subject_id=subject_id,
                                                      teacher_id=req.teacher_id,
-                                                     periods_per_week=req.periods_per_week)
+                                                     periods_per_week=req.periods_per_week, **extra)
     except KeyError:
         raise HTTPException(404, "subject not found")
     except ValueError as e:
         raise HTTPException(422, str(e))
-    fields = lambda a: {"teacherId": a.teacher_id, "periodsPerWeek": a.periods_per_week}  # noqa: E731
+    # The SCH-2/SCH-8 fields are recorded when either side uses them, so a
+    # plain cell's entry reads as it always has.
+    special = any(x is not None and (x.co_teacher_id or x.room_kind or x.double_periods)
+                  for x in (before, after))
+
+    def fields(a):
+        out = {"teacherId": a.teacher_id, "periodsPerWeek": a.periods_per_week}
+        if special:
+            out.update(coTeacherId=a.co_teacher_id, roomKind=a.room_kind, doublePeriods=a.double_periods)
+        return out
     if before is None or fields(before) != fields(after):
         _audit("allocation_set", principal,
                {"sectionId": section_id, "subjectId": subject_id,
@@ -428,7 +463,7 @@ def year_timetable(academic_year_id: str, section_id: Optional[str] = Query(defa
     if section_id:
         entries = [e for e in entries if e.section_id == section_id]
     if teacher_id:
-        entries = [e for e in entries if e.teacher_id == teacher_id]
+        entries = [e for e in entries if teacher_id in (e.teacher_id, e.co_teacher_id)]
     return [_entry(e) for e in entries]
 
 
@@ -519,6 +554,7 @@ class ProposedEntryResponse(Camel):
     subject_id: str
     teacher_id: Optional[str] = None
     room_id: Optional[str] = None
+    co_teacher_id: Optional[str] = None
 
 
 class SolveResponse(Camel):
@@ -562,7 +598,8 @@ def solve_timetable(academic_year_id: str, req: SolveRequest,
                {"academicYearId": academic_year_id, "sections": len(solving), "kept": result.kept,
                 "movedOrAdded": result.moved_or_added, "removed": result.removed})
         from ..operations.routes import notify_safely
-        teachers = sorted({e.teacher_id for e in result.entries if e.teacher_id and e.section_id in solving})
+        teachers = sorted({t for e in result.entries if e.section_id in solving
+                           for t in (e.teacher_id, e.co_teacher_id) if t})
         notify_safely(school_id=principal.school_id, user_ids=teachers, kind="timetable_published", params={},
                       link="/my-timetable")
     return SolveResponse(
@@ -570,7 +607,8 @@ def solve_timetable(academic_year_id: str, req: SolveRequest,
         moved_or_added=result.moved_or_added, removed=result.removed, seconds=round(result.seconds, 2),
         entries=[ProposedEntryResponse(section_id=e.section_id, day_of_week=e.day_of_week,
                                        period=e.period, subject_id=e.subject_id,
-                                       teacher_id=e.teacher_id, room_id=e.room_id)
+                                       teacher_id=e.teacher_id, room_id=e.room_id,
+                                       co_teacher_id=e.co_teacher_id)
                  for e in result.entries])
 
 
@@ -619,3 +657,44 @@ def set_teacher_unavailability(academic_year_id: str, teacher_id: str, req: Teac
     return TeacherUnavailabilityResponse(
         teacher_id=teacher_id, slots=[UnavailableSlot(day_of_week=d, period=p) for d, p in slots])
 
+
+
+# ---------------- rooms out of use (SCH-8) ----------------
+
+class RoomUnavailabilityResponse(Camel):
+    room_id: str
+    slots: list[UnavailableSlot]
+
+
+@router.get("/academic-years/{academic_year_id}/room-unavailability",
+            response_model=list[RoomUnavailabilityResponse])
+def list_room_unavailability(academic_year_id: str,
+                             current: User = Depends(require_staff)) -> list[RoomUnavailabilityResponse]:
+    """Periods each room cannot be used this year (a lab closed for its
+    weekly maintenance, say). The solver books nothing there."""
+    cr._require_school_owns_academic_year(academic_year_id, current)
+    rows = cr._require().room_unavailability_for_year(academic_year_id)
+    return [RoomUnavailabilityResponse(
+        room_id=r, slots=[UnavailableSlot(day_of_week=d, period=p) for d, p in sorted(slots)])
+        for r, slots in sorted(rows.items())]
+
+
+@router.put("/academic-years/{academic_year_id}/room-unavailability/{room_id}",
+            response_model=RoomUnavailabilityResponse)
+def set_room_unavailability(academic_year_id: str, room_id: str, req: TeacherUnavailabilityRequest,
+                            principal: User = Depends(require_admin("timetable"))) -> RoomUnavailabilityResponse:
+    """Replace one room's periods out of use. 409 while the timetable books
+    the room in one of them: move those periods first."""
+    cr._require_school_owns_academic_year(academic_year_id, principal)
+    _owned_room(room_id, principal)
+    try:
+        slots = cr._require().set_room_unavailability(
+            academic_year_id, room_id, [(s.day_of_week, s.period) for s in req.slots])
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+    except InUse as e:
+        raise HTTPException(409, str(e))
+    _audit("room_unavailability_set", principal,
+           {"academicYearId": academic_year_id, "roomId": room_id, "slots": len(slots)})
+    return RoomUnavailabilityResponse(
+        room_id=room_id, slots=[UnavailableSlot(day_of_week=d, period=p) for d, p in slots])
