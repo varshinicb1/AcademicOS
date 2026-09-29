@@ -4532,6 +4532,64 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/report-cards/sections/{section_id}/pdf": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Section Report Cards Pdf
+         * @description Every student of the section, one page each, in name order. For the
+         *     principal, a teacher given reports, and the section's class teacher.
+         */
+        get: operations["section_report_cards_pdf_api_v1_report_cards_sections__section_id__pdf_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/report-cards/students/{student_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Report Card
+         * @description One student's card for a term (default: the term today falls in).
+         */
+        get: operations["report_card_api_v1_report_cards_students__student_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/report-cards/students/{student_id}/pdf": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Report Card Pdf */
+        get: operations["report_card_pdf_api_v1_report_cards_students__student_id__pdf_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/scan/sessions": {
         parameters: {
             query?: never;
@@ -8562,6 +8620,25 @@ export interface components {
             /** Tier */
             tier?: string | null;
         };
+        /** PaperMarkResponse */
+        PaperMarkResponse: {
+            /** Absent */
+            absent: boolean;
+            /** Examtype */
+            examType: string;
+            /** Examtypelabel */
+            examTypeLabel: string;
+            /** Maximum */
+            maximum: number;
+            /** Obtained */
+            obtained?: number | null;
+            /** Paperid */
+            paperId: string;
+            /** Seton */
+            setOn: string;
+            /** Title */
+            title: string;
+        };
         /** PaperMetadataSchema */
         PaperMetadataSchema: {
             /** Assessmenttitle */
@@ -9583,6 +9660,36 @@ export interface components {
         RenameRequest: {
             /** Name */
             name: string;
+        };
+        /** ReportCardResponse */
+        ReportCardResponse: {
+            /** Band */
+            band?: string | null;
+            /** Maximum */
+            maximum: number;
+            /**
+             * Note
+             * @default Marks entered in AcademicOS for papers set this term. Co-scholastic areas, attendance and teachers' remarks are not recorded here.
+             */
+            note: string;
+            /** Obtained */
+            obtained: number;
+            /** Percent */
+            percent?: number | null;
+            /** Section */
+            section: string;
+            /** Studentid */
+            studentId: string;
+            /** Studentname */
+            studentName: string;
+            /** Subjects */
+            subjects: components["schemas"]["SubjectLineResponse"][];
+            /** Termid */
+            termId: string;
+            /** Termname */
+            termName: string;
+            /** Yearlabel */
+            yearLabel: string;
         };
         /** RescheduleHistoryEntryResponse */
         RescheduleHistoryEntryResponse: {
@@ -10746,6 +10853,21 @@ export interface components {
             totalLessons: number;
             /** Variance */
             variance: number;
+        };
+        /** SubjectLineResponse */
+        SubjectLineResponse: {
+            /** Band */
+            band?: string | null;
+            /** Maximum */
+            maximum: number;
+            /** Obtained */
+            obtained: number;
+            /** Papers */
+            papers: components["schemas"]["PaperMarkResponse"][];
+            /** Percent */
+            percent?: number | null;
+            /** Subject */
+            subject: string;
         };
         /** SubjectPeriodAllocationResponse */
         SubjectPeriodAllocationResponse: {
@@ -19695,6 +19817,105 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["QuestionSchema"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    section_report_cards_pdf_api_v1_report_cards_sections__section_id__pdf_get: {
+        parameters: {
+            query?: {
+                termId?: string | null;
+            };
+            header?: never;
+            path: {
+                section_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    report_card_api_v1_report_cards_students__student_id__get: {
+        parameters: {
+            query?: {
+                termId?: string | null;
+            };
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReportCardResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    report_card_pdf_api_v1_report_cards_students__student_id__pdf_get: {
+        parameters: {
+            query?: {
+                termId?: string | null;
+            };
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
                 };
             };
             /** @description Validation Error */

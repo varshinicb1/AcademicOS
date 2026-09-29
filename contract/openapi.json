@@ -8173,6 +8173,60 @@
         "title": "PaperGenerationRequest",
         "type": "object"
       },
+      "PaperMarkResponse": {
+        "properties": {
+          "absent": {
+            "title": "Absent",
+            "type": "boolean"
+          },
+          "examType": {
+            "title": "Examtype",
+            "type": "string"
+          },
+          "examTypeLabel": {
+            "title": "Examtypelabel",
+            "type": "string"
+          },
+          "maximum": {
+            "title": "Maximum",
+            "type": "integer"
+          },
+          "obtained": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Obtained"
+          },
+          "paperId": {
+            "title": "Paperid",
+            "type": "string"
+          },
+          "setOn": {
+            "title": "Seton",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "paperId",
+          "title",
+          "examType",
+          "examTypeLabel",
+          "setOn",
+          "maximum",
+          "absent"
+        ],
+        "title": "PaperMarkResponse",
+        "type": "object"
+      },
       "PaperMetadataSchema": {
         "properties": {
           "assessmentTitle": {
@@ -10851,6 +10905,89 @@
           "name"
         ],
         "title": "RenameRequest",
+        "type": "object"
+      },
+      "ReportCardResponse": {
+        "properties": {
+          "band": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Band"
+          },
+          "maximum": {
+            "title": "Maximum",
+            "type": "integer"
+          },
+          "note": {
+            "default": "Marks entered in AcademicOS for papers set this term. Co-scholastic areas, attendance and teachers' remarks are not recorded here.",
+            "title": "Note",
+            "type": "string"
+          },
+          "obtained": {
+            "title": "Obtained",
+            "type": "number"
+          },
+          "percent": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Percent"
+          },
+          "section": {
+            "title": "Section",
+            "type": "string"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          },
+          "studentName": {
+            "title": "Studentname",
+            "type": "string"
+          },
+          "subjects": {
+            "items": {
+              "$ref": "#/components/schemas/SubjectLineResponse"
+            },
+            "title": "Subjects",
+            "type": "array"
+          },
+          "termId": {
+            "title": "Termid",
+            "type": "string"
+          },
+          "termName": {
+            "title": "Termname",
+            "type": "string"
+          },
+          "yearLabel": {
+            "title": "Yearlabel",
+            "type": "string"
+          }
+        },
+        "required": [
+          "studentId",
+          "studentName",
+          "section",
+          "termId",
+          "termName",
+          "yearLabel",
+          "subjects",
+          "obtained",
+          "maximum"
+        ],
+        "title": "ReportCardResponse",
         "type": "object"
       },
       "RescheduleHistoryEntryResponse": {
@@ -13601,6 +13738,59 @@
           "variance"
         ],
         "title": "SubjectCoverageResponse",
+        "type": "object"
+      },
+      "SubjectLineResponse": {
+        "properties": {
+          "band": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Band"
+          },
+          "maximum": {
+            "title": "Maximum",
+            "type": "integer"
+          },
+          "obtained": {
+            "title": "Obtained",
+            "type": "number"
+          },
+          "papers": {
+            "items": {
+              "$ref": "#/components/schemas/PaperMarkResponse"
+            },
+            "title": "Papers",
+            "type": "array"
+          },
+          "percent": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Percent"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject",
+          "papers",
+          "obtained",
+          "maximum"
+        ],
+        "title": "SubjectLineResponse",
         "type": "object"
       },
       "SubjectPeriodAllocationResponse": {
@@ -28527,6 +28717,184 @@
           }
         ],
         "summary": "Search Questions"
+      }
+    },
+    "/api/v1/report-cards/sections/{section_id}/pdf": {
+      "get": {
+        "description": "Every student of the section, one page each, in name order. For the\nprincipal, a teacher given reports, and the section's class teacher.",
+        "operationId": "section_report_cards_pdf_api_v1_report_cards_sections__section_id__pdf_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "termId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Termid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Section Report Cards Pdf"
+      }
+    },
+    "/api/v1/report-cards/students/{student_id}": {
+      "get": {
+        "description": "One student's card for a term (default: the term today falls in).",
+        "operationId": "report_card_api_v1_report_cards_students__student_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "termId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Termid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportCardResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Report Card"
+      }
+    },
+    "/api/v1/report-cards/students/{student_id}/pdf": {
+      "get": {
+        "operationId": "report_card_pdf_api_v1_report_cards_students__student_id__pdf_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "termId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Termid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Report Card Pdf"
       }
     },
     "/api/v1/scan/sessions": {
