@@ -7245,6 +7245,8 @@ export interface components {
              * @default 5
              */
             count: number;
+            /** Difficulties */
+            difficulties?: string[];
             /** Duedate */
             dueDate: string;
             /**
@@ -7265,6 +7267,8 @@ export interface components {
             subjectId: string;
             /** Title */
             title: string;
+            /** Types */
+            types?: string[];
         };
         /** HomeworkDetail */
         HomeworkDetail: {

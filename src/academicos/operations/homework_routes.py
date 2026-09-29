@@ -104,6 +104,10 @@ class HomeworkCreateRequest(_Req):
     question_ids: list[str] = Field(default_factory=list, max_length=MAX_QUESTIONS)
     chapter_ids: list[str] = Field(default_factory=list, max_length=20)
     count: int = Field(default=5, ge=1, le=MAX_QUESTIONS)   # with chapter_ids and no question_ids
+    # With chapter_ids: only these question types (mcq, very_short_answer,
+    # short_answer, long_answer) and difficulties (easy, medium, hard).
+    types: list[str] = Field(default_factory=list, max_length=4)
+    difficulties: list[str] = Field(default_factory=list, max_length=3)
     publish: bool = True
 
 
@@ -411,10 +415,22 @@ def create_homework(req: HomeworkCreateRequest, current: User = Depends(require_
         questions = [bank[qid] for qid in dict.fromkeys(req.question_ids)]
     elif req.chapter_ids:
         pool = _bank_questions(subject.name, grade.number, req.chapter_ids)
+        if req.types:
+            pool = [q for q in pool if q.get("type") in set(req.types)]
+        if req.difficulties:
+            pool = [q for q in pool if q.get("difficulty") in set(req.difficulties)]
         if not pool:
-            raise HTTPException(422, "the question bank has no questions in those chapters")
+            raise HTTPException(422, "the question bank has no questions of that kind in those chapters")
+        # Questions these sections have already had come last (API-2, TA-4):
+        # a repeat is used only when the chapters have nothing new left.
+        had = {q["id"] for hw in store().homework_for_school(current.school_id)
+               if set(hw.section_ids) & set(req.section_ids) for q in hw.questions}
         rng = random.Random(f"{req.subject_id}:{req.due_date}:{req.title}")
-        questions = sorted(rng.sample(pool, min(req.count, len(pool))), key=lambda q: (q.get("marks") or 0, q["id"]))
+        fresh = [q for q in pool if q["id"] not in had]
+        old = [q for q in pool if q["id"] in had]
+        rng.shuffle(fresh)
+        rng.shuffle(old)
+        questions = sorted((fresh + old)[:req.count], key=lambda q: (q.get("marks") or 0, q["id"]))
     else:
         raise HTTPException(422, "name the questions, or the chapters to pick them from")
 

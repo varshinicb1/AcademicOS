@@ -260,3 +260,11 @@ def test_the_suggestion_follows_the_sections_plan(w):
     assert none["lessonFound"] is False and len(none["bankChapters"]) == 2
     assert w.c.get("/api/v1/homework/suggestion", params={"sectionId": w.a9, "subjectId": w.sci10},
                    headers=w.ana).status_code == 422
+
+
+def test_chapter_picks_filter_by_type_and_skip_what_the_section_had(w):
+    first = _create(w, "ana", questionIds=[], chapterIds=["light"], count=1, types=["short_answer"]).json()
+    assert [q["id"] for q in first["questions"]] == ["q3"]
+    assert _create(w, "ana", questionIds=[], chapterIds=["light"], types=["long_answer"]).status_code == 422
+    second = _create(w, "ana", questionIds=[], chapterIds=["light"], count=2, title="Again").json()
+    assert "q3" not in {q["id"] for q in second["questions"]}, "10-A already had q3"

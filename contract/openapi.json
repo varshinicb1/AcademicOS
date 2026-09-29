@@ -5503,6 +5503,14 @@
             "title": "Count",
             "type": "integer"
           },
+          "difficulties": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 3,
+            "title": "Difficulties",
+            "type": "array"
+          },
           "dueDate": {
             "title": "Duedate",
             "type": "string"
@@ -5544,6 +5552,14 @@
             "minLength": 1,
             "title": "Title",
             "type": "string"
+          },
+          "types": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 4,
+            "title": "Types",
+            "type": "array"
           }
         },
         "required": [
