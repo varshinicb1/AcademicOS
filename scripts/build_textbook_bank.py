@@ -92,7 +92,7 @@ def main() -> int:
     }
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"wrote {a.out.relative_to(REPO)}")
+    print(f"wrote {a.out.relative_to(REPO) if a.out.is_relative_to(REPO) else a.out}")
     return 0
 
 

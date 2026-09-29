@@ -1,4 +1,4 @@
-"""Read-only paper-template presets: class 6-10, five main subjects, four exam types.
+"""Read-only paper-template presets: classes 1-10, their main subjects, four exam types.
 
 A teacher should never start from a blank builder. Every (class, subject,
 exam type) here is a complete, exactly-summing template; "use as starting
@@ -252,6 +252,55 @@ _UNIT_LANGUAGE_20: list[_Row] = [
     ("Section D - Literature", 5, 1, None, None),
 ]
 
+# Classes 1-5 (requirements v3): CBSE prescribes no paper design for primary
+# classes, so these are suggested school patterns -- shorter papers, no long
+# answers in classes 1-2, and EVS from class 3 (the NCERT books' own range).
+PRIMARY_SUBJECTS: dict[int, tuple[str, ...]] = {
+    1: ("English", "Hindi", "Mathematics"), 2: ("English", "Hindi", "Mathematics"),
+    3: ("English", "Hindi", "Mathematics", "EVS"), 4: ("English", "Hindi", "Mathematics", "EVS"),
+    5: ("English", "Hindi", "Mathematics", "EVS"),
+}
+_PRIMARY_TOTAL = {"unit_test": 20, "periodic": 25, "half_yearly": 50, "annual": 50}
+_PRIMARY_DURATION = {"unit_test": 40, "periodic": 60, "half_yearly": 120, "annual": 120}
+_PRIMARY: dict[str, list[_Row]] = {
+    "unit_test": [
+        ("Section A - Objective (MCQ, fill in the blanks, true or false)", 10, 1, None, None),
+        ("Section B - Short answer", 5, 2, None, None),
+    ],
+    "periodic": [
+        ("Section A - Objective (MCQ, fill in the blanks, true or false)", 10, 1, None, None),
+        ("Section B - Very short answer", 5, 1, None, None),
+        ("Section C - Short answer", 5, 2, None, None),
+    ],
+    "half_yearly": [
+        ("Section A - Objective (MCQ, fill in the blanks, true or false)", 15, 1, None, None),
+        ("Section B - Very short answer", 10, 1, None, None),
+        ("Section C - Short answer", 8, 2, None, None),
+        ("Section D - Answer in a few sentences", 3, 3, None, None),
+    ],
+}
+_PRIMARY["annual"] = _PRIMARY["half_yearly"]
+_PRIMARY_LANGUAGE: dict[str, list[_Row]] = {
+    "unit_test": [
+        ("Section A - Reading comprehension", 5, 1, None, 1.0),
+        ("Section B - Grammar and vocabulary", 5, 1, None, None),
+        ("Section C - Writing", 2, 5, None, None),
+    ],
+    "periodic": [
+        ("Section A - Reading comprehension", 5, 1, None, 1.0),
+        ("Section B - Grammar and vocabulary", 10, 1, None, None),
+        ("Section C - Writing", 2, 5, None, None),
+    ],
+    "half_yearly": [
+        ("Section A - Reading comprehension", 10, 1, None, 1.0),
+        ("Section B - Grammar and vocabulary", 15, 1, None, None),
+        ("Section C - Writing", 2, 5, None, None),
+        ("Section D - Literature", 5, 1, None, None),
+        ("Section E - Literature, short answer", 5, 2, None, None),
+    ],
+}
+_PRIMARY_LANGUAGE["annual"] = _PRIMARY_LANGUAGE["half_yearly"]
+
 _SUGGESTED_SOURCE = (
     "Suggested school pattern, not a CBSE rule: CBSE prescribes no paper design "
     "for {what}. Edit it to match your school.")
@@ -260,6 +309,9 @@ _SUGGESTED_SOURCE = (
 def _pattern(grade: int, subject: str, exam_type: str) -> tuple[list[_Row], str, str]:
     """(rows, pattern_status, source) for one preset."""
     language = subject in ("English", "Hindi")
+    if grade <= 5:
+        return ((_PRIMARY_LANGUAGE if language else _PRIMARY)[exam_type], "suggested",
+                _SUGGESTED_SOURCE.format(what=f"class {grade}"))
     if exam_type == "unit_test":
         return (_UNIT_LANGUAGE_20 if language else _UNIT_20, "suggested",
                 _SUGGESTED_SOURCE.format(what="unit tests"))
@@ -372,8 +424,8 @@ def _build(grade: int, subject: str, exam_type: str) -> PaperTemplate:
         grade=grade,
         subject=subject,
         exam_type=exam_type,
-        total_marks=_TOTAL[exam_type],
-        duration_minutes=_DURATION[exam_type],
+        total_marks=(_PRIMARY_TOTAL if grade <= 5 else _TOTAL)[exam_type],
+        duration_minutes=(_PRIMARY_DURATION if grade <= 5 else _DURATION)[exam_type],
         instructions=instructions_for(sections),
         instructions_generated=True,
         header=TemplateHeader(exam_name=exam_name),
@@ -388,8 +440,8 @@ def _build(grade: int, subject: str, exam_type: str) -> PaperTemplate:
 def _all() -> tuple[PaperTemplate, ...]:
     return tuple(
         _build(grade, subject, exam_type)
-        for grade in range(6, 11)
-        for subject in MAIN_SUBJECTS
+        for grade in range(1, 11)
+        for subject in (PRIMARY_SUBJECTS[grade] if grade <= 5 else MAIN_SUBJECTS)
         for exam_type in PRESET_EXAM_TYPES
     )
 

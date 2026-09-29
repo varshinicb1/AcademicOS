@@ -25,7 +25,7 @@ from academicos.api.main import app
 from academicos.assessment import pool as pool_mod
 from academicos.assessment.schemas import PaperTemplate, PaperTemplateDraft
 from academicos.assessment.templates import default_sections
-from academicos.assessment.template_presets import MAIN_SUBJECTS, PRESET_EXAM_TYPES, presets
+from academicos.assessment.template_presets import MAIN_SUBJECTS, PRESET_EXAM_TYPES, PRIMARY_SUBJECTS, presets
 from academicos.models.academic import Question
 
 
@@ -110,10 +110,13 @@ def test_default_sections_sum_exactly(total):
 def test_every_class_subject_exam_type_has_an_exact_preset():
     all_presets = presets()
     keys = {(p.grade, p.subject, p.exam_type) for p in all_presets}
-    for grade in range(6, 11):
-        for subject in MAIN_SUBJECTS:
+    for grade in range(1, 11):
+        subjects = MAIN_SUBJECTS if grade >= 6 else PRIMARY_SUBJECTS[grade]
+        for subject in subjects:
             for exam_type in PRESET_EXAM_TYPES:
                 assert (grade, subject, exam_type) in keys, (grade, subject, exam_type)
+    # EVS is a class 3-5 subject: no class 1-2 preset offers it.
+    assert not any(p.subject == "EVS" and p.grade < 3 for p in all_presets)
     for p in all_presets:
         assert p.is_preset
         assert sum(s.marks for s in p.sections) == p.total_marks, p.id
@@ -539,12 +542,22 @@ def test_topic_ids_accepted_unchecked_without_taxonomy_and_saying_so(tmp_path, m
 # from template_presets, so a preset whose rows drift from its intended total
 # fails -- `sum(s.marks) == total_marks` alone is true by construction.
 INTENDED_TOTAL = {"unit_test": 20, "periodic": 40, "half_yearly": 80, "annual": 80}
+# Classes 1-5: shorter papers (a suggested school pattern -- CBSE sets none).
+PRIMARY_INTENDED_TOTAL = {"unit_test": 20, "periodic": 25, "half_yearly": 50, "annual": 50}
 
 
 def test_every_preset_carries_its_exam_types_intended_total():
     for p in presets():
-        assert p.total_marks == INTENDED_TOTAL[p.exam_type], (p.id, p.total_marks)
-        assert sum(s.marks for s in p.sections) == INTENDED_TOTAL[p.exam_type], p.id
+        intended = (PRIMARY_INTENDED_TOTAL if p.grade <= 5 else INTENDED_TOTAL)[p.exam_type]
+        assert p.total_marks == intended, (p.id, p.total_marks)
+        assert sum(s.marks for s in p.sections) == intended, p.id
+
+
+def test_primary_presets_are_suggested_and_have_no_long_answers():
+    for p in presets():
+        if p.grade <= 5:
+            assert p.pattern_status == "suggested", p.id
+            assert max(s.marks_each for s in p.sections) <= 5, p.id
 
 
 # Read (Task 904, PyMuPDF) from the CBSE Class X 2024-25 SQPs in
