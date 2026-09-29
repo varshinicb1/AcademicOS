@@ -39,6 +39,10 @@ def init(cfg: Config) -> None:
     # store records: sheets, scans, practice and homework.
     from ..assessment import knowledge
     knowledge.add_listener(_record_learning)
+    # Joining: imported students are enrolled, parents linked to their children (M1.5, M1.6).
+    from ..assessment import auth_routes
+    from .guardian_routes import on_register
+    auth_routes.add_register_hook(on_register)
 
 
 def _record_learning(student_id: str, results: list, source: Optional[str]) -> None:

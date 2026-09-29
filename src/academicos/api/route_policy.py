@@ -258,6 +258,22 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     # SA-3 learning progress (operations/learning_routes.py).
     ("GET", "/api/v1/my-learning"): _p(ANY_USER, "handler admits students only, their own progress"),
     ("GET", "/api/v1/students/{student_id}/learning"): _p(SELF_OR_STAFF),
+    # M1.5 parents (operations/guardian_routes.py).
+    ("POST", "/api/v1/students/{student_id}/guardian-invites"): _p(PRINCIPAL),
+    ("GET", "/api/v1/students/{student_id}/guardians"): _p(STAFF),
+    ("POST", "/api/v1/guardianships"): _p(PRINCIPAL),
+    ("DELETE", "/api/v1/guardianships/{parent_id}/{student_id}"): _p(PRINCIPAL),
+    ("GET", "/api/v1/my-children"): _p(ANY_USER, "handler admits parent accounts only"),
+    ("GET", "/api/v1/children/{student_id}/timetable"): _p(ANY_USER, "handler admits the childs linked guardians only"),
+    ("GET", "/api/v1/children/{student_id}/day"): _p(ANY_USER, "handler admits the childs linked guardians only"),
+    ("GET", "/api/v1/children/{student_id}/homework"): _p(ANY_USER, "handler admits the childs linked guardians only"),
+    ("GET", "/api/v1/children/{student_id}/learning"): _p(ANY_USER, "handler admits the childs linked guardians only"),
+    ("GET", "/api/v1/children/{student_id}/consent"): _p(ANY_USER, "handler admits the childs linked guardians only"),
+    ("POST", "/api/v1/children/{student_id}/consent"): _p(ANY_USER, "the linked guardians own consent"),
+    ("DELETE", "/api/v1/children/{student_id}/consent"): _p(ANY_USER, "the linked guardians own consent"),
+    ("POST", "/api/v1/admin/import/{kind}"): _p(PRINCIPAL),
+    ("GET", "/api/v1/admin/import/{kind}/template"): _p(PRINCIPAL),
+    ("GET", "/api/v1/admin/export/{kind}"): _p(PRINCIPAL),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"): _p(ANY_USER, "school-scoped since calendar Task 101"),
     ("GET", "/api/v1/curriculum/books/{book_id}/units"): _p(ANY_USER, "school-scoped since calendar Task 101"),
     ("GET", "/api/v1/curriculum/books/{book_id}/chapters"): _p(ANY_USER, "school-scoped since calendar Task 101"),
@@ -365,3 +381,23 @@ def iter_routes(app) -> Iterable[tuple[str, str, object]]:
                         yield m, r.path, r
 
     yield from walk(app.routes)
+
+
+# The only routes a parent account may call (auth_routes.get_current_user
+# refuses every other one with 403). Their own inbox, settings and devices,
+# and their linked children's pages, each of which checks the link itself.
+PARENT_PATHS = frozenset({
+    "/api/v1/auth/me",
+    "/api/v1/notifications",
+    "/api/v1/notifications/{notification_id}/read",
+    "/api/v1/notifications/read-all",
+    "/api/v1/notification-preferences",
+    "/api/v1/devices",
+    "/api/v1/devices/{token}",
+    "/api/v1/my-children",
+    "/api/v1/children/{student_id}/timetable",
+    "/api/v1/children/{student_id}/day",
+    "/api/v1/children/{student_id}/homework",
+    "/api/v1/children/{student_id}/learning",
+    "/api/v1/children/{student_id}/consent",
+})

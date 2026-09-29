@@ -41,7 +41,9 @@ from ..config import (Config, LLMNotEnabled, build_identity, enforce_production_
 from ..curriculum import routes as curriculum_routes
 from ..curriculum import school_model_routes
 from ..curriculum import cover_routes
+from ..operations import guardian_routes
 from ..operations import homework_routes
+from ..operations import import_routes
 from ..operations import learning_routes
 from ..operations import routes as operations_routes
 from ..graph.store import GraphStore
@@ -159,6 +161,8 @@ app.include_router(cover_routes.router)
 app.include_router(operations_routes.router)
 app.include_router(homework_routes.router)
 app.include_router(learning_routes.router)
+app.include_router(guardian_routes.router)
+app.include_router(import_routes.router)
 app.include_router(paper_template_routes.router)
 # The question-bank API carries its own `/v1/...` paths and its own key auth,
 # so it is mounted at the root rather than under `/api/v1` -- its paths are
