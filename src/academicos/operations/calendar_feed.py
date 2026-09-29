@@ -176,11 +176,11 @@ def build_calendar(user: User, today: date) -> str:
     for t in entries:
         sec = section or cs.get_section(t.section_id)
         bell = cs.bell_for_section(sec) if sec else None
-        slots = bell.slots if bell else []
-        if not 1 <= t.period <= len(slots):
+        # A bell's slots include breaks; a teaching slot carries its period number.
+        slot = next((s for s in (bell.slots if bell else []) if getattr(s, "period", None) == t.period), None)
+        if slot is None:
             continue
-        slot = slots[t.period - 1]
-        start, end = (slot.start, slot.end) if hasattr(slot, "start") else (slot["start"], slot["end"])
+        start, end = slot.start, slot.end
         first = first_day + timedelta(days=(t.day_of_week - first_day.weekday()) % 7)
         what = subject(t.subject_id) if user.role == "student" else f"{subject(t.subject_id)} {label(t.section_id)}"
         cal.event(f"tt-{t.id}", what, day=first, start=start, end=end, until=yend)

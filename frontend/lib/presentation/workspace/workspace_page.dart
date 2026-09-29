@@ -51,6 +51,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
       case 'student':
         return [
           (icon: Icons.today_outlined, title: tr('Today'), subtitle: tr('Your periods, homework due and the next exam'), path: '/school/today'),
+          (icon: Icons.calendar_view_week_outlined, title: tr('My week'), subtitle: tr('The timetable, with times'), path: '/school/week'),
           (icon: Icons.assignment_outlined, title: tr('My homework'), subtitle: tr('Due work, answers and marks'), path: '/school/my-homework'),
           (icon: Icons.insights_outlined, title: tr('My progress'), subtitle: tr('Subjects, chapters and what to revise'), path: '/school/my-learning'),
           (icon: Icons.event_note_outlined, title: tr('My exams'), subtitle: tr('Your datesheet'), path: '/school/my-exams'),
@@ -83,6 +84,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
           if (_caps.contains('users'))
             (icon: Icons.upload_file_outlined, title: tr('Import & export'), subtitle: tr('You manage people'), path: '/school/import'),
           (icon: Icons.today_outlined, title: tr('My day'), subtitle: tr('Periods, duties and check-in'), path: '/school/my-day'),
+          (icon: Icons.calendar_view_week_outlined, title: tr('My week'), subtitle: tr('The timetable, with times'), path: '/school/week'),
           (icon: Icons.assignment_outlined, title: tr('Homework'), subtitle: tr('Set, mark and follow up'), path: '/school/homework'),
           (icon: Icons.insights_outlined, title: tr('Class progress'), subtitle: tr('Your sections, and who needs help'), path: '/school/class-progress'),
           (icon: Icons.rate_review_outlined, title: tr('Paper reviews'), subtitle: tr('Papers others asked you to review'), path: '/school/reviews'),

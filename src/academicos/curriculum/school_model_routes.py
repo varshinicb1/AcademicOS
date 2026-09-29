@@ -132,6 +132,10 @@ class TimetableEntryResponse(Camel):
     teacher_id: Optional[str] = None
     room_id: Optional[str] = None
     locked: bool = False
+    # Names, so a week grid reads "10-B Science" without more calls.
+    subject_name: Optional[str] = None
+    section_name: Optional[str] = None
+    teacher_name: Optional[str] = None
 
 
 class TimetableGapResponse(Camel):
@@ -187,9 +191,16 @@ def _bell(b) -> BellScheduleResponse:
 
 
 def _entry(e) -> TimetableEntryResponse:
+    store = cr._require()
+    subject = store.get_subject(e.subject_id)
+    section = store.get_section(e.section_id)
+    teacher = cr._require_users().get(e.teacher_id) if e.teacher_id else None
     return TimetableEntryResponse(id=e.id, section_id=e.section_id, day_of_week=e.day_of_week,
                                   period=e.period, subject_id=e.subject_id, teacher_id=e.teacher_id,
-                                  room_id=e.room_id, locked=bool(e.locked))
+                                  room_id=e.room_id, locked=bool(e.locked),
+                                  subject_name=subject.name if subject else None,
+                                  section_name=store._section_label(section) if section else None,
+                                  teacher_name=teacher.name if teacher else None)
 
 
 def _section_week(section) -> SectionTimetableResponse:
