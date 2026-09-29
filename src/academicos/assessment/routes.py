@@ -796,6 +796,9 @@ def export_paper(paper_id: str, fmt: str, current: User = Depends(require_staff)
         t_store = TemplateStore(cfg.data_root / "templates" / "templates.sqlite")
         configured = t_store.default_for(owner.school_id) if owner is not None else None
         template = configured if configured is not None and configured.id != "default" else None
+    # The school's own name and logo over the branding (EX-5, audit D41).
+    from ..curriculum.school_profile import branding_for_school
+    template = branding_for_school(current.school_id, template)
     # Every export gets a unique, audit-logged watermark ID stamped into the
     # footer -- if a printed/exported copy of an unreleased paper leaks, it's
     # traceable to exactly which export request produced it, not just "the

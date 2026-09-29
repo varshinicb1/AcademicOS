@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from typing import Any, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
 from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
@@ -698,3 +698,110 @@ def set_room_unavailability(academic_year_id: str, room_id: str, req: TeacherUna
            {"academicYearId": academic_year_id, "roomId": room_id, "slots": len(slots)})
     return RoomUnavailabilityResponse(
         room_id=room_id, slots=[UnavailableSlot(day_of_week=d, period=p) for d, p in slots])
+
+
+# ---------------- the school's own name and logo (EX-5, audit D41) ----------------
+
+class SchoolProfileRequest(_Req):
+    name: str = Field(min_length=1, max_length=120)
+    address: Optional[str] = Field(default=None, max_length=200)
+    affiliation: Optional[str] = Field(default=None, max_length=120)
+
+
+class SchoolProfileResponse(Camel):
+    """`name` is null until the principal sets it: papers then print no
+    school name rather than a placeholder."""
+    name: Optional[str] = None
+    address: Optional[str] = None
+    affiliation: Optional[str] = None
+    has_logo: bool = False
+    updated_at: Optional[str] = None
+
+
+def _profile_response(p) -> SchoolProfileResponse:
+    if p is None:
+        return SchoolProfileResponse()
+    return SchoolProfileResponse(name=p.name, address=p.address, affiliation=p.affiliation,
+                                 has_logo=p.has_logo, updated_at=p.updated_at)
+
+
+@router.get("/school-profile", response_model=SchoolProfileResponse)
+def get_school_profile(current: User = Depends(get_current_user)) -> SchoolProfileResponse:
+    """The caller's school's name, address, affiliation line and whether it
+    has a logo. Any signed-in member of the school: the apps show the name."""
+    return _profile_response(cr._require().get_school_profile(current.school_id))
+
+
+@router.put("/school-profile", response_model=SchoolProfileResponse)
+def set_school_profile(req: SchoolProfileRequest,
+                       principal: User = Depends(require_principal)) -> SchoolProfileResponse:
+    """Set the name every paper, answer key and report prints at the top."""
+    try:
+        before, after = cr._require().set_school_profile(
+            principal.school_id, name=req.name, address=req.address, affiliation=req.affiliation,
+            updated_by=principal.id)
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+    f = lambda p: {"name": p.name, "address": p.address, "affiliation": p.affiliation}  # noqa: E731
+    if before is None or f(before) != f(after):
+        _audit("school_profile_set", principal, {"before": f(before) if before else None, "after": f(after)})
+    return _profile_response(after)
+
+
+@router.get("/school-profile/logo")
+def get_school_logo(current: User = Depends(get_current_user)):
+    from fastapi.responses import Response
+    from .school_profile import local_logo
+    profile = cr._require().get_school_profile(current.school_id)
+    path = local_logo(cr._cfg.data_root, profile)
+    if path is None:
+        raise HTTPException(404, "the school has no logo")
+    return Response(content=path.read_bytes(), media_type=profile.logo_type,
+                    headers={"Cache-Control": "private, max-age=300"})
+
+
+@router.post("/school-profile/logo", response_model=SchoolProfileResponse)
+async def upload_school_logo(file: UploadFile = File(...),
+                             principal: User = Depends(require_principal)) -> SchoolProfileResponse:
+    """A PNG or JPEG of at most 1 MB, printed beside the school's name. The
+    school's name must be set first."""
+    from .school_profile import LOGO_TYPES, MAX_LOGO_BYTES, save_logo
+    store = cr._require()
+    profile = store.get_school_profile(principal.school_id)
+    if profile is None:
+        raise HTTPException(409, "set the school's name first; the logo prints beside it")
+    if file.content_type not in LOGO_TYPES:
+        raise HTTPException(415, "send the logo as a PNG or JPEG image")
+    data = await file.read(MAX_LOGO_BYTES + 1)
+    if len(data) > MAX_LOGO_BYTES:
+        raise HTTPException(413, "a logo may be at most 1 MB")
+    if not data:
+        raise HTTPException(422, "the image is empty")
+    if not _looks_like(file.content_type, data):
+        raise HTTPException(415, "that file is not the PNG or JPEG image it says it is")
+    key = save_logo(cr._cfg.data_root, profile, file.content_type, data)
+    after = store.set_school_logo(principal.school_id, logo_type=file.content_type, blob_key=key,
+                                  updated_by=principal.id)
+    _audit("school_logo_set", principal, {"contentType": file.content_type, "bytes": len(data),
+                                          "durable": key is not None})
+    return _profile_response(after)
+
+
+@router.delete("/school-profile/logo", response_model=SchoolProfileResponse)
+def remove_school_logo(principal: User = Depends(require_principal)) -> SchoolProfileResponse:
+    from .school_profile import remove_logo
+    store = cr._require()
+    if store.get_school_profile(principal.school_id) is None:
+        raise HTTPException(404, "the school has no logo")
+    remove_logo(cr._cfg.data_root, principal.school_id)
+    after = store.set_school_logo(principal.school_id, logo_type=None, blob_key=None, updated_by=principal.id)
+    _audit("school_logo_removed", principal, {})
+    return _profile_response(after)
+
+
+def _looks_like(content_type: str, data: bytes) -> bool:
+    """The file's first bytes match the type it claims: a renamed file that
+    is not an image would fail later inside the PDF renderer."""
+    if content_type == "image/png":
+        return data.startswith(b"\x89PNG\r\n\x1a\n")
+    return data.startswith(b"\xff\xd8\xff")

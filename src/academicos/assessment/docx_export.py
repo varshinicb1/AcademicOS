@@ -82,8 +82,9 @@ def _question(gq) -> list[str]:
 
 def _body(paper, template) -> str:
     m = paper.metadata
-    school = (m.school_name or (template.name if template and template.name else "") or "AcademicOS School")
-    paras = [_p(_run(school, bold=True, size=32), align="center", space_after=40)]
+    from .pdf import printable_school_name
+    school = printable_school_name(m.school_name, template)
+    paras = [_p(_run(school, bold=True, size=32), align="center", space_after=40)] if school else []
     if m.exam_name and m.exam_name != m.assessment_title:
         paras.append(_p(_run(m.exam_name, bold=True, size=26), align="center", space_after=40))
     title = m.assessment_title + (f"  |  SET {paper.set_label}" if paper.set_label else "")

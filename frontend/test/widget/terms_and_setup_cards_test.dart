@@ -30,6 +30,8 @@ class _Backend extends Interceptor {
   final List<(String, String)> sections = [];
   final List<(String, String)> sectionsAdded = [];
   int? failSeedAt;
+  bool failProfile = false;
+  Map<String, dynamic>? profile;
   int _n = 0;
 
   void _answer(RequestInterceptorHandler h, RequestOptions o, int status, Object? body) {
@@ -93,6 +95,14 @@ class _Backend extends Interceptor {
         'boardId': 'b', 'academicYearId': 'ay_1', 'gradeId': 'g_${body['grade']}', 'grade': body['grade'],
         'subjectsSeeded': 5, 'unitsSeeded': 10, 'chaptersSeeded': 14, 'subjectsSkipped': <String>[],
       });
+    }
+    if (o.path == '/curriculum/school-profile') {
+      if (o.method == 'GET') {
+        return _answer(h, o, 200, profile ?? {'name': null, 'address': null, 'affiliation': null, 'hasLogo': false});
+      }
+      if (failProfile) return _answer(h, o, 422, {'detail': 'the school\'s name is at most 120 characters'});
+      profile = {...?profile, ...body};
+      return _answer(h, o, 200, profile);
     }
     if (o.method == 'GET' && o.path == '/curriculum/academic-years/ay_1/sections') {
       return _answer(h, o, 200, [
@@ -295,6 +305,28 @@ void main() {
     await tapKey(tester, 'setup-run');
     expect(done(), isTrue);
     expect(backend.sectionsAdded, [('g_6', 'B'), ('g_7', 'B'), ('g_8', 'B'), ('g_9', 'B'), ('g_10', 'B')]);
+  });
+
+  testWidgets("the school's name is saved first, so its first papers print it", (tester) async {
+    final (done, backend) = await pumpSetup(tester);
+    await tester.enterText(find.byKey(const ValueKey('setup-school-name')), 'Sunrise Public School');
+    await tapKey(tester, 'setup-run');
+    expect(done(), isTrue);
+    expect(backend.profile?['name'], 'Sunrise Public School');
+    final put = backend.calls.indexOf('PUT /curriculum/school-profile');
+    final firstSeed = backend.calls.indexOf('POST /curriculum/seed/cbse');
+    expect(put, isNonNegative);
+    expect(put, lessThan(firstSeed));
+  });
+
+  testWidgets("a name the server refuses stops the setup before any class", (tester) async {
+    final (done, backend) = await pumpSetup(tester);
+    backend.failProfile = true;
+    await tester.enterText(find.byKey(const ValueKey('setup-school-name')), 'x');
+    await tapKey(tester, 'setup-run');
+    expect(find.textContaining("The school's name was not saved"), findsOneWidget);
+    expect(backend.seeds, isEmpty);
+    expect(done(), isFalse);
   });
 
   testWidgets('a class that fails is named, and pressing again continues', (tester) async {

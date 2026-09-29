@@ -501,6 +501,15 @@ class CurriculumApi {
     await _dio.post('/curriculum/student-enrollments', data: {'studentId': studentId, 'sectionId': sectionId});
   }
 
+  /// Principal-only: the school's name as papers print it (EX-5, audit D41).
+  /// Keeps the address, affiliation line and logo already set.
+  Future<void> setSchoolName(String name) async {
+    final current = await _dio.get('/curriculum/school-profile');
+    final p = Map<String, dynamic>.from(current.data as Map);
+    await _dio.put('/curriculum/school-profile',
+        data: {'name': name, 'address': p['address'], 'affiliation': p['affiliation']});
+  }
+
   /// Every section of the year in class order, with its student count.
   /// Staff only.
   Future<List<SectionSummary>> sections(String academicYearId) async {

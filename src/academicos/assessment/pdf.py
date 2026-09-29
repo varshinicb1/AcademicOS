@@ -422,13 +422,23 @@ def _roll_no_grid(styles: _Styles, boxes: int = 11) -> Table:
     return t
 
 
+def printable_school_name(explicit: Optional[str], template: Optional[SchoolTemplate]) -> str:
+    """The school's name as a header prints it: the paper's own header (a
+    named branch, a joint exam) first, then the branding's. Never the branding
+    template's placeholder name, and never the product's: a school with no
+    name set prints none (audit D41), rather than someone else's words where
+    its name goes."""
+    from ..curriculum.school_profile import PLACEHOLDER_NAMES
+    name = explicit or (template.name if template and template.name else "")
+    return "" if name in PLACEHOLDER_NAMES else name
+
+
 def _header(paper: GeneratedPaper, template: Optional[SchoolTemplate],
             styles: _Styles, content_width: float) -> list:
     m = paper.metadata
     # The teacher's header wins over the school's branding name: a template
     # paper may be set for a named branch or a joint exam.
-    school_name = (m.school_name or (template.name if template and template.name else "")
-                   or "AcademicOS School")
+    school_name = printable_school_name(m.school_name, template)
     brand = colors.HexColor(template.brand_color) if template and template.brand_color else colors.black
     story: list = []
 
@@ -437,7 +447,7 @@ def _header(paper: GeneratedPaper, template: Optional[SchoolTemplate],
         exam_title += f" &nbsp;&nbsp;|&nbsp;&nbsp; <b>SET {escape(paper.set_label)}</b>"
 
     logo_path = Path(template.logo_url) if template and template.logo_url else None
-    title_block = [Paragraph(escape(school_name), styles.school)]
+    title_block = [Paragraph(escape(school_name), styles.school)] if school_name else []
     # The exam name is normally the title; a teacher who gave the paper its
     # own title still gets the exam name their template set.
     if m.exam_name and m.exam_name != m.assessment_title:
