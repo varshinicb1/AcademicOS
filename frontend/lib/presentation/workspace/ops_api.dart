@@ -227,7 +227,16 @@ class OpsError implements Exception {
   OpsError(this.status, this.message);
 
   factory OpsError.from(DioException e) {
-    final data = e.response?.data;
+    var data = e.response?.data;
+    // A file download (Ops.bytes) gets its error body as bytes too; the
+    // server's sentence is JSON inside them.
+    if (data is List<int>) {
+      try {
+        data = jsonDecode(utf8.decode(data));
+      } on FormatException {
+        data = null; // not-a-failure: not JSON, so the generic sentence below
+      }
+    }
     String msg = 'Something went wrong. Check your connection and try again.';
     if (data is Map && data['detail'] != null) {
       final d = data['detail'];
