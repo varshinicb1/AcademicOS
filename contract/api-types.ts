@@ -1682,6 +1682,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/my-attendance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Check In
+         * @description A teacher marks themselves present today (arrival). It never
+         *     overrides an absence the principal has marked.
+         */
+        post: operations["check_in_api_v1_curriculum_my_attendance_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/my-class-schedule": {
         parameters: {
             query?: never;
@@ -2417,6 +2438,33 @@ export interface paths {
          *     to another school's book.
          */
         post: operations["assign_teacher_api_v1_curriculum_teacher_assignments_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/teacher-attendance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Teacher Attendance
+         * @description Every staff member's attendance for a day (today by default): as
+         *     marked, on leave, or not marked yet.
+         */
+        get: operations["teacher_attendance_api_v1_curriculum_teacher_attendance_get"];
+        /**
+         * Mark Teacher Attendance
+         * @description Mark attendance. An absence with no leave opens same-day cover at
+         *     once -- every missed period gets a substitution and a proposed
+         *     substitute, who is told -- and the result lists them.
+         */
+        put: operations["mark_teacher_attendance_api_v1_curriculum_teacher_attendance_put"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -4839,6 +4887,47 @@ export interface components {
         AssignTeacherRequest: {
             /** Bookid */
             bookId: string;
+            /** Teacherid */
+            teacherId: string;
+        };
+        /** AttendanceMark */
+        AttendanceMark: {
+            /** Note */
+            note?: string | null;
+            /** Status */
+            status: string;
+            /** Teacherid */
+            teacherId: string;
+        };
+        /** AttendanceRequest */
+        AttendanceRequest: {
+            /** Marks */
+            marks: components["schemas"]["AttendanceMark"][];
+        };
+        /** AttendanceResponse */
+        AttendanceResponse: {
+            /** Date */
+            date: string;
+            /** Rows */
+            rows: components["schemas"]["AttendanceRow"][];
+            /**
+             * Substitutions
+             * @default []
+             */
+            substitutions: components["schemas"]["SubstitutionResponse"][];
+        };
+        /** AttendanceRow */
+        AttendanceRow: {
+            /** Leaveid */
+            leaveId?: string | null;
+            /** Markedat */
+            markedAt?: string | null;
+            /** Name */
+            name: string;
+            /** Note */
+            note?: string | null;
+            /** Status */
+            status: string;
             /** Teacherid */
             teacherId: string;
         };
@@ -12673,6 +12762,26 @@ export interface operations {
             };
         };
     };
+    check_in_api_v1_curriculum_my_attendance_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AttendanceRow"];
+                };
+            };
+        };
+    };
     get_my_class_schedule_api_v1_curriculum_my_class_schedule_get: {
         parameters: {
             query: {
@@ -13962,6 +14071,72 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["TeacherAssignmentResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    teacher_attendance_api_v1_curriculum_teacher_attendance_get: {
+        parameters: {
+            query?: {
+                date?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AttendanceResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    mark_teacher_attendance_api_v1_curriculum_teacher_attendance_put: {
+        parameters: {
+            query?: {
+                date?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AttendanceRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AttendanceResponse"];
                 };
             };
             /** @description Validation Error */

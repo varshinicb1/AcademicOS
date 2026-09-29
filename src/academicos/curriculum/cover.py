@@ -91,7 +91,24 @@ CREATE TABLE IF NOT EXISTS lost_periods (
   UNIQUE(date, section_id, period)
 );
 CREATE INDEX IF NOT EXISTS idx_lost_year ON lost_periods(academic_year_id, status);
+CREATE TABLE IF NOT EXISTS teacher_attendance (
+  school_id   TEXT NOT NULL,
+  date        TEXT NOT NULL,
+  teacher_id  TEXT NOT NULL,
+  status      TEXT NOT NULL,
+  note        TEXT,
+  leave_id    TEXT,
+  marked_by   TEXT NOT NULL,
+  marked_at   TEXT NOT NULL,
+  PRIMARY KEY (date, teacher_id)
+);
+CREATE INDEX IF NOT EXISTS idx_attendance_school ON teacher_attendance(school_id, date);
 """
+
+# SCH-9. An absence opens the same cover a same-day leave does; the half-day
+# kinds miss only that half's periods.
+ATTENDANCE_STATUSES = ("present", "late", "absent", "first_half_absent", "second_half_absent")
+_ABSENCE_KIND = {"absent": "full_day", "first_half_absent": "first_half", "second_half_absent": "second_half"}
 
 LEAVE_KINDS = ("full_day", "first_half", "second_half", "periods")
 # open: needs a substitute; proposed: the engine or principal chose one, not yet
@@ -380,6 +397,52 @@ class CoverMixin:
             leave.status = "cancelled"
         self._commit()
         return leave
+
+    # ---------------- teacher attendance (SCH-9) ----------------
+
+    def attendance_for_date(self, school_id: str, on: str) -> dict[str, dict]:
+        return {r["teacher_id"]: r for r in self._fetchall(
+            "SELECT * FROM teacher_attendance WHERE school_id=? AND date=?", (school_id, on))}
+
+    def mark_attendance(self, *, school_id: str, academic_year_id: str, on: str, teacher_id: str, status: str,
+                        marked_by: str, note: Optional[str] = None) -> tuple[dict, list["Substitution"]]:
+        """Record one teacher's attendance for a day. Marking someone absent
+        who has no leave for that day opens a same-day leave, approved at
+        once, so every period they miss gets a substitution with a proposed
+        substitute (decide_leave). Marking them present again cancels that
+        leave -- only the one attendance opened -- and its substitutions.
+        Returns (the row, the substitutions opened)."""
+        if status not in ATTENDANCE_STATUSES:
+            raise CoverError(f"status must be one of {', '.join(ATTENDANCE_STATUSES)}")
+        before = self.attendance_for_date(school_id, on).get(teacher_id)
+        leave_id = before["leave_id"] if before else None
+        opened: list[Substitution] = []
+        if leave_id:
+            leave = self.get_leave(leave_id)
+            if leave is None or status not in _ABSENCE_KIND or _ABSENCE_KIND[status] != leave.kind:
+                if leave is not None and leave.status in ("pending", "approved"):
+                    self.cancel_leave(leave_id, today=on)
+                leave_id = None
+        if status in _ABSENCE_KIND and leave_id is None:
+            today_leave = [l for l in self.leave_for_teacher(teacher_id) if l.start_date <= on <= l.end_date]
+            pending = next((l for l in today_leave if l.status == "pending"), None)
+            if pending is not None:
+                # They asked for it; being absent answers the request.
+                _, opened = self.decide_leave(pending.id, approve=True, decided_by=marked_by)
+            elif not any(l.status == "approved" for l in today_leave):
+                leave = self.apply_for_leave(school_id=school_id, academic_year_id=academic_year_id,
+                                             teacher_id=teacher_id, start_date=on, end_date=on,
+                                             kind=_ABSENCE_KIND[status], reason="Marked absent at attendance",
+                                             created_by=marked_by)
+                leave, opened = self.decide_leave(leave.id, approve=True, decided_by=marked_by)
+                leave_id = leave.id
+        self._exec("INSERT INTO teacher_attendance (school_id, date, teacher_id, status, note, leave_id, marked_by,"
+                   " marked_at) VALUES (?,?,?,?,?,?,?,?) ON CONFLICT(date, teacher_id) DO UPDATE SET"
+                   " status=excluded.status, note=excluded.note, leave_id=excluded.leave_id,"
+                   " marked_by=excluded.marked_by, marked_at=excluded.marked_at",
+                   (school_id, on, teacher_id, status, note, leave_id, marked_by, _now()))
+        self._commit()
+        return self.attendance_for_date(school_id, on)[teacher_id], opened
 
     # ---------------- substitution (SCH-6) ----------------
 

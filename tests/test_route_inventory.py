@@ -186,6 +186,9 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/day"),
     ("GET", "/api/v1/curriculum/my-day"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/cover-summary"),
+    ("GET", "/api/v1/curriculum/teacher-attendance"),
+    ("PUT", "/api/v1/curriculum/teacher-attendance"),
+    ("POST", "/api/v1/curriculum/my-attendance"),
     ("GET", "/api/v1/notifications"),
     ("POST", "/api/v1/notifications/{notification_id}/read"),
     ("POST", "/api/v1/notifications/read-all"),
@@ -433,6 +436,9 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/day"),
     ("GET", "/api/v1/curriculum/my-day"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/cover-summary"),
+    ("GET", "/api/v1/curriculum/teacher-attendance"),
+    ("PUT", "/api/v1/curriculum/teacher-attendance"),
+    ("POST", "/api/v1/curriculum/my-attendance"),
     ("GET", "/api/v1/notifications"),
     ("POST", "/api/v1/notifications/{notification_id}/read"),
     ("POST", "/api/v1/notifications/read-all"),
@@ -806,7 +812,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 225: SA-3 added learning progress (2).
     # 240: M1.5 added parents (12), M1.6 bulk import and export (3).
     # 244: D38 added API key issuance (4).
-    assert len(API_ROUTES) == 244
+    # 247: SCH-9 added teacher attendance (3).
+    assert len(API_ROUTES) == 247
 
 
 def test_docs_routes_present():

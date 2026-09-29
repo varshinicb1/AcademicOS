@@ -16,7 +16,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
-from ..assessment.auth_routes import get_current_user, require_principal, require_staff
+from ..assessment.auth_routes import STAFF_ROLES, get_current_user, require_principal, require_staff
 from ..assessment.users import User
 from . import routes as cr
 from .cover import CoverError
@@ -536,6 +536,100 @@ def my_day(on: str = Query(alias="date"), current: User = Depends(get_current_us
             return []
         return [_row(r) for r in store.day_view(year.id, on, section_id=enrollment.section_id)]
     return [_row(r) for r in store.day_view(year.id, on, teacher_id=current.id)]
+
+
+# ---------------- teacher attendance (SCH-9) ----------------
+
+class AttendanceMark(_Req):
+    teacher_id: str
+    status: str
+    note: Optional[str] = Field(default=None, max_length=300)
+
+
+class AttendanceRequest(_Req):
+    marks: list[AttendanceMark] = Field(min_length=1, max_length=500)
+
+
+class AttendanceRow(Camel):
+    teacher_id: str
+    name: str
+    status: str                    # present | late | absent | first_half_absent | second_half_absent | on_leave | unmarked
+    note: Optional[str] = None
+    leave_id: Optional[str] = None
+    marked_at: Optional[str] = None
+
+
+class AttendanceResponse(Camel):
+    date: str
+    rows: list[AttendanceRow]
+    substitutions: list[SubstitutionResponse] = []
+
+
+def _attendance(on: str, current: User, opened: Optional[list] = None) -> AttendanceResponse:
+    store = cr._require()
+    marks = store.attendance_for_date(current.school_id, on)
+    rows = []
+    for u in sorted(cr._require_users().users_for_school(current.school_id), key=lambda u: u.name.lower()):
+        if u.role not in STAFF_ROLES:
+            continue
+        m = marks.get(u.id)
+        on_leave = any(l.status == "approved" and l.start_date <= on <= l.end_date
+                       for l in store.leave_for_teacher(u.id))
+        status = m["status"] if m else ("on_leave" if on_leave else "unmarked")
+        rows.append(AttendanceRow(teacher_id=u.id, name=u.name, status=status, note=m["note"] if m else None,
+                                  leave_id=m["leave_id"] if m else None, marked_at=m["marked_at"] if m else None))
+    return AttendanceResponse(date=on, rows=rows, substitutions=[_sub(s) for s in (opened or [])])
+
+
+@router.get("/teacher-attendance", response_model=AttendanceResponse)
+def teacher_attendance(on: Optional[str] = Query(default=None, alias="date"),
+                       principal: User = Depends(require_principal)) -> AttendanceResponse:
+    """Every staff member's attendance for a day (today by default): as
+    marked, on leave, or not marked yet."""
+    return _attendance(on or _today(), principal)
+
+
+@router.put("/teacher-attendance", response_model=AttendanceResponse)
+def mark_teacher_attendance(req: AttendanceRequest, on: Optional[str] = Query(default=None, alias="date"),
+                            principal: User = Depends(require_principal)) -> AttendanceResponse:
+    """Mark attendance. An absence with no leave opens same-day cover at
+    once -- every missed period gets a substitution and a proposed
+    substitute, who is told -- and the result lists them."""
+    day = on or _today()
+    store = cr._require()
+    for m in req.marks:
+        _staff_of_school(m.teacher_id, principal)
+    year = _year_for(store, principal.school_id, day)
+    opened = []
+    for m in req.marks:
+        before = store.attendance_for_date(principal.school_id, day).get(m.teacher_id)
+        try:
+            _, subs = store.mark_attendance(school_id=principal.school_id, academic_year_id=year.id, on=day,
+                                            teacher_id=m.teacher_id, status=m.status, marked_by=principal.id,
+                                            note=m.note)
+        except CoverError as e:
+            raise HTTPException(422, str(e))
+        _audit("teacher_attendance_marked", principal, {"teacherId": m.teacher_id, "date": day,
+                                                         "before": before["status"] if before else None,
+                                                         "after": m.status, "substitutions": len(subs)})
+        for s in subs:
+            _notify_proposed(s)
+        opened.extend(subs)
+    return _attendance(day, principal, opened)
+
+
+@router.post("/my-attendance", response_model=AttendanceRow)
+def check_in(current: User = Depends(require_staff)) -> AttendanceRow:
+    """A teacher marks themselves present today (arrival). It never
+    overrides an absence the principal has marked."""
+    day = _today()
+    store = cr._require()
+    existing = store.attendance_for_date(current.school_id, day).get(current.id)
+    if existing is None or existing["status"] in ("present", "late"):
+        year = _year_for(store, current.school_id, day)
+        store.mark_attendance(school_id=current.school_id, academic_year_id=year.id, on=day, teacher_id=current.id,
+                              status="present", marked_by=current.id)
+    return next(r for r in _attendance(day, current).rows if r.teacher_id == current.id)
 
 
 @router.get("/academic-years/{academic_year_id}/cover-summary", response_model=CoverSummaryResponse)
