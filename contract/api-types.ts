@@ -523,6 +523,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/calendar-feed": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Calendar Feed
+         * @description The caller's private calendar URL (made on first ask).
+         */
+        get: operations["calendar_feed_api_v1_calendar_feed_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/calendar-feed/reset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Reset Calendar Feed
+         * @description A new URL; the old one stops working at once.
+         */
+        post: operations["reset_calendar_feed_api_v1_calendar_feed_reset_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/catalog": {
         parameters: {
             query?: never;
@@ -2766,6 +2806,26 @@ export interface paths {
         patch: operations["set_unit_sequence_api_v1_curriculum_units__unit_id__sequence_patch"];
         trace?: never;
     };
+    "/api/v1/dashboard/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Summary
+         * @description Today at a glance, for the principal (or a reports admin).
+         */
+        get: operations["summary_api_v1_dashboard_summary_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/devices": {
         parameters: {
             query?: never;
@@ -3300,6 +3360,47 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/homework/{homework_id}/submissions/{student_id}/photos/{photo_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Student Photo
+         * @description For the teacher marking the work (or the principal); logged.
+         */
+        get: operations["student_photo_api_v1_homework__homework_id__submissions__student_id__photos__photo_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/ics/{token}.ics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Ics
+         * @description The feed itself, for calendar apps. The token is the only key: an
+         *     unknown or replaced token is a plain 404.
+         */
+        get: operations["ics_api_v1_ics__token__ics_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/ingest/school-documents": {
         parameters: {
             query?: never;
@@ -3530,6 +3631,49 @@ export interface paths {
         put?: never;
         post?: never;
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/my-homework/{homework_id}/photos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** My Photos */
+        get: operations["my_photos_api_v1_my_homework__homework_id__photos_get"];
+        put?: never;
+        /**
+         * Upload Photo
+         * @description Attach a photo of written work to the caller's own submission. Allowed
+         *     while the homework is open and the work is not yet marked.
+         */
+        post: operations["upload_photo_api_v1_my_homework__homework_id__photos_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/my-homework/{homework_id}/photos/{photo_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** My Photo */
+        get: operations["my_photo_api_v1_my_homework__homework_id__photos__photo_id__get"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete My Photo
+         * @description Remove a photo before the work is marked.
+         */
+        delete: operations["delete_my_photo_api_v1_my_homework__homework_id__photos__photo_id__delete"];
         options?: never;
         head?: never;
         patch?: never;
@@ -4731,6 +4875,29 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/homework-sets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Homework Set
+         * @description A homework set (API-2). With `types`, that many of each type; without,
+         *     `count` questions spread across the chosen chapters. The same request
+         *     with the same `seed` returns the same set; `shortfall` says what the
+         *     bank could not supply.
+         */
+        post: operations["homework_set_v1_homework_sets_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/plan": {
         parameters: {
             query?: never;
@@ -5549,6 +5716,11 @@ export interface components {
              */
             uploaderId: string;
         };
+        /** Body_upload_photo_api_v1_my_homework__homework_id__photos_post */
+        Body_upload_photo_api_v1_my_homework__homework_id__photos_post: {
+            /** File */
+            file: string;
+        };
         /** Body_upload_scan_page_api_v1_scan_sessions__session_id__pages_post */
         Body_upload_scan_page_api_v1_scan_sessions__session_id__pages_post: {
             /** File */
@@ -6082,6 +6254,23 @@ export interface components {
             /** Unfilled */
             unfilled: number;
         };
+        /** CoverToday */
+        CoverToday: {
+            /** Absent */
+            absent: number;
+            /** Covered */
+            covered: number;
+            /** Onleave */
+            onLeave: number;
+            /** Periodstocover */
+            periodsToCover: number;
+            /** Staff */
+            staff: number;
+            /** Uncovered */
+            uncovered: number;
+            /** Unmarked */
+            unmarked: number;
+        };
         /** CoverageReportResponse */
         CoverageReportResponse: {
             /** Academicyearid */
@@ -6159,6 +6348,17 @@ export interface components {
             classTeacherId?: string | null;
             /** Name */
             name: string;
+        };
+        /** DashboardSummary */
+        DashboardSummary: {
+            cover: components["schemas"]["CoverToday"];
+            /** Date */
+            date: string;
+            /** Exams */
+            exams: components["schemas"]["ExamSoon"][];
+            homework: components["schemas"]["HomeworkWeek"];
+            /** Studentsneedinghelp */
+            studentsNeedingHelp: components["schemas"]["StudentConcern"][];
         };
         /** DatesheetRequest */
         DatesheetRequest: {
@@ -6533,6 +6733,17 @@ export interface components {
              */
             unfilled: string[];
         };
+        /** ExamSoon */
+        ExamSoon: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Startdate */
+            startDate: string;
+            /** Status */
+            status: string;
+        };
         /** ExtractRequest */
         ExtractRequest: {
             /** Groundingtext */
@@ -6564,6 +6775,11 @@ export interface components {
             /** Proposals */
             proposals: components["schemas"]["ProposalResponse"][];
             run: components["schemas"]["ExtractionRunResponse"];
+        };
+        /** FeedResponse */
+        FeedResponse: {
+            /** Url */
+            url: string;
         };
         /** FinalizeResponse */
         FinalizeResponse: {
@@ -6977,6 +7193,36 @@ export interface components {
             /** Totalmarks */
             totalMarks: number;
         };
+        /**
+         * HomeworkSetRequest
+         * @description N answer-keyed questions for a class, from chapters, in a mix of
+         *     types, avoiding questions the caller has already used. The API knows no
+         *     students (API-5), so "already had" is the caller's list of ids.
+         */
+        HomeworkSetRequest: {
+            /** Chapterids */
+            chapterIds?: string[];
+            /**
+             * Count
+             * @default 10
+             */
+            count: number;
+            /** Excludeids */
+            excludeIds?: string[];
+            /** Grade */
+            grade: number;
+            /** Seed */
+            seed?: string | null;
+            /** Subject */
+            subject: string;
+            /**
+             * Types
+             * @description e.g. {"mcq": 5, "short_answer": 3}
+             */
+            types?: {
+                [key: string]: number;
+            };
+        };
         /** HomeworkSummary */
         HomeworkSummary: {
             /** Duedate */
@@ -7018,6 +7264,21 @@ export interface components {
             title: string;
             /** Totalmarks */
             totalMarks: number;
+        };
+        /** HomeworkWeek */
+        HomeworkWeek: {
+            /** Marked */
+            marked: number;
+            /** Overduehomework */
+            overdueHomework: number;
+            /** Set */
+            set: number;
+            /** Submissionsexpected */
+            submissionsExpected: number;
+            /** Submitted */
+            submitted: number;
+            /** Waitingtomark */
+            waitingToMark: number;
         };
         /** ImportRequest */
         ImportRequest: {
@@ -7874,6 +8135,17 @@ export interface components {
             periodMinutes: number;
             /** Schoolid */
             schoolId: string;
+        };
+        /** PhotoResponse */
+        PhotoResponse: {
+            /** Contenttype */
+            contentType: string;
+            /** Id */
+            id: string;
+            /** Size */
+            size: number;
+            /** Uploadedat */
+            uploadedAt: string;
         };
         /** PickRequest */
         PickRequest: {
@@ -9474,6 +9746,19 @@ export interface components {
             /** Role */
             role: string;
         };
+        /** StudentConcern */
+        StudentConcern: {
+            /** Name */
+            name: string;
+            /** Needswork */
+            needsWork: number;
+            /** Overdue */
+            overdue: number;
+            /** Sectionname */
+            sectionName?: string | null;
+            /** Studentid */
+            studentId: string;
+        };
         /** StudentEnrollmentResponse */
         StudentEnrollmentResponse: {
             /** Createdat */
@@ -9715,6 +10000,8 @@ export interface components {
              * @default 0
              */
             needsReview: number;
+            /** Photoids */
+            photoIds?: string[];
             /** Sectionid */
             sectionId: string;
             /** Status */
@@ -11451,6 +11738,46 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    calendar_feed_api_v1_calendar_feed_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeedResponse"];
+                };
+            };
+        };
+    };
+    reset_calendar_feed_api_v1_calendar_feed_reset_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeedResponse"];
                 };
             };
         };
@@ -15502,6 +15829,26 @@ export interface operations {
             };
         };
     };
+    summary_api_v1_dashboard_summary_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DashboardSummary"];
+                };
+            };
+        };
+    };
     register_device_api_v1_devices_post: {
         parameters: {
             query?: never;
@@ -16349,6 +16696,70 @@ export interface operations {
             };
         };
     };
+    student_photo_api_v1_homework__homework_id__submissions__student_id__photos__photo_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                homework_id: string;
+                student_id: string;
+                photo_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    ics_api_v1_ics__token__ics_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                token: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     ingest_school_document_api_v1_ingest_school_documents_post: {
         parameters: {
             query?: never;
@@ -16662,6 +17073,138 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MyHomeworkDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    my_photos_api_v1_my_homework__homework_id__photos_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                homework_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PhotoResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    upload_photo_api_v1_my_homework__homework_id__photos_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                homework_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["Body_upload_photo_api_v1_my_homework__homework_id__photos_post"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PhotoResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    my_photo_api_v1_my_homework__homework_id__photos__photo_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                homework_id: string;
+                photo_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_my_photo_api_v1_my_homework__homework_id__photos__photo_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                homework_id: string;
+                photo_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
             /** @description Validation Error */
@@ -18748,6 +19291,42 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    homework_set_v1_homework_sets_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+                "X-API-Key"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HomeworkSetRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
                 };
             };
             /** @description Validation Error */

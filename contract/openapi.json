@@ -1706,6 +1706,20 @@
         "title": "Body_ingest_school_document_api_v1_ingest_school_documents_post",
         "type": "object"
       },
+      "Body_upload_photo_api_v1_my_homework__homework_id__photos_post": {
+        "properties": {
+          "file": {
+            "contentMediaType": "application/octet-stream",
+            "title": "File",
+            "type": "string"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_photo_api_v1_my_homework__homework_id__photos_post",
+        "type": "object"
+      },
       "Body_upload_scan_page_api_v1_scan_sessions__session_id__pages_post": {
         "properties": {
           "file": {
@@ -3052,6 +3066,49 @@
         "title": "CoverSummaryResponse",
         "type": "object"
       },
+      "CoverToday": {
+        "properties": {
+          "absent": {
+            "title": "Absent",
+            "type": "integer"
+          },
+          "covered": {
+            "title": "Covered",
+            "type": "integer"
+          },
+          "onLeave": {
+            "title": "Onleave",
+            "type": "integer"
+          },
+          "periodsToCover": {
+            "title": "Periodstocover",
+            "type": "integer"
+          },
+          "staff": {
+            "title": "Staff",
+            "type": "integer"
+          },
+          "uncovered": {
+            "title": "Uncovered",
+            "type": "integer"
+          },
+          "unmarked": {
+            "title": "Unmarked",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "staff",
+          "absent",
+          "onLeave",
+          "unmarked",
+          "periodsToCover",
+          "covered",
+          "uncovered"
+        ],
+        "title": "CoverToday",
+        "type": "object"
+      },
       "CoverageReportResponse": {
         "properties": {
           "academicYearId": {
@@ -3245,6 +3302,43 @@
           "name"
         ],
         "title": "CreateSectionRequest",
+        "type": "object"
+      },
+      "DashboardSummary": {
+        "properties": {
+          "cover": {
+            "$ref": "#/components/schemas/CoverToday"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "exams": {
+            "items": {
+              "$ref": "#/components/schemas/ExamSoon"
+            },
+            "title": "Exams",
+            "type": "array"
+          },
+          "homework": {
+            "$ref": "#/components/schemas/HomeworkWeek"
+          },
+          "studentsNeedingHelp": {
+            "items": {
+              "$ref": "#/components/schemas/StudentConcern"
+            },
+            "title": "Studentsneedinghelp",
+            "type": "array"
+          }
+        },
+        "required": [
+          "date",
+          "cover",
+          "homework",
+          "exams",
+          "studentsNeedingHelp"
+        ],
+        "title": "DashboardSummary",
         "type": "object"
       },
       "DatesheetRequest": {
@@ -4221,6 +4315,34 @@
         "title": "ExamResponse",
         "type": "object"
       },
+      "ExamSoon": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "startDate": {
+            "title": "Startdate",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "startDate",
+          "status"
+        ],
+        "title": "ExamSoon",
+        "type": "object"
+      },
       "ExtractRequest": {
         "properties": {
           "groundingText": {
@@ -4321,6 +4443,19 @@
           "proposals"
         ],
         "title": "ExtractionRunWithProposalsResponse",
+        "type": "object"
+      },
+      "FeedResponse": {
+        "properties": {
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "title": "FeedResponse",
         "type": "object"
       },
       "FinalizeResponse": {
@@ -5399,6 +5534,70 @@
         "title": "HomeworkDetail",
         "type": "object"
       },
+      "HomeworkSetRequest": {
+        "additionalProperties": false,
+        "description": "N answer-keyed questions for a class, from chapters, in a mix of\ntypes, avoiding questions the caller has already used. The API knows no\nstudents (API-5), so \"already had\" is the caller's list of ids.",
+        "properties": {
+          "chapterIds": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 30,
+            "title": "Chapterids",
+            "type": "array"
+          },
+          "count": {
+            "default": 10,
+            "maximum": 50.0,
+            "minimum": 1.0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "excludeIds": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 5000,
+            "title": "Excludeids",
+            "type": "array"
+          },
+          "grade": {
+            "maximum": 12.0,
+            "minimum": 1.0,
+            "title": "Grade",
+            "type": "integer"
+          },
+          "seed": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          },
+          "types": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "description": "e.g. {\"mcq\": 5, \"short_answer\": 3}",
+            "title": "Types",
+            "type": "object"
+          }
+        },
+        "required": [
+          "subject",
+          "grade"
+        ],
+        "title": "HomeworkSetRequest",
+        "type": "object"
+      },
       "HomeworkSummary": {
         "properties": {
           "dueDate": {
@@ -5486,6 +5685,44 @@
           "totalMarks"
         ],
         "title": "HomeworkSummary",
+        "type": "object"
+      },
+      "HomeworkWeek": {
+        "properties": {
+          "marked": {
+            "title": "Marked",
+            "type": "integer"
+          },
+          "overdueHomework": {
+            "title": "Overduehomework",
+            "type": "integer"
+          },
+          "set": {
+            "title": "Set",
+            "type": "integer"
+          },
+          "submissionsExpected": {
+            "title": "Submissionsexpected",
+            "type": "integer"
+          },
+          "submitted": {
+            "title": "Submitted",
+            "type": "integer"
+          },
+          "waitingToMark": {
+            "title": "Waitingtomark",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "set",
+          "submissionsExpected",
+          "submitted",
+          "marked",
+          "waitingToMark",
+          "overdueHomework"
+        ],
+        "title": "HomeworkWeek",
         "type": "object"
       },
       "ImportRequest": {
@@ -7686,6 +7923,34 @@
           "periodMinutes"
         ],
         "title": "PeriodConfigurationResponse",
+        "type": "object"
+      },
+      "PhotoResponse": {
+        "properties": {
+          "contentType": {
+            "title": "Contenttype",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "size": {
+            "title": "Size",
+            "type": "integer"
+          },
+          "uploadedAt": {
+            "title": "Uploadedat",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "contentType",
+          "size",
+          "uploadedAt"
+        ],
+        "title": "PhotoResponse",
         "type": "object"
       },
       "PickRequest": {
@@ -11688,6 +11953,45 @@
         "title": "StaffMember",
         "type": "object"
       },
+      "StudentConcern": {
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "needsWork": {
+            "title": "Needswork",
+            "type": "integer"
+          },
+          "overdue": {
+            "title": "Overdue",
+            "type": "integer"
+          },
+          "sectionName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionname"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "studentId",
+          "name",
+          "needsWork",
+          "overdue"
+        ],
+        "title": "StudentConcern",
+        "type": "object"
+      },
       "StudentEnrollmentResponse": {
         "properties": {
           "createdAt": {
@@ -12334,6 +12638,13 @@
             "default": 0,
             "title": "Needsreview",
             "type": "integer"
+          },
+          "photoIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Photoids",
+            "type": "array"
           },
           "sectionId": {
             "title": "Sectionid",
@@ -15782,6 +16093,54 @@
           }
         ],
         "summary": "Generate Blueprint"
+      }
+    },
+    "/api/v1/calendar-feed": {
+      "get": {
+        "description": "The caller's private calendar URL (made on first ask).",
+        "operationId": "calendar_feed_api_v1_calendar_feed_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Calendar Feed"
+      }
+    },
+    "/api/v1/calendar-feed/reset": {
+      "post": {
+        "description": "A new URL; the old one stops working at once.",
+        "operationId": "reset_calendar_feed_api_v1_calendar_feed_reset_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Reset Calendar Feed"
       }
     },
     "/api/v1/catalog": {
@@ -22116,6 +22475,30 @@
         "summary": "Set Unit Sequence"
       }
     },
+    "/api/v1/dashboard/summary": {
+      "get": {
+        "description": "Today at a glance, for the principal (or a reports admin).",
+        "operationId": "summary_api_v1_dashboard_summary_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardSummary"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Summary"
+      }
+    },
     "/api/v1/devices": {
       "post": {
         "description": "Register this device's push token for the caller.",
@@ -23440,6 +23823,105 @@
         "summary": "Grade Submission"
       }
     },
+    "/api/v1/homework/{homework_id}/submissions/{student_id}/photos/{photo_id}": {
+      "get": {
+        "description": "For the teacher marking the work (or the principal); logged.",
+        "operationId": "student_photo_api_v1_homework__homework_id__submissions__student_id__photos__photo_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "photo_id",
+            "required": true,
+            "schema": {
+              "title": "Photo Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Student Photo"
+      }
+    },
+    "/api/v1/ics/{token}.ics": {
+      "get": {
+        "description": "The feed itself, for calendar apps. The token is the only key: an\nunknown or replaced token is a plain 404.",
+        "operationId": "ics_api_v1_ics__token__ics_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "title": "Token",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Ics"
+      }
+    },
     "/api/v1/ingest/school-documents": {
       "post": {
         "operationId": "ingest_school_document_api_v1_ingest_school_documents_post",
@@ -23896,6 +24378,212 @@
           }
         ],
         "summary": "My Homework Detail"
+      }
+    },
+    "/api/v1/my-homework/{homework_id}/photos": {
+      "get": {
+        "operationId": "my_photos_api_v1_my_homework__homework_id__photos_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PhotoResponse"
+                  },
+                  "title": "Response My Photos Api V1 My Homework  Homework Id  Photos Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Photos"
+      },
+      "post": {
+        "description": "Attach a photo of written work to the caller's own submission. Allowed\nwhile the homework is open and the work is not yet marked.",
+        "operationId": "upload_photo_api_v1_my_homework__homework_id__photos_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_photo_api_v1_my_homework__homework_id__photos_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhotoResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Upload Photo"
+      }
+    },
+    "/api/v1/my-homework/{homework_id}/photos/{photo_id}": {
+      "delete": {
+        "description": "Remove a photo before the work is marked.",
+        "operationId": "delete_my_photo_api_v1_my_homework__homework_id__photos__photo_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "photo_id",
+            "required": true,
+            "schema": {
+              "title": "Photo Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Delete My Photo Api V1 My Homework  Homework Id  Photos  Photo Id  Delete",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Delete My Photo"
+      },
+      "get": {
+        "operationId": "my_photo_api_v1_my_homework__homework_id__photos__photo_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "photo_id",
+            "required": true,
+            "schema": {
+              "title": "Photo Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Photo"
       }
     },
     "/api/v1/my-homework/{homework_id}/submit": {
@@ -27163,6 +27851,80 @@
           }
         ],
         "summary": "Graph Paths"
+      }
+    },
+    "/v1/homework-sets": {
+      "post": {
+        "description": "A homework set (API-2). With `types`, that many of each type; without,\n`count` questions spread across the chosen chapters. The same request\nwith the same `seed` returns the same set; `shortfall` says what the\nbank could not supply.",
+        "operationId": "homework_set_v1_homework_sets_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-API-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HomeworkSetRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Homework Set",
+        "tags": [
+          "question-bank"
+        ]
       }
     },
     "/v1/plan": {

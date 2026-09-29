@@ -5,6 +5,7 @@ import '../../data/datasources/api/api_error.dart';
 import '../../core/session/current_session.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
+import 'photos_ui.dart';
 
 /// What a teacher teaches this year, for pickers: sections, subjects and
 /// the allocations joining them (the principal sees all of them).
@@ -440,6 +441,15 @@ class _GradeDialogState extends State<_GradeDialog> {
               if (e['needsReview'] == true) const ChipTag(label: 'Check this', color: Colors.orange),
               const SizedBox(width: 8),
               Expanded(child: Text(e['reasoning'] ?? '', style: theme.textTheme.bodySmall, maxLines: 2)),
+            ]),
+            const Divider(),
+          ],
+          if ((widget.row['photoIds'] as List? ?? const []).isNotEmpty) ...[
+            Text('Written work', style: theme.textTheme.titleSmall),
+            const SizedBox(height: 6),
+            Wrap(spacing: 8, runSpacing: 8, children: [
+              for (final id in (widget.row['photoIds'] as List).cast<String>())
+                PhotoThumb(path: '/homework/${widget.homework['id']}/submissions/${widget.row['studentId']}/photos/$id'),
             ]),
             const Divider(),
           ],
