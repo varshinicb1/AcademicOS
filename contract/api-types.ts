@@ -2937,6 +2937,124 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/exams": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Exams */
+        get: operations["list_exams_api_v1_exams_get"];
+        put?: never;
+        /** Create Exam */
+        post: operations["create_exam_api_v1_exams_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/exams/{exam_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Exam */
+        get: operations["get_exam_api_v1_exams__exam_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/exams/{exam_id}/datesheet": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Set Datesheet
+         * @description Replace the whole datesheet. Every clash (two papers for a class on a
+         *     day, a holiday, a date outside the exam) is reported at once; the old
+         *     datesheet and its roster are kept on any problem, and dropped with it
+         *     otherwise (the roster is per paper).
+         */
+        put: operations["set_datesheet_api_v1_exams__exam_id__datesheet_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/exams/{exam_id}/invigilation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Set Invigilation */
+        put: operations["set_invigilation_api_v1_exams__exam_id__invigilation_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/exams/{exam_id}/invigilation/auto": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Auto Invigilation
+         * @description Fill every empty duty: no one on leave, no one who teaches that
+         *     subject to that section, no one in two rooms at once, fewest duties
+         *     first. Duties already set are kept; what cannot be filled is listed.
+         */
+        post: operations["auto_invigilation_api_v1_exams__exam_id__invigilation_auto_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/exams/{exam_id}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Publish
+         * @description Publish: students of the exam's classes get their datesheet, each
+         *     invigilator their duties.
+         */
+        post: operations["publish_api_v1_exams__exam_id__publish_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/guardianships": {
         parameters: {
             query?: never;
@@ -3286,6 +3404,26 @@ export interface paths {
         };
         /** My Children */
         get: operations["my_children_api_v1_my_children_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/my-exams": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * My Exams
+         * @description Published exams: a student's class's papers; a teacher's duties.
+         */
+        get: operations["my_exams_api_v1_my_exams_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5904,6 +6042,11 @@ export interface components {
             /** Name */
             name: string;
         };
+        /** DatesheetRequest */
+        DatesheetRequest: {
+            /** Papers */
+            papers: components["schemas"]["PaperSlot"][];
+        };
         /** DayRowResponse */
         DayRowResponse: {
             /** Kind */
@@ -6045,6 +6188,38 @@ export interface components {
             /** Name */
             name?: string | null;
         };
+        /** Duty */
+        Duty: {
+            /** Date */
+            date: string;
+            /** Endtime */
+            endTime: string;
+            /** Exampaperid */
+            examPaperId: string;
+            /** Grade */
+            grade: number;
+            /** Sectionid */
+            sectionId: string;
+            /** Sectionname */
+            sectionName: string;
+            /** Starttime */
+            startTime: string;
+            /** Subjectname */
+            subjectName: string;
+            /** Teacherid */
+            teacherId?: string | null;
+            /** Teachername */
+            teacherName?: string | null;
+        };
+        /** DutyChange */
+        DutyChange: {
+            /** Exampaperid */
+            examPaperId: string;
+            /** Sectionid */
+            sectionId: string;
+            /** Teacherid */
+            teacherId?: string | null;
+        };
         /**
          * EnrollStudentRequest
          * @description sectionId is the class (M1.1). gradeId alone still works for a
@@ -6179,6 +6354,66 @@ export interface components {
             studentAnswer: string;
             /** Verdict */
             verdict: string;
+        };
+        /** ExamCreate */
+        ExamCreate: {
+            /** Academicyearid */
+            academicYearId?: string | null;
+            /** Enddate */
+            endDate: string;
+            /** Grades */
+            grades: number[];
+            /** Name */
+            name: string;
+            /** Startdate */
+            startDate: string;
+        };
+        /** ExamPaper */
+        ExamPaper: {
+            /** Date */
+            date: string;
+            /** Endtime */
+            endTime: string;
+            /** Grade */
+            grade: number;
+            /** Id */
+            id: string;
+            /** Starttime */
+            startTime: string;
+            /** Subjectid */
+            subjectId: string;
+            /** Subjectname */
+            subjectName: string;
+        };
+        /** ExamResponse */
+        ExamResponse: {
+            /**
+             * Duties
+             * @default []
+             */
+            duties: components["schemas"]["Duty"][];
+            /** Enddate */
+            endDate: string;
+            /** Grades */
+            grades: number[];
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /**
+             * Papers
+             * @default []
+             */
+            papers: components["schemas"]["ExamPaper"][];
+            /** Startdate */
+            startDate: string;
+            /** Status */
+            status: string;
+            /**
+             * Unfilled
+             * @default []
+             */
+            unfilled: string[];
         };
         /** ExtractRequest */
         ExtractRequest: {
@@ -6930,6 +7165,11 @@ export interface components {
             /** Topicname */
             topicName: string;
         };
+        /** MyExams */
+        MyExams: {
+            /** Exams */
+            exams: components["schemas"]["ExamResponse"][];
+        };
         /** MyHomeworkDetail */
         MyHomeworkDetail: {
             /** Answers */
@@ -7195,6 +7435,25 @@ export interface components {
             removedQuestionIds: string[];
             /** Slot */
             slot: string;
+        };
+        /** PaperSlot */
+        PaperSlot: {
+            /** Date */
+            date: string;
+            /**
+             * Endtime
+             * @default 12:30
+             */
+            endTime: string;
+            /** Grade */
+            grade: number;
+            /**
+             * Starttime
+             * @default 09:30
+             */
+            startTime: string;
+            /** Subjectid */
+            subjectId: string;
         };
         /**
          * PaperTemplate
@@ -8310,6 +8569,11 @@ export interface components {
             kind?: string | null;
             /** Name */
             name?: string | null;
+        };
+        /** RosterRequest */
+        RosterRequest: {
+            /** Duties */
+            duties: components["schemas"]["DutyChange"][];
         };
         /** RowOutcome */
         RowOutcome: {
@@ -15237,6 +15501,222 @@ export interface operations {
             };
         };
     };
+    list_exams_api_v1_exams_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExamResponse"][];
+                };
+            };
+        };
+    };
+    create_exam_api_v1_exams_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ExamCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExamResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_exam_api_v1_exams__exam_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                exam_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExamResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    set_datesheet_api_v1_exams__exam_id__datesheet_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                exam_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DatesheetRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExamResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    set_invigilation_api_v1_exams__exam_id__invigilation_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                exam_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RosterRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExamResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    auto_invigilation_api_v1_exams__exam_id__invigilation_auto_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                exam_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExamResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    publish_api_v1_exams__exam_id__publish_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                exam_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExamResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     link_api_v1_guardianships_post: {
         parameters: {
             query?: never;
@@ -15824,6 +16304,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ChildResponse"][];
+                };
+            };
+        };
+    };
+    my_exams_api_v1_my_exams_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyExams"];
                 };
             };
         };

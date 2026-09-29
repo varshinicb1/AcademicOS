@@ -125,6 +125,12 @@ CATALOGUE: dict[str, Kind] = {k.key: k for k in (
     Kind("paper_review_decided", "A review of your paper", True, False,
          ("Review of {title}", "{reviewer} {decision}. {comment}"),
          ("{title} की समीक्षा", "{reviewer}: {decision}। {comment}")),
+    Kind("exam_scheduled", "An exam datesheet", True, False,
+         ("Datesheet: {exam}", "{exam} starts {start}. Your papers are in the app."),
+         ("डेटशीट: {exam}", "{exam} {start} से शुरू। आपके प्रश्नपत्र ऐप में हैं।")),
+    Kind("invigilation_duty", "Your invigilation duties", True, True,
+         ("Invigilation: {exam}", "You have {count} invigilation duties in {exam}."),
+         ("निरीक्षण ड्यूटी: {exam}", "{exam} में आपकी {count} निरीक्षण ड्यूटी हैं।")),
     Kind("principal_alert", "Something needs the principal", False, True,
          ("{title}", "{body}"), ("{title}", "{body}")),
 )}
