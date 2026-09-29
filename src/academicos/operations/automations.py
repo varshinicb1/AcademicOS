@@ -25,6 +25,8 @@ even two overlapping runs cannot double a message.
   with duties tomorrow, in a published exam (NTF-2, SA-5).
 - term_report (from 15:00): on a term's last day, its principal hears the term
   report is ready (NTF-2 end-of-term reports, ADM-4).
+- user_digests (every run): each person on a daily digest gets it once their
+  chosen time has passed (SA-5).
 
 Triggered by POST /api/v1/automations/run (Cloud Scheduler, with the
 operator's cron key) and, throttled, by ordinary traffic.
@@ -334,6 +336,10 @@ def term_report(ops, cs, users, notify, now: datetime) -> int:
     return n
 
 
+def user_digests(ops, cs, users, notify, now: datetime) -> int:
+    return ops.send_digests(now)
+
+
 # (job, opens at IST hour, period: "day" | "week" | "run", weekday or None, function)
 JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
     ("homework_due_tomorrow", 16, "day", None, homework_due_tomorrow),
@@ -345,6 +351,7 @@ JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
     ("marking_due", 15, "day", None, marking_due),
     ("exam_reminders", 17, "day", None, exam_reminders),
     ("term_report", 15, "day", None, term_report),
+    ("user_digests", 0, "run", None, user_digests),
 ]
 
 
