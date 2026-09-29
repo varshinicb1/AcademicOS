@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
+import 'practice_page.dart';
 import 'photos_ui.dart';
 
 /// A student's homework (SA-2): what is due, then each homework's
@@ -302,6 +303,12 @@ class _LearningViewState extends State<LearningView> {
                 leading: const Icon(Icons.replay),
                 title: Text(r['topicName'] ?? r['chapterName']),
                 subtitle: Text('${r['subject']} · ${r['reason']}'),
+                // A student practises their own weak chapter; a parent's view has no button.
+                trailing: widget.path == '/my-learning'
+                    ? TextButton(
+                        onPressed: () => startPractice(context, subject: r['subject'] as String, chapterId: r['chapterId'] as String),
+                        child: const Text('Practise'))
+                    : null,
               ),
           ],
           const SectionHeader(title: 'Week by week'),
