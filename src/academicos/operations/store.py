@@ -14,11 +14,12 @@ from .guardians import GUARDIANS_SCHEMA, GuardiansMixin
 from .homework import HOMEWORK_SCHEMA, HomeworkMixin
 from .learning import LEARNING_SCHEMA, LearningMixin
 from .notifications import NOTIFICATIONS_SCHEMA, NotificationsMixin
+from .paper_marks import MARKS_SCHEMA, MarksMixin
 from .paper_reviews import REVIEWS_SCHEMA, ReviewsMixin
 
 
 class OperationsStore(NotificationsMixin, HomeworkMixin, LearningMixin, GuardiansMixin, AutomationsMixin,
-                      ReviewsMixin):
+                      ReviewsMixin, MarksMixin):
     _SNAPSHOT_KEY = "operations.sqlite"
     _SNAPSHOT_DEBOUNCE_SECONDS = 20.0
 
@@ -43,7 +44,7 @@ class OperationsStore(NotificationsMixin, HomeworkMixin, LearningMixin, Guardian
     @classmethod
     def schema(cls) -> str:
         return (NOTIFICATIONS_SCHEMA + HOMEWORK_SCHEMA + LEARNING_SCHEMA + GUARDIANS_SCHEMA + AUTOMATIONS_SCHEMA
-                + REVIEWS_SCHEMA)
+                + REVIEWS_SCHEMA + MARKS_SCHEMA)
 
     def _exec(self, sql: str, params: tuple = ()) -> None:
         with self._conn_lock:

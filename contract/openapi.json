@@ -2299,6 +2299,76 @@
         "title": "ChildResponse",
         "type": "object"
       },
+      "ClassAnalysis": {
+        "properties": {
+          "absent": {
+            "title": "Absent",
+            "type": "integer"
+          },
+          "bands": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Bands",
+            "type": "object"
+          },
+          "highestPercent": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Highestpercent"
+          },
+          "lowestPercent": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lowestpercent"
+          },
+          "meanPercent": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meanpercent"
+          },
+          "medianPercent": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Medianpercent"
+          },
+          "students": {
+            "title": "Students",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "students",
+          "absent",
+          "bands"
+        ],
+        "title": "ClassAnalysis",
+        "type": "object"
+      },
       "ClassInsightsResponse": {
         "properties": {
           "assessmentId": {
@@ -4341,6 +4411,132 @@
         "title": "GraphResult",
         "type": "object"
       },
+      "GridQuestion": {
+        "properties": {
+          "maxMarks": {
+            "title": "Maxmarks",
+            "type": "integer"
+          },
+          "number": {
+            "title": "Number",
+            "type": "string"
+          },
+          "questionId": {
+            "title": "Questionid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "questionId",
+          "number",
+          "maxMarks"
+        ],
+        "title": "GridQuestion",
+        "type": "object"
+      },
+      "GridRow": {
+        "properties": {
+          "absent": {
+            "title": "Absent",
+            "type": "boolean"
+          },
+          "band": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Band"
+          },
+          "marks": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Marks",
+            "type": "object"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "percent": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Percent"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          },
+          "total": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total"
+          }
+        },
+        "required": [
+          "studentId",
+          "name",
+          "absent",
+          "marks"
+        ],
+        "title": "GridRow",
+        "type": "object"
+      },
+      "GroupAnalysis": {
+        "properties": {
+          "facility": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Facility"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "maxMarks": {
+            "title": "Maxmarks",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "questions": {
+            "title": "Questions",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "key",
+          "name",
+          "maxMarks",
+          "questions"
+        ],
+        "title": "GroupAnalysis",
+        "type": "object"
+      },
       "GuardianInviteRequest": {
         "additionalProperties": false,
         "properties": {
@@ -5482,6 +5678,31 @@
         "title": "MailBackendStatus",
         "type": "object"
       },
+      "MarkEntry": {
+        "additionalProperties": false,
+        "properties": {
+          "marks": {
+            "minimum": 0.0,
+            "title": "Marks",
+            "type": "number"
+          },
+          "questionId": {
+            "title": "Questionid",
+            "type": "string"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "studentId",
+          "questionId",
+          "marks"
+        ],
+        "title": "MarkEntry",
+        "type": "object"
+      },
       "MarkLessonRequest": {
         "properties": {
           "note": {
@@ -5545,6 +5766,80 @@
           "marks"
         ],
         "title": "MarkingPointSchema",
+        "type": "object"
+      },
+      "MarksGrid": {
+        "properties": {
+          "paperId": {
+            "title": "Paperid",
+            "type": "string"
+          },
+          "questions": {
+            "items": {
+              "$ref": "#/components/schemas/GridQuestion"
+            },
+            "title": "Questions",
+            "type": "array"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/GridRow"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
+          },
+          "totalMarks": {
+            "title": "Totalmarks",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "paperId",
+          "totalMarks",
+          "questions",
+          "rows"
+        ],
+        "title": "MarksGrid",
+        "type": "object"
+      },
+      "MarksRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "absent": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Absent",
+            "type": "array"
+          },
+          "entries": {
+            "items": {
+              "$ref": "#/components/schemas/MarkEntry"
+            },
+            "maxItems": 20000,
+            "title": "Entries",
+            "type": "array"
+          },
+          "present": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Present",
+            "type": "array"
+          }
+        },
+        "title": "MarksRequest",
         "type": "object"
       },
       "MissingConsentResponse": {
@@ -6040,6 +6335,66 @@
           "title"
         ],
         "title": "OtherEditionResponse",
+        "type": "object"
+      },
+      "PaperAnalysis": {
+        "properties": {
+          "chapters": {
+            "items": {
+              "$ref": "#/components/schemas/GroupAnalysis"
+            },
+            "title": "Chapters",
+            "type": "array"
+          },
+          "paperId": {
+            "title": "Paperid",
+            "type": "string"
+          },
+          "questions": {
+            "items": {
+              "$ref": "#/components/schemas/QuestionAnalysis"
+            },
+            "title": "Questions",
+            "type": "array"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/ClassAnalysis"
+          },
+          "topics": {
+            "items": {
+              "$ref": "#/components/schemas/GroupAnalysis"
+            },
+            "title": "Topics",
+            "type": "array"
+          },
+          "weakest": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Weakest",
+            "type": "array"
+          }
+        },
+        "required": [
+          "paperId",
+          "questions",
+          "chapters",
+          "topics",
+          "summary",
+          "weakest"
+        ],
+        "title": "PaperAnalysis",
         "type": "object"
       },
       "PaperEditResponse": {
@@ -7450,6 +7805,78 @@
           "questionId"
         ],
         "title": "QuestionAcrossStudents",
+        "type": "object"
+      },
+      "QuestionAnalysis": {
+        "properties": {
+          "attempted": {
+            "title": "Attempted",
+            "type": "integer"
+          },
+          "chapter": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chapter"
+          },
+          "facility": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Facility"
+          },
+          "maxMarks": {
+            "title": "Maxmarks",
+            "type": "integer"
+          },
+          "mean": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mean"
+          },
+          "number": {
+            "title": "Number",
+            "type": "string"
+          },
+          "questionId": {
+            "title": "Questionid",
+            "type": "string"
+          },
+          "topic": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Topic"
+          }
+        },
+        "required": [
+          "questionId",
+          "number",
+          "maxMarks",
+          "attempted"
+        ],
+        "title": "QuestionAnalysis",
         "type": "object"
       },
       "QuestionAnswerRow": {
@@ -22961,6 +23388,67 @@
         "summary": "Get Paper"
       }
     },
+    "/api/v1/papers/{paper_id}/analysis": {
+      "get": {
+        "description": "Results by question, chapter, topic and class. Absent students are\ncounted, not averaged in.",
+        "operationId": "analysis_api_v1_papers__paper_id__analysis_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "paper_id",
+            "required": true,
+            "schema": {
+              "title": "Paper Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sectionId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sectionid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperAnalysis"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Analysis"
+      }
+    },
     "/api/v1/papers/{paper_id}/export/{fmt}": {
       "post": {
         "operationId": "export_paper_api_v1_papers__paper_id__export__fmt__post",
@@ -23066,6 +23554,136 @@
           }
         ],
         "summary": "Get Paper File"
+      }
+    },
+    "/api/v1/papers/{paper_id}/marks": {
+      "get": {
+        "description": "The grid: the section's students (or everyone marked) by the paper's\nquestions, with totals, percentages and grade bands.",
+        "operationId": "marks_grid_api_v1_papers__paper_id__marks_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "paper_id",
+            "required": true,
+            "schema": {
+              "title": "Paper Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sectionId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sectionid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarksGrid"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Marks Grid"
+      },
+      "put": {
+        "description": "Save marks (any number of cells) and absences. Each mark lies between\n0 and its question's marks; a student must be of this school.",
+        "operationId": "enter_marks_api_v1_papers__paper_id__marks_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "paper_id",
+            "required": true,
+            "schema": {
+              "title": "Paper Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sectionId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sectionid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarksRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarksGrid"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Enter Marks"
       }
     },
     "/api/v1/papers/{paper_id}/questions/{slot}": {

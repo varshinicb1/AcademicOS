@@ -3599,6 +3599,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/papers/{paper_id}/analysis": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Analysis
+         * @description Results by question, chapter, topic and class. Absent students are
+         *     counted, not averaged in.
+         */
+        get: operations["analysis_api_v1_papers__paper_id__analysis_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/papers/{paper_id}/export/{fmt}": {
         parameters: {
             query?: never;
@@ -3626,6 +3647,32 @@ export interface paths {
         /** Get Paper File */
         get: operations["get_paper_file_api_v1_papers__paper_id__file_get"];
         put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/papers/{paper_id}/marks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Marks Grid
+         * @description The grid: the section's students (or everyone marked) by the paper's
+         *     questions, with totals, percentages and grade bands.
+         */
+        get: operations["marks_grid_api_v1_papers__paper_id__marks_get"];
+        /**
+         * Enter Marks
+         * @description Save marks (any number of cells) and absences. Each mark lies between
+         *     0 and its question's marks; a student must be of this school.
+         */
+        put: operations["enter_marks_api_v1_papers__paper_id__marks_put"];
         post?: never;
         delete?: never;
         options?: never;
@@ -5515,6 +5562,25 @@ export interface components {
             /** Studentid */
             studentId: string;
         };
+        /** ClassAnalysis */
+        ClassAnalysis: {
+            /** Absent */
+            absent: number;
+            /** Bands */
+            bands: {
+                [key: string]: number;
+            };
+            /** Highestpercent */
+            highestPercent?: number | null;
+            /** Lowestpercent */
+            lowestPercent?: number | null;
+            /** Meanpercent */
+            meanPercent?: number | null;
+            /** Medianpercent */
+            medianPercent?: number | null;
+            /** Students */
+            students: number;
+        };
         /** ClassInsightsResponse */
         ClassInsightsResponse: {
             /** Assessmentid */
@@ -6328,6 +6394,47 @@ export interface components {
                 [key: string]: unknown;
             }[];
         };
+        /** GridQuestion */
+        GridQuestion: {
+            /** Maxmarks */
+            maxMarks: number;
+            /** Number */
+            number: string;
+            /** Questionid */
+            questionId: string;
+        };
+        /** GridRow */
+        GridRow: {
+            /** Absent */
+            absent: boolean;
+            /** Band */
+            band?: string | null;
+            /** Marks */
+            marks: {
+                [key: string]: number;
+            };
+            /** Name */
+            name: string;
+            /** Percent */
+            percent?: number | null;
+            /** Studentid */
+            studentId: string;
+            /** Total */
+            total?: number | null;
+        };
+        /** GroupAnalysis */
+        GroupAnalysis: {
+            /** Facility */
+            facility?: number | null;
+            /** Key */
+            key: string;
+            /** Maxmarks */
+            maxMarks: number;
+            /** Name */
+            name: string;
+            /** Questions */
+            questions: number;
+        };
         /** GuardianInviteRequest */
         GuardianInviteRequest: {
             /** Email */
@@ -6742,6 +6849,15 @@ export interface components {
                 };
             };
         };
+        /** MarkEntry */
+        MarkEntry: {
+            /** Marks */
+            marks: number;
+            /** Questionid */
+            questionId: string;
+            /** Studentid */
+            studentId: string;
+        };
         /** MarkLessonRequest */
         MarkLessonRequest: {
             /** Note */
@@ -6769,6 +6885,28 @@ export interface components {
             marks: number;
             /** Synonyms */
             synonyms?: string[];
+        };
+        /** MarksGrid */
+        MarksGrid: {
+            /** Paperid */
+            paperId: string;
+            /** Questions */
+            questions: components["schemas"]["GridQuestion"][];
+            /** Rows */
+            rows: components["schemas"]["GridRow"][];
+            /** Sectionid */
+            sectionId?: string | null;
+            /** Totalmarks */
+            totalMarks: number;
+        };
+        /** MarksRequest */
+        MarksRequest: {
+            /** Absent */
+            absent?: string[];
+            /** Entries */
+            entries?: components["schemas"]["MarkEntry"][];
+            /** Present */
+            present?: string[];
         };
         /** MissingConsentResponse */
         MissingConsentResponse: {
@@ -6950,6 +7088,22 @@ export interface components {
             teacherAssignments: number;
             /** Title */
             title: string;
+        };
+        /** PaperAnalysis */
+        PaperAnalysis: {
+            /** Chapters */
+            chapters: components["schemas"]["GroupAnalysis"][];
+            /** Paperid */
+            paperId: string;
+            /** Questions */
+            questions: components["schemas"]["QuestionAnalysis"][];
+            /** Sectionid */
+            sectionId?: string | null;
+            summary: components["schemas"]["ClassAnalysis"];
+            /** Topics */
+            topics: components["schemas"]["GroupAnalysis"][];
+            /** Weakest */
+            weakest: string[];
         };
         /** PaperEditResponse */
         PaperEditResponse: {
@@ -7555,6 +7709,25 @@ export interface components {
              * @default 0
              */
             total: number;
+        };
+        /** QuestionAnalysis */
+        QuestionAnalysis: {
+            /** Attempted */
+            attempted: number;
+            /** Chapter */
+            chapter?: string | null;
+            /** Facility */
+            facility?: number | null;
+            /** Maxmarks */
+            maxMarks: number;
+            /** Mean */
+            mean?: number | null;
+            /** Number */
+            number: string;
+            /** Questionid */
+            questionId: string;
+            /** Topic */
+            topic?: string | null;
         };
         /** QuestionAnswerRow */
         QuestionAnswerRow: {
@@ -16128,6 +16301,39 @@ export interface operations {
             };
         };
     };
+    analysis_api_v1_papers__paper_id__analysis_get: {
+        parameters: {
+            query?: {
+                sectionId?: string | null;
+            };
+            header?: never;
+            path: {
+                paper_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaperAnalysis"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     export_paper_api_v1_papers__paper_id__export__fmt__post: {
         parameters: {
             query?: never;
@@ -16182,6 +16388,76 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    marks_grid_api_v1_papers__paper_id__marks_get: {
+        parameters: {
+            query?: {
+                sectionId?: string | null;
+            };
+            header?: never;
+            path: {
+                paper_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MarksGrid"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    enter_marks_api_v1_papers__paper_id__marks_put: {
+        parameters: {
+            query?: {
+                sectionId?: string | null;
+            };
+            header?: never;
+            path: {
+                paper_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MarksRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MarksGrid"];
                 };
             };
             /** @description Validation Error */

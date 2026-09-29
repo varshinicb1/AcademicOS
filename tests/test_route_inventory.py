@@ -235,6 +235,9 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/assessments/{assessment_id}/review-decision"),
     ("GET", "/api/v1/assessments/{assessment_id}/reviews"),
     ("GET", "/api/v1/paper-reviews"),
+    ("PUT", "/api/v1/papers/{paper_id}/marks"),
+    ("GET", "/api/v1/papers/{paper_id}/marks"),
+    ("GET", "/api/v1/papers/{paper_id}/analysis"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -490,6 +493,9 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/assessments/{assessment_id}/review-decision"),
     ("GET", "/api/v1/assessments/{assessment_id}/reviews"),
     ("GET", "/api/v1/paper-reviews"),
+    ("PUT", "/api/v1/papers/{paper_id}/marks"),
+    ("GET", "/api/v1/papers/{paper_id}/marks"),
+    ("GET", "/api/v1/papers/{paper_id}/analysis"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -826,7 +832,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 247: SCH-9 added teacher attendance (3).
     # 249: NTF-2 added automations (2).
     # 253: EX-6 added paper review (4).
-    assert len(API_ROUTES) == 253
+    # 256: EX-8 added marks entry and analysis (3).
+    assert len(API_ROUTES) == 256
 
 
 def test_docs_routes_present():
