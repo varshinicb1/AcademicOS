@@ -63,11 +63,14 @@ def test_the_profile_is_kept_and_checked(store):
         store.set_school_logo("s2", logo_type="image/png", blob_key=None, updated_by="p1")
 
 
-def test_a_templates_name_is_never_printed_as_the_schools(tmp_path):
+def test_a_placeholder_is_never_printed_and_the_profile_wins(tmp_path):
     placeholder = SchoolTemplate(id="default", school_id="s1", name="Default CBSE Template")
+    blank_named = SchoolTemplate(id="t0", school_id="s1", name="School Template")
     format_named = SchoolTemplate(id="t1", school_id="s1", name="Half-yearly format", brand_color="#123456")
     assert printed_branding(placeholder, None, None, "s1").name == ""
-    assert printed_branding(format_named, None, None, "s1").name == ""
+    assert printed_branding(blank_named, None, None, "s1").name == ""
+    # A name the school gave its branding still prints until it sets a profile.
+    assert printed_branding(format_named, None, None, "s1").name == "Half-yearly format"
     profile = SchoolProfile(school_id="s1", name="Sunrise Public School")
     got = printed_branding(format_named, profile, None, "s1")
     assert (got.name, got.brand_color) == ("Sunrise Public School", "#123456"), "the look stays, the name is the school's"
@@ -113,12 +116,15 @@ def test_routes_set_the_profile_and_logo_and_the_export_prints_them(tmp_path, mo
         o_auth = {"Authorization": f"Bearer {other['token']}"}
         base = "/api/v1/curriculum/school-profile"
 
-        # Before a name is set: nothing is printed where the school's name goes.
+        # Before a name is set: never a placeholder or the product's name.
         assert client.get(base, headers=teacher_auth).json()["name"] is None
         client.post(f"/api/v1/papers/{paper_id}/export/pdf", headers=teacher_auth)
-        pdf_dir = tmp_path / "artifacts" / "papers"
-        first = _extract_text(sorted(pdf_dir.glob("*.pdf"))[-1])
-        assert "Default" not in first.split("\n")[0], first[:200]
+        before = client.get(f"/api/v1/papers/{paper_id}/file", headers=teacher_auth)
+        (tmp_path / "before.pdf").write_bytes(before.content)
+        first = _extract_text(tmp_path / "before.pdf")
+        assert "Default CBSE Template" not in first and "AcademicOS School" not in first
+        # The fixture's paper carries a branding template named "Default".
+        assert "Default" in first.splitlines()
 
         assert client.put(base, json={"name": "Sunrise Public School"}, headers=teacher_auth).status_code == 403
         assert client.post(f"{base}/logo", files={"file": ("l.png", _png(), "image/png")},
@@ -145,7 +151,9 @@ def test_routes_set_the_profile_and_logo_and_the_export_prints_them(tmp_path, mo
         assert exported.status_code == 200, exported.text
         pdf = client.get(f"/api/v1/papers/{paper_id}/file", headers=teacher_auth)
         (tmp_path / "out.pdf").write_bytes(pdf.content)
-        assert "Sunrise Public School" in _extract_text(tmp_path / "out.pdf")
+        after = _extract_text(tmp_path / "out.pdf")
+        assert "Sunrise Public School" in after
+        assert "Default" not in after.splitlines(), "the profile's name replaces the template's"
         import fitz
         with fitz.open(str(tmp_path / "out.pdf")) as doc:
             assert doc[0].get_images(), "the uploaded logo is on the printed paper"

@@ -2374,6 +2374,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/school-profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get School Profile
+         * @description The caller's school's name, address, affiliation line and whether it
+         *     has a logo. Any signed-in member of the school: the apps show the name.
+         */
+        get: operations["get_school_profile_api_v1_curriculum_school_profile_get"];
+        /**
+         * Set School Profile
+         * @description Set the name every paper, answer key and report prints at the top.
+         */
+        put: operations["set_school_profile_api_v1_curriculum_school_profile_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/school-profile/logo": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get School Logo */
+        get: operations["get_school_logo_api_v1_curriculum_school_profile_logo_get"];
+        put?: never;
+        /**
+         * Upload School Logo
+         * @description A PNG or JPEG of at most 1 MB, printed beside the school's name. The
+         *     school's name must be set first.
+         */
+        post: operations["upload_school_logo_api_v1_curriculum_school_profile_logo_post"];
+        /** Remove School Logo */
+        delete: operations["remove_school_logo_api_v1_curriculum_school_profile_logo_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/sections/{section_id}": {
         parameters: {
             query?: never;
@@ -6057,6 +6105,11 @@ export interface components {
         };
         /** Body_upload_scan_page_api_v1_scan_sessions__session_id__pages_post */
         Body_upload_scan_page_api_v1_scan_sessions__session_id__pages_post: {
+            /** File */
+            file: string;
+        };
+        /** Body_upload_school_logo_api_v1_curriculum_school_profile_logo_post */
+        Body_upload_school_logo_api_v1_curriculum_school_profile_logo_post: {
             /** File */
             file: string;
         };
@@ -9748,6 +9801,35 @@ export interface components {
             students: number;
             /** Subjects */
             subjects: components["schemas"]["SubjectRollupResponse"][];
+        };
+        /** SchoolProfileRequest */
+        SchoolProfileRequest: {
+            /** Address */
+            address?: string | null;
+            /** Affiliation */
+            affiliation?: string | null;
+            /** Name */
+            name: string;
+        };
+        /**
+         * SchoolProfileResponse
+         * @description `name` is null until the principal sets it: papers then print no
+         *     school name rather than a placeholder.
+         */
+        SchoolProfileResponse: {
+            /** Address */
+            address?: string | null;
+            /** Affiliation */
+            affiliation?: string | null;
+            /**
+             * Haslogo
+             * @default false
+             */
+            hasLogo: boolean;
+            /** Name */
+            name?: string | null;
+            /** Updatedat */
+            updatedAt?: string | null;
         };
         /** SchoolTemplate */
         SchoolTemplate: {
@@ -15617,6 +15699,132 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_school_profile_api_v1_curriculum_school_profile_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SchoolProfileResponse"];
+                };
+            };
+        };
+    };
+    set_school_profile_api_v1_curriculum_school_profile_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SchoolProfileRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SchoolProfileResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_school_logo_api_v1_curriculum_school_profile_logo_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    upload_school_logo_api_v1_curriculum_school_profile_logo_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["Body_upload_school_logo_api_v1_curriculum_school_profile_logo_post"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SchoolProfileResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    remove_school_logo_api_v1_curriculum_school_profile_logo_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SchoolProfileResponse"];
                 };
             };
         };

@@ -13,9 +13,9 @@ const roomKinds = ['classroom', 'lab', 'hall', 'other'];
 
 /// A bell typed as lines, one slot a line: "08:00-08:45" is a teaching
 /// period, "11:00-11:20 break" (or assembly, zero) is not. Returns the slots
-/// the bell-schedule route takes, or throws [FormatException] naming the
-/// line. The server checks order and overlap; this only reads the text.
-List<Map<String, String>> parseBellSlots(String text) {
+/// the bell-schedule route takes, or the sentence naming the line that is
+/// not a slot. The server checks order and overlap; this only reads the text.
+({List<Map<String, String>> slots, String? error}) parseBellSlots(String text) {
   final slots = <Map<String, String>>[];
   final line = RegExp(r'^(\d{1,2}:\d{2})\s*-\s*(\d{1,2}:\d{2})(?:\s+(teaching|break|assembly|zero))?$');
   var n = 0;
@@ -25,13 +25,13 @@ List<Map<String, String>> parseBellSlots(String text) {
     if (t.isEmpty) continue;
     final m = line.firstMatch(t);
     if (m == null) {
-      throw FormatException('Line $n: write a slot as 08:00-08:45, or 11:00-11:20 break');
+      return (slots: const [], error: 'Line $n: write a slot as 08:00-08:45, or 11:00-11:20 break');
     }
     String hhmm(String v) => v.length == 4 ? '0$v' : v;
     slots.add({'start': hhmm(m.group(1)!), 'end': hhmm(m.group(2)!), 'kind': m.group(3) ?? 'teaching'});
   }
-  if (slots.isEmpty) throw const FormatException('Add at least one slot, such as 08:00-08:45');
-  return slots;
+  if (slots.isEmpty) return (slots: const [], error: 'Add at least one slot, such as 08:00-08:45');
+  return (slots: slots, error: null);
 }
 
 /// The same bell back as lines, for editing.
@@ -593,11 +593,9 @@ class _BellTabState extends State<_BellTab> {
       });
 
   Future<void> _save() async {
-    final List<Map<String, String>> slots;
-    try {
-      slots = parseBellSlots(_slots.text);
-    } on FormatException catch (e) {
-      setState(() => _error = e.message);
+    final (:slots, :error) = parseBellSlots(_slots.text);
+    if (error != null) {
+      setState(() => _error = error);
       return;
     }
     if (_days.isEmpty) {
