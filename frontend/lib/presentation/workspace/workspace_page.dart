@@ -69,6 +69,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
           (icon: Icons.assignment_outlined, title: tr('My homework'), subtitle: tr('Due work, answers and marks'), path: '/school/my-homework'),
           (icon: Icons.insights_outlined, title: tr('My progress'), subtitle: tr('Subjects, chapters and what to revise'), path: '/school/my-learning'),
           (icon: Icons.event_note_outlined, title: tr('My exams'), subtitle: tr('Your datesheet'), path: '/school/my-exams'),
+          (icon: Icons.grading_outlined, title: tr('My report card'), subtitle: tr('This term\'s marks by subject'), path: '/school/my-report-card'),
           inbox,
         ];
       case 'parent':
@@ -84,6 +85,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
           (icon: Icons.insights_outlined, title: tr('Class progress'), subtitle: tr('Mastery by section and chapter'), path: '/school/class-progress'),
           (icon: Icons.table_chart_outlined, title: tr('Timetable'), subtitle: tr('Allocations, rooms, the bell; generate and publish'), path: '/school/timetable'),
           (icon: Icons.badge_outlined, title: tr('School profile'), subtitle: tr('The name and logo printed on papers'), path: '/school/school-profile'),
+          (icon: Icons.grading_outlined, title: tr('Report cards'), subtitle: tr('A term\'s marks for a section, as a PDF'), path: '/school/report-cards'),
           (icon: Icons.event_note_outlined, title: tr('Exams'), subtitle: tr('Datesheets and invigilation'), path: '/school/exams'),
           (icon: Icons.rate_review_outlined, title: tr('Paper reviews'), subtitle: tr('Papers waiting for review or approval'), path: '/school/reviews'),
           (icon: Icons.upload_file_outlined, title: tr('Import & export'), subtitle: tr('Sections, people, allocations, holidays'), path: '/school/import'),
@@ -110,6 +112,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
           (icon: Icons.insights_outlined, title: tr('Class progress'), subtitle: tr('Your sections, and who needs help'), path: '/school/class-progress'),
           (icon: Icons.rate_review_outlined, title: tr('Paper reviews'), subtitle: tr('Papers others asked you to review'), path: '/school/reviews'),
           (icon: Icons.event_note_outlined, title: tr('My exam duties'), subtitle: tr('Invigilation roster'), path: '/school/my-exams'),
+          (icon: Icons.grading_outlined, title: tr('Report cards'), subtitle: tr('For your class, as its class teacher'), path: '/school/report-cards'),
           inbox,
         ];
     }
