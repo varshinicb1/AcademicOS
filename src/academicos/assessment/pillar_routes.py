@@ -974,7 +974,11 @@ def student_progress_report(student_id: str, student_name: str = "Student",
     if not views:
         raise HTTPException(404, f"no graded answers recorded for {student_id}")
     _log_read(current, "progress_report", student_id=student_id)
-    template = TemplateStore(cfg.data_root / "templates" / "templates.sqlite").default_for("school_1")
+    # The caller's own school's branding and name; this read "school_1" for
+    # every school, so another school's report printed school_1's.
+    from ..curriculum.school_profile import branding_for_school
+    template = branding_for_school(
+        current.school_id, TemplateStore(cfg.data_root / "templates" / "templates.sqlite").default_for(current.school_id))
     path = report_pdf.export_progress_report_pdf(
         student_name, student_id, subject, views, cfg.data_root / "exports", template=template)
     return FileResponse(str(path), media_type="application/pdf", filename=path.name)

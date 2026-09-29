@@ -73,7 +73,18 @@ the logging this codebase already produces:
 3. **Supabase auth logs** — sign-in events, new devices, privilege changes.
    Anomalies here (a school admin account logging in from an unexpected
    location/IP) are a detection trigger on their own.
-4. **Credential-exposure signals** — API keys appearing in logs, commit
+4. **Errors, grouped (NFR-7, `src/academicos/api/error_tracking.py`)** — every
+   exception the backend did not answer, and every error the web or phone app
+   caught (`POST /api/v1/client-errors`), is written to the log as a Cloud Error
+   Reporting event. On the GCP release, **Error Reporting** (Cloud Console) groups
+   them by fingerprint with first/last seen and counts per release; turn on its
+   notifications for a new group, which is the alert. The caller of a failed
+   request sees an `errorRef`: search Error Reporting or the log for it. The
+   running instance's groups are also at `GET /api/v1/ops/errors` with header
+   `X-Ops-Key` (set `ACOS_OPS_KEY`; the route answers 404 without it), and
+   `/health/errors` gives the counts. Messages are scrubbed of emails and long
+   numbers; no request body, query string or user id is kept.
+5. **Credential-exposure signals** — API keys appearing in logs, commit
    history, or a public repo; unexpected bursts of billable Sarvam API calls.
    Known pre-existing exposure to remediate: `config/config.toml` ships a live
    API key in plaintext (`llm_api_key`). This is a real, known risk to close,

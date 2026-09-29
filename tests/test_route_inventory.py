@@ -170,6 +170,13 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability"),
     ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability"),
+    ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability/{room_id}"),
+    ("GET", "/api/v1/curriculum/school-profile"),
+    ("PUT", "/api/v1/curriculum/school-profile"),
+    ("GET", "/api/v1/curriculum/school-profile/logo"),
+    ("POST", "/api/v1/curriculum/school-profile/logo"),
+    ("DELETE", "/api/v1/curriculum/school-profile/logo"),
     ("POST", "/api/v1/curriculum/leave-requests"),
     ("GET", "/api/v1/curriculum/leave-requests"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/decision"),
@@ -344,6 +351,10 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/export"),
     # --- api/main.py ---
     ("GET", "/health/storage"),
+    # --- api/error_tracking.py (NFR-7) ---
+    ("GET", "/health/errors"),
+    ("POST", "/api/v1/client-errors"),
+    ("GET", "/api/v1/ops/errors"),
     # --- consent_routes.py (DPDP Act 2023 parental consent) ---
     ("GET", "/api/v1/consent"),
     ("POST", "/api/v1/consent"),
@@ -468,6 +479,13 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability"),
     ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability"),
+    ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability/{room_id}"),
+    ("GET", "/api/v1/curriculum/school-profile"),
+    ("PUT", "/api/v1/curriculum/school-profile"),
+    ("GET", "/api/v1/curriculum/school-profile/logo"),
+    ("POST", "/api/v1/curriculum/school-profile/logo"),
+    ("DELETE", "/api/v1/curriculum/school-profile/logo"),
     ("POST", "/api/v1/curriculum/leave-requests"),
     ("GET", "/api/v1/curriculum/leave-requests"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/decision"),
@@ -921,8 +939,11 @@ def test_canonical_route_inventory_matches_live_app():
     # 288: ADM-2/4 the term report and its Excel/PDF export (2).
     # 290: INT-1 Google sign-in and the sign-in providers (2).
     # 292: SA-7 a parent opens and hands in a young child's homework (2).
-    # 295: the question bank's coverage map and review queue (3).
-    assert len(API_ROUTES) == 295
+    # 299: SCH-8 added a room's periods out of use (list, set); EX-5/D41 the school
+    # profile (get, set) and its logo (get, upload, remove).
+    # 302: NFR-7 error tracking (/health/errors, client reports, the operator's list).
+    # 305: the question bank's coverage map and review queue (3).
+    assert len(API_ROUTES) == 305
 
 
 def test_docs_routes_present():
@@ -992,6 +1013,11 @@ def test_gated_routes_return_503_without_startup():
                 ("GET", "/health"),
                 ("GET", "/health/llm"),
                 ("GET", "/health/storage"),
+                # NFR-7 error tracking: counts, the apps' reports and the
+                # operator's list need no module but its own.
+                ("GET", "/health/errors"),
+                ("POST", "/api/v1/client-errors"),
+                ("GET", "/api/v1/ops/errors"),
                 ("POST", "/api/v1/blueprints/generate"),
                 ("GET", "/api/v1/mail/status"),
                 # Which ways in are set up: read from the environment, so it

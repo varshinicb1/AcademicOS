@@ -2180,6 +2180,14 @@ def get_delayed_topics(academic_year_id: str, as_of_date: Optional[str] = None,
 _EXPORT_SCHEMA_VERSION = 1
 
 
+def _school_profile_for_export(store: CurriculumStore, school_id: str) -> Optional[dict[str, Any]]:
+    p = store.get_school_profile(school_id)
+    if p is None:
+        return None
+    return {"name": p.name, "address": p.address, "affiliation": p.affiliation, "has_logo": p.has_logo,
+            "updated_at": p.updated_at}
+
+
 def _curriculum_tree_for_export(store: CurriculumStore, school_id: str) -> list[dict[str, Any]]:
     """Full Academic Year -> Grade -> Subject -> Book -> Unit -> Chapter ->
     Topic -> Subtopic tree for one school, plus the operational config
@@ -2319,6 +2327,9 @@ def export_school_data(principal: User = Depends(require_admin("reports"))) -> d
         "scan_sessions": scan_sessions,
         "paper_templates": templates,
         "users": users,
+        # The school's own name and address (EX-5); the logo image is not
+        # inlined, only whether there is one.
+        "school_profile": _school_profile_for_export(store, school_id),
         "notes": [
             "Papers/practice sets/scan sessions saved before 2026-09-17 (when "
             "school_id was added to those stores) are not included here -- "

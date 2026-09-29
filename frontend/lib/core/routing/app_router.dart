@@ -48,6 +48,8 @@ import '../../presentation/workspace/student_today_page.dart';
 import '../../presentation/workspace/teacher_homework.dart';
 import '../../presentation/workspace/week_page.dart';
 import '../../presentation/workspace/workspace_page.dart';
+import '../../presentation/workspace/timetable_admin_page.dart';
+import '../../presentation/workspace/school_profile_page.dart';
 import '../session/current_session.dart';
 import '../local_engine/local_store.dart';
 
@@ -267,6 +269,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(path: 'import', builder: (context, state) => const ImportPage()),
               GoRoute(path: 'api-keys', builder: (context, state) => const ApiKeysPage()),
               GoRoute(path: 'grants', builder: (context, state) => const GrantsPage()),
+              GoRoute(path: 'timetable', builder: (context, state) => const TimetableAdminPage()),
+              GoRoute(path: 'school-profile', builder: (context, state) => const SchoolProfilePage()),
               GoRoute(path: 'today', builder: (context, state) => const StudentTodayPage()),
               GoRoute(path: 'week', builder: (context, state) => const WeekPage()),
               GoRoute(path: 'class-progress', builder: (context, state) => const ClassProgressPage()),

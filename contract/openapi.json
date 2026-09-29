@@ -218,12 +218,42 @@
       },
       "AllocationRequest": {
         "additionalProperties": false,
+        "description": "coTeacherId, roomKind and doublePeriods left out keep what the cell\nhas; null clears the co-teacher or the room kind (SCH-2, SCH-8).",
         "properties": {
+          "coTeacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coteacherid"
+          },
+          "doublePeriods": {
+            "default": 0,
+            "maximum": 30.0,
+            "minimum": 0.0,
+            "title": "Doubleperiods",
+            "type": "integer"
+          },
           "periodsPerWeek": {
             "maximum": 60.0,
             "minimum": 1.0,
             "title": "Periodsperweek",
             "type": "integer"
+          },
+          "roomKind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomkind"
           },
           "teacherId": {
             "anyOf": [
@@ -249,6 +279,22 @@
             "title": "Academicyearid",
             "type": "string"
           },
+          "coTeacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coteacherid"
+          },
+          "doublePeriods": {
+            "default": 0,
+            "title": "Doubleperiods",
+            "type": "integer"
+          },
           "id": {
             "title": "Id",
             "type": "string"
@@ -256,6 +302,17 @@
           "periodsPerWeek": {
             "title": "Periodsperweek",
             "type": "integer"
+          },
+          "roomKind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomkind"
           },
           "sectionId": {
             "title": "Sectionid",
@@ -1775,6 +1832,20 @@
         "title": "Body_upload_scan_page_api_v1_scan_sessions__session_id__pages_post",
         "type": "object"
       },
+      "Body_upload_school_logo_api_v1_curriculum_school_profile_logo_post": {
+        "properties": {
+          "file": {
+            "contentMediaType": "application/octet-stream",
+            "title": "File",
+            "type": "string"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_school_logo_api_v1_curriculum_school_profile_logo_post",
+        "type": "object"
+      },
       "BookResponse": {
         "properties": {
           "boardId": {
@@ -2786,6 +2857,88 @@
         "title": "ClassSubject",
         "type": "object"
       },
+      "ClientErrorRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "appVersion": {
+            "anyOf": [
+              {
+                "maxLength": 60,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Appversion"
+          },
+          "message": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Message",
+            "type": "string"
+          },
+          "route": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Route"
+          },
+          "source": {
+            "pattern": "^(web|android|ios)$",
+            "title": "Source",
+            "type": "string"
+          },
+          "stack": {
+            "anyOf": [
+              {
+                "maxLength": 20000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stack"
+          }
+        },
+        "required": [
+          "source",
+          "message"
+        ],
+        "title": "ClientErrorRequest",
+        "type": "object"
+      },
+      "ClientErrorResponse": {
+        "properties": {
+          "errorRef": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Errorref"
+          },
+          "recorded": {
+            "title": "Recorded",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "recorded"
+        ],
+        "title": "ClientErrorResponse",
+        "type": "object"
+      },
       "ClosureRequest": {
         "additionalProperties": false,
         "properties": {
@@ -3712,6 +3865,28 @@
       },
       "DayRowResponse": {
         "properties": {
+          "coTeacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coteacherid"
+          },
+          "coTeacherName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coteachername"
+          },
           "kind": {
             "title": "Kind",
             "type": "string"
@@ -4290,6 +4465,64 @@
           "studentId"
         ],
         "title": "EnrollStudentRequest",
+        "type": "object"
+      },
+      "ErrorGroupResponse": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "fingerprint": {
+            "title": "Fingerprint",
+            "type": "string"
+          },
+          "firstSeen": {
+            "title": "Firstseen",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "lastSeen": {
+            "title": "Lastseen",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "release": {
+            "title": "Release",
+            "type": "string"
+          },
+          "route": {
+            "title": "Route",
+            "type": "string"
+          },
+          "schools": {
+            "title": "Schools",
+            "type": "integer"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "fingerprint",
+          "source",
+          "kind",
+          "route",
+          "message",
+          "count",
+          "firstSeen",
+          "lastSeen",
+          "release",
+          "schools"
+        ],
+        "title": "ErrorGroupResponse",
         "type": "object"
       },
       "EvaluateAnswerRequest": {
@@ -9276,6 +9509,17 @@
       },
       "ProposedEntryResponse": {
         "properties": {
+          "coTeacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coteacherid"
+          },
           "dayOfWeek": {
             "title": "Dayofweek",
             "type": "integer"
@@ -11355,6 +11599,27 @@
         "title": "RoomResponse",
         "type": "object"
       },
+      "RoomUnavailabilityResponse": {
+        "properties": {
+          "roomId": {
+            "title": "Roomid",
+            "type": "string"
+          },
+          "slots": {
+            "items": {
+              "$ref": "#/components/schemas/UnavailableSlot"
+            },
+            "title": "Slots",
+            "type": "array"
+          }
+        },
+        "required": [
+          "roomId",
+          "slots"
+        ],
+        "title": "RoomUnavailabilityResponse",
+        "type": "object"
+      },
       "RoomUpdateRequest": {
         "additionalProperties": false,
         "properties": {
@@ -11817,6 +12082,102 @@
           "interventions"
         ],
         "title": "SchoolInsightsResponse",
+        "type": "object"
+      },
+      "SchoolProfileRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "affiliation": {
+            "anyOf": [
+              {
+                "maxLength": 120,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Affiliation"
+          },
+          "name": {
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "SchoolProfileRequest",
+        "type": "object"
+      },
+      "SchoolProfileResponse": {
+        "description": "`name` is null until the principal sets it: papers then print no\nschool name rather than a placeholder.",
+        "properties": {
+          "address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "affiliation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Affiliation"
+          },
+          "hasLogo": {
+            "default": false,
+            "title": "Haslogo",
+            "type": "boolean"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "updatedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updatedat"
+          }
+        },
+        "title": "SchoolProfileResponse",
         "type": "object"
       },
       "SchoolTemplate": {
@@ -12532,7 +12893,7 @@
         "type": "object"
       },
       "SeedGradeRequest": {
-        "description": "PRD section 0 decision 4 is all grades 6-12. The bound is pydantic's so\nthe answer to grade 5 or 13 is a 422 naming the range, before any row is\ncreated -- there is no syllabus data outside it (seed_cbse10.MIN_GRADE /\nMAX_GRADE, which raises the same bound for the CLI and library callers).",
+        "description": "Requirements v3: grades 1-12 (PRD section 0 decision 4 said 6-12). The bound is pydantic's so\nthe answer to grade 0 or 13 is a 422 naming the range, before any row is\ncreated -- there is no syllabus data outside it (seed_cbse10.MIN_GRADE /\nMAX_GRADE, which raises the same bound for the CLI and library callers).",
         "properties": {
           "academicYearLabel": {
             "minLength": 1,
@@ -12545,7 +12906,7 @@
           },
           "grade": {
             "maximum": 12.0,
-            "minimum": 6.0,
+            "minimum": 1.0,
             "title": "Grade",
             "type": "integer"
           },
@@ -15123,6 +15484,28 @@
       },
       "TimetableEntryResponse": {
         "properties": {
+          "coTeacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coteacherid"
+          },
+          "coTeacherName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coteachername"
+          },
           "dayOfWeek": {
             "title": "Dayofweek",
             "type": "integer"
@@ -15150,6 +15533,17 @@
               }
             ],
             "title": "Roomid"
+          },
+          "roomName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomname"
           },
           "sectionId": {
             "title": "Sectionid",
@@ -18290,6 +18684,57 @@
         "summary": "Child Timetable"
       }
     },
+    "/api/v1/client-errors": {
+      "post": {
+        "description": "What the web or phone app caught. Open to a signed-out app too (the\nsign-in page can fail), limited per address, and kept scrubbed: no user\nid, only the school.",
+        "operationId": "report_client_error_api_v1_client_errors_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "default": "",
+              "title": "Authorization",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientErrorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientErrorResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Report Client Error"
+      }
+    },
     "/api/v1/consent": {
       "get": {
         "description": "List all parental consent records for the caller's school.",
@@ -19297,6 +19742,119 @@
           }
         ],
         "summary": "Set Period Configuration"
+      }
+    },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability": {
+      "get": {
+        "description": "Periods each room cannot be used this year (a lab closed for its\nweekly maintenance, say). The solver books nothing there.",
+        "operationId": "list_room_unavailability_api_v1_curriculum_academic_years__academic_year_id__room_unavailability_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/RoomUnavailabilityResponse"
+                  },
+                  "title": "Response List Room Unavailability Api V1 Curriculum Academic Years  Academic Year Id  Room Unavailability Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Room Unavailability"
+      }
+    },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability/{room_id}": {
+      "put": {
+        "description": "Replace one room's periods out of use. 409 while the timetable books\nthe room in one of them: move those periods first.",
+        "operationId": "set_room_unavailability_api_v1_curriculum_academic_years__academic_year_id__room_unavailability__room_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "room_id",
+            "required": true,
+            "schema": {
+              "title": "Room Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeacherUnavailabilityRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomUnavailabilityResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set Room Unavailability"
       }
     },
     "/api/v1/curriculum/academic-years/{academic_year_id}/sections": {
@@ -22413,6 +22971,156 @@
         "summary": "Adjust Lesson"
       }
     },
+    "/api/v1/curriculum/school-profile": {
+      "get": {
+        "description": "The caller's school's name, address, affiliation line and whether it\nhas a logo. Any signed-in member of the school: the apps show the name.",
+        "operationId": "get_school_profile_api_v1_curriculum_school_profile_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchoolProfileResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get School Profile"
+      },
+      "put": {
+        "description": "Set the name every paper, answer key and report prints at the top.",
+        "operationId": "set_school_profile_api_v1_curriculum_school_profile_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SchoolProfileRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchoolProfileResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set School Profile"
+      }
+    },
+    "/api/v1/curriculum/school-profile/logo": {
+      "delete": {
+        "operationId": "remove_school_logo_api_v1_curriculum_school_profile_logo_delete",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchoolProfileResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Remove School Logo"
+      },
+      "get": {
+        "operationId": "get_school_logo_api_v1_curriculum_school_profile_logo_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get School Logo"
+      },
+      "post": {
+        "description": "A PNG or JPEG of at most 1 MB, printed beside the school's name. The\nschool's name must be set first.",
+        "operationId": "upload_school_logo_api_v1_curriculum_school_profile_logo_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_school_logo_api_v1_curriculum_school_profile_logo_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchoolProfileResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Upload School Logo"
+      }
+    },
     "/api/v1/curriculum/sections/{section_id}": {
       "delete": {
         "description": "409 while students are enrolled in it, or when it is its class's\nlast section.",
@@ -22835,7 +23543,7 @@
     },
     "/api/v1/curriculum/seed/cbse": {
       "post": {
-        "description": "Seeds any grade 6-12 for the caller's own school -- PRD section 0\ndecision 4 (\"all grades 6-12, all subjects\"), which until 2026-09-22 the\nproduct could not reach: `seed_cbse_all_grades` existed in seed_cbse10.py\nwired to no route and no CLI command, and `POST /seed/cbse9` was a 404 even\nthough academicos-data/syllabus/ has held every grade's file all along.\n\nSame posture as /seed/cbse10, which now delegates here: principal-gated,\nschool_id taken from the session and never from the body, idempotent on a\nre-run. A subject with no syllabus file for the grade is reported in\n`subjectsSkipped` rather than quietly dropped.\n\nAlso applies the committed decomposition templates\n(decomposition_templates.py) to the chapters it creates, as proposals\nPENDING this principal's approval -- so a new school can reach Topic and\nSubtopic without an LLM key, without anything being approved on its behalf.\n`topicTemplates` reports per subject what got topics and what did not.",
+        "description": "Seeds any grade 1-12 (requirements v3; 6-12 until 2026-09-29) for the caller's own school -- PRD section 0\ndecision 4 (\"all grades 6-12, all subjects\"), which until 2026-09-22 the\nproduct could not reach: `seed_cbse_all_grades` existed in seed_cbse10.py\nwired to no route and no CLI command, and `POST /seed/cbse9` was a 404 even\nthough academicos-data/syllabus/ has held every grade's file all along.\n\nSame posture as /seed/cbse10, which now delegates here: principal-gated,\nschool_id taken from the session and never from the body, idempotent on a\nre-run. A subject with no syllabus file for the grade is reported in\n`subjectsSkipped` rather than quietly dropped.\n\nAlso applies the committed decomposition templates\n(decomposition_templates.py) to the chapters it creates, as proposals\nPENDING this principal's approval -- so a new school can reach Topic and\nSubtopic without an LLM key, without anything being approved on its behalf.\n`topicTemplates` reports per subject what got topics and what did not.",
         "operationId": "seed_cbse_any_grade_api_v1_curriculum_seed_cbse_post",
         "requestBody": {
           "content": {
@@ -26996,6 +27704,57 @@
         "summary": "Mark Read"
       }
     },
+    "/api/v1/ops/errors": {
+      "get": {
+        "description": "This process's error groups, most recent first, for the operator.\nNeeds the operator's key (env ACOS_OPS_KEY); 404 when none is\nconfigured, so the route does not exist until someone sets one.",
+        "operationId": "list_errors_api_v1_ops_errors_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-Ops-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Ops-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorGroupResponse"
+                  },
+                  "title": "Response List Errors Api V1 Ops Errors Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Errors"
+      }
+    },
     "/api/v1/paper-reviews": {
       "get": {
         "description": "The papers waiting for the caller's review; the principal sees the\nschool's.",
@@ -29826,6 +30585,27 @@
           }
         },
         "summary": "Health"
+      }
+    },
+    "/health/errors": {
+      "get": {
+        "description": "Counts only -- never a message -- so it can be public like /health.",
+        "operationId": "error_counts_health_errors_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Error Counts Health Errors Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Error Counts"
       }
     },
     "/health/llm": {

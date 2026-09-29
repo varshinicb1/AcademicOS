@@ -73,6 +73,9 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/health"): _p(PUBLIC),
     ("GET", "/health/llm"): _p(PUBLIC, "counts and timings only, never prompt content"),
     ("GET", "/health/storage"): _p(PUBLIC, "backend name and per-table reachability, no rows"),
+    ("GET", "/health/errors"): _p(PUBLIC, "NFR-7: error counts only, never a message"),
+    ("POST", "/api/v1/client-errors"): _p(PUBLIC, "NFR-7: the apps report what they caught, signed in or not; scrubbed, rate-limited"),
+    ("GET", "/api/v1/ops/errors"): _p(PUBLIC, "NFR-7: operator key checked in the handler; 404 unless ACOS_OPS_KEY is set"),
     ("GET", "/v1/registry/stats"): _p(ANY_USER, "one corpus-wide document count"),
     ("POST", "/v1/search"): _p(ANY_USER, "shared NCERT corpus, no school data"),
     ("POST", "/v1/agent/doubt"): _p(ANY_USER, "a student asking a doubt is the intended user"),
@@ -220,6 +223,16 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve"): _p(ADMIN["timetable"]),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability"): _p(ADMIN["timetable"], "teacher-level data is for the principal (ADM-5)"),
     ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}"): _p(ADMIN["timetable"]),
+    # SCH-8: a room out of use (a lab's maintenance slot). Rooms are no one's
+    # personal data, so staff may read them, as they read /rooms.
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability"): _p(STAFF),
+    ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability/{room_id}"): _p(ADMIN["timetable"]),
+    # EX-5 / D41: the school's own name and logo, printed on its papers.
+    ("GET", "/api/v1/curriculum/school-profile"): _p(ANY_USER, "the school's name; the apps show it"),
+    ("PUT", "/api/v1/curriculum/school-profile"): _p(PRINCIPAL),
+    ("GET", "/api/v1/curriculum/school-profile/logo"): _p(ANY_USER),
+    ("POST", "/api/v1/curriculum/school-profile/logo"): _p(PRINCIPAL),
+    ("DELETE", "/api/v1/curriculum/school-profile/logo"): _p(PRINCIPAL),
     # SCH-5..7 leave, substitution, compensation (curriculum/cover_routes.py).
     ("POST", "/api/v1/curriculum/leave-requests"): _p(STAFF, "a teacher applies for own leave; the principal for anyone"),
     ("GET", "/api/v1/curriculum/leave-requests"): _p(STAFF, "the principal sees all; a teacher their own"),
