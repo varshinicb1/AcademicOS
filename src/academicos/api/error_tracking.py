@@ -49,19 +49,27 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
+from .rate_limit import get_client_ip
+
 logger = logging.getLogger(__name__)
 
 SERVICE = "academicos-backend"
 MAX_GROUPS = 200                 # distinct fingerprints kept in memory
 CLIENT_PER_MINUTE = 30           # client reports accepted per source address per minute
-_EMAIL = re.compile(r"[\w.+-]+@[\w-]+(\.[\w-]+)+")
+# Bounded repeats: an unbounded `[\w.+-]+@` backtracks quadratically on a long
+# run of word characters with no "@" -- 20,000 of them took 1.1 s, holding the
+# GIL, from an unauthenticated POST (review of #50).
+_EMAIL = re.compile(r"[\w.+-]{1,64}@[\w-]{1,63}(?:\.[\w-]{1,63})+")
 _DIGITS = re.compile(r"\d{6,}")
+_MARGIN = 256            # an address straddling the cut is still masked whole
 
 
 def scrub(text: str, limit: int) -> str:
     """Mask what could name a person: email addresses and long digit runs
-    (phone numbers, roll numbers, ids). Then cut to `limit` characters."""
-    text = _EMAIL.sub("[email]", text or "")
+    (phone numbers, roll numbers, ids), and cut to `limit` characters. Only
+    `limit` plus a margin is ever scanned, whatever length arrives."""
+    text = (text or "")[:limit + _MARGIN]
+    text = _EMAIL.sub("[email]", text)
     text = _DIGITS.sub("[number]", text)
     return text[:limit]
 
@@ -246,7 +254,10 @@ def report_client_error(req: ClientErrorRequest, request: Request,
     """What the web or phone app caught. Open to a signed-out app too (the
     sign-in page can fail), limited per address, and kept scrubbed: no user
     id, only the school."""
-    address = request.client.host if request.client else "unknown"
+    # The caller, not Cloud Run's front end: request.client is the proxy, so
+    # every user shared one bucket (review of #50). get_client_ip takes the
+    # hop the platform appends, which a client cannot forge.
+    address = get_client_ip(request)
     if not ERRORS.allow_client(address):
         return ClientErrorResponse(recorded=False)
     message = scrub(req.message, 500)

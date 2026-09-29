@@ -123,3 +123,43 @@ def test_the_operators_list_needs_the_key_and_health_gives_counts_only(monkeypat
 def test_the_real_app_has_the_last_handler_installed():
     from academicos.api.main import app
     assert app.exception_handlers.get(Exception) is et._on_unhandled
+
+
+def test_scrub_scans_a_bounded_length_whatever_arrives(monkeypatch):
+    """A 100,000-character run with no "@" took seconds under the unbounded
+    pattern (quadratic backtracking, holding the GIL, from an unauthenticated
+    POST). Now only `limit` plus a margin is scanned."""
+    import time
+
+    seen = []
+    real = et._EMAIL
+
+    class Spy:
+        def sub(self, repl, text):
+            seen.append(len(text))
+            return real.sub(repl, text)
+
+    monkeypatch.setattr(et, "_EMAIL", Spy())
+    started = time.perf_counter()
+    assert et.scrub("a" * 100_000, 4000) == "a" * 4000
+    assert seen == [4000 + et._MARGIN]
+    assert time.perf_counter() - started < 1.0
+    # An address straddling the cut is masked, not half-printed.
+    assert "@" not in et.scrub("x" * 3990 + " ravi.k@school.edu.in", 4000)
+
+
+def test_the_client_limit_is_per_caller_not_per_proxy():
+    """Behind Cloud Run every request comes from the front end's address;
+    keyed on that, one noisy client used up every school's reports. The key
+    is the hop the platform appends to X-Forwarded-For."""
+    client = _app()
+    report = {"source": "web", "message": "boom", "route": "/x"}
+    noisy = {"X-Forwarded-For": "203.0.113.7"}
+    for _ in range(et.CLIENT_PER_MINUTE):
+        client.post("/api/v1/client-errors", json=report, headers=noisy)
+    assert client.post("/api/v1/client-errors", json=report, headers=noisy).json()["recorded"] is False
+    other = {"X-Forwarded-For": "198.51.100.9"}
+    assert client.post("/api/v1/client-errors", json=report, headers=other).json()["recorded"] is True
+    # A forged first hop does not buy a fresh bucket: the last hop counts.
+    forged = {"X-Forwarded-For": "1.2.3.4, 203.0.113.7"}
+    assert client.post("/api/v1/client-errors", json=report, headers=forged).json()["recorded"] is False
