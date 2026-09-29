@@ -274,6 +274,11 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("POST", "/api/v1/admin/import/{kind}"): _p(PRINCIPAL),
     ("GET", "/api/v1/admin/import/{kind}/template"): _p(PRINCIPAL),
     ("GET", "/api/v1/admin/export/{kind}"): _p(PRINCIPAL),
+    # D38: issuing keys for the question-bank API (assessment/api_key_routes.py).
+    ("POST", "/api/v1/api-keys"): _p(PRINCIPAL, "own school keys only"),
+    ("GET", "/api/v1/api-keys"): _p(PRINCIPAL, "own school keys only"),
+    ("DELETE", "/api/v1/api-keys/{key_id}"): _p(PRINCIPAL, "own school keys only"),
+    ("GET", "/api/v1/api-keys/{key_id}/usage"): _p(PRINCIPAL, "own school keys only"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"): _p(ANY_USER, "school-scoped since calendar Task 101"),
     ("GET", "/api/v1/curriculum/books/{book_id}/units"): _p(ANY_USER, "school-scoped since calendar Task 101"),
     ("GET", "/api/v1/curriculum/books/{book_id}/chapters"): _p(ANY_USER, "school-scoped since calendar Task 101"),

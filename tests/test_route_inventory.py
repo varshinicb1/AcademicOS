@@ -222,6 +222,10 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/admin/import/{kind}"),
     ("GET", "/api/v1/admin/import/{kind}/template"),
     ("GET", "/api/v1/admin/export/{kind}"),
+    ("POST", "/api/v1/api-keys"),
+    ("GET", "/api/v1/api-keys"),
+    ("DELETE", "/api/v1/api-keys/{key_id}"),
+    ("GET", "/api/v1/api-keys/{key_id}/usage"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -465,6 +469,10 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/admin/import/{kind}"),
     ("GET", "/api/v1/admin/import/{kind}/template"),
     ("GET", "/api/v1/admin/export/{kind}"),
+    ("POST", "/api/v1/api-keys"),
+    ("GET", "/api/v1/api-keys"),
+    ("DELETE", "/api/v1/api-keys/{key_id}"),
+    ("GET", "/api/v1/api-keys/{key_id}/usage"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -797,7 +805,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 223: M5 added homework (12).
     # 225: SA-3 added learning progress (2).
     # 240: M1.5 added parents (12), M1.6 bulk import and export (3).
-    assert len(API_ROUTES) == 240
+    # 244: D38 added API key issuance (4).
+    assert len(API_ROUTES) == 244
 
 
 def test_docs_routes_present():

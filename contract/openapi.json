@@ -432,6 +432,197 @@
         "title": "AnswerSchemeSchema",
         "type": "object"
       },
+      "ApiKeyCreateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Label",
+            "type": "string"
+          },
+          "quotaPerMinute": {
+            "default": 120,
+            "maximum": 6000.0,
+            "minimum": 1.0,
+            "title": "Quotaperminute",
+            "type": "integer"
+          },
+          "scopes": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Scopes",
+            "type": "array"
+          }
+        },
+        "required": [
+          "label",
+          "scopes"
+        ],
+        "title": "ApiKeyCreateRequest",
+        "type": "object"
+      },
+      "ApiKeyCreatedResponse": {
+        "properties": {
+          "active": {
+            "title": "Active",
+            "type": "boolean"
+          },
+          "createdAt": {
+            "title": "Createdat",
+            "type": "string"
+          },
+          "createdBy": {
+            "title": "Createdby",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "lastUsedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastusedat"
+          },
+          "prefix": {
+            "title": "Prefix",
+            "type": "string"
+          },
+          "quotaPerMinute": {
+            "title": "Quotaperminute",
+            "type": "integer"
+          },
+          "revokedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revokedat"
+          },
+          "scopes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Scopes",
+            "type": "array"
+          },
+          "scopesAvailable": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Scopesavailable",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "prefix",
+          "label",
+          "scopes",
+          "quotaPerMinute",
+          "createdAt",
+          "createdBy",
+          "active",
+          "key",
+          "scopesAvailable"
+        ],
+        "title": "ApiKeyCreatedResponse",
+        "type": "object"
+      },
+      "ApiKeyResponse": {
+        "properties": {
+          "active": {
+            "title": "Active",
+            "type": "boolean"
+          },
+          "createdAt": {
+            "title": "Createdat",
+            "type": "string"
+          },
+          "createdBy": {
+            "title": "Createdby",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "lastUsedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastusedat"
+          },
+          "prefix": {
+            "title": "Prefix",
+            "type": "string"
+          },
+          "quotaPerMinute": {
+            "title": "Quotaperminute",
+            "type": "integer"
+          },
+          "revokedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revokedat"
+          },
+          "scopes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Scopes",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "prefix",
+          "label",
+          "scopes",
+          "quotaPerMinute",
+          "createdAt",
+          "createdBy",
+          "active"
+        ],
+        "title": "ApiKeyResponse",
+        "type": "object"
+      },
       "ApproveChapterTopicsResponse": {
         "description": "Result of \"Approve all for this chapter\" -- possibly several runs, since\na chapter can carry one template run per provenance.",
         "properties": {
@@ -12578,6 +12769,24 @@
         "title": "UpdateSectionRequest",
         "type": "object"
       },
+      "UsageWindow": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "windowStart": {
+            "title": "Windowstart",
+            "type": "string"
+          }
+        },
+        "required": [
+          "windowStart",
+          "count"
+        ],
+        "title": "UsageWindow",
+        "type": "object"
+      },
       "UserResponse": {
         "properties": {
           "email": {
@@ -12934,6 +13143,169 @@
           }
         ],
         "summary": "Import Template"
+      }
+    },
+    "/api/v1/api-keys": {
+      "get": {
+        "operationId": "list_keys_api_v1_api_keys_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ApiKeyResponse"
+                  },
+                  "title": "Response List Keys Api V1 Api Keys Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Keys"
+      },
+      "post": {
+        "description": "Mint a key for this school. Copy `key` now: it is not shown again.\nScopes are the question-bank API's; any that would reach student data\nare refused outright.",
+        "operationId": "create_key_api_v1_api_keys_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiKeyCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiKeyCreatedResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Key"
+      }
+    },
+    "/api/v1/api-keys/{key_id}": {
+      "delete": {
+        "description": "Revoke at once. The record is kept for incident review.",
+        "operationId": "revoke_key_api_v1_api_keys__key_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key_id",
+            "required": true,
+            "schema": {
+              "title": "Key Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiKeyResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Revoke Key"
+      }
+    },
+    "/api/v1/api-keys/{key_id}/usage": {
+      "get": {
+        "description": "Requests per minute over the last few minutes (the quota's own count).",
+        "operationId": "key_usage_api_v1_api_keys__key_id__usage_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key_id",
+            "required": true,
+            "schema": {
+              "title": "Key Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/UsageWindow"
+                  },
+                  "title": "Response Key Usage Api V1 Api Keys  Key Id  Usage Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Key Usage"
       }
     },
     "/api/v1/assessments": {
