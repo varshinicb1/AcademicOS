@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -57,6 +58,54 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  /// Sign in with a one-time code sent by email (students and parents).
+  Future<void> _signInWithCode() async {
+    final email = TextEditingController(text: _email.text.trim());
+    final code = TextEditingController();
+    var sent = false;
+    String? message;
+    final result = await showDialog<Map<String, dynamic>>(context: context, builder: (ctx) => StatefulBuilder(
+      builder: (ctx, set) => AlertDialog(
+        title: const Text('Sign in with a code'),
+        content: Column(mainAxisSize: MainAxisSize.min, children: [
+          TextField(controller: email, enabled: !sent, keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(labelText: 'Email')),
+          if (sent)
+            TextField(controller: code, keyboardType: TextInputType.number, maxLength: 6,
+                decoration: const InputDecoration(labelText: '6-digit code from the email')),
+          if (message != null) Padding(padding: const EdgeInsets.only(top: 8), child: Text(message!)),
+        ]),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+          FilledButton(
+            onPressed: () async {
+              final dio = GetIt.I<Dio>();
+              try {
+                if (!sent) {
+                  final r = await dio.post('/auth/code/request', data: {'email': email.text.trim()});
+                  set(() {
+                    sent = true;
+                    message = (r.data as Map)['detail'] as String?;
+                  });
+                } else {
+                  final r = await dio.post('/auth/code/verify', data: {'email': email.text.trim(), 'code': code.text.trim()});
+                  if (ctx.mounted) Navigator.pop(ctx, Map<String, dynamic>.from(r.data as Map));
+                }
+              } on DioException catch (e) {
+                set(() => message = serverErrorMessage(e));
+              }
+            },
+            child: Text(sent ? 'Sign in' : 'Send code'),
+          ),
+        ],
+      ),
+    ));
+    if (result == null || !mounted) return;
+    LocalStore.instance.authToken = result['token'] as String;
+    LocalStore.instance.authUser = Map<String, dynamic>.from(result['user'] as Map);
+    context.go('/home');
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() {
@@ -82,18 +131,10 @@ class _LoginPageState extends State<LoginPage> {
       LocalStore.instance.authToken = result.token;
       LocalStore.instance.authUser = result.user.toJson();
       if (!mounted) return;
-      // A student has nothing behind this page worth returning to --
-      // wherever they came from is the teacher/principal-oriented shell
-      // (see student_schedule_page.dart's own doc comment on why it's
-      // deliberately outside MainShell's nav). Everyone else goes back to
-      // whatever screen opened Sign in -- or home when Sign in WAS the
-      // first screen (fresh launch lands here via the router guard, with
-      // nothing to pop back to).
-      if (result.user.isStudent) {
-        context.go('/student/schedule');
-      } else {
-        context.go('/home');
-      }
+      // Home, where the router's roleLanding sends students to their School
+      // page and parents to their children (and the phone apps to their
+      // own first page).
+      context.go('/home');
     } on AuthException catch (e) {
       if (!mounted) return;
       // AuthApi already ran every DioException through the shared error
@@ -344,6 +385,12 @@ class _LoginPageState extends State<LoginPage> {
                                   : Text(_registering ? 'Create account' : 'Sign in'),
                             ),
                           ),
+                          if (!_registering)
+                            TextButton(
+                              // Students and parents may sign in without a password (ROLE-2).
+                              onPressed: _submitting ? null : _signInWithCode,
+                              child: const Text('Student or parent? Email me a sign-in code'),
+                            ),
                         ],
                       ),
                     ),

@@ -2697,6 +2697,43 @@
         "title": "ClosureResponse",
         "type": "object"
       },
+      "CodeRequest": {
+        "properties": {
+          "email": {
+            "maxLength": 200,
+            "minLength": 3,
+            "title": "Email",
+            "type": "string"
+          }
+        },
+        "required": [
+          "email"
+        ],
+        "title": "CodeRequest",
+        "type": "object"
+      },
+      "CodeVerify": {
+        "properties": {
+          "code": {
+            "maxLength": 6,
+            "minLength": 6,
+            "title": "Code",
+            "type": "string"
+          },
+          "email": {
+            "maxLength": 200,
+            "minLength": 3,
+            "title": "Email",
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "code"
+        ],
+        "title": "CodeVerify",
+        "type": "object"
+      },
       "CompensateRequest": {
         "additionalProperties": false,
         "properties": {
@@ -16049,6 +16086,84 @@
           }
         ],
         "summary": "Update Status"
+      }
+    },
+    "/api/v1/auth/code/request": {
+      "post": {
+        "description": "Email a sign-in code to a student or parent account. The answer is\nthe same whether or not the email has one.",
+        "operationId": "request_code_api_v1_auth_code_request_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CodeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Request Code Api V1 Auth Code Request Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Request Code"
+      }
+    },
+    "/api/v1/auth/code/verify": {
+      "post": {
+        "description": "Sign in with the emailed code: the same answer as a password sign-in.",
+        "operationId": "verify_code_api_v1_auth_code_verify_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CodeVerify"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Verify Code"
       }
     },
     "/api/v1/auth/invites": {
