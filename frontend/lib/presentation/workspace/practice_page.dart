@@ -53,7 +53,8 @@ class _PracticePageState extends State<PracticePage> {
   Future<void> _submit() async {
     setState(() => _busy = true);
     try {
-      final p = await Ops.post('/my-practice/${widget.practiceId}/submit', body: {'answers': _answers});
+      final p = await Ops.send('POST', '/my-practice/${widget.practiceId}/submit', body: {'answers': _answers},
+          label: 'Practice answers');
       setState(() => _set = Map<String, dynamic>.from(p as Map));
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));

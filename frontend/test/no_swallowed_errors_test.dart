@@ -44,8 +44,9 @@ const _exempt = {
   // first frame); it falls back to English, which is not a failure.
   'lib/presentation/workspace/strings.dart': 1,
   // Saving a read's offline copy: the live answer is already returned; a
-  // failed save only means that page is not available offline.
-  'lib/presentation/workspace/ops_api.dart': 1,
+  // failed save only means that page is not available offline. Loading the
+  // queued-writes count before the local store opens: nothing can be waiting.
+  'lib/presentation/workspace/ops_api.dart': 2,
 };
 
 const _marker = '// not-a-failure:';
