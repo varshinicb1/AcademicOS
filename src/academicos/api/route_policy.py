@@ -274,6 +274,8 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/my-practice/{practice_id}"): _p(ANY_USER, "students only, their own sets"),
     ("POST", "/api/v1/my-practice/{practice_id}/submit"): _p(ANY_USER, "students only, their own sets"),
     ("GET", "/api/v1/sections/{section_id}/progress"): _p(STAFF, "the sections teachers or a reports admin; logged"),
+    ("POST", "/api/v1/auth/code/request"): _p(PUBLIC, "sign-in: same answer whether or not the email exists; rate-limited"),
+    ("POST", "/api/v1/auth/code/verify"): _p(PUBLIC, "sign-in: hashed six-digit code, 10 minutes, 5 tries; rate-limited"),
     # M5 homework (operations/homework_routes.py).
     ("GET", "/api/v1/homework/suggestion"): _p(STAFF, "the teacher of the subject in the section, or the principal"),
     ("POST", "/api/v1/homework"): _p(STAFF, "a teacher only for sections they teach the subject in"),

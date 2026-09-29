@@ -218,6 +218,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/my-practice/{practice_id}"),
     ("POST", "/api/v1/my-practice/{practice_id}/submit"),
     ("GET", "/api/v1/sections/{section_id}/progress"),
+    ("POST", "/api/v1/auth/code/request"),
+    ("POST", "/api/v1/auth/code/verify"),
     ("GET", "/api/v1/homework/suggestion"),
     ("POST", "/api/v1/homework"),
     ("GET", "/api/v1/homework"),
@@ -785,6 +787,10 @@ def _valid_body_for(method: str, path: str) -> dict:
     if path in ("/api/v1/curriculum/academic-years/{academic_year_id}/terms",
                 "/api/v1/curriculum/terms/{term_id}"):  # POST / PUT
         return {"name": "Term 1", "startDate": "2026-04-01", "endDate": "2026-09-30"}
+    if path == "/api/v1/auth/code/request":
+        return {"email": "a@example.com"}
+    if path == "/api/v1/auth/code/verify":
+        return {"email": "a@example.com", "code": "123456"}
     if path == "/api/v1/curriculum/terms/{term_id}/baseline":  # PUT
         return {"minutes": 60}
     if path == "/api/v1/curriculum/subjects/{subject_id}/books":  # POST
@@ -893,7 +899,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 279: dashboard, calendar feed (3), /v1 homework sets, homework photos (5).
     # 283: SA-4 self-practice (4).
     # 284: TA-6 class progress (1).
-    assert len(API_ROUTES) == 284
+    # 286: sign-in by emailed code (2).
+    assert len(API_ROUTES) == 286
 
 
 def test_docs_routes_present():

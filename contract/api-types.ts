@@ -315,6 +315,47 @@ export interface paths {
         patch: operations["update_status_api_v1_assessments__assessment_id__status_patch"];
         trace?: never;
     };
+    "/api/v1/auth/code/request": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Request Code
+         * @description Email a sign-in code to a student or parent account. The answer is
+         *     the same whether or not the email has one.
+         */
+        post: operations["request_code_api_v1_auth_code_request_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/auth/code/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Verify Code
+         * @description Sign in with the emailed code: the same answer as a password sign-in.
+         */
+        post: operations["verify_code_api_v1_auth_code_verify_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/auth/invites": {
         parameters: {
             query?: never;
@@ -6171,6 +6212,18 @@ export interface components {
             /** Plansreflowed */
             plansReflowed: number;
         };
+        /** CodeRequest */
+        CodeRequest: {
+            /** Email */
+            email: string;
+        };
+        /** CodeVerify */
+        CodeVerify: {
+            /** Code */
+            code: string;
+            /** Email */
+            email: string;
+        };
         /** CompensateRequest */
         CompensateRequest: {
             /** Date */
@@ -11614,6 +11667,74 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Assessment"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    request_code_api_v1_auth_code_request_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CodeRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    verify_code_api_v1_auth_code_verify_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CodeVerify"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
                 };
             };
             /** @description Validation Error */
