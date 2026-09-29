@@ -8734,6 +8734,8 @@ export interface components {
         };
         /** PreferencesRequest */
         PreferencesRequest: {
+            /** Digestat */
+            digestAt?: string | null;
             /**
              * Kinds
              * @default []
@@ -8748,6 +8750,8 @@ export interface components {
         };
         /** PreferencesResponse */
         PreferencesResponse: {
+            /** Digestat */
+            digestAt?: string | null;
             /** Kinds */
             kinds: components["schemas"]["KindPreference"][];
             /** Language */

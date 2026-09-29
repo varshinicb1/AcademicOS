@@ -145,7 +145,7 @@ class _PreferencesDialogState extends State<_PreferencesDialog> {
   }
 
   Future<void> _pickTime(String field) async {
-    final parts = (_prefs![field] as String).split(':');
+    final parts = ((_prefs![field] as String?) ?? '19:00').split(':');
     final t = await showTimePicker(context: context,
         initialTime: TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1])));
     if (t != null) {
@@ -174,6 +174,20 @@ class _PreferencesDialogState extends State<_PreferencesDialog> {
                       OutlinedButton(onPressed: () => _pickTime('quietEnd'), child: Text('To ${p['quietEnd']}')),
                     ]),
                   ),
+                  // SA-5: one message a day instead of each as it comes.
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Daily digest'),
+                    subtitle: Text(p['digestAt'] == null
+                        ? 'Off: push and email come as things happen.'
+                        : 'One push and one email a day at ${p['digestAt']}. The inbox still shows everything at once; '
+                            'cover requests still come straight away.'),
+                    value: p['digestAt'] != null,
+                    onChanged: (on) => on ? _pickTime('digestAt') : _save({'digestAt': ''}),
+                  ),
+                  if (p['digestAt'] != null)
+                    Align(alignment: Alignment.centerLeft, child: OutlinedButton(
+                        onPressed: () => _pickTime('digestAt'), child: Text('Send it at ${p['digestAt']}'))),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
                     title: const Text('Language'),

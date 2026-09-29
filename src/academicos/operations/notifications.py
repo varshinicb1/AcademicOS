@@ -59,6 +59,14 @@ CREATE TABLE IF NOT EXISTS notification_settings (
   language    TEXT NOT NULL DEFAULT 'en'
 );
 
+-- SA-5: a person who wants one message a day instead of each as it comes.
+-- Its own table, not a column, so a restored older snapshot needs no migration.
+CREATE TABLE IF NOT EXISTS notification_digests (
+  user_id      TEXT PRIMARY KEY,
+  digest_at    TEXT NOT NULL,
+  last_sent_on TEXT
+);
+
 CREATE TABLE IF NOT EXISTS device_tokens (
   token      TEXT PRIMARY KEY,
   user_id    TEXT NOT NULL,
@@ -71,6 +79,9 @@ CREATE INDEX IF NOT EXISTS idx_device_user ON device_tokens(user_id);
 
 CHANNELS = ("push", "email")
 MAX_ATTEMPTS = 3
+# Kinds that go at once even for someone on a daily digest: their point is
+# that the person acts within the hour.
+DIGEST_EXEMPT = frozenset({"substitution_proposed"})
 
 
 @dataclass(frozen=True)
@@ -253,9 +264,23 @@ class NotificationsMixin:
 
     # ---------------- settings ----------------
 
-    def settings_for(self, user_id: str) -> dict[str, str]:
+    def settings_for(self, user_id: str) -> dict[str, Any]:
         r = self._fetchone("SELECT * FROM notification_settings WHERE user_id=?", (user_id,))
-        return r or {"user_id": user_id, "quiet_start": "21:00", "quiet_end": "07:00", "language": "en"}
+        out = dict(r or {"user_id": user_id, "quiet_start": "21:00", "quiet_end": "07:00", "language": "en"})
+        d = self._fetchone("SELECT digest_at FROM notification_digests WHERE user_id=?", (user_id,))
+        out["digest_at"] = d["digest_at"] if d else None
+        return out
+
+    def set_digest(self, user_id: str, digest_at: Optional[str]) -> None:
+        """One push and one email a day at `digest_at` (HH:MM, IST) instead
+        of each as it comes; None turns it off. The inbox is unchanged."""
+        if digest_at is None:
+            self._exec("DELETE FROM notification_digests WHERE user_id=?", (user_id,))
+        else:
+            _parse_hhmm(digest_at)
+            self._exec("INSERT INTO notification_digests (user_id, digest_at) VALUES (?,?) "
+                       "ON CONFLICT(user_id) DO UPDATE SET digest_at=excluded.digest_at", (user_id, digest_at))
+        self._commit()
 
     def set_settings(self, user_id: str, *, quiet_start: Optional[str] = None, quiet_end: Optional[str] = None,
                      language: Optional[str] = None) -> dict[str, str]:
@@ -330,8 +355,9 @@ class NotificationsMixin:
                 s = self.settings_for(uid)
                 title, body = render(kind, params, s["language"])
                 quiet = in_quiet_hours(now.astimezone(IST), s["quiet_start"], s["quiet_end"])
-                status = {ch: ("deferred" if quiet else "pending") if self.channel_enabled(uid, kind, ch) else "none"
-                          for ch in CHANNELS}
+                held = "digest" if s.get("digest_at") and kind not in DIGEST_EXEMPT else None
+                status = {ch: (held or ("deferred" if quiet else "pending")) if self.channel_enabled(uid, kind, ch)
+                          else "none" for ch in CHANNELS}
                 nid = new_id("ntf")
                 try:
                     self._exec("INSERT INTO notifications (id, school_id, user_id, kind, title, body, link, data_json, "
@@ -389,6 +415,40 @@ class NotificationsMixin:
                        (updates.get("push_status"), updates.get("email_status"), 1 if failed else 0,
                         "; ".join(errors) or None, n.id))
             sent += sum(1 for v in updates.values() if v == "sent")
+        self._commit()
+        return sent
+
+    def send_digests(self, now: Optional[datetime] = None) -> int:
+        """For each person on a daily digest whose time has come today and
+        who has not had today's: one push and one email listing what was
+        held for them (SA-5). Returns how many digests went."""
+        now = now or datetime.now(timezone.utc)
+        local = now.astimezone(IST)
+        today, hhmm = local.date().isoformat(), local.strftime("%H:%M")
+        sent = 0
+        for d in self._fetchall("SELECT * FROM notification_digests WHERE digest_at<=? "
+                                "AND (last_sent_on IS NULL OR last_sent_on<?)", (hhmm, today)):
+            uid = d["user_id"]
+            held = self._fetchall("SELECT * FROM notifications WHERE user_id=? AND (push_status='digest' "
+                                  "OR email_status='digest') ORDER BY created_at", (uid,))
+            if held:
+                lang = self.settings_for(uid)["language"]
+                count = len(held)
+                title = (f"आज: {count} अपडेट" if lang == "hi"
+                         else f"Today: {count} update" + ("" if count == 1 else "s"))
+                short = "; ".join(r["title"] for r in held[:3]) + (" …" if count > 3 else "")
+                if any(r["push_status"] == "digest" for r in held):
+                    send_push(self.devices_for(uid), title, short, {"kind": "digest", "link": "/inbox", "id": ""})
+                if any(r["email_status"] == "digest" for r in held):
+                    email = self.email_for(uid) if self.email_for else None
+                    send_email(email, title, "\n\n".join(r["title"] + "\n" + r["body"] for r in held))
+                with self._conn_lock:
+                    self.conn.execute("UPDATE notifications SET push_status=CASE WHEN push_status='digest' "
+                                      "THEN 'digested' ELSE push_status END, email_status=CASE WHEN "
+                                      "email_status='digest' THEN 'digested' ELSE email_status END WHERE user_id=?",
+                                      (uid,))
+                sent += 1
+            self._exec("UPDATE notification_digests SET last_sent_on=? WHERE user_id=?", (today, uid))
         self._commit()
         return sent
 
