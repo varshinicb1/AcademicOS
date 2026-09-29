@@ -43,6 +43,26 @@ TYPES = {
     "diagram": "diagram_based",
 }
 OBJECTIVE = ("mcq", "assertion_reason")
+
+# A paper's printed subject -> (the bank's subject, the course variant). The bank
+# files one subject per class (the syllabus files' names); a variant is kept in
+# metadata so a teacher can still ask for Basic or Course B.
+_SUBJECTS = (
+    (r"math.*basic", "Mathematics", "Basic"), (r"math.*stand", "Mathematics", "Standard"),
+    (r"^math", "Mathematics", None), (r"social", "Social Science", None), (r"^science", "Science", None),
+    (r"english.*comm", "English", "Communicative"), (r"^english", "English", "Language and Literature"),
+    (r"hindi\W*(course\W*)?b\W*$", "Hindi", "Course B"), (r"hindi\W*(course\W*)?a\W*$", "Hindi", "Course A"),
+    (r"^hindi", "Hindi", None),
+)
+
+
+def canonical_subject(printed: Any) -> tuple[str, Optional[str]]:
+    """("Mathematics", "Standard") for "Mathematics Standard"; unknown names as printed."""
+    name = " ".join(str(printed or "").split())
+    for pattern, subject, variant in _SUBJECTS:
+        if re.search(pattern, name.lower()):
+            return subject, variant
+    return name, None
 LETTERS = ("A", "B", "C", "D")
 
 
@@ -199,6 +219,7 @@ def record(q: dict, paper: dict, *, rid: str, bank_id: str, source: str, scheme_
     s = q.get("scheme") or {}
     marks = int(round(float(q.get("marks") or 0))) or 1
     qtype = TYPES.get(str(q.get("type") or ""), "short_answer")
+    subject, variant = canonical_subject(paper.get("subject"))
     stem = " ".join(str(q.get("stem") or "").split())
     meta: dict[str, Any] = {
         "questionKey": str(q.get("number") or ""),
@@ -207,6 +228,8 @@ def record(q: dict, paper: dict, *, rid: str, bank_id: str, source: str, scheme_
         "section": q.get("section"),
         "paperCode": paper.get("code"),
         "year": paper.get("year"),
+        "printedSubject": paper.get("subject"),
+        "courseVariant": variant,
         "difficultyInferred": True,
     }
     if q.get("passage"):
@@ -237,7 +260,7 @@ def record(q: dict, paper: dict, *, rid: str, bank_id: str, source: str, scheme_
     return {
         "id": rid,
         "questionBankId": bank_id,
-        "subject": paper.get("subject"),
+        "subject": subject,
         "grade": int(paper.get("class")),
         "chapterIds": [],
         "topic": "",
