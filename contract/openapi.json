@@ -3146,6 +3146,24 @@
         "title": "CreateSectionRequest",
         "type": "object"
       },
+      "DatesheetRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "papers": {
+            "items": {
+              "$ref": "#/components/schemas/PaperSlot"
+            },
+            "maxItems": 500,
+            "title": "Papers",
+            "type": "array"
+          }
+        },
+        "required": [
+          "papers"
+        ],
+        "title": "DatesheetRequest",
+        "type": "object"
+      },
       "DayRowResponse": {
         "properties": {
           "kind": {
@@ -3527,6 +3545,106 @@
         "title": "DuplicateRequest",
         "type": "object"
       },
+      "Duty": {
+        "properties": {
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "endTime": {
+            "title": "Endtime",
+            "type": "string"
+          },
+          "examPaperId": {
+            "title": "Exampaperid",
+            "type": "string"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "sectionName": {
+            "title": "Sectionname",
+            "type": "string"
+          },
+          "startTime": {
+            "title": "Starttime",
+            "type": "string"
+          },
+          "subjectName": {
+            "title": "Subjectname",
+            "type": "string"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          },
+          "teacherName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teachername"
+          }
+        },
+        "required": [
+          "examPaperId",
+          "sectionId",
+          "sectionName",
+          "date",
+          "startTime",
+          "endTime",
+          "grade",
+          "subjectName"
+        ],
+        "title": "Duty",
+        "type": "object"
+      },
+      "DutyChange": {
+        "additionalProperties": false,
+        "properties": {
+          "examPaperId": {
+            "title": "Exampaperid",
+            "type": "string"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          }
+        },
+        "required": [
+          "examPaperId",
+          "sectionId"
+        ],
+        "title": "DutyChange",
+        "type": "object"
+      },
       "EnrollStudentRequest": {
         "description": "sectionId is the class (M1.1). gradeId alone still works for a\ngrade with one section, as it did before sections existed; for a grade\nwith several it is a 422 naming them.",
         "properties": {
@@ -3846,6 +3964,160 @@
           "reasoning"
         ],
         "title": "EvaluationResponse",
+        "type": "object"
+      },
+      "ExamCreate": {
+        "additionalProperties": false,
+        "properties": {
+          "academicYearId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Academicyearid"
+          },
+          "endDate": {
+            "title": "Enddate",
+            "type": "string"
+          },
+          "grades": {
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 1,
+            "title": "Grades",
+            "type": "array"
+          },
+          "name": {
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "startDate": {
+            "title": "Startdate",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "startDate",
+          "endDate",
+          "grades"
+        ],
+        "title": "ExamCreate",
+        "type": "object"
+      },
+      "ExamPaper": {
+        "properties": {
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "endTime": {
+            "title": "Endtime",
+            "type": "string"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "startTime": {
+            "title": "Starttime",
+            "type": "string"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "subjectName": {
+            "title": "Subjectname",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "grade",
+          "subjectId",
+          "subjectName",
+          "date",
+          "startTime",
+          "endTime"
+        ],
+        "title": "ExamPaper",
+        "type": "object"
+      },
+      "ExamResponse": {
+        "properties": {
+          "duties": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/Duty"
+            },
+            "title": "Duties",
+            "type": "array"
+          },
+          "endDate": {
+            "title": "Enddate",
+            "type": "string"
+          },
+          "grades": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Grades",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "papers": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/ExamPaper"
+            },
+            "title": "Papers",
+            "type": "array"
+          },
+          "startDate": {
+            "title": "Startdate",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "unfilled": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Unfilled",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "startDate",
+          "endDate",
+          "grades",
+          "status"
+        ],
+        "title": "ExamResponse",
         "type": "object"
       },
       "ExtractRequest": {
@@ -5901,6 +6173,22 @@
         "title": "MyClassScheduleEntryResponse",
         "type": "object"
       },
+      "MyExams": {
+        "properties": {
+          "exams": {
+            "items": {
+              "$ref": "#/components/schemas/ExamResponse"
+            },
+            "title": "Exams",
+            "type": "array"
+          }
+        },
+        "required": [
+          "exams"
+        ],
+        "title": "MyExams",
+        "type": "object"
+      },
       "MyHomeworkDetail": {
         "properties": {
           "answers": {
@@ -6653,6 +6941,42 @@
           "removedQuestionIds"
         ],
         "title": "PaperRemoveResponse",
+        "type": "object"
+      },
+      "PaperSlot": {
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "endTime": {
+            "default": "12:30",
+            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+            "title": "Endtime",
+            "type": "string"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "startTime": {
+            "default": "09:30",
+            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+            "title": "Starttime",
+            "type": "string"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "grade",
+          "subjectId",
+          "date"
+        ],
+        "title": "PaperSlot",
         "type": "object"
       },
       "PaperTemplate": {
@@ -9513,6 +9837,25 @@
           }
         },
         "title": "RoomUpdateRequest",
+        "type": "object"
+      },
+      "RosterRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "duties": {
+            "items": {
+              "$ref": "#/components/schemas/DutyChange"
+            },
+            "maxItems": 2000,
+            "minItems": 1,
+            "title": "Duties",
+            "type": "array"
+          }
+        },
+        "required": [
+          "duties"
+        ],
+        "title": "RosterRequest",
         "type": "object"
       },
       "RowOutcome": {
@@ -21803,6 +22146,317 @@
         "summary": "Review Sheet Answer"
       }
     },
+    "/api/v1/exams": {
+      "get": {
+        "operationId": "list_exams_api_v1_exams_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ExamResponse"
+                  },
+                  "title": "Response List Exams Api V1 Exams Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Exams"
+      },
+      "post": {
+        "operationId": "create_exam_api_v1_exams_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExamCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Exam"
+      }
+    },
+    "/api/v1/exams/{exam_id}": {
+      "get": {
+        "operationId": "get_exam_api_v1_exams__exam_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "exam_id",
+            "required": true,
+            "schema": {
+              "title": "Exam Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Exam"
+      }
+    },
+    "/api/v1/exams/{exam_id}/datesheet": {
+      "put": {
+        "description": "Replace the whole datesheet. Every clash (two papers for a class on a\nday, a holiday, a date outside the exam) is reported at once; the old\ndatesheet and its roster are kept on any problem, and dropped with it\notherwise (the roster is per paper).",
+        "operationId": "set_datesheet_api_v1_exams__exam_id__datesheet_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "exam_id",
+            "required": true,
+            "schema": {
+              "title": "Exam Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatesheetRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set Datesheet"
+      }
+    },
+    "/api/v1/exams/{exam_id}/invigilation": {
+      "put": {
+        "operationId": "set_invigilation_api_v1_exams__exam_id__invigilation_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "exam_id",
+            "required": true,
+            "schema": {
+              "title": "Exam Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RosterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set Invigilation"
+      }
+    },
+    "/api/v1/exams/{exam_id}/invigilation/auto": {
+      "post": {
+        "description": "Fill every empty duty: no one on leave, no one who teaches that\nsubject to that section, no one in two rooms at once, fewest duties\nfirst. Duties already set are kept; what cannot be filled is listed.",
+        "operationId": "auto_invigilation_api_v1_exams__exam_id__invigilation_auto_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "exam_id",
+            "required": true,
+            "schema": {
+              "title": "Exam Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Auto Invigilation"
+      }
+    },
+    "/api/v1/exams/{exam_id}/publish": {
+      "post": {
+        "description": "Publish: students of the exam's classes get their datesheet, each\ninvigilator their duties.",
+        "operationId": "publish_api_v1_exams__exam_id__publish_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "exam_id",
+            "required": true,
+            "schema": {
+              "title": "Exam Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Publish"
+      }
+    },
     "/api/v1/guardianships": {
       "post": {
         "description": "Link an existing parent account to a student, e.g. a second child.",
@@ -22712,6 +23366,30 @@
           }
         ],
         "summary": "My Children"
+      }
+    },
+    "/api/v1/my-exams": {
+      "get": {
+        "description": "Published exams: a student's class's papers; a teacher's duties.",
+        "operationId": "my_exams_api_v1_my_exams_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyExams"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Exams"
       }
     },
     "/api/v1/my-homework": {

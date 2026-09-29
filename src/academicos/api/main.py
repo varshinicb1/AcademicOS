@@ -44,6 +44,7 @@ from ..curriculum import cover_routes
 from ..assessment import api_key_routes
 from ..assessment import marks_routes
 from ..assessment import paper_review_routes
+from ..operations import exam_routes
 from ..operations import guardian_routes
 from ..operations import homework_routes
 from ..operations import import_routes
@@ -166,6 +167,7 @@ app.include_router(homework_routes.router)
 app.include_router(learning_routes.router)
 app.include_router(guardian_routes.router)
 app.include_router(import_routes.router)
+app.include_router(exam_routes.router)
 app.include_router(api_key_routes.router)
 app.include_router(paper_review_routes.router)
 app.include_router(marks_routes.router)

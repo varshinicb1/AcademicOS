@@ -238,6 +238,14 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/papers/{paper_id}/marks"),
     ("GET", "/api/v1/papers/{paper_id}/marks"),
     ("GET", "/api/v1/papers/{paper_id}/analysis"),
+    ("POST", "/api/v1/exams"),
+    ("GET", "/api/v1/exams"),
+    ("GET", "/api/v1/exams/{exam_id}"),
+    ("PUT", "/api/v1/exams/{exam_id}/datesheet"),
+    ("POST", "/api/v1/exams/{exam_id}/invigilation/auto"),
+    ("PUT", "/api/v1/exams/{exam_id}/invigilation"),
+    ("POST", "/api/v1/exams/{exam_id}/publish"),
+    ("GET", "/api/v1/my-exams"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -496,6 +504,14 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/papers/{paper_id}/marks"),
     ("GET", "/api/v1/papers/{paper_id}/marks"),
     ("GET", "/api/v1/papers/{paper_id}/analysis"),
+    ("POST", "/api/v1/exams"),
+    ("GET", "/api/v1/exams"),
+    ("GET", "/api/v1/exams/{exam_id}"),
+    ("PUT", "/api/v1/exams/{exam_id}/datesheet"),
+    ("POST", "/api/v1/exams/{exam_id}/invigilation/auto"),
+    ("PUT", "/api/v1/exams/{exam_id}/invigilation"),
+    ("POST", "/api/v1/exams/{exam_id}/publish"),
+    ("GET", "/api/v1/my-exams"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -833,7 +849,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 249: NTF-2 added automations (2).
     # 253: EX-6 added paper review (4).
     # 256: EX-8 added marks entry and analysis (3).
-    assert len(API_ROUTES) == 256
+    # 264: EX-7 added exam planning (8).
+    assert len(API_ROUTES) == 264
 
 
 def test_docs_routes_present():

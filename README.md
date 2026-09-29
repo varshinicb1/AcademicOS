@@ -84,7 +84,7 @@ The headlines:
 | Question bank API | `/v1` and MCP live, and they file chapters exactly as the paper builder does (D39, fixed in M0). There is still no way to issue an API key on live (D38). |
 | Scheduling engine | Calendar, terms, holidays, per-subject weekday slots, lesson plans. **No section x teacher x room timetable, no solver, no leave, substitution or compensation.** |
 | Teacher and student apps | A shared Flutter codebase with teacher, student and parent pages and an offline Android build. **No separate apps, no homework model, no push notifications.** |
-| Engineering | 3,804 Python and 468 Flutter tests pass on `master` (2026-09-28); 256 routes, each with a role policy; audit log; school scoping; CI deploys the backend and the web on merge (since 2026-09-28; Flutter pinned to 3.44.9). |
+| Engineering | 3,804 Python and 468 Flutter tests pass on `master` (2026-09-28); 264 routes, each with a role policy; audit log; school scoping; CI deploys the backend and the web on merge (since 2026-09-28; Flutter pinned to 3.44.9). |
 
 ## What has to be done
 
