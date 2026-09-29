@@ -4378,6 +4378,28 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/staff": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Staff Directory
+         * @description The school's teachers and principal by name, for pickers (a reviewer,
+         *     an invigilator). No emails: the full user list stays with whoever
+         *     administers people.
+         */
+        get: operations["staff_directory_api_v1_staff_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/students/{student_id}/guardian-invites": {
         parameters: {
             query?: never;
@@ -5753,6 +5775,15 @@ export interface components {
                 [key: string]: number;
             };
         };
+        /** ChildDayResponse */
+        ChildDayResponse: {
+            /** Rows */
+            rows: components["schemas"]["DayRowResponse"][];
+            /** Subjectnames */
+            subjectNames?: {
+                [key: string]: string;
+            };
+        };
         /** ChildResponse */
         ChildResponse: {
             /** Consent */
@@ -5767,6 +5798,25 @@ export interface components {
             sectionName?: string | null;
             /** Studentid */
             studentId: string;
+        };
+        /** ChildTimetableResponse */
+        ChildTimetableResponse: {
+            /** Academicyearid */
+            academicYearId?: string | null;
+            bellSchedule?: components["schemas"]["BellScheduleResponse"] | null;
+            /**
+             * Entries
+             * @default []
+             */
+            entries: components["schemas"]["TimetableEntryResponse"][];
+            /** Role */
+            role: string;
+            /** Sectionid */
+            sectionId?: string | null;
+            /** Subjectnames */
+            subjectNames?: {
+                [key: string]: string;
+            };
         };
         /** ClassAnalysis */
         ClassAnalysis: {
@@ -9415,6 +9465,15 @@ export interface components {
             /** Status */
             status: string;
         };
+        /** StaffMember */
+        StaffMember: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Role */
+            role: string;
+        };
         /** StudentEnrollmentResponse */
         StudentEnrollmentResponse: {
             /** Createdat */
@@ -11560,7 +11619,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["DayRowResponse"][];
+                    "application/json": components["schemas"]["ChildDayResponse"];
                 };
             };
             /** @description Validation Error */
@@ -11653,7 +11712,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["MyTimetableResponse"];
+                    "application/json": components["schemas"]["ChildTimetableResponse"];
                 };
             };
             /** @description Validation Error */
@@ -18200,6 +18259,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    staff_directory_api_v1_staff_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StaffMember"][];
                 };
             };
         };

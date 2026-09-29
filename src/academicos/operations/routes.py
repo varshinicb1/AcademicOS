@@ -10,7 +10,7 @@ from fastapi import APIRouter, Depends, Header, HTTPException, Query
 from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
-from ..assessment.auth_routes import get_current_user, require_admin, require_principal
+from ..assessment.auth_routes import get_current_user, require_admin, require_principal, require_staff
 from ..assessment.users import User
 from ..config import Config
 from ..curriculum.schemas import Camel
@@ -194,6 +194,23 @@ class AutomationRun(Camel):
 def automations_status(principal: User = Depends(require_admin("reports"))) -> list[AutomationRun]:
     """The latest automation runs, newest first (runs are not per school)."""
     return [AutomationRun(**r) for r in store().automation_history()]
+
+
+class StaffMember(Camel):
+    id: str
+    name: str
+    role: str
+
+
+@router.get("/staff", response_model=list[StaffMember])
+def staff_directory(current: User = Depends(require_staff)) -> list[StaffMember]:
+    """The school's teachers and principal by name, for pickers (a reviewer,
+    an invigilator). No emails: the full user list stays with whoever
+    administers people."""
+    from ..curriculum import routes as cr
+    users = cr._require_users().users_for_school(current.school_id)
+    return sorted((StaffMember(id=u.id, name=u.name, role=u.role) for u in users
+                   if u.role in ("teacher", "principal")), key=lambda m: m.name.lower())
 
 
 @router.get("/notifications", response_model=InboxResponse)

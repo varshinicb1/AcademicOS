@@ -256,6 +256,7 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("POST", "/api/v1/admin/grants"): _p(PRINCIPAL),
     ("DELETE", "/api/v1/admin/grants/{grant_id}"): _p(PRINCIPAL),
     ("GET", "/api/v1/my-grants"): _p(ANY_USER, "the callers own capabilities"),
+    ("GET", "/api/v1/staff"): _p(STAFF, "names only, for pickers"),
     # M5 homework (operations/homework_routes.py).
     ("GET", "/api/v1/homework/suggestion"): _p(STAFF, "the teacher of the subject in the section, or the principal"),
     ("POST", "/api/v1/homework"): _p(STAFF, "a teacher only for sections they teach the subject in"),

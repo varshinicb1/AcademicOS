@@ -32,6 +32,17 @@ import '../../presentation/settings/pages/classes_page.dart';
 import '../../presentation/settings/pages/legal_page.dart';
 import '../../presentation/auth/pages/login_page.dart';
 import '../../presentation/shared/widgets/shell.dart';
+import '../../presentation/workspace/admin_pages.dart';
+import '../../presentation/workspace/app_mode.dart';
+import '../../presentation/workspace/cover_pages.dart';
+import '../../presentation/workspace/exams_page.dart';
+import '../../presentation/workspace/family_page.dart';
+import '../../presentation/workspace/inbox_page.dart';
+import '../../presentation/workspace/marks_page.dart';
+import '../../presentation/workspace/student_pages.dart';
+import '../../presentation/workspace/teacher_homework.dart';
+import '../../presentation/workspace/workspace_page.dart';
+import '../session/current_session.dart';
 import '../local_engine/local_store.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -41,10 +52,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         ? '/home'
         : '/login',
     redirect: (context, state) => authRedirect(
-      state.matchedLocation,
-      signedIn: LocalStore.instance.authToken != null,
-      offlineBuild: const bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false),
-    ),
+          state.matchedLocation,
+          signedIn: LocalStore.instance.authToken != null,
+          offlineBuild: const bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false),
+        ) ??
+        roleLanding(
+          state.matchedLocation,
+          role: LocalStore.instance.authToken != null ? CurrentSession.role : '',
+          offlineBuild: const bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false),
+          mode: appMode,
+        ),
     routes: [
       GoRoute(
         path: '/login',
@@ -52,7 +69,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const LoginPage(),
       ),
       ShellRoute(
-        builder: (context, state, child) => MainShell(child: child),
+        // The teacher and student app builds get a phone shell (app_mode.dart).
+        builder: (context, state, child) => appMode == AppMode.console
+            ? MainShell(child: child)
+            : AppModeShell(mode: appMode, role: CurrentSession.role, child: child),
         routes: [
           GoRoute(
             path: '/home',
@@ -217,6 +237,34 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               child: ParentPortalPage(),
             ),
           ),
+          // The school workspace: day-to-day tools per role (homework,
+          // progress, parents, cover, exams, notifications, admin tools).
+          GoRoute(
+            path: '/school',
+            name: 'school',
+            pageBuilder: (context, state) => const NoTransitionPage(child: WorkspacePage()),
+            routes: [
+              GoRoute(path: 'inbox', builder: (context, state) => const InboxPage()),
+              GoRoute(path: 'my-homework', builder: (context, state) => const MyHomeworkPage()),
+              GoRoute(path: 'my-homework/:id',
+                  builder: (context, state) => HomeworkDetailPage(homeworkId: state.pathParameters['id']!)),
+              GoRoute(path: 'my-learning', builder: (context, state) => const LearningPage()),
+              GoRoute(path: 'my-exams', builder: (context, state) => const MyExamsPage()),
+              GoRoute(path: 'my-day', builder: (context, state) => const MyDayPage()),
+              GoRoute(path: 'homework', builder: (context, state) => const TeacherHomeworkPage()),
+              GoRoute(path: 'homework/:id',
+                  builder: (context, state) => TeacherHomeworkDetailPage(homeworkId: state.pathParameters['id']!)),
+              GoRoute(path: 'family', builder: (context, state) => const FamilyPage()),
+              GoRoute(path: 'cover', builder: (context, state) => const CoverPage()),
+              GoRoute(path: 'exams', builder: (context, state) => const ExamsPage()),
+              GoRoute(path: 'reviews', builder: (context, state) => const ReviewsPage()),
+              GoRoute(path: 'import', builder: (context, state) => const ImportPage()),
+              GoRoute(path: 'api-keys', builder: (context, state) => const ApiKeysPage()),
+              GoRoute(path: 'grants', builder: (context, state) => const GrantsPage()),
+              GoRoute(path: 'marks/:paperId',
+                  builder: (context, state) => MarksPage(paperId: state.pathParameters['paperId']!)),
+            ],
+          ),
           GoRoute(
             path: '/admin',
             name: 'principal-admin',
@@ -345,3 +393,15 @@ String? authRedirect(String location,
   return null;
 }
 
+/// Where a signed-in parent or student lands instead of the teacher home:
+/// a parent's children, a student's workspace. Everyone else, and every
+/// other location, is left alone (null). Offline builds have no roles.
+String? roleLanding(String location,
+    {required String role, required bool offlineBuild, AppMode mode = AppMode.console}) {
+  if (offlineBuild || location != '/home') return null;
+  // The teacher and student apps open on their own first page.
+  if (mode != AppMode.console && role.isNotEmpty) return appHome(mode, role: role);
+  if (role == 'parent') return '/school/family';
+  if (role == 'student') return '/school';
+  return null;
+}
