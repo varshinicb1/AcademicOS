@@ -2867,6 +2867,49 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/dashboard/term": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Term Report
+         * @description The term at a glance, for the principal or a reports admin, filtered
+         *     by class, section or subject. By default the term covering today; with no
+         *     term declared, the year so far (and the response says so).
+         */
+        get: operations["term_report_api_v1_dashboard_term_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/dashboard/term/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Export Term Report
+         * @description The same report as an Excel workbook or a PDF (ADM-4). Every download
+         *     is recorded in the audit log with who took it.
+         */
+        get: operations["export_term_report_api_v1_dashboard_term_export_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/devices": {
         parameters: {
             query?: never;
@@ -5671,6 +5714,19 @@ export interface components {
             /** Questioncount */
             questionCount: number;
         };
+        /** BankRow */
+        BankRow: {
+            /** Chapters */
+            chapters: number;
+            /** Chapterswithoutquestions */
+            chaptersWithoutQuestions: string[];
+            /** Grade */
+            grade: number;
+            /** Questions */
+            questions: number;
+            /** Subject */
+            subject: string;
+        };
         /** BellScheduleRequest */
         BellScheduleRequest: {
             /** Days */
@@ -6186,6 +6242,18 @@ export interface components {
             /** Students */
             students: number;
         };
+        /** ClassSubject */
+        ClassSubject: {
+            /** Grade */
+            grade: number;
+            /**
+             * Papers
+             * @default 0
+             */
+            papers: number;
+            /** Subject */
+            subject: string;
+        };
         /** ClosureRequest */
         ClosureRequest: {
             /**
@@ -6404,6 +6472,23 @@ export interface components {
             /** Hasconsent */
             hasConsent: boolean;
             record?: components["schemas"]["ParentalConsentRecord"] | null;
+        };
+        /** Cover */
+        Cover: {
+            /** Compensated */
+            compensated: number;
+            /** Filled */
+            filled: number;
+            /** Lost */
+            lost: number;
+            /** Owed */
+            owed: number;
+            /** Requested */
+            requested: number;
+            /** Supervised */
+            supervised: number;
+            /** Unfilled */
+            unfilled: number;
         };
         /** CoverSummaryResponse */
         CoverSummaryResponse: {
@@ -6909,6 +6994,19 @@ export interface components {
              */
             unfilled: string[];
         };
+        /** ExamRow */
+        ExamRow: {
+            /** Enddate */
+            endDate: string;
+            /** Name */
+            name: string;
+            /** Papers */
+            papers: number;
+            /** Startdate */
+            startDate: string;
+            /** Status */
+            status: string;
+        };
         /** ExamSoon */
         ExamSoon: {
             /** Id */
@@ -6919,6 +7017,19 @@ export interface components {
             startDate: string;
             /** Status */
             status: string;
+        };
+        /** Exams */
+        Exams: {
+            /** Covered */
+            covered: components["schemas"]["ClassSubject"][];
+            /** Notyet */
+            notYet: components["schemas"]["ClassSubject"][];
+            /** Papersset */
+            papersSet: number;
+            /** Scheduled */
+            scheduled: components["schemas"]["ExamRow"][];
+            /** Unattributed */
+            unattributed: number;
         };
         /** ExtractRequest */
         ExtractRequest: {
@@ -6956,6 +7067,17 @@ export interface components {
         FeedResponse: {
             /** Url */
             url: string;
+        };
+        /** Filters */
+        Filters: {
+            /** Grade */
+            grade?: number | null;
+            /** Sectionid */
+            sectionId?: string | null;
+            /** Sectionname */
+            sectionName?: string | null;
+            /** Subject */
+            subject?: string | null;
         };
         /** FinalizeResponse */
         FinalizeResponse: {
@@ -7289,6 +7411,19 @@ export interface components {
             /** Label */
             label: string;
         };
+        /** Homework */
+        Homework: {
+            /** Expected */
+            expected: number;
+            /** Handedin */
+            handedIn: number;
+            /** Issued */
+            issued: number;
+            /** Marked */
+            marked: number;
+            /** Rows */
+            rows: components["schemas"]["HomeworkRow"][];
+        };
         /** HomeworkCreateRequest */
         HomeworkCreateRequest: {
             /** Chapterids */
@@ -7372,6 +7507,21 @@ export interface components {
             title: string;
             /** Totalmarks */
             totalMarks: number;
+        };
+        /** HomeworkRow */
+        HomeworkRow: {
+            /** Expected */
+            expected: number;
+            /** Grade */
+            grade: number;
+            /** Handedin */
+            handedIn: number;
+            /** Issued */
+            issued: number;
+            /** Marked */
+            marked: number;
+            /** Subject */
+            subject: string;
         };
         /**
          * HomeworkSetRequest
@@ -8503,6 +8653,23 @@ export interface components {
             /** Warnings */
             warnings?: string[];
         };
+        /** ProgressRow */
+        ProgressRow: {
+            /** Developing */
+            developing: number;
+            /** Early */
+            early: number;
+            /** Grade */
+            grade: number;
+            /** Mastered */
+            mastered: number;
+            /** Needswork */
+            needsWork: number;
+            /** Studentswithevidence */
+            studentsWithEvidence: number;
+            /** Subject */
+            subject: string;
+        };
         /** ProposalResponse */
         ProposalResponse: {
             /** Confidence */
@@ -9468,6 +9635,26 @@ export interface components {
              */
             tagline: string;
         };
+        /** Scope */
+        Scope: {
+            /** Asof */
+            asOf: string;
+            /** Enddate */
+            endDate: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "term" | "year";
+            /** Name */
+            name: string;
+            /** Note */
+            note?: string | null;
+            /** Startdate */
+            startDate: string;
+            /** Termid */
+            termId?: string | null;
+        };
         /** ScoreRequest */
         ScoreRequest: {
             /**
@@ -10382,6 +10569,17 @@ export interface components {
              */
             withoutKey: number;
         };
+        /** Syllabus */
+        Syllabus: {
+            /** Behind */
+            behind: number;
+            /** Plannedtodate */
+            plannedToDate: number;
+            /** Rows */
+            rows: components["schemas"]["SyllabusRow"][];
+            /** Taughttodate */
+            taughtToDate: number;
+        };
         /** SyllabusChapterResponse */
         SyllabusChapterResponse: {
             /** Id */
@@ -10403,6 +10601,29 @@ export interface components {
             totalMarks: number;
             /** Units */
             units: components["schemas"]["SyllabusUnitResponse"][];
+        };
+        /** SyllabusRow */
+        SyllabusRow: {
+            /** Behind */
+            behind: boolean;
+            /** Coveragepct */
+            coveragePct: number;
+            /** Grade */
+            grade: number;
+            /** Pacepct */
+            pacePct: number;
+            /** Plannedtodate */
+            plannedToDate: number;
+            /** Sectionname */
+            sectionName?: string | null;
+            /** Subject */
+            subject: string;
+            /** Taughttodate */
+            taughtToDate: number;
+            /** Totallessons */
+            totalLessons: number;
+            /** Variance */
+            variance: number;
         };
         /** SyllabusUnitResponse */
         SyllabusUnitResponse: {
@@ -10617,6 +10838,20 @@ export interface components {
             /** Minutes */
             minutes: number | null;
         };
+        /** TermReport */
+        TermReport: {
+            /** Bank */
+            bank: components["schemas"]["BankRow"][];
+            cover: components["schemas"]["Cover"];
+            exams: components["schemas"]["Exams"];
+            filters: components["schemas"]["Filters"];
+            homework: components["schemas"]["Homework"];
+            /** Progress */
+            progress: components["schemas"]["ProgressRow"][];
+            scope: components["schemas"]["Scope"];
+            syllabus: components["schemas"]["Syllabus"];
+            timeSaved: components["schemas"]["TimeSaved"];
+        };
         /**
          * TermRequest
          * @description Create and update take the whole term: a term is three fields, and a
@@ -10662,6 +10897,24 @@ export interface components {
              * @default
              */
             sentence: string;
+        };
+        /** TimeSaved */
+        TimeSaved: {
+            /** Baselineminutesperpaper */
+            baselineMinutesPerPaper: number;
+            /** Baselineprovenance */
+            baselineProvenance: string;
+            /**
+             * Estimated
+             * @default true
+             */
+            estimated: boolean;
+            /** Minutesperpaper */
+            minutesPerPaper: number;
+            /** Minutestotal */
+            minutesTotal: number;
+            /** Papers */
+            papers: number;
         };
         /** TimetableEntryBody */
         TimetableEntryBody: {
@@ -16171,6 +16424,75 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["DashboardSummary"];
+                };
+            };
+        };
+    };
+    term_report_api_v1_dashboard_term_get: {
+        parameters: {
+            query?: {
+                termId?: string | null;
+                grade?: number | null;
+                sectionId?: string | null;
+                subject?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TermReport"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    export_term_report_api_v1_dashboard_term_export_get: {
+        parameters: {
+            query?: {
+                format?: "xlsx" | "pdf";
+                termId?: string | null;
+                grade?: number | null;
+                sectionId?: string | null;
+                subject?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

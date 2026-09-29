@@ -204,6 +204,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/my-grants"),
     ("GET", "/api/v1/staff"),
     ("GET", "/api/v1/dashboard/summary"),
+    ("GET", "/api/v1/dashboard/term"),
+    ("GET", "/api/v1/dashboard/term/export"),
     ("GET", "/api/v1/calendar-feed"),
     ("POST", "/api/v1/calendar-feed/reset"),
     ("GET", "/api/v1/ics/{token}.ics"),
@@ -492,6 +494,8 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/my-grants"),
     ("GET", "/api/v1/staff"),
     ("GET", "/api/v1/dashboard/summary"),
+    ("GET", "/api/v1/dashboard/term"),
+    ("GET", "/api/v1/dashboard/term/export"),
     ("GET", "/api/v1/calendar-feed"),
     ("POST", "/api/v1/calendar-feed/reset"),
     ("POST", "/api/v1/my-homework/{homework_id}/photos"),
@@ -900,7 +904,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 283: SA-4 self-practice (4).
     # 284: TA-6 class progress (1).
     # 286: sign-in by emailed code (2).
-    assert len(API_ROUTES) == 286
+    # 288: ADM-2/4 the term report and its Excel/PDF export (2).
+    assert len(API_ROUTES) == 288
 
 
 def test_docs_routes_present():

@@ -1,0 +1,92 @@
+"""The principal's term report (ADM-2) and its Excel/PDF export (ADM-4):
+one term, filtered by class, section or subject, aggregates only, and every
+download audited."""
+from __future__ import annotations
+
+import io
+import zipfile
+
+from test_homework import _create, w  # noqa: F401 - `w` is a fixture
+
+
+def _term(w):
+    return w.store.create_term(academic_year_id=w.year, name="Term 1", start_date="2026-04-01",
+                               end_date="2026-09-30")
+
+
+def _homework_handed_in(w):
+    from academicos.operations.routes import store
+    hw = _create(w, "ana", questionIds=["q1", "q2"]).json()
+    w.c.post(f"/api/v1/my-homework/{hw['id']}/submit", json={"answers": {"q1": "A", "q2": "C"}}, headers=w.s1)
+    s = store()
+    with s._conn_lock:     # set on the school's (patched) today, not the machine's
+        s.conn.execute("UPDATE homework SET published_at=? WHERE id=?", ("2026-05-30T04:00:00+00:00", hw["id"]))
+        s._commit()
+    return hw
+
+
+def test_the_term_report_counts_and_filters(w):
+    term = _term(w)
+    _homework_handed_in(w)
+    r = w.c.get("/api/v1/dashboard/term", headers=w.p)
+    assert r.status_code == 200, r.text
+    d = r.json()
+    assert d["scope"]["kind"] == "term" and d["scope"]["termId"] == term.id and d["scope"]["asOf"] == "2026-06-01"
+    assert d["homework"]["issued"] == 1 and d["homework"]["expected"] == 2 and d["homework"]["handedIn"] == 1
+    assert [(b["grade"], b["subject"], b["questions"]) for b in d["bank"]] == [(9, "Science", 4), (10, "Science", 4)]
+    assert {(c["grade"], c["subject"]) for c in d["exams"]["notYet"]} == {(9, "Science"), (10, "Science")}
+    assert d["timeSaved"]["estimated"] is True and d["timeSaved"]["papers"] == 0
+    [progress] = d["progress"]
+    assert progress["grade"] == 10 and progress["studentsWithEvidence"] == 1
+    assert "name" not in str(d["progress"]).lower(), "aggregates only"
+
+    b10 = w.c.get("/api/v1/dashboard/term", params={"sectionId": w.b10}, headers=w.p).json()
+    assert b10["filters"] == {"grade": 10, "sectionId": w.b10, "sectionName": "10-B", "subject": None}
+    assert b10["homework"]["issued"] == 0 and b10["progress"] == []
+    nine = w.c.get("/api/v1/dashboard/term", params={"grade": 9}, headers=w.p).json()
+    assert [b["grade"] for b in nine["bank"]] == [9] and nine["homework"]["issued"] == 0
+    maths = w.c.get("/api/v1/dashboard/term", params={"subject": "maths"}, headers=w.p).json()
+    assert maths["bank"] == [] and maths["homework"]["issued"] == 0 and maths["exams"]["notYet"] == []
+
+    assert w.c.get("/api/v1/dashboard/term", params={"sectionId": w.a9, "grade": 10},
+                   headers=w.p).status_code == 422
+    assert w.c.get("/api/v1/dashboard/term", params={"sectionId": "nope"}, headers=w.p).status_code == 404
+    assert w.c.get("/api/v1/dashboard/term", headers=w.ana).status_code == 403
+    assert w.c.get("/api/v1/dashboard/term", params={"termId": term.id}, headers=w.p2).status_code == 403
+
+
+def test_with_no_term_it_is_the_year_so_far_and_says_so(w):
+    d = w.c.get("/api/v1/dashboard/term", headers=w.p).json()
+    assert d["scope"]["kind"] == "year" and d["scope"]["name"] == "2026-27"
+    assert "Declare the school's terms" in d["scope"]["note"]
+
+
+def test_the_report_downloads_as_excel_and_pdf_and_is_audited(w):
+    from academicos.assessment.audit_log import get_audit_log
+    from academicos.curriculum import routes as cr
+    _term(w)
+    _homework_handed_in(w)
+    x = w.c.get("/api/v1/dashboard/term/export", params={"format": "xlsx", "grade": 10}, headers=w.p)
+    assert x.status_code == 200, x.text
+    assert x.headers["content-type"].startswith("application/vnd.openxmlformats-officedocument.spreadsheetml")
+    assert 'filename="term-report-Term-1-2026-06-01.xlsx"' in x.headers["content-disposition"]
+    z = zipfile.ZipFile(io.BytesIO(x.content))
+    book = z.read("xl/workbook.xml").decode()
+    for sheet in ("Summary", "Syllabus", "Exams", "Homework", "Question bank", "Progress"):
+        assert f'name="{sheet}"' in book
+    assert "Term report: Term 1 (class 10)" in z.read("xl/worksheets/sheet1.xml").decode()
+
+    p = w.c.get("/api/v1/dashboard/term/export", params={"format": "pdf"}, headers=w.p)
+    assert p.status_code == 200 and p.content.startswith(b"%PDF")
+    assert w.c.get("/api/v1/dashboard/term/export", params={"format": "doc"}, headers=w.p).status_code == 422
+    assert w.c.get("/api/v1/dashboard/term/export", headers=w.bala).status_code == 403
+    audit = get_audit_log(cr._cfg.data_root).for_action("term_report_exported")
+    assert len(audit) == 2 and {a["details"]["grade"] for a in audit} == {10, None}
+
+
+def test_the_workbook_keeps_formulas_as_text():
+    from academicos.operations.xlsx import workbook
+    z = zipfile.ZipFile(io.BytesIO(workbook([("A/B:C", [["name", "n"], ["=HYPERLINK(1)", -3], ["x&y", 2.5]])])))
+    sheet = z.read("xl/worksheets/sheet1.xml").decode()
+    assert "'=HYPERLINK(1)" in sheet and "<v>-3</v>" in sheet and "x&amp;y" in sheet
+    assert 'name="ABC"' in z.read("xl/workbook.xml").decode()
