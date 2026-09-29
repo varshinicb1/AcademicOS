@@ -35,6 +35,7 @@ import '../../presentation/shared/widgets/shell.dart';
 import '../../presentation/workspace/admin_pages.dart';
 import '../../presentation/workspace/app_mode.dart';
 import '../../presentation/workspace/class_progress_page.dart';
+import '../../presentation/workspace/term_report_page.dart';
 import '../../presentation/workspace/cover_pages.dart';
 import '../../presentation/workspace/exams_page.dart';
 import '../../presentation/workspace/family_page.dart';
@@ -268,6 +269,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(path: 'today', builder: (context, state) => const StudentTodayPage()),
               GoRoute(path: 'week', builder: (context, state) => const WeekPage()),
               GoRoute(path: 'class-progress', builder: (context, state) => const ClassProgressPage()),
+              GoRoute(path: 'term-report', builder: (context, state) => const TermReportPage()),
               GoRoute(path: 'practice/:id',
                   builder: (context, state) => PracticePage(practiceId: state.pathParameters['id']!)),
               GoRoute(path: 'marks/:paperId',

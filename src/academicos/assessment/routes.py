@@ -743,11 +743,11 @@ def get_paper_timing(term_id: Optional[str] = Query(None, alias="termId"),
         if term.manual_baseline_minutes is not None:
             baseline = (float(term.manual_baseline_minutes),
                         f"set by the principal for {term.name}")
-        # The classes 6-10 the school declared for the term's year, and their
+        # The classes 1-10 (requirements v3) the school declared for the term's year, and their
         # subjects: what "not yet" is measured against.
         universe = [(g.number, s.name)
                     for g in curriculum.grades_for_year(term.academic_year_id)
-                    if 6 <= g.number <= 10
+                    if 1 <= g.number <= 10
                     for s in curriculum.subjects_for_grade(g.id)]
     rep = paper_timing.report(
         cfg.data_root, school_id=current.school_id, attribute=attribute, baseline=baseline,
@@ -780,8 +780,8 @@ def get_paper(paper_id: str, current: User = Depends(require_staff)) -> Generate
 def export_paper(paper_id: str, fmt: str, current: User = Depends(require_staff)) -> dict:
     cfg, store = _require()
     paper = require_school_owns_paper(_require_papers(), store, paper_id, current)
-    if fmt not in ("pdf", "answer-key", "answer_key", "answerKey"):
-        raise HTTPException(400, "only pdf and answer-key exports are supported currently")
+    if fmt not in ("pdf", "docx", "answer-key", "answer_key", "answerKey"):
+        raise HTTPException(400, "exports are pdf, docx (an editable Word file) and answer-key")
     out_dir = cfg.artifacts_dir / "papers"
     template = _require_papers().get_template(paper_id)
     if template is None:
@@ -818,7 +818,11 @@ def export_paper(paper_id: str, fmt: str, current: User = Depends(require_staff)
         )
         return {"url": f"/api/v1/papers/{paper_id}/file?format=answer-key", "watermarkId": watermark_id}
     try:
-        path = pdf_export.export_pdf(paper, out_dir, template=template, watermark_id=watermark_id)
+        if fmt == "docx":
+            from . import docx_export
+            path = docx_export.export_docx(paper, out_dir, template=template, watermark_id=watermark_id)
+        else:
+            path = pdf_export.export_pdf(paper, out_dir, template=template, watermark_id=watermark_id)
     except Exception as exc:
         log.exception("paper %s failed to render", paper_id)
         raise HTTPException(422, f"this paper could not be rendered: {exc}") from exc
@@ -826,23 +830,27 @@ def export_paper(paper_id: str, fmt: str, current: User = Depends(require_staff)
         "paper_exported", assessment_id=paper.assessment_id, actor=current.id,
         details={"paperId": paper_id, "format": fmt, "watermarkId": watermark_id},
     )
-    return {"url": f"/api/v1/papers/{paper_id}/file", "watermarkId": watermark_id}
+    suffix = "?format=docx" if fmt == "docx" else ""
+    return {"url": f"/api/v1/papers/{paper_id}/file{suffix}", "watermarkId": watermark_id}
 
 
 @router.get("/papers/{paper_id}/file")
 def get_paper_file(paper_id: str, format: str = "pdf", current: User = Depends(require_staff)):
     cfg, store = _require()
     require_school_owns_paper(_require_papers(), store, paper_id, current)
-    suffix = "_answer_key.pdf" if format in ("answer-key", "answer_key") else ".pdf"
+    suffix = ("_answer_key.pdf" if format in ("answer-key", "answer_key")
+              else ".docx" if format == "docx" else ".pdf")
     path = cfg.artifacts_dir / "papers" / f"{paper_id}{suffix}"
     if not path.exists():
-        raise HTTPException(404, "pdf not generated yet")
+        raise HTTPException(404, f"{'docx' if format == 'docx' else 'pdf'} not generated yet")
     paper = _require_papers().get(paper_id)
     get_audit_log(cfg.data_root).append(
         "paper_downloaded", assessment_id=paper.assessment_id if paper else None, actor=current.id,
         details={"paperId": paper_id, "format": format, "schoolId": current.school_id},
     )
-    return FileResponse(str(path), media_type="application/pdf", filename=f"{paper_id}{suffix}")
+    media = ("application/vnd.openxmlformats-officedocument.wordprocessingml.document" if format == "docx"
+             else "application/pdf")
+    return FileResponse(str(path), media_type=media, filename=f"{paper_id}{suffix}")
 
 
 # ---- Assessments ----

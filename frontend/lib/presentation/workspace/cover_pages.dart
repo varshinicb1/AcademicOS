@@ -357,7 +357,8 @@ class _MyDayPageState extends State<MyDayPage> {
       note = c.text.trim().isEmpty ? null : c.text.trim();
     }
     try {
-      await Ops.patch('$_base/scheduled-lessons/$id', body: {'status': status, if (note != null) 'note': note});
+      await Ops.send('PATCH', '$_base/scheduled-lessons/$id', body: {'status': status, if (note != null) 'note': note},
+          label: 'Lesson marked $status');
       _load();
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
@@ -384,7 +385,8 @@ class _MyDayPageState extends State<MyDayPage> {
 
   Future<void> _respond(String id, bool accept) async {
     try {
-      await Ops.post('$_base/substitutions/$id/respond', body: {'accept': accept});
+      await Ops.send('POST', '$_base/substitutions/$id/respond', body: {'accept': accept},
+          label: accept ? 'Accept cover' : 'Decline cover');
       _load();
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));

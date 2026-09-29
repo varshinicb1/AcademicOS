@@ -96,6 +96,11 @@
             "minLength": 1,
             "title": "Label",
             "type": "string"
+          },
+          "moveLessons": {
+            "default": true,
+            "title": "Movelessons",
+            "type": "boolean"
           }
         },
         "required": [
@@ -1267,6 +1272,42 @@
         "title": "BankChapter",
         "type": "object"
       },
+      "BankRow": {
+        "properties": {
+          "chapters": {
+            "title": "Chapters",
+            "type": "integer"
+          },
+          "chaptersWithoutQuestions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Chapterswithoutquestions",
+            "type": "array"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "questions": {
+            "title": "Questions",
+            "type": "integer"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          }
+        },
+        "required": [
+          "grade",
+          "subject",
+          "questions",
+          "chapters",
+          "chaptersWithoutQuestions"
+        ],
+        "title": "BankRow",
+        "type": "object"
+      },
       "BellScheduleRequest": {
         "additionalProperties": false,
         "properties": {
@@ -2370,6 +2411,17 @@
             "title": "Consent",
             "type": "string"
           },
+          "grade": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grade"
+          },
           "name": {
             "title": "Name",
             "type": "string"
@@ -2444,6 +2496,17 @@
             },
             "title": "Entries",
             "type": "array"
+          },
+          "grade": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grade"
           },
           "role": {
             "title": "Role",
@@ -2641,6 +2704,29 @@
           "needingHelp"
         ],
         "title": "ClassProgressResponse",
+        "type": "object"
+      },
+      "ClassSubject": {
+        "properties": {
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "papers": {
+            "default": 0,
+            "title": "Papers",
+            "type": "integer"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          }
+        },
+        "required": [
+          "grade",
+          "subject"
+        ],
+        "title": "ClassSubject",
         "type": "object"
       },
       "ClosureRequest": {
@@ -3149,6 +3235,49 @@
           "hasConsent"
         ],
         "title": "ConsentStatusResponse",
+        "type": "object"
+      },
+      "Cover": {
+        "properties": {
+          "compensated": {
+            "title": "Compensated",
+            "type": "integer"
+          },
+          "filled": {
+            "title": "Filled",
+            "type": "integer"
+          },
+          "lost": {
+            "title": "Lost",
+            "type": "integer"
+          },
+          "owed": {
+            "title": "Owed",
+            "type": "integer"
+          },
+          "requested": {
+            "title": "Requested",
+            "type": "integer"
+          },
+          "supervised": {
+            "title": "Supervised",
+            "type": "integer"
+          },
+          "unfilled": {
+            "title": "Unfilled",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "requested",
+          "filled",
+          "supervised",
+          "unfilled",
+          "lost",
+          "compensated",
+          "owed"
+        ],
+        "title": "Cover",
         "type": "object"
       },
       "CoverSummaryResponse": {
@@ -4484,6 +4613,39 @@
         "title": "ExamResponse",
         "type": "object"
       },
+      "ExamRow": {
+        "properties": {
+          "endDate": {
+            "title": "Enddate",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "papers": {
+            "title": "Papers",
+            "type": "integer"
+          },
+          "startDate": {
+            "title": "Startdate",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "startDate",
+          "endDate",
+          "status",
+          "papers"
+        ],
+        "title": "ExamRow",
+        "type": "object"
+      },
       "ExamSoon": {
         "properties": {
           "id": {
@@ -4510,6 +4672,48 @@
           "status"
         ],
         "title": "ExamSoon",
+        "type": "object"
+      },
+      "Exams": {
+        "properties": {
+          "covered": {
+            "items": {
+              "$ref": "#/components/schemas/ClassSubject"
+            },
+            "title": "Covered",
+            "type": "array"
+          },
+          "notYet": {
+            "items": {
+              "$ref": "#/components/schemas/ClassSubject"
+            },
+            "title": "Notyet",
+            "type": "array"
+          },
+          "papersSet": {
+            "title": "Papersset",
+            "type": "integer"
+          },
+          "scheduled": {
+            "items": {
+              "$ref": "#/components/schemas/ExamRow"
+            },
+            "title": "Scheduled",
+            "type": "array"
+          },
+          "unattributed": {
+            "title": "Unattributed",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "scheduled",
+          "papersSet",
+          "covered",
+          "notYet",
+          "unattributed"
+        ],
+        "title": "Exams",
         "type": "object"
       },
       "ExtractRequest": {
@@ -4625,6 +4829,56 @@
           "url"
         ],
         "title": "FeedResponse",
+        "type": "object"
+      },
+      "Filters": {
+        "properties": {
+          "grade": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grade"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
+          },
+          "sectionName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionname"
+          },
+          "subject": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subject"
+          }
+        },
+        "title": "Filters",
         "type": "object"
       },
       "FinalizeResponse": {
@@ -5007,6 +5261,21 @@
           "totalMarks"
         ],
         "title": "GeneratedSectionSchema",
+        "type": "object"
+      },
+      "GoogleSignIn": {
+        "properties": {
+          "credential": {
+            "maxLength": 4096,
+            "minLength": 20,
+            "title": "Credential",
+            "type": "string"
+          }
+        },
+        "required": [
+          "credential"
+        ],
+        "title": "GoogleSignIn",
         "type": "object"
       },
       "GradeRequest": {
@@ -5510,6 +5779,31 @@
           "label": {
             "title": "Label",
             "type": "string"
+          },
+          "lessonsMoved": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lessonsmoved"
+          },
+          "notMoved": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notmoved"
           }
         },
         "required": [
@@ -5520,6 +5814,42 @@
           "kind"
         ],
         "title": "HolidayResponse",
+        "type": "object"
+      },
+      "Homework": {
+        "properties": {
+          "expected": {
+            "title": "Expected",
+            "type": "integer"
+          },
+          "handedIn": {
+            "title": "Handedin",
+            "type": "integer"
+          },
+          "issued": {
+            "title": "Issued",
+            "type": "integer"
+          },
+          "marked": {
+            "title": "Marked",
+            "type": "integer"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/HomeworkRow"
+            },
+            "title": "Rows",
+            "type": "array"
+          }
+        },
+        "required": [
+          "issued",
+          "expected",
+          "handedIn",
+          "marked",
+          "rows"
+        ],
+        "title": "Homework",
         "type": "object"
       },
       "HomeworkCreateRequest": {
@@ -5719,6 +6049,44 @@
         "title": "HomeworkDetail",
         "type": "object"
       },
+      "HomeworkRow": {
+        "properties": {
+          "expected": {
+            "title": "Expected",
+            "type": "integer"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "handedIn": {
+            "title": "Handedin",
+            "type": "integer"
+          },
+          "issued": {
+            "title": "Issued",
+            "type": "integer"
+          },
+          "marked": {
+            "title": "Marked",
+            "type": "integer"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          }
+        },
+        "required": [
+          "grade",
+          "subject",
+          "issued",
+          "expected",
+          "handedIn",
+          "marked"
+        ],
+        "title": "HomeworkRow",
+        "type": "object"
+      },
       "HomeworkSetRequest": {
         "additionalProperties": false,
         "description": "N answer-keyed questions for a class, from chapters, in a mix of\ntypes, avoiding questions the caller has already used. The API knows no\nstudents (API-5), so \"already had\" is the caller's list of ids.",
@@ -5912,6 +6280,7 @@
       },
       "ImportRequest": {
         "additionalProperties": false,
+        "description": "The rows as CSV text, or as an Excel workbook (.xlsx, base64): its\nfirst sheet, in the same columns (INT-3).",
         "properties": {
           "academicYearId": {
             "anyOf": [
@@ -5925,14 +6294,30 @@
             "title": "Academicyearid"
           },
           "csv": {
-            "maxLength": 1000000,
-            "title": "Csv",
-            "type": "string"
+            "anyOf": [
+              {
+                "maxLength": 1000000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Csv"
+          },
+          "xlsx": {
+            "anyOf": [
+              {
+                "maxLength": 2000000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Xlsx"
           }
         },
-        "required": [
-          "csv"
-        ],
         "title": "ImportRequest",
         "type": "object"
       },
@@ -7169,6 +7554,17 @@
             },
             "title": "Entries",
             "type": "array"
+          },
+          "grade": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grade"
           },
           "role": {
             "title": "Role",
@@ -8509,6 +8905,18 @@
       "PreferencesRequest": {
         "additionalProperties": false,
         "properties": {
+          "digestAt": {
+            "anyOf": [
+              {
+                "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d)?$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Digestat"
+          },
           "kinds": {
             "default": [],
             "items": {
@@ -8558,6 +8966,17 @@
       },
       "PreferencesResponse": {
         "properties": {
+          "digestAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Digestat"
+          },
           "kinds": {
             "items": {
               "$ref": "#/components/schemas/KindPreference"
@@ -8608,6 +9027,49 @@
           "items"
         ],
         "title": "ProcessSessionResponse",
+        "type": "object"
+      },
+      "ProgressRow": {
+        "properties": {
+          "developing": {
+            "title": "Developing",
+            "type": "integer"
+          },
+          "early": {
+            "title": "Early",
+            "type": "integer"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "mastered": {
+            "title": "Mastered",
+            "type": "integer"
+          },
+          "needsWork": {
+            "title": "Needswork",
+            "type": "integer"
+          },
+          "studentsWithEvidence": {
+            "title": "Studentswithevidence",
+            "type": "integer"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          }
+        },
+        "required": [
+          "grade",
+          "subject",
+          "studentsWithEvidence",
+          "mastered",
+          "developing",
+          "needsWork",
+          "early"
+        ],
+        "title": "ProgressRow",
         "type": "object"
       },
       "ProposalResponse": {
@@ -11192,6 +11654,65 @@
         "title": "SchoolTemplate",
         "type": "object"
       },
+      "Scope": {
+        "properties": {
+          "asOf": {
+            "title": "Asof",
+            "type": "string"
+          },
+          "endDate": {
+            "title": "Enddate",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "term",
+              "year"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "startDate": {
+            "title": "Startdate",
+            "type": "string"
+          },
+          "termId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Termid"
+          }
+        },
+        "required": [
+          "kind",
+          "name",
+          "startDate",
+          "endDate",
+          "asOf"
+        ],
+        "title": "Scope",
+        "type": "object"
+      },
       "ScoreRequest": {
         "properties": {
           "marks_available": {
@@ -13378,6 +13899,37 @@
         "title": "SwapCounts",
         "type": "object"
       },
+      "Syllabus": {
+        "properties": {
+          "behind": {
+            "title": "Behind",
+            "type": "integer"
+          },
+          "plannedToDate": {
+            "title": "Plannedtodate",
+            "type": "integer"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/SyllabusRow"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "taughtToDate": {
+            "title": "Taughttodate",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "plannedToDate",
+          "taughtToDate",
+          "behind",
+          "rows"
+        ],
+        "title": "Syllabus",
+        "type": "object"
+      },
       "SyllabusChapterResponse": {
         "properties": {
           "id": {
@@ -13437,6 +13989,70 @@
           "units"
         ],
         "title": "SyllabusResponse",
+        "type": "object"
+      },
+      "SyllabusRow": {
+        "properties": {
+          "behind": {
+            "title": "Behind",
+            "type": "boolean"
+          },
+          "coveragePct": {
+            "title": "Coveragepct",
+            "type": "number"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "pacePct": {
+            "title": "Pacepct",
+            "type": "number"
+          },
+          "plannedToDate": {
+            "title": "Plannedtodate",
+            "type": "integer"
+          },
+          "sectionName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionname"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          },
+          "taughtToDate": {
+            "title": "Taughttodate",
+            "type": "integer"
+          },
+          "totalLessons": {
+            "title": "Totallessons",
+            "type": "integer"
+          },
+          "variance": {
+            "title": "Variance",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "grade",
+          "subject",
+          "plannedToDate",
+          "taughtToDate",
+          "variance",
+          "pacePct",
+          "totalLessons",
+          "coveragePct",
+          "behind"
+        ],
+        "title": "SyllabusRow",
         "type": "object"
       },
       "SyllabusUnitResponse": {
@@ -13955,6 +14571,58 @@
         "title": "TermBaselineRequest",
         "type": "object"
       },
+      "TermReport": {
+        "properties": {
+          "bank": {
+            "items": {
+              "$ref": "#/components/schemas/BankRow"
+            },
+            "title": "Bank",
+            "type": "array"
+          },
+          "cover": {
+            "$ref": "#/components/schemas/Cover"
+          },
+          "exams": {
+            "$ref": "#/components/schemas/Exams"
+          },
+          "filters": {
+            "$ref": "#/components/schemas/Filters"
+          },
+          "homework": {
+            "$ref": "#/components/schemas/Homework"
+          },
+          "progress": {
+            "items": {
+              "$ref": "#/components/schemas/ProgressRow"
+            },
+            "title": "Progress",
+            "type": "array"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "syllabus": {
+            "$ref": "#/components/schemas/Syllabus"
+          },
+          "timeSaved": {
+            "$ref": "#/components/schemas/TimeSaved"
+          }
+        },
+        "required": [
+          "scope",
+          "filters",
+          "syllabus",
+          "exams",
+          "timeSaved",
+          "homework",
+          "cover",
+          "bank",
+          "progress"
+        ],
+        "title": "TermReport",
+        "type": "object"
+      },
       "TermRequest": {
         "description": "Create and update take the whole term: a term is three fields, and a\nfull replace keeps the overlap check about one complete range.",
         "properties": {
@@ -14046,6 +14714,44 @@
           "available"
         ],
         "title": "TierCheck",
+        "type": "object"
+      },
+      "TimeSaved": {
+        "properties": {
+          "baselineMinutesPerPaper": {
+            "title": "Baselineminutesperpaper",
+            "type": "number"
+          },
+          "baselineProvenance": {
+            "title": "Baselineprovenance",
+            "type": "string"
+          },
+          "estimated": {
+            "default": true,
+            "title": "Estimated",
+            "type": "boolean"
+          },
+          "minutesPerPaper": {
+            "title": "Minutesperpaper",
+            "type": "number"
+          },
+          "minutesTotal": {
+            "title": "Minutestotal",
+            "type": "number"
+          },
+          "papers": {
+            "title": "Papers",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "papers",
+          "minutesPerPaper",
+          "minutesTotal",
+          "baselineMinutesPerPaper",
+          "baselineProvenance"
+        ],
+        "title": "TimeSaved",
         "type": "object"
       },
       "TimetableEntryBody": {
@@ -15057,7 +15763,7 @@
   "paths": {
     "/api/v1/admin/export/{kind}": {
       "get": {
-        "description": "The school's data as CSV, in the import's own columns where there is\nan import for it, so an export edited in a spreadsheet imports back.",
+        "description": "The school's data as CSV or Excel, in the import's own columns where\nthere is an import for it, so an export edited in a spreadsheet imports\nback.",
         "operationId": "export_api_v1_admin_export__kind__get",
         "parameters": [
           {
@@ -15083,6 +15789,20 @@
                 }
               ],
               "title": "Academicyearid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "required": false,
+            "schema": {
+              "default": "csv",
+              "enum": [
+                "csv",
+                "xlsx"
+              ],
+              "title": "Format",
+              "type": "string"
             }
           }
         ],
@@ -15253,7 +15973,7 @@
     },
     "/api/v1/admin/import/{kind}": {
       "post": {
-        "description": "Plan (and with dryRun=false, apply) a CSV import. The year is the\none named, else the school's latest.",
+        "description": "Plan (and with dryRun=false, apply) an import from CSV or an Excel\nworkbook. The year is the one named, else the school's latest.",
         "operationId": "bulk_import_api_v1_admin_import__kind__post",
         "parameters": [
           {
@@ -15318,7 +16038,7 @@
     },
     "/api/v1/admin/import/{kind}/template": {
       "get": {
-        "description": "The CSV header for an import, with one example row.",
+        "description": "The header for an import, with one example row, as CSV or Excel.",
         "operationId": "import_template_api_v1_admin_import__kind__template_get",
         "parameters": [
           {
@@ -15327,6 +16047,20 @@
             "required": true,
             "schema": {
               "title": "Kind",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "required": false,
+            "schema": {
+              "default": "csv",
+              "enum": [
+                "csv",
+                "xlsx"
+              ],
+              "title": "Format",
               "type": "string"
             }
           }
@@ -16166,6 +16900,43 @@
         "summary": "Verify Code"
       }
     },
+    "/api/v1/auth/google": {
+      "post": {
+        "description": "Sign in with a Google ID token: the same answer as a password sign-in.",
+        "operationId": "sign_in_with_google_api_v1_auth_google_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoogleSignIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Sign In With Google"
+      }
+    },
     "/api/v1/auth/invites": {
       "get": {
         "description": "The caller's school's invites, used and unused, newest first. Each\nrow says who created it and which account used it and when.",
@@ -16382,6 +17153,27 @@
           }
         ],
         "summary": "Me"
+      }
+    },
+    "/api/v1/auth/providers": {
+      "get": {
+        "description": "Which ways in this deployment offers, for the sign-in page: Google\n(with the public client id the button needs) and emailed codes.",
+        "operationId": "providers_api_v1_auth_providers_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Providers Api V1 Auth Providers Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Providers"
       }
     },
     "/api/v1/auth/register": {
@@ -16950,6 +17742,124 @@
           }
         ],
         "summary": "Child Homework"
+      }
+    },
+    "/api/v1/children/{student_id}/homework/{homework_id}": {
+      "get": {
+        "description": "One homework as the child sees it: the questions without answers;\nafter marking, the marks and the model answers.",
+        "operationId": "child_homework_detail_api_v1_children__student_id__homework__homework_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyHomeworkDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Child Homework Detail"
+      }
+    },
+    "/api/v1/children/{student_id}/homework/{homework_id}/submit": {
+      "post": {
+        "description": "A parent hands in a young child's answers (SA-7: in classes 1-5 the\nparent does the app with the child). From class 6 the child hands in\ntheir own work. Recorded in the audit log as the parent's action.",
+        "operationId": "child_homework_submit_api_v1_children__student_id__homework__homework_id__submit_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyHomeworkDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Child Homework Submit"
       }
     },
     "/api/v1/children/{student_id}/learning": {
@@ -23001,6 +23911,222 @@
           }
         ],
         "summary": "Summary"
+      }
+    },
+    "/api/v1/dashboard/term": {
+      "get": {
+        "description": "The term at a glance, for the principal or a reports admin, filtered\nby class, section or subject. By default the term covering today; with no\nterm declared, the year so far (and the response says so).",
+        "operationId": "term_report_api_v1_dashboard_term_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "termId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Termid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "grade",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 12,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Grade"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sectionId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sectionid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "subject",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subject"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TermReport"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Term Report"
+      }
+    },
+    "/api/v1/dashboard/term/export": {
+      "get": {
+        "description": "The same report as an Excel workbook or a PDF (ADM-4). Every download\nis recorded in the audit log with who took it.",
+        "operationId": "export_term_report_api_v1_dashboard_term_export_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "format",
+            "required": false,
+            "schema": {
+              "default": "xlsx",
+              "enum": [
+                "xlsx",
+                "pdf"
+              ],
+              "title": "Format",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "termId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Termid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "grade",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 12,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Grade"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sectionId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sectionid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "subject",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subject"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Export Term Report"
       }
     },
     "/api/v1/devices": {

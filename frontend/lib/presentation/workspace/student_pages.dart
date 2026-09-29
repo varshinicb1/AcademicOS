@@ -87,7 +87,13 @@ String _fmt(Object? n) => n is num ? (n == n.roundToDouble() ? n.toInt().toStrin
 
 class HomeworkDetailPage extends StatefulWidget {
   final String homeworkId;
-  const HomeworkDetailPage({super.key, required this.homeworkId});
+  /// Set when a parent opens a child's homework (SA-6/SA-7): read it, and for
+  /// a class 1-5 child ([young]) answer it together and hand it in.
+  final String? childId;
+  final String? childName;
+  /// Classes 1-5: larger text, and the parent may hand it in (SA-7).
+  final bool young;
+  const HomeworkDetailPage({super.key, required this.homeworkId, this.childId, this.childName, this.young = false});
 
   @override
   State<HomeworkDetailPage> createState() => _HomeworkDetailPageState();
@@ -99,6 +105,8 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
   final Map<String, TextEditingController> _answers = {};
   bool _sending = false;
 
+  String get _base => widget.childId == null ? '/my-homework' : '/children/${widget.childId}/homework';
+
   @override
   void initState() {
     super.initState();
@@ -107,7 +115,7 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
 
   Future<void> _load() async {
     try {
-      final hw = await Ops.map('/my-homework/${widget.homeworkId}');
+      final hw = await Ops.map('$_base/${widget.homeworkId}');
       final given = Map<String, dynamic>.from(hw['answers'] as Map? ?? {});
       for (final q in (hw['questions'] as List).cast<Map>()) {
         _answers.putIfAbsent(q['id'] as String, () => TextEditingController(text: given[q['id']]?.toString() ?? ''));
@@ -121,8 +129,9 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
   Future<void> _submit() async {
     setState(() => _sending = true);
     try {
-      final hw = await Ops.post('/my-homework/${widget.homeworkId}/submit',
-          body: {'answers': {for (final e in _answers.entries) e.key: e.value.text.trim()}});
+      final hw = await Ops.send('POST', '$_base/${widget.homeworkId}/submit',
+          body: {'answers': {for (final e in _answers.entries) e.key: e.value.text.trim()}},
+          label: 'Answers for ${_hw?['title'] ?? 'homework'}${widget.childName == null ? '' : ' (${widget.childName})'}');
       setState(() => _hw = Map<String, dynamic>.from(hw as Map));
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(
@@ -143,11 +152,20 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
       return Scaffold(appBar: AppBar(), body: _error != null ? ErrorDisplay(message: _error!) : const LoadingIndicator());
     }
     final graded = hw['myStatus'] == 'graded';
-    final open = hw['status'] == 'published' && !graded;
+    // A parent answers only for a young child; an older child's is read-only.
+    final open = hw['status'] == 'published' && !graded && (widget.childId == null || widget.young);
     final evals = {for (final e in (hw['evaluations'] as List).cast<Map>()) e['questionId']: e};
-    return Scaffold(
-      appBar: AppBar(title: Text(hw['title'] ?? 'Homework')),
+    final mq = MediaQuery.of(context);
+    return MediaQuery(
+      // Classes 1-5 read larger (SA-7); a larger system setting is kept.
+      data: widget.young && mq.textScaler.scale(1) < 1.25 ? mq.copyWith(textScaler: const TextScaler.linear(1.25)) : mq,
+      child: Scaffold(
+      appBar: AppBar(title: Text(widget.childName == null ? (hw['title'] ?? 'Homework') : '${hw['title']} · ${widget.childName}')),
       body: ListView(padding: const EdgeInsets.all(16), children: [
+        if (widget.childId != null && widget.young)
+          Padding(padding: const EdgeInsets.only(bottom: 8), child: Text(
+              'Do this together: read each question to ${widget.childName ?? 'your child'}, let them answer, and hand it in.',
+              style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.primary))),
         Text('${hw['subjectName']} · due ${hw['dueDate']} · ${hw['totalMarks']} marks', style: theme.textTheme.bodyMedium),
         if ((hw['instructions'] as String? ?? '').isNotEmpty)
           Padding(padding: const EdgeInsets.only(top: 8), child: Text(hw['instructions'])),
@@ -185,7 +203,7 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
               if (evals[q['id']] != null) _EvalLine(e: Map<String, dynamic>.from(evals[q['id']]!)),
             ]),
           ),
-        MyHomeworkPhotos(homeworkId: widget.homeworkId, editable: open),
+        if (widget.childId == null) MyHomeworkPhotos(homeworkId: widget.homeworkId, editable: open),
         const SizedBox(height: 12),
         if (open)
           FilledButton.icon(
@@ -196,7 +214,7 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
         if (hw['status'] == 'closed' && !graded)
           const Text('This homework is closed.'),
       ]),
-    );
+    ));
   }
 }
 

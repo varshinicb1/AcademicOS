@@ -259,6 +259,8 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/staff"): _p(STAFF, "names only, for pickers"),
     # ADM-2 dashboard, INT-2 calendar feed, API-2 homework sets, SA-2 photos.
     ("GET", "/api/v1/dashboard/summary"): _p(ADMIN["reports"]),
+    ("GET", "/api/v1/dashboard/term"): _p(ADMIN["reports"]),
+    ("GET", "/api/v1/dashboard/term/export"): _p(ADMIN["reports"]),
     ("GET", "/api/v1/calendar-feed"): _p(ANY_USER, "the callers own feed; staff and students"),
     ("POST", "/api/v1/calendar-feed/reset"): _p(ANY_USER, "the callers own feed"),
     ("GET", "/api/v1/ics/{token}.ics"): _p(PUBLIC, "the unguessable feed token is the key; the owners own dates only"),
@@ -276,6 +278,8 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/sections/{section_id}/progress"): _p(STAFF, "the sections teachers or a reports admin; logged"),
     ("POST", "/api/v1/auth/code/request"): _p(PUBLIC, "sign-in: same answer whether or not the email exists; rate-limited"),
     ("POST", "/api/v1/auth/code/verify"): _p(PUBLIC, "sign-in: hashed six-digit code, 10 minutes, 5 tries; rate-limited"),
+    ("GET", "/api/v1/auth/providers"): _p(PUBLIC, "sign-in page: which ways in are set up; the Google client id is public"),
+    ("POST", "/api/v1/auth/google"): _p(PUBLIC, "sign-in: a Google ID token checked against Google's keys, for an existing account; rate-limited"),
     # M5 homework (operations/homework_routes.py).
     ("GET", "/api/v1/homework/suggestion"): _p(STAFF, "the teacher of the subject in the section, or the principal"),
     ("POST", "/api/v1/homework"): _p(STAFF, "a teacher only for sections they teach the subject in"),
@@ -301,6 +305,8 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/children/{student_id}/timetable"): _p(ANY_USER, "handler admits the childs linked guardians only"),
     ("GET", "/api/v1/children/{student_id}/day"): _p(ANY_USER, "handler admits the childs linked guardians only"),
     ("GET", "/api/v1/children/{student_id}/homework"): _p(ANY_USER, "handler admits the childs linked guardians only"),
+    ("GET", "/api/v1/children/{student_id}/homework/{homework_id}"): _p(ANY_USER, "handler admits the childs linked guardians only"),
+    ("POST", "/api/v1/children/{student_id}/homework/{homework_id}/submit"): _p(ANY_USER, "a linked guardian of a class 1-5 child only (SA-7); audited"),
     ("GET", "/api/v1/children/{student_id}/learning"): _p(ANY_USER, "handler admits the childs linked guardians only"),
     ("GET", "/api/v1/children/{student_id}/consent"): _p(ANY_USER, "handler admits the childs linked guardians only"),
     ("POST", "/api/v1/children/{student_id}/consent"): _p(ANY_USER, "the linked guardians own consent"),
@@ -455,6 +461,8 @@ PARENT_PATHS = frozenset({
     "/api/v1/children/{student_id}/timetable",
     "/api/v1/children/{student_id}/day",
     "/api/v1/children/{student_id}/homework",
+    "/api/v1/children/{student_id}/homework/{homework_id}",
+    "/api/v1/children/{student_id}/homework/{homework_id}/submit",
     "/api/v1/children/{student_id}/learning",
     "/api/v1/children/{student_id}/consent",
 })

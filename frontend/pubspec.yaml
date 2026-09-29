@@ -101,6 +101,9 @@ dependencies:
   shimmer: ^3.0.0
   cached_network_image: ^3.3.1
   url_launcher: ^6.2.5
+  # Google Identity Services on the web sign-in page (INT-1); already locked
+  # as a transitive dependency of the Flutter web plugins.
+  web: ^1.1.1
   # share_plus was another unused dependency (confirmed by grep — no
   # `package:share_plus` import or `Share.` call anywhere in lib/) and its
   # old pin conflicted with the file_picker bump below over the `web`

@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/session/current_session.dart';
+import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'dashboard_card.dart';
+import 'young_home.dart';
 import 'ops_api.dart';
+import 'profiles.dart';
 import 'strings.dart';
 
 /// The school workspace: every day-to-day tool for the signed-in role on one
@@ -22,11 +25,22 @@ typedef _Tile = ({IconData icon, String title, String subtitle, String path});
 class _WorkspacePageState extends State<WorkspacePage> {
   int _unread = 0;
   Set<String> _caps = {};
+  // A class 1-5 student gets the young learners' home (SA-7).
+  bool _young = false;
 
   @override
   void initState() {
     super.initState();
     _loadUnread();
+    if (CurrentSession.role == 'student') {
+      Ops.map('/curriculum/my-timetable').then((t) {
+        final grade = t['grade'] as int?;
+        if (mounted) setState(() => _young = grade != null && grade <= 5);
+      }, onError: (Object e) {
+        // The usual home is shown; say why the simpler one is not.
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
+      });
+    }
     if (CurrentSession.role == 'teacher') {
       Ops.map('/my-grants').then((g) {
         if (mounted) setState(() => _caps = (g['capabilities'] as List).cast<String>().toSet());
@@ -64,6 +78,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
         ];
       case 'principal':
         return [
+          (icon: Icons.assessment_outlined, title: tr('Term report'), subtitle: tr('The term by class, section and subject; Excel or PDF'), path: '/school/term-report'),
           (icon: Icons.how_to_reg_outlined, title: tr('Attendance & cover'), subtitle: tr('Mark absences, leave and substitutions'), path: '/school/cover'),
           (icon: Icons.assignment_outlined, title: tr('Homework'), subtitle: tr('Set, mark and follow up'), path: '/school/homework'),
           (icon: Icons.insights_outlined, title: tr('Class progress'), subtitle: tr('Mastery by section and chapter'), path: '/school/class-progress'),
@@ -83,6 +98,8 @@ class _WorkspacePageState extends State<WorkspacePage> {
             (icon: Icons.event_note_outlined, title: tr('Exams'), subtitle: tr('You manage exam planning'), path: '/school/exams'),
           if (_caps.contains('users'))
             (icon: Icons.upload_file_outlined, title: tr('Import & export'), subtitle: tr('You manage people'), path: '/school/import'),
+          if (_caps.contains('reports'))
+            (icon: Icons.assessment_outlined, title: tr('Term report'), subtitle: tr('You manage reports'), path: '/school/term-report'),
           (icon: Icons.today_outlined, title: tr('My day'), subtitle: tr('Periods, duties and check-in'), path: '/school/my-day'),
           (icon: Icons.calendar_view_week_outlined, title: tr('My week'), subtitle: tr('The timetable, with times'), path: '/school/week'),
           (icon: Icons.assignment_outlined, title: tr('Homework'), subtitle: tr('Set, mark and follow up'), path: '/school/homework'),
@@ -106,6 +123,10 @@ class _WorkspacePageState extends State<WorkspacePage> {
           icon: const Icon(Icons.translate),
           onPressed: () => setState(() => setUiLanguage(uiHindi ? 'en' : 'hi')),
         ),
+        // A shared family phone: switch between the children and parents on it (SA-8).
+        if (CurrentSession.role == 'student' || CurrentSession.role == 'parent')
+          IconButton(tooltip: tr('Switch profile'), icon: const Icon(Icons.switch_account_outlined),
+              onPressed: () => showProfileSwitcher(context)),
         if (CurrentSession.role != 'parent')
           IconButton(tooltip: 'Copy my calendar link', icon: const Icon(Icons.event_available),
               onPressed: () => copyCalendarLink(context)),
@@ -114,6 +135,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
         const OfflineBanner(),
         // The principal and reports admins see today at a glance (ADM-2).
         if (CurrentSession.role == 'principal' || _caps.contains('reports')) const DashboardCard(),
+        if (_young) const Expanded(child: YoungHome()) else
         Expanded(child: RefreshIndicator(
         onRefresh: _loadUnread,
         child: LayoutBuilder(builder: (context, c) {
