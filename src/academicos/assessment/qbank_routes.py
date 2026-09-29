@@ -86,7 +86,7 @@ def init(db_path: Path | str, bank_path: Path | str) -> None:
     initialised) and everything else boots normally.
     """
     global _store, _bank
-    _store = ApiKeyStore(db_path)
+    _store = ApiKeyStore(db_path, durable=True)
 
     path = Path(bank_path)
     if not path.exists():

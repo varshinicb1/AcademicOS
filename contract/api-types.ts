@@ -66,6 +66,69 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/api-keys": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Keys */
+        get: operations["list_keys_api_v1_api_keys_get"];
+        put?: never;
+        /**
+         * Create Key
+         * @description Mint a key for this school. Copy `key` now: it is not shown again.
+         *     Scopes are the question-bank API's; any that would reach student data
+         *     are refused outright.
+         */
+        post: operations["create_key_api_v1_api_keys_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/api-keys/{key_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Revoke Key
+         * @description Revoke at once. The record is kept for incident review.
+         */
+        delete: operations["revoke_key_api_v1_api_keys__key_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/api-keys/{key_id}/usage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Key Usage
+         * @description Requests per minute over the last few minutes (the quota's own count).
+         */
+        get: operations["key_usage_api_v1_api_keys__key_id__usage_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/assessments": {
         parameters: {
             query?: never;
@@ -4600,6 +4663,68 @@ export interface components {
             sourcePaperCode: string;
             /** Totalmarks */
             totalMarks: number;
+        };
+        /** ApiKeyCreateRequest */
+        ApiKeyCreateRequest: {
+            /** Label */
+            label: string;
+            /**
+             * Quotaperminute
+             * @default 120
+             */
+            quotaPerMinute: number;
+            /** Scopes */
+            scopes: string[];
+        };
+        /** ApiKeyCreatedResponse */
+        ApiKeyCreatedResponse: {
+            /** Active */
+            active: boolean;
+            /** Createdat */
+            createdAt: string;
+            /** Createdby */
+            createdBy: string;
+            /** Id */
+            id: string;
+            /** Key */
+            key: string;
+            /** Label */
+            label: string;
+            /** Lastusedat */
+            lastUsedAt?: string | null;
+            /** Prefix */
+            prefix: string;
+            /** Quotaperminute */
+            quotaPerMinute: number;
+            /** Revokedat */
+            revokedAt?: string | null;
+            /** Scopes */
+            scopes: string[];
+            /** Scopesavailable */
+            scopesAvailable: string[];
+        };
+        /** ApiKeyResponse */
+        ApiKeyResponse: {
+            /** Active */
+            active: boolean;
+            /** Createdat */
+            createdAt: string;
+            /** Createdby */
+            createdBy: string;
+            /** Id */
+            id: string;
+            /** Label */
+            label: string;
+            /** Lastusedat */
+            lastUsedAt?: string | null;
+            /** Prefix */
+            prefix: string;
+            /** Quotaperminute */
+            quotaPerMinute: number;
+            /** Revokedat */
+            revokedAt?: string | null;
+            /** Scopes */
+            scopes: string[];
         };
         /**
          * ApproveChapterTopicsResponse
@@ -9369,6 +9494,13 @@ export interface components {
             /** Name */
             name?: string | null;
         };
+        /** UsageWindow */
+        UsageWindow: {
+            /** Count */
+            count: number;
+            /** Windowstart */
+            windowStart: string;
+        };
         /** UserResponse */
         UserResponse: {
             /** Email */
@@ -9527,6 +9659,121 @@ export interface operations {
                 };
                 content: {
                     "text/plain": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_keys_api_v1_api_keys_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiKeyResponse"][];
+                };
+            };
+        };
+    };
+    create_key_api_v1_api_keys_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApiKeyCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiKeyCreatedResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    revoke_key_api_v1_api_keys__key_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                key_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiKeyResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    key_usage_api_v1_api_keys__key_id__usage_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                key_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UsageWindow"][];
                 };
             };
             /** @description Validation Error */
