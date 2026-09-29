@@ -285,7 +285,7 @@ reference it.
    alerts with the next action.
 5. **Mobile-first for teachers and students**, offline, Hindi, low-end phones, three taps.
 
-## 12. Scorecard v3 (proposed; adopt before the next audit)
+## 12. Scorecard v3 (adopted 2026-09-30: `docs/product-scorecard-v3.md`)
 
 The v2 scorecard (`docs/product-scorecard.md`, web-first, classes 6-10) measured the last release at 61.0.
 It does not measure the three-app product. Proposed v3 areas and weights, each scored on the same
