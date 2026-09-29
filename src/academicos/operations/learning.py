@@ -62,7 +62,7 @@ def source_kind(source: Optional[str]) -> tuple[str, str]:
         return "practice", f"practice:{uuid.uuid4().hex[:12]}"
     if source.startswith("homework:"):
         return "homework", source
-    if source.startswith("sheet:"):
+    if source.startswith(("sheet:", "marks:")):
         return "test", source
     return "other", source
 

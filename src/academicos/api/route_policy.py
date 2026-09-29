@@ -290,6 +290,10 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("POST", "/api/v1/assessments/{assessment_id}/review-decision"): _p(STAFF, "the named reviewer or the principal"),
     ("GET", "/api/v1/assessments/{assessment_id}/reviews"): _p(STAFF),
     ("GET", "/api/v1/paper-reviews"): _p(STAFF, "the callers reviews; the principal the schools"),
+    # EX-8 marks entry and analysis (assessment/marks_routes.py).
+    ("PUT", "/api/v1/papers/{paper_id}/marks"): _p(STAFF, "own school paper; needs consent"),
+    ("GET", "/api/v1/papers/{paper_id}/marks"): _p(STAFF, "own school paper; logged as a read"),
+    ("GET", "/api/v1/papers/{paper_id}/analysis"): _p(STAFF),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"): _p(ANY_USER, "school-scoped since calendar Task 101"),
     ("GET", "/api/v1/curriculum/books/{book_id}/units"): _p(ANY_USER, "school-scoped since calendar Task 101"),
     ("GET", "/api/v1/curriculum/books/{book_id}/chapters"): _p(ANY_USER, "school-scoped since calendar Task 101"),
