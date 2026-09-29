@@ -342,6 +342,19 @@ def _plan_allocations(ctx: _Ctx, line: int, r: dict) -> _Row:
         return _Row(line, "error", f"{subject.name} in {label} is in this file twice")
     ctx.planned.add(key)
     current = ctx.cs.allocation_for(section.id, subject.id)
+    # The cell's co-teacher and double periods (set on the Timetable page)
+    # are kept; a row that would break them is an error here, in the dry
+    # run, not a refusal halfway through the apply.
+    if current and current.co_teacher_id:
+        if teacher is None:
+            return _Row(line, "error", f"{subject.name} in {label} has a co-teacher; name its teacher too, "
+                                       "or clear the co-teacher on the Timetable page first")
+        if teacher.id == current.co_teacher_id:
+            return _Row(line, "error", f"{teacher.name} is already the co-teacher of {subject.name} in {label}; "
+                                       "clear the co-teacher on the Timetable page first")
+    if current and 2 * current.double_periods > periods:
+        return _Row(line, "error", f"{subject.name} in {label} has {current.double_periods} double period(s), "
+                                   f"which take {2 * current.double_periods} periods a week")
     if current and current.teacher_id == (teacher.id if teacher else None) and current.periods_per_week == periods:
         return _Row(line, "skip", f"{subject.name} in {label} is already set that way")
     who = teacher.name if teacher else "no teacher yet"

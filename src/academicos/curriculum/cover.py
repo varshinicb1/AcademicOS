@@ -315,12 +315,23 @@ class CoverMixin:
                 return True
         return False
 
+    def _other_teacher(self, e, teacher_id: str) -> Optional[str]:
+        """The co-teaching partner of `teacher_id` in period `e` (SCH-8), or None."""
+        pair = [t for t in (e.teacher_id, getattr(e, "co_teacher_id", None)) if t]
+        others = [t for t in pair if t != teacher_id]
+        return others[0] if teacher_id in pair and others else None
+
     def affected_periods(self, leave: LeaveRequest) -> list[tuple[str, Any, int, str]]:
-        """(date, section, period, subject_id) the teacher would have taught:
-        their own timetabled periods on the leave's working days, and any
-        substitution duty they had taken."""
+        """(date, section, period, subject_id) that need someone because the
+        teacher is away: their own timetabled periods on the leave's working
+        days, and any substitution duty they had taken.
+
+        A co-taught period (SCH-8) needs no one while the other teacher of it
+        is there: they take the class. It needs a substitute only when both
+        are away, whichever went on leave second."""
         working = self._working_dates(leave.academic_year_id)
-        own = [e for e in self.timetable_for_year(leave.academic_year_id) if e.teacher_id == leave.teacher_id]
+        own = [e for e in self.timetable_for_year(leave.academic_year_id)
+               if leave.teacher_id in (e.teacher_id, e.co_teacher_id)]
         sections = {s.id: s for s in self.sections_for_year(leave.academic_year_id)}
         out = []
         for d in _dates(leave.start_date, leave.end_date):
@@ -329,8 +340,12 @@ class CoverMixin:
             wd = date.fromisoformat(d).weekday()
             for e in own:
                 sec = sections.get(e.section_id)
-                if sec is not None and e.day_of_week == wd and self._leave_covers(leave, sec, e.period):
-                    out.append((d, sec, e.period, e.subject_id))
+                if sec is None or e.day_of_week != wd or not self._leave_covers(leave, sec, e.period):
+                    continue
+                partner = self._other_teacher(e, leave.teacher_id)
+                if partner and not self._on_leave(partner, d, sec, e.period):
+                    continue
+                out.append((d, sec, e.period, e.subject_id))
             for s in self._subs_where("substitute_id=? AND date=? AND status IN ('proposed','accepted')",
                                       (leave.teacher_id, d)):
                 sec = sections.get(s.section_id)
@@ -395,8 +410,29 @@ class CoverMixin:
             self._exec("UPDATE substitutions SET status='cancelled', updated_at=? WHERE leave_id=? AND date>=? "
                        "AND status<>'resolved'", (_now(), leave_id, today))
             leave.status = "cancelled"
+            self._release_co_taught_cover(leave, today)
         self._commit()
         return leave
+
+    def _release_co_taught_cover(self, leave: LeaveRequest, today: str) -> None:
+        """SCH-8: a co-taught period got a substitute only because both of
+        its teachers were away. When one of them is back (their leave
+        cancelled, or marked present), the period has a teacher again: its
+        substitution, opened under the other teacher's leave, is cancelled."""
+        sections = {s.id: s for s in self.sections_for_year(leave.academic_year_id)}
+        entries = {(e.section_id, e.day_of_week, e.period): e for e in self.timetable_for_year(leave.academic_year_id)
+                   if e.co_teacher_id}
+        for sub in self._subs_where("academic_year_id=? AND date>=? AND date>=? AND date<=? "
+                                    "AND status IN ('open','proposed','accepted') AND leave_id<>?",
+                                    (leave.academic_year_id, today, leave.start_date, leave.end_date, leave.id)):
+            e = entries.get((sub.section_id, date.fromisoformat(sub.date).weekday(), sub.period))
+            sec = sections.get(sub.section_id)
+            if e is None or sec is None or leave.teacher_id not in (e.teacher_id, e.co_teacher_id):
+                continue
+            if self._on_leave(leave.teacher_id, sub.date, sec, sub.period):
+                continue          # still away through another leave
+            self._exec("UPDATE substitutions SET status='cancelled', note=?, updated_at=? WHERE id=?",
+                       ("the co-teacher is back and takes the class", _now(), sub.id))
 
     # ---------------- teacher attendance (SCH-9) ----------------
 
@@ -468,7 +504,7 @@ class CoverMixin:
         wd = date.fromisoformat(on).weekday()
         spans = []
         for e in self.timetable_for_year(academic_year_id):
-            if e.teacher_id != teacher_id or e.day_of_week != wd:
+            if teacher_id not in (e.teacher_id, e.co_teacher_id) or e.day_of_week != wd:
                 continue
             sec = sections.get(e.section_id)
             if sec is None or self._on_leave(teacher_id, on, sec, e.period):
@@ -513,12 +549,11 @@ class CoverMixin:
         teaches: dict[str, set[tuple[str, str]]] = defaultdict(set)     # teacher -> {(subject name, grade id)}
         in_section: set[str] = set()
         for a in allocs:
-            if not a.teacher_id:
-                continue
             sec = sections.get(a.section_id)
-            teaches[a.teacher_id].add((subject_names.get(a.subject_id, ""), sec.grade_id if sec else ""))
-            if a.section_id == sub.section_id:
-                in_section.add(a.teacher_id)
+            for t in {a.teacher_id, a.co_teacher_id} - {None}:
+                teaches[t].add((subject_names.get(a.subject_id, ""), sec.grade_id if sec else ""))
+                if a.section_id == sub.section_id:
+                    in_section.add(t)
         d = date.fromisoformat(sub.date)
         week_start = (d - timedelta(days=d.weekday())).isoformat()
         week_end = (d + timedelta(days=6 - d.weekday())).isoformat()
@@ -780,10 +815,20 @@ class CoverMixin:
             if sec is None:
                 continue
             row = {"sectionId": e.section_id, "period": e.period, "subjectId": e.subject_id,
-                   "teacherId": e.teacher_id, "roomId": e.room_id, "kind": "regular", "substitutionId": None,
-                   "lostPeriodId": None, "note": None}
+                   "teacherId": e.teacher_id, "coTeacherId": e.co_teacher_id, "roomId": e.room_id,
+                   "kind": "regular", "substitutionId": None, "lostPeriodId": None, "note": None}
             s = subs.get((e.section_id, e.period))
             lp = lost.get((e.section_id, e.period))
+            if s is None and lp is None and e.co_teacher_id:
+                # Co-teaching (SCH-8): one of the two away is no substitution;
+                # the other takes the class alone.
+                main_away = e.teacher_id and self._on_leave(e.teacher_id, on, sec, e.period)
+                co_away = self._on_leave(e.co_teacher_id, on, sec, e.period)
+                if main_away and not co_away:
+                    row.update(kind="co_teacher", teacherId=e.co_teacher_id, coTeacherId=None,
+                               note="the co-teacher takes the class")
+                elif co_away:
+                    row["coTeacherId"] = None
             if s is not None:
                 row["substitutionId"] = s.id
                 if s.status in SUB_TAKEN and s.mode == "substitute":
@@ -794,6 +839,7 @@ class CoverMixin:
                     row.update(kind=s.mode, teacherId=None)
                 else:
                     row.update(kind="uncovered", teacherId=None)
+                row["coTeacherId"] = None
             elif lp is not None:
                 row.update(kind="lost", teacherId=None, note=lp.reason)
             if lp is not None:
@@ -801,9 +847,10 @@ class CoverMixin:
             if section_id and e.section_id != section_id:
                 continue
             if teacher_id:
-                if e.teacher_id == teacher_id and row["teacherId"] != teacher_id:
+                mine = teacher_id in (e.teacher_id, e.co_teacher_id)
+                if mine and teacher_id not in (row["teacherId"], row["coTeacherId"]):
                     row = {**row, "kind": "away", "note": "on leave; see the handover" if s else row["note"]}
-                elif row["teacherId"] != teacher_id:
+                elif not mine and row["teacherId"] != teacher_id:
                     continue
             rows.append(row)
         for lp in self._lost_where("academic_year_id=? AND compensation_date=? AND status='compensated'",
@@ -815,7 +862,8 @@ class CoverMixin:
             if teacher_id and teacher != teacher_id:
                 continue
             rows.append({"sectionId": lp.section_id, "period": lp.compensation_period, "subjectId": lp.subject_id,
-                         "teacherId": teacher, "roomId": None, "kind": "makeup", "substitutionId": None,
+                         "teacherId": teacher, "coTeacherId": None, "roomId": None, "kind": "makeup",
+                         "substitutionId": None,
                          "lostPeriodId": lp.id, "note": f"makes up {lp.date} period {lp.period}"})
         rows.sort(key=lambda r: (r["period"], r["sectionId"]))
         return rows

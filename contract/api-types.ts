@@ -1133,6 +1133,48 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Room Unavailability
+         * @description Periods each room cannot be used this year (a lab closed for its
+         *     weekly maintenance, say). The solver books nothing there.
+         */
+        get: operations["list_room_unavailability_api_v1_curriculum_academic_years__academic_year_id__room_unavailability_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability/{room_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Set Room Unavailability
+         * @description Replace one room's periods out of use. 409 while the timetable books
+         *     the room in one of them: move those periods first.
+         */
+        put: operations["set_room_unavailability_api_v1_curriculum_academic_years__academic_year_id__room_unavailability__room_id__put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/academic-years/{academic_year_id}/sections": {
         parameters: {
             query?: never;
@@ -5428,10 +5470,23 @@ export interface components {
             /** Reason */
             reason: string;
         };
-        /** AllocationRequest */
+        /**
+         * AllocationRequest
+         * @description coTeacherId, roomKind and doublePeriods left out keep what the cell
+         *     has; null clears the co-teacher or the room kind (SCH-2, SCH-8).
+         */
         AllocationRequest: {
+            /** Coteacherid */
+            coTeacherId?: string | null;
+            /**
+             * Doubleperiods
+             * @default 0
+             */
+            doublePeriods: number;
             /** Periodsperweek */
             periodsPerWeek: number;
+            /** Roomkind */
+            roomKind?: string | null;
             /** Teacherid */
             teacherId?: string | null;
         };
@@ -5439,10 +5494,19 @@ export interface components {
         AllocationResponse: {
             /** Academicyearid */
             academicYearId: string;
+            /** Coteacherid */
+            coTeacherId?: string | null;
+            /**
+             * Doubleperiods
+             * @default 0
+             */
+            doublePeriods: number;
             /** Id */
             id: string;
             /** Periodsperweek */
             periodsPerWeek: number;
+            /** Roomkind */
+            roomKind?: string | null;
             /** Sectionid */
             sectionId: string;
             /** Subjectid */
@@ -6716,6 +6780,10 @@ export interface components {
         };
         /** DayRowResponse */
         DayRowResponse: {
+            /** Coteacherid */
+            coTeacherId?: string | null;
+            /** Coteachername */
+            coTeacherName?: string | null;
             /** Kind */
             kind: string;
             /** Lostperiodid */
@@ -8812,6 +8880,8 @@ export interface components {
         };
         /** ProposedEntryResponse */
         ProposedEntryResponse: {
+            /** Coteacherid */
+            coTeacherId?: string | null;
             /** Dayofweek */
             dayOfWeek: number;
             /** Period */
@@ -9512,6 +9582,13 @@ export interface components {
             kind: string;
             /** Name */
             name: string;
+        };
+        /** RoomUnavailabilityResponse */
+        RoomUnavailabilityResponse: {
+            /** Roomid */
+            roomId: string;
+            /** Slots */
+            slots: components["schemas"]["UnavailableSlot"][];
         };
         /** RoomUpdateRequest */
         RoomUpdateRequest: {
@@ -11051,6 +11128,10 @@ export interface components {
         };
         /** TimetableEntryResponse */
         TimetableEntryResponse: {
+            /** Coteacherid */
+            coTeacherId?: string | null;
+            /** Coteachername */
+            coTeacherName?: string | null;
             /** Dayofweek */
             dayOfWeek: number;
             /** Id */
@@ -11064,6 +11145,8 @@ export interface components {
             period: number;
             /** Roomid */
             roomId?: string | null;
+            /** Roomname */
+            roomName?: string | null;
             /** Sectionid */
             sectionId: string;
             /** Sectionname */
@@ -13503,6 +13586,73 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PeriodConfigurationResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_room_unavailability_api_v1_curriculum_academic_years__academic_year_id__room_unavailability_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RoomUnavailabilityResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    set_room_unavailability_api_v1_curriculum_academic_years__academic_year_id__room_unavailability__room_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+                room_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TeacherUnavailabilityRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RoomUnavailabilityResponse"];
                 };
             };
             /** @description Validation Error */

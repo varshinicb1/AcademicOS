@@ -481,6 +481,18 @@ class CurriculumStore(SchoolModelMixin, CoverMixin):
         entry_cols = {r["name"] for r in self._fetchall("PRAGMA table_info(timetable_entries)")}
         if "locked" not in entry_cols:
             self._exec("ALTER TABLE timetable_entries ADD COLUMN locked INTEGER NOT NULL DEFAULT 0")
+        # SCH-2/SCH-8: labs, double periods and co-teaching. Columns only (no
+        # row changes), so an existing school's cells read as before: no
+        # co-teacher, any room, no double periods.
+        if "co_teacher_id" not in entry_cols:
+            self._exec("ALTER TABLE timetable_entries ADD COLUMN co_teacher_id TEXT")
+        alloc_cols = {r["name"] for r in self._fetchall("PRAGMA table_info(teaching_allocations)")}
+        for col, ddl in (("co_teacher_id", "TEXT"), ("room_kind", "TEXT"),
+                         ("double_periods", "INTEGER NOT NULL DEFAULT 0")):
+            if col not in alloc_cols:
+                self._exec(f"ALTER TABLE teaching_allocations ADD COLUMN {col} {ddl}")
+        self._exec("CREATE INDEX IF NOT EXISTS idx_tt_co_teacher "
+                   "ON timetable_entries(co_teacher_id, day_of_week, period)")
 
     def _migrate_sections(self) -> None:
         """Give every grade that has no section its first one, and place
