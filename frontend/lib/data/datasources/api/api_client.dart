@@ -149,6 +149,18 @@ class ApiClient {
     return Uint8List.fromList(response.data ?? const []);
   }
 
+  /// The paper as an editable Word file (EX-5): exported (audited, with a
+  /// traceable-copy id in its footer) and fetched with the session token.
+  Future<Uint8List> downloadPaperDocx(String paperId) async {
+    await _dio.post('/papers/$paperId/export/docx');
+    final response = await _dio.get<List<int>>(
+      '/papers/$paperId/file',
+      queryParameters: {'format': 'docx'},
+      options: Options(responseType: ResponseType.bytes),
+    );
+    return Uint8List.fromList(response.data ?? const []);
+  }
+
   Future<List<SchoolTemplate>> getSchoolPaperTemplates(String schoolId) async {
     // `/paper-templates` is a dead stub that always returns a hardcoded
     // "Default CBSE Template" and never touches the TemplateStore — it was

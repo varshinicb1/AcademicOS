@@ -45,6 +45,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
   String? _exportedUrl;
   String? _exportedPaperId;
   bool _exportingAnswerKey = false;
+  bool _exportingDocx = false;
   String? _exportedAnswerKeyUrl;
   String? _exportedAnswerKeyPaperId;
   String? _error;
@@ -489,6 +490,17 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                   label: const Text('Download Paper PDF'),
                 ),
               ],
+              // An editable Word copy (EX-5), from the server; the offline
+              // build renders PDF only.
+              if (!const bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false))
+                OutlinedButton.icon(
+                  onPressed: _exportingDocx ? null : () => _downloadDocx(paper),
+                  style: phoneTapTarget(context),
+                  icon: _exportingDocx
+                      ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                      : const Icon(Icons.description_outlined),
+                  label: const Text('Download as Word (.docx)'),
+                ),
               if (_exportedAnswerKeyUrl != null) ...[
                 OutlinedButton.icon(
                   onPressed: () => _openExported(_exportedAnswerKeyUrl!,
@@ -667,6 +679,22 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
         _error = serverErrorMessage(e);
         _exporting = false;
       });
+    }
+  }
+
+  Future<void> _downloadDocx(GeneratedPaper paper) async {
+    setState(() {
+      _exportingDocx = true;
+      _error = null;
+    });
+    try {
+      final bytes = await GetIt.I<ApiClient>().downloadPaperDocx(paper.id);
+      final saver = GetIt.I.isRegistered<PdfSaver>() ? GetIt.I<PdfSaver>() : PdfSaver.platform();
+      await saver.save(bytes, '${paper.id}.docx');
+    } catch (e) {
+      if (mounted) setState(() => _error = 'Could not make the Word file: ${serverErrorMessage(e)}');
+    } finally {
+      if (mounted) setState(() => _exportingDocx = false);
     }
   }
 

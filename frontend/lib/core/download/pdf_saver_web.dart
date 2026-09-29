@@ -11,7 +11,9 @@ import 'dart:typed_data';
 Future<void> savePdf(Uint8List bytes, String filename) async {
   final type = filename.endsWith('.xlsx')
       ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      : 'application/pdf';
+      : filename.endsWith('.docx')
+          ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          : 'application/pdf';
   final blob = html.Blob([bytes], type);
   final url = html.Url.createObjectUrlFromBlob(blob);
   final anchor = html.AnchorElement(href: url)
