@@ -366,6 +366,48 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/automations/run": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Automations Run
+         * @description For Cloud Scheduler: run every automation that is due. Needs the
+         *     operator's key (env ACOS_CRON_KEY); 404 when none is configured, so the
+         *     route does not exist on a deployment that has not opted in.
+         */
+        post: operations["automations_run_api_v1_automations_run_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/automations/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Automations Status
+         * @description The latest automation runs, newest first (runs are not per school).
+         */
+        get: operations["automations_status_api_v1_automations_status_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/blueprints/generate": {
         parameters: {
             query?: never;
@@ -4936,6 +4978,17 @@ export interface components {
             /** Token */
             token: string;
             user: components["schemas"]["UserResponse"];
+        };
+        /** AutomationRun */
+        AutomationRun: {
+            /** Job */
+            job: string;
+            /** Notified */
+            notified: number;
+            /** Periodkey */
+            periodKey: string;
+            /** Ranat */
+            ranAt: string;
         };
         /** AvailabilityReport */
         AvailabilityReport: {
@@ -10373,6 +10426,59 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    automations_run_api_v1_automations_run_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Cron-Key"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    automations_status_api_v1_automations_status_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AutomationRun"][];
                 };
             };
         };

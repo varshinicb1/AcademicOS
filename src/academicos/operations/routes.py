@@ -6,11 +6,11 @@ from __future__ import annotations
 import logging
 from typing import Any, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, Header, HTTPException, Query
 from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
-from ..assessment.auth_routes import get_current_user
+from ..assessment.auth_routes import get_current_user, require_principal
 from ..assessment.users import User
 from ..config import Config
 from ..curriculum.schemas import Camel
@@ -134,6 +134,66 @@ def _prefs(user_id: str) -> PreferencesResponse:
                               email=s.channel_enabled(user_id, k.key, "email")) for k in CATALOGUE.values()])
 
 
+# ---------------- scheduled automations (NTF-2) ----------------
+
+_last_auto_run = 0.0
+AUTO_EVERY_SECONDS = 300
+
+
+def run_automations(now=None) -> dict:
+    from ..curriculum import routes as cr
+    from . import automations
+    return automations.run_due(store(), cr._require(), cr._require_users(), notify_safely, now)
+
+
+def _maybe_run_automations() -> None:
+    """Ordinary traffic runs the automations at most every five minutes, so
+    they happen even before a scheduler is set up. Never fails the request."""
+    import os
+    import time
+    global _last_auto_run
+    # Not inside the test suite: a run there would use the real clock
+    # against fixtures pinned to other dates. tests/test_automations.py
+    # drives run_automations directly.
+    if "PYTEST_CURRENT_TEST" in os.environ or time.monotonic() - _last_auto_run < AUTO_EVERY_SECONDS:
+        return
+    _last_auto_run = time.monotonic()
+    try:
+        run_automations()
+    except Exception:  # noqa: BLE001
+        logger.warning("automations run failed", exc_info=True)
+
+
+@router.post("/automations/run")
+def automations_run(x_cron_key: Optional[str] = Header(default=None, alias="X-Cron-Key")) -> dict:
+    """For Cloud Scheduler: run every automation that is due. Needs the
+    operator's key (env ACOS_CRON_KEY); 404 when none is configured, so the
+    route does not exist on a deployment that has not opted in."""
+    import hmac
+    import os
+    if _cfg is None:
+        raise HTTPException(503, "the notification service is not initialised")
+    expected = os.environ.get("ACOS_CRON_KEY", "")
+    if not expected:
+        raise HTTPException(404, "Not Found")
+    if not x_cron_key or not hmac.compare_digest(x_cron_key, expected):
+        raise HTTPException(401, "a valid X-Cron-Key is required")
+    return {"jobs": run_automations()}
+
+
+class AutomationRun(Camel):
+    job: str
+    period_key: str
+    ran_at: str
+    notified: int
+
+
+@router.get("/automations/status", response_model=list[AutomationRun])
+def automations_status(principal: User = Depends(require_principal)) -> list[AutomationRun]:
+    """The latest automation runs, newest first (runs are not per school)."""
+    return [AutomationRun(**r) for r in store().automation_history()]
+
+
 @router.get("/notifications", response_model=InboxResponse)
 def inbox(unread_only: bool = Query(default=False, alias="unreadOnly"), limit: int = Query(default=50, ge=1, le=200),
           current: User = Depends(get_current_user)) -> InboxResponse:
@@ -144,6 +204,7 @@ def inbox(unread_only: bool = Query(default=False, alias="unreadOnly"), limit: i
         s.deliver_due()
     except Exception:  # noqa: BLE001
         logger.warning("deferred delivery failed", exc_info=True)
+    _maybe_run_automations()
     return InboxResponse(unread_count=s.unread_count(current.id),
                          items=[_item(n) for n in s.inbox(current.id, unread_only=unread_only, limit=limit)])
 

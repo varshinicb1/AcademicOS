@@ -108,6 +108,17 @@ CATALOGUE: dict[str, Kind] = {k.key: k for k in (
     Kind("homework_graded", "Homework marked", True, False,
          ("Homework marked: {subject}", "{title}: {marks}."),
          ("गृहकार्य जाँचा गया: {subject}", "{title}: {marks}।")),
+    Kind("homework_overdue", "Homework with students missing", True, False,
+         ("{count} not submitted: {title}", "{title} was due {due}; {count} students have not submitted."),
+         ("{count} ने जमा नहीं किया: {title}", "{title} {due} तक था; {count} विद्यार्थियों ने जमा नहीं किया।")),
+    Kind("daily_digest", "Tomorrow's periods and duties", True, False,
+         ("Tomorrow: {periods} periods, {duties} duties", "First: {first}."),
+         ("कल: {periods} पीरियड, {duties} ड्यूटी", "पहला: {first}।")),
+    Kind("weekly_digest", "The week in review", False, True,
+         ("Week of {week}", "{substitutions} substitutions ({unfilled} unfilled), {lost} periods lost, "
+                            "{homework} homework set."),
+         ("{week} का सप्ताह", "{substitutions} स्थानापन्न ({unfilled} खाली), {lost} पीरियड छूटे, "
+                              "{homework} गृहकार्य।")),
     Kind("principal_alert", "Something needs the principal", False, True,
          ("{title}", "{body}"), ("{title}", "{body}")),
 )}

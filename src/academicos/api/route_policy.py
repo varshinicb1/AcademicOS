@@ -245,6 +245,9 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("PUT", "/api/v1/notification-preferences"): _p(ANY_USER),
     ("POST", "/api/v1/devices"): _p(ANY_USER, "the callers own push token"),
     ("DELETE", "/api/v1/devices/{token}"): _p(ANY_USER, "the callers own push token"),
+    # NTF-2 scheduled automations (operations/routes.py, automations.py).
+    ("POST", "/api/v1/automations/run"): _p(PUBLIC, "operator cron key checked in the handler; 404 unless configured"),
+    ("GET", "/api/v1/automations/status"): _p(PRINCIPAL),
     # M5 homework (operations/homework_routes.py).
     ("GET", "/api/v1/homework/suggestion"): _p(STAFF, "the teacher of the subject in the section, or the principal"),
     ("POST", "/api/v1/homework"): _p(STAFF, "a teacher only for sections they teach the subject in"),
