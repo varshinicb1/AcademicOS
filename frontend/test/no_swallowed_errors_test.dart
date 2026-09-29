@@ -43,6 +43,9 @@ const _exempt = {
   // The UI language is read before the local store may be open (tests, the
   // first frame); it falls back to English, which is not a failure.
   'lib/presentation/workspace/strings.dart': 1,
+  // Saving a read's offline copy: the live answer is already returned; a
+  // failed save only means that page is not available offline.
+  'lib/presentation/workspace/ops_api.dart': 1,
 };
 
 const _marker = '// not-a-failure:';
