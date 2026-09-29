@@ -146,10 +146,30 @@ DIFFICULTIES = ("easy", "medium", "hard")
 
 
 def _slug(s: Any) -> str:
-    return re.sub(r"[^a-z0-9]+", "-", str(s or "").lower()).strip("-")
+    """Letters, digits and combining marks of any script, joined by "-": a
+    Hindi chapter keeps its Devanagari (the vowel signs are marks, not letters,
+    so a letters-only test would split every word)."""
+    kept = "".join(ch if unicodedata.category(ch)[0] in "LMN" else "-" for ch in str(s or "").lower())
+    return re.sub(r"-+", "-", kept).strip("-")
 
 
-def record(q: dict, tb: dict, *, rid: str, built_at: str) -> dict:
+# NCERT's name for the class 3-5 book's subject since 2024; schools, CBSE's
+# primary scheme and requirements QB-1 call the subject EVS.
+BANK_SUBJECT = {"The World Around Us": "EVS"}
+
+
+def bank_subject(printed: Any) -> str:
+    name = str(printed or "").strip()
+    return BANK_SUBJECT.get(name, name)
+
+
+def chapter_id(subject: Any, grade: Any, title: Any) -> str:
+    """A book chapter's id in the taxonomy's form ("mathematics-6/number-play"),
+    for a chapter no syllabus file names under an id of its own."""
+    return f"{_slug(bank_subject(subject))}-{int(grade)}/{_slug(title)}"
+
+
+def record(q: dict, tb: dict, *, rid: str, built_at: str, chapter_ref: Optional[str] = None) -> dict:
     book, chapter = tb.get("book") or {}, tb.get("chapter") or {}
     topics = {t.get("id"): t for t in tb.get("topics") or []}
     topic = topics.get(q.get("topic")) or {}
@@ -183,9 +203,13 @@ def record(q: dict, tb: dict, *, rid: str, built_at: str) -> dict:
     return {
         "id": rid,
         "questionBankId": f"ncert-textbook:{book.get('code')}",
-        "subject": book.get("subject"),
+        "subject": bank_subject(book.get("subject")),
         "grade": int(book.get("class")),
-        "chapterIds": [_slug(chapter.get("title"))] if chapter.get("title") else [],
+        # The chapter the question was taken from or written for: certain, so
+        # it is also the record's tag.
+        "chapterIds": [chapter_ref] if chapter_ref else [],
+        **({"taxonomyChapterId": chapter_ref, "tagMethod": "source_chapter", "tagConfidence": 1.0}
+           if chapter_ref else {}),
         "topic": str(topic.get("title") or ""),
         "difficulty": q.get("difficulty") if q.get("difficulty") in DIFFICULTIES else "medium",
         **({"bloomLevel": q["bloom"]} if q.get("bloom") in BLOOMS else {}),
@@ -213,6 +237,7 @@ def record(q: dict, tb: dict, *, rid: str, built_at: str) -> dict:
         "createdAt": built_at,
         "updatedAt": built_at,
         "metadata": {"questionKey": q.get("ref"), "bookCode": book.get("code"), "bookTitle": book.get("title"),
+                     "bookSubject": book.get("subject"),
                      "chapterNumber": chapter.get("number"), "chapterName": chapter.get("title"),
                      "page": q.get("page"), "marksInferred": True,
                      # The book prints no difficulty; a generated question's is its writer's.
@@ -232,10 +257,14 @@ class Built:
 
 
 def build(tb: dict, book_text: str, *, second: Optional[dict[str, str]] = None,
-          built_at: str = "2026-09-29T00:00:00+00:00") -> Built:
+          chapter_ref: Optional[str] = None, built_at: str = "2026-09-29T00:00:00+00:00") -> Built:
     """Every checked question of one chapter, and every refusal with its reason.
-    `second` maps a question's `ref` to an independent second solve's answer."""
+    `second` maps a question's `ref` to an independent second solve's answer.
+    `chapter_ref` is the chapter's id in the class's syllabus when it names this
+    chapter; otherwise the chapter's own id (`chapter_id`)."""
     book, chapter = tb.get("book") or {}, tb.get("chapter") or {}
+    if chapter_ref is None and chapter.get("title") and book.get("class"):
+        chapter_ref = chapter_id(book.get("subject"), book.get("class"), chapter.get("title"))
     text = BookText.of(book_text)
     records, refused, seen = [], [], set()
     for i, q in enumerate(tb.get("questions") or []):
@@ -248,5 +277,5 @@ def build(tb: dict, book_text: str, *, second: Optional[dict[str, str]] = None,
         if reason:
             refused.append({"id": rid, "reason": reason})
             continue
-        records.append(record(q, tb, rid=rid, built_at=built_at))
+        records.append(record(q, tb, rid=rid, built_at=built_at, chapter_ref=chapter_ref))
     return Built(records, refused)

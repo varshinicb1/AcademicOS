@@ -8,8 +8,10 @@ Each chapter JSON `<code>-<nn>.json` is checked against that chapter's own text
 (`<text>/<code>/<nn>.txt`, extracted from the NCERT PDF) and, for worked answers,
 an independent second solve (`<code>-<nn>.solve2.json`, bank-pipeline/solve2.py):
 corpus/textbook.py keeps only what it can check. The output is a source bank the
-merge composes (scripts/merge_question_banks.py) through every gate, and a topic
-tree per class and subject (`topics`), which the syllabus is built from.
+merge composes (scripts/merge_question_banks.py) through every gate, and the
+book chapters with their topics per class and subject
+(academicos-data/syllabus/ncert_books.json): the chapters a class studies now,
+which the chapter picker lists and classes 1-5 take as their syllabus.
 """
 from __future__ import annotations
 
@@ -22,7 +24,25 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 
+from academicos.assessment.chapter_filing import name_key  # noqa: E402
 from academicos.corpus import textbook as tb  # noqa: E402
+from academicos.syllabus import cbse_syllabus  # noqa: E402
+
+BOOKS_OUT = REPO / "academicos-data" / "syllabus" / "ncert_books.json"
+
+
+def chapter_ref(subject: str, grade: int, title: str) -> str:
+    """The id the class's syllabus file or taxonomy gives this chapter, matched
+    on the name the book prints; the book chapter's own id where neither names
+    it. Only real files are read -- never the book-chapter fallback this script
+    itself writes."""
+    names: dict[str, str] = {}
+    if cbse_syllabus._resolve_syllabus_file(subject, grade) is not None:
+        doc = cbse_syllabus.load_syllabus(subject, grade)
+        names.update({name_key(c.name): c.id for _u, c in doc.all_chapters()})
+    for cid, name in cbse_syllabus.taxonomy_chapters(subject, grade).items():
+        names.setdefault(name_key(name), cid)
+    return names.get(name_key(title)) or tb.chapter_id(subject, grade, title)
 
 
 def build(src: Path, text_dir: Path):
@@ -42,17 +62,21 @@ def build(src: Path, text_dir: Path):
             continue
         s2 = f.with_suffix(".solve2.json")
         second = json.loads(s2.read_text(encoding="utf-8")) if s2.exists() else None
-        b = tb.build(t, txt.read_text(encoding="utf-8"), second=second)
+        subject, grade = tb.bank_subject(book.get("subject")), int(book.get("class") or 0)
+        ref = chapter_ref(subject, grade, chapter.get("title")) if chapter.get("title") else None
+        b = tb.build(t, txt.read_text(encoding="utf-8"), second=second, chapter_ref=ref)
         records += b.records
         refused += [{**r, "file": f.name} for r in b.refused]
         report.append({"file": f.name, "class": book.get("class"), "subject": book.get("subject"),
                        "chapter": chapter.get("title"), "built": len(b.records),
                        "refused": dict(Counter(r["reason"] for r in b.refused))})
-        key = f"{book.get('subject')}|{book.get('class')}"
-        topics.setdefault(key, []).append({
-            "book": book.get("code"), "bookTitle": book.get("title"), "chapter": chapter.get("number"),
-            "title": chapter.get("title"), "id": tb._slug(chapter.get("title")),
-            "topics": [{"id": x.get("id"), "title": x.get("title")} for x in t.get("topics") or []]})
+        if ref:
+            topics.setdefault(f"{subject}|{grade}", []).append({
+                "id": ref, "name": " ".join(str(chapter.get("title")).split()),
+                "book": book.get("code"), "bookTitle": book.get("title"), "number": chapter.get("number"),
+                "topics": [{"id": x.get("id"), "title": x.get("title")} for x in t.get("topics") or []]})
+    for chapters in topics.values():
+        chapters.sort(key=lambda c: (str(c["book"]), int(c["number"] or 0)))
     return records, refused, report, topics
 
 
@@ -61,6 +85,8 @@ def main() -> int:
     ap.add_argument("--in", dest="src", required=True, type=Path)
     ap.add_argument("--text", required=True, type=Path)
     ap.add_argument("--out", type=Path, default=REPO / "academicos-data" / "corpus" / "ncert-textbook" / "questions.json")
+    ap.add_argument("--books-out", type=Path, default=BOOKS_OUT,
+                    help="the book chapters and topics per class (cbse_syllabus.book_chapters reads it)")
     ap.add_argument("--check", action="store_true")
     a = ap.parse_args()
     records, refused, report, topics = build(a.src, a.text)
@@ -92,6 +118,12 @@ def main() -> int:
     }
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+    books = {"source": "NCERT textbooks, 2026-27 catalogue: each chapter's title and topics as the book prints them",
+             "builtAt": payload["builtAt"],
+             "classes": {key: {"chapters": chapters} for key, chapters in sorted(topics.items())}}
+    a.books_out.parent.mkdir(parents=True, exist_ok=True)
+    a.books_out.write_text(json.dumps(books, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"wrote {sum(len(c) for c in topics.values())} book chapters for {len(topics)} class subjects")
     print(f"wrote {a.out.relative_to(REPO) if a.out.is_relative_to(REPO) else a.out}")
     return 0
 

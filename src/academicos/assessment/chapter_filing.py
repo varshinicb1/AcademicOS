@@ -52,12 +52,17 @@ class ChapterFiling:
 
     @classmethod
     def for_class(cls, subject: str, grade: int) -> "ChapterFiling":
-        from ..syllabus.cbse_syllabus import load_syllabus, taxonomy_chapters
+        from ..syllabus.cbse_syllabus import book_chapters, load_syllabus, taxonomy_chapters
         syllabus = load_syllabus(subject, grade)
         chapters = syllabus.all_chapters() if syllabus is not None else []
-        return cls(known=frozenset(c.id for _unit, c in chapters),
-                   by_name={name_key(c.name): c.id for _unit, c in chapters},
-                   book_names=dict(taxonomy_chapters(subject, grade)))
+        # The current NCERT book's chapters are chapters the class studies too
+        # (`book_chapters`): known, and named as the book prints them.
+        book = book_chapters(subject, grade)
+        by_name = {name_key(c["name"]): c["id"] for c in book}
+        by_name.update({name_key(c.name): c.id for _unit, c in chapters})
+        return cls(known=frozenset(c.id for _unit, c in chapters) | {c["id"] for c in book},
+                   by_name=by_name,
+                   book_names={**{c["id"]: c["name"] for c in book}, **taxonomy_chapters(subject, grade)})
 
     def chapter_of(self, taxonomy_chapter_id: Optional[str],
                    chapter_ids: Iterable[str]) -> str:

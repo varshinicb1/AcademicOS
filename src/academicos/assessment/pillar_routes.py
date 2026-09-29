@@ -45,7 +45,7 @@ from .schemas import (
 from .school_templates import TemplateStore
 from .store import AssessmentStore
 from .users import User, get_user_store
-from ..syllabus.cbse_syllabus import load_syllabus, taxonomy_chapters
+from ..syllabus.cbse_syllabus import SyllabusChapter, book_chapters, load_syllabus, taxonomy_chapters
 from ..syllabus.timetable import generate_timetable
 
 router = APIRouter(prefix="/api/v1")
@@ -377,6 +377,12 @@ def catalog_chapters(subject: str, grade: int, response: Response) -> list[Chapt
     # silently hidden behind an "unmapped" bucket.
     syllabus = load_syllabus(subject, grade)
     chapters = syllabus.all_chapters() if syllabus is not None else []
+    # The current NCERT book's chapters the file does not list (a new edition,
+    # or a language file that lists CBSE assessment units), in book order;
+    # chapter_filing.ChapterFiling.for_class reads the same.
+    listed = {chapter.id for _unit, chapter in chapters}
+    chapters = chapters + [(None, SyllabusChapter(id=c["id"], name=c["name"]))
+                           for c in book_chapters(subject, grade) if c["id"] not in listed]
     known = {chapter.id for _unit, chapter in chapters}
     # The syllabus chapter that a taxonomy tag belongs to, by the name the
     # book prints. Only Science 6 and Science 10 need it: their files list the
@@ -385,8 +391,11 @@ def catalog_chapters(subject: str, grade: int, response: Response) -> list[Chapt
     # and the taxonomy read different editions no name matches, and the tag
     # falls through to "unmapped" instead of being filed under a chapter of a
     # book the class does not study.
-    by_name = {_name_key(chapter.name): chapter.id for _unit, chapter in chapters}
-    book_names = taxonomy_chapters(subject, grade)
+    # A syllabus name wins over the book's, as in ChapterFiling.for_class.
+    by_name = {_name_key(c["name"]): c["id"] for c in book_chapters(subject, grade)}
+    by_name.update({_name_key(chapter.name): chapter.id for _unit, chapter in chapters if chapter.id in listed})
+    book_names = {**{c["id"]: c["name"] for c in book_chapters(subject, grade)},
+                  **taxonomy_chapters(subject, grade)}
 
     by_chapter: dict[str, list[QuestionSchema]] = {}
     for q in schemas:
