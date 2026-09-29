@@ -969,6 +969,141 @@
         "title": "AssignTeacherRequest",
         "type": "object"
       },
+      "AttendanceMark": {
+        "additionalProperties": false,
+        "properties": {
+          "note": {
+            "anyOf": [
+              {
+                "maxLength": 300,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "teacherId": {
+            "title": "Teacherid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "teacherId",
+          "status"
+        ],
+        "title": "AttendanceMark",
+        "type": "object"
+      },
+      "AttendanceRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "marks": {
+            "items": {
+              "$ref": "#/components/schemas/AttendanceMark"
+            },
+            "maxItems": 500,
+            "minItems": 1,
+            "title": "Marks",
+            "type": "array"
+          }
+        },
+        "required": [
+          "marks"
+        ],
+        "title": "AttendanceRequest",
+        "type": "object"
+      },
+      "AttendanceResponse": {
+        "properties": {
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/AttendanceRow"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "substitutions": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/SubstitutionResponse"
+            },
+            "title": "Substitutions",
+            "type": "array"
+          }
+        },
+        "required": [
+          "date",
+          "rows"
+        ],
+        "title": "AttendanceResponse",
+        "type": "object"
+      },
+      "AttendanceRow": {
+        "properties": {
+          "leaveId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leaveid"
+          },
+          "markedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Markedat"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "teacherId": {
+            "title": "Teacherid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "teacherId",
+          "name",
+          "status"
+        ],
+        "title": "AttendanceRow",
+        "type": "object"
+      },
       "AuthResponse": {
         "properties": {
           "token": {
@@ -17783,6 +17918,30 @@
         "summary": "Waive"
       }
     },
+    "/api/v1/curriculum/my-attendance": {
+      "post": {
+        "description": "A teacher marks themselves present today (arrival). It never\noverrides an absence the principal has marked.",
+        "operationId": "check_in_api_v1_curriculum_my_attendance_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttendanceRow"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Check In"
+      }
+    },
     "/api/v1/curriculum/my-class-schedule": {
       "get": {
         "description": "\"What's being taught, what's completed, upcoming\" -- every real\nlesson across every subject for the student's own real enrolled class,\nin a date range. A reduced subset of ScheduledLesson: no note, no\ncompleted_by -- a student sees the status, not a teacher's private\nremark about it.",
@@ -19800,6 +19959,118 @@
           }
         ],
         "summary": "Assign Teacher"
+      }
+    },
+    "/api/v1/curriculum/teacher-attendance": {
+      "get": {
+        "description": "Every staff member's attendance for a day (today by default): as\nmarked, on leave, or not marked yet.",
+        "operationId": "teacher_attendance_api_v1_curriculum_teacher_attendance_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "date",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttendanceResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Teacher Attendance"
+      },
+      "put": {
+        "description": "Mark attendance. An absence with no leave opens same-day cover at\nonce -- every missed period gets a substitution and a proposed\nsubstitute, who is told -- and the result lists them.",
+        "operationId": "mark_teacher_attendance_api_v1_curriculum_teacher_attendance_put",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "date",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttendanceResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Mark Teacher Attendance"
       }
     },
     "/api/v1/curriculum/terms/current": {
