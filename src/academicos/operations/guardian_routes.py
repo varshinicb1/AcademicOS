@@ -22,7 +22,7 @@ from ..curriculum.schemas import Camel
 from ..curriculum.cover_routes import DayRowResponse
 from ..curriculum.school_model_routes import MyTimetableResponse
 from .guardians import RELATIONS, Guardianship
-from .homework_routes import MyHomeworkItem
+from .homework_routes import MyHomeworkDetail, MyHomeworkItem, SubmitRequest
 from .learning_routes import LearningProgressResponse
 from .routes import store
 
@@ -71,6 +71,9 @@ class ChildResponse(Camel):
     section_id: Optional[str] = None
     section_name: Optional[str] = None
     consent: str                   # granted | revoked | none
+    # The child's class; 1-5 is a young learner whose parent does the app
+    # with them (SA-7).
+    grade: Optional[int] = None
 
 
 class ChildTimetableResponse(MyTimetableResponse):
@@ -283,8 +286,19 @@ def my_children(current: User = Depends(get_current_user)) -> list[ChildResponse
         out.append(ChildResponse(student_id=child.id, name=child.name, relation=g.relation,
                                  section_id=section.id if section else None,
                                  section_name=cs._section_label(section) if section else None,
-                                 consent=_consent_status(child.school_id, child.id)[0]))
+                                 consent=_consent_status(child.school_id, child.id)[0],
+                                 grade=_grade_of(section)))
     return out
+
+
+YOUNG_UP_TO = 5     # classes 1-5: the parent does the app with the child (SA-7)
+
+
+def _grade_of(section) -> Optional[int]:
+    if section is None:
+        return None
+    g = cr._require().get_grade(section.grade_id)
+    return g.number if g else None
 
 
 @router.get("/children/{student_id}/timetable", response_model=ChildTimetableResponse)
@@ -332,6 +346,34 @@ def child_homework(student_id: str, current: User = Depends(get_current_user)):
         return []
     s = store()
     return [hr._my_item(hw, s.get_submission(hw.id, student_id)) for hw in s.homework_for_section(section.id)]
+
+
+@router.get("/children/{student_id}/homework/{homework_id}", response_model=MyHomeworkDetail)
+def child_homework_detail(student_id: str, homework_id: str, current: User = Depends(get_current_user)):
+    """One homework as the child sees it: the questions without answers;
+    after marking, the marks and the model answers."""
+    from . import homework_routes as hr
+    child = _my_child(student_id, current)
+    _log_read(current, "child_homework", student_id)
+    return hr.my_homework_detail(homework_id, child)
+
+
+@router.post("/children/{student_id}/homework/{homework_id}/submit", response_model=MyHomeworkDetail)
+def child_homework_submit(student_id: str, homework_id: str, req: SubmitRequest,
+                          current: User = Depends(get_current_user)):
+    """A parent hands in a young child's answers (SA-7: in classes 1-5 the
+    parent does the app with the child). From class 6 the child hands in
+    their own work. Recorded in the audit log as the parent's action."""
+    from ..assessment.audit_log import get_audit_log
+    from . import homework_routes as hr
+    child = _my_child(student_id, current)
+    grade = _grade_of(_section_of(student_id))
+    if grade is None or grade > YOUNG_UP_TO:
+        raise HTTPException(403, f"from class {YOUNG_UP_TO + 1}, children hand in their own homework")
+    out = hr.submit(homework_id, req, child)
+    get_audit_log(cr._cfg.data_root).append("homework_submitted_by_guardian", actor=current.id, details={
+        "schoolId": child.school_id, "studentId": child.id, "homeworkId": homework_id})
+    return out
 
 
 @router.get("/children/{student_id}/learning", response_model=LearningProgressResponse)

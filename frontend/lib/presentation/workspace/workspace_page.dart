@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/session/current_session.dart';
+import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'dashboard_card.dart';
+import 'young_home.dart';
 import 'ops_api.dart';
 import 'profiles.dart';
 import 'strings.dart';
@@ -23,11 +25,22 @@ typedef _Tile = ({IconData icon, String title, String subtitle, String path});
 class _WorkspacePageState extends State<WorkspacePage> {
   int _unread = 0;
   Set<String> _caps = {};
+  // A class 1-5 student gets the young learners' home (SA-7).
+  bool _young = false;
 
   @override
   void initState() {
     super.initState();
     _loadUnread();
+    if (CurrentSession.role == 'student') {
+      Ops.map('/curriculum/my-timetable').then((t) {
+        final grade = t['grade'] as int?;
+        if (mounted) setState(() => _young = grade != null && grade <= 5);
+      }, onError: (Object e) {
+        // The usual home is shown; say why the simpler one is not.
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
+      });
+    }
     if (CurrentSession.role == 'teacher') {
       Ops.map('/my-grants').then((g) {
         if (mounted) setState(() => _caps = (g['capabilities'] as List).cast<String>().toSet());
@@ -122,6 +135,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
         const OfflineBanner(),
         // The principal and reports admins see today at a glance (ADM-2).
         if (CurrentSession.role == 'principal' || _caps.contains('reports')) const DashboardCard(),
+        if (_young) const Expanded(child: YoungHome()) else
         Expanded(child: RefreshIndicator(
         onRefresh: _loadUnread,
         child: LayoutBuilder(builder: (context, c) {

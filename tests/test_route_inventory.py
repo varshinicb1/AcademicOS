@@ -246,6 +246,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/children/{student_id}/timetable"),
     ("GET", "/api/v1/children/{student_id}/day"),
     ("GET", "/api/v1/children/{student_id}/homework"),
+    ("GET", "/api/v1/children/{student_id}/homework/{homework_id}"),
+    ("POST", "/api/v1/children/{student_id}/homework/{homework_id}/submit"),
     ("GET", "/api/v1/children/{student_id}/learning"),
     ("GET", "/api/v1/children/{student_id}/consent"),
     ("POST", "/api/v1/children/{student_id}/consent"),
@@ -532,6 +534,8 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/children/{student_id}/timetable"),
     ("GET", "/api/v1/children/{student_id}/day"),
     ("GET", "/api/v1/children/{student_id}/homework"),
+    ("GET", "/api/v1/children/{student_id}/homework/{homework_id}"),
+    ("POST", "/api/v1/children/{student_id}/homework/{homework_id}/submit"),
     ("GET", "/api/v1/children/{student_id}/learning"),
     ("GET", "/api/v1/children/{student_id}/consent"),
     ("POST", "/api/v1/children/{student_id}/consent"),
@@ -910,7 +914,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 286: sign-in by emailed code (2).
     # 288: ADM-2/4 the term report and its Excel/PDF export (2).
     # 290: INT-1 Google sign-in and the sign-in providers (2).
-    assert len(API_ROUTES) == 290
+    # 292: SA-7 a parent opens and hands in a young child's homework (2).
+    assert len(API_ROUTES) == 292
 
 
 def test_docs_routes_present():

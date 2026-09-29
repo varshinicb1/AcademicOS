@@ -755,6 +755,49 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/children/{student_id}/homework/{homework_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Child Homework Detail
+         * @description One homework as the child sees it: the questions without answers;
+         *     after marking, the marks and the model answers.
+         */
+        get: operations["child_homework_detail_api_v1_children__student_id__homework__homework_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/children/{student_id}/homework/{homework_id}/submit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Child Homework Submit
+         * @description A parent hands in a young child's answers (SA-7: in classes 1-5 the
+         *     parent does the app with the child). From class 6 the child hands in
+         *     their own work. Recorded in the audit log as the parent's action.
+         */
+        post: operations["child_homework_submit_api_v1_children__student_id__homework__homework_id__submit_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/children/{student_id}/learning": {
         parameters: {
             query?: never;
@@ -6207,6 +6250,8 @@ export interface components {
         ChildResponse: {
             /** Consent */
             consent: string;
+            /** Grade */
+            grade?: number | null;
             /** Name */
             name: string;
             /** Relation */
@@ -6228,6 +6273,8 @@ export interface components {
              * @default []
              */
             entries: components["schemas"]["TimetableEntryResponse"][];
+            /** Grade */
+            grade?: number | null;
             /** Role */
             role: string;
             /** Sectionid */
@@ -8090,6 +8137,8 @@ export interface components {
              * @default []
              */
             entries: components["schemas"]["TimetableEntryResponse"][];
+            /** Grade */
+            grade?: number | null;
             /** Role */
             role: string;
             /** Sectionid */
@@ -12667,6 +12716,74 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MyHomeworkItem"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    child_homework_detail_api_v1_children__student_id__homework__homework_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+                homework_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyHomeworkDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    child_homework_submit_api_v1_children__student_id__homework__homework_id__submit_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+                homework_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SubmitRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyHomeworkDetail"];
                 };
             };
             /** @description Validation Error */

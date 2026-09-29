@@ -467,6 +467,8 @@ class MyTimetableResponse(Camel):
     role: str
     academic_year_id: Optional[str] = None
     section_id: Optional[str] = None
+    # A student's class, so the app knows a young learner (SA-7, classes 1-5).
+    grade: Optional[int] = None
     bell_schedule: Optional[BellScheduleResponse] = None
     entries: list[TimetableEntryResponse] = []
 
@@ -487,9 +489,11 @@ def my_timetable(current: User = Depends(get_current_user)) -> MyTimetableRespon
         if section is None:
             return MyTimetableResponse(role=current.role, academic_year_id=year.id)
         bell = store.bell_for_section(section)
+        grade = store.get_grade(section.grade_id)
         return MyTimetableResponse(role=current.role, academic_year_id=section.academic_year_id,
                                    section_id=section.id, bell_schedule=_bell(bell) if bell else None,
-                                   entries=[_entry(e) for e in store.timetable_for_section(section.id)])
+                                   entries=[_entry(e) for e in store.timetable_for_section(section.id)],
+                                   grade=grade.number if grade else None)
     bells = store.bell_schedules_for_year(year.id)
     default = next((b for b in bells if b.is_default), None)
     return MyTimetableResponse(role=current.role, academic_year_id=year.id,
