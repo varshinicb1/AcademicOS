@@ -179,7 +179,7 @@ def read_rows(data: bytes) -> list[list[str]]:
 
         def read(name: str) -> bytes:
             raw = z.read(name)
-            if b"<!DOCTYPE" in raw[:4096] or b"<!ENTITY" in raw:
+            if b"<!DOCTYPE" in raw or b"<!ENTITY" in raw:
                 raise XlsxError("this workbook contains XML this importer does not open")
             return raw
 

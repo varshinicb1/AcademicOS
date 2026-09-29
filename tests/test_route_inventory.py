@@ -3036,8 +3036,12 @@ def test_full_boot_assessment_lifecycle(tmp_path, monkeypatch):
         exported = client.post(f"/api/v1/papers/{paper_id}/export/pdf", headers=auth)
         assert exported.status_code == 200, exported.text
         assert exported.json()["url"] == f"/api/v1/papers/{paper_id}/file"
+        # docx is an export since EX-5 (tests/test_paper_docx.py); an unknown format is still refused
         assert client.post(
             f"/api/v1/papers/{paper_id}/export/docx", headers=auth,
+        ).status_code == 200
+        assert client.post(
+            f"/api/v1/papers/{paper_id}/export/odt", headers=auth,
         ).status_code == 400
         assert client.post(
             "/api/v1/papers/does_not_exist/export/pdf", headers=auth,
