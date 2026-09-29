@@ -151,20 +151,19 @@ void main() {
 
   group('the bell typed as lines', () {
     test('teaching periods, breaks, and a single-digit hour', () {
-      expect(parseBellSlots('8:00-8:45\n08:45 - 09:05 break\n\n09:05-09:50'), [
+      expect(parseBellSlots('8:00-8:45\n08:45 - 09:05 break\n\n09:05-09:50').slots, [
         {'start': '08:00', 'end': '08:45', 'kind': 'teaching'},
         {'start': '08:45', 'end': '09:05', 'kind': 'break'},
         {'start': '09:05', 'end': '09:50', 'kind': 'teaching'},
       ]);
     });
     test('a line that is not a slot is named', () {
-      expect(() => parseBellSlots('08:00-08:45\nlunch'),
-          throwsA(isA<FormatException>().having((e) => e.message, 'message', startsWith('Line 2'))));
-      expect(() => parseBellSlots('  \n'), throwsA(isA<FormatException>()));
+      expect(parseBellSlots('08:00-08:45\nlunch').error, startsWith('Line 2'));
+      expect(parseBellSlots('  \n').error, startsWith('Add at least one slot'));
     });
     test('a bell reads back as the same lines', () {
       const text = '08:00-08:45\n08:45-09:05 break\n09:05-09:50';
-      expect(bellSlotsText(parseBellSlots(text)), text);
+      expect(bellSlotsText(parseBellSlots(text).slots), text);
     });
   });
 
