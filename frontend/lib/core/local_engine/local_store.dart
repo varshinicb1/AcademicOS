@@ -312,10 +312,61 @@ class LocalStore {
   set authUser(Map<String, dynamic>? v) =>
       v == null ? _box.delete('auth_user') : _box.put('auth_user', jsonEncode(v));
 
+  /// Signing out (or a session the server no longer accepts): the active
+  /// session goes, and so does its saved profile.
   void clearAuth() {
+    final id = authUser?['id'];
+    if (id != null) forgetProfile(id as String);
     _box.delete('auth_token');
     _box.delete('auth_user');
   }
+
+  // ---- Profiles on a shared family phone (SA-8) ----
+  // Every student and parent account signed in on this device is kept, so a
+  // family phone switches between a parent and the children without a
+  // password each time. Each keeps its own session token in this same box
+  // (encrypted at rest); its offline copies and queued changes are already
+  // kept per user (ops_api.dart). Staff accounts are not kept for switching:
+  // a teacher's or principal's tools should not be one tap away on a phone
+  // passed round a family.
+  static const profileRoles = {'student', 'parent'};
+
+  List<Map<String, dynamic>> get profiles {
+    final raw = _box.get('auth_profiles') as String?;
+    if (raw == null) return [];
+    return (jsonDecode(raw) as List).map((e) => Map<String, dynamic>.from(e as Map)).toList();
+  }
+
+  void _saveProfiles(List<Map<String, dynamic>> list) => _box.put('auth_profiles', jsonEncode(list));
+
+  /// A sign-in: the active session, and a saved profile for a student or parent.
+  void signIn(String token, Map<String, dynamic> user) {
+    authToken = token;
+    authUser = user;
+    final list = profiles..removeWhere((p) => (p['user'] as Map)['id'] == user['id']);
+    if (profileRoles.contains(user['role'])) {
+      list.add({'token': token, 'user': user});
+    }
+    _saveProfiles(list);
+  }
+
+  /// Make a saved profile the active session; false when it is not saved.
+  bool switchTo(String userId) {
+    final p = profiles.where((p) => (p['user'] as Map)['id'] == userId).firstOrNull;
+    if (p == null) return false;
+    authToken = p['token'] as String;
+    authUser = Map<String, dynamic>.from(p['user'] as Map);
+    return true;
+  }
+
+  /// "Add someone": leave the active session without forgetting its profile.
+  void stepAway() {
+    _box.delete('auth_token');
+    _box.delete('auth_user');
+  }
+
+  void forgetProfile(String userId) =>
+      _saveProfiles(profiles..removeWhere((p) => (p['user'] as Map)['id'] == userId));
 
   // ---- Scan sessions (offline Scan & Grade) ----
   Map<String, dynamic>? getScanSession(String sessionId) {
