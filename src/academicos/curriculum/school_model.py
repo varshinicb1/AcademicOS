@@ -323,6 +323,11 @@ class SchoolModelMixin:
             if placed > periods_per_week:
                 raise ValueError(f"the timetable already gives this subject {placed} periods a week; "
                                  f"remove {placed - periods_per_week} first, or allocate at least {placed}")
+            # Every check runs before the first write: a refusal after an
+            # _exec would leave the write on the shared connection for the
+            # next commit to save.
+            if before is not None and co is not None and before.co_teacher_id != co:
+                self._check_co_teacher_free(co, section, subject_id)
             if before is None:
                 after = TeachingAllocation(id=_new_id("alloc"), school_id=section.school_id,
                                            academic_year_id=section.academic_year_id,
@@ -351,11 +356,29 @@ class SchoolModelMixin:
                                "subject_id=? AND (teacher_id IS ? OR teacher_id=?)",
                                (teacher_id, section_id, subject_id, before.teacher_id, before.teacher_id))
                 if before.co_teacher_id != co:
-                    # The co-teacher is in every period of the cell.
+                    # The co-teacher is in every period of the cell (checked
+                    # free above, before anything was written).
                     self._exec("UPDATE timetable_entries SET co_teacher_id=? WHERE section_id=? AND "
                                "subject_id=?", (co, section_id, subject_id))
         self._commit()
         return before, after
+
+    def _check_co_teacher_free(self, co_teacher_id: str, section, subject_id: str) -> None:
+        """TimetableClash (the route's 422) naming every placed period of the
+        cell in which the new co-teacher already teaches elsewhere."""
+        mine = self._entries_where("section_id=? AND subject_id=?", (section.id, subject_id))
+        busy = {(e.day_of_week, e.period): e for e in self.timetable_for_teacher(co_teacher_id, section.academic_year_id)
+                if e.section_id != section.id}
+        sections = {s.id: s for s in self.sections_for_year(section.academic_year_id)}
+        clashes = []
+        for e in mine:
+            other = busy.get((e.day_of_week, e.period))
+            if other is not None:
+                where = sections.get(other.section_id)
+                clashes.append(f"{WEEKDAY_NAMES[e.day_of_week]} period {e.period}: the co-teacher already teaches "
+                               f"{self._section_label(where) if where else 'another section'} then")
+        if clashes:
+            raise TimetableClash(clashes)
 
     def allocation_for(self, section_id: str, subject_id: str) -> Optional[TeachingAllocation]:
         r = self._fetchone("SELECT * FROM teaching_allocations WHERE section_id=? AND subject_id=?",
