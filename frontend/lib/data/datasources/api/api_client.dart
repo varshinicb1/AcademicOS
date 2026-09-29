@@ -152,7 +152,7 @@ class ApiClient {
   /// The paper as an editable Word file (EX-5): exported (audited, with a
   /// traceable-copy id in its footer) and fetched with the session token.
   Future<Uint8List> downloadPaperDocx(String paperId) async {
-    await _dio.post('/papers/$paperId/export/docx');
+    await exportPaper(paperId, ExportFormat.docx);
     final response = await _dio.get<List<int>>(
       '/papers/$paperId/file',
       queryParameters: {'format': 'docx'},
