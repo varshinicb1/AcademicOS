@@ -104,11 +104,13 @@ def refusal(q: dict, book: BookText, second: Optional[dict[str, str]]) -> Option
         return "figure-unavailable"
     if src == "open":
         return "generated-open" if q.get("origin") == "generated" else "open-ended"
-    # "the arrows shown in the map", "the table below": a picture the student
-    # cannot see -- the merge's own test, applied where it is cheapest.
-    from .bank_merge import needs_missing_figure
+    # "the arrows shown in the map", "the table below": the book's wording
+    # points at a picture the student cannot see. The merge's own figure rule
+    # still runs on every record at the one gate (bank_merge.unservable_reason);
+    # this builder does not take that rule for itself (test_qbank_q1_q5: only
+    # the two gates leave bank_merge).
     stem = str(q.get("stem") or "")
-    if needs_missing_figure(stem) or _REFERS_TO_PICTURE.search(stem):
+    if _REFERS_TO_PICTURE.search(stem):
         return "figure-referenced"
     # A book question must be the book's; a generated one is new by design, and
     # stands on its answer alone (grounded or solved, checked below).

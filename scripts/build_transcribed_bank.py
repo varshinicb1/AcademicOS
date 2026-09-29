@@ -40,6 +40,8 @@ def scheme_text(path: Path) -> str:
 def build(folder: Path) -> tuple[list[dict], list[dict], list[dict]]:
     records, refused, report = [], [], []
     for f in sorted(folder.rglob("*.json")):
+        if f.name.endswith(".solve2.json"):
+            continue            # a paper's second solves, read beside it below
         try:
             t = json.loads(f.read_text(encoding="utf-8"))
         except ValueError as e:
@@ -52,15 +54,18 @@ def build(folder: Path) -> tuple[list[dict], list[dict], list[dict]]:
             report.append({"file": f.name, "skipped": "scheme file missing"})
             continue
         text = scheme_text(sf)
-        if len(text) < 500:
-            report.append({"file": f.name, "skipped": "scheme has no text layer"})
-            continue
-        b = tr.build(t, source=SOURCES.get(kind, "cbse_board_paper"), scheme=tr.SchemeText.of(text),
-                     scheme_file=sf.name, id_prefix=PREFIX.get(kind, "cbse:board"))
+        # A scanned scheme has no text layer to match against: its answers can
+        # still verify by an independent second solve (transcribed.verified_by).
+        scheme = tr.SchemeText.of(text) if len(text) >= 500 else None
+        s2 = f.with_suffix(".solve2.json")
+        second = json.loads(s2.read_text(encoding="utf-8")) if s2.exists() else None
+        b = tr.build(t, source=SOURCES.get(kind, "cbse_board_paper"), scheme=scheme,
+                     scheme_file=sf.name, id_prefix=PREFIX.get(kind, "cbse:board"), second=second)
         records += b.records
         refused += [{**r, "file": f.name} for r in b.refused]
         report.append({"file": f.name, "year": paper.get("year"), "subject": paper.get("subject"),
                        "code": paper.get("code"), "built": len(b.records),
+                       "schemeText": scheme is not None, "secondSolves": len(second or {}),
                        "refused": dict(Counter(r["reason"] for r in b.refused))})
     return records, refused, report
 

@@ -127,3 +127,59 @@ def test_compose_serves_transcribed_papers_before_the_other_sources():
     # a second run reads the served copy back: it is rebuilt from its source, not taken as a relinked board record
     again = bm.compose(out.questions, [], [], transcribed=b.records)
     assert again.counts == {**out.counts} and not again.withheld
+
+
+def test_sample_papers_of_one_year_have_an_id_per_subject():
+    """Every sample paper of a year carries the code "SQP 2025-26": keyed on the
+    code alone, two subjects' question 1 were one id (124 collisions,
+    2026-09-29). The subject names the paper too, and an id has no spaces."""
+    ids = []
+    for subject in ("Hindi Course A", "Hindi Course B"):
+        paper = {"paper": {"kind": "sqp", "year": 2025, "class": 10, "subject": subject, "code": "SQP 2025-26"},
+                 "questions": [_q("22", scheme={"points": [
+                     {"text": "Industries help modernise agriculture.", "marks": 2}]})]}
+        b = tr.build(paper, source="cbse_sample_paper", scheme=tr.SchemeText.of(SCHEME), scheme_file="x.pdf",
+                     id_prefix="cbse:sqpt")
+        ids += [r["id"] for r in b.records]
+    assert ids == ["cbse:sqpt:2025:hindi-course-a-sqp-2025-26:q22", "cbse:sqpt:2025:hindi-course-b-sqp-2025-26:q22"]
+    # A board code names its paper alone, as before; a note beside a number is not part of the id.
+    assert tr.paper_key({"code": "32/1/1", "subject": "Social Science"}) == "32-1-1"
+    b = tr.build(_paper([_q("37 (Visually Impaired)", visuallyImpairedVariant=True, scheme={"points": [
+        {"text": "Democracy promotes equality among citizens.", "marks": 2}]})]),
+        source="cbse_board_paper", scheme=tr.SchemeText.of(SCHEME), scheme_file="x.pdf", id_prefix="cbse:board")
+    assert [r["id"] for r in b.records] == ["cbse:board:2024:32-1-1:q37-vi"]
+
+
+def test_the_builder_reads_a_papers_second_solves_and_never_as_a_paper(tmp_path):
+    """scripts/build_transcribed_bank.py read `<paper>.solve2.json` as a paper
+    ("scheme file missing") and never handed it to the checker, so an answer
+    the scheme's text cannot confirm (Mathematics working set as images)
+    stayed refused however well it had been solved again."""
+    import json
+    import sys
+    from pathlib import Path
+
+    import pymupdf
+
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    import build_transcribed_bank as btb
+
+    pdf = tmp_path / "32-1-1 E.pdf"
+    doc = pymupdf.open()
+    doc.new_page().insert_text((40, 60), SCHEME * 6, fontsize=6)
+    doc.save(str(pdf))
+    worked = _q("25", marks=3, stem="A car covers 45 km in 3 hours. Find its speed.",
+                scheme={"points": [{"text": "Speed = 45 / 3 = 15 km/h", "marks": 3}]})
+    paper = _paper([worked])
+    paper["paper"]["schemeFile"] = str(pdf)
+    folder = tmp_path / "board"
+    folder.mkdir()
+    (folder / "board-2024-32-1-1.json").write_text(json.dumps(paper), encoding="utf-8")
+
+    records, refused, report = btb.build(folder)
+    assert (records, [r["reason"] for r in refused]) == ([], ["scheme-unverified"])
+
+    (folder / "board-2024-32-1-1.solve2.json").write_text(json.dumps({"25": "15 km/h"}), encoding="utf-8")
+    records, refused, report = btb.build(folder)
+    assert [r["id"] for r in records] == ["cbse:board:2024:32-1-1:q25"] and refused == []
+    assert [r["file"] for r in report] == ["board-2024-32-1-1.json"], "the second solves are not a paper"

@@ -341,6 +341,25 @@ def solve_key(q: dict, alternative: bool = False) -> str:
     return f"{q.get('number')}{'-vi' if q.get('visuallyImpairedVariant') else ''}{'-or' if alternative else ''}"
 
 
+_BOARD_CODE = re.compile(r"\d+(?:/\d+)+[A-Za-z]?")
+
+
+def _slug(text: Any) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", str(text or "").lower()).strip("-")
+
+
+def paper_key(paper: dict) -> str:
+    """The part of a record id that names its paper. A board paper's code
+    (30/1/1 -> 30-1-1) names it alone. A sample paper's or booklet's code
+    ("SQP 2025-26") is the same for every subject that year, so the subject,
+    with its course variant, is named too: two subjects' question 1 were one
+    id (124 collisions, 2026-09-29)."""
+    code = str(paper.get("code") or "").strip()
+    if _BOARD_CODE.fullmatch(code):
+        return code.replace("/", "-")
+    return "-".join(part for part in (_slug(paper.get("subject")), _slug(code)) if part)
+
+
 def build(transcription: dict, *, source: str, scheme: Optional[SchemeText], scheme_file: str,
           id_prefix: str, provenance: str = "cbse_marking_scheme",
           second: Optional[dict[str, str]] = None) -> Built:
@@ -348,7 +367,7 @@ def build(transcription: dict, *, source: str, scheme: Optional[SchemeText], sch
     choice as its own record), and every refusal with its reason. `second`
     maps `solve_key` to an independent second solve's final answer."""
     paper = transcription.get("paper") or {}
-    code = str(paper.get("code") or "").replace("/", "-")
+    code = paper_key(paper)
     bank_id = f"{id_prefix}:{paper.get('year')}:{paper.get('class')}:{paper.get('subject')}:{code}"
     records, refused = [], []
     located: list[tuple[str, list[int]]] = []
@@ -356,7 +375,10 @@ def build(transcription: dict, *, source: str, scheme: Optional[SchemeText], sch
     for q in transcription.get("questions") or []:
         number = str(q.get("number") or "").strip()
         suffix = "-vi" if q.get("visuallyImpairedVariant") else ""
-        rid = f"{id_prefix}:{paper.get('year')}:{code}:q{number}{suffix}"
+        # The number as an id part: a note the transcriber kept beside it
+        # ("37 (Visually Impaired)") is dropped -- the suffix already says so.
+        num = _slug(re.sub(r"\(.*?\)", "", number)) or _slug(number)
+        rid = f"{id_prefix}:{paper.get('year')}:{code}:q{num}{suffix}"
         if rid in seen:
             rid = f"{rid}-{len(seen)}"
         seen.add(rid)
