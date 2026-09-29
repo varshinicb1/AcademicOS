@@ -2800,6 +2800,88 @@
         "title": "ClassSubject",
         "type": "object"
       },
+      "ClientErrorRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "appVersion": {
+            "anyOf": [
+              {
+                "maxLength": 60,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Appversion"
+          },
+          "message": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Message",
+            "type": "string"
+          },
+          "route": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Route"
+          },
+          "source": {
+            "pattern": "^(web|android|ios)$",
+            "title": "Source",
+            "type": "string"
+          },
+          "stack": {
+            "anyOf": [
+              {
+                "maxLength": 20000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stack"
+          }
+        },
+        "required": [
+          "source",
+          "message"
+        ],
+        "title": "ClientErrorRequest",
+        "type": "object"
+      },
+      "ClientErrorResponse": {
+        "properties": {
+          "errorRef": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Errorref"
+          },
+          "recorded": {
+            "title": "Recorded",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "recorded"
+        ],
+        "title": "ClientErrorResponse",
+        "type": "object"
+      },
       "ClosureRequest": {
         "additionalProperties": false,
         "properties": {
@@ -4268,6 +4350,64 @@
           "studentId"
         ],
         "title": "EnrollStudentRequest",
+        "type": "object"
+      },
+      "ErrorGroupResponse": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "fingerprint": {
+            "title": "Fingerprint",
+            "type": "string"
+          },
+          "firstSeen": {
+            "title": "Firstseen",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "lastSeen": {
+            "title": "Lastseen",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "release": {
+            "title": "Release",
+            "type": "string"
+          },
+          "route": {
+            "title": "Route",
+            "type": "string"
+          },
+          "schools": {
+            "title": "Schools",
+            "type": "integer"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "fingerprint",
+          "source",
+          "kind",
+          "route",
+          "message",
+          "count",
+          "firstSeen",
+          "lastSeen",
+          "release",
+          "schools"
+        ],
+        "title": "ErrorGroupResponse",
         "type": "object"
       },
       "EvaluateAnswerRequest": {
@@ -18205,6 +18345,57 @@
         "summary": "Child Timetable"
       }
     },
+    "/api/v1/client-errors": {
+      "post": {
+        "description": "What the web or phone app caught. Open to a signed-out app too (the\nsign-in page can fail), limited per address, and kept scrubbed: no user\nid, only the school.",
+        "operationId": "report_client_error_api_v1_client_errors_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "default": "",
+              "title": "Authorization",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientErrorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientErrorResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Report Client Error"
+      }
+    },
     "/api/v1/consent": {
       "get": {
         "description": "List all parental consent records for the caller's school.",
@@ -27174,6 +27365,57 @@
         "summary": "Mark Read"
       }
     },
+    "/api/v1/ops/errors": {
+      "get": {
+        "description": "This process's error groups, most recent first, for the operator.\nNeeds the operator's key (env ACOS_OPS_KEY); 404 when none is\nconfigured, so the route does not exist until someone sets one.",
+        "operationId": "list_errors_api_v1_ops_errors_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-Ops-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Ops-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorGroupResponse"
+                  },
+                  "title": "Response List Errors Api V1 Ops Errors Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Errors"
+      }
+    },
     "/api/v1/paper-reviews": {
       "get": {
         "description": "The papers waiting for the caller's review; the principal sees the\nschool's.",
@@ -29754,6 +29996,27 @@
           }
         },
         "summary": "Health"
+      }
+    },
+    "/health/errors": {
+      "get": {
+        "description": "Counts only -- never a message -- so it can be public like /health.",
+        "operationId": "error_counts_health_errors_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Error Counts Health Errors Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Error Counts"
       }
     },
     "/health/llm": {
