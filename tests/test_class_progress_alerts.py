@@ -45,3 +45,18 @@ def test_morning_alerts_name_what_needs_the_principal(w, monkeypatch):
     alert = next(i for i in inbox if i["kind"] == "principal_alert" and i["title"].startswith("Needs attention"))
     assert "homework past due with fewer than half handed in" in alert["body"]
     assert run_automations(now + timedelta(hours=1))["principal_alerts"] == "done"
+
+
+def test_teachers_hear_about_work_waiting_for_their_marks(w):
+    from academicos.operations.routes import run_automations, store
+    hw = _create(w, "ana").json()        # q3 is written: the submission waits for the teacher
+    w.c.post(f"/api/v1/my-homework/{hw['id']}/submit", json={"answers": {"q1": "A", "q2": "B", "q3": "angle"}},
+             headers=w.s1)
+    s = store()
+    with s._conn_lock:
+        s.conn.execute("UPDATE homework_submissions SET submitted_at=?", ("2026-01-01T00:00:00+00:00",))
+        s._commit()
+    now = datetime.now(timezone.utc).replace(hour=11)       # 16:30 IST
+    assert run_automations(now)["marking_due"] == 1
+    inbox = w.c.get("/api/v1/notifications", headers=w.ana).json()["items"]
+    assert any(i["kind"] == "marking_due" and i["title"] == "1 waiting for your marks" for i in inbox)
