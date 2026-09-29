@@ -23,7 +23,7 @@ from . import mailer as mailer_mod
 from . import remediation as remediation_mod
 from .authz import require_consent, require_own_school, require_school_owns_student
 from .authz import require_school_owns_assessment as _authz_require_school_owns_assessment
-from .auth_routes import get_current_user, require_principal, require_staff
+from .auth_routes import get_current_user, require_admin, require_principal, require_staff
 from .audit_log import AuditLog, get_audit_log, record_pii_read
 from .consent import ConsentStore, get_consent_store
 from .evaluate import Evaluation, evaluate_answer
@@ -1149,7 +1149,7 @@ class SchoolInsightsResponse(Camel):
 
 
 @router.get("/insights/school/{school_id}", response_model=SchoolInsightsResponse)
-def school_report(school_id: str, principal: User = Depends(require_principal)) -> SchoolInsightsResponse:
+def school_report(school_id: str, principal: User = Depends(require_admin("reports"))) -> SchoolInsightsResponse:
     require_own_school(school_id, principal)
     cfg, knowledge, _ = _require()
     graded = _require_graded()

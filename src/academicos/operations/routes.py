@@ -10,7 +10,7 @@ from fastapi import APIRouter, Depends, Header, HTTPException, Query
 from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
-from ..assessment.auth_routes import get_current_user, require_principal
+from ..assessment.auth_routes import get_current_user, require_admin, require_principal
 from ..assessment.users import User
 from ..config import Config
 from ..curriculum.schemas import Camel
@@ -43,6 +43,8 @@ def init(cfg: Config) -> None:
     from ..assessment import auth_routes
     from .guardian_routes import on_register
     auth_routes.add_register_hook(on_register)
+    # Delegated admin (M1.4): a teacher's grants open require_admin routes.
+    auth_routes.set_grant_checker(lambda user_id, cap, **target: store().holds(user_id, cap, **target))
 
 
 def _record_learning(student_id: str, results: list, source: Optional[str]) -> None:
@@ -189,7 +191,7 @@ class AutomationRun(Camel):
 
 
 @router.get("/automations/status", response_model=list[AutomationRun])
-def automations_status(principal: User = Depends(require_principal)) -> list[AutomationRun]:
+def automations_status(principal: User = Depends(require_admin("reports"))) -> list[AutomationRun]:
     """The latest automation runs, newest first (runs are not per school)."""
     return [AutomationRun(**r) for r in store().automation_history()]
 

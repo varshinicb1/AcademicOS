@@ -25,6 +25,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/grants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Grants */
+        get: operations["list_grants_api_v1_admin_grants_get"];
+        put?: never;
+        /**
+         * Grant
+         * @description Give a teacher one admin capability, for the whole school or limited
+         *     to classes, sections or subjects. Granting again replaces the scope.
+         */
+        post: operations["grant_api_v1_admin_grants_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/grants/{grant_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Revoke */
+        delete: operations["revoke_api_v1_admin_grants__grant_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/import/{kind}": {
         parameters: {
             query?: never;
@@ -3432,6 +3471,28 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/my-grants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * My Grants
+         * @description What the caller may administer: every capability for the principal,
+         *     their grants for a teacher, nothing for anyone else. The web shows the
+         *     matching admin tools from this.
+         */
+        get: operations["my_grants_api_v1_my_grants_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/my-homework": {
         parameters: {
             query?: never;
@@ -5585,6 +5646,13 @@ export interface components {
             /** Teacherid */
             teacherId: string;
         };
+        /** CapabilityInfo */
+        CapabilityInfo: {
+            /** Capability */
+            capability: string;
+            /** Label */
+            label: string;
+        };
         /** CapturedPageResponse */
         CapturedPageResponse: {
             /** Cropped */
@@ -6617,6 +6685,51 @@ export interface components {
             /** Section */
             section?: string | null;
         };
+        /** GrantRequest */
+        GrantRequest: {
+            /** Capability */
+            capability: string;
+            scope?: components["schemas"]["GrantScope"] | null;
+            /** Userid */
+            userId: string;
+        };
+        /** GrantResponse */
+        GrantResponse: {
+            /** Active */
+            active: boolean;
+            /** Capability */
+            capability: string;
+            /** Grantedat */
+            grantedAt: string;
+            /** Grantedby */
+            grantedBy: string;
+            /** Id */
+            id: string;
+            /** Label */
+            label: string;
+            /** Revokedat */
+            revokedAt?: string | null;
+            /** Scope */
+            scope: {
+                [key: string]: unknown;
+            };
+            /** Userid */
+            userId: string;
+            /**
+             * Username
+             * @default
+             */
+            userName: string;
+        };
+        /** GrantScope */
+        GrantScope: {
+            /** Grades */
+            grades?: number[];
+            /** Sectionids */
+            sectionIds?: string[];
+            /** Subjectids */
+            subjectIds?: string[];
+        };
         /** GraphResult */
         GraphResult: {
             /**
@@ -7169,6 +7282,15 @@ export interface components {
         MyExams: {
             /** Exams */
             exams: components["schemas"]["ExamResponse"][];
+        };
+        /** MyGrantsResponse */
+        MyGrantsResponse: {
+            /** Available */
+            available: components["schemas"]["CapabilityInfo"][];
+            /** Capabilities */
+            capabilities: string[];
+            /** Grants */
+            grants: components["schemas"]["GrantResponse"][];
         };
         /** MyHomeworkDetail */
         MyHomeworkDetail: {
@@ -10295,6 +10417,101 @@ export interface operations {
                 };
                 content: {
                     "text/plain": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_grants_api_v1_admin_grants_get: {
+        parameters: {
+            query?: {
+                include_revoked?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GrantResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    grant_api_v1_admin_grants_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GrantRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GrantResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    revoke_api_v1_admin_grants__grant_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                grant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GrantResponse"];
                 };
             };
             /** @description Validation Error */
@@ -16324,6 +16541,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MyExams"];
+                };
+            };
+        };
+    };
+    my_grants_api_v1_my_grants_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyGrantsResponse"];
                 };
             };
         };
