@@ -246,7 +246,7 @@ class HomeworkMixin:
         return {r["status"]: r["n"] for r in rows}
 
     def submit_homework(self, hw: Homework, *, student_id: str, section_id: str, answers: dict[str, str],
-                        late: bool) -> Submission:
+                        late: bool, needs_teacher: bool = False) -> Submission:
         """Mark and store a student's answers. A student may send again until
         the homework is marked or closed; each send is marked afresh."""
         if hw.status != "published":
@@ -260,6 +260,7 @@ class HomeworkMixin:
         if previous is not None and previous.status == "graded":
             raise HomeworkError("your homework has been marked; it cannot be changed now")
         evaluations, auto, review = grade_answers(hw.questions, answers)
+        review = review or needs_teacher      # written work in photos: the teacher marks it
         now = _now()
         status = "submitted" if review else "graded"
         with self._conn_lock:

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/session/current_session.dart';
 import '../shared/widgets/common_widgets.dart';
+import 'dashboard_card.dart';
 import 'ops_api.dart';
 
 /// The school workspace: every day-to-day tool for the signed-in role on one
@@ -92,8 +93,15 @@ class _WorkspacePageState extends State<WorkspacePage> {
     final theme = Theme.of(context);
     final tiles = _tiles(CurrentSession.role);
     return Scaffold(
-      appBar: AppBar(title: const Text('School')),
-      body: RefreshIndicator(
+      appBar: AppBar(title: const Text('School'), actions: [
+        if (CurrentSession.role != 'parent')
+          IconButton(tooltip: 'Copy my calendar link', icon: const Icon(Icons.event_available),
+              onPressed: () => copyCalendarLink(context)),
+      ]),
+      body: Column(children: [
+        // The principal and reports admins see today at a glance (ADM-2).
+        if (CurrentSession.role == 'principal' || _caps.contains('reports')) const DashboardCard(),
+        Expanded(child: RefreshIndicator(
         onRefresh: _loadUnread,
         child: LayoutBuilder(builder: (context, c) {
           final cols = c.maxWidth > 1100 ? 3 : (c.maxWidth > 700 ? 2 : 1);
@@ -130,7 +138,8 @@ class _WorkspacePageState extends State<WorkspacePage> {
             ],
           );
         }),
-      ),
+      )),
+      ]),
     );
   }
 }

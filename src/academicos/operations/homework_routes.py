@@ -175,6 +175,7 @@ class EvaluationItem(Camel):
 
 
 class SubmissionRow(Camel):
+    photo_ids: list[str] = Field(default_factory=list)
     student_id: str
     student_name: str
     section_id: str
@@ -492,7 +493,8 @@ def list_submissions(homework_id: str, current: User = Depends(require_staff)) -
             student_id=sid, student_name=getattr(u, "name", "") or sid, section_id=s.section_id, status=s.status,
             late=s.late, attempts=s.attempts, submitted_at=s.submitted_at, auto_marks=s.auto_marks, marks=s.marks,
             max_marks=s.max_marks, needs_review=sum(1 for e in s.evaluations if e["needsReview"]),
-            answers=s.answers, evaluations=_evaluations(hw, s, with_answers=True), feedback=s.feedback))
+            answers=s.answers, evaluations=_evaluations(hw, s, with_answers=True), feedback=s.feedback,
+            photo_ids=[p["id"] for p in store().photos_for(hw.id, sid)]))
     return rows
 
 
@@ -595,7 +597,8 @@ def submit(homework_id: str, req: SubmitRequest, current: User = Depends(get_cur
     try:
         sub = store().submit_homework(hw, student_id=current.id, section_id=enrollment.section_id,
                                       answers={k: (v or "")[:5000] for k, v in req.answers.items()},
-                                      late=_today() > hw.due_date)
+                                      late=_today() > hw.due_date,
+                                      needs_teacher=bool(store().photos_for(hw.id, current.id)))
     except HomeworkError as e:
         raise HTTPException(409, str(e))
     if sub.status == "graded":

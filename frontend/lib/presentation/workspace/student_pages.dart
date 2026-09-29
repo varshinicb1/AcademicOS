@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
+import 'photos_ui.dart';
 
 /// A student's homework (SA-2): what is due, then each homework's
 /// questions to answer in the app, and the marks and model answers once it
@@ -182,6 +183,8 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
               if (evals[q['id']] != null) _EvalLine(e: Map<String, dynamic>.from(evals[q['id']]!)),
             ]),
           ),
+        MyHomeworkPhotos(homeworkId: widget.homeworkId, editable: open),
+        const SizedBox(height: 12),
         if (open)
           FilledButton.icon(
             onPressed: _sending ? null : _submit,

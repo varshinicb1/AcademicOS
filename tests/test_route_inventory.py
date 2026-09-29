@@ -203,6 +203,16 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("DELETE", "/api/v1/admin/grants/{grant_id}"),
     ("GET", "/api/v1/my-grants"),
     ("GET", "/api/v1/staff"),
+    ("GET", "/api/v1/dashboard/summary"),
+    ("GET", "/api/v1/calendar-feed"),
+    ("POST", "/api/v1/calendar-feed/reset"),
+    ("GET", "/api/v1/ics/{token}.ics"),
+    ("POST", "/v1/homework-sets"),
+    ("POST", "/api/v1/my-homework/{homework_id}/photos"),
+    ("GET", "/api/v1/my-homework/{homework_id}/photos"),
+    ("GET", "/api/v1/my-homework/{homework_id}/photos/{photo_id}"),
+    ("DELETE", "/api/v1/my-homework/{homework_id}/photos/{photo_id}"),
+    ("GET", "/api/v1/homework/{homework_id}/submissions/{student_id}/photos/{photo_id}"),
     ("GET", "/api/v1/homework/suggestion"),
     ("POST", "/api/v1/homework"),
     ("GET", "/api/v1/homework"),
@@ -474,6 +484,14 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("DELETE", "/api/v1/admin/grants/{grant_id}"),
     ("GET", "/api/v1/my-grants"),
     ("GET", "/api/v1/staff"),
+    ("GET", "/api/v1/dashboard/summary"),
+    ("GET", "/api/v1/calendar-feed"),
+    ("POST", "/api/v1/calendar-feed/reset"),
+    ("POST", "/api/v1/my-homework/{homework_id}/photos"),
+    ("GET", "/api/v1/my-homework/{homework_id}/photos"),
+    ("GET", "/api/v1/my-homework/{homework_id}/photos/{photo_id}"),
+    ("DELETE", "/api/v1/my-homework/{homework_id}/photos/{photo_id}"),
+    ("GET", "/api/v1/homework/{homework_id}/submissions/{student_id}/photos/{photo_id}"),
     ("GET", "/api/v1/homework/suggestion"),
     ("POST", "/api/v1/homework"),
     ("GET", "/api/v1/homework"),
@@ -862,7 +880,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 264: EX-7 added exam planning (8).
     # 268: M1.4 added delegated admin grants (4).
     # 269: the staff directory for pickers (1).
-    assert len(API_ROUTES) == 269
+    # 279: dashboard, calendar feed (3), /v1 homework sets, homework photos (5).
+    assert len(API_ROUTES) == 279
 
 
 def test_docs_routes_present():
@@ -960,6 +979,7 @@ def test_gated_routes_return_503_without_startup():
                 ("GET", "/v1/subtopics/{subtopic_id}/questions"),
                 ("GET", "/v1/facets"),
                 ("GET", "/v1/coverage"),
+                ("POST", "/v1/homework-sets"),
             }:
                 continue
             concrete = _concrete_path(path)

@@ -257,6 +257,17 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("DELETE", "/api/v1/admin/grants/{grant_id}"): _p(PRINCIPAL),
     ("GET", "/api/v1/my-grants"): _p(ANY_USER, "the callers own capabilities"),
     ("GET", "/api/v1/staff"): _p(STAFF, "names only, for pickers"),
+    # ADM-2 dashboard, INT-2 calendar feed, API-2 homework sets, SA-2 photos.
+    ("GET", "/api/v1/dashboard/summary"): _p(ADMIN["reports"]),
+    ("GET", "/api/v1/calendar-feed"): _p(ANY_USER, "the callers own feed; staff and students"),
+    ("POST", "/api/v1/calendar-feed/reset"): _p(ANY_USER, "the callers own feed"),
+    ("GET", "/api/v1/ics/{token}.ics"): _p(PUBLIC, "the unguessable feed token is the key; the owners own dates only"),
+    ("POST", "/v1/homework-sets"): _p(API_KEY, "questions:read"),
+    ("POST", "/api/v1/my-homework/{homework_id}/photos"): _p(ANY_USER, "students only, own submission; needs consent"),
+    ("GET", "/api/v1/my-homework/{homework_id}/photos"): _p(ANY_USER, "students only, own submission"),
+    ("GET", "/api/v1/my-homework/{homework_id}/photos/{photo_id}"): _p(ANY_USER, "students only, own photo"),
+    ("DELETE", "/api/v1/my-homework/{homework_id}/photos/{photo_id}"): _p(ANY_USER, "students only, own photo"),
+    ("GET", "/api/v1/homework/{homework_id}/submissions/{student_id}/photos/{photo_id}"): _p(STAFF, "the teacher of the homework or the principal; logged"),
     # M5 homework (operations/homework_routes.py).
     ("GET", "/api/v1/homework/suggestion"): _p(STAFF, "the teacher of the subject in the section, or the principal"),
     ("POST", "/api/v1/homework"): _p(STAFF, "a teacher only for sections they teach the subject in"),
