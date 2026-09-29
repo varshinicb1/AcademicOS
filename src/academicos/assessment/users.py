@@ -91,7 +91,7 @@ _SESSION_LIFETIME = timedelta(days=30)
 # An invite is a credential: whoever holds the code gets an account at that
 # school. 14 days covers handing a code to a teacher across a school week or
 # two; 90 days is the cap, so an invite cannot turn into a standing key.
-INVITE_ROLES = ("teacher", "student")
+INVITE_ROLES = ("teacher", "student", "parent")
 _INVITE_DEFAULT_DAYS = 14
 _INVITE_MAX_DAYS = 90
 

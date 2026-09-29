@@ -9,12 +9,13 @@ from pathlib import Path
 from typing import Optional
 
 from ..storage.snapshot_sync import SnapshotSync
+from .guardians import GUARDIANS_SCHEMA, GuardiansMixin
 from .homework import HOMEWORK_SCHEMA, HomeworkMixin
 from .learning import LEARNING_SCHEMA, LearningMixin
 from .notifications import NOTIFICATIONS_SCHEMA, NotificationsMixin
 
 
-class OperationsStore(NotificationsMixin, HomeworkMixin, LearningMixin):
+class OperationsStore(NotificationsMixin, HomeworkMixin, LearningMixin, GuardiansMixin):
     _SNAPSHOT_KEY = "operations.sqlite"
     _SNAPSHOT_DEBOUNCE_SECONDS = 20.0
 
@@ -38,7 +39,7 @@ class OperationsStore(NotificationsMixin, HomeworkMixin, LearningMixin):
 
     @classmethod
     def schema(cls) -> str:
-        return NOTIFICATIONS_SCHEMA + HOMEWORK_SCHEMA + LEARNING_SCHEMA
+        return NOTIFICATIONS_SCHEMA + HOMEWORK_SCHEMA + LEARNING_SCHEMA + GUARDIANS_SCHEMA
 
     def _exec(self, sql: str, params: tuple = ()) -> None:
         with self._conn_lock:

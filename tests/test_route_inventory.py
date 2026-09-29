@@ -207,6 +207,21 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/my-homework/{homework_id}/submit"),
     ("GET", "/api/v1/my-learning"),
     ("GET", "/api/v1/students/{student_id}/learning"),
+    ("POST", "/api/v1/students/{student_id}/guardian-invites"),
+    ("GET", "/api/v1/students/{student_id}/guardians"),
+    ("POST", "/api/v1/guardianships"),
+    ("DELETE", "/api/v1/guardianships/{parent_id}/{student_id}"),
+    ("GET", "/api/v1/my-children"),
+    ("GET", "/api/v1/children/{student_id}/timetable"),
+    ("GET", "/api/v1/children/{student_id}/day"),
+    ("GET", "/api/v1/children/{student_id}/homework"),
+    ("GET", "/api/v1/children/{student_id}/learning"),
+    ("GET", "/api/v1/children/{student_id}/consent"),
+    ("POST", "/api/v1/children/{student_id}/consent"),
+    ("DELETE", "/api/v1/children/{student_id}/consent"),
+    ("POST", "/api/v1/admin/import/{kind}"),
+    ("GET", "/api/v1/admin/import/{kind}/template"),
+    ("GET", "/api/v1/admin/export/{kind}"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -435,6 +450,21 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/my-homework/{homework_id}/submit"),
     ("GET", "/api/v1/my-learning"),
     ("GET", "/api/v1/students/{student_id}/learning"),
+    ("POST", "/api/v1/students/{student_id}/guardian-invites"),
+    ("GET", "/api/v1/students/{student_id}/guardians"),
+    ("POST", "/api/v1/guardianships"),
+    ("DELETE", "/api/v1/guardianships/{parent_id}/{student_id}"),
+    ("GET", "/api/v1/my-children"),
+    ("GET", "/api/v1/children/{student_id}/timetable"),
+    ("GET", "/api/v1/children/{student_id}/day"),
+    ("GET", "/api/v1/children/{student_id}/homework"),
+    ("GET", "/api/v1/children/{student_id}/learning"),
+    ("GET", "/api/v1/children/{student_id}/consent"),
+    ("POST", "/api/v1/children/{student_id}/consent"),
+    ("DELETE", "/api/v1/children/{student_id}/consent"),
+    ("POST", "/api/v1/admin/import/{kind}"),
+    ("GET", "/api/v1/admin/import/{kind}/template"),
+    ("GET", "/api/v1/admin/export/{kind}"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -766,7 +796,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 211: M3 added the inbox, preferences and devices (7).
     # 223: M5 added homework (12).
     # 225: SA-3 added learning progress (2).
-    assert len(API_ROUTES) == 225
+    # 240: M1.5 added parents (12), M1.6 bulk import and export (3).
+    assert len(API_ROUTES) == 240
 
 
 def test_docs_routes_present():

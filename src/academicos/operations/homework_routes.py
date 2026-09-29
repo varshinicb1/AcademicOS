@@ -317,7 +317,8 @@ def _record_mastery(hw: Homework, sub: Submission) -> None:
 def _notify_graded(hw: Homework, sub: Submission) -> None:
     _record_mastery(hw, sub)
     marks = sub.marks if sub.marks is not None else sub.auto_marks
-    notify_safely(school_id=hw.school_id, user_ids=[sub.student_id], kind="homework_graded",
+    parents = [g.parent_id for g in store().guardians_of(sub.student_id)]
+    notify_safely(school_id=hw.school_id, user_ids=[sub.student_id, *parents], kind="homework_graded",
                   params={"subject": hw.subject_name, "title": hw.title,
                           "marks": f"{marks:g} out of {sub.max_marks}"},
                   link=f"/my-homework/{hw.id}", dedupe_key=f"hwgraded:{hw.id}:{sub.student_id}:{sub.graded_at}")

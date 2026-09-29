@@ -4,6 +4,68 @@
  */
 
 export interface paths {
+    "/api/v1/admin/export/{kind}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Export
+         * @description The school's data as CSV, in the import's own columns where there is
+         *     an import for it, so an export edited in a spreadsheet imports back.
+         */
+        get: operations["export_api_v1_admin_export__kind__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/import/{kind}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Bulk Import
+         * @description Plan (and with dryRun=false, apply) a CSV import. The year is the
+         *     one named, else the school's latest.
+         */
+        post: operations["bulk_import_api_v1_admin_import__kind__post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/import/{kind}/template": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Import Template
+         * @description The CSV header for an import, with one example row.
+         */
+        get: operations["import_template_api_v1_admin_import__kind__template_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/assessments": {
         parameters: {
             query?: never;
@@ -110,6 +172,8 @@ export interface paths {
          * Create Invite
          * @description A single-use invite to the CALLER's school. There is no school field
          *     to send: a principal can only ever invite people into their own school.
+         *     A parent is invited for one student instead (POST
+         *     /students/{id}/guardian-invites), so every parent account has a child.
          */
         post: operations["create_invite_api_v1_auth_invites_post"];
         delete?: never;
@@ -291,6 +355,110 @@ export interface paths {
          * @description Chapter breakdown for one subject — the real syllabus view.
          */
         get: operations["catalog_chapters_api_v1_catalog__subject___grade__chapters_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/children/{student_id}/consent": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Child Consent */
+        get: operations["child_consent_api_v1_children__student_id__consent_get"];
+        put?: never;
+        /**
+         * Give Consent
+         * @description The parent's own verifiable consent (DPDP s.9): given from the account
+         *     the school linked to this child, so it is recorded as theirs.
+         */
+        post: operations["give_consent_api_v1_children__student_id__consent_post"];
+        /**
+         * Withdraw Consent
+         * @description Withdraw consent. The school then cannot mark or process the child's
+         *     work until it is given again.
+         */
+        delete: operations["withdraw_consent_api_v1_children__student_id__consent_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/children/{student_id}/day": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Child Day
+         * @description The child's day as it will run: substitutions, lost and make-up periods.
+         */
+        get: operations["child_day_api_v1_children__student_id__day_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/children/{student_id}/homework": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Child Homework
+         * @description The child's homework and where they stand on each (not the answers).
+         */
+        get: operations["child_homework_api_v1_children__student_id__homework_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/children/{student_id}/learning": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Child Learning */
+        get: operations["child_learning_api_v1_children__student_id__learning_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/children/{student_id}/timetable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Child Timetable
+         * @description The child's section's week and bell, as the student app shows it.
+         */
+        get: operations["child_timetable_api_v1_children__student_id__timetable_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2557,6 +2725,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/guardianships": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Link
+         * @description Link an existing parent account to a student, e.g. a second child.
+         */
+        post: operations["link_api_v1_guardianships_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/guardianships/{parent_id}/{student_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Unlink */
+        delete: operations["unlink_api_v1_guardianships__parent_id___student_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/homework": {
         parameters: {
             query?: never;
@@ -2852,6 +3057,23 @@ export interface paths {
         };
         /** Mail Status */
         get: operations["mail_status_api_v1_mail_status_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/my-children": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** My Children */
+        get: operations["my_children_api_v1_my_children_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3669,6 +3891,44 @@ export interface paths {
         };
         /** Get Section Templates */
         get: operations["get_section_templates_api_v1_schools__school_id__templates_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/students/{student_id}/guardian-invites": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Invite Guardian
+         * @description A single-use invite for one of this student's guardians. Whoever
+         *     registers with it gets a parent account linked to this student.
+         */
+        post: operations["invite_guardian_api_v1_students__student_id__guardian_invites_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/students/{student_id}/guardians": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Guardians */
+        get: operations["list_guardians_api_v1_students__student_id__guardians_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4893,6 +5153,21 @@ export interface components {
                 [key: string]: number;
             };
         };
+        /** ChildResponse */
+        ChildResponse: {
+            /** Consent */
+            consent: string;
+            /** Name */
+            name: string;
+            /** Relation */
+            relation: string;
+            /** Sectionid */
+            sectionId?: string | null;
+            /** Sectionname */
+            sectionName?: string | null;
+            /** Studentid */
+            studentId: string;
+        };
         /** ClassInsightsResponse */
         ClassInsightsResponse: {
             /** Assessmentid */
@@ -5097,6 +5372,21 @@ export interface components {
             retention: number;
             /** Status */
             status: string;
+        };
+        /** ConsentResponse */
+        ConsentResponse: {
+            /** Guardianname */
+            guardianName?: string | null;
+            /** Method */
+            method?: string | null;
+            /** Recordedat */
+            recordedAt?: string | null;
+            /** Revokedat */
+            revokedAt?: string | null;
+            /** Status */
+            status: string;
+            /** Studentid */
+            studentId: string;
         };
         /** ConsentStatusResponse */
         ConsentStatusResponse: {
@@ -5691,6 +5981,50 @@ export interface components {
                 [key: string]: unknown;
             }[];
         };
+        /** GuardianInviteRequest */
+        GuardianInviteRequest: {
+            /** Email */
+            email?: string | null;
+            /** Expiresindays */
+            expiresInDays?: number | null;
+            /**
+             * Relation
+             * @default guardian
+             */
+            relation: string;
+        };
+        /** GuardianInviteResponse */
+        GuardianInviteResponse: {
+            /** Code */
+            code: string;
+            /** Email */
+            email?: string | null;
+            /** Expiresat */
+            expiresAt: string;
+            /** Relation */
+            relation: string;
+            /** Studentid */
+            studentId: string;
+        };
+        /** GuardianResponse */
+        GuardianResponse: {
+            /** Active */
+            active: boolean;
+            /** Createdat */
+            createdAt: string;
+            /** Email */
+            email: string;
+            /** Name */
+            name: string;
+            /** Parentid */
+            parentId: string;
+            /** Relation */
+            relation: string;
+            /** Revokedat */
+            revokedAt?: string | null;
+            /** Studentid */
+            studentId: string;
+        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
@@ -5832,6 +6166,28 @@ export interface components {
             title: string;
             /** Totalmarks */
             totalMarks: number;
+        };
+        /** ImportRequest */
+        ImportRequest: {
+            /** Academicyearid */
+            academicYearId?: string | null;
+            /** Csv */
+            csv: string;
+        };
+        /** ImportResponse */
+        ImportResponse: {
+            /** Applied */
+            applied: boolean;
+            /** Counts */
+            counts: {
+                [key: string]: number;
+            };
+            /** Dryrun */
+            dryRun: boolean;
+            /** Kind */
+            kind: string;
+            /** Rows */
+            rows: components["schemas"]["RowOutcome"][];
         };
         /** InboxResponse */
         InboxResponse: {
@@ -5987,6 +6343,18 @@ export interface components {
             status: string;
             /** Teacherid */
             teacherId: string;
+        };
+        /** LinkRequest */
+        LinkRequest: {
+            /** Parentid */
+            parentId: string;
+            /**
+             * Relation
+             * @default guardian
+             */
+            relation: string;
+            /** Studentid */
+            studentId: string;
         };
         /** LoginRequest */
         LoginRequest: {
@@ -7377,6 +7745,17 @@ export interface components {
             kind?: string | null;
             /** Name */
             name?: string | null;
+        };
+        /** RowOutcome */
+        RowOutcome: {
+            /** Invitecode */
+            inviteCode?: string | null;
+            /** Message */
+            message: string;
+            /** Row */
+            row: number;
+            /** Status */
+            status: string;
         };
         /** RubricLevelSchema */
         RubricLevelSchema: {
@@ -9060,6 +9439,107 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    export_api_v1_admin_export__kind__get: {
+        parameters: {
+            query?: {
+                academicYearId?: string | null;
+            };
+            header?: never;
+            path: {
+                kind: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    bulk_import_api_v1_admin_import__kind__post: {
+        parameters: {
+            query?: {
+                dryRun?: boolean;
+            };
+            header?: never;
+            path: {
+                kind: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ImportRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImportResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    import_template_api_v1_admin_import__kind__template_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                kind: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_assessments_api_v1_assessments_get: {
         parameters: {
             query?: {
@@ -9633,6 +10113,225 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ChapterEntry"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    child_consent_api_v1_children__student_id__consent_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConsentResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    give_consent_api_v1_children__student_id__consent_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConsentResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    withdraw_consent_api_v1_children__student_id__consent_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConsentResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    child_day_api_v1_children__student_id__day_get: {
+        parameters: {
+            query: {
+                date: string;
+            };
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DayRowResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    child_homework_api_v1_children__student_id__homework_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyHomeworkItem"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    child_learning_api_v1_children__student_id__learning_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LearningProgressResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    child_timetable_api_v1_children__student_id__timetable_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyTimetableResponse"];
                 };
             };
             /** @description Validation Error */
@@ -13611,6 +14310,71 @@ export interface operations {
             };
         };
     };
+    link_api_v1_guardianships_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LinkRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GuardianResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    unlink_api_v1_guardianships__parent_id___student_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                parent_id: string;
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GuardianResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_homework_api_v1_homework_get: {
         parameters: {
             query?: {
@@ -14113,6 +14877,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MailBackendStatus"];
+                };
+            };
+        };
+    };
+    my_children_api_v1_my_children_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChildResponse"][];
                 };
             };
         };
@@ -15609,6 +16393,74 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SectionBlueprint"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    invite_guardian_api_v1_students__student_id__guardian_invites_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GuardianInviteRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GuardianInviteResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_guardians_api_v1_students__student_id__guardians_get: {
+        parameters: {
+            query?: {
+                includeEnded?: boolean;
+            };
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GuardianResponse"][];
                 };
             };
             /** @description Validation Error */

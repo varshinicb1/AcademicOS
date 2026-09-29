@@ -15,9 +15,10 @@ works exactly as before.
 """
 from __future__ import annotations
 
+import logging
 from typing import Optional
 
-from fastapi import APIRouter, Depends, Header, HTTPException
+from fastapi import APIRouter, Depends, Header, HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from ..api.rate_limit import rate_limit_login, rate_limit_register
@@ -106,8 +107,24 @@ def register(req: RegisterRequest) -> AuthResponse:
         raise HTTPException(409, "an account with this email already exists")
     except ValueError as e:
         raise HTTPException(400, str(e))
+    for hook in list(_REGISTER_HOOKS):
+        try:
+            hook(user, req.invite_code)
+        except Exception:  # noqa: BLE001
+            logging.getLogger(__name__).warning("a register hook failed for %s", user.id, exc_info=True)
     token = store.create_session(user.id)
     return AuthResponse(user=_to_response(user), token=token)
+
+
+# Run after an account is created: (user, invite code or None). The parent
+# link (operations/guardian_routes.on_register) is one. A hook that
+# fails is logged; the account stays, and the principal can link by hand.
+_REGISTER_HOOKS: list = []
+
+
+def add_register_hook(fn) -> None:
+    if fn not in _REGISTER_HOOKS:
+        _REGISTER_HOOKS.append(fn)
 
 
 @router.post("/login", response_model=AuthResponse, dependencies=[Depends(rate_limit_login)])
@@ -151,15 +168,27 @@ _bearer_scheme = HTTPBearer(
 
 
 def get_current_user(
+    request: Request,
     creds: Optional[HTTPAuthorizationCredentials] = Depends(_bearer_scheme),
 ) -> User:
-    """Required-auth dependency: 401s if there's no valid session token."""
+    """Required-auth dependency: 401s if there's no valid session token.
+
+    A parent account may call only the routes in route_policy.PARENT_PATHS
+    (their own inbox and settings, and their linked children's pages). Every
+    other route answers 403 here, before its handler runs: handlers written
+    before parents existed tell students from staff by `role == "student"`,
+    and a parent must never be taken for staff by one of them."""
     token = creds.credentials if creds is not None else None
     if not token:
         raise HTTPException(401, "missing bearer token")
     user = _require().user_for_session(token)
     if user is None:
         raise HTTPException(401, "session expired or invalid; log in again")
+    if user.role == "parent":
+        from ..api.route_policy import PARENT_PATHS
+        route = request.scope.get("route")
+        if getattr(route, "path", None) not in PARENT_PATHS:
+            raise HTTPException(403, "a parent account can see only their children's pages")
     return user
 
 
@@ -210,7 +239,7 @@ def list_school_users(role: Optional[str] = None,
     and scoped to the caller's own school_id (never a query parameter),
     same posture as every other per-school administrative read in this
     codebase."""
-    if role is not None and role not in ("teacher", "principal", "student"):
+    if role is not None and role not in ("teacher", "principal", "student", "parent"):
         raise HTTPException(400, f"invalid role filter: {role!r}")
     users = _require().users_for_school(principal.school_id, role=role)
     return [_to_response(u) for u in users]
@@ -254,7 +283,12 @@ def _invite_response(invite: Invite) -> InviteResponse:
 def create_invite(req: InviteCreateRequest,
                   principal: User = Depends(require_principal)) -> InviteResponse:
     """A single-use invite to the CALLER's school. There is no school field
-    to send: a principal can only ever invite people into their own school."""
+    to send: a principal can only ever invite people into their own school.
+    A parent is invited for one student instead (POST
+    /students/{id}/guardian-invites), so every parent account has a child."""
+    if req.role == "parent":
+        raise HTTPException(400, "invite a parent from their child's record: "
+                                 "POST /api/v1/students/{studentId}/guardian-invites")
     try:
         invite = _require().create_invite(
             school_id=principal.school_id, role=req.role, created_by=principal.id,
