@@ -310,7 +310,7 @@ def _homework(current: User, scope: Scope, f: _Filter, roster: dict[str, str]) -
 
 
 def _cover(year_id: str, scope: Scope, school: _School, f: _Filter) -> Cover:
-    from ..curriculum.cover import SUB_OPEN, SUB_TAKEN
+    from ..curriculum.cover import SUB_OPEN, is_filled
     cs = cr._require()
 
     def kept(section_id: str, subject_id: str) -> bool:
@@ -322,7 +322,7 @@ def _cover(year_id: str, scope: Scope, school: _School, f: _Filter) -> Cover:
     lost = [l for l in cs.lost_periods_for_year(year_id)
             if scope.start_date <= l.date <= scope.as_of and kept(l.section_id, l.subject_id)]
     return Cover(requested=len(subs),
-                 filled=sum(1 for s in subs if s.status in SUB_TAKEN and s.mode == "substitute"),
+                 filled=sum(1 for s in subs if is_filled(s)),
                  supervised=sum(1 for s in subs if s.mode == "supervised"),
                  unfilled=sum(1 for s in subs if s.status in SUB_OPEN),
                  lost=len(lost), compensated=sum(1 for l in lost if l.status == "compensated"),

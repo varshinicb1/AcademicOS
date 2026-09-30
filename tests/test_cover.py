@@ -90,6 +90,60 @@ def test_a_subject_run_by_someone_who_does_not_teach_it_is_a_lost_period(s):
     assert s.lost_periods_for_year(w.year, "owed")[0].id == lost.id
 
 
+def test_an_engine_pick_who_does_not_teach_the_subject_supervises_and_the_period_is_owed(s):
+    """N-3-9: the engine proposed Dev (Maths) for 10-A's Science as a
+    'substitute', counted him as filled and never owed the period. Now he
+    supervises, the period is a lost period at once, and `filled` counts
+    only a teacher of the subject who has accepted."""
+    w = _school(s)
+    _, subs = s.decide_leave(_leave(s, w, "ana").id, approve=True, decided_by="p1")
+    slots = _by_slot(subs)
+    dev = slots[(w.a10, 1)]
+    assert (dev.substitute_id, dev.status, dev.mode) == ("dev", "proposed", "supervised")
+    assert slots[(w.b10, 2)].mode == "substitute", "Chitra teaches Science"
+    [owed] = s.lost_periods_for_year(w.year, "owed")
+    assert (owed.section_id, owed.period, owed.subject_id, owed.source_id) == (w.a10, 1, w.sci10, dev.id)
+    assert owed.reason == "subject not taught (supervised)"
+    summary = s.cover_summary(w.year, MON, MON)
+    assert (summary["substitutionsRequested"], summary["filled"], summary["supervised"],
+            summary["lost"], summary["owed"]) == (2, 0, 1, 1, 1), "a proposal nobody accepted is not filled"
+    s.respond_to_substitution(slots[(w.b10, 2)].id, teacher_id="chitra", accept=True)
+    s.respond_to_substitution(dev.id, teacher_id="dev", accept=True)
+    summary = s.cover_summary(w.year, MON, MON)
+    assert (summary["filled"], summary["supervised"], summary["owed"]) == (1, 1, 1)
+    assert [r["kind"] for r in s.day_view(w.year, MON, section_id=w.a10) if r["period"] == 1] == ["supervised"]
+
+
+def test_a_decline_takes_the_supervision_and_its_lost_period_with_it(s):
+    w = _school(s)
+    _, subs = s.decide_leave(_leave(s, w, "ana").id, approve=True, decided_by="p1")
+    slots = _by_slot(subs)
+    # Chitra (Science) declines 10-B period 2; the only one free then is Dev (Maths).
+    after = s.respond_to_substitution(slots[(w.b10, 2)].id, teacher_id="chitra", accept=False)
+    assert (after.substitute_id, after.status, after.mode) == ("dev", "proposed", "supervised")
+    assert {(l.section_id, l.period) for l in s.lost_periods_for_year(w.year, "owed")} == {(w.a10, 1), (w.b10, 2)}
+    # Dev declines 10-A period 1 and nobody else is free: open, and not owed until the day passes.
+    alone = s.respond_to_substitution(slots[(w.a10, 1)].id, teacher_id="dev", accept=False)
+    assert (alone.substitute_id, alone.status, alone.mode) == (None, "declined", "substitute")
+    assert {(l.section_id, l.period) for l in s.lost_periods_for_year(w.year, "owed")} == {(w.b10, 2)}
+    s.settle_past_uncovered(w.year, today=TUE)
+    assert {(l.section_id, l.period, l.reason) for l in s.lost_periods_for_year(w.year, "owed")} == {
+        (w.b10, 2, "subject not taught (supervised)"), (w.a10, 1, "no substitute")}
+
+
+def test_the_class_sees_a_substitute_only_once_they_accept(s):
+    w = _school(s)
+    _, subs = s.decide_leave(_leave(s, w, "ana").id, approve=True, decided_by="p1")
+    duty = _by_slot(subs)[(w.b10, 2)]
+    [row] = [r for r in s.day_view(w.year, MON, section_id=w.b10, confirmed_only=True) if r["period"] == 2]
+    assert (row["kind"], row["teacherId"]) == ("uncovered", None)
+    [staff] = [r for r in s.day_view(w.year, MON, section_id=w.b10) if r["period"] == 2]
+    assert (staff["kind"], staff["teacherId"]) == ("substitute", "chitra"), "the principal sees the proposal"
+    s.respond_to_substitution(duty.id, teacher_id="chitra", accept=True)
+    [row] = [r for r in s.day_view(w.year, MON, section_id=w.b10, confirmed_only=True) if r["period"] == 2]
+    assert (row["kind"], row["teacherId"]) == ("substitute", "chitra")
+
+
 def test_two_teachers_absent_in_the_same_period_get_two_different_people(s):
     w = _school(s)
     _, ana_subs = s.decide_leave(_leave(s, w, "ana").id, approve=True, decided_by="p1")
@@ -148,7 +202,11 @@ def test_a_closure_at_short_notice_makes_every_periods_debt_and_cancels_the_days
     w = _school(s)
     s.decide_leave(_leave(s, w, "ana").id, approve=True, decided_by="p1")
     lost = s.declare_closure(w.year, MON, reason="rain")
-    assert len(lost) == 6                                  # every Monday entry of the three sections
+    # Every Monday entry of the three sections is owed: 10-A's period 1 was
+    # already (Dev, who does not teach Science, was to supervise it), so the
+    # closure adds the other 5 rather than a second row for it.
+    assert len(lost) == 5
+    assert len([l for l in s.lost_periods_for_year(w.year) if l.date == MON]) == 6
     assert all(x.status == "cancelled" for x in s.substitutions_between(w.year, MON, MON))
 
 

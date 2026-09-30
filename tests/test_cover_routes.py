@@ -95,6 +95,26 @@ def test_leave_to_accepted_substitution_end_to_end(w):
     assert [(r["period"], r["kind"]) for r in student] == [(1, "regular"), (2, "substitute")]
 
 
+def test_a_proposal_is_not_filled_and_the_class_does_not_see_it_until_accepted(w):
+    """N-3-9 through the routes: `filled` counts an accepted teacher of the
+    subject only, and the student's day shows no substitute until then."""
+    leave = _apply(w, "ana").json()
+    subs = w.c.post(f"{BASE}/leave-requests/{leave['id']}/decision", json={"approve": True},
+                    headers=w.p).json()["substitutions"]
+    by = {(s["sectionId"], s["period"]): s for s in subs}
+    assert by[(w.a10, 1)]["mode"] == "supervised" and by[(w.b10, 2)]["mode"] == "substitute"
+    summary = lambda: w.c.get(f"{BASE}/academic-years/{w.year}/cover-summary",  # noqa: E731
+                              params={"from": MON, "to": MON}, headers=w.p).json()
+    assert (summary()["filled"], summary()["supervised"], summary()["owed"]) == (0, 1, 1)
+    for path in ("my-day", "day"):
+        [p2] = [r for r in w.c.get(f"{BASE}/{path}", params={"date": MON}, headers=w.stu).json() if r["period"] == 2]
+        assert (p2["kind"], p2["teacherId"], p2["teacherName"]) == ("uncovered", None, None), path
+    w.c.post(f"{BASE}/substitutions/{by[(w.b10, 2)]['id']}/respond", json={"accept": True}, headers=w.t["chitra"])
+    [p2] = [r for r in w.c.get(f"{BASE}/my-day", params={"date": MON}, headers=w.stu).json() if r["period"] == 2]
+    assert (p2["kind"], p2["teacherName"]) == ("substitute", "Chitra")
+    assert summary()["filled"] == 1
+
+
 def test_only_the_principal_applies_for_someone_else(w):
     assert _apply(w, "bala", teacherId=w.uid["ana"]).status_code == 403
     r = _apply(w, w.p, teacherId=w.uid["ana"], reason="called in sick at 7am")

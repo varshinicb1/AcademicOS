@@ -537,7 +537,9 @@ def day(on: str = Query(alias="date"), section_id: Optional[str] = Query(default
         section_id = enrollment.section_id
     elif section_id:
         cr._require_school_owns_section(section_id, current)
-    return [_row(r) for r in store.day_view(year.id, on, section_id=section_id)]
+    # Only staff see a substitute the engine proposed before they accept (N-3-9).
+    return [_row(r) for r in store.day_view(year.id, on, section_id=section_id,
+                                            confirmed_only=current.role not in STAFF_ROLES)]
 
 
 @router.get("/my-day", response_model=list[DayRowResponse])
@@ -553,8 +555,10 @@ def my_day(on: str = Query(alias="date"), current: User = Depends(get_current_us
         enrollment = store.enrollment_for_student(current.id)
         if enrollment is None or not enrollment.section_id:
             return []
-        return [_row(r) for r in store.day_view(year.id, on, section_id=enrollment.section_id)]
-    return [_row(r) for r in store.day_view(year.id, on, teacher_id=current.id)]
+        return [_row(r) for r in store.day_view(year.id, on, section_id=enrollment.section_id,
+                                                confirmed_only=True)]
+    return [_row(r) for r in store.day_view(year.id, on, teacher_id=current.id,
+                                            confirmed_only=current.role not in STAFF_ROLES)]
 
 
 # ---------------- teacher attendance (SCH-9) ----------------

@@ -331,7 +331,8 @@ def child_day(student_id: str, on: str = Query(alias="date"), current: User = De
         return ChildDayResponse(rows=[])
     if section is None:
         return ChildDayResponse(rows=[])
-    rows = [cover_routes._row(r) for r in cs.day_view(year.id, on, section_id=section.id)]
+    # A parent, like the class, sees a substitute only once they accept (N-3-9).
+    rows = [cover_routes._row(r) for r in cs.day_view(year.id, on, section_id=section.id, confirmed_only=True)]
     return ChildDayResponse(rows=rows, subject_names=_subject_names(r.subject_id for r in rows))
 
 

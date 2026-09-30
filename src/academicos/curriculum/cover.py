@@ -119,6 +119,14 @@ SUB_OPEN = ("open", "declined")
 SUB_TAKEN = ("proposed", "accepted")
 MODES = ("substitute", "supervised", "combined", "lost")
 MAX_PER_DAY = 7
+SUPERVISED_REASON = "subject not taught (supervised)"
+
+
+def is_filled(s) -> bool:
+    """A period is filled when a teacher of its subject has accepted it. A
+    proposal nobody has answered yet, or someone who does not teach the
+    subject (supervision: a lost period), is not (N-3-9)."""
+    return s.status == "accepted" and s.mode == "substitute"
 
 
 def _now() -> str:
@@ -373,9 +381,10 @@ class CoverMixin:
                     if existing:
                         # A duty the teacher had taken: it needs someone else now.
                         sub = existing[0]
-                        self._exec("UPDATE substitutions SET substitute_id=NULL, status='open', updated_at=?, "
-                                   "note=? WHERE id=?",
+                        self._exec("UPDATE substitutions SET substitute_id=NULL, status='open', mode='substitute', "
+                                   "updated_at=?, note=? WHERE id=?",
                                    (_now(), "the substitute went on leave", sub.id))
+                        self._clear_lost(sub)
                     else:
                         sub = Substitution(id=_new_id("sub"), school_id=leave.school_id,
                                            academic_year_id=leave.academic_year_id, leave_id=leave.id, date=d,
@@ -391,8 +400,7 @@ class CoverMixin:
                                     sub.status, sub.mode, None, sub.created_at, sub.updated_at))
                     best = self.substitute_candidates(sub.id)
                     if best:
-                        self._exec("UPDATE substitutions SET substitute_id=?, status='proposed', mode='substitute', "
-                                   "updated_at=? WHERE id=?", (best[0].teacher_id, _now(), sub.id))
+                        self._propose(sub, best[0])
                     subs.append(self.get_substitution(sub.id))
         self._commit()
         return leave, subs
@@ -407,6 +415,10 @@ class CoverMixin:
             if leave.status not in ("pending", "approved"):
                 raise CoverError(f"this leave is already {leave.status}")
             self._exec("UPDATE leave_requests SET status='cancelled' WHERE id=?", (leave_id,))
+            # The teacher is back for these periods: a supervision the engine
+            # proposed no longer makes them lost (N-3-9).
+            self._exec("DELETE FROM lost_periods WHERE status='owed' AND source_id IN (SELECT id FROM substitutions "
+                       "WHERE leave_id=? AND date>=? AND status<>'resolved')", (leave_id, today))
             self._exec("UPDATE substitutions SET status='cancelled', updated_at=? WHERE leave_id=? AND date>=? "
                        "AND status<>'resolved'", (_now(), leave_id, today))
             leave.status = "cancelled"
@@ -433,6 +445,7 @@ class CoverMixin:
                 continue          # still away through another leave
             self._exec("UPDATE substitutions SET status='cancelled', note=?, updated_at=? WHERE id=?",
                        ("the co-teacher is back and takes the class", _now(), sub.id))
+            self._clear_lost(sub)
 
     # ---------------- teacher attendance (SCH-9) ----------------
 
@@ -620,12 +633,12 @@ class CoverMixin:
                            (substitute_id, "substitute" if qualified else "supervised", note, _now(), sub_id))
                 self._clear_lost(sub)
                 if not qualified:
-                    lost = self._record_lost(sub, reason="subject not taught (supervised)")
+                    lost = self._record_lost(sub, reason=SUPERVISED_REASON)
             else:
                 self._exec("UPDATE substitutions SET substitute_id=?, status='resolved', mode=?, note=?, "
                            "updated_at=? WHERE id=?", (substitute_id if mode == "supervised" else None,
                                                        mode, note, _now(), sub_id))
-                lost = self._record_lost(sub, reason={"supervised": "subject not taught (supervised)",
+                lost = self._record_lost(sub, reason={"supervised": SUPERVISED_REASON,
                                                       "combined": "combined with another section",
                                                       "lost": "no substitute"}[mode])
         self._commit()
@@ -641,14 +654,27 @@ class CoverMixin:
             if accept:
                 self._exec("UPDATE substitutions SET status='accepted', updated_at=? WHERE id=?", (_now(), sub_id))
             else:
-                self._exec("UPDATE substitutions SET status='declined', substitute_id=NULL, updated_at=? "
-                           "WHERE id=?", (_now(), sub_id))
+                # Open again, as if nobody had been asked: the decliner's
+                # supervision (and the lost period it made) goes with them.
+                self._exec("UPDATE substitutions SET status='declined', substitute_id=NULL, mode='substitute', "
+                           "updated_at=? WHERE id=?", (_now(), sub_id))
+                self._clear_lost(sub)
                 nxt = [c for c in self.substitute_candidates(sub_id) if c.teacher_id != teacher_id]
                 if nxt:
-                    self._exec("UPDATE substitutions SET substitute_id=?, status='proposed', updated_at=? "
-                               "WHERE id=?", (nxt[0].teacher_id, _now(), sub_id))
+                    self._propose(sub, nxt[0])
         self._commit()
         return self.get_substitution(sub_id)
+
+    def _propose(self, sub: Substitution, cand: Candidate) -> Optional[LostPeriod]:
+        """The engine's pick for a period (on approval, or when the one asked
+        declines). Someone who does not teach the subject supervises it, and
+        the period is lost for the section and subject (SCH-7) -- exactly as
+        when the principal assigns them (assign_substitute). Until N-3-9 the
+        engine proposed them as a 'substitute': counted as filled, never owed."""
+        self._exec("UPDATE substitutions SET substitute_id=?, status='proposed', mode=?, updated_at=? WHERE id=?",
+                   (cand.teacher_id, "substitute" if cand.qualified else "supervised", _now(), sub.id))
+        self._clear_lost(sub)
+        return None if cand.qualified else self._record_lost(sub, reason=SUPERVISED_REASON)
 
     def settle_past_uncovered(self, academic_year_id: str, today: str) -> int:
         """A period whose day has passed with nobody covering it was lost."""
@@ -794,11 +820,16 @@ class CoverMixin:
     # ---------------- the day (what actually happens) ----------------
 
     def day_view(self, academic_year_id: str, on: str, *, section_id: Optional[str] = None,
-                 teacher_id: Optional[str] = None) -> list[dict[str, Any]]:
+                 teacher_id: Optional[str] = None, confirmed_only: bool = False) -> list[dict[str, Any]]:
         """One day as it will run: the week's periods, with that day's
         substitutions, lost periods and make-up periods applied. Filter by a
         section, or by a teacher (their periods, their duties, their make-ups;
-        their periods on leave marked so)."""
+        their periods on leave marked so).
+
+        `confirmed_only` is the class's own view (a student, a parent): a
+        substitute shows only once they have accepted. Until then the period
+        has no teacher yet ('uncovered'); showing the engine's unanswered
+        proposal told a class the wrong person was coming (N-3-9)."""
         if on not in self._working_dates(academic_year_id):
             return []
         wd = date.fromisoformat(on).weekday()
@@ -831,7 +862,9 @@ class CoverMixin:
                     row["coTeacherId"] = None
             if s is not None:
                 row["substitutionId"] = s.id
-                if s.status in SUB_TAKEN and s.mode == "substitute":
+                if confirmed_only and s.status == "proposed":
+                    row.update(kind="uncovered", teacherId=None)
+                elif s.status in SUB_TAKEN and s.mode == "substitute":
                     row.update(kind="substitute", teacherId=s.substitute_id)
                 elif s.status in SUB_TAKEN or s.mode == "supervised":
                     row.update(kind="supervised", teacherId=s.substitute_id)
@@ -878,7 +911,7 @@ class CoverMixin:
             debt[(l.section_id, l.subject_id)][l.status] += 1
         return {
             "substitutionsRequested": len(subs),
-            "filled": sum(1 for s in subs if s.status in SUB_TAKEN and s.mode == "substitute"),
+            "filled": sum(1 for s in subs if is_filled(s)),
             "supervised": sum(1 for s in subs if s.mode == "supervised"),
             "unfilled": sum(1 for s in subs if s.status in SUB_OPEN),
             "lost": len(lost),

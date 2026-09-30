@@ -303,7 +303,8 @@ def test_both_away_opens_a_substitution_whichever_went_second(store):
     [sub] = _leave(store, w, "ana0")
     assert (sub.section_id, sub.period, sub.subject_id) == (a10, 1, w.sci)
     [row] = [r for r in store.day_view(w.year, MON, section_id=a10) if r["period"] == 1]
-    assert row["kind"] in ("substitute", "uncovered") and row["coTeacherId"] is None
+    # N-3-9: an engine pick who does not teach Science supervises it.
+    assert row["kind"] in ("substitute", "supervised", "uncovered") and row["coTeacherId"] is None
 
 
 def test_a_co_teachers_period_keeps_them_off_the_substitute_list(store):
