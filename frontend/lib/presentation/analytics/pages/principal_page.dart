@@ -7,6 +7,7 @@ import '../../../core/sync/network_policy.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// Pillar 6 — Principal Intelligence: school health, not individual questions.
 class PrincipalPage extends StatefulWidget {
@@ -87,21 +88,21 @@ class _PrincipalPageState extends State<PrincipalPage> {
                           label: 'Avg mastery',
                           value: '${(s.averageMastery * 100).round()}%',
                           icon: Icons.school,
-                          color: s.averageMastery < 0.6 ? Colors.red : Colors.green)),
+                          color: s.averageMastery < 0.6 ? AppColors.danger : AppColors.success)),
                   const SizedBox(width: 12),
                   Expanded(
                       child: StatCard(
                           label: 'Students',
                           value: '${s.students}',
                           icon: Icons.groups,
-                          color: Colors.blue)),
+                          color: AppColors.info)),
                   const SizedBox(width: 12),
                   Expanded(
                       child: StatCard(
                           label: 'Assessments',
                           value: '${s.assessments}',
                           icon: Icons.assignment,
-                          color: Colors.indigo)),
+                          color: AppColors.accent)),
                 ],
               ),
               const SizedBox(height: 8),
@@ -120,7 +121,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
                         if (sub.weakestConcept != null) ...[
                           const SizedBox(height: 10),
                           Row(children: [
-                            const Icon(Icons.trending_down, size: 15, color: Colors.red),
+                            const Icon(Icons.trending_down, size: 15, color: AppColors.danger),
                             const SizedBox(width: 6),
                             Expanded(child: Text('Weakest: ${sub.weakestConcept}')),
                           ]),
@@ -133,9 +134,9 @@ class _PrincipalPageState extends State<PrincipalPage> {
                     title: 'Recommended interventions',
                     subtitle: 'Where leadership attention changes outcomes'),
                 ...s.interventions.map((i) => AppCard(
-                      color: Colors.orange.withValues(alpha: 0.08),
+                      color: AppColors.warning.withValues(alpha: 0.08),
                       child: Row(children: [
-                        const Icon(Icons.priority_high, color: Colors.orange),
+                        const Icon(Icons.priority_high, color: AppColors.warning),
                         const SizedBox(width: 10),
                         Expanded(child: Text(i)),
                       ]),

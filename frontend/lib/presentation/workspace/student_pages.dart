@@ -7,6 +7,7 @@ import 'ops_api.dart';
 import 'practice_page.dart';
 import 'photos_ui.dart';
 import 'strings.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// A student's homework (SA-2): what is due, then each homework's
 /// questions to answer in the app, and the marks and model answers once it
@@ -62,7 +63,7 @@ class HomeworkStatusTile extends StatelessWidget {
     final status = item['myStatus'] as String;
     final overdue = item['overdue'] == true;
     final (label, color) = switch (status) {
-      'graded' => ('Marked: ${_fmt(item['marks'])}/${item['totalMarks']}', Colors.green),
+      'graded' => ('Marked: ${_fmt(item['marks'])}/${item['totalMarks']}', AppColors.success),
       'submitted' => ('Submitted, waiting for marks', theme.colorScheme.primary),
       _ => (overdue ? 'Overdue' : 'Not submitted', overdue ? theme.colorScheme.error : theme.colorScheme.outline),
     };
@@ -172,7 +173,7 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
         if (graded)
           AppCard(
             margin: const EdgeInsets.symmetric(vertical: 12),
-            color: Colors.green.withValues(alpha: 0.08),
+            color: AppColors.success.withValues(alpha: 0.08),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('Marks: ${_fmt(hw['marks'])} / ${hw['totalMarks']}', style: theme.textTheme.titleMedium),
               if (hw['feedback'] != null) Padding(padding: const EdgeInsets.only(top: 6), child: Text('Teacher: ${hw['feedback']}')),
@@ -198,7 +199,7 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
                   enabled: open,
                   minLines: q['type'] == 'long_answer' ? 5 : 2,
                   maxLines: 12,
-                  decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Your answer'),
+                  decoration: const InputDecoration(hintText: 'Your answer'),
                 ),
               if (evals[q['id']] != null) _EvalLine(e: Map<String, dynamic>.from(evals[q['id']]!)),
             ]),
@@ -289,8 +290,8 @@ class _LearningViewState extends State<LearningView> {
   };
 
   Color _color(String status, ThemeData t) => switch (status) {
-        'mastered' => Colors.green,
-        'developing' => Colors.orange,
+        'mastered' => AppColors.success,
+        'developing' => AppColors.warning,
         'needs_work' => t.colorScheme.error,
         _ => t.colorScheme.outline,
       };

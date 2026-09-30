@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/constants/app_constants.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// The style a main action carries so a thumb can hit it on the phone layout.
 ///
@@ -320,7 +321,7 @@ class StatCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(children: [Icon(icon, color: color, size: 20), const Spacer(), if (trend != null) Text(trend!, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: trend!.startsWith('+') ? Colors.green : Colors.red))]),
+          Row(children: [Icon(icon, color: color, size: 20), const Spacer(), if (trend != null) Text(trend!, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: trend!.startsWith('+') ? AppColors.success : AppColors.danger))]),
           const SizedBox(height: 8),
           Text(value, style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700, color: color)),
           Text(label, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: color.withValues(alpha: 0.8))),

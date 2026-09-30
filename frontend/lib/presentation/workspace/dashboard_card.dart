@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// Today at a glance for the principal (or a reports admin): staff and
 /// cover, the week's homework, exams coming up, students needing help.
@@ -40,12 +41,12 @@ class DashboardCard extends StatelessWidget {
               stat('Absent / on leave', '${c['absent']} / ${c['onLeave']}', Icons.person_off_outlined,
                   theme.colorScheme.primary, '/school/cover'),
               stat('Attendance not marked', '${c['unmarked']}', Icons.how_to_reg_outlined,
-                  c['unmarked'] > 0 ? Colors.orange : Colors.green, '/school/cover'),
+                  c['unmarked'] > 0 ? AppColors.warning : AppColors.success, '/school/cover'),
               stat('Periods needing cover', '${c['uncovered']} of ${c['periodsToCover']}', Icons.swap_horiz,
-                  c['uncovered'] > 0 ? theme.colorScheme.error : Colors.green, '/school/cover'),
+                  c['uncovered'] > 0 ? theme.colorScheme.error : AppColors.success, '/school/cover'),
               stat('Homework this week', '${h['submitted']}/${h['submissionsExpected']} in · ${h['set']} set',
                   Icons.assignment_outlined, theme.colorScheme.primary, '/school/homework'),
-              stat('Waiting to be marked', '${h['waitingToMark']}', Icons.rule, Colors.orange, '/school/homework'),
+              stat('Waiting to be marked', '${h['waitingToMark']}', Icons.rule, AppColors.warning, '/school/homework'),
             ]),
             if (exams.isNotEmpty) ...[
               const SizedBox(height: 10),

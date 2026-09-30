@@ -6,6 +6,7 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../../core/local_engine/local_store.dart';
 import '../../../data/datasources/api/curriculum_api.dart';
 import '../../shared/widgets/common_widgets.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 enum _ViewMode { overview, day, week, month }
 
@@ -278,7 +279,7 @@ class _StudentSchedulePageState extends State<StudentSchedulePage> {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Row(
         children: [
-          IconButton(icon: const Icon(Icons.chevron_left), onPressed: () => _shiftDay(-1)),
+          IconButton(tooltip: 'Previous day', icon: const Icon(Icons.chevron_left), onPressed: () => _shiftDay(-1)),
           Expanded(
             child: Center(
               child: Text(
@@ -287,7 +288,7 @@ class _StudentSchedulePageState extends State<StudentSchedulePage> {
               ),
             ),
           ),
-          IconButton(icon: const Icon(Icons.chevron_right), onPressed: () => _shiftDay(1)),
+          IconButton(tooltip: 'Next day', icon: const Icon(Icons.chevron_right), onPressed: () => _shiftDay(1)),
         ],
       ),
     );
@@ -423,7 +424,7 @@ class _StudentSchedulePageState extends State<StudentSchedulePage> {
   Color? _statusColor(ThemeData theme, String status) {
     switch (status) {
       case 'completed':
-        return Colors.green.shade600;
+        return AppColors.success;
       case 'skipped':
         return theme.colorScheme.error;
       default:

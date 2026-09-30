@@ -42,7 +42,7 @@ class PhotoThumb extends StatelessWidget {
             child: ClipRRect(borderRadius: BorderRadius.circular(8), child: image),
           ),
           if (onDelete != null)
-            Positioned(right: 0, top: 0, child: IconButton(
+            Positioned(right: 0, top: 0, child: IconButton(tooltip: 'Remove photo', 
               visualDensity: VisualDensity.compact, icon: const Icon(Icons.close, size: 18), onPressed: onDelete)),
         ]);
       },

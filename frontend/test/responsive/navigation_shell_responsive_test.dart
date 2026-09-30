@@ -37,6 +37,7 @@ Widget _shellApp() {
             ('/analytics/mastery', 'Mastery'),
             ('/analytics/gaps', 'Teacher'),
             ('/analytics/school', 'Principal'),
+            ('/school', 'School'),
             ('/settings', 'Settings'),
           ])
             GoRoute(path: path, builder: (context, state) => page(title)),
@@ -63,15 +64,15 @@ void main() {
     await tester.tap(menu);
     await tester.pumpAndSettle();
     expectNoOverflow(tester, where: ' in the drawer');
-    for (final destination in ['Today', 'Syllabus', 'Assessments', 'Planner', 'Questions', 'Evaluate',
-      'Mastery', 'Teacher', 'Principal', 'Settings']) {
+    for (final destination in ['Today', 'Syllabus', 'Papers', 'Planner', 'Question bank', 'Evaluate',
+      'Mastery', 'Class gaps', 'School insights', 'School', 'Settings']) {
       final tile = find.widgetWithText(ListTile, destination);
       expect(tile, findsOneWidget, reason: '$destination must be reachable on a phone');
       final r = tester.getRect(tile);
       expect(r.height >= minTapTarget, isTrue, reason: '$destination is only ${r.height} px tall');
     }
 
-    await tester.tap(find.widgetWithText(ListTile, 'Assessments'));
+    await tester.tap(find.widgetWithText(ListTile, 'Papers'));
     await tester.pumpAndSettle();
     expect(find.text('Assessments body'), findsOneWidget);
     expectNoOverflow(tester, where: ' after navigating');
@@ -110,8 +111,8 @@ void main() {
 
     expect(find.byType(NavigationRail), findsOneWidget, reason: 'the desktop look is unchanged');
     expect(find.byTooltip('Menu'), findsNothing, reason: 'no hamburger next to a visible rail');
-    for (final destination in ['Today', 'Syllabus', 'Assessments', 'Planner', 'Questions', 'Evaluate',
-      'Mastery', 'Teacher', 'Principal']) {
+    for (final destination in ['Today', 'Syllabus', 'Papers', 'Planner', 'Question bank', 'Evaluate',
+      'Mastery', 'Class gaps', 'School insights', 'School']) {
       expect(find.descendant(of: find.byType(NavigationRail), matching: find.text(destination)), findsOneWidget);
     }
     expectActionReady(tester, find.byTooltip('Settings'), laptopScreen, label: 'Settings in the rail');

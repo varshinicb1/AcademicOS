@@ -6,6 +6,7 @@ import '../../../core/session/current_session.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// Pillar 1 — the template maker.
 ///
@@ -229,7 +230,7 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
                 TextField(
                   controller: _name,
                   decoration: const InputDecoration(
-                      labelText: 'Template name', border: OutlineInputBorder()),
+                      labelText: 'Template name'),
                 ),
                 const Gap(12),
                 Row(children: [
@@ -238,7 +239,7 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
                       controller: _margin,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
-                          labelText: 'Margin (mm)', border: OutlineInputBorder()),
+                          labelText: 'Margin (mm)'),
                     ),
                   ),
                   const Gap(12),
@@ -247,7 +248,7 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
                       controller: _fontSize,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
-                          labelText: 'Font size (pt)', border: OutlineInputBorder()),
+                          labelText: 'Font size (pt)'),
                     ),
                   ),
                 ]),
@@ -277,12 +278,12 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
           const Gap(16),
           if (_loadFailed)
             AppCard(
-              color: Colors.orange.withValues(alpha: 0.12),
+              color: AppColors.warning.withValues(alpha: 0.12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(children: [
-                    const Icon(Icons.warning_amber, color: Colors.orange),
+                    const Icon(Icons.warning_amber, color: AppColors.warning),
                     const Gap(10),
                     Expanded(
                       child: Text(
@@ -304,11 +305,11 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
             ),
           if (_message != null)
             AppCard(
-              color: (_error ? theme.colorScheme.error : Colors.green)
+              color: (_error ? theme.colorScheme.error : AppColors.success)
                   .withValues(alpha: 0.12),
               child: Row(children: [
                 Icon(_error ? Icons.error_outline : Icons.check_circle,
-                    color: _error ? theme.colorScheme.error : Colors.green),
+                    color: _error ? theme.colorScheme.error : AppColors.success),
                 const Gap(10),
                 Expanded(child: Text(_message!)),
               ]),

@@ -12,6 +12,7 @@ import '../../../data/datasources/api/pillar_api.dart';
 import '../../blocs/assessment_bloc.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 class AssessmentCreatePage extends StatefulWidget {
   const AssessmentCreatePage({super.key});
@@ -623,7 +624,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
         _buildSliderRow(l1, v1Local, (v) { v1Local = v; onChange(v1Local, v2Local, v3Local); }),
         _buildSliderRow(l2, v2Local, (v) { v2Local = v; onChange(v1Local, v2Local, v3Local); }),
         _buildSliderRow(l3, v3Local, (v) { v3Local = v; onChange(v1Local, v2Local, v3Local); }),
-        Text('Sum: ${(v1Local + v2Local + v3Local).toStringAsFixed(2)}', style: TextStyle(color: (v1Local + v2Local + v3Local - 1.0).abs() < 0.01 ? Colors.green : Colors.red)),
+        Text('Sum: ${(v1Local + v2Local + v3Local).toStringAsFixed(2)}', style: TextStyle(color: (v1Local + v2Local + v3Local - 1.0).abs() < 0.01 ? AppColors.success : AppColors.danger)),
       ],
     );
   }
@@ -641,11 +642,11 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
   Widget _buildBloomSliders() {
     final levels = [
       ('Remember', _blueprint.bloom.remember, Colors.grey),
-      ('Understand', _blueprint.bloom.understand, Colors.blue),
-      ('Apply', _blueprint.bloom.apply, Colors.green),
-      ('Analyze', _blueprint.bloom.analyze, Colors.orange),
+      ('Understand', _blueprint.bloom.understand, AppColors.info),
+      ('Apply', _blueprint.bloom.apply, AppColors.success),
+      ('Analyze', _blueprint.bloom.analyze, AppColors.warning),
       ('Evaluate', _blueprint.bloom.evaluate, Colors.purple),
-      ('Create', _blueprint.bloom.create, Colors.red),
+      ('Create', _blueprint.bloom.create, AppColors.danger),
     ];
     return Column(
       children: levels.map((l) {
@@ -922,7 +923,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
               'Generate a formatted, sectioned paper',
             ].map((s) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Row(children: [const Icon(Icons.check_circle, size: 16, color: Colors.green), const SizedBox(width: 8), Expanded(child: Text(s))]),
+              child: Row(children: [const Icon(Icons.check_circle, size: 16, color: AppColors.success), const SizedBox(width: 8), Expanded(child: Text(s))]),
             )),
           ],
         ),

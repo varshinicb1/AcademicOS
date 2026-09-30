@@ -140,7 +140,7 @@ class _PendingTopicsCardState extends State<PendingTopicsCard> {
           const Gap(12),
           DropdownButtonFormField<String>(
             initialValue: _gradeId,
-            decoration: const InputDecoration(labelText: 'Grade', border: OutlineInputBorder()),
+            decoration: const InputDecoration(labelText: 'Grade'),
             isExpanded: true,
             items: [
               for (final g in widget.grades) DropdownMenuItem(value: g.id, child: Text(g.label)),
@@ -151,7 +151,7 @@ class _PendingTopicsCardState extends State<PendingTopicsCard> {
             const Gap(12),
             DropdownButtonFormField<String>(
               initialValue: _subjectId,
-              decoration: const InputDecoration(labelText: 'Subject', border: OutlineInputBorder()),
+              decoration: const InputDecoration(labelText: 'Subject'),
               isExpanded: true,
               items: [
                 for (final s in _subjects) DropdownMenuItem(value: s.id, child: Text(s.name)),
