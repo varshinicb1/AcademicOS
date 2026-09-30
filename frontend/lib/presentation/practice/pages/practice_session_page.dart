@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// Pillar 4 — Personalized remediation: weak concept -> practice -> mastery update.
 class PracticeSessionPage extends StatefulWidget {
@@ -103,9 +104,9 @@ class _PracticeSessionPageState extends State<PracticeSessionPage> {
           if (_set != null) ...[
             for (final w in _set!.warnings)
               AppCard(
-                color: Colors.orange.withValues(alpha: 0.10),
+                color: AppColors.warning.withValues(alpha: 0.10),
                 child: Row(children: [
-                  const Icon(Icons.warning_amber, color: Colors.orange, size: 18),
+                  const Icon(Icons.warning_amber, color: AppColors.warning, size: 18),
                   const SizedBox(width: 8),
                   Expanded(child: Text(w, style: const TextStyle(fontSize: 13))),
                 ]),
@@ -165,7 +166,7 @@ class _PracticeSessionPageState extends State<PracticeSessionPage> {
                           const SizedBox(width: 8),
                           ChipTag(
                             label: '${o.delta >= 0 ? "+" : ""}${(o.delta * 100).round()}',
-                            color: o.delta > 0 ? Colors.green : Colors.grey,
+                            color: o.delta > 0 ? AppColors.success : Colors.grey,
                           ),
                         ]),
                       )),

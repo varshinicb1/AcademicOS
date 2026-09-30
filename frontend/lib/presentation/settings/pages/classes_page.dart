@@ -12,6 +12,7 @@ import '../../../data/datasources/api/consent_api.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// Real class roster -- was a dead `() {}` button before this. Lists every
 /// student with real mastery evidence (LocalStore.allStudentIdsWithMastery,
@@ -132,18 +133,18 @@ class _ClassesPageState extends State<ClassesPage> {
                         // all) means genuinely never evaluated, not "failing"
                         // -- a red "0% mastery" badge for a freshly-added
                         // student reads as broken/alarming for no reason.
-                        const ChipTag(label: 'not yet evaluated', color: Colors.blueGrey)
+                        const ChipTag(label: 'not yet evaluated', color: AppColors.neutral)
                       else if (mastery != null)
                         ChipTag(
                           label: '${(mastery.overallMastery * 100).round()}% mastery',
                           color: mastery.overallMastery < 0.4
-                              ? Colors.red
-                              : (mastery.overallMastery < 0.7 ? Colors.orange : Colors.green),
+                              ? AppColors.danger
+                              : (mastery.overallMastery < 0.7 ? AppColors.warning : AppColors.success),
                         )
                       else if (fetchError != null)
                         Tooltip(
                           message: fetchError,
-                          child: const ChipTag(label: 'couldn\'t load', color: Colors.orange),
+                          child: const ChipTag(label: 'couldn\'t load', color: AppColors.warning),
                         )
                       else
                         const ChipTag(label: 'no data'),
@@ -155,7 +156,7 @@ class _ClassesPageState extends State<ClassesPage> {
                               : 'Parental consent required — tap to record',
                           icon: Icon(
                             LocalStore.instance.hasConsent(id) ? Icons.verified_user : Icons.privacy_tip_outlined,
-                            color: LocalStore.instance.hasConsent(id) ? Colors.green : Colors.orange,
+                            color: LocalStore.instance.hasConsent(id) ? AppColors.success : AppColors.warning,
                           ),
                           onPressed: () => _recordConsent(context, id, name),
                         ),

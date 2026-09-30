@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../core/constants/app_constants.dart';
+import '../../../core/session/current_session.dart';
 
 /// Drop into any page's `AppBar(leading: shellLeading(context), ...)`.
 ///
@@ -56,6 +58,70 @@ class _ShellDrawerScope extends InheritedWidget {
   bool updateShouldNotify(_ShellDrawerScope oldWidget) => openDrawer != oldWidget.openDrawer;
 }
 
+/// One destination in the side navigation: [match] is the path prefix that
+/// selects it (the longest match wins), [path] where a tap goes.
+typedef NavItem = ({IconData icon, IconData selectedIcon, String label, String path, String match});
+
+/// The destinations a role sees in the web console's side navigation.
+///
+/// Until 2026-09-30 every signed-in account saw the same ten, "Principal"
+/// included, so a student or a parent on the web was shown teacher tools
+/// that answered 403. Staff keep the full list (a teacher without the
+/// principal's insights); a student and a parent get their own few. An
+/// unknown role (the offline build, a test with no account) gets the staff
+/// list, as before.
+List<NavItem> navItemsFor(String role) {
+  const staff = <NavItem>[
+    (icon: Icons.today_outlined, selectedIcon: Icons.today, label: 'Today', path: '/home', match: '/home'),
+    (icon: Icons.assignment_outlined, selectedIcon: Icons.assignment, label: 'Papers', path: '/assessment', match: '/assessment'),
+    (icon: Icons.quiz_outlined, selectedIcon: Icons.quiz, label: 'Question bank', path: '/questions', match: '/questions'),
+    (icon: Icons.fact_check_outlined, selectedIcon: Icons.fact_check, label: 'Evaluate', path: '/evaluation', match: '/evaluation'),
+    (icon: Icons.calendar_today_outlined, selectedIcon: Icons.calendar_today, label: 'Planner', path: '/planner/daily', match: '/planner'),
+    (icon: Icons.menu_book_outlined, selectedIcon: Icons.menu_book, label: 'Syllabus', path: '/syllabus', match: '/syllabus'),
+    (icon: Icons.psychology_outlined, selectedIcon: Icons.psychology, label: 'Mastery', path: '/analytics/mastery', match: '/analytics'),
+    (icon: Icons.insights_outlined, selectedIcon: Icons.insights, label: 'Class gaps', path: '/analytics/gaps', match: '/analytics/gaps'),
+    (icon: Icons.account_balance_outlined, selectedIcon: Icons.account_balance, label: 'School insights', path: '/analytics/school', match: '/analytics/school'),
+    (icon: Icons.school_outlined, selectedIcon: Icons.school, label: 'School', path: '/school', match: '/school'),
+  ];
+  switch (role) {
+    case 'student':
+      return const [
+        (icon: Icons.today_outlined, selectedIcon: Icons.today, label: 'My day', path: '/school', match: '/school'),
+        (icon: Icons.assignment_outlined, selectedIcon: Icons.assignment, label: 'Homework', path: '/school/my-homework', match: '/school/my-homework'),
+        (icon: Icons.event_outlined, selectedIcon: Icons.event, label: 'Exams', path: '/school/my-exams', match: '/school/my-exams'),
+        (icon: Icons.trending_up_outlined, selectedIcon: Icons.trending_up, label: 'Learning', path: '/school/my-learning', match: '/school/my-learning'),
+        (icon: Icons.notifications_outlined, selectedIcon: Icons.notifications, label: 'Inbox', path: '/school/inbox', match: '/school/inbox'),
+      ];
+    case 'parent':
+      return const [
+        (icon: Icons.family_restroom_outlined, selectedIcon: Icons.family_restroom, label: 'Family', path: '/school/family', match: '/school'),
+        (icon: Icons.notifications_outlined, selectedIcon: Icons.notifications, label: 'Inbox', path: '/school/inbox', match: '/school/inbox'),
+      ];
+    case 'teacher':
+      return [for (final i in staff) if (i.path != '/analytics/school') i];
+    default:
+      return staff;
+  }
+}
+
+/// The destination [location] belongs to: the longest [NavItem.match] it
+/// starts with, else the first.
+int navIndexFor(List<NavItem> items, String location) {
+  var best = 0, bestLength = -1;
+  for (var i = 0; i < items.length; i++) {
+    final m = items[i].match;
+    if ((location == m || location.startsWith('$m/')) && m.length > bestLength) {
+      best = i;
+      bestLength = m.length;
+    }
+  }
+  return best;
+}
+
+/// The signed-in role, or '' when there is no local store to read it from
+/// (a widget test that mounts the shell alone).
+String _signedInRole() => Hive.isBoxOpen('academicos_cache') ? CurrentSession.role : '';
+
 class MainShell extends StatelessWidget {
   final Widget child;
 
@@ -63,30 +129,16 @@ class MainShell extends StatelessWidget {
 
   static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // Shared by the desktop NavigationRail and the mobile Drawer so the two
-  // destination lists can't drift out of sync. There are 9 destinations —
-  // too many for a Material NavigationBar (designed for 3-5, divides width
-  // evenly with no overflow handling), which is why mobile uses a Drawer
-  // instead of a bottom nav bar.
-  static const _navItems = [
-    (icon: Icons.today_outlined, selectedIcon: Icons.today, label: 'Today'),
-    (icon: Icons.menu_book_outlined, selectedIcon: Icons.menu_book, label: 'Syllabus'),
-    (icon: Icons.assignment_outlined, selectedIcon: Icons.assignment, label: 'Assessments'),
-    (icon: Icons.calendar_today_outlined, selectedIcon: Icons.calendar_today, label: 'Planner'),
-    (icon: Icons.quiz_outlined, selectedIcon: Icons.quiz, label: 'Questions'),
-    (icon: Icons.fact_check_outlined, selectedIcon: Icons.fact_check, label: 'Evaluate'),
-    (icon: Icons.psychology_outlined, selectedIcon: Icons.psychology, label: 'Mastery'),
-    (icon: Icons.insights_outlined, selectedIcon: Icons.insights, label: 'Teacher'),
-    (icon: Icons.account_balance_outlined, selectedIcon: Icons.account_balance, label: 'Principal'),
-    (icon: Icons.school_outlined, selectedIcon: Icons.school, label: 'School'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     // NavigationRail asserts labelType must be null/none when extended.
     final extended = MediaQuery.of(context).size.width >= 1000;
     final isMobile = MediaQuery.of(context).size.width < AppConstants.mobileBreakpoint;
-    final selectedIndex = _calculateSelectedIndex(context);
+    // A phone-width drawer and a desktop rail list the same destinations;
+    // there are too many for a Material NavigationBar (designed for 3-5).
+    final items = navItemsFor(_signedInRole());
+    final selectedIndex = navIndexFor(items, GoRouterState.of(context).uri.path);
+    final line = Theme.of(context).colorScheme.outlineVariant;
     return _ShellDrawerScope(
       openDrawer: () => _scaffoldKey.currentState?.openDrawer(),
       child: Scaffold(
@@ -95,20 +147,19 @@ class MainShell extends StatelessWidget {
           ? Drawer(
               child: SafeArea(
                 child: ListView(
-                  padding: EdgeInsets.zero,
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   children: [
-                    const SizedBox(height: 8),
-                    for (var i = 0; i < _navItems.length; i++)
+                    for (var i = 0; i < items.length; i++)
                       ListTile(
-                        leading: Icon(i == selectedIndex ? _navItems[i].selectedIcon : _navItems[i].icon),
-                        title: Text(_navItems[i].label),
+                        leading: Icon(i == selectedIndex ? items[i].selectedIcon : items[i].icon),
+                        title: Text(items[i].label),
                         selected: i == selectedIndex,
                         onTap: () {
                           Navigator.of(context).pop();
-                          _onDestinationSelected(context, i);
+                          context.go(items[i].path);
                         },
                       ),
-                    const Divider(),
+                    const Padding(padding: EdgeInsets.symmetric(vertical: 8), child: Divider()),
                     ListTile(
                       leading: const Icon(Icons.settings_outlined),
                       title: const Text('Settings'),
@@ -126,37 +177,39 @@ class MainShell extends StatelessWidget {
         children: [
           // Navigation Rail for desktop/wide screens
           if (!isMobile)
-            NavigationRail(
-              extended: extended,
-              selectedIndex: selectedIndex,
-              onDestinationSelected: (index) => _onDestinationSelected(context, index),
-              labelType: extended ? null : NavigationRailLabelType.all,
-              leading: const SizedBox(height: 16),
-              // Desktop had no way to reach /settings at all — the gear
-              // button only existed in the <800px mobile AppBar, confirmed
-              // by reading this file: nothing else references '/settings'
-              // in the >=800px branch below.
-              trailing: Expanded(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: IconButton(
-                      icon: const Icon(Icons.settings_outlined),
-                      tooltip: 'Settings',
-                      onPressed: () => context.go('/settings'),
+            DecoratedBox(
+              decoration: BoxDecoration(border: Border(right: BorderSide(color: line))),
+              child: NavigationRail(
+                extended: extended,
+                minExtendedWidth: 232,
+                selectedIndex: selectedIndex,
+                onDestinationSelected: (index) => context.go(items[index].path),
+                labelType: extended ? null : NavigationRailLabelType.all,
+                leading: const SizedBox(height: 16),
+                // Desktop had no way to reach /settings at all — the gear
+                // button only existed in the <800px mobile AppBar.
+                trailing: Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: IconButton(
+                        icon: const Icon(Icons.settings_outlined),
+                        tooltip: 'Settings',
+                        onPressed: () => context.go('/settings'),
+                      ),
                     ),
                   ),
                 ),
+                destinations: [
+                  for (final item in items)
+                    NavigationRailDestination(
+                      icon: Icon(item.icon),
+                      selectedIcon: Icon(item.selectedIcon),
+                      label: Text(item.label),
+                    ),
+                ],
               ),
-              destinations: [
-                for (final item in _navItems)
-                  NavigationRailDestination(
-                    icon: Icon(item.icon),
-                    selectedIcon: Icon(item.selectedIcon),
-                    label: Text(item.label),
-                  ),
-              ],
             ),
 
           // Main content — each page owns its own AppBar (via shellLeading()
@@ -167,55 +220,5 @@ class MainShell extends StatelessWidget {
       ),
     ),
     );
-  }
-
-  int _calculateSelectedIndex(BuildContext context) {
-    final location = GoRouterState.of(context).uri.path;
-    if (location.startsWith('/home')) return 0;
-    if (location.startsWith('/syllabus')) return 1;
-    if (location.startsWith('/assessment')) return 2;
-    if (location.startsWith('/planner')) return 3;
-    if (location.startsWith('/questions')) return 4;
-    if (location.startsWith('/evaluation')) return 5;
-    if (location.startsWith('/analytics/gaps')) return 7;
-    if (location.startsWith('/analytics/school')) return 8;
-    if (location.startsWith('/analytics')) return 6;
-    if (location.startsWith('/school')) return 9;
-    return 0;
-  }
-
-  void _onDestinationSelected(BuildContext context, int index) {
-    switch (index) {
-      case 0:
-        context.go('/home');
-        break;
-      case 1:
-        context.go('/syllabus');
-        break;
-      case 2:
-        context.go('/assessment');
-        break;
-      case 3:
-        context.go('/planner/daily');
-        break;
-      case 4:
-        context.go('/questions');
-        break;
-      case 5:
-        context.go('/evaluation');
-        break;
-      case 6:
-        context.go('/analytics/mastery');
-        break;
-      case 7:
-        context.go('/analytics/gaps');
-        break;
-      case 8:
-        context.go('/analytics/school');
-        break;
-      case 9:
-        context.go('/school');
-        break;
-    }
   }
 }

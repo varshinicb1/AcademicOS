@@ -16,6 +16,7 @@ import '../widgets/pending_topics_card.dart';
 import '../widgets/school_setup_card.dart';
 import '../widgets/sections_card.dart';
 import '../widgets/terms_card.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// The console's tabs, in display order. The TabBar, the TabBarView and every
 /// jump between tabs are all derived from this list, so reordering or adding
@@ -882,7 +883,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
               const Gap(8),
               ChipTag(
                 label: '${del.delayedCount} overdue',
-                color: del.delayedCount > 0 ? theme.colorScheme.error : Colors.green,
+                color: del.delayedCount > 0 ? theme.colorScheme.error : AppColors.success,
               ),
             ],
           ),
@@ -955,7 +956,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                         fontWeight: FontWeight.bold,
                         color: pace == null
                             ? theme.colorScheme.onSurfaceVariant
-                            : (pace >= 90 ? Colors.green : Colors.orange))),
+                            : (pace >= 90 ? AppColors.success : AppColors.warning))),
                 const Gap(4),
                 Text('Overall Pace', style: theme.textTheme.bodySmall),
                 Text(
@@ -975,7 +976,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 Text('${del.delayedCount}',
                     style: theme.textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: del.delayedCount > 0 ? theme.colorScheme.error : Colors.green)),
+                        color: del.delayedCount > 0 ? theme.colorScheme.error : AppColors.success)),
                 const Gap(4),
                 Text('Overdue Topics', style: theme.textTheme.bodySmall),
               ],
@@ -991,7 +992,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   static String _paceText(double? pace) => pace == null ? '—' : '${pace.toStringAsFixed(1)}%';
 
   Widget _buildSubjectCoverageCard(ThemeData theme, SubjectCoverage sub) {
-    final varianceColor = sub.variance >= 0 ? Colors.green : Colors.red;
+    final varianceColor = sub.variance >= 0 ? AppColors.success : AppColors.danger;
     final pace = sub.pace;
     final paceClause = pace == null
         ? 'no lessons due yet'
@@ -1380,7 +1381,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
             Color statusColor;
             IconData statusIcon;
             if (l.status == 'completed') {
-              statusColor = Colors.green;
+              statusColor = AppColors.success;
               statusIcon = Icons.check_circle_outline;
             } else if (l.status == 'skipped') {
               statusColor = theme.colorScheme.error;

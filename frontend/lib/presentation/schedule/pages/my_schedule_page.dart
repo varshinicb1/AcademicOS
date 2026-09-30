@@ -6,6 +6,7 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../../data/datasources/api/curriculum_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 enum _ViewMode { day, week, month, year }
 
@@ -403,7 +404,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
   Color? _statusColor(ThemeData theme, String status) {
     switch (status) {
       case 'completed':
-        return Colors.green.shade600;
+        return AppColors.success;
       case 'skipped':
         return theme.colorScheme.error;
       default:

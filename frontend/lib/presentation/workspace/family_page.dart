@@ -5,6 +5,7 @@ import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'student_pages.dart';
 import 'strings.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 const _weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -100,7 +101,7 @@ class _ConsentChip extends StatelessWidget {
     final granted = status == 'granted';
     return ActionChip(
       avatar: Icon(granted ? Icons.verified_user : Icons.gpp_maybe, size: 18,
-          color: granted ? Colors.green : Theme.of(context).colorScheme.error),
+          color: granted ? AppColors.success : Theme.of(context).colorScheme.error),
       label: Text(granted ? 'Consent given' : 'Consent needed'),
       onPressed: () async {
         final ok = await showDialog<bool>(context: context, builder: (_) => AlertDialog(

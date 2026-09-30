@@ -13,6 +13,7 @@ import '../../blocs/assessment_bloc.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 import '../../paper_builder/pages/paper_builder_page.dart' show newPaperLocation;
+import 'package:academicos/core/theme/app_theme.dart';
 
 // Only Class X has real official CBSE syllabus data loaded (see
 // cbse_syllabus.py) -- these are the 4 subjects it covers.
@@ -160,20 +161,20 @@ class _PlannerPageState extends State<PlannerPage> {
                             const Gap(4),
                             if (a.metadata['googleCalendarEventId'] != null)
                               Row(children: [
-                                const Icon(Icons.event_available, size: 14, color: Colors.green),
+                                const Icon(Icons.event_available, size: 14, color: AppColors.success),
                                 const Gap(4),
                                 Text(
                                   'Synced to Google Calendar',
-                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.green.shade700),
+                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.success),
                                 ),
                               ])
                             else
                               Row(children: [
-                                Icon(Icons.event_busy, size: 14, color: Colors.orange.shade700),
+                                const Icon(Icons.event_busy, size: 14, color: AppColors.warning),
                                 const Gap(4),
                                 Text(
                                   'Not synced to Google Calendar',
-                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.orange.shade700),
+                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.warning),
                                 ),
                               ]),
                           ],

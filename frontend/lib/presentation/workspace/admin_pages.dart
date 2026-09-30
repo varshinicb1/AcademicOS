@@ -13,6 +13,7 @@ import '../../core/session/current_session.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'strings.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// Papers waiting for review (EX-6): the reviewer approves one for the
 /// principal or sends it back with what to change.
@@ -238,7 +239,7 @@ class _ImportPageState extends State<ImportPage> {
             ListTile(
               dense: true,
               leading: Icon(switch (row['status']) { 'ok' => Icons.check_circle, 'skip' => Icons.remove_circle_outline, _ => Icons.error },
-                  color: switch (row['status']) { 'ok' => Colors.green, 'skip' => theme.disabledColor, _ => theme.colorScheme.error }),
+                  color: switch (row['status']) { 'ok' => AppColors.success, 'skip' => theme.disabledColor, _ => theme.colorScheme.error }),
               title: Text('Row ${row['row']}: ${row['message']}'),
               subtitle: row['inviteCode'] != null ? SelectableText('Invite code: ${row['inviteCode']}') : null,
             ),
