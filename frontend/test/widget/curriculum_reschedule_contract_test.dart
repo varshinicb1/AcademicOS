@@ -91,6 +91,16 @@ void main() {
           periodsPerWeek: 5);
       expect(rec.last!.data, {'fromDate': '2026-09-21', 'reason': 'Closure', 'periodsPerWeek': 5});
     });
+
+    // Audit N-3-1: the web's PUSH sent no sectionId, so it could never move a
+    // section's plan -- the only kind the Lesson plans page makes.
+    test("sends sectionId to move one section's plan", () async {
+      final (api, rec) = _api(_pushResponse());
+      await api.pushSchedule(
+          bookId: 'book_1', academicYearId: 'year_1', fromDate: '2026-09-21', reason: 'Closure', sectionId: 'sec_a');
+      expect(rec.last!.queryParameters, {'academic_year_id': 'year_1'});
+      expect(rec.last!.data, {'fromDate': '2026-09-21', 'reason': 'Closure', 'sectionId': 'sec_a'});
+    });
   });
 
   group("refusals show the server's detail, not Dio's generic text", () {
