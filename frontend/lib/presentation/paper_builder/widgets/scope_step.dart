@@ -43,7 +43,8 @@ class ScopeStep extends StatelessWidget {
         const SizedBox(height: 16),
         Text('Question sets', style: theme.textTheme.titleMedium),
         const SizedBox(height: 4),
-        Text('Sets B and C hold the same questions in a different order, for seating neighbours apart.',
+        Text('Sets B and C print different questions of the same marks and kind, where the bank has them. '
+            'A question a set has to repeat is listed with the paper.',
             style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
         const SizedBox(height: 6),
         SegmentedButton<int>(
