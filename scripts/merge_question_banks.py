@@ -94,6 +94,10 @@ class Paths:
     # What --relink-in-memory reads: the answer-key index and the parse trees.
     answer_keys: Path | None = None
     parse_dir: Path | None = None
+    # Papers transcribed with their official schemes (corpus/transcribed.py),
+    # and NCERT textbook exercises (corpus/textbook.py); no file serves none.
+    transcribed: Path | None = None
+    textbook: Path | None = None
 
     @property
     def withheld(self) -> Path:
@@ -110,7 +114,14 @@ DEFAULT = Paths(
     taxonomy=REPO / "academicos-data" / "syllabus" / "taxonomy",
     answer_keys=REPO / "academicos-data" / "answer_keys.db",
     parse_dir=REPO / "academicos-data" / "parse",
+    transcribed=REPO / "academicos-data" / "corpus" / "cbse-board" / "questions.json",
+    textbook=REPO / "academicos-data" / "corpus" / "ncert-textbook" / "questions.json",
 )
+
+
+def _optional(path: Path | None) -> list[dict]:
+    """The questions of an optional source bank, or none."""
+    return _load(path)["questions"] if path is not None and path.exists() else []
 
 
 def _load(path: Path) -> dict:
@@ -229,7 +240,8 @@ def run(paths: Paths, *, check: bool, allow_no_board: bool = False,
             return 2
 
     result = bank_merge.compose(served["questions"], cbe["questions"], sqp["questions"],
-                                held=held, exemplar=exemplar["questions"])
+                                held=held, exemplar=exemplar["questions"],
+                                transcribed=_optional(paths.transcribed), textbook=_optional(paths.textbook))
     names = _chapter_names(result.questions)
     questions, chapter_ids = bank_merge.resolve_chapter_ids(
         result.questions, _chapters_by_grade(names), _taxonomy_names(paths.taxonomy))

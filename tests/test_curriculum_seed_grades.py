@@ -169,10 +169,29 @@ def test_teacher_cannot_seed_a_grade(client, principal):
     assert r.status_code == 403, r.text
 
 
-@pytest.mark.parametrize("grade", [5, 13, 0, -1])
-def test_a_grade_outside_6_to_12_is_rejected(client, principal, grade):
+@pytest.mark.parametrize("grade", [13, 0, -1])
+def test_a_grade_outside_1_to_12_is_rejected(client, principal, grade):
     r = _seed(client, _bearer(principal), grade)
     assert r.status_code == 422, r.text
+
+
+def test_a_primary_class_seeds_its_books_chapters(client, principal, monkeypatch):
+    """Classes 1-5 have no CBSE marks table: the book's chapters are seeded in
+    book order under one unit that claims no marks, and a subject with no book
+    chapters yet is reported, not invented."""
+    from academicos.syllabus import cbse_syllabus
+    chapters = [{"id": "evs-3/family-and-friends", "name": "Family and Friends", "bookTitle": "Our Wondrous World"},
+                {"id": "evs-3/going-to-the-mela", "name": "Going to the Mela", "bookTitle": "Our Wondrous World"}]
+    monkeypatch.setattr(cbse_syllabus, "_ncert_books", lambda: {"EVS|3": {"chapters": chapters}})
+    cbse_syllabus.load_syllabus.cache_clear()
+    try:
+        r = _seed(client, _bearer(principal), 3)
+        assert r.status_code == 200, r.text
+        body = r.json()
+        assert (body["subjectsSeeded"], body["chaptersSeeded"]) == (1, 2)
+        assert sorted(body["subjectsSkipped"]) == ["English", "Hindi", "Mathematics"]
+    finally:
+        cbse_syllabus.load_syllabus.cache_clear()
 
 
 def test_the_class_10_route_still_works(client, principal):

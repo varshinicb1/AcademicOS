@@ -1,7 +1,8 @@
 // The classes and subjects the builder offers must be ones the bank can serve.
 //
-// The first release covers 6-10 (the user, 2026-09-23: "skip 11 and 12 for
-// now"). The bank behind it holds nothing for class 11 and cannot build a
+// Requirements v3: classes 1-10 (6-10 until 2026-09-29; the user, 2026-09-23:
+// "skip 11 and 12 for now"), and of those only the classes the bank holds
+// questions for. The bank behind it holds nothing for class 11 and cannot build a
 // Maths or Science paper for 12, so quick-generate answers 400 "Unable to find
 // sufficient questions" -- a dead end a teacher reaches only after choosing a
 // class, a subject and a template.
@@ -65,14 +66,16 @@ void main() {
   tearDownAll(() async => Hive.close());
   setUp(() => LocalStore.instance.box.clear());
 
-  test('the builder offers classes 6-10 and no class it cannot serve', () {
-    expect(builderGrades, [6, 7, 8, 9, 10]);
+  test('the builder knows classes 1-10 and no class above them', () {
+    expect(builderGrades, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
   });
 
-  test('every offered class has subjects to offer', () {
+  test('every class has subjects to offer, EVS from class 3', () {
     for (final grade in builderGrades) {
       expect(builderSubjects(grade), isNotEmpty, reason: 'class $grade');
     }
+    expect(builderSubjects(2), isNot(contains('EVS')));
+    expect(builderSubjects(3), contains('EVS'));
   });
 
   Future<void> pump(WidgetTester tester, HttpClientAdapter adapter) async {
@@ -98,6 +101,17 @@ void main() {
   String notYet(WidgetTester tester) =>
       tester.widget<Text>(find.descendant(
           of: find.byKey(const ValueKey('subjects-not-yet')), matching: find.byType(Text))).data!;
+
+  testWidgets('a class the bank holds nothing for is not offered', (tester) async {
+    // The fixture is the served bank's catalog, which has no class 1-5 yet.
+    await pump(tester, FixtureAdapter());
+    for (final grade in [1, 2, 3, 4, 5]) {
+      expect(find.text('Class $grade'), findsNothing, reason: 'class $grade');
+    }
+    for (final grade in [6, 7, 8, 9, 10]) {
+      expect(find.text('Class $grade'), findsOneWidget, reason: 'class $grade');
+    }
+  });
 
   testWidgets('each class offers only the subjects the bank has questions for', (tester) async {
     await pump(tester, FixtureAdapter());

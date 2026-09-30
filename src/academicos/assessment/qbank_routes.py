@@ -63,6 +63,7 @@ from .qbank_engine import (  # noqa: F401  (re-exported for importers)
     decode_cursor,
     encode_cursor,
     key_provenance_of,
+    key_tier,
 )
 
 log = logging.getLogger(__name__)
@@ -222,6 +223,10 @@ def _slim(rec: dict[str, Any]) -> dict[str, Any]:
         # consumer can tell which kind of key it is holding.
         "hasAnswerKey": QuestionBank.has_answer_key(rec),
         "keyProvenance": provenance,
+        # "published" (CBSE's or NCERT's own) or "checked" (grounded in the
+        # textbook, two agreeing solves, or approved by a teacher): which kind
+        # of key this is, in one word (qbank_engine.CHECKED_PROVENANCE).
+        "keyTier": key_tier(rec) if QuestionBank.has_answer_key(rec) else "none",
     }
 
 
@@ -248,11 +253,13 @@ def _q1_filter(has_scheme: bool | None, include_unkeyed: bool) -> bool | None:
 
 KEY_PROVENANCE_PARAM = Query(
     default=None,
-    description="narrow to ONE kind of published key: 'cbse_marking_scheme' "
-                "for the board's own schemes, 'ncert_exemplar_answer' for "
-                "NCERT's Exemplar answers. Narrows within the answer-keyed "
-                "set; it never widens past rule Q1, so combining it with "
-                "has_scheme=false is a 400 rather than an empty page.")
+    description="narrow to ONE kind of key: 'cbse_marking_scheme' for the "
+                "board's own schemes, 'ncert_exemplar_answer' for NCERT's "
+                "Exemplar answers, 'ncert_textbook_answer' for a textbook's "
+                "printed answers; or a checked key: 'textbook_grounded', "
+                "'two_model_solved', 'teacher_verified'. Narrows within the "
+                "answer-keyed set; it never widens past rule Q1, so combining "
+                "it with has_scheme=false is a 400 rather than an empty page.")
 
 
 def _checked_key_provenance(value: str | None) -> str | None:

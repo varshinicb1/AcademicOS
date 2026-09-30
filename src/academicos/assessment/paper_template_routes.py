@@ -24,6 +24,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import Field
 
+from ..operations.question_reviews import bank_usable
 from ..config import Config
 from . import paper_edit
 from .audit_log import get_audit_log
@@ -315,12 +316,14 @@ def duplicate_teacher_template(
 
 # ---- availability + generation ----
 
-def _bank(cfg: Config, template: PaperTemplateDraft) -> Bank:
+def _bank(cfg: Config, template: PaperTemplateDraft, school_id: Optional[str] = None) -> Bank:
     """The class+subject bank, mapped once per pool (`paper_edit.bank_for`)
     rather than per request: 22 ms of every generation on the class 10
-    Science bank. The questions are shared -- never mutate one here."""
+    Science bank. The questions are shared -- never mutate one here. Less the
+    questions `school_id`'s reviewers rejected (`question_reviews.bank_usable`),
+    applied to a copy, never to the cached bank."""
     try:
-        return bank_for(cfg, template.subject, template.grade)
+        return bank_usable(bank_for(cfg, template.subject, template.grade), school_id)
     except ValueError as exc:
         raise HTTPException(422, str(exc)) from exc
 
@@ -331,7 +334,8 @@ def _names_scope(scope: TemplateScope) -> bool:
 
 def _plan(template: PaperTemplate, scope: Optional[TemplateScope], *,
           fill_from_outside_scope: bool = False,
-          stale: frozenset[str] = frozenset()) -> tuple[AvailabilityReport, list[SectionPlan]]:
+          stale: frozenset[str] = frozenset(),
+          school_id: Optional[str] = None) -> tuple[AvailabilityReport, list[SectionPlan]]:
     """`plan` over the template's bank and scope, with the competency and
     tier checks attached to the report.
 
@@ -344,7 +348,7 @@ def _plan(template: PaperTemplate, scope: Optional[TemplateScope], *,
     cfg, _ = _require()
     if scope is not None:
         template = template.model_copy(update={"scope": scope})
-    bank = _bank(cfg, template)
+    bank = _bank(cfg, template, school_id)
     candidates = list(bank.questions)
 
     def subtopic_questions(ids: list[str]) -> list[str]:
@@ -379,7 +383,7 @@ def template_availability(
     if req.scope is not None:
         _checked_scope(req.scope)
     report, _ = _plan(_load(template_id, current), req.scope,
-                      fill_from_outside_scope=req.fill_from_outside_scope)
+                      fill_from_outside_scope=req.fill_from_outside_scope, school_id=current.school_id)
     return report
 
 
@@ -397,7 +401,7 @@ def generate_from_template(
         _checked_scope(req.scope)
         template = template.model_copy(update={"scope": req.scope})
     report, plans = _plan(template, None, fill_from_outside_scope=req.fill_from_outside_scope,
-                          stale=frozenset(req.avoid_question_ids))
+                          stale=frozenset(req.avoid_question_ids), school_id=current.school_id)
 
     # The gaps are the availability report's own: one plan run decides both.
     gaps: list[SectionAvailability] = [p.availability for p in plans if p.availability.shortfall]
@@ -736,7 +740,7 @@ def _edit_question(paper_id: str, slot_key: str, current: User, *,
     asm = _assessments.get(paper.assessment_id)
     _require_editable(asm)
     try:
-        bank = bank_for(cfg, paper.metadata.subject, paper.metadata.grade)
+        bank = bank_usable(bank_for(cfg, paper.metadata.subject, paper.metadata.grade), current.school_id)
         slot = paper_edit.find_slot(paper, slot_key)
 
         def subtopic_questions(ids: list[str]) -> list[str]:

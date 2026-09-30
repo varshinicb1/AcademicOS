@@ -17,7 +17,7 @@ class ClassSubjectStep extends StatelessWidget {
         Text('Which class is this paper for?', style: theme.textTheme.titleMedium),
         const SizedBox(height: 8),
         Wrap(spacing: 8, runSpacing: 8, children: [
-          for (final g in builderGrades)
+          for (final g in c.offeredGrades)
             ChoiceChip(
               label: Text('Class $g'),
               selected: c.grade == g,

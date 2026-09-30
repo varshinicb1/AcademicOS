@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import re
+import unicodedata
 import uuid
 from dataclasses import replace
 from pathlib import Path
@@ -45,7 +46,7 @@ from .schemas import (
 from .school_templates import TemplateStore
 from .store import AssessmentStore
 from .users import User, get_user_store
-from ..syllabus.cbse_syllabus import load_syllabus, taxonomy_chapters
+from ..syllabus.cbse_syllabus import SyllabusChapter, book_chapters, load_syllabus, taxonomy_chapters
 from ..syllabus.timetable import generate_timetable
 
 router = APIRouter(prefix="/api/v1")
@@ -153,9 +154,11 @@ def _papers():
     raise HTTPException(503, "pillar module not initialized")
 
 
-def _pool_questions(subject: str, grade: str) -> list[QuestionSchema]:
+def _pool_questions(subject: str, grade: str, school_id: Optional[str] = None) -> list[QuestionSchema]:
+    """The class's questions less those `school_id`'s reviewers rejected."""
+    from ..operations.question_reviews import usable
     cfg, _, _ = _require()
-    return [to_question_schema(q) for q in get_pool(cfg, subject=subject, grade=grade).questions]
+    return [to_question_schema(q) for q in usable(get_pool(cfg, subject=subject, grade=grade).questions, school_id)]
 
 
 # ---------------- Pillar 1: templates + marking ----------------
@@ -330,7 +333,8 @@ def _name_key(name: str) -> str:
     Refraction")."""
     name = (name.replace("–", "-").replace("—", "-")
                 .replace("’", "'").replace("…", ""))
-    return re.sub(r"[^a-z0-9]", "", name.lower())
+    # Any script's letters, as chapter_filing.name_key (the two stay equal).
+    return "".join(ch for ch in unicodedata.normalize("NFC", name).lower() if unicodedata.category(ch)[0] in "LMN")
 
 
 def _chapter_of(q: QuestionSchema, known: set[str], by_name: dict[str, str],
@@ -356,7 +360,7 @@ def _chapter_of(q: QuestionSchema, known: set[str], by_name: dict[str, str],
     if tid:
         if not known or tid in known:
             return tid
-        twin = by_name.get(_name_key(book_names.get(tid, "")))
+        twin = by_name.get(_name_key(book_names.get(tid, ""))) if book_names.get(tid) else None
         if twin:
             return twin
     for cid in q.chapter_ids:
@@ -377,6 +381,12 @@ def catalog_chapters(subject: str, grade: int, response: Response) -> list[Chapt
     # silently hidden behind an "unmapped" bucket.
     syllabus = load_syllabus(subject, grade)
     chapters = syllabus.all_chapters() if syllabus is not None else []
+    # The current NCERT book's chapters the file does not list (a new edition,
+    # or a language file that lists CBSE assessment units), in book order;
+    # chapter_filing.ChapterFiling.for_class reads the same.
+    listed = {chapter.id for _unit, chapter in chapters}
+    chapters = chapters + [(None, SyllabusChapter(id=c["id"], name=c["name"]))
+                           for c in book_chapters(subject, grade) if c["id"] not in listed]
     known = {chapter.id for _unit, chapter in chapters}
     # The syllabus chapter that a taxonomy tag belongs to, by the name the
     # book prints. Only Science 6 and Science 10 need it: their files list the
@@ -385,8 +395,12 @@ def catalog_chapters(subject: str, grade: int, response: Response) -> list[Chapt
     # and the taxonomy read different editions no name matches, and the tag
     # falls through to "unmapped" instead of being filed under a chapter of a
     # book the class does not study.
-    by_name = {_name_key(chapter.name): chapter.id for _unit, chapter in chapters}
-    book_names = taxonomy_chapters(subject, grade)
+    # A syllabus name wins over the book's, as in ChapterFiling.for_class.
+    by_name = {_name_key(c["name"]): c["id"] for c in book_chapters(subject, grade)}
+    by_name.update({_name_key(chapter.name): chapter.id for _unit, chapter in chapters if chapter.id in listed})
+    by_name.pop("", None)
+    book_names = {**{c["id"]: c["name"] for c in book_chapters(subject, grade)},
+                  **taxonomy_chapters(subject, grade)}
 
     by_chapter: dict[str, list[QuestionSchema]] = {}
     for q in schemas:
@@ -1018,7 +1032,7 @@ def generate_practice(req: PracticeRequestBody, current: User = Depends(get_curr
     weak = knowledge.weak_concepts(req.student_id, limit=3)
     if not weak:
         raise HTTPException(400, "No weak concepts for this student — nothing to remediate yet.")
-    pool = _pool_questions(req.subject, req.grade)
+    pool = _pool_questions(req.subject, req.grade, current.school_id)
     pset = remediation_mod.build_practice_set(
         req.student_id, weak, pool, per_concept=req.per_concept,
         answer_key=req.correct_options)

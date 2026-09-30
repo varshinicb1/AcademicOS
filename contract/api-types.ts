@@ -2574,7 +2574,7 @@ export interface paths {
         put?: never;
         /**
          * Seed Cbse Any Grade
-         * @description Seeds any grade 6-12 for the caller's own school -- PRD section 0
+         * @description Seeds any grade 1-12 (requirements v3; 6-12 until 2026-09-29) for the caller's own school -- PRD section 0
          *     decision 4 ("all grades 6-12, all subjects"), which until 2026-09-22 the
          *     product could not reach: `seed_cbse_all_grades` existed in seed_cbse10.py
          *     wired to no route and no CLI command, and `POST /seed/cbse9` was a 404 even
@@ -4498,6 +4498,74 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/qbank/coverage-map": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Coverage Map
+         * @description What the bank holds for each class and subject, chapter by chapter and
+         *     topic by topic, split by how far each answer can be trusted: published
+         *     (CBSE's or NCERT's own) or checked (grounded in the textbook, two agreeing
+         *     solves). Staff read it; `pendingReview` counts the checked answers this
+         *     school has not reviewed yet.
+         */
+        get: operations["coverage_map_api_v1_qbank_coverage_map_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/qbank/review-queue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Review Queue
+         * @description The checked answers (grounded in the textbook, two agreeing solves) for
+         *     this school's reviewer to approve or reject, with the textbook sentences
+         *     each answer rests on.
+         */
+        get: operations["review_queue_api_v1_qbank_review_queue_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/qbank/review/{question_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Decide
+         * @description Approve a checked answer for this school (it then reads teacher_verified)
+         *     or reject the question (this school's papers, homework and practice never
+         *     draw it again). Recorded in the audit log.
+         */
+        post: operations["decide_api_v1_qbank_review__question_id__post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/questions/optimize": {
         parameters: {
             query?: never;
@@ -6355,6 +6423,29 @@ export interface components {
             /** Totalquestions */
             totalQuestions: number;
         };
+        /** ChapterCount */
+        ChapterCount: {
+            /** Bydifficulty */
+            byDifficulty: {
+                [key: string]: number;
+            };
+            /** Bytype */
+            byType: {
+                [key: string]: number;
+            };
+            /** Chapterid */
+            chapterId: string;
+            /** Chaptername */
+            chapterName: string;
+            /** Checked */
+            checked: number;
+            /** Published */
+            published: number;
+            /** Questions */
+            questions: number;
+            /** Topics */
+            topics: components["schemas"]["TopicCount"][];
+        };
         /** ChapterCoverageResponse */
         ChapterCoverageResponse: {
             /** Chapterid */
@@ -6895,6 +6986,15 @@ export interface components {
             /** Unmarked */
             unmarked: number;
         };
+        /** CoverageMap */
+        CoverageMap: {
+            /** Grades */
+            grades: number[];
+            /** Pendingreview */
+            pendingReview: number;
+            /** Subjects */
+            subjects: components["schemas"]["SubjectCoverage"][];
+        };
         /** CoverageReportResponse */
         CoverageReportResponse: {
             /** Academicyearid */
@@ -7032,6 +7132,16 @@ export interface components {
             subjectId: string;
             /** Waived */
             waived: number;
+        };
+        /** DecisionRequest */
+        DecisionRequest: {
+            /**
+             * Decision
+             * @enum {string}
+             */
+            decision: "approved" | "rejected";
+            /** Note */
+            note?: string | null;
         };
         /** DelayedLessonResponse */
         DelayedLessonResponse: {
@@ -9648,6 +9758,45 @@ export interface components {
              */
             reviewerId: string;
         };
+        /** ReviewItem */
+        ReviewItem: {
+            /** Chapter */
+            chapter: string;
+            /** Decision */
+            decision?: string | null;
+            /** Difficulty */
+            difficulty?: string | null;
+            /** Evidence */
+            evidence: {
+                [key: string]: unknown;
+            }[];
+            /** Grade */
+            grade: number;
+            /** Id */
+            id: string;
+            /** Markingpoints */
+            markingPoints: {
+                [key: string]: unknown;
+            }[];
+            /** Marks */
+            marks: number;
+            /** Modelanswer */
+            modelAnswer: string;
+            /** Note */
+            note?: string | null;
+            /** Provenance */
+            provenance: string;
+            /** Source */
+            source: string;
+            /** Stem */
+            stem: string;
+            /** Subject */
+            subject: string;
+            /** Topic */
+            topic: string;
+            /** Type */
+            type: string;
+        };
         /** ReviewItemResponse */
         ReviewItemResponse: {
             /** Awardedmarks */
@@ -9689,6 +9838,17 @@ export interface components {
             teacherMarks?: number | null;
             /** Verdict */
             verdict: string;
+        };
+        /** ReviewPage */
+        ReviewPage: {
+            /** Counts */
+            counts: {
+                [key: string]: number;
+            };
+            /** Items */
+            items: components["schemas"]["ReviewItem"][];
+            /** Total */
+            total: number;
         };
         /** ReviewRequest */
         ReviewRequest: {
@@ -10373,8 +10533,8 @@ export interface components {
         };
         /**
          * SeedGradeRequest
-         * @description PRD section 0 decision 4 is all grades 6-12. The bound is pydantic's so
-         *     the answer to grade 5 or 13 is a 422 naming the range, before any row is
+         * @description Requirements v3: grades 1-12 (PRD section 0 decision 4 said 6-12). The bound is pydantic's so
+         *     the answer to grade 0 or 13 is a 422 naming the range, before any row is
          *     created -- there is no syllabus data outside it (seed_cbse10.MIN_GRADE /
          *     MAX_GRADE, which raises the same bound for the CLI and library callers).
          */
@@ -10707,6 +10867,25 @@ export interface components {
             model: string;
             /** Target */
             target: string;
+        };
+        /** SubjectCoverage */
+        SubjectCoverage: {
+            /** Chapters */
+            chapters: components["schemas"]["ChapterCount"][];
+            /** Checked */
+            checked: number;
+            /** Generated */
+            generated: number;
+            /** Grade */
+            grade: number;
+            /** Published */
+            published: number;
+            /** Questions */
+            questions: number;
+            /** Subject */
+            subject: string;
+            /** Thintopics */
+            thinTopics?: string[];
         };
         /** SubjectCoverageResponse */
         SubjectCoverageResponse: {
@@ -11461,6 +11640,17 @@ export interface components {
             schoolId: string;
             /** Subject */
             subject: string;
+        };
+        /** TopicCount */
+        TopicCount: {
+            /** Checked */
+            checked: number;
+            /** Published */
+            published: number;
+            /** Questions */
+            questions: number;
+            /** Topic */
+            topic: string;
         };
         /** TopicProgress */
         TopicProgress: {
@@ -19642,6 +19832,109 @@ export interface operations {
             };
         };
     };
+    coverage_map_api_v1_qbank_coverage_map_get: {
+        parameters: {
+            query?: {
+                grade?: number | null;
+                subject?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CoverageMap"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    review_queue_api_v1_qbank_review_queue_get: {
+        parameters: {
+            query?: {
+                grade?: number | null;
+                subject?: string | null;
+                chapter?: string | null;
+                status?: "pending" | "approved" | "rejected" | "all";
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReviewPage"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    decide_api_v1_qbank_review__question_id__post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                question_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DecisionRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReviewItem"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     optimize_questions_api_v1_questions_optimize_post: {
         parameters: {
             query?: never;
@@ -20923,7 +21216,7 @@ export interface operations {
                 grade?: number | null;
                 /** @description true: count only answer-keyed questions (the default). false: count only the unanswerable set, for auditing. */
                 has_scheme?: boolean | null;
-                /** @description narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page. */
+                /** @description narrow to ONE kind of key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers, 'ncert_textbook_answer' for a textbook's printed answers; or a checked key: 'textbook_grounded', 'two_model_solved', 'teacher_verified'. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page. */
                 key_provenance?: string | null;
                 /** @description count questions with no answer key as well. Rule Q1 excludes them by default; this is the explicit opt-in. */
                 include_unkeyed?: boolean;
@@ -21144,7 +21437,7 @@ export interface operations {
                 subtopic_id?: string | null;
                 /** @description true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing. Since the Q1 pass this is the shared answer-key rule (published provenance AND real content), not the CBSE label alone; use key_provenance for the board's own schemes. */
                 has_scheme?: boolean | null;
-                /** @description narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page. */
+                /** @description narrow to ONE kind of key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers, 'ncert_textbook_answer' for a textbook's printed answers; or a checked key: 'textbook_grounded', 'two_model_solved', 'teacher_verified'. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page. */
                 key_provenance?: string | null;
                 review_state?: string | null;
                 keyword?: string | null;
@@ -21351,7 +21644,7 @@ export interface operations {
                 cursor?: string | null;
                 /** @description true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing this subtopic. */
                 has_scheme?: boolean | null;
-                /** @description narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page. */
+                /** @description narrow to ONE kind of key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers, 'ncert_textbook_answer' for a textbook's printed answers; or a checked key: 'textbook_grounded', 'two_model_solved', 'teacher_verified'. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page. */
                 key_provenance?: string | null;
                 include_unkeyed?: boolean;
             };

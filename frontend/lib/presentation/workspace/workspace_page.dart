@@ -78,6 +78,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
         ];
       case 'principal':
         return [
+          (icon: Icons.library_books_outlined, title: tr('Question bank'), subtitle: tr('Coverage by chapter and topic; review answers'), path: '/school/question-bank'),
           (icon: Icons.assessment_outlined, title: tr('Term report'), subtitle: tr('The term by class, section and subject; Excel or PDF'), path: '/school/term-report'),
           (icon: Icons.how_to_reg_outlined, title: tr('Attendance & cover'), subtitle: tr('Mark absences, leave and substitutions'), path: '/school/cover'),
           (icon: Icons.assignment_outlined, title: tr('Homework'), subtitle: tr('Set, mark and follow up'), path: '/school/homework'),
@@ -102,6 +103,10 @@ class _WorkspacePageState extends State<WorkspacePage> {
             (icon: Icons.table_chart_outlined, title: tr('Timetable'), subtitle: tr('You manage the timetable'), path: '/school/timetable'),
           if (_caps.contains('users'))
             (icon: Icons.upload_file_outlined, title: tr('Import & export'), subtitle: tr('You manage people'), path: '/school/import'),
+          if (_caps.contains('qbank_review'))
+            (icon: Icons.library_books_outlined, title: tr('Question bank'), subtitle: tr('You review its answers'), path: '/school/question-bank?review=1')
+          else
+            (icon: Icons.library_books_outlined, title: tr('Question bank'), subtitle: tr('Coverage by chapter and topic'), path: '/school/question-bank'),
           if (_caps.contains('reports'))
             (icon: Icons.assessment_outlined, title: tr('Term report'), subtitle: tr('You manage reports'), path: '/school/term-report'),
           (icon: Icons.today_outlined, title: tr('My day'), subtitle: tr('Periods, duties and check-in'), path: '/school/my-day'),

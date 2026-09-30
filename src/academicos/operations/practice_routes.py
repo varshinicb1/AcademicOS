@@ -96,7 +96,7 @@ def start_practice(req: PracticeRequest, current: User = Depends(get_current_use
             chapters = list(dict.fromkeys(r["chapter_id"] for r in revise if r["subject"] == subject))[:3]
     if subject is None:
         raise HTTPException(409, "choose a subject: nothing is marked yet to say which chapters to revise")
-    pool = hr._bank_questions(subject, grade, chapters or None)
+    pool = hr._usable(hr._bank_questions(subject, grade, chapters or None), current)
     if not pool:
         raise HTTPException(422, f"the question bank has no {subject} questions for class {grade} there yet")
     questions = pick(pool, recent=s.recently_answered(current.id), count=req.count,

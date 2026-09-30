@@ -63,7 +63,7 @@ def test_subtopic_filter_returns_only_tagged_questions(monkeypatch, cfg, curricu
     curriculum_store.link_question_to_subtopic(question_id="q2", subtopic_id="st_photosynthesis")
 
     result = assessment_routes.search_questions(
-        QuestionSearchParams(subject="Science", grade=10, subtopic_ids=["st_balance"]))
+        QuestionSearchParams(subject="Science", grade=10, subtopic_ids=["st_balance"]), current=_user("school_1"))
     assert [q.id for q in result] == ["q1"]
 
 
@@ -79,7 +79,7 @@ def test_subtopic_filter_with_no_tags_excludes_everything(monkeypatch, cfg, curr
         "academicos.curriculum.store.get_curriculum_store", lambda data_root: curriculum_store)
 
     result = assessment_routes.search_questions(
-        QuestionSearchParams(subject="Science", grade=10, subtopic_ids=["st_nothing_tagged"]))
+        QuestionSearchParams(subject="Science", grade=10, subtopic_ids=["st_nothing_tagged"]), current=_user("school_1"))
     assert result == []
 
 
@@ -92,7 +92,7 @@ def test_no_subtopic_filter_is_a_no_op(monkeypatch, cfg, curriculum_store):
     monkeypatch.setattr(assessment_routes, "_require", lambda: (cfg, None))
     monkeypatch.setattr(assessment_routes, "get_pool", lambda cfg, subject, grade, llm=None: pool)
 
-    result = assessment_routes.search_questions(QuestionSearchParams(subject="Science", grade=10))
+    result = assessment_routes.search_questions(QuestionSearchParams(subject="Science", grade=10), current=_user("school_1"))
     assert {q.id for q in result} == {"q1", "q2"}
 
 
@@ -116,7 +116,7 @@ def test_subtopic_filter_combines_with_other_filters(monkeypatch, cfg, curriculu
     curriculum_store.link_question_to_subtopic(question_id="q_lo", subtopic_id="st1")
 
     result = assessment_routes.search_questions(
-        QuestionSearchParams(subject="Science", grade=10, subtopic_ids=["st1"], min_marks=3))
+        QuestionSearchParams(subject="Science", grade=10, subtopic_ids=["st1"], min_marks=3), current=_user("school_1"))
     assert [q.id for q in result] == ["q_hi"]
 
 
