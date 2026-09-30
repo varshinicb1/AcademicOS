@@ -85,3 +85,44 @@ def test_the_cron_route_and_status(w, monkeypatch):
     assert r.status_code == 200 and "substitution_escalation" in r.json()["jobs"]
     assert w.c.get("/api/v1/automations/status", headers=w.p).status_code == 200
     assert w.c.get("/api/v1/automations/status", headers=w.t["ana"]).status_code == 403
+
+
+def _hindi(w, headers):
+    from academicos.operations.routes import store
+    uid = w.c.get("/api/v1/auth/me", headers=headers).json()["id"]
+    store().set_settings(uid, language="hi")
+
+
+def test_hindi_readers_get_no_english_in_their_messages(w):
+    """N-8-4: the Hindi templates were filled with English words -- a Hindi
+    student read "गृहकार्य tomorrow तक", and a Hindi principal's alerts were
+    English sentences in a Hindi frame."""
+    _hindi(w, w.stu)
+    _hindi(w, w.p)
+    _homework(w, MON)
+    r = w.c.post("/api/v1/exams", json={"name": "Unit test 1", "startDate": MON, "endDate": "2026-06-05",
+                                        "grades": [10]}, headers=w.p)
+    assert r.status_code == 200, r.text
+    _run(_at("2026-05-31", 18, 30))
+    [due] = [i for i in _kinds(w, w.stu) if i["kind"] == "homework_due"]
+    assert due["title"] == "गृहकार्य कल तक" and "tomorrow" not in due["body"]
+    [alert] = [i for i in _kinds(w, w.p) if i["kind"] == "principal_alert"]
+    assert alert["title"] == "आज ध्यान दें (1)"
+    assert alert["body"] == "Unit test 1 2026-06-01 से शुरू है, पर डेटशीट नहीं बनी।"
+    # An English reader of the same alert still reads English.
+    from academicos.operations.notifications import render
+    title, body = render("principal_alert", {"title": "Needs attention today (1)", "body": "x.",
+                                             "title_hi": "आज ध्यान दें (1)", "body_hi": "y।"}, "en")
+    assert (title, body) == ("Needs attention today (1)", "x.")
+
+
+def test_a_hindi_principal_reads_the_cover_escalation_in_hindi(w):
+    _hindi(w, w.p)
+    leave = _apply(w, "ana").json()
+    w.c.post(f"{BASE}/leave-requests/{leave['id']}/decision", json={"approve": True}, headers=w.p)
+    w.store._exec("UPDATE substitutions SET updated_at=?", (_at("2026-05-31", 20).isoformat(),))
+    w.store._commit()
+    _run(_at(MON, 7, 10))
+    alerts = [i for i in _kinds(w, w.p) if i["kind"] == "principal_alert"]
+    assert alerts and all(a["title"].startswith("स्थानापन्न चाहिए:") and "पीरियड" in a["title"] for a in alerts)
+    assert all("स्वीकार नहीं हुआ" in a["body"] and "accepted" not in a["body"] for a in alerts)

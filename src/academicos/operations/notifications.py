@@ -179,9 +179,14 @@ class _SafeDict(dict):
 
 
 def render(kind: str, params: dict[str, Any], language: str = "en") -> tuple[str, str]:
+    """A parameter built from words, not data ("tomorrow", an alert's
+    sentence) is sent twice: `key` in English and `key_hi` in Hindi. A Hindi
+    reader gets `key_hi` wherever the template says `{key}` (N-8-4)."""
     k = CATALOGUE[kind]
     title, body = k.hi if language == "hi" else k.en
     p = _SafeDict({key: str(v) for key, v in params.items()})
+    if language == "hi":
+        p.update({key[:-3]: str(v) for key, v in params.items() if key.endswith("_hi")})
     return title.format_map(p), body.format_map(p)
 
 
