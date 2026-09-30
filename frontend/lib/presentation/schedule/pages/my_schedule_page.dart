@@ -197,7 +197,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Row(
         children: [
-          IconButton(icon: const Icon(Icons.chevron_left), onPressed: () => _shiftDay(-1)),
+          IconButton(tooltip: 'Previous day', icon: const Icon(Icons.chevron_left), onPressed: () => _shiftDay(-1)),
           Expanded(
             child: Center(
               child: Text(
@@ -206,7 +206,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
               ),
             ),
           ),
-          IconButton(icon: const Icon(Icons.chevron_right), onPressed: () => _shiftDay(1)),
+          IconButton(tooltip: 'Next day', icon: const Icon(Icons.chevron_right), onPressed: () => _shiftDay(1)),
         ],
       ),
     );
@@ -276,7 +276,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           child: Row(
             children: [
-              IconButton(
+              IconButton(tooltip: 'Previous year', 
                 icon: const Icon(Icons.chevron_left),
                 onPressed: () => setState(() {
                   _yearFocus--;
@@ -288,7 +288,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
                   child: Text('$_yearFocus', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
                 ),
               ),
-              IconButton(
+              IconButton(tooltip: 'Next year', 
                 icon: const Icon(Icons.chevron_right),
                 onPressed: () => setState(() {
                   _yearFocus++;
@@ -464,7 +464,6 @@ class _MySchedulePageState extends State<MySchedulePage> {
                     controller: noteController,
                     decoration: const InputDecoration(
                       labelText: 'Note (optional)',
-                      border: OutlineInputBorder(),
                     ),
                     maxLines: 2,
                     enabled: !saving,

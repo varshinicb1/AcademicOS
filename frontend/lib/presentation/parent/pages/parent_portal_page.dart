@@ -99,7 +99,7 @@ class _ParentPortalPageState extends State<ParentPortalPage> {
       appBar: AppBar(
         title: const Text('Parent Portal'),
         actions: [
-          IconButton(
+          IconButton(tooltip: 'Reload', 
             icon: const Icon(Icons.refresh),
             onPressed: _reload,
           ),

@@ -220,7 +220,6 @@ class _QuestionBankPageState extends State<QuestionBankPage> {
                           _loadQuestions();
                         },
                       ),
-                border: const OutlineInputBorder(),
               ),
             ),
           ),

@@ -218,7 +218,6 @@ class _TermsCardState extends State<TermsCard> {
         decoration: InputDecoration(
           labelText: label,
           hintText: 'YYYY-MM-DD',
-          border: const OutlineInputBorder(),
           suffixIcon: IconButton(
             tooltip: 'Choose $label',
             icon: const Icon(Icons.event),
@@ -297,7 +296,7 @@ class _TermsCardState extends State<TermsCard> {
             TextField(
               key: const ValueKey('term-name'),
               controller: _name,
-              decoration: const InputDecoration(labelText: 'Name', hintText: 'Term 1', border: OutlineInputBorder()),
+              decoration: const InputDecoration(labelText: 'Name', hintText: 'Term 1'),
             ),
             const Gap(12),
             _dateField('Start date', _start, const ValueKey('term-start')),

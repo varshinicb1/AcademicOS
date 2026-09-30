@@ -132,7 +132,6 @@ class _PracticeSessionPageState extends State<PracticeSessionPage> {
                         maxLines: 5,
                         decoration: const InputDecoration(
                           labelText: 'Answer',
-                          border: OutlineInputBorder(),
                           isDense: true,
                         ),
                       ),

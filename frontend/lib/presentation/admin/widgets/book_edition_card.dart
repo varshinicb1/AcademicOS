@@ -172,7 +172,7 @@ class _BookEditionCardState extends State<BookEditionCard> {
         children: [
           DropdownButtonFormField<String>(
             initialValue: _gradeId,
-            decoration: const InputDecoration(labelText: 'Grade', border: OutlineInputBorder()),
+            decoration: const InputDecoration(labelText: 'Grade'),
             isExpanded: true,
             items: [
               for (final g in widget.grades) DropdownMenuItem(value: g.id, child: Text(g.label)),
@@ -232,7 +232,6 @@ class _BookEditionCardState extends State<BookEditionCard> {
               isExpanded: true,
               decoration: InputDecoration(
                 labelText: 'Edition',
-                border: const OutlineInputBorder(),
                 helperText: selected == null ? 'Several books and none chosen: choose one.' : null,
               ),
               items: [
@@ -287,20 +286,20 @@ class _AddBookDialogState extends State<_AddBookDialog> {
           TextField(
             controller: _title,
             autofocus: true,
-            decoration: const InputDecoration(labelText: 'Title', border: OutlineInputBorder()),
+            decoration: const InputDecoration(labelText: 'Title'),
             onChanged: (_) => setState(() {}),
           ),
           const Gap(12),
           TextField(
             controller: _publisher,
             decoration: const InputDecoration(
-                labelText: 'Publisher / edition', hintText: 'e.g. NCERT, 2026 reprint', border: OutlineInputBorder()),
+                labelText: 'Publisher / edition', hintText: 'e.g. NCERT, 2026 reprint'),
           ),
           const Gap(12),
           DropdownButtonFormField<String>(
             initialValue: _boardId,
             isExpanded: true,
-            decoration: const InputDecoration(labelText: 'Board', border: OutlineInputBorder()),
+            decoration: const InputDecoration(labelText: 'Board'),
             items: [for (final b in widget.boards) DropdownMenuItem(value: b.id, child: Text(b.name))],
             onChanged: (id) => setState(() => _boardId = id ?? _boardId),
           ),

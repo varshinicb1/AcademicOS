@@ -113,8 +113,7 @@ class _MessagingCardState extends State<MessagingCard> {
         key: const ValueKey('messaging-phone'),
         controller: _phone,
         keyboardType: TextInputType.phone,
-        decoration: InputDecoration(labelText: tr('Mobile number'), hintText: '98765 43210',
-            border: const OutlineInputBorder()),
+        decoration: InputDecoration(labelText: tr('Mobile number'), hintText: '98765 43210'),
       ),
       CheckboxListTile(
         key: const ValueKey('messaging-sms'),

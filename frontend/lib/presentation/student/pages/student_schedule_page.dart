@@ -279,7 +279,7 @@ class _StudentSchedulePageState extends State<StudentSchedulePage> {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Row(
         children: [
-          IconButton(icon: const Icon(Icons.chevron_left), onPressed: () => _shiftDay(-1)),
+          IconButton(tooltip: 'Previous day', icon: const Icon(Icons.chevron_left), onPressed: () => _shiftDay(-1)),
           Expanded(
             child: Center(
               child: Text(
@@ -288,7 +288,7 @@ class _StudentSchedulePageState extends State<StudentSchedulePage> {
               ),
             ),
           ),
-          IconButton(icon: const Icon(Icons.chevron_right), onPressed: () => _shiftDay(1)),
+          IconButton(tooltip: 'Next day', icon: const Icon(Icons.chevron_right), onPressed: () => _shiftDay(1)),
         ],
       ),
     );

@@ -199,7 +199,7 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
                   enabled: open,
                   minLines: q['type'] == 'long_answer' ? 5 : 2,
                   maxLines: 12,
-                  decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Your answer'),
+                  decoration: const InputDecoration(hintText: 'Your answer'),
                 ),
               if (evals[q['id']] != null) _EvalLine(e: Map<String, dynamic>.from(evals[q['id']]!)),
             ]),

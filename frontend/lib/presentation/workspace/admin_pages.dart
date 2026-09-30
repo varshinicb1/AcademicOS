@@ -221,7 +221,7 @@ class _ImportPageState extends State<ImportPage> {
           )
         else
           TextField(controller: _csv, minLines: 8, maxLines: 20, style: const TextStyle(fontFamily: 'monospace'),
-              decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Paste CSV here, header first')),
+              decoration: const InputDecoration(hintText: 'Paste CSV here, header first')),
         const SizedBox(height: 8),
         Wrap(spacing: 8, children: [
           OutlinedButton(onPressed: _busy ? null : () => _run(apply: false), child: const Text('Check')),

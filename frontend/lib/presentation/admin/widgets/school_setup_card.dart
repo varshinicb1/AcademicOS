@@ -179,7 +179,6 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
               labelText: 'School name',
               hintText: 'Sunrise Public School',
               helperText: 'Printed at the top of every paper. You can change it later on the School tab.',
-              border: OutlineInputBorder(),
             ),
           ),
           const Gap(12),
@@ -187,7 +186,7 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
             key: const ValueKey('setup-label'),
             controller: _label,
             enabled: !_busy,
-            decoration: const InputDecoration(labelText: 'Academic year', hintText: '2026-27', border: OutlineInputBorder()),
+            decoration: const InputDecoration(labelText: 'Academic year', hintText: '2026-27'),
           ),
           const Gap(12),
           TextField(
@@ -195,7 +194,7 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
             controller: _start,
             enabled: !_busy,
             onChanged: (_) => setState(() {}),
-            decoration: const InputDecoration(labelText: 'First day', hintText: 'YYYY-MM-DD', border: OutlineInputBorder()),
+            decoration: const InputDecoration(labelText: 'First day', hintText: 'YYYY-MM-DD'),
           ),
           const Gap(12),
           TextField(
@@ -203,7 +202,7 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
             controller: _end,
             enabled: !_busy,
             onChanged: (_) => setState(() {}),
-            decoration: const InputDecoration(labelText: 'Last day', hintText: 'YYYY-MM-DD', border: OutlineInputBorder()),
+            decoration: const InputDecoration(labelText: 'Last day', hintText: 'YYYY-MM-DD'),
           ),
           if (_start.text.isNotEmpty && _end.text.isNotEmpty) ...[
             const Gap(4),
@@ -218,7 +217,6 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
             decoration: const InputDecoration(
               labelText: 'Sections per class',
               helperText: '1 gives each class section A; 3 gives A, B and C. You can add more later.',
-              border: OutlineInputBorder(),
             ),
           ),
           if (_progress != null) ...[

@@ -150,13 +150,12 @@ class _InvitesPanelState extends State<InvitesPanel> {
                 decoration: const InputDecoration(
                   labelText: 'Email (optional)',
                   hintText: 'Only this person can use the code',
-                  border: OutlineInputBorder(),
                 ),
               ),
               const Gap(12),
               DropdownButtonFormField<int>(
                 initialValue: _days,
-                decoration: const InputDecoration(labelText: 'Expires after', border: OutlineInputBorder()),
+                decoration: const InputDecoration(labelText: 'Expires after'),
                 items: const [
                   DropdownMenuItem(value: 7, child: Text('7 days')),
                   DropdownMenuItem(value: 14, child: Text('14 days')),

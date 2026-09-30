@@ -218,7 +218,6 @@ class _LoginPageState extends State<LoginPage> {
               labelText: 'School ID',
               hintText: "The new school's ID, from your operator",
               prefixIcon: Icon(Icons.apartment_outlined),
-              border: OutlineInputBorder(),
             ),
             validator: (v) =>
                 (_firstPrincipal && (v == null || v.trim().isEmpty)) ? 'Required' : null,
@@ -232,7 +231,6 @@ class _LoginPageState extends State<LoginPage> {
             decoration: const InputDecoration(
               labelText: 'Principal key',
               prefixIcon: Icon(Icons.key_outlined),
-              border: OutlineInputBorder(),
             ),
             validator: (v) =>
                 (_firstPrincipal && (v == null || v.trim().isEmpty)) ? 'Required' : null,
@@ -248,7 +246,6 @@ class _LoginPageState extends State<LoginPage> {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
     return Scaffold(
-      backgroundColor: colors.surfaceContainerLowest,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -259,22 +256,21 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 24),
-                  Container(
-                    width: 72,
-                    height: 72,
-                    decoration: BoxDecoration(
-                      color: colors.primaryContainer,
-                      shape: BoxShape.circle,
+                  Center(
+                    child: Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: colors.primaryContainer,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Icon(Icons.school_outlined, size: 28, color: colors.onPrimaryContainer),
                     ),
-                    child: Icon(Icons.school, size: 36, color: colors.onPrimaryContainer),
                   ),
                   const SizedBox(height: 16),
                   Text(
                     'AcademicOS',
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: colors.onSurface,
-                    ),
+                    style: theme.textTheme.headlineMedium?.copyWith(color: colors.onSurface),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 4),
@@ -348,7 +344,6 @@ class _LoginPageState extends State<LoginPage> {
                                   labelText: 'Invite code',
                                   hintText: 'The code your principal gave you',
                                   prefixIcon: Icon(Icons.confirmation_number_outlined),
-                                  border: OutlineInputBorder(),
                                 ),
                                 validator: (v) =>
                                     (v == null || v.trim().isEmpty) ? 'Required' : null,
@@ -361,7 +356,6 @@ class _LoginPageState extends State<LoginPage> {
                               decoration: const InputDecoration(
                                 labelText: 'Your name',
                                 prefixIcon: Icon(Icons.person_outline),
-                                border: OutlineInputBorder(),
                               ),
                               validator: (v) =>
                                   (v == null || v.trim().isEmpty) ? 'Required' : null,
@@ -375,7 +369,6 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: const InputDecoration(
                               labelText: 'Email',
                               prefixIcon: Icon(Icons.email_outlined),
-                              border: OutlineInputBorder(),
                             ),
                             validator: (v) =>
                                 (v == null || !v.contains('@')) ? 'Enter a valid email' : null,
@@ -389,8 +382,7 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: InputDecoration(
                               labelText: 'Password',
                               prefixIcon: const Icon(Icons.lock_outline),
-                              border: const OutlineInputBorder(),
-                              suffixIcon: IconButton(
+                              suffixIcon: IconButton(tooltip: _obscurePassword ? 'Show password' : 'Hide password', 
                                 icon: Icon(_obscurePassword
                                     ? Icons.visibility_outlined
                                     : Icons.visibility_off_outlined),

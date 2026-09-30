@@ -57,7 +57,7 @@ class _PlannerPageState extends State<PlannerPage> {
             tooltip: 'AI weekly timetable',
             onPressed: () => _showTimetableSheet(context),
           ),
-          IconButton(
+          IconButton(tooltip: 'Reload', 
             icon: const Icon(Icons.refresh),
             onPressed: () => context
                 .read<AssessmentBloc>()
@@ -306,7 +306,7 @@ class _TimetableSheetState extends State<_TimetableSheet> {
           const Gap(16),
           DropdownButtonFormField<String>(
             initialValue: _subject,
-            decoration: const InputDecoration(labelText: 'Subject (Class X)', border: OutlineInputBorder()),
+            decoration: const InputDecoration(labelText: 'Subject (Class X)'),
             items: _timetableSubjects.map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
             onChanged: (v) => setState(() => _subject = v ?? _subject),
           ),
@@ -315,7 +315,7 @@ class _TimetableSheetState extends State<_TimetableSheet> {
             Expanded(
               child: TextFormField(
                 initialValue: '$_periodsPerWeek',
-                decoration: const InputDecoration(labelText: 'Periods / week', border: OutlineInputBorder(), isDense: true),
+                decoration: const InputDecoration(labelText: 'Periods / week', isDense: true),
                 keyboardType: TextInputType.number,
                 onChanged: (v) => _periodsPerWeek = int.tryParse(v) ?? _periodsPerWeek,
               ),
@@ -324,7 +324,7 @@ class _TimetableSheetState extends State<_TimetableSheet> {
             Expanded(
               child: TextFormField(
                 initialValue: '$_weeks',
-                decoration: const InputDecoration(labelText: 'Weeks remaining', border: OutlineInputBorder(), isDense: true),
+                decoration: const InputDecoration(labelText: 'Weeks remaining', isDense: true),
                 keyboardType: TextInputType.number,
                 onChanged: (v) => _weeks = int.tryParse(v) ?? _weeks,
               ),

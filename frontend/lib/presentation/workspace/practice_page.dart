@@ -111,7 +111,7 @@ class _PracticePageState extends State<PracticePage> {
                   maxLines: 8,
                   controller: done ? TextEditingController(text: (p['answers'] as Map)[q['id']]?.toString() ?? '') : null,
                   onChanged: (v) => _answers[q['id'] as String] = v,
-                  decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Your answer'),
+                  decoration: const InputDecoration(hintText: 'Your answer'),
                 ),
               if (evals[q['id']] != null) ...[
                 const SizedBox(height: 8),

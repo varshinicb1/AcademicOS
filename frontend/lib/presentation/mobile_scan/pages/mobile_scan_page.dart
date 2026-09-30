@@ -332,7 +332,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
                 DropdownButtonFormField<Map<String, dynamic>>(
                   initialValue: _selectedAssessment,
                   isExpanded: true,
-                  decoration: const InputDecoration(border: OutlineInputBorder(), isDense: true),
+                  decoration: const InputDecoration(isDense: true),
                   items: _assessments
                       .map((a) => DropdownMenuItem(
                             value: a,
@@ -357,7 +357,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
                   initialValue: _studentSelection,
                   isExpanded: true,
                   decoration: const InputDecoration(
-                      labelText: 'Student', border: OutlineInputBorder(), isDense: true),
+                      labelText: 'Student', isDense: true),
                   items: [
                     for (final id in roster)
                       DropdownMenuItem(
@@ -385,13 +385,13 @@ class _MobileScanPageState extends State<MobileScanPage> {
                 TextField(
                   controller: _studentName,
                   decoration: const InputDecoration(
-                      labelText: 'Student name', border: OutlineInputBorder(), isDense: true),
+                      labelText: 'Student name', isDense: true),
                 ),
                 const Gap(10),
                 TextField(
                   controller: _studentId,
                   decoration: const InputDecoration(
-                      labelText: 'Roll no. / ID (optional)', border: OutlineInputBorder(), isDense: true),
+                      labelText: 'Roll no. / ID (optional)', isDense: true),
                 ),
               ],
             ],
@@ -853,7 +853,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
               ),
               TextField(
                 controller: comment,
-                decoration: const InputDecoration(labelText: 'Comment (optional)', border: OutlineInputBorder()),
+                decoration: const InputDecoration(labelText: 'Comment (optional)'),
                 maxLines: 2,
               ),
               const Gap(16),

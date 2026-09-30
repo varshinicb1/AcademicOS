@@ -239,7 +239,6 @@ class _PaperDeliverySheetState extends State<PaperDeliverySheet> {
             labelText: 'Recipients',
             hintText: 'coordinator@school.edu, principal@school.edu',
             helperText: 'Comma or space separated',
-            border: OutlineInputBorder(),
             prefixIcon: Icon(Icons.person_outline),
           ),
           minLines: 1,
@@ -251,7 +250,6 @@ class _PaperDeliverySheetState extends State<PaperDeliverySheet> {
           decoration: const InputDecoration(
             labelText: 'Note (optional)',
             hintText: 'Please review before Monday.',
-            border: OutlineInputBorder(),
           ),
           minLines: 2,
           maxLines: 4,

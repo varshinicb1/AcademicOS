@@ -230,7 +230,7 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
                 TextField(
                   controller: _name,
                   decoration: const InputDecoration(
-                      labelText: 'Template name', border: OutlineInputBorder()),
+                      labelText: 'Template name'),
                 ),
                 const Gap(12),
                 Row(children: [
@@ -239,7 +239,7 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
                       controller: _margin,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
-                          labelText: 'Margin (mm)', border: OutlineInputBorder()),
+                          labelText: 'Margin (mm)'),
                     ),
                   ),
                   const Gap(12),
@@ -248,7 +248,7 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
                       controller: _fontSize,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
-                          labelText: 'Font size (pt)', border: OutlineInputBorder()),
+                          labelText: 'Font size (pt)'),
                     ),
                   ),
                 ]),
