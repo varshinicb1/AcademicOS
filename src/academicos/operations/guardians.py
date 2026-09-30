@@ -169,6 +169,17 @@ class GuardiansMixin:
         sql = "SELECT * FROM guardianships WHERE student_id=?" + ("" if include_ended else " AND revoked_at IS NULL")
         return [Guardianship(**r) for r in self._fetchall(sql + " ORDER BY created_at", (student_id,))]
 
+    def parents_of(self, student_ids, *, school_id: str) -> list[str]:
+        """The parent accounts with an active link, at this school, to any of
+        these students: who hears a school notice about them (N-8-7)."""
+        ids, out = sorted(set(student_ids)), set()
+        for i in range(0, len(ids), 500):
+            chunk = ids[i:i + 500]
+            out |= {r["parent_id"] for r in self._fetchall(
+                "SELECT parent_id FROM guardianships WHERE school_id=? AND revoked_at IS NULL AND student_id IN ("
+                + ",".join("?" * len(chunk)) + ")", (school_id, *chunk))}
+        return sorted(out)
+
     def is_guardian(self, parent_id: str, student_id: str) -> bool:
         g = self.guardianship(parent_id, student_id)
         return g is not None and g.active

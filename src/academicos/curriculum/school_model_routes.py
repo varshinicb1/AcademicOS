@@ -480,7 +480,7 @@ def _tell_timetable_change(principal: User, before: list, after: list, section_i
     sections differ is told. A week saved unchanged tells no one. Both the
     solver's publish and a hand-made week come through here; only the solver
     used to notify, and only teachers."""
-    from ..operations.routes import notify_safely
+    from ..operations.routes import notify_parents_safely, notify_safely
 
     def section_week(entries: list, sid: str) -> set:
         return {(e.day_of_week, e.period, e.subject_id, e.teacher_id, e.room_id, e.co_teacher_id)
@@ -502,6 +502,8 @@ def _tell_timetable_change(principal: User, before: list, after: list, section_i
         if who:
             notify_safely(school_id=principal.school_id, user_ids=who, kind="timetable_published", params={},
                           link="/my-timetable")
+    notify_parents_safely(school_id=principal.school_id, student_ids=students, kind="timetable_published",
+                          params={}, exclude=teachers)
 
 
 @router.put("/sections/{section_id}/timetable", response_model=SectionTimetableResponse)

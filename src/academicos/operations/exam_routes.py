@@ -16,7 +16,7 @@ from ..assessment.users import User
 from ..curriculum import routes as cr
 from ..curriculum.schemas import Camel
 from .exams import ExamError, auto_roster
-from .routes import notify_safely, store
+from .routes import notify_parents_safely, notify_safely, store
 
 router = APIRouter(prefix="/api/v1")
 _TIME = r"^([01]\d|2[0-3]):[0-5]\d$"
@@ -198,10 +198,12 @@ def _announce_datesheet_change(e: dict, before: list[dict], after: list[dict]) -
         if not students:
             continue
         what = hashlib.sha1(",".join(sorted(r[0] for r in rows)).encode()).hexdigest()[:12]
-        notify_safely(school_id=e["school_id"], user_ids=students, kind="exam_changed",
-                      params={"exam": e["name"], "changes": "; ".join(r[1] for r in rows),
-                              "changes_hi": "; ".join(r[2] for r in rows)},
+        params = {"exam": e["name"], "changes": "; ".join(r[1] for r in rows),
+                  "changes_hi": "; ".join(r[2] for r in rows)}
+        notify_safely(school_id=e["school_id"], user_ids=students, kind="exam_changed", params=params,
                       link="/my-exams", dedupe_key=f"examchange:{e['id']}:{grade}:{what}")
+        notify_parents_safely(school_id=e["school_id"], student_ids=students, kind="exam_changed", params=params,
+                              dedupe_key=f"examchange:{e['id']}:{grade}:{what}")
 
 
 def _tell_invigilators(e: dict, before: Optional[list[dict]] = None) -> int:
@@ -329,6 +331,8 @@ def publish(exam_id: str, principal: User = Depends(require_admin("exams"))) -> 
         notify_safely(school_id=e["school_id"], user_ids=students, kind="exam_scheduled",
                       params={"exam": e["name"], "start": e["start_date"]}, link="/my-exams",
                       dedupe_key=f"exam:{e['id']}")
+        notify_parents_safely(school_id=e["school_id"], student_ids=students, kind="exam_scheduled",
+                              params={"exam": e["name"], "start": e["start_date"]}, dedupe_key=f"exam:{e['id']}")
     told = _tell_invigilators(e)
     invigilators = len({r["teacher_id"] for r in store().roster(e["id"]) if r["teacher_id"]})
     _audit("exam_published", principal, {"examId": e["id"], "students": len(students), "invigilators": invigilators,

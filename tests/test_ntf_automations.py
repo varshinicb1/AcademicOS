@@ -58,6 +58,10 @@ def test_a_holiday_moves_the_lessons_on_it_and_tells_who_is_affected(principal_w
     stu = register_invited(w.client, "school_1", "kid@example.com", name="Kid", role="student")
     w.store.enroll_student(school_id="school_1", student_id=stu["user"]["id"], section_id=section.id)
     grant_consent("school_1", stu["user"]["id"])
+    invite = w.client.post(f"/api/v1/students/{stu['user']['id']}/guardian-invites", json={"relation": "father"},
+                           headers=w.auth).json()["code"]
+    dad = w.client.post("/api/v1/auth/register", json={"inviteCode": invite, "name": "Ravi", "email": "dad@example.com",
+                                                       "password": "correct horse battery"}).json()
     day = book.lessons[2].date
     on_day = [l.id for l in book.lessons if l.date == day]
 
@@ -70,6 +74,10 @@ def test_a_holiday_moves_the_lessons_on_it_and_tells_who_is_affected(principal_w
     inbox = w.client.get("/api/v1/notifications", headers={"Authorization": f"Bearer {stu['token']}"}).json()["items"]
     [told] = [i for i in inbox if i["kind"] == "holiday_declared"]
     assert told["title"] == "Holiday: Rain closure" and "lessons for 10-A move to the next teaching days" in told["body"]
+    # N-8-7: the child's parent hears the same notice, once.
+    inbox = w.client.get("/api/v1/notifications", headers={"Authorization": f"Bearer {dad['token']}"}).json()["items"]
+    [told] = [i for i in inbox if i["kind"] == "holiday_declared"]
+    assert "lessons for 10-A move to the next teaching days" in told["body"] and told["link"] == "/my-children"
 
     quiet = w.client.post(f"{BASE}/academic-years/{book.year}/holidays",
                           json={"date": "2027-01-26", "label": "Republic Day", "moveLessons": False}, headers=w.auth)

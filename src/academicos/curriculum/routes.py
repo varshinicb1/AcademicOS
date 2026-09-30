@@ -1330,7 +1330,7 @@ def _move_lessons_off_holiday(store: CurriculumStore, year, holiday, principal: 
     students and teachers hear of the holiday itself. A plan with no cadence
     to reflow on is named in the answer rather than silently left."""
     from ..assessment.audit_log import get_audit_log
-    from ..operations.routes import notify_safely
+    from ..operations.routes import notify_parents_safely, notify_safely
     first = max(holiday.date, _school_today().isoformat())
     last = holiday.end_date or holiday.date
     if first > last:
@@ -1367,16 +1367,26 @@ def _move_lessons_off_holiday(store: CurriculumStore, year, holiday, principal: 
                           params={"label": holiday.label, "dates": dates, "moved": moved, "moved_hi": moved_hi},
                           link="/week", dedupe_key=f"holiday:{holiday.id}:{uid}:{plan['book_id']}:{plan['section_id']}")
         told |= teachers | students
+        # N-8-7: the students' parents hear the same notice.
+        told |= set(notify_parents_safely(
+            school_id=principal.school_id, student_ids=students, kind="holiday_declared",
+            params={"label": holiday.label, "dates": dates, "moved": moved, "moved_hi": moved_hi},
+            dedupe_key=f"holiday:{holiday.id}:{plan['book_id']}:{plan['section_id']}"))
     # Everyone else hears of the holiday itself only when it is close enough
     # to change their plans: a list of next term's holidays entered today
     # is not news anyone acts on (NTF-1).
     soon = (_school_today() + timedelta(days=HOLIDAY_NOTICE_DAYS)).isoformat()
-    rest = [u.id for u in _require_users().users_for_school(principal.school_id)
-            if u.role in ("teacher", "student") and u.id not in told] if holiday.date <= soon else []
+    people = [u for u in _require_users().users_for_school(principal.school_id)
+              if u.role in ("teacher", "student") and u.id not in told] if holiday.date <= soon else []
+    rest = [u.id for u in people]
     if rest:
         notify_safely(school_id=principal.school_id, user_ids=rest, kind="holiday_declared",
                       params={"label": holiday.label, "dates": dates, "moved": "", "moved_hi": ""},
                       link="/week", dedupe_key=f"holiday:{holiday.id}")
+        notify_parents_safely(school_id=principal.school_id, kind="holiday_declared",
+                              student_ids=[u.id for u in people if u.role == "student"],
+                              params={"label": holiday.label, "dates": dates, "moved": "", "moved_hi": ""},
+                              dedupe_key=f"holiday:{holiday.id}", exclude=told)
     return moved_total, not_moved
 
 
