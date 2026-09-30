@@ -17,7 +17,8 @@ void main() {
   });
 
   test('a teacher sees exactly the admin tools the principal granted', () {
-    expect(labels('teacher', grants: {'exams', 'timetable'}), containsAll(['Exams', 'Timetable']));
+    expect(labels('teacher', grants: {'exams', 'timetable'}), containsAll(['Exams', 'Timetable', 'Lesson plans']));
+    expect(labels('teacher', grants: {'leave'}), containsAll(['Attendance and cover', 'Periods owed']));
     expect(labels('teacher', grants: {'exams'}), isNot(contains('Timetable')));
     final sections = navSectionsFor('teacher', grants: {'leave'});
     expect(sections.last.title, 'Admin');
@@ -27,7 +28,8 @@ void main() {
   test('the principal runs and sets up the school from the side navigation', () {
     final p = labels('principal');
     expect(p, containsAll(['Overview', 'Paper reviews', 'Term report', 'Exams', 'Timetable',
-        'Attendance and cover', 'Staff and access', 'Import and export', 'School profile']));
+        'Attendance and cover', 'Staff and access', 'Import and export', 'School profile',
+        'Lesson plans', 'Periods owed']));
     expect([for (final s in navSectionsFor('principal')) s.title], [null, 'Run the school', 'Setup']);
   });
 

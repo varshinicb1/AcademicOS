@@ -102,7 +102,9 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
         (title: 'Run the school', items: [
           _item(Icons.event_note_outlined, Icons.event_note, 'Exams', '/school/exams'),
           _item(Icons.table_chart_outlined, Icons.table_chart, 'Timetable', '/school/timetable'),
+          _item(Icons.menu_book_outlined, Icons.menu_book, 'Lesson plans', '/school/lesson-plans'),
           _item(Icons.how_to_reg_outlined, Icons.how_to_reg, 'Attendance and cover', '/school/cover'),
+          _item(Icons.restore_outlined, Icons.restore, 'Periods owed', '/school/periods-owed'),
           _item(Icons.assignment_turned_in_outlined, Icons.assignment_turned_in, 'Homework', '/school/homework'),
           _item(Icons.trending_up_outlined, Icons.trending_up, 'Class progress', '/school/class-progress'),
           _item(Icons.library_books_outlined, Icons.library_books, 'Question bank', '/school/question-bank'),
@@ -118,9 +120,13 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
       final admin = <NavItem>[
         if (grants.contains('leave'))
           _item(Icons.how_to_reg_outlined, Icons.how_to_reg, 'Attendance and cover', '/school/cover'),
+        if (grants.contains('leave'))
+          _item(Icons.restore_outlined, Icons.restore, 'Periods owed', '/school/periods-owed'),
         if (grants.contains('exams')) _item(Icons.event_note_outlined, Icons.event_note, 'Exams', '/school/exams'),
         if (grants.contains('timetable'))
           _item(Icons.table_chart_outlined, Icons.table_chart, 'Timetable', '/school/timetable'),
+        if (grants.contains('timetable'))
+          _item(Icons.menu_book_outlined, Icons.menu_book, 'Lesson plans', '/school/lesson-plans'),
         if (grants.contains('users'))
           _item(Icons.upload_file_outlined, Icons.upload_file, 'Import and export', '/school/import'),
         if (grants.contains('reports'))
