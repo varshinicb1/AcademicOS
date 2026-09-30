@@ -62,7 +62,7 @@ from .competency import CBSE_COMPETENCY_TARGET, below_target, is_competency_ques
     share_summary
 from .mapping import to_question_schema
 from .paper import answer_key_entry, competency_counts, generated_question, \
-    or_answer_key_entry, render_text, report_competency
+    or_answer_key_entry, reletter, render_text, report_competency
 from .paper_templates import ScopeFilter, _all_competency, _content_fits, _fits, \
     build_scope_filter, has_verified_key
 from .pool import QuestionPool, get_pool, near_duplicate
@@ -480,6 +480,10 @@ def drop_question(paper: GeneratedPaper, question_id: str, *,
         if questions:
             sections.append(section.model_copy(update={
                 "questions": questions, "total_marks": sum(q.marks for q in questions)}))
+    if len(sections) < len(paper.sections):
+        # A section gone: the ones after it move up a letter, as generation
+        # letters a paper with an empty section (audit D44).
+        sections = reletter(sections)
     answer_key = {}
     for key, value in paper.answer_key.items():
         m = _KEY_RE.match(key)

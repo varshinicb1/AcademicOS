@@ -163,6 +163,44 @@ def test_removing_a_question_with_an_or_takes_both_and_the_last_one_is_refused(
         assert [len(s["questions"]) for s in left["sections"]] == [1]
 
 
+def _headings(paper: dict) -> list[tuple[str, str]]:
+    return [(s["label"], s["name"]) for s in paper["sections"]]
+
+
+def test_a_section_name_says_the_letter_its_heading_prints(tmp_path, monkeypatch, seeded):
+    """Audit D44: on a paper with an empty template section the heading
+    letter and the section's own name disagreed -- "SECTION B" over
+    "(Section C - Short answer ...)" -- because the paper letters the
+    sections it prints in order and the name kept the template's letter.
+    The same happens when removing a section's last question."""
+    import fitz
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        tid = client.post(BASE, json={
+            "name": "Gap", "grade": 10, "subject": "Science", "examType": "custom",
+            "totalMarks": 10, "durationMinutes": 40,
+            "sections": [{"title": "Section A - Objective", "questionCount": 2, "marksEach": 1},
+                         {"title": "Section B - Very short answer", "questionCount": 1, "marksEach": 2},
+                         {"title": "Section C - Short answer", "questionCount": 2, "marksEach": 3}],
+            "scope": {"chapterIds": ["ch1"]}}, headers=t1).json()["id"]
+        r = client.post(GEN, json={"templateId": tid, "allowGaps": True}, headers=t1)
+        assert r.status_code == 200, r.text
+        paper = r.json()["paper"]                      # the bank has no 2-mark question
+        assert _headings(paper) == [("A", "Section A - Objective"), ("B", "Section B - Short answer")]
+        pid = paper["id"]
+        assert client.post(f"/api/v1/papers/{pid}/export/pdf", headers=t1).status_code == 200
+        pdf = client.get(f"/api/v1/papers/{pid}/file", headers=t1).content
+        with fitz.open(stream=pdf, filetype="pdf") as doc:
+            text = " ".join("".join(p.get_text() for p in doc).split())
+        assert "SECTION B (Section B - Short answer" in text and "Section C" not in text
+
+        # Removing Section A's two questions leaves Section B, printed as A.
+        for _ in range(2):
+            assert _remove(client, t1, pid, "1").status_code == 200
+        left = client.get(f"/api/v1/papers/{pid}", headers=t1).json()
+        assert _headings(left) == [("A", "Section A - Short answer")]
+
+
 def test_removing_an_or_alternative_keeps_the_question_in_the_paper_and_every_set(
         tmp_path, monkeypatch, seeded):
     with _boot_client(tmp_path, monkeypatch) as client:

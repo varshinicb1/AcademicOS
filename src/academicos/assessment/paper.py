@@ -4,6 +4,7 @@ Flutter review screen renders and the PDF exporter formats.
 """
 from __future__ import annotations
 
+import re
 from datetime import datetime, timezone
 
 from .competency import CBSE_COMPETENCY_TARGET, below_target, share_summary
@@ -17,6 +18,37 @@ from .schemas import (
     QuestionSchema,
 )
 from .templates import default_sections
+
+
+_SECTION_LETTER = re.compile(r"^(section)\s+[A-Z]\b", re.I)
+
+
+def lettered(name: str, label: str) -> str:
+    """`name` with a leading "Section X" saying the letter the paper prints.
+
+    A template's section titles carry their own letter ("Section C - Short
+    answer"), while the paper letters the sections it prints in order, so a
+    section the bank left empty moved every later heading up a letter and
+    the name kept the old one: "SECTION B" over "(Section C - Short answer
+    ...)" on 4 of 131 gap-paper headings (audit D44), and the instructions
+    naming a Section C the paper did not print. A name with no leading
+    section letter is returned as it is."""
+    return _SECTION_LETTER.sub(lambda m: f"{m.group(1)} {label}", name, count=1)
+
+
+def reletter(sections: list[GeneratedSectionSchema]) -> list[GeneratedSectionSchema]:
+    """Sections lettered A, B, C... in order, their names to match, when
+    they carry that lettering with a letter missing -- what removing a
+    section's last question leaves. Sections labelled any other way ("I",
+    "II", a custom blueprint's own labels) are returned as they are: there
+    is no order to restore."""
+    letters = [s.label for s in sections]
+    if not (all(len(x) == 1 and "A" <= x <= "Z" for x in letters)
+            and letters == sorted(set(letters))):
+        return sections
+    return [s.model_copy(update={"label": chr(ord("A") + i),
+                                 "name": lettered(s.name, chr(ord("A") + i))})
+            for i, s in enumerate(sections)]
 
 
 def _key_note(scheme, marks: int) -> str:

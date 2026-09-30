@@ -30,7 +30,7 @@ from . import paper_edit
 from .audit_log import get_audit_log
 from .auth_routes import require_staff
 from .authz import require_own_school, require_school_owns_paper
-from .paper import generate_paper_sets, report_competency
+from .paper import generate_paper_sets, lettered, report_competency
 from .paper_edit import Bank, SwapCounts, bank_for
 from .paper_store import PaperStore, paper_question_ids
 from .paper_templates import AvailabilityReport, SectionAvailability, SectionPlan, \
@@ -600,7 +600,9 @@ def _blueprint(template: PaperTemplate,
             continue
         attempts = min(p.section.attempts, len(got))
         label = chr(ord("A") + len(sections))
-        name = p.section.title
+        # The title's own "Section X" says the letter printed above it: an
+        # empty section moves every later one up a letter (audit D44).
+        name = lettered(p.section.title, label)
         if attempts < len(got):
             name = f"{name} (attempt any {attempts} of {len(got)})"
         sections.append(SectionBlueprint(
