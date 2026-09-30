@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/session/current_session.dart';
 
@@ -107,6 +108,12 @@ class _CoverPageState extends State<CoverPage> {
     };
     return Scaffold(
       appBar: AppBar(title: Text(tr('Attendance & cover')), actions: [
+        // A period run as "Lose the period" is owed; this is where it is paid back.
+        IconButton(
+          tooltip: tr('Periods owed'),
+          icon: const Icon(Icons.restore_outlined),
+          onPressed: () => context.push('/school/periods-owed'),
+        ),
         TextButton.icon(
           icon: const Icon(Icons.calendar_today),
           label: Text(_date),

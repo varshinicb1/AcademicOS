@@ -691,12 +691,16 @@ class CurriculumApi {
   /// `academic_year_id` is a query parameter on the route, not a body
   /// field; `periodsPerWeek` is sent only when the admin set one -- the
   /// server otherwise uses the subject's stored period allocation.
+  /// `sectionId` moves that section's own plan (SCH-4); without it the
+  /// school-wide plan moves, and a section's plan -- the only kind the web's
+  /// "Lesson plans" page makes -- never would (audit N-3-1).
   Future<PushScheduleResult> pushSchedule({
     required String bookId,
     required String academicYearId,
     required String fromDate,
     required String reason,
     int? periodsPerWeek,
+    String? sectionId,
   }) async {
     final r = await _dio.post('/curriculum/books/$bookId/schedule/push',
         queryParameters: {'academic_year_id': academicYearId},
@@ -704,6 +708,7 @@ class CurriculumApi {
           'fromDate': fromDate,
           'reason': reason,
           if (periodsPerWeek != null) 'periodsPerWeek': periodsPerWeek,
+          if (sectionId != null) 'sectionId': sectionId,
         });
     return PushScheduleResult.fromJson(Map<String, dynamic>.from(r.data));
   }

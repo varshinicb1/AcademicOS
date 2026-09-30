@@ -133,6 +133,40 @@ def test_a_closure_owes_the_days_periods_and_takes_the_day_off_the_calendar(w):
     assert len(w.c.get(f"{BASE}/academic-years/{w.year}/lost-periods", headers=w.p).json()) == 6
 
 
+def test_a_closure_of_some_classes_owes_only_their_periods_and_keeps_the_calendar(w):
+    r = w.c.post(f"{BASE}/academic-years/{w.year}/closures",
+                 json={"date": MON, "reason": "class 10 trip", "sectionIds": [w.a10, w.b10]}, headers=w.p)
+    assert r.status_code == 200, r.text
+    assert r.json()["lostPeriods"] == 4 and r.json()["holidayAdded"] is False
+    lost = w.c.get(f"{BASE}/academic-years/{w.year}/lost-periods", headers=w.p).json()
+    assert {l["sectionId"] for l in lost} == {w.a10, w.b10}
+    day = w.c.get(f"{BASE}/day", params={"date": MON, "sectionId": w.a9}, headers=w.p).json()
+    assert {r["kind"] for r in day} == {"regular"}, "class 9 still teaches that day"
+    other_year = w.store.create_academic_year(school_id="school_2", label="x", start_date="2026-04-01",
+                                              end_date="2027-03-31")
+    [foreign] = w.store.sections_for_grade(w.store.create_grade(academic_year_id=other_year.id, number=10).id)
+    assert w.c.post(f"{BASE}/academic-years/{w.year}/closures",
+                    json={"date": MON, "reason": "x", "sectionIds": [foreign.id]}, headers=w.p).status_code == 403
+    assert w.c.post(f"{BASE}/academic-years/{w.year}/closures",
+                    json={"date": MON, "reason": "x", "sectionIds": []}, headers=w.p).status_code == 422
+
+
+def test_a_waived_period_keeps_its_reason_in_the_audit_log(w):
+    from academicos.assessment.audit_log import get_audit_log
+    from academicos.curriculum import routes as cr
+    lost = w.store.declare_closure(w.year, MON, reason="rain", section_ids={w.a10})
+    assert len(lost) == 2
+    r = w.c.post(f"{BASE}/lost-periods/{lost[0].id}/waive", json={"reason": "covered in the revision week"},
+                 headers=w.p)
+    assert r.status_code == 200 and r.json()["status"] == "waived"
+    [entry, *_] = get_audit_log(cr._cfg.data_root).for_action("lost_period_waived")
+    assert entry["details"]["reason"] == "covered in the revision week"
+    assert w.c.post(f"{BASE}/lost-periods/{lost[1].id}/waive", json={"reason": ""},
+                    headers=w.p).status_code == 422
+    assert w.c.post(f"{BASE}/lost-periods/{lost[1].id}/waive", headers=w.p).status_code == 200, \
+        "the reason is optional for callers that send none"
+
+
 def test_gates_and_scoping(w):
     leave = _apply(w, "ana").json()
     assert w.c.post(f"{BASE}/leave-requests/{leave['id']}/decision", json={"approve": True},

@@ -703,9 +703,11 @@ class CoverMixin:
         rows = self._lost_where("id=?", (lost_id,))
         return rows[0] if rows else None
 
-    def declare_closure(self, academic_year_id: str, on: str, *, reason: str) -> list[LostPeriod]:
+    def declare_closure(self, academic_year_id: str, on: str, *, reason: str,
+                        section_ids: Optional[set[str]] = None) -> list[LostPeriod]:
         """A day that stops being taught at short notice (or after the fact):
-        every section's timetabled periods that day are lost periods. The
+        every section's timetabled periods that day are lost periods -- or
+        only `section_ids`' (some classes out: a trip, an exam hall). The
         caller adds the holiday to the calendar and reflows the plans."""
         year = self.get_academic_year(academic_year_id)
         if year is None:
@@ -718,12 +720,20 @@ class CoverMixin:
             for e in self.timetable_for_year(academic_year_id):
                 if e.day_of_week != wd:
                     continue
+                if section_ids is not None and e.section_id not in section_ids:
+                    continue
                 if self._lost_where("date=? AND section_id=? AND period=?", (on, e.section_id, e.period)):
                     continue
                 out.append(self._insert_lost(year.school_id, academic_year_id, e.section_id, e.subject_id,
                                              on, e.period, f"closure: {reason}", None))
-            self._exec("UPDATE substitutions SET status='cancelled', updated_at=? WHERE academic_year_id=? "
-                       "AND date=? AND status<>'resolved'", (_now(), academic_year_id, on))
+            if section_ids is None:
+                self._exec("UPDATE substitutions SET status='cancelled', updated_at=? WHERE academic_year_id=? "
+                           "AND date=? AND status<>'resolved'", (_now(), academic_year_id, on))
+            else:
+                for sid in sorted(section_ids):
+                    self._exec("UPDATE substitutions SET status='cancelled', updated_at=? WHERE "
+                               "academic_year_id=? AND date=? AND section_id=? AND status<>'resolved'",
+                               (_now(), academic_year_id, on, sid))
         self._commit()
         return out
 

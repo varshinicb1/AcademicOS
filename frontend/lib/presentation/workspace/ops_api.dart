@@ -224,13 +224,19 @@ class OpsQueued extends OpsError {
 class OpsError implements Exception {
   final int? status;
   final String message;
-  OpsError(this.status, this.message);
+
+  /// The server's whole `detail`, when it said more than one sentence: a
+  /// timetable 409 carries `{message, clashes: [...]}`, every clash named.
+  final Object? detail;
+  OpsError(this.status, this.message, {this.detail});
 
   factory OpsError.from(DioException e) {
     final data = e.response?.data;
     String msg = 'Something went wrong. Check your connection and try again.';
+    Object? detail;
     if (data is Map && data['detail'] != null) {
       final d = data['detail'];
+      detail = d;
       if (d is String) {
         msg = d;
       } else if (d is Map && d['message'] != null) {
@@ -239,7 +245,15 @@ class OpsError implements Exception {
         msg = (d.first as Map)['msg']?.toString() ?? msg;
       }
     }
-    return OpsError(e.response?.statusCode, msg);
+    return OpsError(e.response?.statusCode, msg, detail: detail);
+  }
+
+  /// Every problem the server listed with its refusal (`detail.clashes`);
+  /// empty when it gave one sentence.
+  List<String> get clashes {
+    final d = detail;
+    if (d is Map && d['clashes'] is List) return [for (final c in d['clashes'] as List) '$c'];
+    return const [];
   }
 
   @override

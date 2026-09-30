@@ -98,6 +98,10 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   String? _pushGradeId;
   String? _pushSubjectId;
   List<SubjectSummary> _pushSubjects = [];
+  // null: the school-wide plan. A section's own plan (the kind the School
+  // workspace's Lesson plans page makes) moves only when its id is sent.
+  String? _pushSectionId;
+  List<SectionSummary> _pushSections = [];
   bool _loadingPushSubjects = false;
   final _pushDateController = TextEditingController(
     text: DateTime.now().toString().substring(0, 10),
@@ -287,6 +291,8 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       _loadingPushSubjects = true;
       _pushSubjects = [];
       _pushSubjectId = null;
+      _pushSections = [];
+      _pushSectionId = null;
     });
     try {
       final subjects = await GetIt.I<CurriculumApi>().subjects(gradeId);
@@ -298,6 +304,18 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     } catch (e) {
       if (mounted) setState(() => _loadingPushSubjects = false);
       _showMessage('Could not load subjects: ${serverErrorMessage(e)}');
+      return;
+    }
+    // The sections come separately: without them the school-wide plan can
+    // still be pushed, so a failed or slow sections call must not hold the
+    // subject list back.
+    if (_academicYearId == null) return;
+    try {
+      final sections =
+          (await GetIt.I<CurriculumApi>().sections(_academicYearId!)).where((s) => s.gradeId == gradeId).toList();
+      if (mounted) setState(() => _pushSections = sections);
+    } catch (e) {
+      _showMessage('Could not load sections: ${serverErrorMessage(e)}');
     }
   }
 
@@ -366,6 +384,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         fromDate: _pushDateController.text.trim(),
         reason: _pushReasonController.text.trim(),
         periodsPerWeek: periodsPerWeek,
+        sectionId: _pushSectionId,
       );
       _showMessage(res.summary);
       _loadReporting();
@@ -1154,6 +1173,21 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                   itemLabel: (s) => s.name,
                   onChanged: (s) => setState(() => _pushSubjectId = s?.id),
                 ),
+              const Gap(12),
+              DropdownButtonFormField<String?>(
+                key: ValueKey('push-section-$_pushGradeId-${_pushSections.length}'),
+                initialValue: _pushSectionId,
+                isExpanded: true,
+                decoration: const InputDecoration(
+                  labelText: 'Section',
+                  helperText: "A section's own plan, or the school-wide plan",
+                ),
+                items: [
+                  const DropdownMenuItem<String?>(value: null, child: Text('Every section (the school-wide plan)')),
+                  for (final s in _pushSections) DropdownMenuItem<String?>(value: s.id, child: Text(s.label)),
+                ],
+                onChanged: (id) => setState(() => _pushSectionId = id),
+              ),
               const Gap(12),
               TextFormField(
                 controller: _pushDateController,
