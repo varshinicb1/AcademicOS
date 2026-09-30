@@ -50,17 +50,25 @@ class _LoginPageState extends State<LoginPage> {
   String? _error;
   // The Google client id when this deployment has Google sign-in (INT-1).
   String? _googleClientId;
+  // Whether this deployment can email a sign-in code. Offered only once the
+  // server says so: with no school email set up, a tap answered 503 (N-8-9).
+  bool _emailCode = false;
 
   @override
   void initState() {
     super.initState();
     if (!GetIt.I.isRegistered<Dio>()) return;     // a widget test with no server
     GetIt.I<Dio>().get('/auth/providers').then((r) {
-      final g = (r.data as Map)['google'];
-      if (mounted && g is Map) setState(() => _googleClientId = g['clientId'] as String?);
+      final data = r.data as Map;
+      final g = data['google'];
+      if (!mounted) return;
+      setState(() {
+        if (g is Map) _googleClientId = g['clientId'] as String?;
+        _emailCode = data['emailCode'] == true;
+      });
     }, onError: (Object e) {
-      // Without the answer the page offers the password and the emailed code,
-      // which work regardless; the reason is shown only if Google was asked for.
+      // Without the answer the page offers the password, which works
+      // regardless; the other ways in are shown only when the server has them.
       if (mounted) setState(() => _googleClientId = null);
       debugPrint('sign-in providers: ${serverErrorMessage(e)}');
     });
@@ -421,7 +429,7 @@ class _LoginPageState extends State<LoginPage> {
                                   : Text(_registering ? 'Create account' : 'Sign in'),
                             ),
                           ),
-                          if (!_registering)
+                          if (!_registering && _emailCode)
                             TextButton(
                               // Students and parents may sign in without a password (ROLE-2).
                               onPressed: _submitting ? null : _signInWithCode,

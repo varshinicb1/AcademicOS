@@ -18,7 +18,8 @@ from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 
-from ..assessment.auth_routes import get_current_user, require_admin, require_principal, require_staff
+from ..assessment.auth_routes import (get_current_user, require_admin, require_in_scope, require_principal,
+                                      require_staff)
 from ..assessment.authz import require_own_school, require_own_subtopics
 from ..assessment.pool import get_pool
 from ..assessment.users import User
@@ -371,10 +372,24 @@ def list_sections(academic_year_id: str,
             for sec in store.sections_for_year(academic_year_id)]
 
 
+def require_section_in_scope(section_id: str, current: User, capability: str,
+                             subject_id: Optional[str] = None) -> None:
+    """For a route a limited admin may take (require_admin(..., scoped=True)):
+    the section, its class, and the subject when the route names one, must
+    be inside the caller's grant. Call it after the school ownership check."""
+    store = _require()
+    sec = store.get_section(section_id)
+    grade = store.get_grade(sec.grade_id) if sec else None
+    require_in_scope(current, capability, grade=grade.number if grade else None,
+                     section_id=section_id, subject_id=subject_id)
+
+
 @router.post("/grades/{grade_id}/sections", response_model=SectionResponse)
 def create_section(grade_id: str, req: CreateSectionRequest,
-                   principal: User = Depends(require_admin("timetable"))) -> SectionResponse:
+                   principal: User = Depends(require_admin("timetable", scoped=True))) -> SectionResponse:
     _require_school_owns_grade(grade_id, principal)
+    grade = _require().get_grade(grade_id)
+    require_in_scope(principal, "timetable", grade=grade.number if grade else None)
     _require_class_teacher(req.class_teacher_id, principal)
     store = _require()
     try:
@@ -391,10 +406,11 @@ def create_section(grade_id: str, req: CreateSectionRequest,
 
 @router.patch("/sections/{section_id}", response_model=SectionResponse)
 def update_section(section_id: str, req: UpdateSectionRequest,
-                   principal: User = Depends(require_admin("timetable"))) -> SectionResponse:
+                   principal: User = Depends(require_admin("timetable", scoped=True))) -> SectionResponse:
     """Rename a section and/or set its class teacher. A field left out is
     unchanged; classTeacherId null clears the class teacher."""
     _require_school_owns_section(section_id, principal)
+    require_section_in_scope(section_id, principal, "timetable")
     sent = req.model_fields_set
     if "name" in sent and req.name is None:
         raise HTTPException(422, "a section needs a name, such as A or Rose")
@@ -422,10 +438,12 @@ def update_section(section_id: str, req: UpdateSectionRequest,
 
 
 @router.delete("/sections/{section_id}")
-def delete_section(section_id: str, principal: User = Depends(require_admin("timetable"))) -> dict:
+def delete_section(section_id: str,
+                   principal: User = Depends(require_admin("timetable", scoped=True))) -> dict:
     """409 while students are enrolled in it, or when it is its class's
     last section."""
     _require_school_owns_section(section_id, principal)
+    require_section_in_scope(section_id, principal, "timetable")
     try:
         sec = _require().delete_section(section_id)
     except KeyError:
@@ -440,9 +458,11 @@ def delete_section(section_id: str, principal: User = Depends(require_admin("tim
 
 @router.get("/sections/{section_id}/students", response_model=list[SectionStudentResponse])
 def list_section_students(section_id: str,
-                          principal: User = Depends(require_admin("users"))) -> list[SectionStudentResponse]:
+                          principal: User = Depends(require_admin("users", scoped=True))
+                          ) -> list[SectionStudentResponse]:
     """Who is enrolled in this section, and only this section."""
     _require_school_owns_section(section_id, principal)
+    require_section_in_scope(section_id, principal, "users")
     return [SectionStudentResponse(student_id=e.student_id, enrollment_id=e.id,
                                    enrolled_at=e.created_at)
             for e in _require().enrollments_for_section(section_id)]

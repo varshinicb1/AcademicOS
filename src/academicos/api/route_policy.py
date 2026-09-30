@@ -105,6 +105,8 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("POST", "/api/v1/auth/logout"): _p(PUBLIC, "deletes the bearer's own session if any; nothing to leak"),
     ("GET", "/api/v1/auth/me"): _p(ANY_USER),
     ("GET", "/api/v1/auth/users"): _p(ADMIN["users"]),
+    ("POST", "/api/v1/auth/users/{user_id}/close"): _p(ADMIN["users"]),
+    ("POST", "/api/v1/auth/users/{user_id}/reopen"): _p(ADMIN["users"]),
     ("POST", "/api/v1/auth/invites"): _p(ADMIN["users"]),
     ("GET", "/api/v1/auth/invites"): _p(ADMIN["users"]),
     ("DELETE", "/api/v1/auth/invites/{code}"): _p(ADMIN["users"]),

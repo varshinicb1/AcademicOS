@@ -18080,6 +18080,96 @@
         "summary": "List School Users"
       }
     },
+    "/api/v1/auth/users/{user_id}/close": {
+      "post": {
+        "description": "A person has left the school: their account can no longer sign in,\nevery session they hold ends, and their admin grants are revoked. Their\npapers, marks and history stay, attributed to them (N-67-8).",
+        "operationId": "close_account_api_v1_auth_users__user_id__close_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "title": "User Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Close Account"
+      }
+    },
+    "/api/v1/auth/users/{user_id}/reopen": {
+      "post": {
+        "description": "Undo a close: the account gets back the role it had. Grants are not\nrestored; the principal gives them again if they are still wanted.",
+        "operationId": "reopen_account_api_v1_auth_users__user_id__reopen_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "title": "User Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Reopen Account"
+      }
+    },
     "/api/v1/automations/run": {
       "post": {
         "description": "For Cloud Scheduler: run every automation that is due. Needs the\noperator's key (env ACOS_CRON_KEY); 404 when none is configured, so the\nroute does not exist on a deployment that has not opted in.",
@@ -18131,7 +18221,7 @@
     },
     "/api/v1/automations/status": {
       "get": {
-        "description": "The latest automation runs, newest first (runs are not per school).",
+        "description": "The latest automation runs, newest first, each with what it sent to\nthis school; another school's counts are not shown.",
         "operationId": "automations_status_api_v1_automations_status_get",
         "responses": {
           "200": {

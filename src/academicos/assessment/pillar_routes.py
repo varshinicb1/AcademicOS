@@ -1169,13 +1169,34 @@ class SchoolInsightsResponse(Camel):
 @router.get("/insights/school/{school_id}", response_model=SchoolInsightsResponse)
 def school_report(school_id: str, principal: User = Depends(require_admin("reports"))) -> SchoolInsightsResponse:
     require_own_school(school_id, principal)
-    cfg, knowledge, _ = _require()
+    _, knowledge, _ = _require()
     graded = _require_graded()
-    student_ids = sorted(graded.all_student_ids())
-    if not student_ids:
-        student_ids = [p.stem for p in (cfg.data_root / "knowledge").glob("*.json")]
-    si = insights_mod.school_insights(school_id, knowledge, student_ids,
-                                      assessments=graded.assessment_count())
+    if _assessments is None:
+        raise HTTPException(503, "pillar module not initialized")
+    # Only this school's papers, and only the sheets graded on them: the
+    # graded store and the learner models hold every school's students.
+    evidence: dict[tuple[str, int], insights_mod.ClassEvidence] = {}
+    graded_papers = 0
+    for a in _assessments.list_by_school(school_id):
+        sheets = graded.chapters_by_student(a.id)
+        if not sheets:
+            continue
+        graded_papers += 1
+        group = evidence.get((a.subject, a.grade))
+        if group is None:
+            syllabus = load_syllabus(a.subject, a.grade)
+            chapters = [c for _, c in syllabus.all_chapters()] if syllabus else []
+            names = {**taxonomy_chapters(a.subject, a.grade),
+                     **{c["id"]: c["name"] for c in book_chapters(a.subject, a.grade)},
+                     **{c.id: c.name for c in chapters}}
+            group = evidence[(a.subject, a.grade)] = insights_mod.ClassEvidence(
+                subject=a.subject, grade=a.grade, students=set(), concepts=set(),
+                total_chapters=len(chapters), names=names)
+        group.students.update(sheets)
+        for concepts in sheets.values():
+            group.concepts.update(concepts)
+    si = insights_mod.school_insights(school_id, knowledge, list(evidence.values()),
+                                      assessments=graded_papers)
     return SchoolInsightsResponse(
         school_id=si.school_id, students=si.students, assessments=si.assessments,
         average_mastery=si.average_mastery,

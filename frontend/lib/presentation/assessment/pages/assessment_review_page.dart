@@ -512,15 +512,14 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
               ],
             ],
           ),
-          if (editable) ...[
+          if (editable && assessment.status != AssessmentStatus.underReview) ...[
             const SizedBox(height: 8),
+            // A review names its reviewer, who is notified; a bare status
+            // change put the paper "under review" with nobody reviewing it.
             OutlinedButton.icon(
-              onPressed: () => context.read<AssessmentBloc>().add(AssessmentEvent.updateStatus(
-                assessmentId: widget.assessmentId,
-                status: AssessmentStatus.underReview,
-              )),
+              onPressed: () => requestReview(context, assessment.id),
               icon: const Icon(Icons.rate_review),
-              label: const Text('Mark as Under Teacher Review'),
+              label: const Text('Ask a colleague to review'),
             ),
           ],
           if (assessment.status == AssessmentStatus.underReview) ...[
