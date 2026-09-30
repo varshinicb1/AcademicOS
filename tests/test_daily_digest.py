@@ -35,8 +35,12 @@ def test_a_student_gets_one_message_a_day_at_their_time(w, monkeypatch):
     assert pushes == []
 
     s1 = w.c.get("/api/v1/auth/me", headers=w.s1).json()["id"]
+    # At a fixed daytime moment: at the real clock, between 21:00 and 07:00
+    # IST, the student's default quiet hours deferred the push and this failed
+    # every night (the gate for #48-#50, 2026-09-29 22:02).
     store().notify(school_id="school_1", user_ids=[s1], kind="substitution_proposed",
-                   params={"section": "10-A", "period": 3, "date": "2026-06-02", "subject": "Science"})
+                   params={"section": "10-A", "period": 3, "date": "2026-06-02", "subject": "Science"},
+                   now=datetime(2026, 6, 1, 10, 0, tzinfo=IST))
     assert len(pushes) == 1, "a cover request is never held for the digest"
 
     day = datetime(2026, 6, 1, 18, 30, tzinfo=IST)
