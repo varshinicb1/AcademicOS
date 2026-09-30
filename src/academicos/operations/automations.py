@@ -20,7 +20,8 @@ even two overlapping runs cannot double a message.
 - marking_due (from 15:00): teachers with submissions waiting over two days
   for their marks (TA-7).
 - principal_alerts (from 08:00): sections behind plan, lost periods owed over a
-  week, homework overdue in bulk, exams within a week without a full roster (ADM-3).
+  week, homework overdue in bulk, exams within a week without a full roster or
+  with a paper not set (no approved question paper) (ADM-3).
 - exam_reminders (from 17:00): students with a paper tomorrow, and invigilators
   with duties tomorrow, in a published exam (NTF-2, SA-5).
 - term_report (from 15:00): on a term's last day, its principal hears the term
@@ -231,12 +232,57 @@ def marking_due(ops, cs, users, notify, now: datetime) -> int:
 
 BEHIND_LESSONS = 5          # a section this many lessons behind its plan is "falling behind"
 OWED_AFTER_DAYS = 7         # a lost period owed this long is flagged
+# A generated question paper the principal has approved, or one already past
+# approval (schemas.AssessmentStatus); "archived" is not a paper in use.
+APPROVED_PAPER = frozenset({"principalApproved", "printed", "conducted", "scanning", "scanned", "evaluating",
+                            "evaluated", "teacherReviewed", "reportsGenerated", "remediationSent"})
+
+
+def _papers_not_set(ops, cs, ex: dict, papers: list[dict], today: str) -> Optional[list[tuple[int, str]]]:
+    """N-67-9: the datesheet papers from today on with no approved question
+    paper, as (class, subject). An exam paper row carries no link to a
+    generated paper, so one is matched on what both record: the school, the
+    class, the subject (without case, as paper_timing does), and when it was
+    made (its scheduled date if set, else its creation) -- after the previous
+    sitting of that class and subject in any of the school's exams (else from
+    the start of the exam's year) and no later than this sitting. None when
+    the question papers cannot be read, so nothing is claimed either way."""
+    from ..assessment import routes as ar
+    if ar._store is None:
+        return None
+    try:
+        approved = [a for a in ar._store.list_by_school(ex["school_id"]) if a.status in APPROVED_PAPER]
+    except Exception:  # noqa: BLE001 - an alert line is not worth failing the morning's alerts
+        log.warning("could not read the question papers of %s", ex["school_id"], exc_info=True)
+        return None
+    sittings: dict[tuple[int, str], list[str]] = {}
+    for other in ops.exams_for_school(ex["school_id"]):
+        for p in ops.exam_papers(other["id"]):
+            sittings.setdefault((p["grade"], p["subject_id"]), []).append(p["date"])
+    year = cs.get_academic_year(ex["academic_year_id"])
+
+    def made(a) -> str:
+        at = a.scheduled_at or a.created_at
+        return (at if at.tzinfo else at.replace(tzinfo=timezone.utc)).astimezone(IST).date().isoformat()
+
+    missing = []
+    for p in papers:
+        if p["date"] < today:
+            continue
+        earlier = [d for d in sittings.get((p["grade"], p["subject_id"]), []) if d < p["date"]]
+        subject = p["subject_name"].strip().casefold()
+        if not any(a.grade == p["grade"] and a.subject.strip().casefold() == subject
+                   and (made(a) > max(earlier) if earlier else made(a) >= (year.start_date if year else ""))
+                   and made(a) <= p["date"] for a in approved):
+            missing.append((p["grade"], p["subject_name"]))
+    return sorted(set(missing))
 
 
 def principal_alerts(ops, cs, users, notify, now: datetime) -> int:
     """ADM-3, once a morning: what needs the principal today, in one
     message -- sections falling behind their plan, lost periods not made up,
-    homework overdue in bulk, exams within a week without a full roster.
+    homework overdue in bulk, exams within a week without a full roster or
+    with a paper that has no approved question paper (_papers_not_set).
     Nothing to report sends nothing."""
     today = now.astimezone(IST).date()
     n = 0
@@ -285,6 +331,15 @@ def principal_alerts(ops, cs, users, notify, now: datetime) -> int:
                               + (f"{empty} rooms without an invigilator" if empty else "not published yet"),
                               f"{ex['name']} {ex['start_date']} से शुरू है: "
                               + (f"{empty} कक्षों में निरीक्षक नहीं" if empty else "अभी प्रकाशित नहीं")))
+            unset = _papers_not_set(ops, cs, ex, papers, today.isoformat()) if papers else None
+            if unset:
+                more = len(unset) - 5
+                en = [f"class {g} {s}" for g, s in unset[:5]] + ([f"{more} more"] if more > 0 else [])
+                hi = [f"कक्षा {g} {s}" for g, s in unset[:5]] + ([f"{more} और"] if more > 0 else [])
+                lines.append((f"{ex['name']} starts {ex['start_date']}: no approved question paper for "
+                              + ", ".join(en),
+                              f"{ex['name']} {ex['start_date']} से शुरू है: " + ", ".join(hi)
+                              + " का स्वीकृत प्रश्नपत्र नहीं"))
         if not lines:
             continue
         notify(school_id=school, user_ids=principals, kind="principal_alert",

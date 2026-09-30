@@ -116,6 +116,53 @@ def test_hindi_readers_get_no_english_in_their_messages(w):
     assert (title, body) == ("Needs attention today (1)", "x.")
 
 
+def _approved_paper(subject, created, status="principalApproved"):
+    import uuid
+
+    from academicos.assessment import routes as ar
+    from academicos.assessment.schemas import Assessment
+    from test_route_inventory import blueprint_body
+    ar._store.save(Assessment.model_validate({
+        "id": f"a_{uuid.uuid4().hex[:8]}", "schoolId": "school_1", "teacherId": "t", "title": f"{subject} paper",
+        "subject": subject, "grade": 10, "chapterIds": [], "blueprint": blueprint_body(), "status": status,
+        "createdAt": created, "updatedAt": created}))
+
+
+def test_an_exam_paper_with_no_approved_question_paper_is_flagged(w):
+    """N-67-9: "exam paper not set by its deadline" checked the datesheet,
+    the roster and publishing -- an exam with all three but no question
+    paper raised nothing. An exam paper row has no link to a generated
+    paper, so it is matched on school, class, subject and when it was made."""
+    subs = {s.name: s.id for g in w.store.grades_for_year(w.year) if g.number == 10
+            for s in w.store.subjects_for_grade(g.id)}
+
+    def exam(name, start, end, papers):
+        r = w.c.post("/api/v1/exams", json={"name": name, "startDate": start, "endDate": end, "grades": [10]},
+                     headers=w.p)
+        eid = r.json()["id"]
+        sheet = w.c.put(f"/api/v1/exams/{eid}/datesheet", headers=w.p, json={"papers": [
+            {"grade": 10, "subjectId": subs[s], "date": d} for s, d in papers]})
+        assert sheet.status_code == 200, sheet.text
+        w.c.post(f"/api/v1/exams/{eid}/invigilation/auto", headers=w.p)
+        w.c.post(f"/api/v1/exams/{eid}/publish", headers=w.p)
+    exam("Unit test 0", "2026-05-18", "2026-05-22", [("Maths", "2026-05-20")])
+    exam("Unit test 1", "2026-06-02", "2026-06-05", [("Science", "2026-06-02"), ("Maths", "2026-06-03")])
+    _approved_paper("science", "2026-05-25T06:00:00Z")      # made for this sitting (the case differs)
+    _approved_paper("Maths", "2026-05-10T06:00:00Z")        # made before Unit test 0's Maths: that one's paper
+    _approved_paper("Maths", "2026-05-28T06:00:00Z", status="paperGenerated")    # not approved yet
+    _run(_at(MON, 8, 30))
+    [alert] = [i for i in _kinds(w, w.p) if i["kind"] == "principal_alert"]
+    assert alert["body"] == "Unit test 1 starts 2026-06-02: no approved question paper for class 10 Maths."
+
+    _approved_paper("Maths", "2026-06-01T04:00:00Z")        # approved now: nothing left to flag
+    from academicos.operations.routes import store
+    with store()._conn_lock:
+        store().conn.execute("DELETE FROM notifications WHERE kind='principal_alert'")
+        store()._commit()
+    _run(_at("2026-06-02", 8, 30))                          # the exam is still within the week
+    assert [i for i in _kinds(w, w.p) if i["kind"] == "principal_alert"] == []
+
+
 def test_a_hindi_principal_reads_the_cover_escalation_in_hindi(w):
     _hindi(w, w.p)
     leave = _apply(w, "ana").json()
