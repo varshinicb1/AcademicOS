@@ -103,6 +103,10 @@ def test_removing_a_question_renumbers_the_paper_and_every_set_and_lowers_the_ma
         assert client.post(f"/api/v1/papers/{pid}/export/pdf", headers=t1).status_code == 200
         before = _printed(paper)
         gone = _at(paper, 1)["questionId"]
+        # Set B prints its own questions (N-2-5): its Q1 is another question.
+        b_before = _printed(client.get(f"/api/v1/papers/{pid}_set_B", headers=t1).json())
+        b_gone = b_before[0][1]
+        assert b_gone != gone
 
         r = _remove(client, t1, pid, "1")
         assert r.status_code == 200, r.text
@@ -119,11 +123,17 @@ def test_removing_a_question_renumbers_the_paper_and_every_set_and_lowers_the_ma
         _key_matches_print(edited)
         assert gone not in edited["formattedContent"]
 
+        # Every set loses the question in the same place -- its own Q1 -- so
+        # the sets stay the same paper in shape, each renumbered.
         set_b = client.get(f"/api/v1/papers/{pid}_set_B", headers=t1).json()
+        embedded_b = next(s for s in edited["sets"] if s["setLabel"] == "B")
+        for s in (set_b, embedded_b):
+            assert b_gone not in _on_paper(s)
+            assert [(q, alt) for _, q, alt in _printed(s)] == [(q, alt) for _, q, alt in b_before[1:]]
         for s in (set_b, *edited["sets"]):
             assert gone not in _on_paper(s)
-            assert _on_paper(s) == _on_paper(edited)
             assert [n for n, _, _ in _printed(s)] == [1, 2, 3]
+            assert [x["totalMarks"] for x in s["sections"]] == [1, 6]
             assert s["metadata"]["totalMarks"] == 7
             _key_matches_print(s)
 
@@ -388,8 +398,9 @@ def test_removing_an_or_alternative_keeps_the_question_in_the_paper_and_every_se
         q4 = _at(paper, 4)
         primary, alt = q4["questionId"], q4["internalChoiceQuestionId"]
         set_b = client.get(f"/api/v1/papers/{pid}_set_B", headers=t1).json()
-        # Set B prints OR pairs the other way round: the case this must handle.
-        assert any(q == alt and a == primary for _, q, a in _printed(set_b)), _printed(set_b)
+        b_before = _printed(set_b)
+        # Set B prints its own questions, with an OR in the same place.
+        assert b_before[3][2] is not None and b_before[3][1] != primary, b_before
 
         r = _remove(client, t1, pid, "4_OR")
         assert r.status_code == 200, r.text
@@ -400,7 +411,47 @@ def test_removing_an_or_alternative_keeps_the_question_in_the_paper_and_every_se
         assert edited["metadata"]["totalMarks"] == paper["metadata"]["totalMarks"]
         _key_matches_print(edited)
 
+        # Every set offers the same choices: set B's OR there is gone too, and
+        # its questions stay.
         set_b = client.get(f"/api/v1/papers/{pid}_set_B", headers=t1).json()
-        assert _on_paper(set_b) == _on_paper(edited)
+        assert [(n, q) for n, q, _ in _printed(set_b)] == [(n, q) for n, q, _ in b_before]
         assert all(a is None for _, _, a in _printed(set_b))
         _key_matches_print(set_b)
+
+
+def test_a_rotated_set_stored_before_distinct_sets_still_loses_the_or_pair_turned_round():
+    """Builder papers stored before sets had questions of their own are set A
+    rotated, with OR pairs turned round on set B: removing an OR from set A
+    must put set A's question back as the compulsory one there."""
+    from academicos.assessment import paper_edit
+    from academicos.assessment.paper import generate_paper_sets
+    from academicos.assessment.schemas import (BloomDistribution, Blueprint, ChapterWeights,
+                                               CompetencyWeights, DifficultyDistribution,
+                                               GeneratedPaper, SectionBlueprint)
+    from test_paper_swap_pick import _schemas
+
+    t0, t1, t2 = _schemas([r for r in FIXTURE if r["id"] in ("t0", "t1", "t2")])
+    t1.metadata.update({"internal_choice_id": t2.id, "internal_choice_stem": t2.stem,
+                        "internal_choice_scheme": t2.answer_scheme.model_answer,
+                        "internal_choice_question": t2.model_dump(by_alias=False)})
+    bp = Blueprint(total_marks=6, duration_minutes=30,
+                   difficulty=DifficultyDistribution(easy=0.3, medium=0.4, hard=0.3),
+                   bloom=BloomDistribution(remember=0.2, understand=0.2, apply=0.2,
+                                           analyze=0.2, evaluate=0.1, create=0.1),
+                   chapter_weights=ChapterWeights(), competency_weights=CompetencyWeights(),
+                   sections=[SectionBlueprint(id="s1", label="A", name="Short", marks_per_question=3,
+                                              question_count=2, total_marks=6)])
+    paper = generate_paper_sets(paper_id="paper_old", assessment_id="a", assessment_title="T",
+                                subject="Science", grade=10, blueprint=bp,
+                                selected_questions=[t0, t1], set_count=2,
+                                rotation_groups=[[t0, t1]])
+    set_b = paper.sets[1]
+    assert [(q.question_id, q.internal_choice_question_id) for q in set_b.sections[0].questions] \
+        == [("t2", "t1"), ("t0", None)]
+    slot = paper_edit.find_slot(paper, "2_OR")
+    for member in (paper, set_b):
+        edited = paper_edit.drop_alternative(member, slot.question, paper.answer_key["2"],
+                                             position=paper_edit.slot_position(slot))
+        printed = [(q.question_id, q.internal_choice_question_id) for q in edited.sections[0].questions]
+        assert sorted(printed) == [("t0", None), ("t1", None)], printed
+        _key_matches_print(GeneratedPaper.model_validate(edited.model_dump()).model_dump(by_alias=True))

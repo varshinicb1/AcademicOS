@@ -273,11 +273,16 @@ def test_swapping_a_competency_question_for_a_plain_one_lowers_the_share(
         assert edited["competencyShare"] == 0.5 < paper["competencyShare"]
         assert edited["competencyTargetMet"] is True        # 50% meets CBSE's 50%
 
-        # The stored paper and its set B row say the same.
-        for pid in (paper["id"], f"{paper['id']}_set_B"):
-            stored = client.get(f"/api/v1/papers/{pid}", headers=t1)
-            assert stored.status_code == 200, stored.text
-            assert stored.json()["competencyShare"] == 0.5, pid
+        # The stored paper says the same. Set B prints its own questions (the
+        # two plain ones the swap did not take), so the swap leaves it as it
+        # was, with its own share.
+        stored = client.get(f"/api/v1/papers/{paper['id']}", headers=t1)
+        assert stored.status_code == 200, stored.text
+        assert stored.json()["competencyShare"] == 0.5
+        set_b = client.get(f"/api/v1/papers/{paper['id']}_set_B", headers=t1).json()
+        assert set_b["competencyShare"] == 0.0
+        assert swap.json()["questionId"] not in {q["questionId"] for s in set_b["sections"]
+                                                 for q in s["questions"]}
 
 
 def test_removing_a_competency_question_recounts_the_share(tmp_path, monkeypatch):
@@ -440,7 +445,19 @@ def _generate_sets(client, headers, sets: int) -> dict:
     return r.json()["paper"]
 
 
-def test_a_reopened_paper_says_what_generation_said(tmp_path, monkeypatch, ranked_bank):
+# Sets B and C print questions of their own (N-2-5), so each needs its own
+# four plain questions to fall below 50% as set A does: twelve plain ones
+# ranked above the four CBE ones.
+RANKED_SETS = ([_rec(f"p{i}", "ch1", quality=0.9) for i in range(12)]
+               + [_rec(f"c{i}", "ch1", cbe=True, quality=0.5) for i in range(4)])
+
+
+@pytest.fixture
+def ranked_sets_bank(monkeypatch):
+    monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), _fixture_pool(RANKED_SETS))
+
+
+def test_a_reopened_paper_says_what_generation_said(tmp_path, monkeypatch, ranked_sets_bank):
     with _boot_client(tmp_path, monkeypatch) as client:
         t1 = _register(client, "school_1", "ana@example.com")
         paper = _generate_sets(client, t1, 2)
@@ -448,13 +465,13 @@ def test_a_reopened_paper_says_what_generation_said(tmp_path, monkeypatch, ranke
         assert stored["warnings"] == paper["warnings"]
         assert _competency_lines(stored) == [
             "Competency-based: 0 of 4 questions (0%). Below CBSE's 50%. The bank has enough "
-            "competency-based questions for this template (4 of the 8 it can use): swap or pick "
+            "competency-based questions for this template (4 of the 16 it can use): swap or pick "
             "them in on the paper step.",
             "Set B competency-based: 0 of 4 questions (0%). Below CBSE's 50%."]
         assert [s["setLabel"] for s in stored["sets"]] == ["A", "B"]
 
 
-def test_set_a_is_stated_once(tmp_path, monkeypatch, ranked_bank):
+def test_set_a_is_stated_once(tmp_path, monkeypatch, ranked_sets_bank):
     with _boot_client(tmp_path, monkeypatch) as client:
         t1 = _register(client, "school_1", "ana@example.com")
         paper = _generate_sets(client, t1, 3)
@@ -463,7 +480,18 @@ def test_set_a_is_stated_once(tmp_path, monkeypatch, ranked_bank):
         assert [w.split(" competency-based")[0] for w in lines[1:]] == ["Set B", "Set C"]
 
 
-def test_an_edit_keeps_the_set_lines(tmp_path, monkeypatch, ranked_bank):
+def test_a_set_with_questions_of_its_own_states_its_own_share(tmp_path, monkeypatch, ranked_bank):
+    """Set B prints the four CBE questions set A left (N-2-5): it meets 50%
+    and says nothing, while set A's line stands."""
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        paper = _generate_sets(client, t1, 2)
+        assert [s["competencyShare"] for s in paper["sets"]] == [0.0, 1.0]
+        lines = _competency_lines(paper)
+        assert len(lines) == 1 and lines[0].startswith("Competency-based: 0 of 4"), lines
+
+
+def test_an_edit_keeps_the_set_lines(tmp_path, monkeypatch, ranked_sets_bank):
     with _boot_client(tmp_path, monkeypatch) as client:
         t1 = _register(client, "school_1", "ana@example.com")
         paper = _generate_sets(client, t1, 2)

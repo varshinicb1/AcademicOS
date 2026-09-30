@@ -686,6 +686,58 @@ def test_every_set_keeps_each_sections_questions_in_that_section(tmp_path, monke
         assert orders[0] != orders[1], "a later set is a reordering, not a copy"
 
 
+def test_builder_sets_print_questions_of_their_own_and_count_every_repeat(
+        tmp_path, monkeypatch):
+    """v3 audit N-2-5: sets B and C were set A rotated (100% of A's questions
+    on 110/110 builder papers) though the bank allowed distinct sets. Each
+    set is now planned by the sections' own rules from what earlier sets left
+    -- verified keys and the paper's chapters only -- and made set A's shape;
+    a slot repeats an earlier set's question only when nothing else fits,
+    and the paper counts and names every repeat."""
+    from test_paper_swap_pick import FIXTURE, _template
+    monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), _fixture_pool_records(FIXTURE))
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        tid = client.post(BASE, json=_template(), headers=t1).json()["id"]
+        r = client.post(GEN, json={"templateId": tid, "setCount": 3}, headers=t1)
+        assert r.status_code == 200, r.text
+        paper = r.json()["paper"]
+
+    def printed(p):
+        return [(q["questionId"], q.get("internalChoiceQuestionId"))
+                for s in p["sections"] for q in s["questions"]]
+
+    a, b, c = paper["sets"]
+    assert printed(a) == [("o0", None), ("o1", None), ("t0", None), ("t1", "t2")]
+    # Set B: its own 1-mark and 3-mark questions; the bank has no 3-mark
+    # question left for its OR, so it offers set A's OR alternative there.
+    assert printed(b) == [("o2", None), ("o3", None), ("t3", None), ("t4", "t2")]
+    # Set C: its own 1-mark questions; no 3-mark question is left at all, so
+    # it prints set A's, not in set A's order.
+    assert printed(c) == [("o4", None), ("o5", None), ("t1", None), ("t0", "t2")]
+    assert paper["setOverlap"] == {"A": 0, "B": 1, "C": 3}
+    assert [w for w in paper["warnings"] if " repeats " in w] == [
+        "Set B repeats 1 question(s) from an earlier set (Q4 (OR)): no other question in the "
+        "bank fits that slot under the section's rules and the paper's chapters.",
+        "Set C repeats 3 question(s) from an earlier set (Q3, Q4, Q4 (OR)): no other question "
+        "in the bank fits those slots under the section's rules and the paper's chapters."]
+    for s in (a, b, c):
+        # The same paper in shape: sections, marks and choices.
+        assert [(len(x["questions"]), x["totalMarks"]) for x in s["sections"]] == [(2, 2), (2, 6)]
+        assert s["metadata"]["totalMarks"] == 8
+        ids = {i for pair in printed(s) for i in pair if i}
+        assert not ids & {"o6", "o7"}, "outside the chapters, or no verified key"
+        for n, (qid, alt) in enumerate(printed(s), start=1):
+            assert s["answerKey"][str(n)].startswith(f"model answer for {qid}")
+            if alt:
+                assert s["answerKey"][f"{n}_OR"] == f"model answer for {alt}"
+
+
+def _fixture_pool_records(records: list[dict]):
+    from test_paper_swap_pick import _pool
+    return _pool(records)
+
+
 def test_attempt_any_sections_print_attempted_marks_that_add_up(tmp_path, monkeypatch, seeded):
     """"Attempt any 3 of 4" 1-mark questions is a 3-mark section: printing 4
     made the sections add up to more than the paper's Maximum Marks."""
@@ -1480,6 +1532,35 @@ def test_the_real_banks_map_and_case_sections_are_never_offered_the_other_kind(
 
 
 @needs_real_bank
+@needs_real_bank
+def test_the_real_banks_class_10_sets_are_distinct_papers(tmp_path, monkeypatch, real_class10_pools):
+    """N-2-5 on the served bank: before, B and C held 100% of set A's
+    questions. Measured on this bank (2026-09-30): Maths 10 half-yearly
+    repeats none of set A's questions in B or C; Science 10 annual repeats
+    one in each (2.9% of the set: the only keyed 2-mark question the bank
+    has, which Section B needs in every set)."""
+    for subject, pool in real_class10_pools.items():
+        monkeypatch.setitem(pool_mod._CACHE, (subject, "X"), pool)
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        for preset, most in (("preset:cbse:10:mathematics:half_yearly", 0),
+                             ("preset:cbse:10:science:annual", 2)):
+            r = client.post(GEN, json={"templateId": preset, "setCount": 3, "allowGaps": True},
+                            headers=t1)
+            assert r.status_code == 200, r.text
+            paper = r.json()["paper"]
+            ids = [{i for s in p["sections"] for q in s["questions"]
+                    for i in (q["questionId"], q.get("internalChoiceQuestionId")) if i}
+                   for p in paper["sets"]]
+            shapes = [[(len(s["questions"]), s["totalMarks"]) for s in p["sections"]]
+                      for p in paper["sets"]]
+            assert shapes[0] == shapes[1] == shapes[2], preset
+            earlier: set[str] = set()
+            for p, mine in zip(paper["sets"], ids):
+                assert paper["setOverlap"][p["setLabel"]] == len(mine & earlier) <= most, preset
+                earlier |= mine
+
+
 def test_the_real_papers_instructions_match_the_ors_it_prints(
         tmp_path, monkeypatch, real_class10_pools):
     """Social Science Section C pairs 0 of its 1 OR on the merged bank -- the

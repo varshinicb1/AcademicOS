@@ -164,8 +164,17 @@ def generate_paper_sets(*, paper_id: str, assessment_id: str, assessment_title: 
                         set_count: int = 1,
                         rotation_groups: list[list[QuestionSchema]] | None = None,
                         alternatives_pool: list[QuestionSchema] | None = None,
+                        set_questions: list[list[QuestionSchema]] | None = None,
                         ) -> GeneratedPaper:
     """Generate parallel equivalent question paper sets (Sets A, B, C...) with strictly invariant difficulty.
+
+    With `set_questions` -- one list per set, set A's first (it is
+    `selected_questions`), each in section order and filling `blueprint`'s
+    sections exactly as set A does -- every set prints its own list: the
+    caller chose each set's questions by the sections' own rules (the
+    builder, `paper_template_routes._parallel_sets`). `set_overlap` says how
+    many printed questions, OR alternatives included, each shares with an
+    earlier set.
 
     With `alternatives_pool`, set B onwards print different questions of the
     same marks and type (selection.alternative_sets), and `set_overlap` says
@@ -201,7 +210,11 @@ def generate_paper_sets(*, paper_id: str, assessment_id: str, assessment_title: 
     paper_sets: list[GeneratedPaper] = []
     alternatives: list[list[QuestionSchema]] | None = None
     overlaps: list[int] = []
-    if alternatives_pool is not None:
+    if set_questions is not None:
+        if len(set_questions) != set_count:
+            raise ValueError(f"{len(set_questions)} question lists for {set_count} sets")
+        alternatives, overlaps = set_questions, _shared_with_earlier(set_questions)
+    elif alternatives_pool is not None:
         from .selection import alternative_sets
         from .templates import default_sections
         sections = blueprint.sections or default_sections(blueprint.total_marks)
@@ -256,6 +269,68 @@ def generate_paper_sets(*, paper_id: str, assessment_id: str, assessment_title: 
     if alternatives is not None:
         primary_paper.set_overlap = dict(zip(labels, overlaps))
     return primary_paper
+
+
+def set_repeats(paper: GeneratedPaper) -> dict[str, list[str]]:
+    """Per set of `paper` (A first), the printed slots -- "Q7", "Q12 (OR)"
+    -- whose question an earlier set also prints."""
+    seen: set[str] = set()
+    out: dict[str, list[str]] = {}
+    for s in paper.sets:
+        slots: list[str] = []
+        ids: set[str] = set()
+        for section in s.sections:
+            for q in section.questions:
+                if q.question_id in seen:
+                    slots.append(f"Q{q.display_number}")
+                ids.add(q.question_id)
+                alt = q.internal_choice_question_id
+                if alt:
+                    if alt in seen:
+                        slots.append(f"Q{q.display_number} (OR)")
+                    ids.add(alt)
+        out[s.set_label or ""] = slots
+        seen |= ids
+    return out
+
+
+_SET_REPEAT_LINE = re.compile(r"^Set [A-Z] repeats \d+ question")
+
+
+def set_repeat_warnings(paper: GeneratedPaper) -> list[str]:
+    """One line per set that prints a question an earlier set prints: how
+    many and where. A later set repeats one only where the bank has nothing
+    else its section's rules and the paper's chapters allow."""
+    return [f"Set {label} repeats {len(slots)} question(s) from an earlier set "
+            f"({', '.join(slots)}): no other question in the bank fits "
+            f"{'that slot' if len(slots) == 1 else 'those slots'} under the section's rules "
+            "and the paper's chapters."
+            for label, slots in set_repeats(paper).items() if slots]
+
+
+def restate_set_repeats(paper: GeneratedPaper) -> GeneratedPaper:
+    """`set_overlap` and its warning lines recounted from the sets as they
+    now stand, after an edit, on a paper that counts them (a non-empty
+    `set_overlap`). A swap can take a repeat off a set, or a pick put one on."""
+    if not paper.set_overlap or not paper.sets:
+        return paper
+    paper.set_overlap = {label: len(slots) for label, slots in set_repeats(paper).items()}
+    paper.warnings = [w for w in paper.warnings if not _SET_REPEAT_LINE.match(w)] \
+        + set_repeat_warnings(paper)
+    return paper
+
+
+def _shared_with_earlier(sets: list[list[QuestionSchema]]) -> list[int]:
+    """Per set, its printed questions (OR alternatives included) that an
+    earlier set also prints -- `GeneratedPaper.set_overlap`'s count."""
+    seen: set[str] = set()
+    out: list[int] = []
+    for qs in sets:
+        ids = [q.id for q in qs] + [q.metadata["internal_choice_id"] for q in qs
+                                    if q.metadata.get("internal_choice_id")]
+        out.append(sum(1 for i in ids if i in seen))
+        seen.update(ids)
+    return out
 
 
 def _alternative_first(q: QuestionSchema) -> QuestionSchema:

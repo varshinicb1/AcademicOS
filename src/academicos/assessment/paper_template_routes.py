@@ -16,6 +16,7 @@ another school gets 403, a missing id 404 -- the authz.py conventions):
 """
 from __future__ import annotations
 
+import dataclasses
 import time
 import uuid
 from datetime import datetime, timezone
@@ -30,11 +31,11 @@ from . import paper_edit
 from .audit_log import get_audit_log
 from .auth_routes import require_staff
 from .authz import require_own_school, require_school_owns_paper
-from .paper import generate_paper_sets, lettered, report_competency
+from .paper import generate_paper_sets, lettered, report_competency, set_repeat_warnings
 from .paper_edit import Bank, SwapCounts, bank_for
 from .paper_store import PaperStore, paper_question_ids
 from .paper_templates import AvailabilityReport, SectionAvailability, SectionPlan, \
-    build_scope_filter, check_scope_ids, competency_check, plan, tier_check
+    build_scope_filter, check_scope_ids, clashes, competency_check, plan, tier_check
 from .school_templates import TemplateStore
 from .schemas import (
     Assessment,
@@ -358,11 +359,13 @@ def _plan(template: PaperTemplate, scope: Optional[TemplateScope], *,
 
     scope_filter = build_scope_filter(template.scope, candidates, subtopic_questions)
     report, plans = plan(template, template.id, candidates, scope_filter,
-                         fill_from_outside_scope=fill_from_outside_scope, stale=stale)
+                         fill_from_outside_scope=fill_from_outside_scope, stale=stale,
+                         keyed_ids=bank.keyed)
     whole_plans = None
     if _names_scope(template.scope):
         _, whole_plans = plan(template, template.id, candidates,
-                              build_scope_filter(TemplateScope(), candidates), stale=stale)
+                              build_scope_filter(TemplateScope(), candidates), stale=stale,
+                              keyed_ids=bank.keyed)
     keyed = [q for q in candidates if q.id in bank.keyed]
     report.competency = competency_check(template, plans, keyed, whole_plans)
     report.tiers = tier_check(template, keyed)
@@ -417,7 +420,14 @@ def generate_from_template(
             "availability": report.model_dump(by_alias=True, mode="json"),
             "gaps": [g.model_dump(by_alias=True, mode="json") for g in gaps]})
 
-    _attach_choices(plans)
+    # Sets B, C... are planned before any OR is attached to set A's questions:
+    # a set that repeats one of them must not inherit set A's OR with it.
+    set_plans = [plans] + (_parallel_sets(
+        template, plans, req.set_count, fill_from_outside_scope=req.fill_from_outside_scope,
+        stale=frozenset(req.avoid_question_ids), school_id=current.school_id)
+        if req.set_count > 1 else [])
+    for sp in set_plans:
+        _attach_choices(sp)
     selected, blueprint = _blueprint(template, plans)
     asm_id = f"asm_tpl_{uuid.uuid4().hex[:8]}"
     title = req.title or template.header.exam_name or template.name
@@ -425,13 +435,15 @@ def generate_from_template(
         paper_id=f"paper_{uuid.uuid4().hex[:12]}", assessment_id=asm_id,
         assessment_title=title, subject=template.subject, grade=template.grade,
         blueprint=blueprint, selected_questions=selected, set_count=req.set_count,
-        # Sets rotate within each section, never across two same-mark
-        # sections (an assertion-reason question under the MCQ heading).
-        rotation_groups=[p.picked + p.borrowed for p in plans if p.picked or p.borrowed],
+        # Each set prints its own questions, filled by the sections' rules
+        # (`_parallel_sets`); set A's are `selected`.
+        set_questions=([_blueprint(template, sp)[0] for sp in set_plans]
+                       if req.set_count > 1 else None),
     )
     paper = _with_header(paper, template)
     instructions = paper.metadata.instructions or ""
     _stamp_checks(paper, report, blueprint)
+    paper.warnings = [*paper.warnings, *set_repeat_warnings(paper)]
     branding = _branding(template, current.school_id)
     _papers.save_generated(paper, branding, school_id=current.school_id)
 
@@ -514,6 +526,99 @@ def _attach_choices(plans: list[SectionPlan]) -> None:
     for p in plans:
         p.picked = [with_choice(q, p) for q in p.picked]
         p.borrowed = [with_choice(q, p) for q in p.borrowed]
+
+
+def _printed_on(plans: list[SectionPlan]) -> list[QuestionSchema]:
+    """Every question a set's plans print: compulsory, then OR alternatives."""
+    out = [q for p in plans for q in (*p.picked, *p.borrowed)]
+    return out + [alt for p in plans for alt in p.alternatives.values()]
+
+
+def _parallel_sets(template: PaperTemplate, first: list[SectionPlan], set_count: int, *,
+                   fill_from_outside_scope: bool, stale: frozenset[str],
+                   school_id: Optional[str]) -> list[list[SectionPlan]]:
+    """Sets B, C...: each its own questions, chosen by the template's own
+    rules, the same blueprint as set A.
+
+    Sets B and C used to be set A rotated inside each section -- the same
+    questions in another order, which is no protection against copying (v3
+    audit N-2-5: B and C held 100% of A's questions on 110/110 builder
+    papers, while the quick path's B/C shared 5-37% of A on the same banks).
+
+    Each later set is planned exactly as set A was (`paper_templates.plan`:
+    the sections' marks, kinds, competency share, difficulty mix, scope and
+    verified answer keys, and near-duplicates kept apart), over the bank less
+    every question an earlier set prints and every question that repeats one
+    of those in other words. It is then made set A's shape, section by
+    section (`_as_set_a`): the same number of questions and of ORs, so the
+    sets are equivalent papers. Only where this set's plan could not fill a
+    slot does it take one of set A's questions for that section (or one of
+    set A's ORs), so a repeat happens only where nothing else fits; the paper
+    counts them (`set_overlap`) and says where (`set_repeat_warnings`)."""
+    cfg, _ = _require()
+    bank = _bank(cfg, template, school_id)
+    candidates = list(bank.questions)
+
+    def subtopic_questions(ids: list[str]) -> list[str]:
+        from ..curriculum.store import get_curriculum_store
+        return get_curriculum_store(cfg.data_root).question_ids_for_subtopics(ids)
+
+    # One filter over the whole bank, as set A's: chapter filing is built per
+    # class from the candidates, so a filter over a subset could file a
+    # question differently.
+    scope = build_scope_filter(template.scope, candidates, subtopic_questions)
+    earlier = _printed_on(first)
+    out: list[list[SectionPlan]] = []
+    for index in range(1, set_count):
+        used = {q.id for q in earlier}
+        fresh = [q for q in candidates if q.id not in used and clashes(q, earlier) is None]
+        _, plans = plan(template, template.id, fresh, scope,
+                        fill_from_outside_scope=fill_from_outside_scope, stale=stale,
+                        keyed_ids=bank.keyed)
+        shaped = [_as_set_a(mine, theirs, index) for mine, theirs in zip(plans, first)]
+        out.append(shaped)
+        earlier = earlier + _printed_on(shaped)
+    return out
+
+
+def _as_set_a(mine: SectionPlan, set_a: SectionPlan, index: int) -> SectionPlan:
+    """`mine` (a later set's section) holding as many questions and ORs as
+    `set_a` does: its own first, then set A's for any slot it could not fill
+    -- the compulsory questions A prints in this section, then A's OR
+    alternatives -- never one this set already prints. Set A's questions are
+    taken starting `index` places along, so a section that has to repeat
+    them all does not print them in set A's order either. The ORs sit on the
+    last questions, as `paper_templates._pair_choices` places them."""
+    need, need_or = len(set_a.picked) + len(set_a.borrowed), len(set_a.alternatives)
+    printed = (mine.picked + mine.borrowed)[:need]
+    alternatives = {pid: alt for pid, alt in mine.alternatives.items()
+                    if pid in {q.id for q in printed}}
+    on_set = {q.id for q in printed} | {alt.id for alt in alternatives.values()}
+    theirs = set_a.picked + set_a.borrowed
+    shift = index % len(theirs) if theirs else 0
+    if shift == 0 and len(theirs) > 1:
+        shift = 1                                    # never set A's own order
+    for q in theirs[shift:] + theirs[:shift]:
+        if len(printed) >= need:
+            break
+        if q.id not in on_set:
+            printed.append(q)
+            on_set.add(q.id)
+    while len(alternatives) > need_or:              # more than set A offers: drop the first
+        alternatives.pop(next(q.id for q in printed if q.id in alternatives))
+    spare = [q for q in [*set_a.alternatives.values(), *set_a.picked, *set_a.borrowed]
+             if q.id not in on_set]
+    for q in reversed(printed):
+        if len(alternatives) >= need_or or not spare:
+            break
+        if q.id in alternatives:
+            continue
+        alt = next((s for s in spare if clashes(s, [q]) is None), None)
+        if alt is None:
+            break
+        alternatives[q.id] = alt
+        spare.remove(alt)
+    return dataclasses.replace(mine, picked=printed, borrowed=[], alternatives=alternatives)
 
 
 def _instructions_generated(template: PaperTemplate) -> bool:
@@ -708,12 +813,16 @@ def remove_paper_question(paper_id: str, slot: str,
         family.append(paper)
     edited = paper
     target = asm.blueprint.competency_percentage
+    # A set with questions of its own loses the one in the same place.
+    position = paper_edit.slot_position(slot)
     for member in family:
         if slot.alternative:
             updated = paper_edit.drop_alternative(
-                member, q, paper.answer_key.get(str(q.display_number), ""), target=target)
+                member, q, paper.answer_key.get(str(q.display_number), ""),
+                position=position, target=target)
         else:
-            updated = paper_edit.drop_question(member, q.question_id, target=target)
+            updated = paper_edit.drop_question(member, q.question_id, position=position,
+                                               target=target)
         _papers.save(updated, _papers.get_template(member.id), school_id=asm.school_id)
         _forget_pdfs(cfg, member.id)
         if member.id == paper.id:
@@ -762,19 +871,25 @@ def _edit_question(paper_id: str, slot_key: str, current: User, *,
         edits = dict(asm.metadata.get("paperEdits") or {})
         removed = set(edits.get("removed") or [])
         recent = _recent_question_ids(asm)
+        family = _papers.family(paper.id)
+        # What the paper's other sets print: a swap takes one only when
+        # nothing else fits, so sets stay apart (N-2-5).
+        other_sets = {p.id for m in family if m.id != paper.id
+                      for p in paper_edit.printed_questions(m)}
         if pick is None:
-            choice = paper_edit.choose_swap(slot, rule, bank, printed, removed, recent)
+            choice = paper_edit.choose_swap(slot, rule, bank, printed, removed, recent,
+                                            other_sets=other_sets)
         else:
             choice = paper_edit.check_pick(slot, rule, bank, pick, printed, recent,
                                            grade=paper.metadata.grade,
-                                           subject=paper.metadata.subject)
+                                           subject=paper.metadata.subject,
+                                           other_sets=other_sets)
     except paper_edit.EditError as err:
         raise HTTPException(err.status, err.detail) from err
     except ValueError as err:                      # an unreadable grade on the paper
         raise HTTPException(422, str(err)) from err
 
     old_id, new = slot.question_id, choice.question
-    family = _papers.family(paper.id)
     if not any(m.id == paper.id for m in family):  # a row outside the set naming
         family.append(paper)
     edited = paper
