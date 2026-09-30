@@ -3831,11 +3831,34 @@ export interface paths {
         /**
          * Set My Contact
          * @description Give, change or remove the caller's own number, and say per channel
-         *     whether they want SMS and WhatsApp. The consent is audited (not the
-         *     number: its last two digits only).
+         *     whether they want SMS and WhatsApp. A new or changed number is sent a
+         *     one-time code (again on each PUT while unconfirmed, at most once a
+         *     minute). The consent is audited (not the number: its last two digits,
+         *     and whether it changed).
          */
         put: operations["set_my_contact_api_v1_me_contact_put"];
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/contact/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Verify My Contact
+         * @description Confirm the caller's number with the code sent to it. Five wrong
+         *     tries end a code; a code lasts ten minutes.
+         */
+        post: operations["verify_my_contact_api_v1_me_contact_verify_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -6854,7 +6877,7 @@ export interface components {
         };
         /**
          * ContactRequest
-         * @description phone null removes the number and withdraws both.
+         * @description phone null, or neither channel ticked, removes the number.
          */
         ContactRequest: {
             /** Phone */
@@ -6872,6 +6895,10 @@ export interface components {
         };
         /** ContactResponse */
         ContactResponse: {
+            /** Codeerror */
+            codeError?: string | null;
+            /** Codesentvia */
+            codeSentVia?: string | null;
             /**
              * Kinds
              * @default []
@@ -6889,6 +6916,11 @@ export interface components {
              * @default false
              */
             smsOk: boolean;
+            /**
+             * Verified
+             * @default false
+             */
+            verified: boolean;
             /**
              * Whatsappavailable
              * @default false
@@ -11792,6 +11824,11 @@ export interface components {
             msg: string;
             /** Error Type */
             type: string;
+        };
+        /** VerifyRequest */
+        VerifyRequest: {
+            /** Code */
+            code: string;
         };
         /** WeekProgress */
         WeekProgress: {
@@ -18590,6 +18627,39 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["ContactRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContactResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    verify_my_contact_api_v1_me_contact_verify_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VerifyRequest"];
             };
         };
         responses: {

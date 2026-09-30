@@ -370,8 +370,9 @@ class NotificationsMixin(MessagingMixin):
                     if "UNIQUE" in str(exc):
                         continue
                     raise
-                # SMS and WhatsApp, for those who consented (INT-2, messaging.py).
-                self._queue_messages(nid, uid, kind, quiet=quiet, on_digest=bool(s.get("digest_at")))
+                # SMS and WhatsApp, for those who consented, and for a
+                # student's kinds their linked parents (INT-2, messaging.py).
+                self._queue_messages(nid, school_id, uid, kind, params, now=now)
                 out.append(nid)
         self._commit()
         if self.deliver_inline:
@@ -387,9 +388,10 @@ class NotificationsMixin(MessagingMixin):
         except Exception:  # noqa: BLE001 - a background send never breaks a request
             logger.warning("notification delivery failed", exc_info=True)
 
-    def deliver_due(self, now: Optional[datetime] = None) -> int:
+    def deliver_due(self, now: Optional[datetime] = None, *, messages: bool = True) -> int:
         """Send every pending item, every deferred item whose quiet hours
-        have ended, and retry failures (up to MAX_ATTEMPTS)."""
+        have ended, and retry failures (up to MAX_ATTEMPTS). messages=False
+        leaves SMS and WhatsApp to deliver_messages_soon()."""
         now = now or datetime.now(timezone.utc)
         sent = 0
         rows = self._fetchall("SELECT * FROM notifications WHERE (push_status IN ('pending','deferred','failed') "
@@ -419,9 +421,26 @@ class NotificationsMixin(MessagingMixin):
                        (updates.get("push_status"), updates.get("email_status"), 1 if failed else 0,
                         "; ".join(errors) or None, n.id))
             sent += sum(1 for v in updates.values() if v == "sent")
-        sent += self._deliver_messages(now)
+        if messages:
+            sent += self._deliver_messages(now)
         self._commit()
         return sent
+
+    def deliver_messages_soon(self) -> None:
+        """SMS and WhatsApp off the request's thread: a provider call can
+        take its full 10 s timeout, and a person opening their inbox should
+        not wait on it."""
+        if self.deliver_inline:
+            self._deliver_messages(datetime.now(timezone.utc))
+            return
+        import threading
+
+        def run() -> None:
+            try:
+                self._deliver_messages(datetime.now(timezone.utc))
+            except Exception:  # noqa: BLE001 - a background send never breaks a request
+                logger.warning("message delivery failed", exc_info=True)
+        threading.Thread(target=run, daemon=True).start()
 
     def send_digests(self, now: Optional[datetime] = None) -> int:
         """For each person on a daily digest whose time has come today and

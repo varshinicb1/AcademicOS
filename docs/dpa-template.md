@@ -107,7 +107,12 @@ The following categories of personal data are processed under this DPA:
        answer scripts);
    (e) OCR-extracted text from answer sheets;
    (f) Awarded marks / grading results;
-   (g) Mastery/analytics derived data.
+   (g) Mastery/analytics derived data;
+   (h) Contact numbers: a teacher's or parent's own mobile number, given by
+       that person with their consent per channel (SMS, WhatsApp) and
+       confirmed by a one-time code, and the notices sent to it. A parent's
+       notices name their child by first name and carry the child's homework
+       titles, exam times and holidays.
 
 ### 5. Sub-processors
 
@@ -129,6 +134,8 @@ discloses them now as required:
    | **Groq** (the default `llm_base_url`), or the LLM endpoint AcademicOS names instead: **[FILL IN if changed]** | Both, when an LLM key is set | Answers "doubt" questions on the corpus | The text a user types into a doubt question, which may be a student's own words. No student identifier |
    | **The School's or AcademicOS's SMTP relay**: **[FILL IN — host / provider]** | Both, only if configured | Emails exported question papers | Recipient addresses, the paper and answer-key PDFs, and the sender's note. No student data by design |
    | **Composio** (`backend.composio.dev`), relaying through the School's own Gmail/Outlook | Both, only if configured | Email and calendar actions on the School's behalf | As for SMTP. For calendar sync, an assessment's title and date |
+   | **Meta** (WhatsApp Business Platform, Cloud API; processed outside India): **[FILL IN — the contracting entity named in Meta's WhatsApp Business terms]** | Both, only if configured | Sends notices by WhatsApp to people who asked for them | Category (h): the recipient's mobile number, and the notice's details as template variables (for a parent, the child's first name and a homework title, exam or holiday). Only to a person who gave their own number, confirmed it and ticked WhatsApp |
+   | **MSG91** (India): **[FILL IN — the legal entity named in MSG91's terms]**, and the DLT-registered telecom operators it sends through | Both, only if configured | Sends notices by SMS to people who asked for them | As for Meta, by SMS. Only to a person who confirmed their number and ticked SMS |
    | **Supabase** | Render (and GCP deployments made before the GCS storage change) | Database and file storage | Stored student data, scan images and audit records |
    | **Render** | Render | Backend hosting | All backend data, including student data and logs |
 

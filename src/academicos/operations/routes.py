@@ -35,6 +35,15 @@ def init(cfg: Config) -> None:
         return getattr(u, "email", None) if u else None
     OperationsStore.email_for = staticmethod(_email)
 
+    def _name(user_id: str) -> Optional[str]:
+        from ..curriculum import routes as cr
+        try:
+            u = cr._require_users().get(user_id)
+        except Exception:  # noqa: BLE001
+            return None
+        return getattr(u, "name", None) if u else None
+    OperationsStore.name_for = staticmethod(_name)
+
     # Learning progress (SA-3) records every marked answer the knowledge
     # store records: sheets, scans, practice and homework.
     from ..assessment import knowledge
@@ -226,7 +235,8 @@ def inbox(unread_only: bool = Query(default=False, alias="unreadOnly"), limit: i
     hours have ended."""
     s = store()
     try:
-        s.deliver_due()
+        s.deliver_due(messages=False)
+        s.deliver_messages_soon()
     except Exception:  # noqa: BLE001
         logger.warning("deferred delivery failed", exc_info=True)
     _maybe_run_automations()

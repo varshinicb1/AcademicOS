@@ -80,6 +80,7 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     # staff and parents only (a student is a minor: their parent is messaged).
     ("GET", "/api/v1/me/contact"): _p(ANY_USER, "the caller's own number only; students refused in the handler"),
     ("PUT", "/api/v1/me/contact"): _p(ANY_USER, "the caller's own number only; students refused in the handler"),
+    ("POST", "/api/v1/me/contact/verify"): _p(ANY_USER, "confirms the caller's own number; students refused in the handler"),
     # EX-8 report cards: the student, their parent, the principal or a reports
     # admin, and the section's class teacher -- checked in the handler; logged.
     ("GET", "/api/v1/report-cards/students/{student_id}"): _p(ANY_USER, "the student, their linked parent, a reports admin or the class teacher; logged"),
@@ -484,6 +485,7 @@ PARENT_PATHS = frozenset({
     "/api/v1/devices/{token}",
     # INT-2: a parent's own number and SMS/WhatsApp consent.
     "/api/v1/me/contact",
+    "/api/v1/me/contact/verify",
     "/api/v1/my-children",
     "/api/v1/children/{student_id}/timetable",
     "/api/v1/children/{student_id}/day",

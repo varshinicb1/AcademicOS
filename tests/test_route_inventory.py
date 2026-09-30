@@ -355,6 +355,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     # --- operations/messaging_routes.py (INT-2) ---
     ("GET", "/api/v1/me/contact"),
     ("PUT", "/api/v1/me/contact"),
+    ("POST", "/api/v1/me/contact/verify"),
     # --- operations/report_cards.py (EX-8) ---
     ("GET", "/api/v1/report-cards/students/{student_id}"),
     ("GET", "/api/v1/report-cards/students/{student_id}/pdf"),
@@ -385,6 +386,7 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     # INT-2: the caller's own number (authenticates first).
     ("GET", "/api/v1/me/contact"),
     ("PUT", "/api/v1/me/contact"),
+    ("POST", "/api/v1/me/contact/verify"),
     # EX-8 report cards (authenticate first).
     ("GET", "/api/v1/report-cards/students/{student_id}"),
     ("GET", "/api/v1/report-cards/students/{student_id}/pdf"),
@@ -951,7 +953,8 @@ def test_canonical_route_inventory_matches_live_app():
     # profile (get, set) and its logo (get, upload, remove).
     # 302: NFR-7 error tracking (/health/errors, client reports, the operator's list).
     # 307: EX-8 report cards (a student's, as JSON and PDF; a section's PDF).
-    assert len(API_ROUTES) == 307
+    # 308: INT-2 a number is confirmed by the one-time code sent to it.
+    assert len(API_ROUTES) == 308
 
 
 def test_docs_routes_present():

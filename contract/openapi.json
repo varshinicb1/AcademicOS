@@ -3392,7 +3392,7 @@
       },
       "ContactRequest": {
         "additionalProperties": false,
-        "description": "phone null removes the number and withdraws both.",
+        "description": "phone null, or neither channel ticked, removes the number.",
         "properties": {
           "phone": {
             "anyOf": [
@@ -3422,6 +3422,28 @@
       },
       "ContactResponse": {
         "properties": {
+          "codeError": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Codeerror"
+          },
+          "codeSentVia": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Codesentvia"
+          },
           "kinds": {
             "default": [],
             "items": {
@@ -3449,6 +3471,11 @@
           "smsOk": {
             "default": false,
             "title": "Smsok",
+            "type": "boolean"
+          },
+          "verified": {
+            "default": false,
+            "title": "Verified",
             "type": "boolean"
           },
           "whatsappAvailable": {
@@ -16306,6 +16333,22 @@
         "title": "ValidationError",
         "type": "object"
       },
+      "VerifyRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "maxLength": 12,
+            "minLength": 6,
+            "title": "Code",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code"
+        ],
+        "title": "VerifyRequest",
+        "type": "object"
+      },
       "WeekProgress": {
         "properties": {
           "answered": {
@@ -26859,7 +26902,7 @@
         "summary": "My Contact"
       },
       "put": {
-        "description": "Give, change or remove the caller's own number, and say per channel\nwhether they want SMS and WhatsApp. The consent is audited (not the\nnumber: its last two digits only).",
+        "description": "Give, change or remove the caller's own number, and say per channel\nwhether they want SMS and WhatsApp. A new or changed number is sent a\none-time code (again on each PUT while unconfirmed, at most once a\nminute). The consent is audited (not the number: its last two digits,\nand whether it changed).",
         "operationId": "set_my_contact_api_v1_me_contact_put",
         "requestBody": {
           "content": {
@@ -26899,6 +26942,50 @@
           }
         ],
         "summary": "Set My Contact"
+      }
+    },
+    "/api/v1/me/contact/verify": {
+      "post": {
+        "description": "Confirm the caller's number with the code sent to it. Five wrong\ntries end a code; a code lasts ten minutes.",
+        "operationId": "verify_my_contact_api_v1_me_contact_verify_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Verify My Contact"
       }
     },
     "/api/v1/my-children": {
