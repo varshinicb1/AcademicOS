@@ -334,7 +334,7 @@ def _name_key(name: str) -> str:
     name = (name.replace("–", "-").replace("—", "-")
                 .replace("’", "'").replace("…", ""))
     # Any script's letters, as chapter_filing.name_key (the two stay equal).
-    return "".join(ch for ch in name.lower() if unicodedata.category(ch)[0] in "LMN")
+    return "".join(ch for ch in unicodedata.normalize("NFC", name).lower() if unicodedata.category(ch)[0] in "LMN")
 
 
 def _chapter_of(q: QuestionSchema, known: set[str], by_name: dict[str, str],

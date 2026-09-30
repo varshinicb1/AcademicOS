@@ -71,7 +71,7 @@ def _norm(s: Any) -> str:
     """Letters, digits and combining marks of any script, lower-cased, one space
     between words. ASCII-only made every Devanagari value point "", which
     `has` then found everywhere (review of #54)."""
-    kept = "".join(ch if unicodedata.category(ch)[0] in "LMN" else " " for ch in str(s or "").lower())
+    kept = "".join(ch if unicodedata.category(ch)[0] in "LMN" else " " for ch in unicodedata.normalize("NFKC", str(s or "")).lower())
     return " ".join(kept.split())
 
 

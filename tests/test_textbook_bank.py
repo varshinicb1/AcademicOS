@@ -153,3 +153,23 @@ def test_a_worked_answer_serves_only_the_checked_final_answer():
     ok = _q("Q5", q["stem"], {"source": "solved", "working": "3 x 5 = 15", "finalAnswer": "15 km"})
     [rec] = tb.build(_tb([ok]), CHAPTER, second={"Q5": "15 km"}).records
     assert "Working: 3 x 5 = 15" in rec["answerScheme"]["modelAnswer"]
+
+
+def test_the_answer_served_is_the_one_its_quote_states():
+    """A verified quote beside an unrelated answer served that answer at the
+    published tier (re-review of #54)."""
+    quote = "The four main directions are north, south, east and west."
+    made_up = _q("Q1", "What are the four cardinal directions?",
+                 {"source": "book", "finalAnswer": "a made-up answer 99", "evidence": quote})
+    assert [r["reason"] for r in tb.build(_tb([made_up]), CHAPTER).refused] == ["answer-not-in-quote"]
+    wrong_point = _q("Q1", "What are the four cardinal directions?",
+                     {"source": "grounded", "points": [{"text": "Up, down and around.", "evidence": quote}]})
+    assert [r["reason"] for r in tb.build(_tb([wrong_point]), CHAPTER).refused] == ["answer-not-in-quote"]
+    stem = "The line that divides the Earth into the Northern and Southern Hemispheres is the"
+    opts = {"A": "Prime Meridian", "B": "Equator", "C": "Tropic of Cancer", "D": "Arctic Circle"}
+    evidence = [{"text": "Equator", "evidence": "The Equator divides the Earth into the Northern and Southern Hemispheres."}]
+    wrong_letter = _q("Q6", stem, {"source": "grounded", "correctOption": "C", "points": evidence},
+                      type="mcq", options=opts)
+    assert [r["reason"] for r in tb.build(_tb([wrong_letter]), CHAPTER).refused] == ["answer-not-in-quote"]
+    right = _q("Q6", stem, {"source": "grounded", "correctOption": "B", "points": evidence}, type="mcq", options=opts)
+    assert len(tb.build(_tb([right]), CHAPTER).records) == 1

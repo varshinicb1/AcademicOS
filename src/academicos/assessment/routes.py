@@ -588,6 +588,13 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(r
     pool = get_pool(cfg, subject=request.subject, grade=grade_roman)
     all_pool_questions = [to_question_schema(c) for c in usable(pool.questions, current.school_id)]
     by_id = {q.id: q for q in all_pool_questions}
+    # A hand-picked question the school's reviewers rejected is refused by
+    # name, as homework does, never dropped from the paper without a word.
+    known = {q.id for q in pool.questions}
+    refused = [qid for qid in request.question_ids if qid in known and qid not in by_id]
+    if refused:
+        raise HTTPException(422, "your school's reviewers rejected the answer to "
+                                 + ", ".join(refused[:5]) + "; choose another question")
     found_questions: list[QuestionSchema] = [by_id[qid] for qid in request.question_ids if qid in by_id]
 
     if not found_questions:

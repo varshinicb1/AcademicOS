@@ -38,7 +38,7 @@ def name_key(name: str) -> str:
     # Letters, digits and combining marks of any script: an ASCII-only key made
     # every Devanagari name "", so all Hindi chapters were one chapter and any
     # unknown tag found a "twin" among them (review of #54).
-    return "".join(ch for ch in name.lower() if unicodedata.category(ch)[0] in "LMN")
+    return "".join(ch for ch in unicodedata.normalize("NFC", name).lower() if unicodedata.category(ch)[0] in "LMN")
 
 
 @dataclass(frozen=True)

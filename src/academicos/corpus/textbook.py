@@ -135,6 +135,12 @@ def refusal(q: dict, book: BookText, second: Optional[dict[str, str]]) -> Option
             return "no-answer"
         if not all(_evidence_ok(book, p.get("evidence")) for p in points):
             return "evidence-not-found"
+        if not all(_supported(p.get("text"), p.get("evidence")) for p in points):
+            return "answer-not-in-quote"
+        if q.get("type") == "mcq":
+            chosen = (q.get("options") or {}).get(a.get("correctOption"))
+            if not _supported(chosen, " ".join(str(p.get("evidence") or "") for p in points)):
+                return "answer-not-in-quote"
         return None
     if src == "solved":
         if not str(a.get("finalAnswer") or "").strip() and a.get("correctOption") is None:
@@ -157,8 +163,37 @@ def refusal(q: dict, book: BookText, second: Optional[dict[str, str]]) -> Option
         quotes = [e for e in quotes if str(e or "").strip()]
         if not quotes or not all(_evidence_ok(book, e) for e in quotes):
             return "evidence-not-found"
+        # The answer served must be the one the quote prints: a point in its own
+        # quote; a final answer, or the chosen option's text, in the answer's quote.
+        for p in a.get("points") or []:
+            if p.get("evidence") and not _supported(p.get("text"), p.get("evidence")):
+                return "answer-not-in-quote"
+        whole = a.get("evidence") or " ".join(str(p.get("evidence") or "") for p in a.get("points") or [])
+        if q.get("type") == "mcq":
+            chosen = (q.get("options") or {}).get(a.get("correctOption"))
+            if not _supported(chosen, whole):
+                return "answer-not-in-quote"
+        elif a.get("finalAnswer") and not _supported(a.get("finalAnswer"), whole):
+            return "answer-not-in-quote"
         return None
     return "no-answer"
+
+
+def _supported(answer: Any, quote: Any) -> bool:
+    """True when the quote states `answer`: its numbers all appear in the quote,
+    and it is in the quote whole or three in four of its words are (a point may
+    shorten the sentence it quotes, never change it). Review of #54: a verified
+    quote beside an unrelated answer served the answer at the published tier."""
+    text, where = _norm(answer), _norm(quote)
+    if not text or not where:
+        return False
+    if not numbers(answer, signed=True) <= numbers(quote, signed=True):
+        return False
+    if text in where:
+        return True
+    words = [w for w in text.split() if len(w) > 2 or not w.isascii()]
+    have = set(where.split())
+    return bool(words) and sum(w in have for w in words) / len(words) >= 0.75
 
 
 BLOOMS = ("remember", "understand", "apply", "analyze", "evaluate", "create")
