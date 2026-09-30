@@ -133,13 +133,17 @@ def decide_review(assessment_id: str, req: ReviewDecision, current: User = Depen
     notify_safely(school_id=current.school_id, user_ids=[a.teacher_id], kind="paper_review_decided",
                   params={"title": a.title, "reviewer": current.name,
                           "decision": "approved it for the principal" if state == "approved" else "asked for changes",
+                          "decision_hi": ("प्रधानाचार्य के लिए स्वीकृत किया" if state == "approved"
+                                          else "बदलाव माँगे"),
                           "comment": r["comment"] or ""},
                   link=f"/assessments/{a.id}", dedupe_key=f"reviewed:{r['id']}")
     if state == "approved":
         principals = [u.id for u in cr._require_users().users_for_school(current.school_id, role="principal")]
         notify_safely(school_id=current.school_id, user_ids=principals, kind="principal_alert",
                       params={"title": f"Paper ready to approve: {a.title}",
-                              "body": f"{current.name} reviewed it and approved it for you."},
+                              "body": f"{current.name} reviewed it and approved it for you.",
+                              "title_hi": f"स्वीकृति हेतु प्रश्नपत्र तैयार: {a.title}",
+                              "body_hi": f"{current.name} ने इसकी समीक्षा कर आपके लिए स्वीकृत किया है।"},
                       link=f"/assessments/{a.id}", dedupe_key=f"ready:{r['id']}")
     return _out(r, a.title)
 

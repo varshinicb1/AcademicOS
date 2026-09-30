@@ -267,8 +267,11 @@ cares about the `ACADEMICOS_API` value baked in at build time.
    30 s, so allow that long after a fix. `blob_backend` must read `"gcs"`;
    `"local"` means `ACOS_GCS_BUCKET` is missing and scan photos/PDFs and the
    curriculum snapshot are going to container disk, which Cloud Run discards.
-   `blob_status` must show `curriculum_snapshot_conflict: false` and zero
-   `*_upload_failures`; check it again after every rollout (below).
+   `blob_status` must show `curriculum_snapshot_conflict: false`,
+   `operations_snapshot_conflict: false` and zero `*_upload_failures`; check
+   it again after every rollout (below). `operations_snapshot_last_saved_at`
+   older than `operations_snapshot_upload_failure_at` means the operations
+   store (homework, marks, exams, notifications, parent links) is not saving.
 4. Rebuild the web app with the new `ACADEMICOS_API` and deploy it.
 5. End-to-end, against the Cloud Run URL:
    - register the school's first principal (`schoolId` + the bootstrap

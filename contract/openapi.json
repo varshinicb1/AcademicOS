@@ -25906,7 +25906,7 @@
     },
     "/api/v1/exams/{exam_id}/datesheet": {
       "put": {
-        "description": "Replace the whole datesheet. Every clash (two papers for a class on a\nday, a holiday, a date outside the exam) is reported at once; the old\ndatesheet and its roster are kept on any problem, and dropped with it\notherwise (the roster is per paper).",
+        "description": "Replace the whole datesheet. Every clash (two papers for a class on a\nday, a holiday, a date outside the exam) is reported at once, and the old\ndatesheet and its roster are kept on any problem. Otherwise a paper sent\nagain unchanged keeps its invigilators; a removed or re-timed paper loses\nits duties. After publishing, the classes whose papers changed and the\ninvigilators whose duties changed are told.",
         "operationId": "set_datesheet_api_v1_exams__exam_id__datesheet_put",
         "parameters": [
           {
@@ -26060,7 +26060,7 @@
     },
     "/api/v1/exams/{exam_id}/publish": {
       "post": {
-        "description": "Publish: students of the exam's classes get their datesheet, each\ninvigilator their duties.",
+        "description": "Publish: students of the exam's classes get their datesheet, each\ninvigilator their duties. Publishing again tells only an invigilator\nwhose duties changed since they were last told.",
         "operationId": "publish_api_v1_exams__exam_id__publish_post",
         "parameters": [
           {

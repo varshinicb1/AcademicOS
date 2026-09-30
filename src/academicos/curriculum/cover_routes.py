@@ -319,7 +319,8 @@ def decide_leave(leave_id: str, req: LeaveDecisionRequest,
     _audit("leave_decided", principal, {"leaveId": leave_id, "before": "pending", "after": leave.status,
                                         "substitutions": len(subs)})
     _notify(school_id=principal.school_id, user_ids=[leave.teacher_id], kind="leave_decided",
-            params={"decision": leave.status, "start": leave.start_date, "end": leave.end_date},
+            params={"decision": leave.status, "start": leave.start_date, "end": leave.end_date,
+                    "decision_hi": "स्वीकृत" if leave.status == "approved" else "अस्वीकृत"},
             link="/leave", dedupe_key=f"leave:{leave.id}:{leave.status}")
     for s in subs:
         _notify_proposed(s)

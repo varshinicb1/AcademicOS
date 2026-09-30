@@ -2114,9 +2114,13 @@ class CurriculumStore(SchoolModelMixin, CoverMixin, SchoolProfileMixin):
     # ---------------- management reporting & variance (§17, §32) ----------------
 
     def get_coverage_report(self, *, school_id: str, academic_year_id: str,
-                            as_of_date: Optional[str] = None) -> dict[str, Any]:
+                            as_of_date: Optional[str] = None, from_date: Optional[str] = None,
+                            to_date: Optional[str] = None) -> dict[str, Any]:
         """Planned vs. actually-taught coverage, variance, and completion %
         aggregated by Subject and Chapter for school management (§17, §32).
+
+        `from_date`/`to_date` keep only the lessons dated in that span -- one
+        term's syllabus (the term report, N-67-6) rather than the year's.
 
         Only the subject's chosen edition counts (PRD 12.7). The review of
         fc279a4 ran this against a subject with an old and a new edition and
@@ -2148,6 +2152,7 @@ class CurriculumStore(SchoolModelMixin, CoverMixin, SchoolProfileMixin):
             JOIN subjects s ON b.subject_id = s.id
             JOIN grades g ON s.grade_id = g.id
             WHERE l.school_id = ? AND l.academic_year_id = ?
+              AND (? IS NULL OR l.date >= ?) AND (? IS NULL OR l.date <= ?)
               AND (l.book_id = (SELECT sel.book_id FROM book_selections sel
                                  WHERE sel.academic_year_id = l.academic_year_id
                                    AND sel.subject_id = s.id)
@@ -2156,7 +2161,7 @@ class CurriculumStore(SchoolModelMixin, CoverMixin, SchoolProfileMixin):
                                      AND sel.subject_id = s.id))
             ORDER BY g.number, s.name, ch.name, l.date
             """,
-            (school_id, academic_year_id),
+            (school_id, academic_year_id, from_date, from_date, to_date, to_date),
         )
 
         assignment_rows = self._fetchall(

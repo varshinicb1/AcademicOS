@@ -71,6 +71,29 @@ def notify_safely(**kw: Any) -> list:
         return []
 
 
+def notify_parents_safely(*, school_id: str, student_ids, kind: str, params: dict[str, Any],
+                          dedupe_key: Optional[str] = None, exclude=()) -> list[str]:
+    """N-8-7: the linked parents of these students hear the same school
+    notice (a holiday, a published or changed exam, a timetable change),
+    under their own settings -- per-kind channels, quiet hours, language and
+    digest, as every notice. Scoped to the school's own active links; the
+    link is to the parent's children page, since /my-exams and /my-timetable
+    are a student's. Like notify_safely it never breaks the action. Returns
+    the parents it addressed."""
+    if _cfg is None or not student_ids:
+        return []
+    skip = set(exclude)
+    try:
+        parents = [p for p in store().parents_of(student_ids, school_id=school_id) if p not in skip]
+    except Exception:  # noqa: BLE001
+        logger.warning("could not find the parents of %d students for %s", len(student_ids), kind, exc_info=True)
+        return []
+    if parents:
+        notify_safely(school_id=school_id, user_ids=parents, kind=kind, params=params, link="/my-children",
+                      dedupe_key=dedupe_key)
+    return parents
+
+
 class _Req(Camel):
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, extra="forbid")
 

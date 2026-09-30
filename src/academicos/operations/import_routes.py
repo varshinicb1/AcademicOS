@@ -386,9 +386,10 @@ def _plan_holidays(ctx: _Ctx, line: int, r: dict) -> _Row:
             or ("holiday", start, name.lower()) in ctx.planned:
         return _Row(line, "skip", f"{name} on {start} is already on the calendar")
     ctx.planned.add(("holiday", start, name.lower()))
+    # The holiday route's own path: lessons on the days move, and who is affected hears (N-8-6).
     return _Row(line, "ok", f"{name}: {start}" + (f" to {end}" if end else ""),
-                lambda: ctx.cs.add_holiday(calendar_id=cal.id, date=start, label=name, kind=kind,
-                                           end_date=end) and None)
+                lambda: cr.declare_holiday(ctx.cs, ctx.year, cal, date=start, label=name, kind=kind,
+                                           end_date=end, principal=ctx.principal) and None)
 
 
 PLANNERS = {"sections": _plan_sections, "teachers": _plan_teachers, "students": _plan_students,

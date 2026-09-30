@@ -78,6 +78,15 @@ CREATE TABLE IF NOT EXISTS device_tokens (
   last_seen  TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_device_user ON device_tokens(user_id);
+
+-- N-8-10: how many sends in a row the push provider refused because the
+-- token is dead (unregistered or not valid). Its own table, not a column,
+-- so a restored older snapshot needs no migration.
+CREATE TABLE IF NOT EXISTS device_token_failures (
+  token      TEXT PRIMARY KEY,
+  failures   INTEGER NOT NULL,
+  last_error TEXT
+);
 """ + MESSAGING_SCHEMA
 
 CHANNELS = ("push", "email")
@@ -143,8 +152,11 @@ CATALOGUE: dict[str, Kind] = {k.key: k for k in (
          ("Review of {title}", "{reviewer} {decision}. {comment}"),
          ("{title} की समीक्षा", "{reviewer}: {decision}। {comment}")),
     Kind("exam_scheduled", "An exam datesheet", True, False,
-         ("Datesheet: {exam}", "{exam} starts {start}. Your papers are in the app."),
-         ("डेटशीट: {exam}", "{exam} {start} से शुरू। आपके प्रश्नपत्र ऐप में हैं।")),
+         ("Datesheet: {exam}", "{exam} starts {start}. The datesheet is in the app."),
+         ("डेटशीट: {exam}", "{exam} {start} से शुरू। डेटशीट ऐप में है।")),
+    Kind("exam_changed", "A change to a published datesheet", True, False,
+         ("Datesheet changed: {exam}", "{changes}. Check the datesheet in the app."),
+         ("डेटशीट बदली: {exam}", "{changes}। डेटशीट ऐप में देखें।")),
     Kind("invigilation_duty", "Your invigilation duties", True, True,
          ("Invigilation: {exam}", "You have {count} invigilation duties in {exam}."),
          ("निरीक्षण ड्यूटी: {exam}", "{exam} में आपकी {count} निरीक्षण ड्यूटी हैं।")),
@@ -171,9 +183,14 @@ class _SafeDict(dict):
 
 
 def render(kind: str, params: dict[str, Any], language: str = "en") -> tuple[str, str]:
+    """A parameter built from words, not data ("tomorrow", an alert's
+    sentence) is sent twice: `key` in English and `key_hi` in Hindi. A Hindi
+    reader gets `key_hi` wherever the template says `{key}` (N-8-4)."""
     k = CATALOGUE[kind]
     title, body = k.hi if language == "hi" else k.en
     p = _SafeDict({key: str(v) for key, v in params.items()})
+    if language == "hi":
+        p.update({key[:-3]: str(v) for key, v in params.items() if key.endswith("_hi")})
     return title.format_map(p), body.format_map(p)
 
 
@@ -189,21 +206,34 @@ def in_quiet_hours(now_ist: datetime, start: str, end: str) -> bool:
 
 # ---------------- channel senders ----------------
 
-def send_push(tokens: list[str], title: str, body: str, data: dict[str, str]) -> tuple[str, Optional[str]]:
+def token_is_dead(status_code: int, text: str) -> bool:
+    """FCM's answer for a token that will never work again: UNREGISTERED (the
+    app was uninstalled or the token rotated), or a 400 naming the
+    registration token as not valid. Anything else -- a 5xx, a quota, an auth
+    failure, a wrong project (a bare 404, SENDER_ID_MISMATCH) -- is transient
+    or a configuration fault, says nothing about the token, and must never
+    get every device deleted."""
+    t = (text or "").upper()
+    return "UNREGISTERED" in t or (status_code == 400 and "REGISTRATION TOKEN" in t)
+
+
+def send_push(tokens: list[str], title: str, body: str, data: dict[str, str]) -> tuple:
     """FCM HTTP v1 through the service account's credentials. ('skipped',
-    reason) when push is not set up; ('failed', error) when FCM refused."""
+    reason) when push is not set up; ('failed', error) when FCM refused.
+    A third element lists the tokens FCM called dead (token_is_dead); callers
+    that unpack two values may ignore it."""
     if not tokens:
-        return "skipped", "no device registered"
+        return "skipped", "no device registered", []
     project = os.environ.get("ACOS_FCM_PROJECT") or os.environ.get("GOOGLE_CLOUD_PROJECT")
     if not project:
-        return "skipped", "push is not configured (ACOS_FCM_PROJECT)"
+        return "skipped", "push is not configured (ACOS_FCM_PROJECT)", []
     try:
         import google.auth
         import google.auth.transport.requests
         import requests
         creds, _ = google.auth.default(scopes=["https://www.googleapis.com/auth/firebase.messaging"])
         creds.refresh(google.auth.transport.requests.Request())
-        errors = []
+        errors, dead = [], []
         for token in tokens:
             r = requests.post(f"https://fcm.googleapis.com/v1/projects/{project}/messages:send",
                               headers={"Authorization": f"Bearer {creds.token}"},
@@ -211,11 +241,13 @@ def send_push(tokens: list[str], title: str, body: str, data: dict[str, str]) ->
                                                 "data": {k: str(v) for k, v in data.items()}}}, timeout=10)
             if r.status_code >= 300:
                 errors.append(f"{r.status_code} {r.text[:120]}")
+                if token_is_dead(r.status_code, r.text):
+                    dead.append(token)
         if errors and len(errors) == len(tokens):
-            return "failed", "; ".join(errors)[:300]
-        return "sent", None
+            return "failed", "; ".join(errors)[:300], dead
+        return "sent", None, dead
     except Exception as exc:  # noqa: BLE001 - recorded on the item, retried
-        return "failed", str(exc)[:300]
+        return "failed", str(exc)[:300], []
 
 
 def send_email(address: Optional[str], title: str, body: str) -> tuple[str, Optional[str]]:
@@ -347,6 +379,25 @@ class NotificationsMixin(MessagingMixin):
     def devices_for(self, user_id: str) -> list[str]:
         return [r["token"] for r in self._fetchall("SELECT token FROM device_tokens WHERE user_id=?", (user_id,))]
 
+    def _note_dead_tokens(self, tokens: list[str], dead: list[str], status: str, err: Optional[str]) -> None:
+        """N-8-10: a token the push provider has called dead MAX_ATTEMPTS
+        sends in a row is removed, so later notifications to that person stop
+        failing on it. A transient failure neither counts nor clears; a send
+        that went through clears the tokens that were not called dead."""
+        with self._conn_lock:
+            for token in dead:
+                self.conn.execute("INSERT INTO device_token_failures (token, failures, last_error) VALUES (?,1,?) "
+                                  "ON CONFLICT(token) DO UPDATE SET failures=failures+1, last_error=excluded.last_error",
+                                  (token, (err or "")[:300]))
+                r = self.conn.execute("SELECT failures FROM device_token_failures WHERE token=?", (token,)).fetchone()
+                if r and r["failures"] >= MAX_ATTEMPTS:
+                    self.conn.execute("DELETE FROM device_tokens WHERE token=?", (token,))
+                    self.conn.execute("DELETE FROM device_token_failures WHERE token=?", (token,))
+                    logger.info("removed a push token FCM called dead %d times: %s", MAX_ATTEMPTS, err)
+            if status == "sent":
+                self.conn.executemany("DELETE FROM device_token_failures WHERE token=?",
+                                      [(t,) for t in tokens if t not in dead])
+
     # ---------------- notify and deliver ----------------
 
     def notify(self, *, school_id: str, user_ids: list[str], kind: str, params: dict[str, Any],
@@ -433,8 +484,10 @@ class NotificationsMixin(MessagingMixin):
                 continue
             updates, errors = {}, []
             if n.push_status in ("pending", "deferred", "failed"):
-                status, err = send_push(self.devices_for(n.user_id), n.title, n.body,
-                                        {"kind": n.kind, "link": n.link or "", "id": n.id})
+                tokens = self.devices_for(n.user_id)
+                status, err, *dead = send_push(tokens, n.title, n.body,
+                                               {"kind": n.kind, "link": n.link or "", "id": n.id})
+                self._note_dead_tokens(tokens, dead[0] if dead else [], status, err)
                 updates["push_status"] = status
                 if err:
                     errors.append(f"push: {err}")
