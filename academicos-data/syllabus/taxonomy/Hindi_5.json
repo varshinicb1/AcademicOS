@@ -1,0 +1,105 @@
+{
+  "subject": "Hindi",
+  "grade": 5,
+  "book": "Veena",
+  "source_files": [
+    "chapters_text/ehve1/01.txt",
+    "chapters_text/ehve1/02.txt",
+    "chapters_text/ehve1/04.txt"
+  ],
+  "chapters": [
+    {
+      "id": "hindi-5/किरन",
+      "name": "किरन",
+      "number": 1,
+      "book": "Veena",
+      "source_file": "chapters_text/ehve1/01.txt",
+      "pages": [
+        1,
+        7
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "hindi-5/किरन/किरन",
+          "name": "किरन",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-5/किरन/इसे-भी-जानिए",
+          "name": "इसे भी जानिए",
+          "page": 4,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-5/किरन/पेड़-का-जादू",
+          "name": "पेड़ का जादू",
+          "page": 5,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "hindi-5/न्याय-की-कुर्सी",
+      "name": "न्याय की कुर्सी",
+      "number": 2,
+      "book": "Veena",
+      "source_file": "chapters_text/ehve1/02.txt",
+      "pages": [
+        1,
+        14
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "hindi-5/न्याय-की-कुर्सी/लड़कों-का-खेल-और-न्याय",
+          "name": "लड़कों का खेल और न्याय",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-5/न्याय-की-कुर्सी/राजा-का-दरबार-और-सिंहासन-की-खोज",
+          "name": "राजा का दरबार और सिंहासन की खोज",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-5/न्याय-की-कुर्सी/राजा-और-मूर्तियाँ",
+          "name": "राजा और मूर्तियाँ",
+          "page": 3,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "hindi-5/साङकेन",
+      "name": "साङकेन",
+      "number": 4,
+      "book": "Veena",
+      "source_file": "chapters_text/ehve1/04.txt",
+      "pages": [
+        1,
+        13
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "hindi-5/साङकेन/साङकेन",
+          "name": "साङकेन",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-5/साङकेन/होली-आई-होली-आई",
+          "name": "होली आई, होली आई",
+          "page": 8,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}

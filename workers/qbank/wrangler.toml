@@ -1,0 +1,26 @@
+name = "qbank"
+main = "src/index.ts"
+compatibility_date = "2025-09-01"
+# Before any [[table]] header: in TOML a bare key after a table header belongs to
+# that table, so putting this last had wrangler read it as a KV namespace field.
+workers_dev = true
+
+# The AI binding calls Workers AI with the account's own credentials, so nothing
+# here needs an API token and nothing expires. An API token lifted out of ~/.wrangler
+# lasts about an hour and then 401s, which is not something a request path can
+# depend on.
+[ai]
+binding = "AI"
+
+# Chapter text, book metadata, the CBSE formats and the questions already held.
+# The same bucket the batch seeder writes to, so the two paths share one corpus.
+[[r2_buckets]]
+binding = "BANK"
+bucket_name = "academicos-qgen"
+
+[[kv_namespaces]]
+binding = "STATE"
+id = "2170c3437be1471ea9e0c5fc7f016fe3"
+
+# No cron. Nothing is generated until a request asks for it, which is the whole
+# point: cost follows use instead of a rationed daily batch.

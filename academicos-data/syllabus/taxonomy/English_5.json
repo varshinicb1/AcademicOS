@@ -1,0 +1,105 @@
+{
+  "subject": "English",
+  "grade": 5,
+  "book": "Santoor",
+  "source_files": [
+    "chapters_text/eesa1/01.txt",
+    "chapters_text/eesa1/02.txt",
+    "chapters_text/eesa1/04.txt"
+  ],
+  "chapters": [
+    {
+      "id": "english-5/papa-s-spectacles",
+      "name": "Papa’s Spectacles",
+      "number": 1,
+      "book": "Santoor",
+      "source_file": "chapters_text/eesa1/01.txt",
+      "pages": [
+        1,
+        10
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "english-5/papa-s-spectacles/papa-s-spectacles",
+          "name": "Papa’s Spectacles",
+          "page": 1,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "english-5/gone-with-the-scooter",
+      "name": "Gone with the Scooter",
+      "number": 2,
+      "book": "Santoor",
+      "source_file": "chapters_text/eesa1/02.txt",
+      "pages": [
+        1,
+        16
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "english-5/gone-with-the-scooter/finding-the-ball-in-the-garden",
+          "name": "Finding the Ball in the Garden",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "english-5/gone-with-the-scooter/asking-friends-at-the-playground",
+          "name": "Asking Friends at the Playground",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "english-5/gone-with-the-scooter/the-hockey-match-and-the-passing-scooter",
+          "name": "The Hockey Match and the Passing Scooter",
+          "page": 3,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "english-5/the-wise-parrot",
+      "name": "The Wise Parrot",
+      "number": 4,
+      "book": "Santoor",
+      "source_file": "chapters_text/eesa1/04.txt",
+      "pages": [
+        1,
+        14
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "english-5/the-wise-parrot/the-wise-parrot",
+          "name": "The Wise Parrot",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "english-5/the-wise-parrot/let-us-learn",
+          "name": "Let us Learn",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "english-5/the-wise-parrot/let-us-listen",
+          "name": "Let us Listen",
+          "page": 8,
+          "subtopics": []
+        },
+        {
+          "id": "english-5/the-wise-parrot/let-us-do",
+          "name": "Let us Do",
+          "page": 8,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}

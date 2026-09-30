@@ -1,0 +1,475 @@
+{
+  "subject": "English",
+  "grade": 1,
+  "book": "Mridang",
+  "source_files": [
+    "chapters_text/aemr1/01.txt",
+    "chapters_text/aemr1/02.txt",
+    "chapters_text/aemr1/03.txt",
+    "chapters_text/aemr1/04.txt",
+    "chapters_text/aemr1/05.txt",
+    "chapters_text/aemr1/06.txt",
+    "chapters_text/aemr1/07.txt"
+  ],
+  "chapters": [
+    {
+      "id": "english-1/two-little-hands",
+      "name": "Two Little Hands",
+      "number": 1,
+      "book": "Mridang",
+      "source_file": "chapters_text/aemr1/01.txt",
+      "pages": [
+        1,
+        14
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "english-1/two-little-hands/two-little-hands",
+          "name": "Two Little Hands",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/two-little-hands/parts-of-the-body",
+          "name": "Parts of the Body",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/two-little-hands/let-us-speak",
+          "name": "Let us speak",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/two-little-hands/match-the-parts-of-the-body-with-their-pictures",
+          "name": "Match the parts of the body with their pictures",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/two-little-hands/let-us-read",
+          "name": "Let us read",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/two-little-hands/my-hand",
+          "name": "My Hand",
+          "page": 7,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/two-little-hands/washing-hands",
+          "name": "Washing Hands",
+          "page": 8,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/two-little-hands/alphabet-song",
+          "name": "Alphabet song",
+          "page": 9,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/two-little-hands/letter-sounds",
+          "name": "Letter sounds",
+          "page": 10,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "english-1/greetings",
+      "name": "Greetings",
+      "number": 2,
+      "book": "Mridang",
+      "source_file": "chapters_text/aemr1/02.txt",
+      "pages": [
+        1,
+        32
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "english-1/greetings/greetings-let-us-read",
+          "name": "Greetings (Let us read)",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/action-words-let-us-write",
+          "name": "Action words (Let us write)",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/writing-letters-i-p-let-us-write",
+          "name": "Writing letters I–P (Let us write)",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/letter-sounds-f-g-h-i-j-let-us-speak",
+          "name": "Letter sounds f, g, h, i, j (Let us speak)",
+          "page": 4,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/say-aloud-and-encircle-h-g-j-f",
+          "name": "Say aloud and encircle (h, g, j, f)",
+          "page": 4,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/hop-a-little-let-us-sing",
+          "name": "Hop a Little (Let us sing)",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/picture-talk-games",
+          "name": "Picture Talk (games)",
+          "page": 8,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/match-the-actions-with-the-pictures",
+          "name": "Match the actions with the pictures",
+          "page": 9,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/hopscotch-let-us-play",
+          "name": "Hopscotch (Let us play)",
+          "page": 10,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/writing-words-and-missing-letters-let-us-write",
+          "name": "Writing words and missing letters (Let us write)",
+          "page": 12,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/letter-sounds-k-l-m-n-o-let-us-speak",
+          "name": "Letter sounds k, l, m, n, o (Let us speak)",
+          "page": 14,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/play-time",
+          "name": "Play time",
+          "page": 15,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/letter-sounds-p-q-r-s-t-let-us-speak",
+          "name": "Letter sounds p, q, r, s, t (Let us speak)",
+          "page": 17,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/play-time-mirror-and-starting-sounds",
+          "name": "Play time (mirror and starting sounds)",
+          "page": 18,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/picture-talk-family",
+          "name": "Picture Talk (family)",
+          "page": 18,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/my-family-let-us-sing",
+          "name": "My Family (Let us sing)",
+          "page": 20,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/the-sparrow-family-let-us-read",
+          "name": "The Sparrow Family (Let us read)",
+          "page": 22,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/family-questions-and-members-let-us-speak",
+          "name": "Family questions and members (Let us speak)",
+          "page": 24,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/drawing-my-family-let-us-draw",
+          "name": "Drawing my family (Let us draw)",
+          "page": 25,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/sounds-f-and-m-let-us-do",
+          "name": "Sounds f and m (Let us do)",
+          "page": 25,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/picture-talk-bathroom",
+          "name": "Picture talk (bathroom)",
+          "page": 26,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/letter-sounds-u-v-w-x-y-z-let-us-speak",
+          "name": "Letter sounds u, v, w, x, y, z (Let us speak)",
+          "page": 28,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/colour-the-pictures-and-the-letters",
+          "name": "Colour the pictures and the letters",
+          "page": 28,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/greetings/alphabet-song-and-puppets-let-us-do",
+          "name": "Alphabet song and puppets (Let us do)",
+          "page": 29,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "english-1/picture-time",
+      "name": "Picture Time",
+      "number": 3,
+      "book": "Mridang",
+      "source_file": "chapters_text/aemr1/03.txt",
+      "pages": [
+        1,
+        7
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "english-1/picture-time/picture-time",
+          "name": "Picture Time",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/picture-time/fun-with-numbers",
+          "name": "Fun with Numbers",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/picture-time/let-us-speak-and-let-us-draw",
+          "name": "Let us speak and Let us draw",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/picture-time/five-little-monkeys",
+          "name": "Five Little Monkeys",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/picture-time/let-us-do",
+          "name": "Let us do",
+          "page": 5,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "english-1/the-cap-seller-and-the-monkeys",
+      "name": "The Cap-seller and the Monkeys",
+      "number": 4,
+      "book": "Mridang",
+      "source_file": "chapters_text/aemr1/04.txt",
+      "pages": [
+        1,
+        21
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "english-1/the-cap-seller-and-the-monkeys/the-cap-seller-and-the-monkeys",
+          "name": "The Cap-seller and the Monkeys",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/the-cap-seller-and-the-monkeys/butterflies",
+          "name": "Butterflies",
+          "page": 8,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/the-cap-seller-and-the-monkeys/catch-me-if-you-can",
+          "name": "Catch me if you can",
+          "page": 14,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "english-1/a-farm",
+      "name": "A Farm",
+      "number": 5,
+      "book": "Mridang",
+      "source_file": "chapters_text/aemr1/05.txt",
+      "pages": [
+        1,
+        9
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "english-1/a-farm/a-farm",
+          "name": "A Farm",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/a-farm/let-us-do",
+          "name": "Let us do",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/a-farm/animals-and-birds",
+          "name": "Animals and Birds",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/a-farm/let-us-speak",
+          "name": "Let us speak",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/a-farm/fun-time",
+          "name": "Fun time",
+          "page": 8,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "english-1/fun-with-pictures",
+      "name": "Fun with Pictures",
+      "number": 6,
+      "book": "Mridang",
+      "source_file": "chapters_text/aemr1/06.txt",
+      "pages": [
+        1,
+        14
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "english-1/fun-with-pictures/fun-with-pictures",
+          "name": "Fun with Pictures",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/fun-with-pictures/fruits-for-all",
+          "name": "Fruits for all",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/fun-with-pictures/let-us-do",
+          "name": "Let us do",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/fun-with-pictures/a-visit-to-the-market",
+          "name": "A Visit to the Market",
+          "page": 4,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/fun-with-pictures/let-us-draw",
+          "name": "Let us draw",
+          "page": 10,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/fun-with-pictures/let-us-write",
+          "name": "Let us write",
+          "page": 10,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "english-1/the-food-we-eat",
+      "name": "The Food we Eat",
+      "number": 7,
+      "book": "Mridang",
+      "source_file": "chapters_text/aemr1/07.txt",
+      "pages": [
+        1,
+        8
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "english-1/the-food-we-eat/the-food-we-eat",
+          "name": "The Food we Eat",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/the-food-we-eat/answer-the-questions",
+          "name": "Answer the questions",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/the-food-we-eat/let-us-read",
+          "name": "Let us read",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/the-food-we-eat/let-us-speak",
+          "name": "Let us speak",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/the-food-we-eat/let-us-do",
+          "name": "Let us do",
+          "page": 4,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/the-food-we-eat/fun-with-words",
+          "name": "Fun with Words",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "english-1/the-food-we-eat/riddles",
+          "name": "Riddles",
+          "page": 7,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}
