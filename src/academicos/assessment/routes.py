@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 import time
 import uuid
 from datetime import datetime, timezone
@@ -817,6 +818,14 @@ def get_paper(paper_id: str, current: User = Depends(require_staff)) -> Generate
     return require_school_owns_paper(_require_papers(), store, paper_id, current)
 
 
+_SERVER_PATH = re.compile(r"(?:[A-Za-z]:)?(?:[\\/]+[^\\/\s'\"\]]+){2,}")
+
+
+def _render_cause(exc: Exception) -> str:
+    """The renderer's reason, for the teacher, without this server's file
+    paths (a broken logo's message named the container's data directory)."""
+    return _SERVER_PATH.sub("<file>", str(exc)).strip() or type(exc).__name__
+
 @router.post("/papers/{paper_id}/export/{fmt}")
 def export_paper(paper_id: str, fmt: str, current: User = Depends(require_staff)) -> dict:
     cfg, store = _require()
@@ -856,7 +865,7 @@ def export_paper(paper_id: str, fmt: str, current: User = Depends(require_staff)
                                                     watermark_id=watermark_id)
         except Exception as exc:
             log.exception("answer key for paper %s failed to render", paper_id)
-            raise HTTPException(422, f"this answer key could not be rendered: {exc}") from exc
+            raise HTTPException(422, f"this answer key could not be rendered: {_render_cause(exc)}") from exc
         get_audit_log(cfg.data_root).append(
             "answer_key_exported", assessment_id=paper.assessment_id, actor=current.id,
             details={"paperId": paper_id, "format": fmt, "file": path.name, "watermarkId": watermark_id},
@@ -870,7 +879,7 @@ def export_paper(paper_id: str, fmt: str, current: User = Depends(require_staff)
             path = pdf_export.export_pdf(paper, out_dir, template=template, watermark_id=watermark_id)
     except Exception as exc:
         log.exception("paper %s failed to render", paper_id)
-        raise HTTPException(422, f"this paper could not be rendered: {exc}") from exc
+        raise HTTPException(422, f"this paper could not be rendered: {_render_cause(exc)}") from exc
     get_audit_log(cfg.data_root).append(
         "paper_exported", assessment_id=paper.assessment_id, actor=current.id,
         details={"paperId": paper_id, "format": fmt, "watermarkId": watermark_id},
@@ -1061,6 +1070,9 @@ def approve_assessment(assessment_id: str, principal: User = Depends(require_adm
         raise HTTPException(403, "this assessment belongs to a different school")
     if a.status == "principalApproved":
         return a
+    if a.teacher_id == principal.id and principal.role != "principal":
+        # An exams admin is a teacher too: their own paper needs someone else.
+        raise HTTPException(403, "you cannot approve your own paper; ask the principal")
     if a.status not in _EDITABLE_STATUSES:
         # Re-approving a printed or conducted paper would wind its lifecycle back.
         raise HTTPException(409, f"a {a.status} paper was approved already")

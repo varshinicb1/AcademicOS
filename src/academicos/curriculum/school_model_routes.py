@@ -818,6 +818,10 @@ async def upload_school_logo(file: UploadFile = File(...),
         raise HTTPException(422, "the image is empty")
     if not _looks_like(file.content_type, data):
         raise HTTPException(415, "that file is not the PNG or JPEG image it says it is")
+    from .school_profile import image_is_printable
+    if not image_is_printable(data):
+        raise HTTPException(422, "that image could not be read; open it, save it again as a PNG or JPEG, "
+                                 "and upload the new file")
     key = save_logo(cr._cfg.data_root, profile, file.content_type, data)
     after = store.set_school_logo(principal.school_id, logo_type=file.content_type, blob_key=key,
                                   updated_by=principal.id)

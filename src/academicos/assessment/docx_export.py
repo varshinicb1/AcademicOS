@@ -107,7 +107,10 @@ def _logo(template) -> Optional[_Logo]:
     18 mm box without stretching it. None when there is no logo, the file is
     not on this server, or it is not a PNG or JPEG image that can be read --
     the paper still prints, as the PDF does, without it."""
-    path = Path(template.logo_url) if template is not None and template.logo_url else None
+    from ..curriculum.school_profile import printable_logo
+    # A header-only read passed a logo whose data is broken, and Word showed a
+    # broken picture where the PDF printed none: both use the one full decode.
+    path = printable_logo(Path(template.logo_url) if template is not None and template.logo_url else None)
     if path is None or not path.is_file():
         return None
     data = path.read_bytes()

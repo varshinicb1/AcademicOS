@@ -1224,8 +1224,12 @@ def school_report(school_id: str, principal: User = Depends(require_admin("repor
     # graded store and the learner models hold every school's students.
     evidence: dict[tuple[str, int], insights_mod.ClassEvidence] = {}
     graded_papers = 0
+    from .marks_routes import chapters_by_student_from_marks
+    typed = chapters_by_student_from_marks(school_id)
     for a in _assessments.list_by_school(school_id):
         sheets = graded.chapters_by_student(a.id)
+        for sid, chapters in typed.get(a.id, {}).items():
+            sheets.setdefault(sid, set()).update(chapters)
         if not sheets:
             continue
         graded_papers += 1

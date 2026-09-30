@@ -407,6 +407,17 @@ def answer_key_entry(q: QuestionSchema) -> str:
     that says "all or nothing" when generated cannot lose that sentence
     because a teacher swapped it in."""
     model_ans = q.answer_scheme.model_answer or "(model answer pending)"
+    points = q.answer_scheme.marking_points or []
+    if len(points) == 1:
+        # One value point that carries the answer ("Correct option C: three
+        # decimal places" under "three decimal places") printed the answer
+        # twice on every such row of the key (E2E run, 2026-10-01): say it once,
+        # the longer wording, with its marks.
+        norm = lambda s: " ".join((s or "").split()).casefold()  # noqa: E731
+        a, d = norm(q.answer_scheme.model_answer), norm(points[0].description)
+        if a and d and (a in d or d in a):
+            once = points[0].description if len(d) >= len(a) else q.answer_scheme.model_answer
+            return (f"{once} [{points[0].marks}m]" + _key_note(q.answer_scheme, q.marks)).strip()
     if q.answer_scheme.marking_points:
         pts = [f"• {mp.description} [{mp.marks}m]" for mp in q.answer_scheme.marking_points]
         model_ans = f"{model_ans}\n" + "\n".join(pts)
