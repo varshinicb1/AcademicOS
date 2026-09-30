@@ -354,10 +354,10 @@ def test_the_served_bank_reads_as_the_builder_will_show_it(tmp_path, monkeypatch
 
         six = availability("preset:cbse:6:science:annual", [])
         assert six["competency"]["status"] == "below_bank"
-        assert six["competency"]["summary"] == "Competency-based: 9 of 36 questions (25%)"
+        assert six["competency"]["summary"] == "Competency-based: 10 of 36 questions (28%)"
         assert six["competency"]["detail"] == (
             "Below CBSE's 50%. The Class 6 Science bank cannot reach it with this template: "
-            "9 of the 240 questions it can use (4%) are competency-based.")
+            "12 of the 243 questions it can use (5%) are competency-based.")
 
         maths = availability("preset:cbse:10:mathematics:annual", [])
         assert maths["competency"]["status"] == "meets"

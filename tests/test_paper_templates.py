@@ -1099,6 +1099,82 @@ def test_availability_equals_generation_for_every_class_10_preset_on_the_real_ba
             assert body["complete"] == report["complete"], p.id
 
 
+def test_bank_shaped_presets_are_suggested_keep_their_totals_and_say_why():
+    """D85/D18: presets asking for shapes a class's bank does not hold, where
+    CBSE requires none, are written for what the bank holds -- labelled a
+    suggestion, with the reason in the source line. The class 9-10 term
+    papers keep the board design whatever the bank holds."""
+    by_key = {(p.grade, p.subject, p.exam_type): p for p in presets()}
+    shaped = [(g, "Mathematics", e) for g in (6, 7, 8) for e in PRESET_EXAM_TYPES] + \
+             [(g, "Science", e) for g in (9, 10) for e in ("unit_test", "periodic")] + \
+             [(6, "Science", e) for e in ("half_yearly", "annual")]
+    for key in shaped:
+        p = by_key[key]
+        assert p.pattern_status == "suggested", key
+        assert "not a CBSE rule" in p.source and f"Class {key[0]} {key[1]}" in p.source, key
+        assert p.total_marks == INTENDED_TOTAL[p.exam_type], key
+    for g in (6, 7, 8):
+        marks = {s.marks_each for e in PRESET_EXAM_TYPES
+                 for s in by_key[(g, "Mathematics", e)].sections}
+        assert not marks & {2, 5}, (g, marks)
+    for g in (9, 10):
+        for e in ("unit_test", "periodic"):
+            assert 2 not in {s.marks_each for s in by_key[(g, "Science", e)].sections}, (g, e)
+        for e in ("half_yearly", "annual"):
+            assert [(s.question_count, s.marks_each) for s in by_key[(g, "Science", e)].sections] \
+                == [(r[0], r[1]) for r in SQP_2024_25["Science"]], (g, e)
+    case = by_key[(6, "Science", "annual")].sections[-1]
+    assert (case.marks_each, case.competency_share, case.question_types) == (6, 1.0, ["case_study"])
+    # Classes and subjects the change does not concern keep their patterns.
+    assert [(s.question_count, s.marks_each) for s in by_key[(7, "Science", "annual")].sections] \
+        == [(16, 1), (8, 2), (8, 3), (4, 5), (1, 4)]
+    assert [(s.question_count, s.marks_each) for s in by_key[(9, "Mathematics", "unit_test")].sections] \
+        == [(6, 1), (4, 2), (2, 3)]
+
+
+@pytest.fixture(scope="module")
+def real_6_to_10_pools(tmp_path_factory):
+    from academicos.assessment import grades
+    from academicos.config import Config
+    cfg = Config(data_root=tmp_path_factory.mktemp("bank610"))
+    cfg._load_baked_questions = True
+    return {(s, grades.to_roman(g)): pool_mod.build_pool(cfg, subject=s, grade=grades.to_roman(g))
+            for s in ("Mathematics", "Science") for g in range(6, 11)}
+
+
+@needs_real_bank
+def test_mathematics_and_science_presets_reach_their_marks_on_the_real_bank(
+        tmp_path, monkeypatch, real_6_to_10_pools):
+    """D85/D18, through the builder's own calls (whole syllabus, three sets):
+    18 of these 40 presets reached their marks before; 36 do now. The four
+    that do not are class 9-10 Science half-yearly and annual, which keep the
+    board design: the bank has 2 and 1 keyed 2-mark questions for Section B's
+    six, and no 4-mark case-based question for Section E -- a bank gap, which
+    the paper names, never filled with anything else."""
+    for key, pool in real_6_to_10_pools.items():
+        monkeypatch.setitem(pool_mod._CACHE, key, pool)
+    short = {}
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        for subject in ("Mathematics", "Science"):
+            for grade in range(6, 11):
+                for p in presets(grade=grade, subject=subject):
+                    avail = client.post(f"{BASE}/{p.id}/availability", json={}, headers=t1).json()
+                    r = client.post(GEN, json={"templateId": p.id, "setCount": 3,
+                                               "allowGaps": not avail["complete"]}, headers=t1)
+                    assert r.status_code == 200, (p.id, r.text)
+                    body = r.json()
+                    got = body["paper"]["metadata"]["totalMarks"]
+                    assert body["complete"] == (got == p.total_marks), p.id
+                    assert {s["metadata"]["totalMarks"] for s in body["paper"]["sets"]} == {got}
+                    if got != p.total_marks:
+                        short[p.id] = sorted(g["title"] for g in body["gaps"])
+    assert short == {
+        f"preset:cbse:{g}:science:{e}": ["Section B - Very short answer",
+                                         "Section E - Source / case based"]
+        for g in (9, 10) for e in ("half_yearly", "annual")}
+
+
 @needs_real_bank
 def test_the_real_banks_competency_sections_warn_before_generating(real_class10_pools):
     """A section that asks for competency-based questions is never quietly

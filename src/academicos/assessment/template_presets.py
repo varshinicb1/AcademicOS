@@ -60,6 +60,11 @@ Where each pattern comes from -- said in each preset's `source` so a teacher
   school patterns, labelled as a suggestion, not a CBSE rule.
 * **Half-yearly, class 9-10** -- `suggested`: the board design applied to the
   half-yearly, which is what most CBSE schools do but not a CBSE rule.
+* **Mathematics 6-8, Science 9-10 unit and periodic tests, Science 6 term
+  papers** -- `suggested`, written for what the class's question bank holds
+  (`_BANK_SHAPED`): the common patterns above ask for 2-mark, 5-mark or
+  4-mark case-based questions those banks have almost none of, where CBSE
+  requires none of them. Each one's source line says why.
 
 Difficulty mixes are suggestions in every case: CBSE does not publish a
 per-section difficulty split.
@@ -247,6 +252,69 @@ _UNIT_20: list[_Row] = [
     ("Section B - Very short answer", 4, 2, None, None),
     ("Section C - Short answer", 2, 3, None, None),
 ]
+
+# Suggested patterns for the classes whose question bank cannot print the
+# shapes above, where CBSE requires none of them (unit and periodic tests,
+# class 6-8 term papers). Measured through the builder's own calls on the
+# served bank (2026-09-30), 18 of the 40 class 6-10 Mathematics/Science
+# whole-syllabus presets reached their marks (audit D85/D18). The rest were
+# short for three shapes the bank has almost none of, not for a lack of
+# questions: 2-mark questions in Mathematics 6-8 and Science 9-10 (2-3 and
+# 1-2 keyed; the NCERT Exemplar items these banks are built from come at 1,
+# 3 and 5 marks), 5-mark long answers in Mathematics 6-8 (1-3 keyed), and a
+# 4-mark case-based question in Science 6 (none; its case-based questions
+# carry 6). These patterns keep each paper's total and ask only for what the
+# class's bank holds. Class 9-10 half-yearly and annual papers keep the
+# board design: there the missing 2-mark and case-based questions are the
+# bank's gap, and the builder names them.
+_UNIT_20_1_3: list[_Row] = [
+    ("Section A - Objective", 8, 1, None, None),
+    ("Section B - Short answer", 4, 3, None, None),
+]
+_PERIODIC_40_1_3: list[_Row] = [
+    ("Section A - Objective", 16, 1, None, None),
+    ("Section B - Short answer", 8, 3, None, None),
+]
+_PERIODIC_40_1_3_5: list[_Row] = [
+    ("Section A - Objective", 10, 1, None, None),
+    ("Section B - Short answer", 5, 3, None, None),
+    ("Section C - Long answer", 3, 5, None, None),
+]
+_JUNIOR_80_1_3: list[_Row] = [
+    ("Section A - Objective", 16, 1, None, None),
+    ("Section B - Short answer", 20, 3, None, None),
+    ("Section C - Case based", 1, 4, None, 1.0),
+]
+_JUNIOR_80_CASE_6: list[_Row] = [
+    ("Section A - Objective", 16, 1, None, None),
+    ("Section B - Very short answer", 7, 2, None, None),
+    ("Section C - Short answer", 8, 3, None, None),
+    ("Section D - Long answer", 4, 5, None, None),
+    ("Section E - Case based", 1, 6, None, 1.0),
+]
+_NO_2_MARK = ("its question bank holds almost no 2-mark questions (the NCERT Exemplar "
+              "items it is built from come at 1, 3 and 5 marks)")
+_NO_2_OR_5_MARK = ("its question bank holds almost no 2-mark or 5-mark questions (the NCERT "
+                   "Exemplar items it is built from are nearly all 1 and 3 marks)")
+# (subject, class) -> exam type -> (rows, why the class's pattern differs).
+_BANK_SHAPED: dict[tuple[str, int], dict[str, tuple[list[_Row], str]]] = {
+    **{("Mathematics", g): {
+        "unit_test": (_UNIT_20_1_3, _NO_2_OR_5_MARK),
+        "periodic": (_PERIODIC_40_1_3, _NO_2_OR_5_MARK),
+        "half_yearly": (_JUNIOR_80_1_3, _NO_2_OR_5_MARK),
+        "annual": (_JUNIOR_80_1_3, _NO_2_OR_5_MARK),
+    } for g in (6, 7, 8)},
+    **{("Science", g): {
+        "unit_test": (_UNIT_20_1_3, _NO_2_MARK),
+        "periodic": (_PERIODIC_40_1_3_5, _NO_2_MARK),
+    } for g in (9, 10)},
+    ("Science", 6): {
+        "half_yearly": (_JUNIOR_80_CASE_6, "its question bank has no 4-mark case-based "
+                                          "question; its case-based questions carry 6 marks"),
+        "annual": (_JUNIOR_80_CASE_6, "its question bank has no 4-mark case-based "
+                                     "question; its case-based questions carry 6 marks"),
+    },
+}
 _UNIT_LANGUAGE_20: list[_Row] = [
     ("Section A - Reading comprehension", 5, 1, None, 1.0),
     ("Section B - Grammar", 5, 1, None, None),
@@ -315,6 +383,15 @@ def _pattern(grade: int, subject: str, exam_type: str) -> tuple[list[_Row], str,
     if grade <= 5:
         return ((_PRIMARY_LANGUAGE if language else _PRIMARY)[exam_type], "suggested",
                 _SUGGESTED_SOURCE.format(what=f"class {grade}"))
+    shaped = _BANK_SHAPED.get((subject, grade), {}).get(exam_type)
+    if shaped is not None:
+        rows, why = shaped
+        what = {"unit_test": "unit tests", "periodic": "periodic tests"}.get(
+            exam_type, f"class {grade} term examinations")
+        return rows, "suggested", (
+            f"Suggested school pattern, not a CBSE rule: CBSE prescribes no paper design for "
+            f"{what}. Written for Class {grade} {subject}, because {why}. Edit it to match "
+            "your school.")
     if exam_type == "unit_test":
         return (_UNIT_LANGUAGE_20 if language else _UNIT_20, "suggested",
                 _SUGGESTED_SOURCE.format(what="unit tests"))
