@@ -114,6 +114,40 @@ class SchoolProfileMixin:
 
 # ---------------------------------------------------------------- the logo file
 
+def image_is_printable(source) -> bool:
+    """Whether ReportLab can decode the whole image (bytes or a path). It
+    reads an image lazily, only while it builds the PDF, so a file whose
+    header is right but whose data is not failed every paper, answer key and
+    report the school exported (E2E run on production's commit, 2026-10-01)."""
+    import io
+
+    from reportlab.lib.utils import ImageReader
+    try:
+        reader = ImageReader(io.BytesIO(source) if isinstance(source, (bytes, bytearray)) else str(source))
+        width, height = reader.getSize()
+        reader.getRGBData()
+        return width > 0 and height > 0
+    except Exception:  # noqa: BLE001 - any decoder error means "cannot print"
+        return False
+
+
+_PRINTABLE: dict[tuple[str, int, int], bool] = {}
+
+
+def printable_logo(path: Optional[Path]) -> Optional[Path]:
+    """`path` when it exists and prints, else None (logged once per version
+    of the file): the paper prints without the logo rather than not at all."""
+    if path is None or not path.exists():
+        return None
+    st = path.stat()
+    key = (str(path), st.st_mtime_ns, st.st_size)
+    if key not in _PRINTABLE:
+        _PRINTABLE[key] = image_is_printable(path)
+        if not _PRINTABLE[key]:
+            log.warning("school logo %s cannot be decoded; papers print without it", path.name)
+    return path if _PRINTABLE[key] else None
+
+
 def logo_path(data_root: Path, profile: SchoolProfile) -> Path:
     return Path(data_root) / BLOB_PURPOSE / f"logo_{profile.school_id}.{LOGO_TYPES[profile.logo_type]}"
 

@@ -439,7 +439,9 @@ def printable_school_name(explicit: Optional[str], template: Optional[SchoolTemp
 def _beside_logo(title_block: list, logo_path: Optional[Path], content_width: float) -> list:
     """The title block with the school's logo to its left, when there is one:
     the paper's header and its answer key print the same band."""
-    if logo_path and logo_path.exists():
+    from ..curriculum.school_profile import printable_logo
+    logo_path = printable_logo(logo_path)
+    if logo_path:
         try:
             band = Table([[Image(str(logo_path), width=18 * mm, height=18 * mm), title_block]],
                          colWidths=[22 * mm, content_width - 22 * mm])
