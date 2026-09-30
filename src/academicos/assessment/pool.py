@@ -5,8 +5,6 @@ grows past what fits in memory.
 """
 from __future__ import annotations
 
-import contextvars
-
 import difflib
 import hashlib
 import json
@@ -234,19 +232,6 @@ class PoolQuestion:
         return bool(self.correct_option or self.answer_text)
 
 
-# The school a request acts for (set by auth_routes.get_current_user); None
-# outside a request, where nothing is left out.
-CURRENT_SCHOOL: "contextvars.ContextVar[str | None]" = contextvars.ContextVar("academicos_school", default=None)
-
-
-def _rejected_now() -> frozenset[str]:
-    school = CURRENT_SCHOOL.get()
-    if not school:
-        return frozenset()
-    from ..operations.question_reviews import rejected_for
-    return rejected_for(school)
-
-
 @dataclass
 class QuestionPool:
     questions: list[PoolQuestion] = field(default_factory=list)
@@ -254,12 +239,6 @@ class QuestionPool:
     def filter(self, *, subject: str | None = None, grade: str | None = None,
                chapter_ids: list[str] | None = None) -> list[PoolQuestion]:
         out = self.questions
-        # The questions this request's school rejected in its review queue are
-        # never drawn for it (operations/question_reviews.py); the pool itself is
-        # shared by every school and stays whole.
-        rejected = _rejected_now()
-        if rejected:
-            out = [q for q in out if q.id not in rejected]
         if subject:
             out = [q for q in out if q.subject.lower() == subject.lower()]
         if grade:

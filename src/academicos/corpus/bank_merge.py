@@ -1018,6 +1018,12 @@ def source_reason(rec: dict) -> str | None:
         # SQP extract inline, as text (test_a_following_table_is_inline_and_kept);
         # the web path has refused board stems by this list since it existed.
         return "figure-unavailable"
+    if _transcription(rec) and not ((rec.get("answerScheme") or {}).get("metadata") or {}).get("verifiedBy"):
+        # A transcribed answer is served only once checked against the official
+        # scheme's text or an independent second solve (corpus/transcribed.py);
+        # the builder refuses the rest, and this is the one gate that says so
+        # for a record written any other way (review of #54).
+        return "transcription-unverified"
     answer = _answer_text(rec)
     if (_vowel_sign_runs(stem) >= _GARBLE_RUNS or _vowel_sign_runs(answer) >= _GARBLE_RUNS
             or _script_garbled(rec, f"{stem} {answer}")):
@@ -1083,6 +1089,13 @@ def _objective_scheme(rec: dict, options: dict[str, str], letter: str) -> dict:
     # relabelled it would read as CBSE's own; every CBE and SQP scheme already
     # says cbse_marking_scheme, so for them this changes nothing.
     out["provenance"] = str(old.get("provenance") or out["provenance"])
+    # How the key was checked travels with it: the serving gate reads it
+    # (`source_reason`, "transcription-unverified"), so dropping it here would
+    # refuse every verified transcribed MCQ.
+    old_meta = old.get("metadata") or {}
+    for key in ("verifiedBy", "placeVerified", "officialProvenance"):
+        if key in old_meta:
+            out.setdefault("metadata", {})[key] = old_meta[key]
     return out
 
 

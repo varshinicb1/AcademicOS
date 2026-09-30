@@ -23,7 +23,7 @@ import unicodedata
 from dataclasses import dataclass
 from typing import Any, Optional
 
-from .transcribed import SchemeText
+from .transcribed import SchemeText, numbers
 
 # The marks a question of each type usually carries in a CBSE paper; flagged
 # `marksInferred`, since a textbook prints none.
@@ -53,6 +53,13 @@ class BookText(SchemeText):
         paraphrase does not."""
         n = _norm(needle)
         return bool(n) and (n in self.text or n.replace(" ", "") in self.compact)
+
+
+def _evidence_ok(book: "BookText", quote: Any) -> bool:
+    """A quote copied word for word from the chapter, and long enough to say
+    something: a single word is found in any chapter (review of #54)."""
+    q = _norm(quote)
+    return len(q) >= 12 and len(q.split()) >= 3 and book.verbatim(str(quote))
 
 
 def _norm(s: Any) -> str:
@@ -126,7 +133,7 @@ def refusal(q: dict, book: BookText, second: Optional[dict[str, str]]) -> Option
         points = a.get("points") or []
         if not points:
             return "no-answer"
-        if not all(book.verbatim(str(p.get("evidence") or "")) for p in points):
+        if not all(_evidence_ok(book, p.get("evidence")) for p in points):
             return "evidence-not-found"
         return None
     if src == "solved":
@@ -139,7 +146,18 @@ def refusal(q: dict, book: BookText, second: Optional[dict[str, str]]) -> Option
             return "solve-disagrees"
         return None
     if src == "book":
-        return None if (a.get("points") or a.get("finalAnswer") or a.get("correctOption")) else "no-answer"
+        # The book prints the answer: it must be found, word for word, where the
+        # book prints it -- never taken on the transcriber's word, and never
+        # claimed for a question written for a topic (review of #54).
+        if q.get("origin") == "generated":
+            return "generated-unkeyed"
+        if not (a.get("points") or a.get("finalAnswer") or a.get("correctOption")):
+            return "no-answer"
+        quotes = [p.get("evidence") for p in a.get("points") or []] + [a.get("evidence")]
+        quotes = [e for e in quotes if str(e or "").strip()]
+        if not quotes or not all(_evidence_ok(book, e) for e in quotes):
+            return "evidence-not-found"
+        return None
     return "no-answer"
 
 
@@ -191,6 +209,11 @@ def record(q: dict, tb: dict, *, rid: str, built_at: str, chapter_ref: Optional[
         model, parts = f"({letter}) {opts[letter]}", []
     else:
         texts = [str(p.get("text") or "").strip() for p in a.get("points") or [] if str(p.get("text") or "").strip()]
+        if a.get("source") == "solved" and str(a.get("finalAnswer") or "").strip():
+            # Only the final answer was checked (by the second solve), so only it
+            # is served as the key: a working that says "Area = 50" beside a
+            # checked 48 must not print (review of #54).
+            texts = [str(a["finalAnswer"]).strip()]
         if not texts and a.get("finalAnswer"):
             texts = [str(a["finalAnswer"]).strip()]
         per = max(1, marks // max(1, len(texts))) if texts else marks
@@ -199,8 +222,11 @@ def record(q: dict, tb: dict, *, rid: str, built_at: str, chapter_ref: Optional[
         if points:
             points[-1]["marks"] = marks - per * (len(points) - 1)
         model = "\n".join(texts)
-        if a.get("working"):
-            model = f"{model}\n\nWorking: {a['working']}".strip()
+        working = str(a.get("working") or "")
+        # The working is shown only when it reaches the checked answer.
+        if working and (a.get("source") != "solved"
+                        or numbers(a.get("finalAnswer"), signed=True) <= numbers(working, signed=True)):
+            model = f"{model}\n\nWorking: {working}".strip()
     evidence = [{"quote": p.get("evidence"), "page": p.get("page")} for p in a.get("points") or [] if p.get("evidence")]
     return {
         "id": rid,
@@ -234,7 +260,10 @@ def record(q: dict, tb: dict, *, rid: str, built_at: str, chapter_ref: Optional[
         "language": "hi" if book.get("language") == "hi" else "en",
         # A question written for the topic is the generator's, never passed off as the book's.
         "source": "ai_generated" if generated else "ncert_textbook",
-        "qualityScore": 0.8 if generated else 0.85,
+        # Below every official source (board 0.6-0.77, selection.py): a paper
+        # draws CBSE's and NCERT's own questions first, never ours ahead of them
+        # (QB-4's order; review of #54).
+        "qualityScore": 0.5 if generated else 0.55,
         "tags": ["ncert", "generated" if generated else "textbook", str(book.get("title") or "")],
         "createdAt": built_at,
         "updatedAt": built_at,

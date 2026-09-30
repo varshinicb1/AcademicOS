@@ -52,6 +52,7 @@ from .schemas import (
     SchoolTemplate,
     SectionBlueprint,
 )
+from ..operations.question_reviews import usable
 from .paper_store import PaperStore
 from .store import AssessmentStore
 from .templates import (
@@ -207,7 +208,8 @@ def search_questions(params: QuestionSearchParams,
         require_own_subtopics(curriculum, params.subtopic_ids, current)
     grade_roman = _int_grade_to_roman(params.grade)
     pool = get_pool(cfg, subject=params.subject, grade=grade_roman)
-    candidates = pool.filter(subject=params.subject, grade=grade_roman, chapter_ids=params.chapter_ids)
+    candidates = usable(pool.filter(subject=params.subject, grade=grade_roman, chapter_ids=params.chapter_ids),
+                        current.school_id)
     schemas = [to_question_schema(c) for c in candidates]
 
     if curriculum is not None:
@@ -258,7 +260,8 @@ def optimize_questions(request: QuestionOptimizationRequest,
         subject = request.candidates[0].subject
         grade_roman = _int_grade_to_roman(request.candidates[0].grade)
         pool = get_pool(cfg, subject=subject, grade=grade_roman)
-        fallback = [to_question_schema(c) for c in pool.filter(subject=subject, grade=grade_roman)]
+        fallback = [to_question_schema(c) for c in usable(pool.filter(subject=subject, grade=grade_roman),
+                                                          current.school_id)]
     return selection.optimize(request.candidates, request.blueprint, fallback_candidates=fallback)
 
 
@@ -394,8 +397,8 @@ def generate_paper_endpoint(
         grade_roman = _int_grade_to_roman(grade)
         chapters = assessment.chapter_ids if assessment else []
         alternatives = [to_question_schema(c) for c in
-                        get_pool(cfg, subject=subject, grade=grade_roman).filter(
-                            chapter_ids=chapters or None)]
+                        usable(get_pool(cfg, subject=subject, grade=grade_roman).filter(
+                            chapter_ids=chapters or None), current.school_id)]
     paper = generate_paper_sets(
         paper_id=f"paper_{uuid.uuid4().hex[:12]}",
         assessment_id=request.assessment_id,
@@ -467,10 +470,11 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
     target_chapters = request.chapter_ids or []
     chapter_candidates = []
     if target_chapters:
-        p_cands = pool.filter(subject=subject, grade=grade_roman, chapter_ids=target_chapters)
+        p_cands = usable(pool.filter(subject=subject, grade=grade_roman, chapter_ids=target_chapters),
+                         current.school_id)
         chapter_candidates = [to_question_schema(c) for c in p_cands]
 
-    all_pool_questions = [to_question_schema(c) for c in pool.questions]
+    all_pool_questions = [to_question_schema(c) for c in usable(pool.questions, current.school_id)]
     candidates = chapter_candidates if chapter_candidates else all_pool_questions
     fallback = all_pool_questions if chapter_candidates else None
 
@@ -582,7 +586,7 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(r
 
     grade_roman = _int_grade_to_roman(request.grade)
     pool = get_pool(cfg, subject=request.subject, grade=grade_roman)
-    all_pool_questions = [to_question_schema(c) for c in pool.questions]
+    all_pool_questions = [to_question_schema(c) for c in usable(pool.questions, current.school_id)]
     by_id = {q.id: q for q in all_pool_questions}
     found_questions: list[QuestionSchema] = [by_id[qid] for qid in request.question_ids if qid in by_id]
 

@@ -253,8 +253,9 @@ _UNIT_LANGUAGE_20: list[_Row] = [
 ]
 
 # Classes 1-5 (requirements v3): CBSE prescribes no paper design for primary
-# classes, so these are suggested school patterns -- shorter papers, no long
-# answers in classes 1-2, and EVS from class 3 (the NCERT books' own range).
+# classes, so these are suggested school patterns -- shorter papers, no answer
+# above 5 marks, and EVS from class 3 (the NCERT books' own range). Classes 1-5
+# share one pattern per exam type; a school edits it for its younger classes.
 PRIMARY_SUBJECTS: dict[int, tuple[str, ...]] = {
     1: ("English", "Hindi", "Mathematics"), 2: ("English", "Hindi", "Mathematics"),
     3: ("English", "Hindi", "Mathematics", "EVS"), 4: ("English", "Hindi", "Mathematics", "EVS"),

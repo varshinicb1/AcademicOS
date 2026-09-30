@@ -26,6 +26,7 @@ unkeyed MCQ is one CBSE itself withdrew ("marks to be given if attempted").
 from __future__ import annotations
 
 import re
+import unicodedata
 from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 from typing import Any, Optional
@@ -67,7 +68,11 @@ LETTERS = ("A", "B", "C", "D")
 
 
 def _norm(s: Any) -> str:
-    return re.sub(r"[^a-z0-9]+", " ", str(s or "").lower()).strip()
+    """Letters, digits and combining marks of any script, lower-cased, one space
+    between words. ASCII-only made every Devanagari value point "", which
+    `has` then found everywhere (review of #54)."""
+    kept = "".join(ch if unicodedata.category(ch)[0] in "LMN" else " " for ch in str(s or "").lower())
+    return " ".join(kept.split())
 
 
 @dataclass
@@ -95,12 +100,25 @@ class SchemeText:
         m = SequenceMatcher(None, n, self.text, autojunk=False).find_longest_match(0, len(n), 0, len(self.text))
         return max(0, m.b - m.a)
 
+    def option_at(self, letter: Any, option: Any) -> Optional[int]:
+        """Where the scheme prints this option under its letter ("(b) Italy",
+        "b. Italy", "Ans: b Italy"), or None. The option's text alone is not
+        enough: a numeric option or an assertion-reason option recurs under
+        other questions (review of #54)."""
+        letter, opt = _norm(letter), _norm(option)
+        if not letter or not opt:
+            return None
+        m = re.search(rf"(?<![^ ]){re.escape(letter)} {re.escape(opt)}(?![^ ])", self.text)
+        return m.start() if m else None
+
     def has(self, needle: str) -> bool:
         """True when `needle` is in the scheme: whole, or -- for text the
         scheme wraps across lines or columns -- nearly all its words present
         and a long stretch of it verbatim."""
         n = _norm(needle)
-        if not n or n in self.text:
+        if not n:
+            return False           # nothing to find is not "found"
+        if n in self.text:
             return True
         words = n.split()
         if len(words) <= 3:
@@ -115,13 +133,14 @@ _FRAC = re.compile(r"\\[dt]?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}")
 _NUM = re.compile(r"-?\d+(?:\.\d+)?(?:/\d+(?:\.\d+)?)?")
 
 
-def numbers(text: Any) -> set[str]:
+def numbers(text: Any, signed: bool = False) -> set[str]:
     """The numbers a piece of working states, fractions kept whole
     ("\\frac{67}{12}" and "67/12" are both "67/12"; "4.0" is "4")."""
     s = _FRAC.sub(r"\1/\2", str(text or "")).replace(",", "").replace(" / ", "/")
     out = set()
     for n in _NUM.findall(s):
-        n = n.lstrip("-")
+        if not signed:
+            n = n.lstrip("-")
         if "/" not in n and "." in n:
             n = n.rstrip("0").rstrip(".") or "0"
         out.add(n)
@@ -143,7 +162,7 @@ def verified_by(q: dict, scheme: Optional[SchemeText], second: Optional[str]) ->
     if q.get("type") in OBJECTIVE:
         letter = s.get("correctOption")
         option = str((q.get("options") or {}).get(letter) or "")
-        if scheme is not None and option.strip() and scheme.has(option):
+        if scheme is not None and scheme.option_at(letter, option) is not None:
             return "scheme-text"
         if second is not None and str(second).strip().strip("()").upper()[:1] == letter:
             return "second-solve"
@@ -151,10 +170,13 @@ def verified_by(q: dict, scheme: Optional[SchemeText], second: Optional[str]) ->
     points = [p for p in s.get("points") or [] if str(p.get("text") or "").strip()]
     if scheme is not None and all(scheme.has(p["text"]) for p in points):
         return "scheme-text"
-    if second is not None:
-        mine = set().union(*(numbers(p["text"]) for p in points)) if points else set()
-        theirs = numbers(second)
-        if theirs and theirs <= mine:
+    if second is not None and points:
+        # The final answer, not every number of the working: "12 x 5 = 60"
+        # must not verify a solve of 12 (review of #54). Signs are kept.
+        last = str(points[-1].get("text") or "")
+        final = numbers(last.rsplit("=", 1)[-1], signed=True) or numbers(last, signed=True)
+        theirs = numbers(second, signed=True)
+        if theirs and theirs <= final:
             return "second-solve"
     return None
 
@@ -178,8 +200,8 @@ def unverified_reason(q: dict, scheme: Optional[SchemeText], second: Optional[st
         points = [p for p in s.get("points") or [] if str(p.get("text") or "").strip()]
         if not points:
             return "no-answer"
-    if scheme is None and second is None:
-        return None          # nothing to check against (tests, a hand transcription)
+    # Nothing to check against -- a scanned scheme and no second solve -- is
+    # not verified: the answer is refused, never served on the transcriber's word.
     return None if verified_by(q, scheme, second) else "scheme-unverified"
 
 
@@ -371,6 +393,7 @@ def build(transcription: dict, *, source: str, scheme: Optional[SchemeText], sch
     bank_id = f"{id_prefix}:{paper.get('year')}:{paper.get('class')}:{paper.get('subject')}:{code}"
     records, refused = [], []
     located: list[tuple[str, list[int]]] = []
+    placed: set[str] = set()
     seen: set[str] = set()
     for q in transcription.get("questions") or []:
         number = str(q.get("number") or "").strip()
@@ -399,16 +422,29 @@ def build(transcription: dict, *, source: str, scheme: Optional[SchemeText], sch
             how = verified_by(item, scheme, answer2) if (scheme is not None or answer2 is not None) else None
             rec["answerScheme"]["metadata"]["verifiedBy"] = how
             records.append(rec)
-            if how == "scheme-text" and item.get("type") not in OBJECTIVE:
-                pos = [scheme.locate(p.get("text", "")) for p in (item.get("scheme") or {}).get("points") or []]
-                located.append((item_id, [x for x in pos if x is not None]))
+            if how == "second-solve":
+                # Verified by agreement, not by reading the scheme: checked tier.
+                rec["answerScheme"]["metadata"]["officialProvenance"] = rec["answerScheme"]["provenance"]
+                rec["answerScheme"]["provenance"] = "two_model_solved"
+            if how == "scheme-text":
+                if item.get("type") in OBJECTIVE:
+                    at = scheme.option_at((item.get("scheme") or {}).get("correctOption"),
+                                          (item.get("options") or {}).get((item.get("scheme") or {}).get("correctOption")))
+                    pos = [at]
+                else:
+                    pos = [scheme.locate(p.get("text", "")) for p in (item.get("scheme") or {}).get("points") or []]
+                pos = [x for x in pos if x is not None]
+                located.append((item_id, pos))
+                if pos:
+                    placed.add(item_id)
     bad = misplaced(located)
     for r in records:
         # Placed: every point verified in the scheme, where this question's
         # answer is -- the evidence `bank_merge`'s length rule accepts in
         # place of a length bound for a long "any N of these" answer.
         r["answerScheme"]["metadata"]["placeVerified"] = (
-            r["answerScheme"]["metadata"].get("verifiedBy") == "scheme-text" and r["id"] not in bad)
+            r["answerScheme"]["metadata"].get("verifiedBy") == "scheme-text" and r["id"] in placed
+            and r["id"] not in bad)
     for rid in bad:
         refused.append({"id": rid, "reason": "scheme-out-of-place"})
     records = [r for r in records if r["id"] not in bad]

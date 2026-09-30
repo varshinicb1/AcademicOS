@@ -140,10 +140,11 @@ def load_syllabus(subject: str, grade: int) -> SyllabusDocument | None:
         chapters = book_chapters(subject, grade)
         if not chapters:
             return None
-        titles = ", ".join(dict.fromkeys(c.get("bookTitle") or "" for c in chapters if c.get("bookTitle")))
+        # A fixed wording: the seed names the class's book from `source`, so a
+        # source that grew as chapters arrived made a re-seed create a second book.
         return SyllabusDocument(
             subject=subject, grade=grade, total_marks=0,
-            source=f"NCERT Class {grade} {subject}, {titles}: the book's own chapters (no CBSE marks table)",
+            source=f"NCERT Class {grade} {subject}: the book's own chapters (no CBSE marks table)",
             units=(), chapters=tuple(SyllabusChapter(id=c["id"], name=c["name"]) for c in chapters))
     data = json.loads(path.read_text(encoding="utf-8"))
     units = tuple(

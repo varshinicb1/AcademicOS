@@ -13,6 +13,9 @@ is served. One JSON file per chapter.
    Never write a question of your own.
 2. **Every answer says its source** (`answer.source`):
    - `book` -- the book prints the answer (an answers page, a worked example).
+     Every point (or the answer) carries `evidence`: the printed answer copied
+     **word for word**, at least three words, and the page. Without it the answer
+     is refused. Only a book question can have a `book` answer.
    - `grounded` -- the answer is stated in the chapter's own text. Every value
      point carries `evidence`: a sentence copied **word for word** from the chapter
      that states it, and the page. A point with no such sentence is not written.

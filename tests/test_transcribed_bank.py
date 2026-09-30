@@ -113,7 +113,8 @@ def test_a_long_any_n_answer_is_not_a_run_on_only_when_placed():
                    for i in range(14)]
     raw = tr.record(_q("21", marks=2, scheme={"points": long_points, "anyN": 2}), _paper([])["paper"],
                     rid="cbse:board:2024:32-1-1:q21", bank_id="b", source="cbse_board_paper", scheme_file="x")
-    raw["answerScheme"]["metadata"]["placeVerified"] = True
+    # As the builder writes a placed record: verified in the scheme's text, and placed.
+    raw["answerScheme"]["metadata"].update(verifiedBy="scheme-text", placeVerified=True)
     rec, reason = bm.normalise(raw)
     assert reason is None and bm.unservable_reason(rec) is None
     rec["answerScheme"]["metadata"]["placeVerified"] = False
@@ -183,3 +184,56 @@ def test_the_builder_reads_a_papers_second_solves_and_never_as_a_paper(tmp_path)
     records, refused, report = btb.build(folder)
     assert [r["id"] for r in records] == ["cbse:board:2024:32-1-1:q25"] and refused == []
     assert [r["file"] for r in report] == ["board-2024-32-1-1.json"], "the second solves are not a paper"
+
+
+# ---------------------------------------------------------------------------
+# Review of #54: answers that passed without being checked.
+# ---------------------------------------------------------------------------
+
+def test_an_answer_with_nothing_to_check_it_against_is_refused():
+    """A scanned scheme (no text) and no second solve: refused, never served on
+    the transcriber's word."""
+    b = tr.build(_paper([_q("22", scheme={"points": [{"text": "Any answer at all.", "marks": 2}]})]),
+                 source="cbse_board_paper", scheme=None, scheme_file="x.pdf", id_prefix="cbse:board")
+    assert b.records == [] and [r["reason"] for r in b.refused] == ["scheme-unverified"]
+    # and the one gate refuses a transcribed record that carries no verification
+    raw = tr.record(_q("22", scheme={"points": [{"text": "Any answer at all.", "marks": 2}]}), _paper([])["paper"],
+                    rid="cbse:board:2024:32-1-1:q22", bank_id="b", source="cbse_board_paper", scheme_file="x")
+    rec, _ = bm.normalise(raw)
+    assert bm.unservable_reason(rec) == "transcription-unverified"
+
+
+def test_a_hindi_point_is_checked_in_its_own_script():
+    """The ASCII-only normaliser made every Devanagari point "", which was then
+    "found" everywhere and marked placed."""
+    scheme = tr.SchemeText.of("अंक योजना 22 प्रेमचंद ने दो बैलों की कथा लिखी। 2")
+    ok = _q("22", scheme={"points": [{"text": "प्रेमचंद ने दो बैलों की कथा लिखी।", "marks": 2}]})
+    wrong = _q("22", scheme={"points": [{"text": "यह उत्तर योजना में कहीं नहीं है।", "marks": 2}]})
+    assert tr.verified_by(ok, scheme, None) == "scheme-text"
+    assert tr.verified_by(wrong, scheme, None) is None
+    assert scheme.has("") is False and scheme.has("—!") is False
+
+
+def test_an_mcq_is_verified_by_its_letter_with_its_option():
+    """The option's text anywhere in the scheme verified any letter: an
+    assertion-reason option or a numeric option recurs under other questions."""
+    scheme = tr.SchemeText.of("Q1 (b) Italy 1 Q2 (c) 5 1 Q3 (a) Both A and R are true 1")
+    q = lambda letter, opts: _q("1", marks=1, type="mcq", options=opts, scheme={"correctOption": letter, "points": []})
+    assert tr.verified_by(q("B", {"A": "Austria", "B": "Italy", "C": "Greece", "D": "Spain"}), scheme, None) == "scheme-text"
+    assert tr.verified_by(q("A", {"A": "Italy", "B": "x", "C": "y", "D": "z"}), scheme, None) is None
+    assert tr.verified_by(q("D", {"A": "1", "B": "2", "C": "3", "D": "5"}), scheme, None) is None
+    assert tr.verified_by(q("C", {"A": "1", "B": "2", "C": "5", "D": "7"}), scheme, None) == "scheme-text"
+
+
+def test_a_second_solve_must_agree_with_the_final_answer_sign_and_all():
+    """Every number of the working used to count: "12" or "-60" verified the
+    working "12 x 5 = 60". An agreeing solve is the checked tier, not official."""
+    worked = _q("25", marks=3, scheme={"points": [{"text": "Distance = 12 x 5 = 60 km", "marks": 3}]})
+    assert tr.verified_by(worked, None, "12") is None
+    assert tr.verified_by(worked, None, "-60") is None
+    assert tr.verified_by(worked, None, "60 km") == "second-solve"
+    b = tr.build(_paper([worked]), source="cbse_board_paper", scheme=None, scheme_file="x.pdf",
+                 id_prefix="cbse:board", second={"25": "60 km"})
+    [rec] = b.records
+    assert rec["answerScheme"]["provenance"] == "two_model_solved"
+    assert rec["answerScheme"]["metadata"]["officialProvenance"] == "cbse_marking_scheme"

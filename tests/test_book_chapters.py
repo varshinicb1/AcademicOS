@@ -52,7 +52,7 @@ def test_a_primary_class_takes_its_books_chapters_as_its_syllabus(books):
     doc = cbse_syllabus.load_syllabus("EVS", 3)
     assert doc is not None and doc.units == () and doc.total_marks == 0
     assert [c.id for _u, c in doc.all_chapters()] == ["evs-3/family-and-friends", "evs-3/going-to-the-mela"]
-    assert "Our Wondrous World" in doc.source
+    assert doc.source == "NCERT Class 3 EVS: the book's own chapters (no CBSE marks table)"
     assert "EVS" in cbse_syllabus.get_available_subjects_for_grade(3)
     # Only EVS has a book here: the other three are reported missing, not hidden.
     assert cbse_syllabus.get_missing_subjects_for_grade(3) == ["English", "Hindi", "Mathematics"]
@@ -120,3 +120,23 @@ def test_the_build_files_a_chapter_under_the_syllabus_id_that_names_it():
     assert build.chapter_ref("Social Science", 6, "Locating Places on the Earth") == "locating-places-on-the-earth"
     assert build.chapter_ref("Social Science", 6, "A Chapter No File Names") == \
         "social-science-6/a-chapter-no-file-names"
+
+
+def test_hindi_chapters_stay_distinct_and_never_become_a_catch_all(monkeypatch):
+    """Both name keys dropped every non-ASCII letter, so every Devanagari
+    chapter name was "": all Hindi chapters were one, and an unknown tag found
+    a "twin" among them (review of #54)."""
+    chapters = [{"id": "hindi-6/मातृभूमि", "name": "मातृभूमि", "bookTitle": "Malhar"},
+                {"id": "hindi-6/गोल", "name": "गोल", "bookTitle": "Malhar"}]
+    monkeypatch.setattr(cbse_syllabus, "_ncert_books", lambda: {"Hindi|6": {"chapters": chapters}})
+    cbse_syllabus.load_syllabus.cache_clear()
+    try:
+        assert chapter_filing.name_key("मातृभूमि") != chapter_filing.name_key("गोल")
+        assert chapter_filing.name_key("मातृभूमि") == pillar_routes._name_key("मातृभूमि")
+        filing = chapter_filing.ChapterFiling.for_class("Hindi", 6)
+        assert "" not in filing.by_name
+        assert filing.chapter_of("hindi-6/गोल", []) == "hindi-6/गोल"
+        # A tag the class does not know is not filed under a Hindi chapter.
+        assert filing.chapter_of("some-old-tag", []) == chapter_filing.UNMAPPED
+    finally:
+        cbse_syllabus.load_syllabus.cache_clear()

@@ -20,6 +20,7 @@ bank API and the MCP server read it too, through `qbank_engine.QuestionBank`
 from __future__ import annotations
 
 import re
+import unicodedata
 from dataclasses import dataclass, field
 from typing import Callable, Iterable, Optional
 
@@ -34,7 +35,10 @@ def name_key(name: str) -> str:
     Refraction")."""
     name = (name.replace("–", "-").replace("—", "-")
                 .replace("’", "'").replace("…", ""))
-    return re.sub(r"[^a-z0-9]", "", name.lower())
+    # Letters, digits and combining marks of any script: an ASCII-only key made
+    # every Devanagari name "", so all Hindi chapters were one chapter and any
+    # unknown tag found a "twin" among them (review of #54).
+    return "".join(ch for ch in name.lower() if unicodedata.category(ch)[0] in "LMN")
 
 
 @dataclass(frozen=True)
@@ -60,6 +64,7 @@ class ChapterFiling:
         book = book_chapters(subject, grade)
         by_name = {name_key(c["name"]): c["id"] for c in book}
         by_name.update({name_key(c.name): c.id for _unit, c in chapters})
+        by_name.pop("", None)          # a name with no letters names no chapter
         return cls(known=frozenset(c.id for _unit, c in chapters) | {c["id"] for c in book},
                    by_name=by_name,
                    book_names={**{c["id"]: c["name"] for c in book}, **taxonomy_chapters(subject, grade)})
@@ -82,7 +87,7 @@ class ChapterFiling:
         if tid:
             if not known or tid in known:
                 return tid
-            twin = self.by_name.get(name_key(self.book_names.get(tid, "")))
+            twin = self.by_name.get(name_key(self.book_names.get(tid, ""))) if self.book_names.get(tid) else None
             if twin:
                 return twin
         for cid in chapter_ids:

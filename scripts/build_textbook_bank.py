@@ -42,7 +42,8 @@ def chapter_ref(subject: str, grade: int, title: str) -> str:
         names.update({name_key(c.name): c.id for _u, c in doc.all_chapters()})
     for cid, name in cbse_syllabus.taxonomy_chapters(subject, grade).items():
         names.setdefault(name_key(name), cid)
-    return names.get(name_key(title)) or tb.chapter_id(subject, grade, title)
+    names.pop("", None)
+    return (names.get(name_key(title)) if name_key(title) else None) or tb.chapter_id(subject, grade, title)
 
 
 def build(src: Path, text_dir: Path):

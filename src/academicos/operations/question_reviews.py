@@ -19,7 +19,7 @@ from pydantic import Field
 
 from ..assessment.auth_routes import require_admin, require_staff
 from ..assessment.users import User
-from ..curriculum.schemas import Camel
+from ..curriculum.schemas import Camel, CamelRequest
 
 router = APIRouter(prefix="/api/v1/qbank")
 
@@ -66,6 +66,29 @@ def rejected_for(school_id: Optional[str]) -> frozenset[str]:
         return frozenset(q for q, r in store().review_decisions(school_id).items() if r["decision"] == "rejected")
     except Exception:  # noqa: BLE001 - a review lookup must never stop a paper being made
         return frozenset()
+
+
+def usable(items, school_id: Optional[str]) -> list:
+    """`items` (anything with an `.id`) less the questions `school_id`'s
+    reviewer rejected, in order. Every place that draws questions for a school
+    calls this with the caller's own school: the pool and the mapped banks are
+    shared by every school and cached, so the rejection is applied at the draw,
+    never stored in a shared list (review of #54: an ambient per-request value
+    set in a sync dependency never reached the endpoint, and a cache filtered
+    for one school would have served every school)."""
+    items = list(items)
+    rejected = rejected_for(school_id)
+    return [q for q in items if q.id not in rejected] if rejected else items
+
+
+def bank_usable(bank, school_id: Optional[str]):
+    """A `paper_edit.Bank` less the school's rejected questions: the cached
+    bank itself is never changed."""
+    rejected = rejected_for(school_id)
+    if not rejected:
+        return bank
+    qs = tuple(q for q in bank.questions if q.id not in rejected)
+    return type(bank)(qs, {q.id: q for q in qs}, frozenset(bank.keyed - rejected))
 
 
 def _bank():
@@ -206,7 +229,7 @@ class ReviewPage(Camel):
     counts: dict[str, int]
 
 
-class DecisionRequest(Camel):
+class DecisionRequest(CamelRequest):
     decision: Literal["approved", "rejected"]
     note: Optional[str] = Field(default=None, max_length=1000)
 

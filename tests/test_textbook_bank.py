@@ -105,3 +105,51 @@ def test_a_question_about_a_picture_the_student_cannot_see_is_refused():
     assert tb.build(_tb([q]), CHAPTER).refused[0]["reason"] == "figure-referenced"
     # a word problem about a map's scale needs no picture
     assert tb.build(_tb([QS[4]]), CHAPTER, second={"Q5": "15"}).records
+
+
+# ---------------------------------------------------------------------------
+# Review of #54: answers that reached a tier without being checked.
+# ---------------------------------------------------------------------------
+
+def test_a_book_answer_must_be_found_where_the_book_prints_it():
+    """`source: book` became the official tier on the transcriber's word."""
+    stem = "What are the four cardinal directions?"
+    unquoted = _q("Q1", stem, {"source": "book", "points": [{"text": "North, south, east and west."}]})
+    quoted = _q("Q1", stem, {"source": "book", "points": [
+        {"text": "North, south, east and west.",
+         "evidence": "The four main directions are north, south, east and west."}]})
+    wrong = _q("Q1", stem, {"source": "book", "points": [
+        {"text": "Up and down.", "evidence": "The four main directions are up and down and around."}]})
+    assert [r["reason"] for r in tb.build(_tb([unquoted]), CHAPTER).refused] == ["evidence-not-found"]
+    assert [r["reason"] for r in tb.build(_tb([wrong]), CHAPTER).refused] == ["evidence-not-found"]
+    [rec] = tb.build(_tb([quoted]), CHAPTER).records
+    assert rec["answerScheme"]["provenance"] == "ncert_textbook_answer"
+
+
+def test_a_generated_question_never_claims_a_printed_answer():
+    q = _q("G1", "Name the four cardinal directions.", {"source": "book", "points": [
+        {"text": "North, south, east and west.",
+         "evidence": "The four main directions are north, south, east and west."}]}, origin="generated")
+    assert [r["reason"] for r in tb.build(_tb([q]), CHAPTER).refused] == ["generated-unkeyed"]
+
+
+def test_one_word_is_not_evidence():
+    q = _q("Q2", "Which line divides the Earth into two hemispheres?",
+           {"source": "grounded", "points": [{"text": "The Equator.", "evidence": "Equator"}]})
+    assert [r["reason"] for r in tb.build(_tb([q]), CHAPTER).refused] == ["evidence-not-found"]
+
+
+def test_a_worked_answer_serves_only_the_checked_final_answer():
+    """Only `finalAnswer` is compared with the second solve, so only it is the
+    key; a working that does not reach it is not printed ("Area = 50" beside a
+    checked 48)."""
+    q = _q("Q5", "If a map's scale is 1 cm to 5 km, how far apart are two towns 3 cm apart on the map?",
+           {"source": "solved", "points": [{"text": "Distance = 50 km"}], "working": "3 x 5 = 50",
+            "finalAnswer": "15 km"})
+    [rec] = tb.build(_tb([q]), CHAPTER, second={"Q5": "15 km"}).records
+    scheme = rec["answerScheme"]
+    assert [p["description"] for p in scheme["markingPoints"]] == ["15 km"]
+    assert "50" not in scheme["modelAnswer"]
+    ok = _q("Q5", q["stem"], {"source": "solved", "working": "3 x 5 = 15", "finalAnswer": "15 km"})
+    [rec] = tb.build(_tb([ok]), CHAPTER, second={"Q5": "15 km"}).records
+    assert "Working: 3 x 5 = 15" in rec["answerScheme"]["modelAnswer"]

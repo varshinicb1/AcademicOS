@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import re
+import unicodedata
 import uuid
 from dataclasses import replace
 from pathlib import Path
@@ -153,9 +154,11 @@ def _papers():
     raise HTTPException(503, "pillar module not initialized")
 
 
-def _pool_questions(subject: str, grade: str) -> list[QuestionSchema]:
+def _pool_questions(subject: str, grade: str, school_id: Optional[str] = None) -> list[QuestionSchema]:
+    """The class's questions less those `school_id`'s reviewers rejected."""
+    from ..operations.question_reviews import usable
     cfg, _, _ = _require()
-    return [to_question_schema(q) for q in get_pool(cfg, subject=subject, grade=grade).questions]
+    return [to_question_schema(q) for q in usable(get_pool(cfg, subject=subject, grade=grade).questions, school_id)]
 
 
 # ---------------- Pillar 1: templates + marking ----------------
@@ -330,7 +333,8 @@ def _name_key(name: str) -> str:
     Refraction")."""
     name = (name.replace("–", "-").replace("—", "-")
                 .replace("’", "'").replace("…", ""))
-    return re.sub(r"[^a-z0-9]", "", name.lower())
+    # Any script's letters, as chapter_filing.name_key (the two stay equal).
+    return "".join(ch for ch in name.lower() if unicodedata.category(ch)[0] in "LMN")
 
 
 def _chapter_of(q: QuestionSchema, known: set[str], by_name: dict[str, str],
@@ -356,7 +360,7 @@ def _chapter_of(q: QuestionSchema, known: set[str], by_name: dict[str, str],
     if tid:
         if not known or tid in known:
             return tid
-        twin = by_name.get(_name_key(book_names.get(tid, "")))
+        twin = by_name.get(_name_key(book_names.get(tid, ""))) if book_names.get(tid) else None
         if twin:
             return twin
     for cid in q.chapter_ids:
@@ -394,6 +398,7 @@ def catalog_chapters(subject: str, grade: int, response: Response) -> list[Chapt
     # A syllabus name wins over the book's, as in ChapterFiling.for_class.
     by_name = {_name_key(c["name"]): c["id"] for c in book_chapters(subject, grade)}
     by_name.update({_name_key(chapter.name): chapter.id for _unit, chapter in chapters if chapter.id in listed})
+    by_name.pop("", None)
     book_names = {**{c["id"]: c["name"] for c in book_chapters(subject, grade)},
                   **taxonomy_chapters(subject, grade)}
 
@@ -1027,7 +1032,7 @@ def generate_practice(req: PracticeRequestBody, current: User = Depends(get_curr
     weak = knowledge.weak_concepts(req.student_id, limit=3)
     if not weak:
         raise HTTPException(400, "No weak concepts for this student — nothing to remediate yet.")
-    pool = _pool_questions(req.subject, req.grade)
+    pool = _pool_questions(req.subject, req.grade, current.school_id)
     pset = remediation_mod.build_practice_set(
         req.student_id, weak, pool, per_concept=req.per_concept,
         answer_key=req.correct_options)
