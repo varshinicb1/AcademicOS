@@ -6,6 +6,7 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../../data/datasources/api/curriculum_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 enum _ViewMode { day, week, month, year }
 
@@ -196,7 +197,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Row(
         children: [
-          IconButton(icon: const Icon(Icons.chevron_left), onPressed: () => _shiftDay(-1)),
+          IconButton(tooltip: 'Previous day', icon: const Icon(Icons.chevron_left), onPressed: () => _shiftDay(-1)),
           Expanded(
             child: Center(
               child: Text(
@@ -205,7 +206,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
               ),
             ),
           ),
-          IconButton(icon: const Icon(Icons.chevron_right), onPressed: () => _shiftDay(1)),
+          IconButton(tooltip: 'Next day', icon: const Icon(Icons.chevron_right), onPressed: () => _shiftDay(1)),
         ],
       ),
     );
@@ -275,7 +276,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           child: Row(
             children: [
-              IconButton(
+              IconButton(tooltip: 'Previous year', 
                 icon: const Icon(Icons.chevron_left),
                 onPressed: () => setState(() {
                   _yearFocus--;
@@ -287,7 +288,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
                   child: Text('$_yearFocus', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
                 ),
               ),
-              IconButton(
+              IconButton(tooltip: 'Next year', 
                 icon: const Icon(Icons.chevron_right),
                 onPressed: () => setState(() {
                   _yearFocus++;
@@ -403,7 +404,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
   Color? _statusColor(ThemeData theme, String status) {
     switch (status) {
       case 'completed':
-        return Colors.green.shade600;
+        return AppColors.success;
       case 'skipped':
         return theme.colorScheme.error;
       default:
@@ -463,7 +464,6 @@ class _MySchedulePageState extends State<MySchedulePage> {
                     controller: noteController,
                     decoration: const InputDecoration(
                       labelText: 'Note (optional)',
-                      border: OutlineInputBorder(),
                     ),
                     maxLines: 2,
                     enabled: !saving,

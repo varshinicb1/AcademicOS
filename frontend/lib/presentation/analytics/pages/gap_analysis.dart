@@ -5,6 +5,7 @@ import '../../../core/local_engine/local_store.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// Pillar 5 — Teacher Intelligence: actions, not marks.
 class GapAnalysisPage extends StatefulWidget {
@@ -185,7 +186,7 @@ class _GapAnalysisPageState extends State<GapAnalysisPage> {
                         ),
                         ChipTag(
                             label: '${m.percentage.round()}% of class',
-                            color: Colors.deepOrange),
+                            color: AppColors.warning),
                       ],
                     ),
                   )),
@@ -206,7 +207,7 @@ class _GapAnalysisPageState extends State<GapAnalysisPage> {
                           ),
                           ChipTag(
                             label: '${(c.classAccuracy * 100).round()}%',
-                            color: c.classAccuracy < 0.6 ? Colors.red : Colors.green,
+                            color: c.classAccuracy < 0.6 ? AppColors.danger : AppColors.success,
                           ),
                         ],
                       ),

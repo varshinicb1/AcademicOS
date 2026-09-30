@@ -2961,6 +2961,21 @@
             "default": true,
             "title": "Reflowplans",
             "type": "boolean"
+          },
+          "sectionIds": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionids"
           }
         },
         "required": [
@@ -16467,6 +16482,22 @@
         "title": "ValidationError",
         "type": "object"
       },
+      "WaiveRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "reason": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reason"
+        ],
+        "title": "WaiveRequest",
+        "type": "object"
+      },
       "WeekProgress": {
         "properties": {
           "answered": {
@@ -19483,7 +19514,7 @@
     },
     "/api/v1/curriculum/academic-years/{academic_year_id}/closures": {
       "post": {
-        "description": "A day lost at short notice, or after the fact (rain, an event, an exam\nday): every section's periods that day become lost periods, the day's\ncover is cancelled, the holiday goes on the calendar and the section\nplans move past it.",
+        "description": "A day lost at short notice, or after the fact (rain, an event, an exam\nday): every section's periods that day become lost periods, the day's\ncover is cancelled, the holiday goes on the calendar and the section\nplans move past it. With `sectionIds`, only those sections close: the\ncalendar keeps the day (the rest of the school teaches) and only their\nplans move.",
         "operationId": "declare_closure_api_v1_curriculum_academic_years__academic_year_id__closures_post",
         "parameters": [
           {
@@ -22310,6 +22341,23 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/WaiveRequest"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Req"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "content": {

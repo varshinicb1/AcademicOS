@@ -1,6 +1,8 @@
 // The Timetable page (SCH-2/3, SCH-8, ADM-1): allocations with a co-teacher,
 // a lab and double periods; rooms and when one is out of use; the bell typed
-// as lines; generating with a preview before publishing; a section's week.
+// as lines; the periods a teacher cannot teach; generating with a preview
+// before publishing; a section's week, edited by hand with periods locked and
+// every clash the server finds listed (audit N-3-5).
 //
 // Until this page the school's timetable could be set only through the API
 // or a CSV import: the web had no allocation grid, no bell, no rooms and no
@@ -18,6 +20,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../responsive/responsive_harness.dart';
+
 const _phone = Size(375, 812);
 
 class _Backend implements HttpClientAdapter {
@@ -27,6 +31,7 @@ class _Backend implements HttpClientAdapter {
     'removed': 2, 'seconds': 1.5, 'entries': <dynamic>[],
   };
   int? roomClosureStatus;
+  bool weekClash = false;
 
   static const _json = {Headers.contentTypeHeader: ['application/json']};
 
@@ -94,6 +99,32 @@ class _Backend implements HttpClientAdapter {
       case ('POST', '/curriculum/academic-years/ay_1/timetable/solve'):
         final apply = (o.data as Map)['apply'] == true;
         return _ok({...solveAnswer, 'applied': apply && solveAnswer['status'] == 'solved'});
+      case ('PUT', '/curriculum/sections/sec_a/timetable'):
+        if (weekClash) {
+          return ResponseBody.fromString(jsonEncode({'detail': {
+            'message': 'the timetable has clashes; nothing was changed',
+            'clashes': [
+              'Tuesday period 2: the teacher already teaches 10-B then',
+              'Science gets 7 periods a week here but is allocated 6',
+            ],
+          }}), 409, headers: _json);
+        }
+        final entries = ((o.data as Map)['entries'] as List).cast<Map>();
+        return _ok({
+          'sectionId': 'sec_a', 'bellScheduleId': 'bell_1',
+          'entries': [
+            for (final (i, e) in entries.indexed)
+              {'id': 'tt_new_$i', 'sectionId': 'sec_a', ...e, 'teacherId': e['teacherId'] ?? 't_ana',
+                'coTeacherId': null, 'subjectName': 'Science', 'teacherName': 'Ana'},
+          ],
+          'gaps': <dynamic>[],
+        });
+      case ('GET', '/curriculum/academic-years/ay_1/teacher-unavailability'):
+        return _ok([
+          {'teacherId': 't_ana', 'slots': [{'dayOfWeek': 0, 'period': 1}, {'dayOfWeek': 0, 'period': 2}]},
+        ]);
+      case ('PUT', '/curriculum/academic-years/ay_1/teacher-unavailability/t_dev'):
+        return _ok({'teacherId': 't_dev', ...Map<String, dynamic>.from(o.data as Map)});
       case ('GET', '/curriculum/sections/sec_a/timetable'):
         return _ok({
           'sectionId': 'sec_a', 'bellScheduleId': 'bell_1',
@@ -113,6 +144,7 @@ class _Backend implements HttpClientAdapter {
 }
 
 void main() {
+  useAppFonts();
   late Directory tmp;
   late _Backend backend;
 
@@ -309,4 +341,111 @@ void main() {
     expect(find.text('Science\nAna\n+ Dev\nLab 1'), findsOneWidget);
     expect(find.textContaining('Still to place: 1 of 6'), findsOneWidget);
   });
+
+  Future<void> openWeek(WidgetTester tester) async {
+    await openTab(tester, 'Week');
+    await choose(tester, 'week-section', '10-A');
+  }
+
+  // A cell is tapped on its text: the DataCell's ink takes the tap there.
+  Future<void> tapCell(WidgetTester tester, int day, int period) async {
+    final text = find.descendant(of: find.byKey(ValueKey('week-cell-$day-$period')), matching: find.byType(Text)).first;
+    await tester.ensureVisible(text);
+    await tester.tap(text);
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> editCell(WidgetTester tester, int day, int period, {String? subject, bool lock = false}) async {
+    await tapCell(tester, day, period);
+    if (subject != null) await choose(tester, 'cell-subject', subject);
+    if (lock) {
+      await tester.tap(find.byKey(const ValueKey('cell-locked')));
+      await tester.pumpAndSettle();
+    }
+    await tester.tap(find.byKey(const ValueKey('cell-apply')));
+    await tester.pumpAndSettle();
+  }
+
+  testWidgets('a period is added and locked, and the whole week is saved at once', (tester) async {
+    await pump(tester);
+    await openWeek(tester);
+    expect(find.byKey(const ValueKey('week-save')), findsNothing, reason: 'nothing to save before an edit');
+    await editCell(tester, 1, 2, subject: 'Science (6 a week)', lock: true);
+    expect(find.byIcon(Icons.lock_outline), findsOneWidget);
+    expect(find.textContaining('Still to place: 2 of 6'), findsOneWidget);
+    await tapKey(tester, 'week-save');
+    final (method, path, body) = backend.sent.single;
+    expect((method, path), ('PUT', '/curriculum/sections/sec_a/timetable'));
+    expect((body as Map)['entries'], [
+      {'dayOfWeek': 0, 'period': 1, 'subjectId': 'sci', 'teacherId': 't_ana', 'roomId': 'room_lab', 'locked': false},
+      {'dayOfWeek': 1, 'period': 2, 'subjectId': 'sci', 'teacherId': null, 'roomId': null, 'locked': true},
+    ]);
+    expect(find.text('Saved: 2 periods'), findsOneWidget);
+    expect(find.byKey(const ValueKey('week-save')), findsNothing);
+  });
+
+  testWidgets('a week the school refuses lists every clash and keeps the edit', (tester) async {
+    backend.weekClash = true;
+    await pump(tester);
+    await openWeek(tester);
+    await editCell(tester, 1, 2, subject: 'Science (6 a week)');
+    await tapKey(tester, 'week-save');
+    expect(find.text('Not saved: 2 clashes. The week is kept as it was.'), findsOneWidget);
+    expect(find.text('• Tuesday period 2: the teacher already teaches 10-B then'), findsOneWidget);
+    expect(find.text('• Science gets 7 periods a week here but is allocated 6'), findsOneWidget);
+    expect(find.byKey(const ValueKey('week-save')), findsOneWidget, reason: 'the edit is kept to fix and save again');
+  });
+
+  testWidgets('a period is made free, and discarding brings the saved week back', (tester) async {
+    await pump(tester);
+    await openWeek(tester);
+    await editCell(tester, 0, 1, subject: 'Free period');
+    expect(find.text('Science\nAna\n+ Dev\nLab 1'), findsNothing);
+    await tapKey(tester, 'week-discard');
+    expect(find.text('Science\nAna\n+ Dev\nLab 1'), findsOneWidget);
+    expect(backend.sent, isEmpty);
+  });
+
+  testWidgets('the periods a teacher cannot teach are shown and saved', (tester) async {
+    await pump(tester);
+    await openTab(tester, 'Availability');
+    expect(find.text('2 periods they cannot teach'), findsOneWidget);
+    expect(find.text('Can teach every period'), findsOneWidget);
+    await tester.tap(find.byTooltip('Periods they cannot teach: Dev'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('unavail-2-1')));
+    await tester.pump();
+    await tester.tap(find.byKey(const ValueKey('unavail-save')));
+    await tester.pumpAndSettle();
+    final (method, path, body) = backend.sent.single;
+    expect((method, path), ('PUT', '/curriculum/academic-years/ay_1/teacher-unavailability/t_dev'));
+    expect(body, {'slots': [{'dayOfWeek': 2, 'period': 1}]});
+  });
+
+  for (final (name, screen) in [
+    ('390 px', (size: const Size(390, 844), textScale: 1.0)),
+    ('390 px at 1.3x text', (size: const Size(390, 844), textScale: 1.3)),
+    ('1280 px', (size: const Size(1280, 800), textScale: 1.0)),
+  ]) {
+    testWidgets('the Week and Availability tabs fit at $name', (tester) async {
+      await pumpPage(tester, const TimetableAdminPage(), screen);
+      await openWeek(tester);
+      expectNoOverflow(tester, where: ' on the week');
+      await tapCell(tester, 1, 2);
+      await choose(tester, 'cell-subject', 'Science (6 a week)');
+      expectNoOverflow(tester, where: ' in the period dialog');
+      await tester.tap(find.byKey(const ValueKey('cell-apply')));
+      await tester.pumpAndSettle();
+      await scrollToAndExpectReady(tester, find.byKey(const ValueKey('week-save')), screen, label: 'Save the week');
+      backend.weekClash = true;
+      await tapKey(tester, 'week-save');
+      expectNoOverflow(tester, where: ' with the clashes listed');
+      await tapKey(tester, 'week-discard');
+      await openTab(tester, 'Availability');
+      expectNoOverflow(tester, where: ' on availability');
+      await tester.tap(find.byTooltip('Periods they cannot teach: Ana'));
+      await tester.pumpAndSettle();
+      expectNoOverflow(tester, where: ' in the availability dialog');
+    });
+  }
 }

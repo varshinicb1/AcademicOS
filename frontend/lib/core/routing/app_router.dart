@@ -49,9 +49,12 @@ import '../../presentation/workspace/teacher_homework.dart';
 import '../../presentation/workspace/week_page.dart';
 import '../../presentation/workspace/workspace_page.dart';
 import '../../presentation/workspace/timetable_admin_page.dart';
+import '../../presentation/workspace/lesson_plan_page.dart';
+import '../../presentation/workspace/periods_owed_page.dart';
 import '../../presentation/workspace/school_profile_page.dart';
 import '../session/current_session.dart';
 import '../local_engine/local_store.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final router = GoRouter(
@@ -270,6 +273,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(path: 'api-keys', builder: (context, state) => const ApiKeysPage()),
               GoRoute(path: 'grants', builder: (context, state) => const GrantsPage()),
               GoRoute(path: 'timetable', builder: (context, state) => const TimetableAdminPage()),
+              GoRoute(path: 'lesson-plans', builder: (context, state) => const LessonPlanPage()),
+              GoRoute(path: 'periods-owed', builder: (context, state) => const PeriodsOwedPage()),
               GoRoute(path: 'school-profile', builder: (context, state) => const SchoolProfilePage()),
               GoRoute(path: 'today', builder: (context, state) => const StudentTodayPage()),
               GoRoute(path: 'week', builder: (context, state) => const WeekPage()),
@@ -351,7 +356,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.error_outline, size: 64, color: Colors.red),
+            const Icon(Icons.error_outline, size: 64, color: AppColors.danger),
             const SizedBox(height: 16),
             Text(
               'Page not found',
@@ -421,5 +426,8 @@ String? roleLanding(String location,
   if (mode != AppMode.console && role.isNotEmpty) return appHome(mode, role: role);
   if (role == 'parent') return '/school/family';
   if (role == 'student') return '/school';
+  // The principal's first screen is the school at a glance (Overview), not
+  // a teacher's day.
+  if (role == 'principal') return '/school';
   return null;
 }

@@ -12,6 +12,7 @@ import '../../blocs/assessment_bloc.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 import '../../paper_builder/pages/paper_builder_page.dart' show newPaperLocation;
+import 'package:academicos/core/theme/app_theme.dart';
 
 class AssessmentListPage extends StatefulWidget {
   const AssessmentListPage({super.key});
@@ -177,7 +178,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
             return AlertDialog(
               title: const Row(
                 children: [
-                  Icon(Icons.flash_on, color: Colors.amber),
+                  Icon(Icons.flash_on, color: AppColors.warning),
                   SizedBox(width: 8),
                   Text('1-Click Quick Paper'),
                 ],

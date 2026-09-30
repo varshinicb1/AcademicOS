@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/session/current_session.dart';
 
@@ -7,6 +8,7 @@ import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'teacher_homework.dart' show TeachingContext;
 import 'strings.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 const _base = '/curriculum';
 
@@ -106,6 +108,12 @@ class _CoverPageState extends State<CoverPage> {
     };
     return Scaffold(
       appBar: AppBar(title: Text(tr('Attendance & cover')), actions: [
+        // A period run as "Lose the period" is owed; this is where it is paid back.
+        IconButton(
+          tooltip: tr('Periods owed'),
+          icon: const Icon(Icons.restore_outlined),
+          onPressed: () => context.push('/school/periods-owed'),
+        ),
         TextButton.icon(
           icon: const Icon(Icons.calendar_today),
           label: Text(_date),
@@ -225,7 +233,7 @@ class _AssignDialogState extends State<_AssignDialog> {
                 ListTile(
                   title: Text(widget.name(c['teacherId'])),
                   subtitle: Text((c['reasons'] as List).join(' · ')),
-                  trailing: c['qualified'] == true ? const ChipTag(label: 'Teaches it', color: Colors.green) : null,
+                  trailing: c['qualified'] == true ? const ChipTag(label: 'Teaches it', color: AppColors.success) : null,
                   onTap: () => _do({'substituteId': c['teacherId']}),
                 ),
               const Divider(),

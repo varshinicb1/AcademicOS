@@ -6,6 +6,7 @@ import '../../../core/local_engine/local_store.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// Pillar 3 — Learning Intelligence: what the student actually knows.
 class MasteryDashboard extends StatefulWidget {
@@ -143,7 +144,7 @@ class _MasteryDashboardState extends State<MasteryDashboard> {
                               spacing: 6,
                               runSpacing: 4,
                               children: m.weakConcepts
-                                  .map((c) => ChipTag(label: c, color: Colors.red.shade400))
+                                  .map((c) => ChipTag(label: c, color: AppColors.danger))
                                   .toList(),
                             ),
                             const SizedBox(height: 12),
@@ -170,10 +171,10 @@ class _MasteryDashboardState extends State<MasteryDashboard> {
 
   Widget _conceptTile(ConceptMastery c) {
     final color = c.mastery >= 0.85
-        ? Colors.green
+        ? AppColors.success
         : c.mastery >= 0.55
-            ? Colors.orange
-            : Colors.red;
+            ? AppColors.warning
+            : AppColors.danger;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

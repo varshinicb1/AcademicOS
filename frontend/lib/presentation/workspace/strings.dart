@@ -58,6 +58,11 @@ const _hi = <String, String>{
   'You manage leave and cover': 'आप छुट्टी और स्थानापन्न देखते हैं',
   'You manage exam planning': 'आप परीक्षा योजना देखते हैं',
   'You manage people': 'आप लोगों को देखते हैं',
+  'Periods owed': 'बकाया कालांश',
+  'Make up or waive lost periods; close a day at short notice': 'छूटे कालांश पूरे करें या माफ़ करें; अचानक छुट्टी घोषित करें',
+  'Make up or waive lost periods': 'छूटे कालांश पूरे करें या माफ़ करें',
+  'Lesson plans': 'पाठ योजनाएँ',
+  "Date each section's lessons from its book and timetable": 'हर वर्ग के पाठ उसकी पुस्तक और समय-सारणी से तिथिवार करें',
   // phone app tabs
   'Today': 'आज',
   'Progress': 'प्रगति',
