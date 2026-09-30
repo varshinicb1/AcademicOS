@@ -1,8 +1,8 @@
 // Task 801: today's lessons and marking one taught, at phone, tablet and
-// laptop widths. The Today page's ways in (the New Assessment action and the
-// My Schedule card) and the schedule itself -- Day, Week and Month -- must
-// fit, and the Yes button of the "Did you teach this?" sheet must be on
-// screen and big enough to hit.
+// laptop widths. The Today page (its New paper action and today's lessons,
+// since the 2026-10-01 review) and the schedule itself -- Day, Week and
+// Month -- must fit, and the Yes button of the "Did you teach this?" sheet
+// must be on screen and big enough to hit.
 //
 // A real Dio whose interceptor answers the curriculum routes in the shape the
 // server returns (MyScheduleEntry, curriculum/schemas.py), no network.
@@ -17,7 +17,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:academicos/core/local_engine/local_store.dart';
 import 'package:academicos/data/datasources/api/curriculum_api.dart';
-import 'package:academicos/presentation/home/pages/home_page.dart';
+import 'package:academicos/presentation/home/pages/today_page.dart';
 import 'package:academicos/presentation/schedule/pages/my_schedule_page.dart';
 
 import 'responsive_harness.dart';
@@ -77,6 +77,12 @@ class _Schedule extends Interceptor {
       handler.resolve(Response(requestOptions: options, statusCode: 200, data: null));
       return;
     }
+    // The Today page's other cards: nothing waiting, no papers yet.
+    if (options.method == 'GET' &&
+        const {'/curriculum/my-day', '/paper-reviews', '/homework', '/assessments'}.contains(options.path)) {
+      handler.resolve(Response(requestOptions: options, statusCode: 200, data: <Object>[]));
+      return;
+    }
     rejected.add('${options.method} ${options.path}');
     handler.reject(DioException.badResponse(
         statusCode: 404,
@@ -108,6 +114,7 @@ void main() {
     server = _Schedule();
     final dio = Dio(BaseOptions(baseUrl: 'http://backend.invalid/api/v1'))..interceptors.add(server);
     GetIt.I.registerSingleton<CurriculumApi>(CurriculumApi(dio));
+    GetIt.I.registerSingleton<Dio>(dio);   // the Today page reads through Ops
   });
   tearDown(() {
     // Before the reset, so a page that quietly fell back to an empty state
@@ -119,11 +126,11 @@ void main() {
   });
 
   for (final MapEntry(key: name, value: size) in screenSizes.entries) {
-    testWidgets('the Today page fits and New Assessment and My Schedule are ready at $name', (tester) async {
-      await pumpPage(tester, const HomePage(), size);
+    testWidgets("the Today page fits and New paper and today's lessons are ready at $name", (tester) async {
+      await pumpPage(tester, const TodayPage(), size);
       expectNoOverflow(tester);
-      expectActionReady(tester, _tappable('New Assessment'), size, label: 'New Assessment');
-      expectActionReady(tester, _tappable('My Schedule'), size, label: 'the My Schedule card');
+      expectActionReady(tester, _button('New paper'), size, label: 'New paper');
+      expectActionReady(tester, _tappable(_longLesson), size, label: "today's first lesson");
     });
 
     testWidgets("today's lessons fit and one is marked taught with Yes at $name", (tester) async {

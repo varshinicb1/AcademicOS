@@ -6,6 +6,7 @@ import '../../../core/session/current_session.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../data/datasources/api/api_error.dart';
 import '../../paper_builder/pages/paper_builder_page.dart' show newPaperLocation;
+import '../../shared/widgets/common_widgets.dart' show phoneTapTarget;
 import '../../shared/widgets/shell.dart';
 import '../../workspace/ops_api.dart';
 
@@ -102,6 +103,7 @@ class _TodayPageState extends State<TodayPage> {
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: FilledButton.icon(
+              style: phoneTapTarget(context),
               onPressed: () => context.push(newPaperLocation()),
               icon: const Icon(Icons.add, size: 18),
               label: const Text('New paper'),
