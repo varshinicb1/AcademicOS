@@ -138,8 +138,8 @@ def refusal(q: dict, book: BookText, second: Optional[dict[str, str]]) -> Option
         if not all(_supported(p.get("text"), p.get("evidence")) for p in points):
             return "answer-not-in-quote"
         if q.get("type") == "mcq":
-            chosen = (q.get("options") or {}).get(a.get("correctOption"))
-            if not _supported(chosen, " ".join(str(p.get("evidence") or "") for p in points)):
+            if not _one_option_stated(q, a.get("correctOption"),
+                                      " ".join(str(p.get("evidence") or "") for p in points)):
                 return "answer-not-in-quote"
         return None
     if src == "solved":
@@ -170,8 +170,7 @@ def refusal(q: dict, book: BookText, second: Optional[dict[str, str]]) -> Option
                 return "answer-not-in-quote"
         whole = a.get("evidence") or " ".join(str(p.get("evidence") or "") for p in a.get("points") or [])
         if q.get("type") == "mcq":
-            chosen = (q.get("options") or {}).get(a.get("correctOption"))
-            if not _supported(chosen, whole):
+            if not _one_option_stated(q, a.get("correctOption"), whole):
                 return "answer-not-in-quote"
         elif a.get("finalAnswer") and not _supported(a.get("finalAnswer"), whole):
             return "answer-not-in-quote"
@@ -189,11 +188,34 @@ def _supported(answer: Any, quote: Any) -> bool:
         return False
     if not numbers(answer, signed=True) <= numbers(quote, signed=True):
         return False
-    if text in where:
-        return True
-    words = [w for w in text.split() if len(w) > 2 or not w.isascii()]
     have = set(where.split())
+    mine = set(text.split())
+    # A negation must agree both ways: "Plants do not need sunlight" is not
+    # stated by "Plants need sunlight", nor the reverse (re-review of #54).
+    if (mine & _NEGATIONS) - have:
+        return False
+    if f" {text} " in f" {where} ":          # whole words: "sun" is not in "sunlight"
+        return True
+    if (have & _NEGATIONS) - mine:
+        return False                          # the quote negates what the answer leaves out
+    words = [w for w in text.split() if len(w) > 2 or not w.isascii()]
     return bool(words) and sum(w in have for w in words) / len(words) >= 0.75
+
+
+# Words that turn a statement into its opposite (English and Hindi).
+_NEGATIONS = frozenset({"not", "no", "never", "nor", "neither", "none", "nothing", "nobody", "cannot",
+                        "नहीं", "न", "मत", "कभी"})
+
+
+def _one_option_stated(q: dict, chosen_letter: Any, quote: Any) -> bool:
+    """The quote states the chosen option and no other: a quote naming Earth
+    and Venus keys neither (re-review of #54)."""
+    opts = q.get("options") or {}
+    if not _supported(opts.get(chosen_letter), quote):
+        return False
+    where = f" {_norm(quote)} "
+    return not any(f" {_norm(text)} " in where for letter, text in opts.items()
+                   if letter != chosen_letter and _norm(text))
 
 
 BLOOMS = ("remember", "understand", "apply", "analyze", "evaluate", "create")

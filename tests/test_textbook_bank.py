@@ -173,3 +173,17 @@ def test_the_answer_served_is_the_one_its_quote_states():
     assert [r["reason"] for r in tb.build(_tb([wrong_letter]), CHAPTER).refused] == ["answer-not-in-quote"]
     right = _q("Q6", stem, {"source": "grounded", "correctOption": "B", "points": evidence}, type="mcq", options=opts)
     assert len(tb.build(_tb([right]), CHAPTER).records) == 1
+
+
+def test_support_needs_whole_words_agreeing_negation_and_one_option():
+    """The re-review's three false accepts: a quote naming two options keyed
+    either; a dropped or added "not" passed on word overlap; "Sun" matched
+    inside "sunlight"."""
+    assert tb._supported("Plants need sunlight to make food", "Plants need sunlight to make food.")
+    assert not tb._supported("Plants do not need sunlight", "Plants need sunlight to make food.")
+    assert not tb._supported("Plants need sunlight", "Plants do not need sunlight in the dark room.")
+    assert not tb._supported("Sun", "Plants use sunlight.")
+    q = {"options": {"A": "Earth", "B": "Venus", "C": "Mars", "D": "Jupiter"}}
+    quote = "Earth is the only planet with life, and Venus is the hottest planet."
+    assert not tb._one_option_stated(q, "B", quote)
+    assert tb._one_option_stated(q, "A", "Earth is the only planet known to support life.")
