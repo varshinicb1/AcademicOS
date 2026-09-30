@@ -48,3 +48,21 @@ def test_catalog_converts_each_pool_once_and_answers_the_same(tmp_path, monkeypa
             assert calls["n"] == 2 * after_first
     finally:
         pool_module._CACHE.clear()
+
+
+def test_pool_warmup_is_off_under_pytest_and_by_switch(monkeypatch):
+    """The boot warm-up never runs in the suite (tests swap banks), and an
+    operator can turn it off; otherwise it starts one daemon thread."""
+    import threading
+    started = []
+    monkeypatch.setattr(threading, "Thread", lambda *a, **k: started.append(k) or type(
+        "T", (), {"start": lambda self: None})())
+    pillar_routes._start_pool_warmup(pillar_routes._cfg or object())
+    assert started == [], "warm-up ran under pytest"
+    monkeypatch.delenv("PYTEST_CURRENT_TEST", raising=False)
+    monkeypatch.setenv("ACOS_WARM_POOLS", "0")
+    pillar_routes._start_pool_warmup(object())
+    assert started == []
+    monkeypatch.setenv("ACOS_WARM_POOLS", "1")
+    pillar_routes._start_pool_warmup(object())
+    assert len(started) == 1 and started[0]["daemon"] is True and started[0]["name"] == "pool-warmup"

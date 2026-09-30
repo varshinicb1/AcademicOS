@@ -71,6 +71,37 @@ def init(config: Config) -> None:
     # Same path routes.py's AssessmentStore uses -- read-only here (just the
     # school-ownership check below), routes.py remains the sole writer.
     _assessments = AssessmentStore(config.data_root / "assessments" / "assessments.sqlite")
+    _start_pool_warmup(config)
+
+
+def _start_pool_warmup(config: Config) -> None:
+    """Build every served question pool, and its catalog summary, in the
+    background after boot.
+
+    Pools are built on first use, and the first catalog call on a fresh
+    revision built them all inline: it took over 30 s and held the one
+    instance, which answered other callers "Rate exceeded" (production,
+    2026-10-01). Warming them as the revision starts puts that cost before
+    the first user. Skipped under pytest, which swaps banks per test, and
+    with ACOS_WARM_POOLS=0. A failure only means pools build on first use,
+    as before."""
+    import logging
+    import os
+    import threading
+
+    if "PYTEST_CURRENT_TEST" in os.environ or os.environ.get("ACOS_WARM_POOLS", "1") == "0":
+        return
+
+    def warm() -> None:
+        try:
+            for subject, grade in _catalog_scope(config):
+                pool = get_pool(config, subject=subject, grade=_int_grade_to_roman(grade))
+                if pool.questions:
+                    _pool_summary(pool)
+        except Exception:  # noqa: BLE001 - logged; pools then build on first use
+            logging.getLogger(__name__).warning("pool warm-up failed; pools build on first use", exc_info=True)
+
+    threading.Thread(target=warm, name="pool-warmup", daemon=True).start()
 
 
 def _require() -> tuple[Config, KnowledgeStore, TemplateStore]:
