@@ -20,7 +20,8 @@ even two overlapping runs cannot double a message.
 - marking_due (from 15:00): teachers with submissions waiting over two days
   for their marks (TA-7).
 - principal_alerts (from 08:00): sections behind plan, lost periods owed over a
-  week, homework overdue in bulk, exams within a week without a full roster (ADM-3).
+  week, homework overdue in bulk, exams within a week without a full roster or
+  with a paper not set (no approved question paper) (ADM-3).
 - exam_reminders (from 17:00): students with a paper tomorrow, and invigilators
   with duties tomorrow, in a published exam (NTF-2, SA-5).
 - term_report (from 15:00): on a term's last day, its principal hears the term
@@ -125,7 +126,7 @@ def homework_due_tomorrow(ops, cs, users, notify, now: datetime) -> int:
                     if e.student_id in done:
                         continue
                     notify(school_id=school, user_ids=[e.student_id], kind="homework_due",
-                           params={"title": hw.title, "due": "tomorrow"}, link=f"/my-homework/{hw.id}",
+                           params={"title": hw.title, "due": "tomorrow", "due_hi": "कल"}, link=f"/my-homework/{hw.id}",
                            dedupe_key=f"hwdue:{hw.id}:{e.student_id}:{tomorrow}")
                     n += 1
     return n
@@ -164,10 +165,15 @@ def substitution_escalation(ops, cs, users, notify, now: datetime) -> int:
             stuck = s.status == "open" or (s.status in ("proposed", "declined") and s.updated_at <= cutoff)
             if not stuck:
                 continue
-            what = "has no substitute" if s.status in ("open", "declined") else "is not accepted yet"
+            unfilled = s.status in ("open", "declined")
+            what = "has no substitute" if unfilled else "is not accepted yet"
+            label, subject = _label(cs, s.section_id), _subject(cs, s.subject_id)
             notify(school_id=school, user_ids=principals, kind="principal_alert",
-                   params={"title": f"Cover needed: {_label(cs, s.section_id)} period {s.period}",
-                           "body": f"{_subject(cs, s.subject_id)} on {s.date} {what}."},
+                   params={"title": f"Cover needed: {label} period {s.period}",
+                           "body": f"{subject} on {s.date} {what}.",
+                           "title_hi": f"स्थानापन्न चाहिए: {label} पीरियड {s.period}",
+                           "body_hi": (f"{s.date} को {subject} के लिए कोई स्थानापन्न नहीं है।" if unfilled
+                                       else f"{s.date} को {subject} का स्थानापन्न अभी तक स्वीकार नहीं हुआ है।")},
                    link=f"/cover?date={s.date}", dedupe_key=f"subesc:{s.id}:{s.status}")
             n += 1
     return n
@@ -190,7 +196,9 @@ def teacher_daily_digest(ops, cs, users, notify, now: datetime) -> int:
             notify(school_id=school, user_ids=[u.id], kind="daily_digest",
                    params={"periods": len(rows) - duties, "duties": duties,
                            "first": f"period {first['period']}, {_label(cs, first['sectionId'])} "
-                                    f"{_subject(cs, first['subjectId'])}"},
+                                    f"{_subject(cs, first['subjectId'])}",
+                           "first_hi": f"पीरियड {first['period']}, {_label(cs, first['sectionId'])} "
+                                       f"{_subject(cs, first['subjectId'])}"},
                    link=f"/my-day?date={tomorrow}", dedupe_key=f"digest:{u.id}:{tomorrow}")
             n += 1
     return n
@@ -245,12 +253,57 @@ def marking_due(ops, cs, users, notify, now: datetime) -> int:
 
 BEHIND_LESSONS = 5          # a section this many lessons behind its plan is "falling behind"
 OWED_AFTER_DAYS = 7         # a lost period owed this long is flagged
+# A generated question paper the principal has approved, or one already past
+# approval (schemas.AssessmentStatus); "archived" is not a paper in use.
+APPROVED_PAPER = frozenset({"principalApproved", "printed", "conducted", "scanning", "scanned", "evaluating",
+                            "evaluated", "teacherReviewed", "reportsGenerated", "remediationSent"})
+
+
+def _papers_not_set(ops, cs, ex: dict, papers: list[dict], today: str) -> Optional[list[tuple[int, str]]]:
+    """N-67-9: the datesheet papers from today on with no approved question
+    paper, as (class, subject). An exam paper row carries no link to a
+    generated paper, so one is matched on what both record: the school, the
+    class, the subject (without case, as paper_timing does), and when it was
+    made (its scheduled date if set, else its creation) -- after the previous
+    sitting of that class and subject in any of the school's exams (else from
+    the start of the exam's year) and no later than this sitting. None when
+    the question papers cannot be read, so nothing is claimed either way."""
+    from ..assessment import routes as ar
+    if ar._store is None:
+        return None
+    try:
+        approved = [a for a in ar._store.list_by_school(ex["school_id"]) if a.status in APPROVED_PAPER]
+    except Exception:  # noqa: BLE001 - an alert line is not worth failing the morning's alerts
+        log.warning("could not read the question papers of %s", ex["school_id"], exc_info=True)
+        return None
+    sittings: dict[tuple[int, str], list[str]] = {}
+    for other in ops.exams_for_school(ex["school_id"]):
+        for p in ops.exam_papers(other["id"]):
+            sittings.setdefault((p["grade"], p["subject_id"]), []).append(p["date"])
+    year = cs.get_academic_year(ex["academic_year_id"])
+
+    def made(a) -> str:
+        at = a.scheduled_at or a.created_at
+        return (at if at.tzinfo else at.replace(tzinfo=timezone.utc)).astimezone(IST).date().isoformat()
+
+    missing = []
+    for p in papers:
+        if p["date"] < today:
+            continue
+        earlier = [d for d in sittings.get((p["grade"], p["subject_id"]), []) if d < p["date"]]
+        subject = p["subject_name"].strip().casefold()
+        if not any(a.grade == p["grade"] and a.subject.strip().casefold() == subject
+                   and (made(a) > max(earlier) if earlier else made(a) >= (year.start_date if year else ""))
+                   and made(a) <= p["date"] for a in approved):
+            missing.append((p["grade"], p["subject_name"]))
+    return sorted(set(missing))
 
 
 def principal_alerts(ops, cs, users, notify, now: datetime) -> int:
     """ADM-3, once a morning: what needs the principal today, in one
     message -- sections falling behind their plan, lost periods not made up,
-    homework overdue in bulk, exams within a week without a full roster.
+    homework overdue in bulk, exams within a week without a full roster or
+    with a paper that has no approved question paper (_papers_not_set).
     Nothing to report sends nothing."""
     today = now.astimezone(IST).date()
     n = 0
@@ -267,11 +320,13 @@ def principal_alerts(ops, cs, users, notify, now: datetime) -> int:
                 behind[lesson["section_id"]] = behind.get(lesson["section_id"], 0) + 1
         for sid, count in sorted(behind.items(), key=lambda kv: -kv[1]):
             if count >= BEHIND_LESSONS:
-                lines.append(f"{_label(cs, sid)} is {count} lessons behind its plan")
+                lines.append((f"{_label(cs, sid)} is {count} lessons behind its plan",
+                              f"{_label(cs, sid)} अपनी योजना से {count} पाठ पीछे है"))
         cutoff = (today - timedelta(days=OWED_AFTER_DAYS)).isoformat()
         owed = [l for l in cs.lost_periods_for_year(year.id, "owed") if l.date <= cutoff]
         if owed:
-            lines.append(f"{len(owed)} lost periods not made up for over a week")
+            lines.append((f"{len(owed)} lost periods not made up for over a week",
+                          f"{len(owed)} छूटे पीरियड एक सप्ताह से अधिक समय से पूरे नहीं हुए"))
         bulk = 0
         for hw in ops.homework_for_school(school, status="published"):
             if hw.due_date >= today.isoformat():
@@ -281,7 +336,8 @@ def principal_alerts(ops, cs, users, notify, now: datetime) -> int:
             if roster and handed < roster / 2:
                 bulk += 1
         if bulk:
-            lines.append(f"{bulk} homework past due with fewer than half handed in")
+            lines.append((f"{bulk} homework past due with fewer than half handed in",
+                          f"{bulk} गृहकार्य की अंतिम तिथि बीत गई और आधे से कम जमा हुए"))
         soon = (today + timedelta(days=7)).isoformat()
         for ex in ops.exams_for_school(school):
             if not (today.isoformat() <= ex["start_date"] <= soon):
@@ -289,14 +345,28 @@ def principal_alerts(ops, cs, users, notify, now: datetime) -> int:
             papers = ops.exam_papers(ex["id"])
             empty = sum(1 for r in ops.roster(ex["id"]) if not r["teacher_id"])
             if not papers:
-                lines.append(f"{ex['name']} starts {ex['start_date']} with no datesheet")
+                lines.append((f"{ex['name']} starts {ex['start_date']} with no datesheet",
+                              f"{ex['name']} {ex['start_date']} से शुरू है, पर डेटशीट नहीं बनी"))
             elif empty or ex["status"] != "published":
-                lines.append(f"{ex['name']} starts {ex['start_date']}: "
-                             + (f"{empty} rooms without an invigilator" if empty else "not published yet"))
+                lines.append((f"{ex['name']} starts {ex['start_date']}: "
+                              + (f"{empty} rooms without an invigilator" if empty else "not published yet"),
+                              f"{ex['name']} {ex['start_date']} से शुरू है: "
+                              + (f"{empty} कक्षों में निरीक्षक नहीं" if empty else "अभी प्रकाशित नहीं")))
+            unset = _papers_not_set(ops, cs, ex, papers, today.isoformat()) if papers else None
+            if unset:
+                more = len(unset) - 5
+                en = [f"class {g} {s}" for g, s in unset[:5]] + ([f"{more} more"] if more > 0 else [])
+                hi = [f"कक्षा {g} {s}" for g, s in unset[:5]] + ([f"{more} और"] if more > 0 else [])
+                lines.append((f"{ex['name']} starts {ex['start_date']}: no approved question paper for "
+                              + ", ".join(en),
+                              f"{ex['name']} {ex['start_date']} से शुरू है: " + ", ".join(hi)
+                              + " का स्वीकृत प्रश्नपत्र नहीं"))
         if not lines:
             continue
         notify(school_id=school, user_ids=principals, kind="principal_alert",
-               params={"title": f"Needs attention today ({len(lines)})", "body": "; ".join(lines) + "."},
+               params={"title": f"Needs attention today ({len(lines)})",
+                       "body": "; ".join(en for en, _ in lines) + ".",
+                       "title_hi": f"आज ध्यान दें ({len(lines)})", "body_hi": "; ".join(hi for _, hi in lines) + "।"},
                link="/dashboard", dedupe_key=f"alerts:{school}:{today.isoformat()}")
         n += 1
     return n
@@ -332,9 +402,10 @@ def exam_reminders(ops, cs, users, notify, now: datetime) -> int:
                     duties.setdefault(r["teacher_id"], []).append(r)
             for teacher, rows in duties.items():
                 first = min(rows, key=lambda r: r["start_time"])
+                where = f"{_label(cs, first['section_id'])} {first['subject_name']}"
                 notify(school_id=school, user_ids=[teacher], kind="duty_reminder",
-                       params={"exam": ex["name"], "count": len(rows),
-                               "first": f"{_label(cs, first['section_id'])} {first['subject_name']} at {first['start_time']}"},
+                       params={"exam": ex["name"], "count": len(rows), "first": f"{where} at {first['start_time']}",
+                               "first_hi": f"{where}, {first['start_time']} बजे"},
                        link="/my-exams", dedupe_key=f"dutyrem:{ex['id']}:{teacher}:{tomorrow}")
                 n += 1
     return n

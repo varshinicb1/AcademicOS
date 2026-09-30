@@ -249,6 +249,33 @@ def test_my_timetable_is_the_teachers_and_the_students_own_week(w):
     assert theirs["sectionId"] == w.sec["10-B"] and len(theirs["entries"]) == 2
 
 
+def _timetable_notices(user_id):
+    from academicos.operations.routes import store
+    return sum(1 for n in store().inbox(user_id) if n.kind == "timetable_published")
+
+
+def test_a_hand_made_week_tells_its_students_and_the_teachers_it_changes(w):
+    """N-8-5: a manual PUT of a section's week used to notify nobody, and the
+    solver's publish told teachers only."""
+    w.c.post(f"{BASE}/student-enrollments", json={"studentId": w.stu_id, "sectionId": w.sec["10-A"]},
+             headers=w.p1)
+    _bell(w)
+    sci, maths = w.sub10["Science"], w.sub10["Mathematics"]
+    _alloc(w, "10-A", sci, w.t1_id, 6)
+    _alloc(w, "10-A", maths, w.t2_id, 6)
+    assert _week(w, "10-A", [_e(0, 1, sci), _e(0, 2, maths)]).status_code == 200
+    assert [_timetable_notices(u) for u in (w.stu_id, w.t1_id, w.t2_id)] == [1, 1, 1]
+    # Bala's period moves and Ana's does not: the class and Bala hear, Ana does not.
+    assert _week(w, "10-A", [_e(0, 1, sci), _e(0, 3, maths)]).status_code == 200
+    assert [_timetable_notices(u) for u in (w.stu_id, w.t1_id, w.t2_id)] == [2, 1, 2]
+    # The same week saved again changes nothing and tells no one; a refused one neither.
+    assert _week(w, "10-A", [_e(0, 1, sci), _e(0, 3, maths)]).status_code == 200
+    assert _week(w, "10-A", [_e(0, 1, sci), _e(0, 1, maths)]).status_code == 409
+    assert [_timetable_notices(u) for u in (w.stu_id, w.t1_id, w.t2_id)] == [2, 1, 2]
+    items = w.c.get("/api/v1/notifications", headers=w.stu).json()["items"]
+    assert items[0]["title"] == "Timetable updated" and items[0]["link"] == "/my-timetable"
+
+
 # ---------------- rooms and scoping ----------------
 
 def test_rooms_are_named_once_and_kept_while_used(w):

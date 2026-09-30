@@ -85,3 +85,91 @@ def test_the_cron_route_and_status(w, monkeypatch):
     assert r.status_code == 200 and "substitution_escalation" in r.json()["jobs"]
     assert w.c.get("/api/v1/automations/status", headers=w.p).status_code == 200
     assert w.c.get("/api/v1/automations/status", headers=w.t["ana"]).status_code == 403
+
+
+def _hindi(w, headers):
+    from academicos.operations.routes import store
+    uid = w.c.get("/api/v1/auth/me", headers=headers).json()["id"]
+    store().set_settings(uid, language="hi")
+
+
+def test_hindi_readers_get_no_english_in_their_messages(w):
+    """N-8-4: the Hindi templates were filled with English words -- a Hindi
+    student read "गृहकार्य tomorrow तक", and a Hindi principal's alerts were
+    English sentences in a Hindi frame."""
+    _hindi(w, w.stu)
+    _hindi(w, w.p)
+    _homework(w, MON)
+    r = w.c.post("/api/v1/exams", json={"name": "Unit test 1", "startDate": MON, "endDate": "2026-06-05",
+                                        "grades": [10]}, headers=w.p)
+    assert r.status_code == 200, r.text
+    _run(_at("2026-05-31", 18, 30))
+    [due] = [i for i in _kinds(w, w.stu) if i["kind"] == "homework_due"]
+    assert due["title"] == "गृहकार्य कल तक" and "tomorrow" not in due["body"]
+    [alert] = [i for i in _kinds(w, w.p) if i["kind"] == "principal_alert"]
+    assert alert["title"] == "आज ध्यान दें (1)"
+    assert alert["body"] == "Unit test 1 2026-06-01 से शुरू है, पर डेटशीट नहीं बनी।"
+    # An English reader of the same alert still reads English.
+    from academicos.operations.notifications import render
+    title, body = render("principal_alert", {"title": "Needs attention today (1)", "body": "x.",
+                                             "title_hi": "आज ध्यान दें (1)", "body_hi": "y।"}, "en")
+    assert (title, body) == ("Needs attention today (1)", "x.")
+
+
+def _approved_paper(subject, created, status="principalApproved"):
+    import uuid
+
+    from academicos.assessment import routes as ar
+    from academicos.assessment.schemas import Assessment
+    from test_route_inventory import blueprint_body
+    ar._store.save(Assessment.model_validate({
+        "id": f"a_{uuid.uuid4().hex[:8]}", "schoolId": "school_1", "teacherId": "t", "title": f"{subject} paper",
+        "subject": subject, "grade": 10, "chapterIds": [], "blueprint": blueprint_body(), "status": status,
+        "createdAt": created, "updatedAt": created}))
+
+
+def test_an_exam_paper_with_no_approved_question_paper_is_flagged(w):
+    """N-67-9: "exam paper not set by its deadline" checked the datesheet,
+    the roster and publishing -- an exam with all three but no question
+    paper raised nothing. An exam paper row has no link to a generated
+    paper, so it is matched on school, class, subject and when it was made."""
+    subs = {s.name: s.id for g in w.store.grades_for_year(w.year) if g.number == 10
+            for s in w.store.subjects_for_grade(g.id)}
+
+    def exam(name, start, end, papers):
+        r = w.c.post("/api/v1/exams", json={"name": name, "startDate": start, "endDate": end, "grades": [10]},
+                     headers=w.p)
+        eid = r.json()["id"]
+        sheet = w.c.put(f"/api/v1/exams/{eid}/datesheet", headers=w.p, json={"papers": [
+            {"grade": 10, "subjectId": subs[s], "date": d} for s, d in papers]})
+        assert sheet.status_code == 200, sheet.text
+        w.c.post(f"/api/v1/exams/{eid}/invigilation/auto", headers=w.p)
+        w.c.post(f"/api/v1/exams/{eid}/publish", headers=w.p)
+    exam("Unit test 0", "2026-05-18", "2026-05-22", [("Maths", "2026-05-20")])
+    exam("Unit test 1", "2026-06-02", "2026-06-05", [("Science", "2026-06-02"), ("Maths", "2026-06-03")])
+    _approved_paper("science", "2026-05-25T06:00:00Z")      # made for this sitting (the case differs)
+    _approved_paper("Maths", "2026-05-10T06:00:00Z")        # made before Unit test 0's Maths: that one's paper
+    _approved_paper("Maths", "2026-05-28T06:00:00Z", status="paperGenerated")    # not approved yet
+    _run(_at(MON, 8, 30))
+    [alert] = [i for i in _kinds(w, w.p) if i["kind"] == "principal_alert"]
+    assert alert["body"] == "Unit test 1 starts 2026-06-02: no approved question paper for class 10 Maths."
+
+    _approved_paper("Maths", "2026-06-01T04:00:00Z")        # approved now: nothing left to flag
+    from academicos.operations.routes import store
+    with store()._conn_lock:
+        store().conn.execute("DELETE FROM notifications WHERE kind='principal_alert'")
+        store()._commit()
+    _run(_at("2026-06-02", 8, 30))                          # the exam is still within the week
+    assert [i for i in _kinds(w, w.p) if i["kind"] == "principal_alert"] == []
+
+
+def test_a_hindi_principal_reads_the_cover_escalation_in_hindi(w):
+    _hindi(w, w.p)
+    leave = _apply(w, "ana").json()
+    w.c.post(f"{BASE}/leave-requests/{leave['id']}/decision", json={"approve": True}, headers=w.p)
+    w.store._exec("UPDATE substitutions SET updated_at=?", (_at("2026-05-31", 20).isoformat(),))
+    w.store._commit()
+    _run(_at(MON, 7, 10))
+    alerts = [i for i in _kinds(w, w.p) if i["kind"] == "principal_alert"]
+    assert alerts and all(a["title"].startswith("स्थानापन्न चाहिए:") and "पीरियड" in a["title"] for a in alerts)
+    assert all("स्वीकार नहीं हुआ" in a["body"] and "accepted" not in a["body"] for a in alerts)

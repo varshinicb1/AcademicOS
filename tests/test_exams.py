@@ -82,6 +82,95 @@ def test_publishing_tells_students_and_invigilators(w):
         assert exams and all(d["teacherId"] == w.uid[n] for d in exams[0]["duties"])
 
 
+def _count(w, headers, kind):
+    return sum(1 for i in w.c.get("/api/v1/notifications", params={"limit": 200}, headers=headers).json()["items"]
+               if i["kind"] == kind)
+
+
+def _duty_counts(w):
+    return {n: _count(w, w.t[n], "invigilation_duty") for n in ("ana", "bala", "chitra", "dev")}
+
+
+def _roster(out):
+    return {(d["examPaperId"], d["sectionId"]): d["teacherId"] for d in out["duties"]}
+
+
+def test_a_datesheet_change_after_publishing_keeps_the_roster_and_tells_who_it_changes(w):
+    """N-2-4: the web adds a paper by re-sending the whole sheet. That used to
+    delete every duty, even after publishing, and nobody was told."""
+    g10 = next(g for g in w.store.grades_for_year(w.year) if g.number == 10)
+    w.store.create_subject(grade_id=g10.id, name="English")
+    eid = _exam(w)
+    sheet = [(10, "Science", "2026-06-01"), (10, "Maths", "2026-06-02"), (9, "Science", "2026-06-01"),
+             (9, "Maths", "2026-06-02")]
+    _sheet(w, eid, sheet)
+    roster = _roster(w.c.post(f"/api/v1/exams/{eid}/invigilation/auto", headers=w.p).json())
+    assert len(roster) == 6 and all(roster.values())
+    w.c.post(f"/api/v1/exams/{eid}/publish", headers=w.p)
+    duties0, changed0 = _duty_counts(w), _count(w, w.stu, "exam_changed")
+    assert sum(duties0.values()) >= 2 and changed0 == 0
+
+    # the same sheet again: nothing changes and nobody hears
+    same = _sheet(w, eid, sheet)
+    assert same.status_code == 200 and _roster(same.json()) == roster
+    assert _duty_counts(w) == duties0 and _count(w, w.stu, "exam_changed") == 0
+
+    # a paper added, the web's way: the six duties stay, class 10 is told
+    added = _sheet(w, eid, sheet + [(10, "English", "2026-06-03")])
+    assert added.status_code == 200 and added.json()["status"] == "published"
+    assert {k: v for k, v in _roster(added.json()).items()} == roster, "the roster survives"
+    [item] = [i for i in w.c.get("/api/v1/notifications", headers=w.stu).json()["items"]
+              if i["kind"] == "exam_changed"]
+    assert item["title"] == "Datesheet changed: Unit test 1"
+    assert item["body"].startswith("English added on 2026-06-03, 09:30-12:30")
+    assert _duty_counts(w) == duties0, "no duty changed, so no invigilator is told"
+
+    # filling the new paper's rooms tells exactly the teachers who got them
+    filled = _roster(w.c.post(f"/api/v1/exams/{eid}/invigilation/auto", headers=w.p).json())
+    got = {t for k, t in filled.items() if k not in roster}
+    assert len(filled) == 8 and got
+    uid = {v: k for k, v in w.uid.items()}
+    after_fill = _duty_counts(w)
+    assert {uid[t] for t in got} == {n for n in after_fill if after_fill[n] > duties0[n]}
+    w.c.post(f"/api/v1/exams/{eid}/publish", headers=w.p)
+    assert _duty_counts(w) == after_fill, "publishing again tells no one twice"
+
+    # re-timing a paper drops only its duties, and tells its class and its invigilators
+    moved = _sheet(w, eid, [(10, "Science", "2026-06-04")] + sheet[1:] + [(10, "English", "2026-06-03")])
+    assert moved.status_code == 200
+    kept = _roster(moved.json())
+    assert len(kept) == 6 and all(filled[k] == t for k, t in kept.items())
+    lost = {filled[k] for k in filled if k not in kept}
+    changed = [i for i in w.c.get("/api/v1/notifications", headers=w.stu).json()["items"]
+               if i["kind"] == "exam_changed"]
+    assert len(changed) == 2 and changed[0]["body"].startswith("Science moves to 2026-06-04")
+    after_move = _duty_counts(w)
+    assert {n for n in after_move if after_move[n] > after_fill[n]} == {uid[t] for t in lost}
+    _sheet(w, eid, [(10, "Science", "2026-06-04")] + sheet[1:] + [(10, "English", "2026-06-03")])
+    assert _duty_counts(w) == after_move and _count(w, w.stu, "exam_changed") == 2
+
+
+def test_an_invigilator_moved_and_moved_back_hears_both_times(w):
+    eid = _exam(w)
+    _sheet(w, eid, [(10, "Science", "2026-06-01"), (9, "Maths", "2026-06-02")])
+    out = w.c.post(f"/api/v1/exams/{eid}/invigilation/auto", headers=w.p).json()
+    w.c.post(f"/api/v1/exams/{eid}/publish", headers=w.p)
+    duty = next(d for d in out["duties"] if d["teacherId"] != w.uid["dev"] and d["grade"] == 10)
+    was = next(n for n, i in w.uid.items() if i == duty["teacherId"])
+    before = _count(w, w.t[was], "invigilation_duty")
+
+    def move(teacher):
+        r = w.c.put(f"/api/v1/exams/{eid}/invigilation", headers=w.p, json={"duties": [
+            {"examPaperId": duty["examPaperId"], "sectionId": duty["sectionId"], "teacherId": teacher}]})
+        assert r.status_code == 200, r.text
+    move(w.uid["dev"])
+    assert _count(w, w.t[was], "invigilation_duty") == before + 1, "told the duty was taken away"
+    move(duty["teacherId"])
+    assert _count(w, w.t[was], "invigilation_duty") == before + 2, "and told it is back"
+    move(duty["teacherId"])
+    assert _count(w, w.t[was], "invigilation_duty") == before + 2, "the same roster again tells no one"
+
+
 def test_who_may(w):
     assert w.c.post("/api/v1/exams", json={"name": "x", "startDate": "2026-06-01", "endDate": "2026-06-02",
                                            "grades": [10]}, headers=w.t["ana"]).status_code == 403
