@@ -1047,7 +1047,7 @@ class _WeekTabState extends State<_WeekTab> {
       });
     } on OpsError catch (e) {
       // A 409 names every clash; the server kept the old week.
-      if (mounted) setState(() { _error = e.message; _clashes = e.clashes; });
+      if (mounted) setState(() { _error = serverErrorMessage(e); _clashes = e.clashes; });
     } catch (e) {
       if (mounted) setState(() => _error = serverErrorMessage(e));
     } finally {
