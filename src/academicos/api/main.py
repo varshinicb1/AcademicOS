@@ -174,6 +174,59 @@ class _SecurityHeaders:
 
 app.add_middleware(_SecurityHeaders)
 
+
+class _AdminActionAudit:
+    """Every successful change made through a principal or delegated-admin
+    route leaves an audit row: who, which route, which ids (N-67-4). Until
+    2026-09-30 only the routes that wrote their own row were traceable, so
+    who changed the calendar or the terms, or invited whom into the school,
+    was unknown. api/route_policy.py already names each route's level, so
+    this needs no list of its own, and a new admin route is covered the day
+    it is added. Routes that write a detailed row of their own keep it; this
+    one is the floor."""
+
+    MUTATING = frozenset({"POST", "PUT", "PATCH", "DELETE"})
+
+    def __init__(self, app_: Any) -> None:
+        self.app = app_
+
+    async def __call__(self, scope: Any, receive: Any, send: Any) -> None:
+        if scope["type"] != "http" or scope["method"] not in self.MUTATING:
+            await self.app(scope, receive, send)
+            return
+        seen: dict[str, int] = {}
+
+        async def watch(message: Any) -> None:
+            if message["type"] == "http.response.start":
+                seen["status"] = message["status"]
+            await send(message)
+
+        await self.app(scope, receive, watch)
+        if 200 <= seen.get("status", 0) < 300:
+            _audit_admin_action(scope)
+
+
+def _audit_admin_action(scope: Any) -> None:
+    from .route_policy import PRINCIPAL, ROUTE_POLICY
+    from ..assessment import auth_routes
+    from ..assessment.audit_log import get_audit_log
+    path = getattr(scope.get("route"), "path", None)
+    policy = ROUTE_POLICY.get((scope["method"], path))
+    if policy is None or not (policy.level == PRINCIPAL or policy.level.startswith("admin:")):
+        return
+    if auth_routes._cfg is None:
+        return
+    try:
+        get_audit_log(auth_routes._cfg.data_root).append(
+            "admin_action", actor=scope.get("acos_actor"),
+            details={"method": scope["method"], "route": path, "level": policy.level,
+                     "params": {k: str(v) for k, v in (scope.get("path_params") or {}).items()}})
+    except Exception:  # noqa: BLE001 - the change is made; a lost row is logged, not raised
+        logger.warning("could not audit %s %s", scope["method"], path, exc_info=True)
+
+
+app.add_middleware(_AdminActionAudit)
+
 _cfg = get_config()
 _cors_origins = getattr(_cfg, "cors_origins", ["*"])
 if "*" in _cors_origins:

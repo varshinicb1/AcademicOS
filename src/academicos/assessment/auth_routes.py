@@ -188,6 +188,8 @@ def get_current_user(
     user = _require().user_for_session(token)
     if user is None:
         raise HTTPException(401, "session expired or invalid; log in again")
+    # For api/main.py's admin audit: who made the request.
+    request.scope["acos_actor"] = user.id
     if user.role == "parent":
         from ..api.route_policy import PARENT_PATHS
         route = request.scope.get("route")

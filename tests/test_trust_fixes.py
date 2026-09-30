@@ -242,3 +242,25 @@ def test_only_the_schools_users_admin_closes_and_never_the_principal_or_themselv
     _grant(w, "bala", "users", {})
     assert w.c.post(f"/api/v1/auth/users/{me}/close", headers=w.t["bala"]).status_code == 403
     assert w.c.post(f"/api/v1/auth/users/{ana}/close", headers=w.t["bala"]).status_code == 200
+
+
+# ---------------- N-67-4: every admin change leaves an audit row ----------------
+
+def test_each_successful_admin_change_is_audited_with_its_actor_and_route(w):
+    from academicos.assessment import auth_routes
+    from academicos.assessment.audit_log import get_audit_log
+    log = get_audit_log(auth_routes._cfg.data_root)
+    before = len(log.for_action("admin_action"))
+    principal_id = w.c.get("/api/v1/auth/me", headers=w.p).json()["id"]
+    assert w.c.post("/api/v1/auth/invites", json={"role": "teacher"}, headers=w.t["bala"]).status_code == 403
+    assert w.c.get("/api/v1/auth/invites", headers=w.p).status_code == 200
+    made = w.c.post("/api/v1/auth/invites", json={"role": "teacher"}, headers=w.p)
+    assert made.status_code == 200, made.text
+    rows = log.for_action("admin_action")
+    assert len(rows) == before + 1, "only the successful change is recorded, not the refusal or the read"
+    assert rows[0]["actor"] == principal_id
+    assert rows[0]["details"]["route"] == "/api/v1/auth/invites" and rows[0]["details"]["method"] == "POST"
+    code = made.json()["code"]
+    assert w.c.delete(f"/api/v1/auth/invites/{code}", headers=w.p).status_code == 200
+    latest = log.for_action("admin_action")[0]
+    assert latest["details"]["params"] == {"code": code}
