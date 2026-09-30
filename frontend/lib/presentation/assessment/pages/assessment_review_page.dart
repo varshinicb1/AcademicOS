@@ -237,7 +237,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                 ChipTag(label: 'SET ${paper.setLabel}', color: Theme.of(context).colorScheme.tertiaryContainer),
                 const SizedBox(width: 8),
               ],
-              ChipTag(label: assessment.status.name, color: Theme.of(context).colorScheme.primaryContainer),
+              ChipTag(label: assessment.status.label),
             ],
           ),
           const SizedBox(height: 8),
@@ -383,6 +383,10 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
   }
 
   Widget _buildSectionCard(BuildContext context, GeneratedSection section) {
+    // A preset's section is already named "Section A - Objective": the
+    // heading read "Section A — Section A - Objective" (E2E run, 2026-10-01).
+    final lettered = section.name.trimLeft().toLowerCase().startsWith('section ${section.label}'.toLowerCase());
+    final heading = lettered ? section.name : 'Section ${section.label} — ${section.name}';
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: AppCard(
@@ -390,7 +394,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Section ${section.label} — ${section.name} (${section.totalMarks} marks)',
+              '$heading (${section.totalMarks} marks)',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
             ),
             const Divider(),
@@ -551,7 +555,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
             Row(children: [
               const Icon(Icons.lock, size: 16, color: AppColors.success),
               const SizedBox(width: 8),
-              Expanded(child: Text('Approved — paper is locked (${assessment.status.name}).',
+              Expanded(child: Text('Approved — paper is locked (${assessment.status.label}).',
                   style: const TextStyle(fontWeight: FontWeight.w600))),
             ]),
           ],

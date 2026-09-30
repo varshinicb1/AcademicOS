@@ -6,6 +6,7 @@ import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'strings.dart';
 import 'messaging_card.dart';
+import '../shared/widgets/shell.dart';
 
 /// The caller's notifications (NTF-1): newest first, unread marked, and the
 /// settings -- quiet hours, language, and push/email per kind.
@@ -51,7 +52,7 @@ class _InboxPageState extends State<InboxPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Notifications')), actions: [
+      appBar: destinationAppBar(context, title: Text(tr('Notifications')), actions: [
         TextButton(
           onPressed: () async {
             final messenger = ScaffoldMessenger.of(context);

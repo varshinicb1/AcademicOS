@@ -181,7 +181,7 @@ class _PlannerPageState extends State<PlannerPage> {
                         ],
                       ),
                     ),
-                    ChipTag(label: a.status.name),
+                    ChipTag(label: a.status.label),
                     IconButton(
                       icon: const Icon(Icons.edit_calendar_outlined),
                       tooltip: 'Set date & time',

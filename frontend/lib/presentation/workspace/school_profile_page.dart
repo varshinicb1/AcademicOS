@@ -10,6 +10,7 @@ import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'strings.dart';
+import '../shared/widgets/shell.dart';
 
 const _base = '/curriculum/school-profile';
 
@@ -126,7 +127,7 @@ class _SchoolProfilePageState extends State<SchoolProfilePage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(tr('School profile'))),
+      appBar: destinationAppBar(context, title: Text(tr('School profile'))),
       body: FutureBuilder<Map<String, dynamic>>(
         future: _future,
         builder: (context, snap) {

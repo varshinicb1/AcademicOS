@@ -109,7 +109,7 @@ void main() {
 
       expectActionReady(tester, find.byTooltip('Quick paper (CBSE pattern)'), size, label: 'Quick paper');
       expectActionReady(tester, find.byTooltip('Create assessment'), size, label: 'Create assessment');
-      expectActionReady(tester, find.byType(FloatingActionButton), size, label: 'New Assessment');
+      expectActionReady(tester, find.byType(FloatingActionButton), size, label: 'New paper');
     });
   }
 

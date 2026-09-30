@@ -5,6 +5,7 @@ import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'strings.dart';
+import '../shared/widgets/shell.dart';
 
 const _dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -26,7 +27,7 @@ class _WeekPageState extends State<WeekPage> {
     final theme = Theme.of(context);
     final student = CurrentSession.role == 'student';
     return Scaffold(
-      appBar: AppBar(title: Text(tr('My week'))),
+      appBar: destinationAppBar(context, title: Text(tr('My week'))),
       body: FutureBuilder<Map<String, dynamic>>(
         future: _future,
         builder: (context, snap) {

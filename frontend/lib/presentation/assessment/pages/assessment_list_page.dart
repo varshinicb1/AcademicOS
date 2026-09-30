@@ -33,7 +33,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
     return Scaffold(
       appBar: AppBar(
         leading: shellLeading(context),
-        title: const Text('Assessments'),
+        title: const Text('Papers'),
         actions: [
           IconButton(
             tooltip: 'Quick paper (CBSE pattern)',
@@ -90,7 +90,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push(newPaperLocation()),
         icon: const Icon(Icons.assignment_add),
-        label: const Text('New Assessment'),
+        label: const Text('New paper'),
       ),
     );
   }
@@ -127,7 +127,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                   ],
                 ),
               ),
-              ChipTag(label: a.status.name),
+              ChipTag(label: a.status.label),
             ],
           ),
         );

@@ -8,6 +8,7 @@ import 'practice_page.dart';
 import 'photos_ui.dart';
 import 'strings.dart';
 import 'package:academicos/core/theme/app_theme.dart';
+import '../shared/widgets/shell.dart';
 
 /// A student's homework (SA-2): what is due, then each homework's
 /// questions to answer in the app, and the marks and model answers once it
@@ -25,7 +26,7 @@ class _MyHomeworkPageState extends State<MyHomeworkPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr('My homework'))),
+      appBar: destinationAppBar(context, title: Text(tr('My homework'))),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _future,
         builder: (context, snap) {
@@ -269,7 +270,15 @@ class LearningPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text(title)), body: LearningView(path: path));
+    // The student's own progress is a navigation destination; a parent's
+    // view of a child's is a page pushed over the family page.
+    final destination = path == '/my-learning';
+    return Scaffold(
+        appBar: AppBar(
+            leading: destination ? forceShellLeading(context) : null,
+            automaticallyImplyLeading: !destination,
+            title: Text(title)),
+        body: LearningView(path: path));
   }
 }
 
@@ -392,7 +401,7 @@ class MyExamsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Exams'))),
+      appBar: destinationAppBar(context, title: Text(tr('Exams'))),
       body: FutureBuilder<Map<String, dynamic>>(
         future: Ops.map('/my-exams'),
         builder: (context, snap) {

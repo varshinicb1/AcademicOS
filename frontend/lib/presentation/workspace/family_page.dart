@@ -6,6 +6,7 @@ import 'ops_api.dart';
 import 'student_pages.dart';
 import 'strings.dart';
 import 'package:academicos/core/theme/app_theme.dart';
+import '../shared/widgets/shell.dart';
 
 const _weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -28,23 +29,23 @@ class _FamilyPageState extends State<FamilyPage> {
       future: _future,
       builder: (context, snap) {
         if (snap.connectionState != ConnectionState.done) {
-          return Scaffold(appBar: AppBar(title: Text(tr('My children'))), body: const LoadingIndicator());
+          return Scaffold(appBar: destinationAppBar(context, title: Text(tr('My children'))), body: const LoadingIndicator());
         }
         if (snap.hasError) {
-          return Scaffold(appBar: AppBar(title: Text(tr('My children'))),
+          return Scaffold(appBar: destinationAppBar(context, title: Text(tr('My children'))),
               body: ErrorDisplay(message: snap.error.toString(),
                   onRetry: () => setState(() { _future = Ops.list('/my-children'); })));
         }
         final kids = snap.data!;
         if (kids.isEmpty) {
-          return Scaffold(appBar: AppBar(title: Text(tr('My children'))),
+          return Scaffold(appBar: destinationAppBar(context, title: Text(tr('My children'))),
               body: const EmptyState(icon: Icons.family_restroom, title: 'No child linked yet',
                   message: 'Ask the school to link your account to your child.'));
         }
         return DefaultTabController(
           length: kids.length,
           child: Scaffold(
-            appBar: AppBar(
+            appBar: destinationAppBar(context,
               title: Text(tr('My children')),
               bottom: kids.length > 1
                   ? TabBar(tabs: [for (final k in kids) Tab(text: k['name'] as String)])
