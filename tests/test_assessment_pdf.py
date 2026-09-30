@@ -85,6 +85,49 @@ def test_export_pdf_without_watermark_has_none(tmp_path):
     assert "Page 1" in text
 
 
+def _long_paper(n: int = 40):
+    """A paper long enough to run to several pages."""
+    now = datetime.now(timezone.utc)
+    qs = [GeneratedQuestionSchema(
+        question_id=f"q{i}", display_number=i, marks=5, bloom_level="apply",
+        difficulty="medium", type="long_answer",
+        stem=f"Question {i}: describe, with a labelled diagram and two examples, "
+             "how the process works and why it matters. " * 3)
+        for i in range(1, n + 1)]
+    section = GeneratedSectionSchema(section_id="s1", label="A", name="Long answer",
+                                     questions=qs, total_marks=5 * n)
+    meta = PaperMetadataSchema(assessment_title="Annual Examination", subject="Science",
+                               grade=10, total_marks=5 * n, duration_minutes=180,
+                               generated_at=now)
+    return GeneratedPaper(id="paper_long01", assessment_id="a", sections=[section],
+                          metadata=meta, answer_key={str(i): f"key {i}" for i in range(1, n + 1)})
+
+
+def _page_texts(pdf_path: Path) -> list[str]:
+    import fitz
+
+    doc = fitz.open(str(pdf_path))
+    try:
+        return [page.get_text() for page in doc]
+    finally:
+        doc.close()
+
+
+def test_pto_prints_on_every_page_but_the_last_and_pages_are_counted(tmp_path):
+    """Audit D59: "P.T.O." printed on the last page of 28/28 papers, and the
+    footer said "Page N" with no total. A page with nothing after it tells no
+    one to turn over."""
+    pages = _page_texts(export_pdf(_long_paper(), tmp_path / "long", watermark_id="W1"))
+    assert len(pages) >= 3
+    for n, text in enumerate(pages, start=1):
+        assert f"Page {n} of {len(pages)}" in text, n
+        assert ("P.T.O." in text) == (n < len(pages)), n
+        assert "traceable copy W1" in text, n            # the watermark still on every page
+    # A one-page paper has no page to turn to.
+    one = _page_texts(export_pdf(_make_paper(), tmp_path / "one"))
+    assert len(one) == 1 and "P.T.O." not in one[0] and "Page 1 of 1" in one[0]
+
+
 def test_watermark_differs_per_export(tmp_path):
     a = _extract_text(export_pdf(_make_paper(), tmp_path / "a", watermark_id="COPY-001"))
     b = _extract_text(export_pdf(_make_paper(), tmp_path / "b", watermark_id="COPY-002"))

@@ -28,6 +28,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfgen import canvas as pdfcanvas
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
     HRFlowable,
@@ -631,7 +632,9 @@ def _section_block(section: GeneratedSectionSchema, styles: _Styles,
 
 def _page_furniture(paper: GeneratedPaper, template: Optional[SchoolTemplate],
                     watermark_id: Optional[str] = None):
-    """Footer drawn on every page: paper code left, page number centred.
+    """Footer drawn on every page: paper code left. The page number and
+    "P.T.O." are drawn by `_paged_canvas`, which knows how many pages there
+    are.
 
     watermark_id (when provided) is a per-export identifier stamped in the
     margin -- small and legible-but-unobtrusive, not a bold diagonal stamp
@@ -652,8 +655,6 @@ def _page_furniture(paper: GeneratedPaper, template: Optional[SchoolTemplate],
         canvas.setFont(_BODY_FONT, 7.5)
         canvas.setFillColor(colors.HexColor("#555555"))
         canvas.drawString(doc.leftMargin, 12 * mm, left)
-        canvas.drawCentredString(A4[0] / 2.0, 12 * mm, f"Page {doc.page}")
-        canvas.drawRightString(A4[0] - doc.rightMargin, 12 * mm, "P.T.O.")
         if watermark_id:
             canvas.setFont(_BODY_FONT, 6)
             canvas.setFillColor(colors.HexColor("#AAAAAA"))
@@ -662,6 +663,46 @@ def _page_furniture(paper: GeneratedPaper, template: Optional[SchoolTemplate],
         canvas.restoreState()
 
     return draw
+
+
+def _paged_canvas(right_margin: float):
+    """A canvas that holds every page until the document is finished, so each
+    footer can say "Page N of M" and only a page with a page after it says
+    "P.T.O." -- please turn over. Drawn per page as it was, the footer could
+    not know which page was the last: every paper printed "P.T.O." on its
+    last page (audit D59, 28 of 28 papers) and no page total.
+
+    ReportLab's own recipe for "page N of M": `showPage` keeps the page's
+    state instead of emitting it, and `save` emits them all with the count."""
+
+    class _PagedCanvas(pdfcanvas.Canvas):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self._held_pages: list[dict] = []
+
+        def showPage(self):  # noqa: N802 - ReportLab's name
+            self._held_pages.append(dict(self.__dict__))
+            self._startPage()
+
+        def save(self):
+            total = len(self._held_pages)
+            for state in self._held_pages:
+                self.__dict__.update(state)
+                self._page_count_footer(total)
+                super().showPage()
+            super().save()
+
+        def _page_count_footer(self, total: int) -> None:
+            number = self._pageNumber
+            self.saveState()
+            self.setFont(_BODY_FONT, 7.5)
+            self.setFillColor(colors.HexColor("#555555"))
+            self.drawCentredString(A4[0] / 2.0, 12 * mm, f"Page {number} of {total}")
+            if number < total:
+                self.drawRightString(A4[0] - right_margin, 12 * mm, "P.T.O.")
+            self.restoreState()
+
+    return _PagedCanvas
 
 
 def export_pdf(paper: GeneratedPaper, output_dir: Path,
@@ -693,7 +734,8 @@ def export_pdf(paper: GeneratedPaper, output_dir: Path,
                                     doc.height))
 
     footer = _page_furniture(paper, template, watermark_id=watermark_id)
-    doc.build(story, onFirstPage=footer, onLaterPages=footer)
+    doc.build(story, onFirstPage=footer, onLaterPages=footer,
+              canvasmaker=_paged_canvas(right))
     return out_path
 
 
