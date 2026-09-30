@@ -488,6 +488,10 @@ class _ClosureTabState extends State<_ClosureTab> {
         style: phoneSegmentTapTarget(context),
         onSelectionChanged: (v) => setState(() => _wholeSchool = v.first),
       ),
+      if (!_wholeSchool && school.sections.isEmpty) ...[
+        const Gap(8),
+        Text(tr('The school has no sections yet.'), style: theme.textTheme.bodyMedium),
+      ],
       if (!_wholeSchool) ...[
         const Gap(8),
         Wrap(spacing: 8, runSpacing: 8, children: [
