@@ -52,6 +52,7 @@ import '../../presentation/workspace/timetable_admin_page.dart';
 import '../../presentation/workspace/school_profile_page.dart';
 import '../session/current_session.dart';
 import '../local_engine/local_store.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final router = GoRouter(
@@ -351,7 +352,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.error_outline, size: 64, color: Colors.red),
+            const Icon(Icons.error_outline, size: 64, color: AppColors.danger),
             const SizedBox(height: 16),
             Text(
               'Page not found',
@@ -421,5 +422,8 @@ String? roleLanding(String location,
   if (mode != AppMode.console && role.isNotEmpty) return appHome(mode, role: role);
   if (role == 'parent') return '/school/family';
   if (role == 'student') return '/school';
+  // The principal's first screen is the school at a glance (Overview), not
+  // a teacher's day.
+  if (role == 'principal') return '/school';
   return null;
 }

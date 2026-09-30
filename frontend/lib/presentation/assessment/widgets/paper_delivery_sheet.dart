@@ -9,6 +9,7 @@ import 'package:printing/printing.dart';
 
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 // Same per-file pattern as settings_page.dart/home_page.dart/etc. -- this
 // build variant has no server, so it structurally can never have a
@@ -202,12 +203,12 @@ class _PaperDeliverySheetState extends State<PaperDeliverySheet> {
       children: [
         if (_mailStatus != null && !_mailReady)
           AppCard(
-            color: Colors.orange.withValues(alpha: 0.10),
+            color: AppColors.warning.withValues(alpha: 0.10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(children: [
-                  const Icon(Icons.warning_amber, color: Colors.orange, size: 18),
+                  const Icon(Icons.warning_amber, color: AppColors.warning, size: 18),
                   const Gap(8),
                   Expanded(
                     child: Text('No email backend is configured yet',
@@ -238,7 +239,6 @@ class _PaperDeliverySheetState extends State<PaperDeliverySheet> {
             labelText: 'Recipients',
             hintText: 'coordinator@school.edu, principal@school.edu',
             helperText: 'Comma or space separated',
-            border: OutlineInputBorder(),
             prefixIcon: Icon(Icons.person_outline),
           ),
           minLines: 1,
@@ -250,7 +250,6 @@ class _PaperDeliverySheetState extends State<PaperDeliverySheet> {
           decoration: const InputDecoration(
             labelText: 'Note (optional)',
             hintText: 'Please review before Monday.',
-            border: OutlineInputBorder(),
           ),
           minLines: 2,
           maxLines: 4,
@@ -273,9 +272,9 @@ class _PaperDeliverySheetState extends State<PaperDeliverySheet> {
         if (_success != null) ...[
           const Gap(8),
           AppCard(
-            color: Colors.green.withValues(alpha: 0.12),
+            color: AppColors.success.withValues(alpha: 0.12),
             child: Row(children: [
-              const Icon(Icons.check_circle, color: Colors.green),
+              const Icon(Icons.check_circle, color: AppColors.success),
               const Gap(8),
               Expanded(child: Text(_success!)),
             ]),

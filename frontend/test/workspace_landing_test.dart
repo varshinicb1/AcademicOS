@@ -8,9 +8,9 @@ void main() {
     expect(roleLanding('/home', role: 'student', offlineBuild: false), '/school');
   });
 
-  test('staff keep the teacher home, and no other location is redirected', () {
+  test('a teacher keeps their day; the principal opens on the school', () {
     expect(roleLanding('/home', role: 'teacher', offlineBuild: false), isNull);
-    expect(roleLanding('/home', role: 'principal', offlineBuild: false), isNull);
+    expect(roleLanding('/home', role: 'principal', offlineBuild: false), '/school');
     expect(roleLanding('/school/inbox', role: 'parent', offlineBuild: false), isNull);
     expect(roleLanding('/assessment', role: 'student', offlineBuild: false), isNull);
   });

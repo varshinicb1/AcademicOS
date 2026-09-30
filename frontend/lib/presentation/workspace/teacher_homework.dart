@@ -7,6 +7,7 @@ import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'photos_ui.dart';
 import 'strings.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// What a teacher teaches this year, for pickers: sections, subjects and
 /// the allocations joining them (the principal sees all of them).
@@ -452,7 +453,7 @@ class _GradeDialogState extends State<_GradeDialog> {
               SizedBox(width: 90, child: TextField(controller: _marks[e['questionId']],
                   decoration: InputDecoration(suffixText: '/${e['maxMarks']}'))),
               const SizedBox(width: 12),
-              if (e['needsReview'] == true) const ChipTag(label: 'Check this', color: Colors.orange),
+              if (e['needsReview'] == true) const ChipTag(label: 'Check this', color: AppColors.warning),
               const SizedBox(width: 8),
               Expanded(child: Text(e['reasoning'] ?? '', style: theme.textTheme.bodySmall, maxLines: 2)),
             ]),

@@ -19,6 +19,7 @@ import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 import '../widgets/paper_delivery_sheet.dart';
 import '../../workspace/marks_page.dart' show requestReview;
+import 'package:academicos/core/theme/app_theme.dart';
 
 class AssessmentReviewPage extends StatefulWidget {
   final String assessmentId;
@@ -168,8 +169,8 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                     _buildSummaryCard(context, assessment, activePaper),
                     if (paper.sets.isNotEmpty) _buildSetSwitcher(paper),
                     ..._buildSimilarPairCards(context, paper),
-                    if (widget.gaps.isNotEmpty) _buildIssuesCard(context, 'Coverage gaps', widget.gaps, Colors.orange),
-                    if (widget.warnings.isNotEmpty) _buildIssuesCard(context, 'Warnings', widget.warnings, Colors.red),
+                    if (widget.gaps.isNotEmpty) _buildIssuesCard(context, 'Coverage gaps', widget.gaps, AppColors.warning),
+                    if (widget.warnings.isNotEmpty) _buildIssuesCard(context, 'Warnings', widget.warnings, AppColors.danger),
                     const SizedBox(height: 8),
                     for (final section in activePaper.sections) _buildSectionCard(context, section),
                     const SizedBox(height: 16),
@@ -290,7 +291,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
 
   Widget _buildSimilarPairCard(BuildContext context, GeneratedPaper paper, int index,
       String first, String second, String? serverWarning) {
-    const color = Colors.orange;
+    const color = AppColors.warning;
     final busy = _swappingPair == index;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -434,7 +435,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                         ChipTag(label: '${q.marks}m'),
                         if (q.isCompetency) ...[
                           const SizedBox(height: 4),
-                          ChipTag(label: 'CBQ', color: Colors.blue.withValues(alpha: 0.15)),
+                          ChipTag(label: 'CBQ', color: AppColors.info.withValues(alpha: 0.15)),
                         ],
                       ],
                     ),
@@ -548,7 +549,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
           ] else if (!editable) ...[
             const Divider(height: 28),
             Row(children: [
-              const Icon(Icons.lock, size: 16, color: Colors.green),
+              const Icon(Icons.lock, size: 16, color: AppColors.success),
               const SizedBox(width: 8),
               Expanded(child: Text('Approved — paper is locked (${assessment.status.name}).',
                   style: const TextStyle(fontWeight: FontWeight.w600))),

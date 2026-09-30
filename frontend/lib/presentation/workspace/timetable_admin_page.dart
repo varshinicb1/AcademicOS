@@ -167,7 +167,7 @@ class _AllocationsTabState extends State<_AllocationsTab> {
         key: const ValueKey('alloc-section'),
         initialValue: _sectionId,
         isExpanded: true,
-        decoration: InputDecoration(labelText: tr('Section'), border: const OutlineInputBorder()),
+        decoration: InputDecoration(labelText: tr('Section')),
         items: [
           for (final s in widget.data.sections)
             DropdownMenuItem(value: s['id'] as String, child: Text(widget.data.sectionLabel(s['id'] as String))),
@@ -298,7 +298,7 @@ class _AllocationRowState extends State<_AllocationRow> {
       key: key,
       initialValue: staff.any((s) => s['id'] == value) ? value : null,
       isExpanded: true,
-      decoration: InputDecoration(labelText: label, border: const OutlineInputBorder()),
+      decoration: InputDecoration(labelText: label),
       items: [
         DropdownMenuItem<String?>(value: null, child: Text(tr('No one'))),
         for (final s in staff)
@@ -327,7 +327,7 @@ class _AllocationRowState extends State<_AllocationRow> {
                 key: ValueKey('alloc-periods-$id'),
                 controller: _periods,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: tr('Periods a week'), border: const OutlineInputBorder()),
+                decoration: InputDecoration(labelText: tr('Periods a week')),
               ),
             ),
             SizedBox(
@@ -336,7 +336,7 @@ class _AllocationRowState extends State<_AllocationRow> {
                 key: ValueKey('alloc-room-$id'),
                 initialValue: _roomKind,
                 isExpanded: true,
-                decoration: InputDecoration(labelText: tr('Needs a room'), border: const OutlineInputBorder()),
+                decoration: InputDecoration(labelText: tr('Needs a room')),
                 items: [
                   DropdownMenuItem<String?>(value: null, child: Text(tr('Its own classroom'))),
                   for (final k in roomKinds) DropdownMenuItem<String?>(value: k, child: Text(tr(k))),
@@ -350,7 +350,7 @@ class _AllocationRowState extends State<_AllocationRow> {
                 key: ValueKey('alloc-doubles-$id'),
                 controller: _doubles,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: tr('Double periods'), border: const OutlineInputBorder()),
+                decoration: InputDecoration(labelText: tr('Double periods')),
               ),
             ),
           ]),
@@ -659,7 +659,7 @@ class _BellTabState extends State<_BellTab> {
           Text(_editingId == null ? tr('Add a bell') : tr('Edit the bell'), style: theme.textTheme.titleSmall),
           const Gap(8),
           TextField(key: const ValueKey('bell-name'), controller: _name,
-              decoration: InputDecoration(labelText: tr('Name'), border: const OutlineInputBorder())),
+              decoration: InputDecoration(labelText: tr('Name'))),
           const Gap(8),
           Wrap(spacing: 8, children: [
             for (var d = 0; d < 7; d++)
@@ -678,7 +678,6 @@ class _BellTabState extends State<_BellTab> {
             decoration: InputDecoration(
               labelText: tr('Slots, one a line'),
               hintText: '08:00-08:45\n08:45-09:30\n09:30-09:50 break',
-              border: const OutlineInputBorder(),
             ),
           ),
           if (_error != null) ...[const Gap(8), _errorText(context, _error!)],
@@ -758,10 +757,10 @@ class _GenerateTabState extends State<_GenerateTab> {
       Wrap(spacing: 12, runSpacing: 12, children: [
         SizedBox(width: 180, child: TextField(key: const ValueKey('solve-max-day'), controller: _maxDay,
             keyboardType: TextInputType.number,
-            decoration: InputDecoration(labelText: tr('Most a day per teacher'), border: const OutlineInputBorder()))),
+            decoration: InputDecoration(labelText: tr('Most a day per teacher')))),
         SizedBox(width: 180, child: TextField(key: const ValueKey('solve-max-row'), controller: _maxRow,
             keyboardType: TextInputType.number,
-            decoration: InputDecoration(labelText: tr('Most in a row'), border: const OutlineInputBorder()))),
+            decoration: InputDecoration(labelText: tr('Most in a row')))),
       ]),
       SwitchListTile(
         contentPadding: EdgeInsets.zero,
@@ -826,7 +825,7 @@ class _WeekTabState extends State<_WeekTab> {
         key: const ValueKey('week-section'),
         initialValue: _sectionId,
         isExpanded: true,
-        decoration: InputDecoration(labelText: tr('Section'), border: const OutlineInputBorder()),
+        decoration: InputDecoration(labelText: tr('Section')),
         items: [
           for (final s in widget.data.sections)
             DropdownMenuItem(value: s['id'] as String, child: Text(widget.data.sectionLabel(s['id'] as String))),

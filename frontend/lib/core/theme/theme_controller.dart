@@ -13,9 +13,9 @@ class ThemeController {
   static final ValueNotifier<ThemeMode> mode = ValueNotifier(_load());
 
   static ThemeMode _load() => switch (LocalStore.instance.themeModeName) {
-        'light' => ThemeMode.light,
         'dark' => ThemeMode.dark,
-        _ => ThemeMode.system,
+        'system' => ThemeMode.system,
+        _ => ThemeMode.light,
       };
 
   static void set(ThemeMode m) {

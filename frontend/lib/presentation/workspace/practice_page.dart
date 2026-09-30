@@ -5,6 +5,7 @@ import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'strings.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// Starts a practice set on the student's weakest chapters -- or the one
 /// named -- and opens it (SA-4).
@@ -79,7 +80,7 @@ class _PracticePageState extends State<PracticePage> {
         if (done)
           AppCard(
             margin: const EdgeInsets.only(bottom: 12),
-            color: Colors.green.withValues(alpha: 0.08),
+            color: AppColors.success.withValues(alpha: 0.08),
             child: Row(children: [
               Expanded(child: Text('You got ${p['marks']} of ${p['maxMarks']}', style: theme.textTheme.titleMedium)),
               FilledButton.tonal(onPressed: () => startPractice(context, subject: p['subject'] as String),
@@ -110,7 +111,7 @@ class _PracticePageState extends State<PracticePage> {
                   maxLines: 8,
                   controller: done ? TextEditingController(text: (p['answers'] as Map)[q['id']]?.toString() ?? '') : null,
                   onChanged: (v) => _answers[q['id'] as String] = v,
-                  decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Your answer'),
+                  decoration: const InputDecoration(hintText: 'Your answer'),
                 ),
               if (evals[q['id']] != null) ...[
                 const SizedBox(height: 8),

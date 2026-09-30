@@ -7,6 +7,7 @@ import '../../../core/local_engine/local_store.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// Pillar 2 — teacher review queue.
 ///
@@ -204,7 +205,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.check_circle, size: 56, color: Colors.green),
+            const Icon(Icons.check_circle, size: 56, color: AppColors.success),
             const Gap(16),
             Text('Review complete', style: theme.textTheme.titleLarge),
             const Gap(8),
@@ -253,7 +254,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
               ].map((t) => Padding(
                     padding: const EdgeInsets.symmetric(vertical: 3),
                     child: Row(children: [
-                      const Icon(Icons.check_circle, size: 16, color: Colors.green),
+                      const Icon(Icons.check_circle, size: 16, color: AppColors.success),
                       const Gap(8),
                       Expanded(child: Text(t)),
                     ]),
@@ -370,7 +371,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
                         const Spacer(),
                         ChipTag(
                           label: '${(ev.confidence * 100).round()}% confident',
-                          color: ev.needsReview ? Colors.orange : Colors.green,
+                          color: ev.needsReview ? AppColors.warning : AppColors.success,
                         ),
                       ],
                     ),
@@ -379,12 +380,12 @@ class _EvaluationPageState extends State<EvaluationPage> {
                     if (ev.needsReview) ...[
                       const Gap(8),
                       Row(children: [
-                        const Icon(Icons.flag, size: 15, color: Colors.orange),
+                        const Icon(Icons.flag, size: 15, color: AppColors.warning),
                         const Gap(6),
                         Expanded(
                           child: Text('Flagged for your review — low confidence',
                               style: theme.textTheme.bodySmall
-                                  ?.copyWith(color: Colors.orange.shade800)),
+                                  ?.copyWith(color: AppColors.warning)),
                         ),
                       ]),
                     ],
@@ -393,7 +394,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
               ),
               if (ev.ocrWarnings.isNotEmpty)
                 AppCard(
-                  color: Colors.orange.withValues(alpha: 0.10),
+                  color: AppColors.warning.withValues(alpha: 0.10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -423,7 +424,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
                                 Icon(
                                   m.awarded ? Icons.check_circle : Icons.cancel,
                                   size: 17,
-                                  color: m.awarded ? Colors.green : Colors.red,
+                                  color: m.awarded ? AppColors.success : AppColors.danger,
                                 ),
                                 const Gap(8),
                                 Expanded(
@@ -447,7 +448,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
                 ),
               if (ev.misconceptions.isNotEmpty)
                 AppCard(
-                  color: Colors.deepOrange.withValues(alpha: 0.08),
+                  color: AppColors.warning.withValues(alpha: 0.08),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -519,9 +520,9 @@ class _EvaluationPageState extends State<EvaluationPage> {
   }
 
   Color _verdictColor(String v) => switch (v) {
-        'fullCredit' => Colors.green,
-        'partialCredit' => Colors.orange,
+        'fullCredit' => AppColors.success,
+        'partialCredit' => AppColors.warning,
         'blank' => Colors.grey,
-        _ => Colors.red,
+        _ => AppColors.danger,
       };
 }

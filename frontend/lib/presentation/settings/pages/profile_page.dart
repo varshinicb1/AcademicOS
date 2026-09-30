@@ -68,7 +68,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   onChanged: (_) => setState(() => _saved = false),
                   decoration: const InputDecoration(
                     labelText: 'Your name',
-                    border: OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -77,7 +76,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   onChanged: (_) => setState(() => _saved = false),
                   decoration: const InputDecoration(
                     labelText: 'Primary subject you teach',
-                    border: OutlineInputBorder(),
                   ),
                 ),
               ],

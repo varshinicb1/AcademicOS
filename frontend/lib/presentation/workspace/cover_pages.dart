@@ -7,6 +7,7 @@ import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'teacher_homework.dart' show TeachingContext;
 import 'strings.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 const _base = '/curriculum';
 
@@ -225,7 +226,7 @@ class _AssignDialogState extends State<_AssignDialog> {
                 ListTile(
                   title: Text(widget.name(c['teacherId'])),
                   subtitle: Text((c['reasons'] as List).join(' · ')),
-                  trailing: c['qualified'] == true ? const ChipTag(label: 'Teaches it', color: Colors.green) : null,
+                  trailing: c['qualified'] == true ? const ChipTag(label: 'Teaches it', color: AppColors.success) : null,
                   onTap: () => _do({'substituteId': c['teacherId']}),
                 ),
               const Divider(),
