@@ -3816,6 +3816,32 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/me/contact": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * My Contact
+         * @description The caller's own number and consent. Nobody else can read it.
+         */
+        get: operations["my_contact_api_v1_me_contact_get"];
+        /**
+         * Set My Contact
+         * @description Give, change or remove the caller's own number, and say per channel
+         *     whether they want SMS and WhatsApp. The consent is audited (not the
+         *     number: its last two digits only).
+         */
+        put: operations["set_my_contact_api_v1_me_contact_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/my-children": {
         parameters: {
             query?: never;
@@ -6767,6 +6793,54 @@ export interface components {
             /** Hasconsent */
             hasConsent: boolean;
             record?: components["schemas"]["ParentalConsentRecord"] | null;
+        };
+        /**
+         * ContactRequest
+         * @description phone null removes the number and withdraws both.
+         */
+        ContactRequest: {
+            /** Phone */
+            phone?: string | null;
+            /**
+             * Smsok
+             * @default false
+             */
+            smsOk: boolean;
+            /**
+             * Whatsappok
+             * @default false
+             */
+            whatsappOk: boolean;
+        };
+        /** ContactResponse */
+        ContactResponse: {
+            /**
+             * Kinds
+             * @default []
+             */
+            kinds: string[];
+            /** Phone */
+            phone?: string | null;
+            /**
+             * Smsavailable
+             * @default false
+             */
+            smsAvailable: boolean;
+            /**
+             * Smsok
+             * @default false
+             */
+            smsOk: boolean;
+            /**
+             * Whatsappavailable
+             * @default false
+             */
+            whatsappAvailable: boolean;
+            /**
+             * Whatsappok
+             * @default false
+             */
+            whatsappOk: boolean;
         };
         /** Cover */
         Cover: {
@@ -18360,6 +18434,59 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MailBackendStatus"];
+                };
+            };
+        };
+    };
+    my_contact_api_v1_me_contact_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContactResponse"];
+                };
+            };
+        };
+    };
+    set_my_contact_api_v1_me_contact_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContactRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContactResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

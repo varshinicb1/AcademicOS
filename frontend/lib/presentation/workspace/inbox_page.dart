@@ -5,6 +5,7 @@ import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'strings.dart';
+import 'messaging_card.dart';
 
 /// The caller's notifications (NTF-1): newest first, unread marked, and the
 /// settings -- quiet hours, language, and push/email per kind.
@@ -198,6 +199,8 @@ class _PreferencesDialogState extends State<_PreferencesDialog> {
                       onSelectionChanged: (s) => _save({'language': s.first}),
                     ),
                   ),
+                  // INT-2: the person's own number and consent for SMS and WhatsApp.
+                  const MessagingCard(),
                   const Divider(),
                   for (final k in (p['kinds'] as List).cast<Map>())
                     Row(children: [

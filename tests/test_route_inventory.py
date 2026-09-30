@@ -352,6 +352,9 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/health/errors"),
     ("POST", "/api/v1/client-errors"),
     ("GET", "/api/v1/ops/errors"),
+    # --- operations/messaging_routes.py (INT-2) ---
+    ("GET", "/api/v1/me/contact"),
+    ("PUT", "/api/v1/me/contact"),
     # --- consent_routes.py (DPDP Act 2023 parental consent) ---
     ("GET", "/api/v1/consent"),
     ("POST", "/api/v1/consent"),
@@ -375,6 +378,9 @@ DOC_ROUTES: frozenset[tuple[str, str]] = frozenset({
 # uninitialized. The startup-free tests below drive exactly that split; the
 # full-boot group exercises the real 401/403/404 paths.
 AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
+    # INT-2: the caller's own number (authenticates first).
+    ("GET", "/api/v1/me/contact"),
+    ("PUT", "/api/v1/me/contact"),
     # paper-timing authenticates first, like the other paper routes.
     ("GET", "/api/v1/paper-timing"),
     # --- routes.py (assessment designer) ---
@@ -936,7 +942,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 299: SCH-8 added a room's periods out of use (list, set); EX-5/D41 the school
     # profile (get, set) and its logo (get, upload, remove).
     # 302: NFR-7 error tracking (/health/errors, client reports, the operator's list).
-    assert len(API_ROUTES) == 302
+    # 304: INT-2 a person's own number and SMS/WhatsApp consent (get, set).
+    assert len(API_ROUTES) == 304
 
 
 def test_docs_routes_present():

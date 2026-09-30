@@ -76,6 +76,10 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/health/errors"): _p(PUBLIC, "NFR-7: error counts only, never a message"),
     ("POST", "/api/v1/client-errors"): _p(PUBLIC, "NFR-7: the apps report what they caught, signed in or not; scrubbed, rate-limited"),
     ("GET", "/api/v1/ops/errors"): _p(PUBLIC, "NFR-7: operator key checked in the handler; 404 unless ACOS_OPS_KEY is set"),
+    # INT-2: a person's own number and SMS/WhatsApp consent; the handler admits
+    # staff and parents only (a student is a minor: their parent is messaged).
+    ("GET", "/api/v1/me/contact"): _p(ANY_USER, "the caller's own number only; students refused in the handler"),
+    ("PUT", "/api/v1/me/contact"): _p(ANY_USER, "the caller's own number only; students refused in the handler"),
     ("GET", "/v1/registry/stats"): _p(ANY_USER, "one corpus-wide document count"),
     ("POST", "/v1/search"): _p(ANY_USER, "shared NCERT corpus, no school data"),
     ("POST", "/v1/agent/doubt"): _p(ANY_USER, "a student asking a doubt is the intended user"),
@@ -470,6 +474,8 @@ PARENT_PATHS = frozenset({
     "/api/v1/notification-preferences",
     "/api/v1/devices",
     "/api/v1/devices/{token}",
+    # INT-2: a parent's own number and SMS/WhatsApp consent.
+    "/api/v1/me/contact",
     "/api/v1/my-children",
     "/api/v1/children/{student_id}/timetable",
     "/api/v1/children/{student_id}/day",

@@ -19,6 +19,8 @@ from dataclasses import dataclass
 from datetime import datetime, time, timedelta, timezone
 from typing import Any, Callable, Optional
 
+from .messaging import MESSAGING_SCHEMA, MessagingMixin
+
 logger = logging.getLogger(__name__)
 IST = timezone(timedelta(hours=5, minutes=30))
 
@@ -75,7 +77,7 @@ CREATE TABLE IF NOT EXISTS device_tokens (
   last_seen  TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_device_user ON device_tokens(user_id);
-"""
+""" + MESSAGING_SCHEMA
 
 CHANNELS = ("push", "email")
 MAX_ATTEMPTS = 3
@@ -250,7 +252,7 @@ def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-class NotificationsMixin:
+class NotificationsMixin(MessagingMixin):
     # Tests and the synchronous paths set this; production hands delivery to a
     # thread so a request never waits on FCM or SMTP.
     deliver_inline = False
@@ -368,6 +370,8 @@ class NotificationsMixin:
                     if "UNIQUE" in str(exc):
                         continue
                     raise
+                # SMS and WhatsApp, for those who consented (INT-2, messaging.py).
+                self._queue_messages(nid, uid, kind, quiet=quiet, on_digest=bool(s.get("digest_at")))
                 out.append(nid)
         self._commit()
         if self.deliver_inline:
@@ -415,6 +419,7 @@ class NotificationsMixin:
                        (updates.get("push_status"), updates.get("email_status"), 1 if failed else 0,
                         "; ".join(errors) or None, n.id))
             sent += sum(1 for v in updates.values() if v == "sent")
+        sent += self._deliver_messages(now)
         self._commit()
         return sent
 
