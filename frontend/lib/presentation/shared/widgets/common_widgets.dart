@@ -103,7 +103,8 @@ class AppCard extends StatelessWidget {
             offset: Offset(0, elevation / 2),
           )
         ] : null,
-        border: Border.all(color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.1)),
+        // The tokens' hairline (outlineVariant): cards are outlined, not raised.
+        border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
       ),
       // Real bug found via an on-device integration test: any ListTile (or
       // other Material-ink widget) placed inside AppCard's child triggers
@@ -163,6 +164,9 @@ class EmptyState extends StatelessWidget {
   final String message;
   final String? actionLabel;
   final VoidCallback? onAction;
+  /// The action's icon; none by default. It used to be a refresh icon on
+  /// every action, "Create" ones included.
+  final IconData? actionIcon;
 
   const EmptyState({
     super.key,
@@ -171,6 +175,7 @@ class EmptyState extends StatelessWidget {
     required this.message,
     this.actionLabel,
     this.onAction,
+    this.actionIcon,
   });
 
   @override
@@ -181,14 +186,17 @@ class EmptyState extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 80, color: Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.5)),
-            const SizedBox(height: 16),
-            Text(title, style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600)),
-            const SizedBox(height: 8),
+            Icon(icon, size: 40, color: Theme.of(context).colorScheme.onSurfaceVariant),
+            const SizedBox(height: 12),
+            Text(title, style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.center),
+            const SizedBox(height: 4),
             Text(message, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant), textAlign: TextAlign.center),
             if (actionLabel != null && onAction != null) ...[
-              const SizedBox(height: 24),
-              FilledButton.icon(onPressed: onAction, icon: const Icon(Icons.refresh), label: Text(actionLabel!)),
+              const SizedBox(height: 20),
+              if (actionIcon != null)
+                FilledButton.icon(onPressed: onAction, icon: Icon(actionIcon), label: Text(actionLabel!))
+              else
+                FilledButton(onPressed: onAction, child: Text(actionLabel!)),
             ],
           ],
         ),

@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -62,52 +64,133 @@ class _ShellDrawerScope extends InheritedWidget {
 /// selects it (the longest match wins), [path] where a tap goes.
 typedef NavItem = ({IconData icon, IconData selectedIcon, String label, String path, String match});
 
-/// The destinations a role sees in the web console's side navigation.
+/// A group of destinations under an optional heading.
+typedef NavSection = ({String? title, List<NavItem> items});
+
+NavItem _item(IconData icon, IconData selected, String label, String path, [String? match]) =>
+    (icon: icon, selectedIcon: selected, label: label, path: path, match: match ?? path);
+
+final _inbox = _item(Icons.notifications_outlined, Icons.notifications, 'Inbox', '/school/inbox');
+
+/// The web console's side navigation for a role, grouped.
 ///
-/// Until 2026-09-30 every signed-in account saw the same ten, "Principal"
-/// included, so a student or a parent on the web was shown teacher tools
-/// that answered 403. Staff keep the full list (a teacher without the
-/// principal's insights); a student and a parent get their own few. An
-/// unknown role (the offline build, a test with no account) gets the staff
-/// list, as before.
-List<NavItem> navItemsFor(String role) {
-  const staff = <NavItem>[
-    (icon: Icons.today_outlined, selectedIcon: Icons.today, label: 'Today', path: '/home', match: '/home'),
-    (icon: Icons.assignment_outlined, selectedIcon: Icons.assignment, label: 'Papers', path: '/assessment', match: '/assessment'),
-    (icon: Icons.quiz_outlined, selectedIcon: Icons.quiz, label: 'Question bank', path: '/questions', match: '/questions'),
-    (icon: Icons.fact_check_outlined, selectedIcon: Icons.fact_check, label: 'Evaluate', path: '/evaluation', match: '/evaluation'),
-    (icon: Icons.calendar_today_outlined, selectedIcon: Icons.calendar_today, label: 'Planner', path: '/planner/daily', match: '/planner'),
-    (icon: Icons.menu_book_outlined, selectedIcon: Icons.menu_book, label: 'Syllabus', path: '/syllabus', match: '/syllabus'),
-    (icon: Icons.psychology_outlined, selectedIcon: Icons.psychology, label: 'Mastery', path: '/analytics/mastery', match: '/analytics'),
-    (icon: Icons.insights_outlined, selectedIcon: Icons.insights, label: 'Class gaps', path: '/analytics/gaps', match: '/analytics/gaps'),
-    (icon: Icons.account_balance_outlined, selectedIcon: Icons.account_balance, label: 'School insights', path: '/analytics/school', match: '/analytics/school'),
-    (icon: Icons.school_outlined, selectedIcon: Icons.school, label: 'School', path: '/school', match: '/school'),
-  ];
+/// Until 2026-10-01 the side navigation was the v2 teacher tools (a mastery
+/// page that asked for a student id, class gaps that asked for an
+/// assessment id, an assessment calendar called "Planner", bank coverage
+/// called "Syllabus") while the v3 day-to-day pages -- my day, homework,
+/// class progress, reviews, exams, the inbox and every principal tool -- sat
+/// one level down as tiles under "School" (review 2026-10-01). It now lists
+/// what each role actually uses, the same destinations as the School tiles
+/// (presentation/workspace/workspace_page.dart). A teacher also sees the
+/// admin tools the principal has given them ([grants], `/my-grants`).
+///
+/// An unknown role -- the offline build, which has no accounts and no
+/// school server, or a test with no account -- keeps the pages that work on
+/// the device.
+List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
   switch (role) {
-    case 'student':
-      return const [
-        (icon: Icons.today_outlined, selectedIcon: Icons.today, label: 'My day', path: '/school', match: '/school'),
-        (icon: Icons.assignment_outlined, selectedIcon: Icons.assignment, label: 'Homework', path: '/school/my-homework', match: '/school/my-homework'),
-        (icon: Icons.event_outlined, selectedIcon: Icons.event, label: 'Exams', path: '/school/my-exams', match: '/school/my-exams'),
-        (icon: Icons.trending_up_outlined, selectedIcon: Icons.trending_up, label: 'Learning', path: '/school/my-learning', match: '/school/my-learning'),
-        (icon: Icons.notifications_outlined, selectedIcon: Icons.notifications, label: 'Inbox', path: '/school/inbox', match: '/school/inbox'),
-      ];
-    case 'parent':
-      return const [
-        (icon: Icons.family_restroom_outlined, selectedIcon: Icons.family_restroom, label: 'Family', path: '/school/family', match: '/school'),
-        (icon: Icons.notifications_outlined, selectedIcon: Icons.notifications, label: 'Inbox', path: '/school/inbox', match: '/school/inbox'),
+    case 'principal':
+      return [
+        (title: null, items: [
+          _item(Icons.space_dashboard_outlined, Icons.space_dashboard, 'Overview', '/school'),
+          _item(Icons.assignment_outlined, Icons.assignment, 'Papers', '/assessment'),
+          _item(Icons.rate_review_outlined, Icons.rate_review, 'Paper reviews', '/school/reviews'),
+          _item(Icons.assessment_outlined, Icons.assessment, 'Term report', '/school/term-report'),
+          _item(Icons.insights_outlined, Icons.insights, 'School insights', '/analytics/school'),
+          _inbox,
+        ]),
+        (title: 'Run the school', items: [
+          _item(Icons.event_note_outlined, Icons.event_note, 'Exams', '/school/exams'),
+          _item(Icons.table_chart_outlined, Icons.table_chart, 'Timetable', '/school/timetable'),
+          _item(Icons.how_to_reg_outlined, Icons.how_to_reg, 'Attendance and cover', '/school/cover'),
+          _item(Icons.assignment_turned_in_outlined, Icons.assignment_turned_in, 'Homework', '/school/homework'),
+          _item(Icons.trending_up_outlined, Icons.trending_up, 'Class progress', '/school/class-progress'),
+          _item(Icons.library_books_outlined, Icons.library_books, 'Question bank', '/school/question-bank'),
+        ]),
+        (title: 'Setup', items: [
+          _item(Icons.admin_panel_settings_outlined, Icons.admin_panel_settings, 'Staff and access', '/school/grants'),
+          _item(Icons.upload_file_outlined, Icons.upload_file, 'Import and export', '/school/import'),
+          _item(Icons.badge_outlined, Icons.badge, 'School profile', '/school/school-profile'),
+          _item(Icons.key_outlined, Icons.key, 'API keys', '/school/api-keys'),
+        ]),
       ];
     case 'teacher':
-      return [for (final i in staff) if (i.path != '/analytics/school') i];
+      final admin = <NavItem>[
+        if (grants.contains('leave'))
+          _item(Icons.how_to_reg_outlined, Icons.how_to_reg, 'Attendance and cover', '/school/cover'),
+        if (grants.contains('exams')) _item(Icons.event_note_outlined, Icons.event_note, 'Exams', '/school/exams'),
+        if (grants.contains('timetable'))
+          _item(Icons.table_chart_outlined, Icons.table_chart, 'Timetable', '/school/timetable'),
+        if (grants.contains('users'))
+          _item(Icons.upload_file_outlined, Icons.upload_file, 'Import and export', '/school/import'),
+        if (grants.contains('reports'))
+          _item(Icons.assessment_outlined, Icons.assessment, 'Term report', '/school/term-report'),
+        if (grants.contains('qbank_review'))
+          _item(Icons.library_books_outlined, Icons.library_books, 'Review answers', '/school/question-bank'),
+      ];
+      return [
+        (title: null, items: [
+          _item(Icons.today_outlined, Icons.today, 'Today', '/home'),
+          _item(Icons.calendar_view_week_outlined, Icons.calendar_view_week, 'My week', '/school/week'),
+          _item(Icons.assignment_outlined, Icons.assignment, 'Papers', '/assessment'),
+          _item(Icons.assignment_turned_in_outlined, Icons.assignment_turned_in, 'Homework', '/school/homework'),
+          _item(Icons.fact_check_outlined, Icons.fact_check, 'Mark answer sheets', '/evaluation'),
+          _item(Icons.trending_up_outlined, Icons.trending_up, 'Class progress', '/school/class-progress'),
+          _inbox,
+        ]),
+        (title: 'Resources', items: [
+          _item(Icons.quiz_outlined, Icons.quiz, 'Question bank', '/questions'),
+          _item(Icons.rate_review_outlined, Icons.rate_review, 'Paper reviews', '/school/reviews'),
+          _item(Icons.event_available_outlined, Icons.event_available, 'Exam duties', '/school/my-exams'),
+          _item(Icons.event_busy_outlined, Icons.event_busy, 'Leave', '/school/my-day'),
+        ]),
+        if (admin.isNotEmpty) (title: 'Admin', items: admin),
+      ];
+    case 'student':
+      return [
+        (title: null, items: [
+          _item(Icons.today_outlined, Icons.today, 'Today', '/school/today', '/school'),
+          _item(Icons.calendar_view_week_outlined, Icons.calendar_view_week, 'My week', '/school/week'),
+          _item(Icons.assignment_outlined, Icons.assignment, 'Homework', '/school/my-homework'),
+          _item(Icons.trending_up_outlined, Icons.trending_up, 'Progress', '/school/my-learning'),
+          _item(Icons.event_note_outlined, Icons.event_note, 'Exams', '/school/my-exams'),
+          _inbox,
+        ]),
+      ];
+    case 'parent':
+      return [
+        (title: null, items: [
+          _item(Icons.family_restroom_outlined, Icons.family_restroom, 'My children', '/school/family', '/school'),
+          _inbox,
+        ]),
+      ];
     default:
-      return staff;
+      return [
+        (title: null, items: [
+          _item(Icons.today_outlined, Icons.today, 'Today', '/home'),
+          _item(Icons.assignment_outlined, Icons.assignment, 'Papers', '/assessment'),
+          _item(Icons.quiz_outlined, Icons.quiz, 'Question bank', '/questions'),
+          _item(Icons.fact_check_outlined, Icons.fact_check, 'Evaluate', '/evaluation'),
+          _item(Icons.calendar_today_outlined, Icons.calendar_today, 'Planner', '/planner/daily', '/planner'),
+          _item(Icons.menu_book_outlined, Icons.menu_book, 'Syllabus', '/syllabus'),
+          _item(Icons.psychology_outlined, Icons.psychology, 'Mastery', '/analytics/mastery', '/analytics'),
+          _item(Icons.insights_outlined, Icons.insights, 'Class gaps', '/analytics/gaps'),
+          _item(Icons.account_balance_outlined, Icons.account_balance, 'School insights', '/analytics/school'),
+          _item(Icons.school_outlined, Icons.school, 'School', '/school'),
+        ]),
+      ];
   }
 }
 
+/// Every destination of [navSectionsFor], in order.
+List<NavItem> navItemsFor(String role, {Set<String> grants = const {}}) =>
+    [for (final s in navSectionsFor(role, grants: grants)) ...s.items];
+
 /// The destination [location] belongs to: the longest [NavItem.match] it
-/// starts with, else the first.
+/// equals or sits under, or -1 when none does (a page reached another way,
+/// such as a detail screen of a destination that is not listed).
 int navIndexFor(List<NavItem> items, String location) {
-  var best = 0, bestLength = -1;
+  var best = -1, bestLength = -1;
   for (var i = 0; i < items.length; i++) {
     final m = items[i].match;
     if ((location == m || location.startsWith('$m/')) && m.length > bestLength) {
@@ -122,6 +205,25 @@ int navIndexFor(List<NavItem> items, String location) {
 /// (a widget test that mounts the shell alone).
 String _signedInRole() => Hive.isBoxOpen('academicos_cache') ? CurrentSession.role : '';
 
+/// A teacher's admin capabilities (`/my-grants`), fetched once per session
+/// and shared by every shell build; empty until they arrive, or offline.
+class _Grants {
+  static final ValueNotifier<Set<String>> caps = ValueNotifier(const {});
+  static String? _loadedFor;
+
+  static void ensureLoaded(String role) {
+    final user = Hive.isBoxOpen('academicos_cache') ? CurrentSession.userId : '';
+    if (role != 'teacher' || user.isEmpty || _loadedFor == user || !GetIt.I.isRegistered<Dio>()) return;
+    _loadedFor = user;
+    GetIt.I<Dio>().get('/my-grants').then((r) {
+      caps.value = ((r.data as Map)['capabilities'] as List).cast<String>().toSet();
+    }, onError: (Object _) {
+      // not-a-failure: without its grants a teacher sees no admin section; each admin page reports its own errors
+      _loadedFor = null;
+    });
+  }
+}
+
 class MainShell extends StatelessWidget {
   final Widget child;
 
@@ -131,94 +233,165 @@ class MainShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // NavigationRail asserts labelType must be null/none when extended.
-    final extended = MediaQuery.of(context).size.width >= 1000;
-    final isMobile = MediaQuery.of(context).size.width < AppConstants.mobileBreakpoint;
-    // A phone-width drawer and a desktop rail list the same destinations;
-    // there are too many for a Material NavigationBar (designed for 3-5).
-    final items = navItemsFor(_signedInRole());
-    final selectedIndex = navIndexFor(items, GoRouterState.of(context).uri.path);
-    final line = Theme.of(context).colorScheme.outlineVariant;
-    return _ShellDrawerScope(
-      openDrawer: () => _scaffoldKey.currentState?.openDrawer(),
-      child: Scaffold(
-      key: _scaffoldKey,
-      drawer: isMobile
-          ? Drawer(
-              child: SafeArea(
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  children: [
-                    for (var i = 0; i < items.length; i++)
-                      ListTile(
-                        leading: Icon(i == selectedIndex ? items[i].selectedIcon : items[i].icon),
-                        title: Text(items[i].label),
-                        selected: i == selectedIndex,
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          context.go(items[i].path);
-                        },
-                      ),
-                    const Padding(padding: EdgeInsets.symmetric(vertical: 8), child: Divider()),
-                    ListTile(
-                      leading: const Icon(Icons.settings_outlined),
-                      title: const Text('Settings'),
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        context.go('/settings');
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            )
-          : null,
-      body: Row(
-        children: [
-          // Navigation Rail for desktop/wide screens
-          if (!isMobile)
-            DecoratedBox(
-              decoration: BoxDecoration(border: Border(right: BorderSide(color: line))),
-              child: NavigationRail(
-                extended: extended,
-                minExtendedWidth: 232,
-                selectedIndex: selectedIndex,
-                onDestinationSelected: (index) => context.go(items[index].path),
-                labelType: extended ? null : NavigationRailLabelType.all,
-                leading: const SizedBox(height: 16),
-                // Desktop had no way to reach /settings at all — the gear
-                // button only existed in the <800px mobile AppBar.
-                trailing: Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: IconButton(
-                        icon: const Icon(Icons.settings_outlined),
-                        tooltip: 'Settings',
-                        onPressed: () => context.go('/settings'),
-                      ),
-                    ),
-                  ),
-                ),
-                destinations: [
-                  for (final item in items)
-                    NavigationRailDestination(
-                      icon: Icon(item.icon),
-                      selectedIcon: Icon(item.selectedIcon),
-                      label: Text(item.label),
-                    ),
-                ],
-              ),
+    final width = MediaQuery.of(context).size.width;
+    final isMobile = width < AppConstants.mobileBreakpoint;
+    final role = _signedInRole();
+    _Grants.ensureLoaded(role);
+    return ValueListenableBuilder<Set<String>>(
+      valueListenable: _Grants.caps,
+      builder: (context, grants, _) {
+        final sections = navSectionsFor(role, grants: role == 'teacher' ? grants : const {});
+        final location = GoRouterState.of(context).uri.path;
+        final items = [for (final s in sections) ...s.items];
+        final selected = navIndexFor(items, location);
+        return _ShellDrawerScope(
+          openDrawer: () => _scaffoldKey.currentState?.openDrawer(),
+          child: Scaffold(
+            key: _scaffoldKey,
+            drawer: isMobile
+                ? Drawer(child: SafeArea(child: SideNav(sections: sections, selected: selected, inDrawer: true)))
+                : null,
+            body: Row(
+              children: [
+                if (!isMobile)
+                  SideNav(sections: sections, selected: selected, compact: width < 1000),
+                // Each page owns its own AppBar (shellLeading() gives it the
+                // menu button on a phone), so the shell renders none.
+                Expanded(child: child),
+              ],
             ),
+          ),
+        );
+      },
+    );
+  }
+}
 
-          // Main content — each page owns its own AppBar (via shellLeading()
-          // for the hamburger button on mobile root pages), so MainShell no
-          // longer renders a second one here.
-          Expanded(child: child),
-        ],
+/// The side navigation: the product mark, the role's grouped destinations
+/// and Settings. Full width with labels on a laptop, icons with tooltips
+/// between the phone breakpoint and 1000 px, and the same list in the
+/// drawer on a phone. It scrolls, so a principal's fifteen destinations fit
+/// a short window.
+class SideNav extends StatelessWidget {
+  const SideNav({super.key, required this.sections, required this.selected,
+      this.compact = false, this.inDrawer = false});
+
+  final List<NavSection> sections;
+  final int selected;
+  final bool compact;
+  final bool inDrawer;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    var index = 0;
+    final rows = <Widget>[];
+    for (final s in sections) {
+      if (s.title != null) {
+        rows.add(compact
+            ? Padding(padding: const EdgeInsets.symmetric(vertical: 8), child: Divider(indent: 16, endIndent: 16, color: colors.outlineVariant))
+            : Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 12, 6),
+                child: Text(s.title!, style: theme.textTheme.labelSmall?.copyWith(color: colors.onSurfaceVariant)),
+              ));
+      }
+      for (final item in s.items) {
+        final i = index++;
+        rows.add(_NavRow(item: item, selected: i == selected, compact: compact, inDrawer: inDrawer));
+      }
+    }
+    final settings = _NavRow(
+      item: _item(Icons.settings_outlined, Icons.settings, 'Settings', '/settings'),
+      selected: GoRouterState.of(context).uri.path.startsWith('/settings'),
+      compact: compact,
+      inDrawer: inDrawer,
+    );
+    final body = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(compact ? 0 : 20, 18, 12, 14),
+          child: Row(
+            mainAxisAlignment: compact ? MainAxisAlignment.center : MainAxisAlignment.start,
+            children: [
+              Container(
+                width: 28,
+                height: 28,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(color: colors.primary, borderRadius: BorderRadius.circular(8)),
+                child: Text('A', style: theme.textTheme.labelLarge?.copyWith(color: colors.onPrimary, fontWeight: FontWeight.w600)),
+              ),
+              if (!compact) ...[
+                const SizedBox(width: 10),
+                Text('AcademicOS', style: theme.textTheme.titleSmall),
+              ],
+            ],
+          ),
+        ),
+        Expanded(child: ListView(padding: const EdgeInsets.symmetric(horizontal: 8), children: rows)),
+        Padding(padding: const EdgeInsets.fromLTRB(8, 4, 8, 12), child: settings),
+      ],
+    );
+    if (inDrawer) return body;
+    // A Material, not a coloured box: the tiles paint their selection and
+    // ink on it.
+    return Material(
+      color: colors.surface,
+      child: Container(
+        width: compact ? 72 : 232,
+        decoration: BoxDecoration(border: Border(right: BorderSide(color: colors.outlineVariant))),
+        child: body,
       ),
-    ),
+    );
+  }
+}
+
+class _NavRow extends StatelessWidget {
+  const _NavRow({required this.item, required this.selected, required this.compact, required this.inDrawer});
+
+  final NavItem item;
+  final bool selected;
+  final bool compact;
+  final bool inDrawer;
+
+  void _go(BuildContext context) {
+    if (inDrawer) Navigator.of(context).pop();
+    context.go(item.path);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final icon = Icon(selected ? item.selectedIcon : item.icon, size: 20);
+    if (compact) {
+      final colors = Theme.of(context).colorScheme;
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: IconButton(
+          tooltip: item.label,
+          isSelected: selected,
+          style: IconButton.styleFrom(
+            backgroundColor: selected ? colors.primaryContainer : null,
+            foregroundColor: selected ? colors.onPrimaryContainer : colors.onSurfaceVariant,
+            minimumSize: const Size(48, 44),
+          ),
+          icon: icon,
+          onPressed: () => _go(context),
+        ),
+      );
+    }
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 1),
+      child: ListTile(
+        dense: !inDrawer,
+        leading: icon,
+        minLeadingWidth: 20,
+        horizontalTitleGap: 12,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+        title: Text(item.label),
+        selected: selected,
+        onTap: () => _go(context),
+      ),
     );
   }
 }

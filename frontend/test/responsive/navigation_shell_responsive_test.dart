@@ -57,7 +57,7 @@ void main() {
     await tester.pumpAndSettle();
     expectNoOverflow(tester);
 
-    expect(find.byType(NavigationRail), findsNothing, reason: 'a rail would eat a phone screen');
+    expect(find.byType(SideNav), findsNothing, reason: 'a side navigation would eat a phone screen');
     final menu = find.byTooltip('Menu');
     expectActionReady(tester, menu, phoneScreen, label: 'the Menu button');
 
@@ -100,21 +100,33 @@ void main() {
     await tester.pumpAndSettle();
     expectNoOverflow(tester);
     expectActionReady(tester, find.byTooltip('Menu'), tabletScreen, label: 'the Menu button');
-    expect(find.byType(NavigationRail), findsNothing);
+    expect(find.byType(SideNav), findsNothing);
   });
 
-  testWidgets('a laptop shows the rail with every destination and Settings', (tester) async {
+  testWidgets('a laptop shows the side navigation with every destination and Settings', (tester) async {
     useScreen(tester, laptopScreen);
     await tester.pumpWidget(_shellApp());
     await tester.pumpAndSettle();
     expectNoOverflow(tester);
 
-    expect(find.byType(NavigationRail), findsOneWidget, reason: 'the desktop look is unchanged');
-    expect(find.byTooltip('Menu'), findsNothing, reason: 'no hamburger next to a visible rail');
+    expect(find.byType(SideNav), findsOneWidget);
+    expect(find.byTooltip('Menu'), findsNothing, reason: 'no hamburger next to a visible side navigation');
     for (final destination in ['Today', 'Syllabus', 'Papers', 'Planner', 'Question bank', 'Evaluate',
-      'Mastery', 'Class gaps', 'School insights', 'School']) {
-      expect(find.descendant(of: find.byType(NavigationRail), matching: find.text(destination)), findsOneWidget);
+      'Mastery', 'Class gaps', 'School insights', 'School', 'Settings']) {
+      expect(find.descendant(of: find.byType(SideNav), matching: find.text(destination)), findsOneWidget);
     }
-    expectActionReady(tester, find.byTooltip('Settings'), laptopScreen, label: 'Settings in the rail');
+    expectActionReady(tester, find.widgetWithText(ListTile, 'Settings'), laptopScreen,
+        label: 'Settings in the side navigation');
+  });
+
+  testWidgets('between the phone breakpoint and 1000 px the side navigation is icons with names', (tester) async {
+    useScreen(tester, (size: const Size(900, 700), textScale: 1.0));
+    await tester.pumpWidget(_shellApp());
+    await tester.pumpAndSettle();
+    expectNoOverflow(tester);
+    expect(find.byType(SideNav), findsOneWidget);
+    for (final destination in ['Today', 'Papers', 'Question bank', 'Settings']) {
+      expect(find.byTooltip(destination), findsOneWidget, reason: '$destination has an accessible name');
+    }
   });
 }
