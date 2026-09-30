@@ -21,6 +21,7 @@ from pathlib import Path
 from typing import Optional
 from xml.sax.saxutils import escape
 
+from .duration import format_duration
 from .pdf import DEFAULT_INSTRUCTIONS, _section_note, split_stem_and_options
 
 # A4 with 18 mm margins, in twentieths of a point.
@@ -96,7 +97,7 @@ def _body(paper, template) -> str:
         paras.append(_p(_run(m.date_line), align="center", space_after=40))
     paras.append(_p(_run("Roll No.: ____________        Name: ______________________________"), space_after=120))
     marks = f"Maximum Marks: {m.total_marks}" + (f"   [SET {paper.set_label}]" if paper.set_label else "")
-    paras.append(_p(_run(f"Time Allowed: {m.duration_minutes // 60} hours {m.duration_minutes % 60:02d} minutes",
+    paras.append(_p(_run(f"Time Allowed: {format_duration(m.duration_minutes)}",
                          bold=True), _run("\t" + marks, bold=True),
                     tabs=[("right", _TEXT_W)], border_bottom=True, space_after=160))
 

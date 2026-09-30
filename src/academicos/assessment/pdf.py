@@ -42,6 +42,7 @@ from reportlab.platypus import (
     TableStyle,
 )
 
+from .duration import format_duration
 from .schemas import GeneratedPaper, GeneratedSectionSchema, SchoolTemplate
 
 log = logging.getLogger(__name__)
@@ -488,8 +489,8 @@ def _header(paper: GeneratedPaper, template: Optional[SchoolTemplate],
         marks_str += f" &nbsp;&nbsp; [<b>SET {escape(paper.set_label)}</b>]"
 
     rule = Table(
-        [[Paragraph(f"<b>Time Allowed: {m.duration_minutes // 60} hours "
-                    f"{m.duration_minutes % 60:02d} minutes</b>", styles.question),
+        [[Paragraph(f"<b>Time Allowed: {format_duration(m.duration_minutes)}</b>",
+                    styles.question),
           Paragraph(marks_str, styles.marks)]],
         colWidths=[content_width * 0.6, content_width * 0.4],
     )

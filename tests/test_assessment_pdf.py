@@ -561,9 +561,36 @@ def test_the_teachers_header_and_instructions_are_printed(tmp_path):
     })
     text = _extract_text(export_pdf(paper, tmp_path / "h"))
     for expected in ("Green Valley School", "Unit Test 1", "Date: 3 October",
-                     "0 hours 40 minutes", "Write neatly.", "No calculators are allowed."):
+                     "Time Allowed: 40 minutes", "Write neatly.", "No calculators are allowed."):
         assert expected in text, expected
     assert "Draw neat diagrams" not in text      # the canned list is replaced
+    assert "0 hours" not in text
+
+
+@pytest.mark.parametrize("minutes, printed", [
+    (40, "40 minutes"), (1, "1 minute"), (60, "1 hour"), (90, "1 hour 30 minutes"),
+    (61, "1 hour 1 minute"), (120, "2 hours"), (180, "3 hours"), (150, "2 hours 30 minutes"),
+])
+def test_the_time_allowed_reads_as_a_paper_prints_it(minutes, printed):
+    """"Time Allowed: 0 hours 40 minutes" printed on every unit test (v3 audit,
+    14 of 14), and a one-hour paper read "1 hours 00 minutes"."""
+    from academicos.assessment.duration import format_duration
+    assert format_duration(minutes) == printed
+
+
+def test_every_header_prints_the_time_the_same_way(tmp_path):
+    from academicos.assessment.docx_export import export_docx
+    from academicos.assessment.paper import render_text
+    import io
+    import zipfile
+    paper = _make_paper()
+    for minutes, printed in ((40, "40 minutes"), (180, "3 hours"), (90, "1 hour 30 minutes")):
+        paper.metadata = paper.metadata.model_copy(update={"duration_minutes": minutes})
+        pdf_text = _extract_text(export_pdf(paper, tmp_path / f"t{minutes}"))
+        docx = export_docx(paper, tmp_path / f"d{minutes}").read_bytes()
+        word = zipfile.ZipFile(io.BytesIO(docx)).read("word/document.xml").decode()
+        for text in (pdf_text, word, render_text(paper)):
+            assert f"Time Allowed: {printed}" in text, (minutes, text[:300])
 
 
 def test_a_paper_without_a_header_keeps_the_default_instructions(tmp_path):
