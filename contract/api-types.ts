@@ -3363,9 +3363,11 @@ export interface paths {
         /**
          * Set Datesheet
          * @description Replace the whole datesheet. Every clash (two papers for a class on a
-         *     day, a holiday, a date outside the exam) is reported at once; the old
-         *     datesheet and its roster are kept on any problem, and dropped with it
-         *     otherwise (the roster is per paper).
+         *     day, a holiday, a date outside the exam) is reported at once, and the old
+         *     datesheet and its roster are kept on any problem. Otherwise a paper sent
+         *     again unchanged keeps its invigilators; a removed or re-timed paper loses
+         *     its duties. After publishing, the classes whose papers changed and the
+         *     invigilators whose duties changed are told.
          */
         put: operations["set_datesheet_api_v1_exams__exam_id__datesheet_put"];
         post?: never;
@@ -3426,7 +3428,8 @@ export interface paths {
         /**
          * Publish
          * @description Publish: students of the exam's classes get their datesheet, each
-         *     invigilator their duties.
+         *     invigilator their duties. Publishing again tells only an invigilator
+         *     whose duties changed since they were last told.
          */
         post: operations["publish_api_v1_exams__exam_id__publish_post"];
         delete?: never;
