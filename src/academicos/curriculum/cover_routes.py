@@ -128,11 +128,20 @@ class CompensateRequest(_Req):
     period: int = Field(ge=1, le=20)
 
 
+class WaiveRequest(_Req):
+    # Why the school will not make the period up; kept in the audit log.
+    reason: str = Field(min_length=1, max_length=500)
+
+
 class ClosureRequest(_Req):
     date: str
     reason: str = Field(min_length=1, max_length=200)
     add_holiday: bool = True
     reflow_plans: bool = True
+    # Some classes only (a trip, an exam hall): these sections' periods are
+    # lost and their plans move; the school's calendar keeps the day.
+    # Omitted: the whole school.
+    section_ids: Optional[list[str]] = Field(default=None, min_length=1)
 
 
 class ClosureResponse(Camel):
@@ -448,13 +457,15 @@ def compensate(lost_id: str, req: CompensateRequest,
 
 
 @router.post("/lost-periods/{lost_id}/waive", response_model=LostPeriodResponse)
-def waive(lost_id: str, principal: User = Depends(require_admin("leave"))) -> LostPeriodResponse:
+def waive(lost_id: str, req: Optional[WaiveRequest] = None,
+          principal: User = Depends(require_admin("leave"))) -> LostPeriodResponse:
     _owned_lost(lost_id, principal)
     try:
         after = cr._require().waive_lost(lost_id)
     except CoverError as e:
         raise HTTPException(409, str(e))
-    _audit("lost_period_waived", principal, {"lostPeriodId": lost_id})
+    _audit("lost_period_waived", principal,
+           {"lostPeriodId": lost_id, "reason": req.reason if req is not None else None})
     return _lost(after)
 
 
@@ -464,16 +475,25 @@ def declare_closure(academic_year_id: str, req: ClosureRequest,
     """A day lost at short notice, or after the fact (rain, an event, an exam
     day): every section's periods that day become lost periods, the day's
     cover is cancelled, the holiday goes on the calendar and the section
-    plans move past it."""
+    plans move past it. With `sectionIds`, only those sections close: the
+    calendar keeps the day (the rest of the school teaches) and only their
+    plans move."""
     cr._require_school_owns_academic_year(academic_year_id, principal)
     store = cr._require()
+    only: Optional[set[str]] = None
+    if req.section_ids is not None:
+        for sid in req.section_ids:
+            section = cr._require_school_owns_section(sid, principal)
+            if section.academic_year_id != academic_year_id:
+                raise HTTPException(422, "that section is not in this academic year")
+        only = set(req.section_ids)
     try:
         date.fromisoformat(req.date)
-        lost = store.declare_closure(academic_year_id, req.date, reason=req.reason)
+        lost = store.declare_closure(academic_year_id, req.date, reason=req.reason, section_ids=only)
     except (CoverError, ValueError) as e:
         raise HTTPException(422, str(e))
     holiday_added = False
-    if req.add_holiday:
+    if req.add_holiday and only is None:
         cal = store.get_calendar_for_year(academic_year_id)
         if cal is not None and not any(h.date == req.date for h in store.holidays_for_calendar(cal.id)):
             store.add_holiday(calendar_id=cal.id, date=req.date, label=req.reason, kind="school")
@@ -485,6 +505,9 @@ def declare_closure(academic_year_id: str, req: ClosureRequest,
         plans = {(r["book_id"], r["section_id"]) for r in store._fetchall(
             "SELECT DISTINCT book_id, section_id FROM scheduled_lessons WHERE academic_year_id=? AND date=? "
             "AND status='scheduled'", (academic_year_id, req.date))}
+        if only is not None:
+            # The school-wide plan keeps the day: the other classes still teach.
+            plans = {(b, s) for b, s in plans if s in only}
         for book_id, section_id in plans:
             try:
                 scheduling_mod.push_lessons_after(
@@ -496,7 +519,7 @@ def declare_closure(academic_year_id: str, req: ClosureRequest,
                 continue
     _audit("closure_declared", principal, {"academicYearId": academic_year_id, "date": req.date,
                                            "reason": req.reason, "lostPeriods": len(lost),
-                                           "plansReflowed": reflowed})
+                                           "plansReflowed": reflowed, "sectionIds": req.section_ids})
     return ClosureResponse(lost_periods=len(lost), holiday_added=holiday_added, plans_reflowed=reflowed)
 
 

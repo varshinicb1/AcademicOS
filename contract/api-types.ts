@@ -1035,7 +1035,9 @@ export interface paths {
          * @description A day lost at short notice, or after the fact (rain, an event, an exam
          *     day): every section's periods that day become lost periods, the day's
          *     cover is cancelled, the holiday goes on the calendar and the section
-         *     plans move past it.
+         *     plans move past it. With `sectionIds`, only those sections close: the
+         *     calendar keeps the day (the rest of the school teaches) and only their
+         *     plans move.
          */
         post: operations["declare_closure_api_v1_curriculum_academic_years__academic_year_id__closures_post"];
         delete?: never;
@@ -6682,6 +6684,8 @@ export interface components {
              * @default true
              */
             reflowPlans: boolean;
+            /** Sectionids */
+            sectionIds?: string[] | null;
         };
         /** ClosureResponse */
         ClosureResponse: {
@@ -11861,6 +11865,11 @@ export interface components {
             /** Error Type */
             type: string;
         };
+        /** WaiveRequest */
+        WaiveRequest: {
+            /** Reason */
+            reason: string;
+        };
         /** WeekProgress */
         WeekProgress: {
             /** Answered */
@@ -15570,7 +15579,11 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["WaiveRequest"] | null;
+            };
+        };
         responses: {
             /** @description Successful Response */
             200: {
