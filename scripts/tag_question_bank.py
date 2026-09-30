@@ -109,7 +109,7 @@ def _bank_label(path: Path) -> str:
 
 def tag_topics(banks: list[Path], check: bool, queue_path: Path) -> int:
     """Tag each bank to chapter/topic/subtopic; see the module docstring."""
-    from academicos.syllabus.tagger import LEVELS, TopicTagger, apply_tags
+    from academicos.syllabus.tagger import LEVELS, TAG_FIELDS, TopicTagger, apply_tags
 
     tagger = TopicTagger()
     review_all: dict[str, list[dict]] = {}
@@ -120,8 +120,15 @@ def tag_topics(banks: list[Path], check: bool, queue_path: Path) -> int:
         review_all[label] = review
         queued = collections.Counter(r["id"] for r in review)
         cells: dict[tuple, collections.Counter] = collections.defaultdict(collections.Counter)
+        untagged = 0
         for rec in records:
-            if "tagMethod" not in rec:
+            # A record the tagger wrote carries every TAG_FIELDS key. A builder
+            # can pre-file a chapter on its own -- textbook.py writes
+            # taxonomyChapterId + tagMethod ("source_chapter") + tagConfidence
+            # and no topicIds -- so `tagMethod` alone does not mean this tagger
+            # ran. Counting those would report a topic the bank does not have.
+            if not all(field in rec for field in TAG_FIELDS):
+                untagged += 1
                 continue
             c = cells[(rec.get("subject"), int(rec.get("grade")))]
             c["questions"] += 1
@@ -130,7 +137,8 @@ def tag_topics(banks: list[Path], check: bool, queue_path: Path) -> int:
             c["subtopic"] += bool(rec["subtopicIds"])
             c["review"] += queued[rec.get("id")] > 0
         print(f"\n{label}  ({len(records):,} records, "
-              f"{sum(c['questions'] for c in cells.values()):,} in the trees' scope)")
+              f"{sum(c['questions'] for c in cells.values()):,} in the trees' scope"
+              f"{f', {untagged:,} not tagged by this tagger' if untagged else ''})")
         print(f"{'subject':<16}{'class':>6}{'questions':>11}{'chapter':>9}{'topic':>7}"
               f"{'subtopic':>10}{'review':>8}")
         total = collections.Counter()
