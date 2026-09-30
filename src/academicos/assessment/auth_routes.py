@@ -21,7 +21,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, Header, HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
-from ..api.rate_limit import rate_limit_login, rate_limit_register
+from ..api.rate_limit import account_failures, rate_limit_login, rate_limit_register
 from ..config import Config
 from .schemas import Camel
 from .users import (
@@ -132,10 +132,20 @@ def add_register_hook(fn) -> None:
 @router.post("/login", response_model=AuthResponse, dependencies=[Depends(rate_limit_login)])
 def login(req: LoginRequest) -> AuthResponse:
     store = _require()
+    # Brute force is stopped per account (rate_limit.py): after too many
+    # wrong passwords for one email, from any number of addresses, that
+    # email is refused for a while -- a right password included, so the
+    # guesser cannot tell when they hit it.
+    account = f"login-failures:{req.email.strip().lower()}"
+    wait = account_failures.blocked(account)
+    if wait is not None:
+        raise HTTPException(429, f"too many wrong passwords for this account; try again in "
+                                 f"{max(1, round(wait / 60))} minute(s)", headers={"Retry-After": str(wait)})
     try:
         user = store.authenticate(email=req.email, password=req.password)
         token = store.create_session(user.id)
     except InvalidCredentials:
+        account_failures.record(account)
         raise HTTPException(401, "incorrect email or password")
     except AccountClosed:
         raise HTTPException(403, CLOSED_DETAIL)
