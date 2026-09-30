@@ -66,3 +66,54 @@ def test_pool_warmup_is_off_under_pytest_and_by_switch(monkeypatch):
     monkeypatch.setenv("ACOS_WARM_POOLS", "1")
     pillar_routes._start_pool_warmup(object())
     assert len(started) == 1 and started[0]["daemon"] is True and started[0]["name"] == "pool-warmup"
+
+
+@pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
+def test_the_bank_file_is_parsed_once_per_version(monkeypatch):
+    """Every pool build parsed the whole bank file (14.6 MB) again: ~70 served
+    pools cost over a minute of CPU on a fresh revision (production,
+    2026-10-01). It is parsed once per version of the file."""
+    import json as json_module
+    parses = {"n": 0}
+    real = json_module.loads
+
+    def counting(text, *a, **k):
+        if isinstance(text, str) and len(text) > 1_000_000:
+            parses["n"] += 1
+        return real(text, *a, **k)
+
+    monkeypatch.setattr(pool_module.json, "loads", counting)
+    pool_module._BAKED.clear()
+    first = pool_module._baked_records(SERVED_BANK)
+    again = pool_module._baked_records(SERVED_BANK)
+    assert again is first and parses["n"] == 1
+    sources = [r.get("source") for r in first]
+    assert sources == sorted(sources, key=lambda s: 0 if s == "cbse_board_paper" else 1), "board papers first"
+
+
+def test_concurrent_callers_build_a_pool_once(tmp_path, monkeypatch):
+    """The boot warm-up and a request asking for one pool at once build it
+    once; the second waits for the first."""
+    import threading
+    import time
+
+    builds = []
+
+    def slow_build(cfg, *, subject, grade):
+        builds.append((subject, grade))
+        time.sleep(0.2)
+        return pool_module.QuestionPool()
+
+    monkeypatch.setattr(pool_module, "build_pool", slow_build)
+    pool_module._CACHE.clear()
+    try:
+        out = []
+        threads = [threading.Thread(target=lambda: out.append(pool_module.get_pool(object(), subject="Maths", grade="7")))
+                   for _ in range(4)]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+        assert builds == [("Maths", "VII")] and len({id(p) for p in out}) == 1
+    finally:
+        pool_module._CACHE.clear()

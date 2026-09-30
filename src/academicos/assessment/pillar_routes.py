@@ -319,13 +319,14 @@ def _catalog_scope(cfg) -> list[tuple[str, int]]:
     it from the bank still keeps the catalog from probing hundreds of empty
     (subject, grade) pairs on every request.
     """
-    from .pool import _baked_bank_paths
+    from .pool import _baked_bank_paths, _baked_records
 
     for path in _baked_bank_paths(cfg):
         if path.exists():
-            data = json.loads(path.read_text(encoding="utf-8"))
+            # The pools' own parsed copy: reading the 14.6 MB file here cost
+            # every catalog call ~0.6 s (production, 2026-10-01).
             pairs = {(q.get("subject", ""), grades.to_int(q.get("grade")))
-                     for q in data.get("questions", [])}
+                     for q in _baked_records(path)}
             return sorted((s, g) for s, g in pairs if s and g)
     return []
 
