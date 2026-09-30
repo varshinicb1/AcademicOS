@@ -50,6 +50,10 @@ const _exempt = {
   // The sign-in page's saved profiles, read before the local store may be
   // open (widget tests): none is shown, and signing in works as before.
   'lib/presentation/workspace/profiles.dart': 1,
+  // The side navigation's lookup of a teacher's admin grants: it only
+  // decides whether an Admin group is listed, and every admin page reports
+  // its own failures through serverErrorMessage.
+  'lib/presentation/shared/widgets/shell.dart': 1,
 };
 
 const _marker = '// not-a-failure:';
