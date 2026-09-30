@@ -30,7 +30,7 @@ def test_the_word_file_carries_the_paper(tmp_path):
     data = path.read_bytes()
     body = _text(data)
     for expected in ("Mid Term Examination", "Subject: Science  |  Class: 10", "Maximum Marks: 1",
-                     "Time Allowed: 1 hours 00 minutes", "General Instructions:", "SECTION A",
+                     "Time Allowed: 1 hour", "General Instructions:", "SECTION A",
                      "1.\tWhich of the following is a gas?\t[1]", "(A)  Oxygen", "(D)  Copper", "OR",
                      "Name a noble gas."):
         assert expected in body, expected
