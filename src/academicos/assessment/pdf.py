@@ -44,6 +44,7 @@ from reportlab.platypus import (
 
 from .duration import format_duration
 from .schemas import GeneratedPaper, GeneratedSectionSchema, SchoolTemplate
+from .template_presets import instructions_for_paper, reads_as_generated
 
 log = logging.getLogger(__name__)
 
@@ -504,12 +505,29 @@ def _header(paper: GeneratedPaper, template: Optional[SchoolTemplate],
     return story
 
 
+def instruction_lines(paper: GeneratedPaper) -> list[str]:
+    """The General Instructions `paper` prints in place of the canned list,
+    one per line, or [] for the canned list: the teacher's own words as
+    written, and instructions generated from the template rebuilt from the
+    paper's sections as they stand now (`instructions_for_paper`), never the
+    copy stamped at generation -- a remove, swap or pick since then changes
+    what they must say (v3 audit N-2-6). The PDF and the Word file both
+    print these."""
+    m = paper.metadata
+    text = m.instructions or ""
+    generated = m.instructions_generated
+    if generated is None:                     # stored before the flag existed
+        generated = reads_as_generated(text)
+    if generated:
+        text = instructions_for_paper(paper)
+    return [line.strip() for line in text.splitlines() if line.strip()]
+
+
 def _instructions(paper: GeneratedPaper, styles: _Styles) -> list:
     total_q = sum(len(s.questions) for s in paper.sections)
     labels = ", ".join(s.label for s in paper.sections)
     story = [Paragraph("General Instructions:", styles.instr_head)]
-    teacher = [line.strip() for line in (paper.metadata.instructions or "").splitlines()
-               if line.strip()]
+    teacher = instruction_lines(paper)
     if teacher:
         # The teacher's own instructions replace the canned list: printing
         # both would put "internal choice has been provided" on a paper whose

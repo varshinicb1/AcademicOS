@@ -1502,7 +1502,7 @@ def test_the_real_papers_instructions_match_the_ors_it_prints(
         printed = [s for s in report["sections"] if s["filled"]]
         assert lines[0] == f"This question paper has {len(printed)} sections."
         for s in report["sections"]:
-            line = next((x for x in lines if x.startswith(s["title"] + ":")), None)
+            line = next((x for x in lines if x.startswith(_printed_title(s, report) + ":")), None)
             if not s["filled"]:
                 assert line is None, line
                 continue
@@ -1513,13 +1513,25 @@ def test_the_real_papers_instructions_match_the_ors_it_prints(
                 assert "OR" not in line, line
 
 
+def _printed_title(section: dict, report: dict) -> str:
+    """The name a report section prints under: the paper letters the
+    sections it prints in order, and the title's own "Section X" says that
+    letter (audit D44). A section that prints nothing keeps its title."""
+    from academicos.assessment.paper import lettered
+    filled = [s["sectionId"] for s in report["sections"] if s["filled"]]
+    if section["sectionId"] not in filled:
+        return section["title"]
+    return lettered(section["title"], chr(ord("A") + filled.index(section["sectionId"])))
+
+
 # ---- review of 9b2f64c: a copied preset's instructions after the teacher edits it
 
 def _assert_instructions_describe(lines: list[str], sections: list[dict]) -> None:
     printed = [s for s in sections if s["filled"]]
     assert lines[0] == f"This question paper has {len(printed)} sections.", lines
     for s in sections:
-        line = next((x for x in lines if x.startswith(s["title"] + ":")), None)
+        title = _printed_title(s, {"sections": sections})
+        line = next((x for x in lines if x.startswith(title + ":")), None)
         if not s["filled"]:
             assert line is None, line
             continue

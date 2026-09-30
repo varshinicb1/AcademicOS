@@ -71,10 +71,12 @@ question at that mark value.
 """
 from __future__ import annotations
 
+import re
 from functools import lru_cache
 from typing import Optional, Sequence
 
-from .schemas import DifficultyDistribution, PaperTemplate, TemplateHeader, TemplateSection
+from .schemas import DifficultyDistribution, GeneratedPaper, GeneratedSectionSchema, \
+    PaperTemplate, TemplateHeader, TemplateSection
 
 MAIN_SUBJECTS: tuple[str, ...] = ("Mathematics", "Science", "Social Science", "English", "Hindi")
 PRESET_EXAM_TYPES: tuple[str, ...] = ("unit_test", "periodic", "half_yearly", "annual")
@@ -371,16 +373,86 @@ def instructions_for(sections: list[TemplateSection],
         rows = [(s, s.question_count, s.choice_count) for s in sections]
     else:
         rows = [(s, n, c) for s, (n, c) in zip(sections, printed) if n > 0]
-    lines = [f"This question paper has {len(rows)} sections."]
-    for s, count, choices in rows:
-        attempts = min(s.attempts, count)
+    return _instructions([(s.title, count, s.marks_each, min(s.attempts, count), choices)
+                          for s, count, choices in rows])
+
+
+_FIRST_LINE = "This question paper has {n} section{s}."
+_LAST_LINE = "All questions are compulsory unless a choice is stated."
+
+
+def _instructions(rows: Sequence[tuple[str, int, Optional[int], int, int]]) -> str:
+    """The generated lines, one per (title, questions, marks each or None
+    when they differ, attempts, OR alternatives) section row."""
+    lines = [_FIRST_LINE.format(n=len(rows), s="" if len(rows) == 1 else "s")]
+    for title, count, marks_each, attempts, choices in rows:
         attempt = f" Attempt any {attempts}." if attempts < count else ""
         choice = (f" {choices} of them offer an internal choice (OR): attempt only "
                   "one of the two." if choices else "")
-        lines.append(f"{s.title}: {count} question(s) of {s.marks_each} "
-                     f"mark(s) each.{attempt}{choice}")
-    lines.append("All questions are compulsory unless a choice is stated.")
+        each = (f" of {marks_each} mark(s) each" if marks_each is not None
+                else ", marks as indicated")
+        lines.append(f"{title}: {count} question(s){each}.{attempt}{choice}")
+    lines.append(_LAST_LINE)
     return "\n".join(lines)
+
+
+_ATTEMPT_SUFFIX = re.compile(r"\s*\(attempt any \d+ of \d+\)$")
+
+
+def section_title(name: str) -> str:
+    """A printed section's name without the "(attempt any N of M)" the
+    builder adds when a section prints more questions than are answered."""
+    return _ATTEMPT_SUFFIX.sub("", name)
+
+
+def section_attempts(section: GeneratedSectionSchema) -> int:
+    """How many of a printed section's questions are answered: all of them,
+    unless its marks say fewer ("attempt any 10 of 12" is worth 10 marks)."""
+    marks = {q.marks for q in section.questions}
+    count = len(section.questions)
+    if len(marks) != 1:
+        return count
+    each = marks.pop()
+    return min(count, section.total_marks // each) if each else count
+
+
+def instructions_for_paper(paper: GeneratedPaper) -> str:
+    """The generated General Instructions for `paper` as it stands now --
+    its own sections, each with the questions and OR alternatives it
+    prints -- in the words `instructions_for` uses.
+
+    Stamped once at generation, the lines went stale with the paper's first
+    edit: remove Q38 and one of Section B's two ORs on a class 10 Maths
+    half-yearly paper and the PDF and Word file still said "Section E ... 3
+    question(s)" and "Section B ... 2 of them offer an internal choice (OR)"
+    (v3 audit N-2-6). Every place that prints or stores the instructions
+    calls this on the paper it has."""
+    rows = []
+    for s in paper.sections:
+        if not s.questions:
+            continue
+        marks = {q.marks for q in s.questions}
+        rows.append((section_title(s.name), len(s.questions),
+                     marks.pop() if len(marks) == 1 else None, section_attempts(s),
+                     sum(1 for q in s.questions if q.internal_choice_question_id)))
+    return _instructions(rows)
+
+
+_GENERATED_LINE = re.compile(
+    r".+: \d+ question\(s\)(?: of \d+ mark\(s\) each|, marks as indicated)\."
+    r"(?: Attempt any \d+\.)?"
+    r"(?: \d+ of them offer an internal choice \(OR\): attempt only one of the two\.)?")
+
+
+def reads_as_generated(text: str) -> bool:
+    """Whether `text` is, line for line, instructions this module generated
+    -- for a paper stored before it said so itself
+    (`PaperMetadataSchema.instructions_generated` None)."""
+    lines = [x.strip() for x in (text or "").splitlines() if x.strip()]
+    return (len(lines) >= 2
+            and re.fullmatch(r"This question paper has \d+ sections?\.", lines[0]) is not None
+            and lines[-1] == _LAST_LINE
+            and all(_GENERATED_LINE.fullmatch(x) for x in lines[1:-1]))
 
 
 def _types_for(title: str) -> list[str]:

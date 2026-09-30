@@ -23,7 +23,7 @@ from typing import Optional
 from xml.sax.saxutils import escape
 
 from .duration import format_duration
-from .pdf import DEFAULT_INSTRUCTIONS, _section_note, split_stem_and_options
+from .pdf import DEFAULT_INSTRUCTIONS, _section_note, instruction_lines, split_stem_and_options
 
 # A4 with 18 mm margins, in twentieths of a point.
 _PAGE_W, _PAGE_H, _MARGIN = 11906, 16838, 1020
@@ -181,7 +181,7 @@ def _body(paper, template, logo: Optional[_Logo] = None) -> str:
                     tabs=[("right", _TEXT_W)], border_bottom=True, space_after=160))
 
     paras.append(_p(_run("General Instructions:", bold=True), space_after=60, keep_next=True))
-    teacher = [line.strip() for line in (m.instructions or "").splitlines() if line.strip()]
+    teacher = instruction_lines(paper)
     if teacher:
         lines = teacher
     else:

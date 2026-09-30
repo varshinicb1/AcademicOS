@@ -51,7 +51,8 @@ from .schemas import (
     TemplateScope,
 )
 from .store import AssessmentStore
-from .template_presets import get_preset, instructions_for, is_preset_id, presets
+from .template_presets import get_preset, instructions_for, instructions_for_paper, \
+    is_preset_id, presets
 from .templates import TIER_BLOOM, TIER_DIFFICULTY
 from .users import User
 
@@ -428,8 +429,8 @@ def generate_from_template(
         # sections (an assertion-reason question under the MCQ heading).
         rotation_groups=[p.picked + p.borrowed for p in plans if p.picked or p.borrowed],
     )
-    instructions = _printed_instructions(template, plans)
-    paper = _with_header(paper, template, instructions)
+    paper = _with_header(paper, template)
+    instructions = paper.metadata.instructions or ""
     _stamp_checks(paper, report, blueprint)
     branding = _branding(template, current.school_id)
     _papers.save_generated(paper, branding, school_id=current.school_id)
@@ -515,49 +516,55 @@ def _attach_choices(plans: list[SectionPlan]) -> None:
         p.borrowed = [with_choice(q, p) for q in p.borrowed]
 
 
-def _printed_instructions(template: PaperTemplate, plans: list[SectionPlan]) -> str:
-    """The instructions to print: the teacher's own words as written, but
-    instructions a preset generated (still unedited, on the preset or on a
-    copy of it, whatever sections the teacher has changed since) rebuilt
-    from what the paper holds.
+def _instructions_generated(template: PaperTemplate) -> bool:
+    """Whether the template's instructions are a preset's generated text
+    (still unedited, on the preset or on a copy of it, whatever sections the
+    teacher has changed since), which the paper prints rebuilt from its own
+    sections (`template_presets.instructions_for_paper`), or the teacher's
+    own words, printed as written.
 
-    Those lines are the preset describing its own sections, and they replace
-    the PDF's default list, so stamping them unchanged printed promises the
-    paper did not keep: on the real class 10 bank the Social Science paper
-    said "Section D ... 4 of them offer an internal choice (OR)" with not one
-    OR in the section. Text the teacher wrote is theirs to word; the
-    availability notes already name the ORs and questions the bank lacks.
+    Generated lines are the preset describing its own sections, and they
+    replace the PDF's default list, so stamping them unchanged printed
+    promises the paper did not keep: on the real class 10 bank the Social
+    Science paper said "Section D ... 4 of them offer an internal choice
+    (OR)" with not one OR in the section. Text the teacher wrote is theirs to
+    word; the availability notes already name the ORs and questions the bank
+    lacks.
 
     Generated text is known by `instructions_generated`; text equal to what
     the sections generate also counts, for a template created from a
     preset's fields rather than duplicated, and for copies saved before the
     flag existed."""
-    generated = (template.instructions_generated
-                 or template.instructions.strip() == instructions_for(template.sections).strip())
-    if not generated:
-        return template.instructions
-    return instructions_for(template.sections, [
-        (p.availability.filled, p.availability.choices_filled) for p in plans])
+    return bool(template.instructions_generated
+                or template.instructions.strip() == instructions_for(template.sections).strip())
 
 
-def _with_header(paper: GeneratedPaper, template: PaperTemplate,
-                 instructions: str) -> GeneratedPaper:
-    """The template's header and duration, and the instructions to print
-    (`_printed_instructions`), on the paper and on every set, where the PDF
-    exporter reads them. Blank header fields stay None, so the exporter
-    falls back to the school's branding name."""
+def _with_header(paper: GeneratedPaper, template: PaperTemplate) -> GeneratedPaper:
+    """The template's header and duration, and the instructions to print,
+    on the paper and on every set, where the PDF exporter reads them. Blank
+    header fields stay None, so the exporter falls back to the school's
+    branding name.
+
+    Generated instructions (`_instructions_generated`) are written from
+    each set's own sections: a set prints the ORs and questions it holds,
+    which are not always set A's. The paper says they are generated, so the
+    exporters and every edit rebuild them from the paper as it then stands
+    (v3 audit N-2-6: stamped once, they went stale with the first Remove)."""
     header = template.header
+    generated = _instructions_generated(template)
     update = {
         "school_name": header.school_name or None,
         "exam_name": header.exam_name or None,
         "date_line": header.date_line or None,
-        "instructions": instructions or None,
+        "instructions_generated": generated,
         "duration_minutes": template.duration_minutes,
     }
 
     def stamp(p: GeneratedPaper) -> GeneratedPaper:
+        instructions = instructions_for_paper(p) if generated else template.instructions
         return p.model_copy(update={
-            "metadata": p.metadata.model_copy(update=update),
+            "metadata": p.metadata.model_copy(update={**update,
+                                                      "instructions": instructions or None}),
             "sets": [stamp(s) for s in p.sets]})
 
     return stamp(paper)
@@ -720,7 +727,7 @@ def remove_paper_question(paper_id: str, slot: str,
         "by": current.id, "at": _now().isoformat()}]
     _assessments.save(asm.model_copy(update={
         "selected_question_ids": [i for i in asm.selected_question_ids if i not in removed],
-        "metadata": {**asm.metadata, "paperEdits": edits},
+        "metadata": _edited_metadata(asm.metadata, edits, edited),
         "updated_at": _now()}))
     get_audit_log(cfg.data_root).append(
         "paper_question_remove", assessment_id=asm.id,
@@ -789,7 +796,7 @@ def _edit_question(paper_id: str, slot_key: str, current: User, *,
     _assessments.save(asm.model_copy(update={
         "selected_question_ids": [new.id if i == old_id else i
                                   for i in asm.selected_question_ids],
-        "metadata": {**asm.metadata, "paperEdits": edits},
+        "metadata": _edited_metadata(asm.metadata, edits, edited),
         "updated_at": _now()}))
     get_audit_log(cfg.data_root).append(
         f"paper_question_{kind}", assessment_id=asm.id,
@@ -798,6 +805,17 @@ def _edit_question(paper_id: str, slot_key: str, current: User, *,
                  "editSeconds": round(time.perf_counter() - started, 3)})
     return PaperEditResponse(paper=edited, slot=slot.key, replaced_question_id=old_id,
                              question_id=new.id, notes=choice.notes, counts=choice.counts)
+
+
+def _edited_metadata(metadata: dict, edits: dict, edited: GeneratedPaper) -> dict:
+    """The assessment's metadata after an edit: the edit log, and the
+    instructions it records for the paper as the paper now prints them when
+    they are generated (the teacher's own words do not change)."""
+    out = {**metadata, "paperEdits": edits}
+    tpl = metadata.get("paperTemplate")
+    if isinstance(tpl, dict) and edited.metadata.instructions_generated:
+        out["paperTemplate"] = {**tpl, "instructions": edited.metadata.instructions or ""}
+    return out
 
 
 def _recent_question_ids(asm: Assessment) -> set[str]:

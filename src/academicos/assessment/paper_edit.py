@@ -68,6 +68,8 @@ from .paper_templates import ScopeFilter, _all_competency, _content_fits, _fits,
 from .pool import QuestionPool, get_pool, near_duplicate
 from .schemas import Camel, GeneratedPaper, GeneratedQuestionSchema, GeneratedSectionSchema, \
     QuestionSchema, TemplateScope, TemplateSection
+from .template_presets import instructions_for_paper, reads_as_generated, section_attempts, \
+    section_title
 
 RECENT_PAPERS = 5
 
@@ -444,7 +446,7 @@ def replace_question(paper: GeneratedPaper, old_id: str, new: QuestionSchema, *,
         "sections": sections, "answer_key": answer_key,
         "sets": [replace_question(s, old_id, new, target=target) for s in paper.sets]})
     edited.formatted_content = render_text(edited)
-    return _restamped(edited, target)
+    return _restamped(_with_instructions(edited), target)
 
 
 # ---- removing
@@ -478,8 +480,7 @@ def drop_question(paper: GeneratedPaper, question_id: str, *,
             numbers[gq.display_number] = n
             questions.append(gq.model_copy(update={"display_number": n}))
         if questions:
-            sections.append(section.model_copy(update={
-                "questions": questions, "total_marks": sum(q.marks for q in questions)}))
+            sections.append(_section_after_removal(section, questions))
     if len(sections) < len(paper.sections):
         # A section gone: the ones after it move up a letter, as generation
         # letters a paper with an empty section (audit D44).
@@ -497,7 +498,38 @@ def drop_question(paper: GeneratedPaper, question_id: str, *,
             "total_marks": sum(s.total_marks for s in sections)}),
         "sets": [drop_question(s, question_id, target=target) for s in paper.sets]})
     edited.formatted_content = render_text(edited)
-    return _restamped(edited, target)
+    return _restamped(_with_instructions(edited), target)
+
+
+def _section_after_removal(section: GeneratedSectionSchema,
+                           questions: list[GeneratedQuestionSchema]) -> GeneratedSectionSchema:
+    """`section` holding `questions`, what is left of it. An "attempt any N"
+    section keeps N while it prints more than N (the student still answers
+    N, so its marks do not drop) and says "attempt any N of" the questions
+    it now prints; every other section loses the removed question's marks."""
+    attempts = min(section_attempts(section), len(questions))
+    marks = {q.marks for q in questions}
+    total = attempts * next(iter(marks)) if len(marks) == 1 else sum(q.marks for q in questions)
+    name = section_title(section.name)
+    if attempts < len(questions):
+        name = f"{name} (attempt any {attempts} of {len(questions)})"
+    return section.model_copy(update={"questions": questions, "total_marks": total, "name": name})
+
+
+def _with_instructions(edited: GeneratedPaper) -> GeneratedPaper:
+    """`edited` with its generated General Instructions rebuilt from its
+    sections as they now stand (`instructions_for_paper`), so the stored
+    text says what the exporters print. The teacher's own words are left as
+    written. A paper stored before the flag existed has its text checked:
+    generated text is rebuilt, and the paper then says it is generated."""
+    m = edited.metadata
+    generated = m.instructions_generated
+    if generated is None:
+        generated = reads_as_generated(m.instructions or "") or None
+    if generated:
+        edited.metadata = m.model_copy(update={"instructions": instructions_for_paper(edited),
+                                               "instructions_generated": True})
+    return edited
 
 
 def drop_alternative(paper: GeneratedPaper, kept: GeneratedQuestionSchema,
@@ -530,4 +562,4 @@ def drop_alternative(paper: GeneratedPaper, kept: GeneratedQuestionSchema,
         "sections": sections, "answer_key": answer_key,
         "sets": [drop_alternative(s, kept, kept_key, target=target) for s in paper.sets]})
     edited.formatted_content = render_text(edited)
-    return _restamped(edited, target)
+    return _restamped(_with_instructions(edited), target)
