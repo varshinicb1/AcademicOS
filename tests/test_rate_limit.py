@@ -108,5 +108,38 @@ def test_auth_route_rate_limiting_triggers_429(tmp_path, monkeypatch):
         assert "Rate limit exceeded" in r3.json()["detail"]
 
     # Restore default
-    login_limiter.max_requests = 20
+    login_limiter.max_requests = 300
     login_limiter.reset()
+
+
+def test_a_class_behind_one_address_can_sign_in_and_register_together():
+    """A school's pupils share one NAT address: the per-network limits must
+    let a full class through in a minute (N-9-4)."""
+    from academicos.api.rate_limit import ACCOUNT_FAILURES
+    assert login_limiter.max_requests >= 200
+    assert register_limiter.max_requests >= 100
+    assert ACCOUNT_FAILURES <= 10
+
+
+def test_wrong_passwords_lock_one_account_not_the_network(tmp_path, monkeypatch):
+    from academicos.api.rate_limit import ACCOUNT_FAILURES, account_failures
+    from test_assessment_routes_auth import _boot_client, _register
+
+    monkeypatch.setenv("ACOS_TEST_RATE_LIMIT", "1")
+    monkeypatch.delenv("ACOS_DISABLE_RATE_LIMIT", raising=False)
+    login_limiter.reset()
+    account_failures.reset()
+    with _boot_client(tmp_path, monkeypatch) as client:
+        _register(client, "school_1", "victim@example.com")
+        _register(client, "school_1", "other@example.com")
+        for _ in range(ACCOUNT_FAILURES):
+            r = client.post("/api/v1/auth/login", json={"email": "victim@example.com", "password": "guess guess guess"})
+            assert r.status_code == 401
+        # Locked, even with the right password: the guesser learns nothing.
+        locked = client.post("/api/v1/auth/login", json={"email": "Victim@Example.com", "password": "correct horse battery"})
+        assert locked.status_code == 429 and "Retry-After" in locked.headers
+        # Another account from the same address signs in.
+        ok = client.post("/api/v1/auth/login", json={"email": "other@example.com", "password": "correct horse battery"})
+        assert ok.status_code == 200, ok.text
+    login_limiter.reset()
+    account_failures.reset()

@@ -299,6 +299,23 @@ def _catalog_scope(cfg) -> list[tuple[str, int]]:
     return []
 
 
+def _pool_summary(pool) -> tuple[int, int, list[int]]:
+    """(questions, chapters, marks available) for the catalog, worked out
+    once per pool and kept on it, so a rebuilt pool is summarised afresh.
+
+    Converting every question on every call took about 1 s of CPU, and on
+    the one-CPU release a burst of catalog calls starved every other request:
+    240 public reads at 24 at a time gave a median of 7.5 s and a 30 s
+    timeout, /health included (production, 2026-10-01)."""
+    cached = getattr(pool, "_catalog_summary", None)
+    if cached is None:
+        schemas = [to_question_schema(q) for q in pool.questions]
+        cached = (len(schemas), len({c for q in schemas for c in q.chapter_ids}),
+                  sorted({q.marks for q in schemas}))
+        pool._catalog_summary = cached
+    return cached
+
+
 @router.get("/catalog", response_model=CatalogResponse)
 def catalog(response: Response) -> CatalogResponse:
     """Subjects/grades that actually have questions, with counts.
@@ -313,14 +330,12 @@ def catalog(response: Response) -> CatalogResponse:
         pool = get_pool(cfg, subject=subject, grade=_int_grade_to_roman(grade))
         if not pool.questions:
             continue
-        schemas = [to_question_schema(q) for q in pool.questions]
-        chapters = {c for q in schemas for c in q.chapter_ids}
+        count, chapters, marks = _pool_summary(pool)
         entries.append(CatalogEntry(
-            subject=subject, grade=grade, question_count=len(schemas),
-            chapters=len(chapters),
-            marks_available=sorted({q.marks for q in schemas}),
+            subject=subject, grade=grade, question_count=count,
+            chapters=chapters, marks_available=marks,
         ))
-        total += len(schemas)
+        total += count
     entries.sort(key=lambda e: (e.grade, -e.question_count))
     response.headers["Cache-Control"] = "public, max-age=300"
     return CatalogResponse(entries=entries, total_questions=total)
