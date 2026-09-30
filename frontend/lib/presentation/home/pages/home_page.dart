@@ -7,6 +7,7 @@ import '../../../core/local_engine/local_store.dart';
 import '../../onboarding/pages/app_tour_page.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import 'today_page.dart';
 import '../../paper_builder/pages/paper_builder_page.dart' show newPaperLocation;
 
 const _offlineMode = bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false);
@@ -69,6 +70,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // Online, a teacher's day comes from the school's server (TodayPage);
+    // this page reads the device's own store, which is the offline build's.
+    if (!_offlineMode) return const TodayPage();
     final theme = Theme.of(context);
     final store = LocalStore.instance;
 

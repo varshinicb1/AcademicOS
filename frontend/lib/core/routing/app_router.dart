@@ -426,5 +426,8 @@ String? roleLanding(String location,
   if (mode != AppMode.console && role.isNotEmpty) return appHome(mode, role: role);
   if (role == 'parent') return '/school/family';
   if (role == 'student') return '/school';
+  // The principal's first screen is the school at a glance (Overview), not
+  // a teacher's day.
+  if (role == 'principal') return '/school';
   return null;
 }
