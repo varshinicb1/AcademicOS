@@ -267,11 +267,15 @@ def chapters_by_student_from_marks(school_id: str) -> dict[str, dict[str, set[st
         return {}
     papers, assessments = ar._papers, ar._require()[1]
     out: dict[str, dict[str, set[str]]] = {}
-    for paper in papers.list_by_school(school_id):
-        marks = ops().marks_for(paper.id)
-        if not marks:
+    # From the papers that have marks, not every paper (and set) the school
+    # has: a school's hundreds of papers were each read and queried.
+    for paper_id in ops().papers_with_marks():
+        paper = papers.get(paper_id)
+        assessment = assessments.get(paper.assessment_id) if paper is not None else None
+        if assessment is None or assessment.school_id != school_id:
             continue
-        schemas = _schemas(assessments.get(paper.assessment_id), {q for m in marks.values() for q in m})
+        marks = ops().marks_for(paper.id)
+        schemas = _schemas(assessment, {q for m in marks.values() for q in m})
         per = out.setdefault(paper.assessment_id, {})
         for sid, m in marks.items():
             per.setdefault(sid, set()).update(c for qid in m for c in (schemas[qid].chapter_ids if qid in schemas else []))
