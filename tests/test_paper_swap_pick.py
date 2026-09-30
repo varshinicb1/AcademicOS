@@ -317,18 +317,24 @@ def test_the_answer_key_and_every_set_follow_a_swap_and_old_pdfs_are_not_served(
                            headers=t1).status_code == 200
 
         old = _at(paper, 1)["questionId"]
+        b_before = _on_paper(client.get(f"/api/v1/papers/{pid}_set_B", headers=t1).json())
+        assert old not in b_before                     # set B prints its own (N-2-5)
         r = _swap(client, t1, pid, "1")
         assert r.status_code == 200, r.text
         new = r.json()["questionId"]
         edited = r.json()["paper"]
         assert edited["answerKey"]["1"].startswith(f"model answer for {new}")
         assert f"model answer for {old}" not in "\n".join(edited["answerKey"].values())
+        # The bank still has 1-mark questions no set prints: the swap takes
+        # one of them, not one of set B's.
+        assert new not in b_before
 
         # Every set (each is its own row, set B as `<id>_set_B`): the old
-        # question is gone, the new one printed, and each answer-key entry is
-        # its own printed question's.
+        # question is on none, set A prints the new one and set B its own,
+        # and each answer-key entry is its own printed question's.
         set_b = client.get(f"/api/v1/papers/{pid}_set_B", headers=t1)
         assert set_b.status_code == 200, set_b.text
+        assert _on_paper(set_b.json()) == b_before
         for s in [edited, set_b.json(), *edited["sets"]]:
             printed = {q["questionId"]: q["displayNumber"]
                        for sec in s["sections"] for q in sec["questions"]}
@@ -336,7 +342,7 @@ def test_the_answer_key_and_every_set_follow_a_swap_and_old_pdfs_are_not_served(
                    for sec in s["sections"] for q in sec["questions"]
                    if q["internalChoiceQuestionId"]}
             assert old not in printed and old not in ors
-            assert new in printed or new in ors
+            assert (new in printed or new in ors) == (s["setLabel"] == "A"), s["setLabel"]
             for qid, n in printed.items():
                 assert s["answerKey"][str(n)].startswith(f"model answer for {qid}"), s["id"]
             for qid, n in ors.items():

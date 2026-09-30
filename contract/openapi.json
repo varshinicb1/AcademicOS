@@ -8357,6 +8357,17 @@
             ],
             "title": "Instructions"
           },
+          "instructionsGenerated": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Instructionsgenerated"
+          },
           "schoolName": {
             "anyOf": [
               {

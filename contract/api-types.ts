@@ -8742,6 +8742,8 @@ export interface components {
             grade: number;
             /** Instructions */
             instructions?: string | null;
+            /** Instructionsgenerated */
+            instructionsGenerated?: boolean | null;
             /** Schoolname */
             schoolName?: string | null;
             /** Setlabel */
