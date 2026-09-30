@@ -8,6 +8,7 @@ import 'ops_api.dart';
 import 'photos_ui.dart';
 import 'strings.dart';
 import 'package:academicos/core/theme/app_theme.dart';
+import '../shared/widgets/shell.dart';
 
 /// What a teacher teaches this year, for pickers: sections, subjects and
 /// the allocations joining them (the principal sees all of them).
@@ -57,7 +58,7 @@ class _TeacherHomeworkPageState extends State<TeacherHomeworkPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Homework'))),
+      appBar: destinationAppBar(context, title: Text(tr('Homework'))),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           final made = await showDialog<bool>(context: context, builder: (_) => const _CreateHomeworkDialog());

@@ -29,9 +29,9 @@ import 'package:academicos/core/theme/app_theme.dart';
 import '../support/real_di.dart';
 import 'responsive_harness.dart';
 
-/// The longest title a CBSE school really gives a paper, and the longest
-/// AssessmentStatus name (`questionOptimized`/`principalApproved`, 17
-/// characters) -- the widest the row's chip can get.
+/// The longest title a CBSE school really gives a paper, and the status with
+/// the longest label (`remediationSent`, "Follow-up sent") -- the widest the
+/// row's chip can get. The chip printed the enum's name until 2026-10-01.
 const _longTitle = 'Class 10 Science Half-Yearly Examination 2026-27';
 const _shortTitle = 'Class 7 Maths Unit Test 1';
 
@@ -74,7 +74,7 @@ void main() {
     // load finds none of them.
     env.registerGetIt();
     for (final a in [
-      _assessment('assessment_long', _longTitle, AssessmentStatus.questionOptimized, 10, 'Science'),
+      _assessment('assessment_long', _longTitle, AssessmentStatus.remediationSent, 10, 'Science'),
       _assessment('assessment_short', _shortTitle, AssessmentStatus.draft, 7, 'Mathematics'),
     ]) {
       LocalStore.instance.upsertAssessment(a.toJson());
@@ -97,19 +97,19 @@ void main() {
           findsNothing);
       expect(find.text(_longTitle), findsOneWidget);
       expect(find.text('Science · Grade 10 · 80 marks'), findsOneWidget);
-      expect(find.text(AssessmentStatus.questionOptimized.name), findsOneWidget);
+      expect(find.text(AssessmentStatus.remediationSent.label), findsOneWidget);
       expect(find.text(_shortTitle), findsOneWidget);
 
       // The whole row, chip included, stays inside the screen -- a chip
       // pushed past the right edge is the failure this row's shape invites.
-      final chip = tester.getRect(find.text(AssessmentStatus.questionOptimized.name));
+      final chip = tester.getRect(find.text(AssessmentStatus.remediationSent.label));
       expect(chip.right, lessThanOrEqualTo(size.size.width),
           reason: 'the status chip ends at ${chip.right.toStringAsFixed(0)} on a '
               '${size.size.width.toInt()} px screen');
 
       expectActionReady(tester, find.byTooltip('Quick paper (CBSE pattern)'), size, label: 'Quick paper');
       expectActionReady(tester, find.byTooltip('Create assessment'), size, label: 'Create assessment');
-      expectActionReady(tester, find.byType(FloatingActionButton), size, label: 'New Assessment');
+      expectActionReady(tester, find.byType(FloatingActionButton), size, label: 'New paper');
     });
   }
 

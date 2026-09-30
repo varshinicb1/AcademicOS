@@ -5,6 +5,7 @@ import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'strings.dart';
+import '../shared/widgets/shell.dart';
 
 /// The question bank as the school sees it: coverage class by class, subject
 /// by subject, chapter by chapter and topic by topic, each answer's trust tier
@@ -26,7 +27,7 @@ class _QuestionBankConsolePageState extends State<QuestionBankConsolePage> {
     return DefaultTabController(
       length: review ? 2 : 1,
       child: Scaffold(
-        appBar: AppBar(
+        appBar: destinationAppBar(context,
           title: Text(tr('Question bank')),
           bottom: TabBar(tabs: [
             Tab(text: tr('Coverage')),

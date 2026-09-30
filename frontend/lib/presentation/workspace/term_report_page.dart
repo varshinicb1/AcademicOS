@@ -7,6 +7,7 @@ import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'strings.dart';
 import 'teacher_homework.dart' show TeachingContext;
+import '../shared/widgets/shell.dart';
 
 /// The term at a glance (ADM-2) for the principal or a reports admin:
 /// syllabus against plan, exams and papers, time saved (estimated),
@@ -65,7 +66,7 @@ class _TermReportPageState extends State<TermReportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Term report')), actions: [
+      appBar: destinationAppBar(context, title: Text(tr('Term report')), actions: [
         IconButton(tooltip: tr('Download Excel'), onPressed: _downloading ? null : () => _download('xlsx'),
             icon: const Icon(Icons.grid_on_outlined)),
         IconButton(tooltip: tr('Download PDF'), onPressed: _downloading ? null : () => _download('pdf'),

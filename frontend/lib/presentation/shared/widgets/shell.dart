@@ -23,6 +23,26 @@ Widget? shellLeading(BuildContext context) {
   return forceShellLeading(context);
 }
 
+/// The app bar of a page the navigation opens (a destination in
+/// [navSectionsFor]): the menu on a phone and no back arrow on any screen.
+///
+/// The school workspace's pages are nested under '/school', so go_router
+/// leaves the overview beneath each one: Flutter drew a back arrow to it, and
+/// on a phone no page had the menu at all -- a student or parent could not
+/// get from Today to their homework or exams except through the overview
+/// (E2E run on production's commit, 2026-10-01). A page pushed over a
+/// destination (a homework, an exam, a child's progress) keeps its back arrow
+/// by using a plain [AppBar].
+AppBar destinationAppBar(BuildContext context,
+        {required Widget title, List<Widget>? actions, PreferredSizeWidget? bottom}) =>
+    AppBar(
+      leading: forceShellLeading(context),
+      automaticallyImplyLeading: false,
+      title: title,
+      actions: actions,
+      bottom: bottom,
+    );
+
 /// Same as [shellLeading] but skips the canPop check — for shell-root pages
 /// reached through a nested GoRoute (e.g. '/planner/daily' under '/planner'),
 /// where go_router can leave a parent segment on the stack and canPop true

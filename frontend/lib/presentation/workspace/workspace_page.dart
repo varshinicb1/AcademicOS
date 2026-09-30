@@ -9,6 +9,7 @@ import 'young_home.dart';
 import 'ops_api.dart';
 import 'profiles.dart';
 import 'strings.dart';
+import '../shared/widgets/shell.dart';
 
 /// The school workspace: every day-to-day tool for the signed-in role on one
 /// page -- homework, progress, cover, exams, parents, notifications and the
@@ -131,7 +132,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
     final theme = Theme.of(context);
     final tiles = _tiles(CurrentSession.role);
     return Scaffold(
-      appBar: AppBar(title: Text(tr('School')), actions: [
+      appBar: destinationAppBar(context, title: Text(tr('School')), actions: [
         // English / हिन्दी for these pages, per device (TA-9).
         IconButton(
           tooltip: uiHindi ? 'Switch to English' : 'हिन्दी में देखें',

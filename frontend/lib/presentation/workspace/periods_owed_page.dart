@@ -7,6 +7,7 @@ import '../shared/widgets/common_widgets.dart';
 import 'notice.dart';
 import 'ops_api.dart';
 import 'strings.dart';
+import '../shared/widgets/shell.dart';
 
 const _base = '/curriculum';
 const _weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -72,7 +73,7 @@ class _PeriodsOwedPageState extends State<PeriodsOwedPage> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: AppBar(
+        appBar: destinationAppBar(context,
           title: Text(tr('Periods owed')),
           bottom: TabBar(isScrollable: true, tabs: [
             Tab(text: tr('Owed')),

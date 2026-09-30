@@ -7,6 +7,7 @@ import '../shared/widgets/common_widgets.dart';
 import 'notice.dart';
 import 'ops_api.dart';
 import 'strings.dart';
+import '../shared/widgets/shell.dart';
 
 const _base = '/curriculum';
 const _dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -89,7 +90,7 @@ class _TimetableAdminPageState extends State<TimetableAdminPage> {
     return DefaultTabController(
       length: 6,
       child: Scaffold(
-        appBar: AppBar(
+        appBar: destinationAppBar(context,
           title: Text(tr('Timetable')),
           bottom: TabBar(isScrollable: true, tabs: [
             Tab(text: tr('Allocations')),

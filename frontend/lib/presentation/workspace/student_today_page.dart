@@ -5,6 +5,7 @@ import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'strings.dart';
+import '../shared/widgets/shell.dart';
 
 /// A student's day (SA-1): the periods as they will actually run --
 /// substitutes, cancelled and make-up periods marked -- then homework due
@@ -75,7 +76,10 @@ class _StudentTodayPageState extends State<StudentTodayPage> {
     final theme = Theme.of(context);
     final isToday = isoDate(_day) == isoDate(DateTime.now());
     return Scaffold(
-      appBar: AppBar(title: Text(isToday ? tr('Today') : tr('Tomorrow')), actions: [
+      appBar: AppBar(
+        leading: isToday ? forceShellLeading(context) : null,
+        automaticallyImplyLeading: !isToday,
+        title: Text(isToday ? tr('Today') : tr('Tomorrow')), actions: [
         IconButton(
           tooltip: isToday ? 'Tomorrow' : 'Today',
           icon: Icon(isToday ? Icons.arrow_forward : Icons.arrow_back),

@@ -8,6 +8,7 @@ import '../shared/widgets/common_widgets.dart';
 import 'notice.dart';
 import 'ops_api.dart';
 import 'strings.dart';
+import '../shared/widgets/shell.dart';
 
 const _base = '/curriculum';
 
@@ -72,7 +73,7 @@ class _LessonPlanPageState extends State<LessonPlanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Lesson plans'))),
+      appBar: destinationAppBar(context, title: Text(tr('Lesson plans'))),
       body: FutureBuilder<_PlanSchool>(
         future: _future,
         builder: (context, snap) {

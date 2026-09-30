@@ -5,6 +5,7 @@ import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'teacher_homework.dart' show TeachingContext;
 import 'strings.dart';
+import '../shared/widgets/shell.dart';
 
 /// The principal's exam planning (EX-7): exams, each one's datesheet, the
 /// invigilation roster (filled automatically, editable), and publishing.
@@ -22,7 +23,7 @@ class _ExamsPageState extends State<ExamsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Exams'))),
+      appBar: destinationAppBar(context, title: Text(tr('Exams'))),
       floatingActionButton: FloatingActionButton.extended(
         icon: const Icon(Icons.add),
         label: const Text('New exam'),

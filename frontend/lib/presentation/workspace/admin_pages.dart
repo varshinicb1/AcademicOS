@@ -14,6 +14,7 @@ import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'strings.dart';
 import 'package:academicos/core/theme/app_theme.dart';
+import '../shared/widgets/shell.dart';
 
 /// Papers waiting for review (EX-6): the reviewer approves one for the
 /// principal or sends it back with what to change.
@@ -57,7 +58,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Paper reviews')), actions: [
+      appBar: destinationAppBar(context, title: Text(tr('Paper reviews')), actions: [
         SegmentedButton<String>(
           segments: const [ButtonSegment(value: 'pending', label: Text('Waiting')),
             ButtonSegment(value: '', label: Text('All'))],
@@ -97,7 +98,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
                           child: const Text('Open paper')),
                       if (r['reviewerId'] == CurrentSession.userId || CurrentSession.role == 'principal') ...[
                         OutlinedButton(onPressed: () => _decide(r, 'changes'), child: const Text('Ask for changes')),
-                        FilledButton(onPressed: () => _decide(r, 'approve'), child: const Text('Approve for principal')),
+                        FilledButton(onPressed: () => _decide(r, 'approve'),
+                            // The principal's approval is the final one: it locks the paper.
+                            child: Text(CurrentSession.role == 'principal'
+                                ? 'Approve and lock' : 'Approve for principal')),
                       ],
                     ]),
                 ]),
@@ -195,7 +199,7 @@ class _ImportPageState extends State<ImportPage> {
     final r = _result;
     final counts = r == null ? null : Map<String, dynamic>.from(r['counts'] as Map);
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Import & export'))),
+      appBar: destinationAppBar(context, title: Text(tr('Import & export'))),
       body: ListView(padding: const EdgeInsets.all(16), children: [
         const SectionHeader(title: 'Import', subtitle: 'Nothing is written until you apply. People get invites, never accounts.'),
         Wrap(spacing: 8, runSpacing: 8, crossAxisAlignment: WrapCrossAlignment.center, children: [
@@ -314,7 +318,7 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr('API keys'))),
+      appBar: destinationAppBar(context, title: Text(tr('API keys'))),
       floatingActionButton: FloatingActionButton.extended(onPressed: _mint, icon: const Icon(Icons.key), label: const Text('New key')),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _future,
@@ -451,7 +455,7 @@ class _GrantsPageState extends State<GrantsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Staff permissions'))),
+      appBar: destinationAppBar(context, title: Text(tr('Staff permissions'))),
       body: FutureBuilder(
         future: _future,
         builder: (context, snap) {

@@ -9,6 +9,7 @@ import 'ops_api.dart';
 import 'teacher_homework.dart' show TeachingContext;
 import 'strings.dart';
 import 'package:academicos/core/theme/app_theme.dart';
+import '../shared/widgets/shell.dart';
 
 const _base = '/curriculum';
 
@@ -107,7 +108,7 @@ class _CoverPageState extends State<CoverPage> {
       'second_half_absent': 'Absent 2nd half',
     };
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Attendance & cover')), actions: [
+      appBar: destinationAppBar(context, title: Text(tr('Attendance & cover')), actions: [
         // A period run as "Lose the period" is owed; this is where it is paid back.
         IconButton(
           tooltip: tr('Periods owed'),
@@ -409,7 +410,7 @@ class _MyDayPageState extends State<MyDayPage> {
     };
     final pending = _duties.where((d) => d['status'] == 'proposed').toList();
     return Scaffold(
-      appBar: AppBar(title: Text(tr('My day')), actions: [
+      appBar: destinationAppBar(context, title: Text(tr('My day')), actions: [
         FilledButton.tonalIcon(
           onPressed: _checkedIn == null ? _checkIn : null,
           icon: const Icon(Icons.how_to_reg),
