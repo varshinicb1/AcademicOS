@@ -4110,6 +4110,7 @@
         "type": "object"
       },
       "DecisionRequest": {
+        "additionalProperties": false,
         "properties": {
           "decision": {
             "enum": [
