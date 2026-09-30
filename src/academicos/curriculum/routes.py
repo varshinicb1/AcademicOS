@@ -1299,12 +1299,23 @@ def add_holiday(academic_year_id: str, req: AddHolidayRequest,
                                       year_start=year.start_date, year_end=year.end_date)
     except ValueError as e:
         raise HTTPException(422, str(e))
-    h = store.add_holiday(calendar_id=cal.id, date=req.date, label=req.label, kind=req.kind,
-                          end_date=req.end_date)
-    moved, not_moved = (_move_lessons_off_holiday(store, year, h, principal)
-                        if req.move_lessons and h.kind != "event" else (None, None))
+    h, moved, not_moved = declare_holiday(store, year, cal, date=req.date, label=req.label, kind=req.kind,
+                                          end_date=req.end_date, principal=principal, move_lessons=req.move_lessons)
     return HolidayResponse(id=h.id, calendar_id=h.calendar_id, date=h.date, label=h.label,
                            kind=h.kind, end_date=h.end_date, lessons_moved=moved, not_moved=not_moved)
+
+
+def declare_holiday(store: CurriculumStore, year, cal, *, date: str, label: str, kind: str,
+                    end_date: Optional[str], principal: User, move_lessons: bool = True):
+    """Add a holiday and, unless it is an event that still teaches, move the
+    lessons on it and tell the people affected. One path for the holiday
+    route and the Excel/CSV import (N-8-6: the import used to add the day
+    only, leaving lessons dated on it and telling no one). Returns (holiday,
+    lessons moved, plans not moved); the counts are None when nothing moved."""
+    h = store.add_holiday(calendar_id=cal.id, date=date, label=label, kind=kind, end_date=end_date)
+    moved, not_moved = (_move_lessons_off_holiday(store, year, h, principal)
+                        if move_lessons and h.kind != "event" else (None, None))
+    return h, moved, not_moved
 
 
 HOLIDAY_NOTICE_DAYS = 14
