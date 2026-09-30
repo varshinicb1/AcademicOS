@@ -54,9 +54,10 @@ class ClassProgressResponse(Camel):
 
 
 def _may_see(section, current: User) -> bool:
-    if holds(current, "reports"):
-        return True
     cs = cr._require()
+    grade = cs.get_grade(section.grade_id)
+    if holds(current, "reports", grade=grade.number if grade else None, section_id=section.id):
+        return True
     return any(a.teacher_id == current.id for a in cs.allocations_for_year(section.academic_year_id)
                if a.section_id == section.id)
 

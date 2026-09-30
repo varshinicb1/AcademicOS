@@ -100,6 +100,36 @@ def _require_editable(assessment: Assessment) -> None:
             f"assessment {assessment.id} is {assessment.status} — the paper is locked; "
             "question selection and paper content cannot be changed after principal approval",
         )
+    if assessment.status == "underReview":
+        # The reviewer's decision has to be about the paper they read.
+        raise HTTPException(
+            409,
+            f"assessment {assessment.id} is under review — its questions cannot change until "
+            "the reviewer sends it back for changes",
+        )
+
+
+def _require_status_change(old: str, new: str) -> None:
+    """The lifecycle moves that PATCH /status and PUT may make. Review is
+    entered and left only through the review request and the reviewer's
+    decision (paper_review_routes), and a paper leaves authoring only through
+    the principal's approval (PATCH /approve), which is audited."""
+    if new == old:
+        return
+    if new not in _KNOWN_STATUSES:
+        raise HTTPException(
+            422, f"unknown status {new!r}; expected one of {sorted(_KNOWN_STATUSES)}")
+    if "underReview" in (old, new):
+        raise HTTPException(
+            409, "a paper goes under review by asking a reviewer, and leaves it by the "
+                 "reviewer's decision or the principal's approval")
+    if old in _EDITABLE_STATUSES and new not in _EDITABLE_STATUSES:
+        raise HTTPException(
+            403, f"only the principal's approval moves a paper from {old} to {new}")
+    if old not in _EDITABLE_STATUSES and new in _EDITABLE_STATUSES:
+        raise HTTPException(
+            409, f"the paper is {old} — its status cannot move back to an editable state "
+                 "after principal approval")
 
 
 def init(config: Config) -> None:
@@ -955,11 +985,19 @@ def update_assessment(
         if existing.school_id != current.school_id:
             raise HTTPException(403, "this assessment belongs to a different school")
         _require_editable(existing)
+        _require_status_change(existing.status, assessment.status)
+        # Authorship is not an editable field: it decides who may ask for a
+        # review, delete the paper, and whom a reviewer's decision reaches.
+        assessment.teacher_id = existing.teacher_id
     elif assessment.school_id != current.school_id:
         # No pre-existing row to check ownership against (first PUT acting as
         # create) -- the body must still claim the caller's own school, same
         # rule as POST /assessments, not an arbitrary one.
         raise HTTPException(403, "cannot create an assessment for a different school")
+    elif assessment.status not in _EDITABLE_STATUSES or assessment.status == "underReview":
+        raise HTTPException(
+            403, f"a new paper cannot start as {assessment.status}; approval and review "
+                 "have their own actions")
     assessment.id = assessment_id
     assessment.school_id = current.school_id
     assessment.updated_at = _now()
@@ -970,31 +1008,38 @@ def update_assessment(
 
 @router.delete("/assessments/{assessment_id}")
 def delete_assessment(assessment_id: str, current: User = Depends(require_staff)) -> dict:
-    _, store = _require()
-    require_school_owns_assessment(store, assessment_id, current)
+    cfg, store = _require()
+    a = require_school_owns_assessment(store, assessment_id, current)
+    if current.role != "principal" and a.teacher_id != current.id:
+        raise HTTPException(403, "only the paper's author or the principal deletes it")
+    if a.status not in _EDITABLE_STATUSES or a.status == "underReview":
+        raise HTTPException(
+            409, f"a {a.status} paper cannot be deleted: an approved paper is the record "
+                 "of what was set, and a paper under review is the reviewer's to decide")
     store.delete(assessment_id)
+    get_audit_log(cfg.data_root).append(
+        "assessment_deleted", assessment_id=assessment_id, actor=current.id,
+        details={"title": a.title, "status": a.status, "authorId": a.teacher_id},
+    )
     return {"ok": True}
 
 
 @router.patch("/assessments/{assessment_id}/status", response_model=Assessment)
 def update_status(assessment_id: str, body: dict, current: User = Depends(require_staff)) -> Assessment:
-    _, store = _require()
+    cfg, store = _require()
     a = require_school_owns_assessment(store, assessment_id, current)
     new_status = body.get("status", a.status)
-    if new_status not in _KNOWN_STATUSES:
-        raise HTTPException(
-            422,
-            f"unknown status {new_status!r}; expected one of {sorted(_KNOWN_STATUSES)}",
-        )
-    if a.status not in _EDITABLE_STATUSES and new_status in _EDITABLE_STATUSES:
-        raise HTTPException(
-            409,
-            f"assessment {assessment_id} is {a.status} — its status cannot move back to "
-            "an editable state after principal approval",
-        )
+    _require_status_change(a.status, new_status)
+    if new_status == a.status:
+        return a
+    before = a.status
     a.status = new_status
     a.updated_at = _now()
     store.save(a)
+    get_audit_log(cfg.data_root).append(
+        "assessment_status_changed", assessment_id=assessment_id, actor=current.id,
+        details={"before": before, "after": new_status},
+    )
     return a
 
 
@@ -1013,6 +1058,11 @@ def approve_assessment(assessment_id: str, principal: User = Depends(require_adm
         raise HTTPException(404, "assessment not found")
     if a.school_id != principal.school_id:
         raise HTTPException(403, "this assessment belongs to a different school")
+    if a.status == "principalApproved":
+        return a
+    if a.status not in _EDITABLE_STATUSES:
+        # Re-approving a printed or conducted paper would wind its lifecycle back.
+        raise HTTPException(409, f"a {a.status} paper was approved already")
     a.status = "principalApproved"
     a.updated_at = _now()
     store.save(a)

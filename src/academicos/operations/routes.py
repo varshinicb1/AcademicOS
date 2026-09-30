@@ -44,7 +44,8 @@ def init(cfg: Config) -> None:
     from .guardian_routes import on_register
     auth_routes.add_register_hook(on_register)
     # Delegated admin (M1.4): a teacher's grants open require_admin routes.
-    auth_routes.set_grant_checker(lambda user_id, cap, **target: store().holds(user_id, cap, **target))
+    auth_routes.set_grant_checker(lambda user_id, cap, **target: store().holds(user_id, cap, **target),
+                                  scopes=lambda user_id, cap: store().grant_scopes(user_id, cap))
 
 
 def _record_learning(student_id: str, results: list, source: Optional[str]) -> None:
@@ -57,15 +58,17 @@ def store() -> OperationsStore:
     return get_operations_store(_cfg.data_root)
 
 
-def notify_safely(**kw: Any) -> None:
+def notify_safely(**kw: Any) -> list:
     """For other modules: a notification must never break the action that
-    caused it (a leave decision, a substitution), so failures are logged."""
+    caused it (a leave decision, a substitution), so failures are logged.
+    Returns the notifications made ([] when none, or on failure)."""
     if _cfg is None:
-        return
+        return []
     try:
-        store().notify(**kw)
+        return store().notify(**kw)
     except Exception:  # noqa: BLE001
         logger.warning("could not notify %s about %s", kw.get("user_ids"), kw.get("kind"), exc_info=True)
+        return []
 
 
 class _Req(Camel):
@@ -198,8 +201,9 @@ class AutomationRun(Camel):
 
 @router.get("/automations/status", response_model=list[AutomationRun])
 def automations_status(principal: User = Depends(require_admin("reports"))) -> list[AutomationRun]:
-    """The latest automation runs, newest first (runs are not per school)."""
-    return [AutomationRun(**r) for r in store().automation_history()]
+    """The latest automation runs, newest first, each with what it sent to
+    this school; another school's counts are not shown."""
+    return [AutomationRun(**r) for r in store().automation_history(principal.school_id)]
 
 
 class StaffMember(Camel):

@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import threading
 from dataclasses import dataclass
 from datetime import datetime, time, timedelta, timezone
 from typing import Any, Callable, Optional
@@ -257,6 +258,15 @@ class NotificationsMixin(MessagingMixin):
     # thread so a request never waits on FCM or SMTP.
     deliver_inline = False
     email_for: Optional[Callable[[str], Optional[str]]] = None
+    # Guards only the creation of each store's own delivery lock.
+    _delivery_guard = threading.Lock()
+
+    def _delivery_lock(self) -> threading.Lock:
+        lock = self.__dict__.get("_delivering")
+        if lock is None:
+            with NotificationsMixin._delivery_guard:
+                lock = self.__dict__.setdefault("_delivering", threading.Lock())
+        return lock
 
     def _notif(self, r: dict) -> Notification:
         r = dict(r)
@@ -389,8 +399,29 @@ class NotificationsMixin(MessagingMixin):
 
     def deliver_due(self, now: Optional[datetime] = None) -> int:
         """Send every pending item, every deferred item whose quiet hours
-        have ended, and retry failures (up to MAX_ATTEMPTS)."""
-        now = now or datetime.now(timezone.utc)
+        have ended, and retry failures (up to MAX_ATTEMPTS).
+
+        One pass at a time per store. A pass reads the due rows and writes
+        each status only after sending, so two passes at once (every notify
+        starts one, and so do the inbox and the scheduler) sent everything
+        twice (N-8-1). A call that finds a pass running asks it to go round
+        once more instead: it raises the flag before trying the lock, and the
+        running pass reads the flag only after releasing it, so a row queued
+        meanwhile is never left for a later call."""
+        lock = self._delivery_lock()
+        sent = 0
+        self._deliver_again = True
+        while self._deliver_again:
+            if not lock.acquire(blocking=False):
+                return sent
+            try:
+                self._deliver_again = False
+                sent += self._deliver_pass(now or datetime.now(timezone.utc))
+            finally:
+                lock.release()
+        return sent
+
+    def _deliver_pass(self, now: datetime) -> int:
         sent = 0
         rows = self._fetchall("SELECT * FROM notifications WHERE (push_status IN ('pending','deferred','failed') "
                               "OR email_status IN ('pending','deferred','failed')) AND attempts < ?",

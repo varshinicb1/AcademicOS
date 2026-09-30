@@ -27,6 +27,8 @@ even two overlapping runs cannot double a message.
   report is ready (NTF-2 end-of-term reports, ADM-4).
 - user_digests (every run): each person on a daily digest gets it once their
   chosen time has passed (SA-5).
+- deliveries (every run): what quiet hours held overnight, and failed sends
+  due a retry, go out without waiting for someone to open an inbox (N-8-2).
 
 Triggered by POST /api/v1/automations/run (Cloud Scheduler, with the
 operator's cron key) and, throttled, by ordinary traffic.
@@ -50,6 +52,15 @@ CREATE TABLE IF NOT EXISTS automation_runs (
     notified INTEGER NOT NULL DEFAULT 0,
     PRIMARY KEY (job, period_key)
 );
+-- What one run did for one school: a job runs for every school at once, and
+-- a school's principal is shown only their own school's share (N-9-1).
+CREATE TABLE IF NOT EXISTS automation_school_runs (
+    job TEXT NOT NULL,
+    period_key TEXT NOT NULL,
+    school_id TEXT NOT NULL,
+    notified INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (job, period_key, school_id)
+);
 """
 
 
@@ -60,15 +71,25 @@ class AutomationsMixin:
         return self._fetchone("SELECT 1 AS x FROM automation_runs WHERE job=? AND period_key=?",
                               (job, period_key)) is not None
 
-    def record_automation(self, job: str, period_key: str, notified: int) -> None:
+    def record_automation(self, job: str, period_key: str, notified: int,
+                          per_school: Optional[dict[str, int]] = None) -> None:
         with self._conn_lock:
             self.conn.execute("INSERT OR REPLACE INTO automation_runs (job, period_key, ran_at, notified)"
                               " VALUES (?,?,?,?)",
                               (job, period_key, datetime.now(timezone.utc).isoformat(timespec="seconds"), notified))
+            for school_id, n in (per_school or {}).items():
+                self.conn.execute("INSERT OR REPLACE INTO automation_school_runs (job, period_key, school_id,"
+                                  " notified) VALUES (?,?,?,?)", (job, period_key, school_id, n))
             self._commit()
 
-    def automation_history(self, limit: int = 50) -> list[dict]:
-        return self._fetchall("SELECT * FROM automation_runs ORDER BY ran_at DESC LIMIT ?", (limit,))
+    def automation_history(self, school_id: str, limit: int = 50) -> list[dict]:
+        """The latest runs, with how many notifications each made for this
+        school only; the runs themselves are the same for every school."""
+        return self._fetchall(
+            "SELECT r.job, r.period_key, r.ran_at, COALESCE(s.notified, 0) AS notified "
+            "FROM automation_runs r LEFT JOIN automation_school_runs s "
+            "ON s.job = r.job AND s.period_key = r.period_key AND s.school_id = ? "
+            "ORDER BY r.ran_at DESC LIMIT ?", (school_id, limit))
 
 
 def _schools(cs) -> list[str]:
@@ -340,6 +361,10 @@ def user_digests(ops, cs, users, notify, now: datetime) -> int:
     return ops.send_digests(now)
 
 
+def deliveries(ops, cs, users, notify, now: datetime) -> int:
+    return ops.deliver_due(now=now)
+
+
 # (job, opens at IST hour, period: "day" | "week" | "run", weekday or None, function)
 JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
     ("homework_due_tomorrow", 16, "day", None, homework_due_tomorrow),
@@ -352,6 +377,7 @@ JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
     ("exam_reminders", 17, "day", None, exam_reminders),
     ("term_report", 15, "day", None, term_report),
     ("user_digests", 0, "run", None, user_digests),
+    ("deliveries", 0, "run", None, deliveries),
 ]
 
 
@@ -361,6 +387,15 @@ def run_due(ops, cs, users, notify, now: Optional[datetime] = None) -> dict[str,
     now = now or datetime.now(timezone.utc)
     local = now.astimezone(IST)
     out: dict[str, Any] = {}
+    made: Counter = Counter()
+
+    def counted(**kw: Any):
+        # What each school actually got: a notification its dedupe key
+        # suppressed is not in the list notify returns.
+        result = notify(**kw)
+        made[kw.get("school_id")] += len(result) if isinstance(result, list) else 0
+        return result
+
     for job, hour, period, weekday, fn in JOBS:
         if local.hour < hour or (weekday is not None and local.weekday() != weekday):
             out[job] = "not yet"
@@ -370,13 +405,14 @@ def run_due(ops, cs, users, notify, now: Optional[datetime] = None) -> dict[str,
         if key is not None and ops.automation_done(job, key):
             out[job] = "done"
             continue
+        made.clear()
         try:
-            n = fn(ops, cs, users, notify, now)
+            n = fn(ops, cs, users, counted, now)
         except Exception as e:  # noqa: BLE001
             log.warning("automation %s failed", job, exc_info=True)
             out[job] = f"failed: {e}"
             continue
         if key is not None:
-            ops.record_automation(job, key, n)
+            ops.record_automation(job, key, n, {s: c for s, c in made.items() if s})
         out[job] = n
     return out

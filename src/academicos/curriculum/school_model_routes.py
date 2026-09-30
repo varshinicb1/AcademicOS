@@ -261,10 +261,11 @@ def list_allocations(academic_year_id: str,
 
 @router.put("/sections/{section_id}/allocations/{subject_id}", response_model=AllocationResponse)
 def set_allocation(section_id: str, subject_id: str, req: AllocationRequest,
-                   principal: User = Depends(require_admin("timetable"))) -> AllocationResponse:
+                   principal: User = Depends(require_admin("timetable", scoped=True))) -> AllocationResponse:
     """Set one cell of the allocation grid: who teaches this subject to this
     section, and how many periods a week."""
     cr._require_school_owns_section(section_id, principal)
+    cr.require_section_in_scope(section_id, principal, "timetable", subject_id=subject_id)
     _staff_member(req.teacher_id, principal)
     sent = req.model_fields_set
     extra: dict[str, Any] = {}
@@ -302,9 +303,10 @@ def set_allocation(section_id: str, subject_id: str, req: AllocationRequest,
 
 @router.delete("/sections/{section_id}/allocations/{subject_id}")
 def delete_allocation(section_id: str, subject_id: str,
-                      principal: User = Depends(require_admin("timetable"))) -> dict:
+                      principal: User = Depends(require_admin("timetable", scoped=True))) -> dict:
     """409 while the timetable still gives the subject periods."""
     cr._require_school_owns_section(section_id, principal)
+    cr.require_section_in_scope(section_id, principal, "timetable", subject_id=subject_id)
     try:
         alloc = cr._require().delete_allocation(section_id, subject_id)
     except KeyError:
@@ -439,9 +441,11 @@ def delete_bell_schedule(bell_schedule_id: str, principal: User = Depends(requir
 
 @router.put("/sections/{section_id}/bell-schedule", response_model=SectionTimetableResponse)
 def set_section_bell(section_id: str, req: SectionBellRequest,
-                     principal: User = Depends(require_admin("timetable"))) -> SectionTimetableResponse:
+                     principal: User = Depends(require_admin("timetable", scoped=True))
+                     ) -> SectionTimetableResponse:
     """Give a section its own bell (null: the year's default)."""
     section = cr._require_school_owns_section(section_id, principal)
+    cr.require_section_in_scope(section_id, principal, "timetable")
     try:
         cr._require().set_section_bell(section_id, req.bell_schedule_id)
     except ValueError as e:
@@ -476,12 +480,14 @@ def section_timetable(section_id: str, current: User = Depends(require_staff)) -
 
 @router.put("/sections/{section_id}/timetable", response_model=SectionTimetableResponse)
 def replace_section_timetable(section_id: str, req: SectionTimetableRequest,
-                              principal: User = Depends(require_admin("timetable"))) -> SectionTimetableResponse:
+                              principal: User = Depends(require_admin("timetable", scoped=True))
+                              ) -> SectionTimetableResponse:
     """Replace a section's whole week. Checked before anything is written: a
     teacher or room already busy in another section, a period or day the
     bell does not have, a subject with no allocation or more periods than
     allocated. A 409 lists every clash; the old week is kept."""
     section = cr._require_school_owns_section(section_id, principal)
+    cr.require_section_in_scope(section_id, principal, "timetable")
     for e in req.entries:
         _staff_member(e.teacher_id, principal)
     store = cr._require()

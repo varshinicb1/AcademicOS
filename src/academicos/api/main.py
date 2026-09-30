@@ -139,6 +139,41 @@ def _on_llm_budget_exceeded(_request: Any, exc: LLMBudgetExceeded) -> JSONRespon
 # CORS-wrapped responses registered below.
 app.add_middleware(GZipMiddleware, minimum_size=1024)
 
+
+class _SecurityHeaders:
+    """The headers the web host already sends, on every API response too
+    (N-9-3): HTTPS only, no MIME sniffing, never framed, no referrer to
+    another origin. A raw ASGI middleware, so streamed files pass through
+    untouched."""
+
+    HEADERS = [
+        (b"strict-transport-security", b"max-age=63072000; includeSubDomains"),
+        (b"x-content-type-options", b"nosniff"),
+        (b"x-frame-options", b"DENY"),
+        (b"referrer-policy", b"strict-origin-when-cross-origin"),
+    ]
+
+    def __init__(self, app_: Any) -> None:
+        self.app = app_
+
+    async def __call__(self, scope: Any, receive: Any, send: Any) -> None:
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+
+        async def with_headers(message: Any) -> None:
+            if message["type"] == "http.response.start":
+                present = {k.lower() for k, _ in message.get("headers", [])}
+                message.setdefault("headers", [])
+                message["headers"] = list(message["headers"]) + [
+                    (k, v) for k, v in self.HEADERS if k not in present]
+            await send(message)
+
+        await self.app(scope, receive, with_headers)
+
+
+app.add_middleware(_SecurityHeaders)
+
 _cfg = get_config()
 _cors_origins = getattr(_cfg, "cors_origins", ["*"])
 if "*" in _cors_origins:

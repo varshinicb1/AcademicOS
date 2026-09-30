@@ -578,7 +578,8 @@ export interface paths {
         };
         /**
          * Automations Status
-         * @description The latest automation runs, newest first (runs are not per school).
+         * @description The latest automation runs, newest first, each with what it sent to
+         *     this school; another school's counts are not shown.
          */
         get: operations["automations_status_api_v1_automations_status_get"];
         put?: never;

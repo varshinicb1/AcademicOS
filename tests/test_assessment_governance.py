@@ -44,6 +44,8 @@ def _isolate_store_singletons(monkeypatch):
 
     monkeypatch.setattr(audit_log, "_INSTANCE", None)
     monkeypatch.setattr(users_mod, "_INSTANCE", None)
+    # Read at boot: lets _principal() register school_1's principal.
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
 
 
 # ---------------------------------------------------------------- helpers
@@ -70,6 +72,16 @@ def _register_and_login(client, email: str = "governance-teacher@example.com") -
     r = client.post("/api/v1/auth/register", json={
         "inviteCode": invite_code("school_1"), "name": "Governance Teacher", "email": email,
         "password": "correct horse battery",
+    })
+    assert r.status_code == 200, r.text
+    return {"Authorization": f"Bearer {r.json()['token']}"}
+
+
+def _principal(client, monkeypatch) -> dict[str, str]:
+    """school_1's first principal, through the operator's bootstrap key."""
+    r = client.post("/api/v1/auth/register", json={
+        "schoolId": "school_1", "principalKey": "test-bootstrap-key", "name": "Principal",
+        "email": "governance-principal@example.com", "password": "correct horse battery",
     })
     assert r.status_code == 200, r.text
     return {"Authorization": f"Bearer {r.json()['token']}"}
@@ -245,14 +257,19 @@ def test_generation_succeeds_before_approval_and_is_locked_after(tmp_path, monke
         got = client.get(f"/api/v1/assessments/{assessment['id']}", headers=auth)
         assert got.json()["status"] == "paperGenerated"
 
-        # A real principal approval exists on the status field.
-        approved = client.patch(
+        # A teacher cannot approve by setting the status (N-2-1)...
+        self_approved = client.patch(
             f"/api/v1/assessments/{assessment['id']}/status",
             json={"status": "principalApproved"},
             headers=auth,
         )
+        assert self_approved.status_code == 403, self_approved.text
+        # ...only the principal's approval moves it, and it is audited.
+        principal = _principal(client, monkeypatch)
+        approved = client.patch(f"/api/v1/assessments/{assessment['id']}/approve", headers=principal)
         assert approved.status_code == 200, approved.text
         assert approved.json()["status"] == "principalApproved"
+        assert get_audit_log(tmp_path).for_action("assessment_approved")
 
         # After approval: regeneration is refused with a clear lock error.
         after = client.post("/api/v1/papers/generate", json=request_body, headers=auth)
@@ -306,19 +323,28 @@ def test_patch_status_rejects_unknown_status_422(tmp_path, monkeypatch):
         assert stored.json()["status"] == original
 
 
-def test_patch_status_allows_every_valid_status(tmp_path, monkeypatch):
+def test_patch_status_moves_within_authoring_but_never_past_approval(tmp_path, monkeypatch):
+    """N-2-1, N-2-3: a status PATCH moves a paper between authoring states;
+    leaving authoring (approved, printed, archived) takes the principal's
+    approval, and review is entered and left through the review routes."""
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
-    valid = ["draft", "paperGenerated", "printed", "principalApproved", "archived"]
     with TestClient(app) as client:
         auth = _register_and_login(client)
         assessment = _create_assessment(client, auth)
-        for status in valid:
-            r = client.patch(
-                f"/api/v1/assessments/{assessment['id']}/status",
-                json={"status": status},
-                headers=auth,
-            )
+        url = f"/api/v1/assessments/{assessment['id']}/status"
+        for status in ("paperGenerated", "draft", "draft"):
+            r = client.patch(url, json={"status": status}, headers=auth)
             assert r.status_code == 200, (status, r.text)
+        for status in ("principalApproved", "printed", "archived"):
+            assert client.patch(url, json={"status": status}, headers=auth).status_code == 403, status
+        assert client.patch(url, json={"status": "underReview"}, headers=auth).status_code == 409
+        body = client.get(f"/api/v1/assessments/{assessment['id']}", headers=auth).json()
+        body["status"] = "principalApproved"
+        put = client.put(f"/api/v1/assessments/{assessment['id']}", json=body, headers=auth)
+        assert put.status_code == 403, put.text
+        assert client.get(f"/api/v1/assessments/{assessment['id']}", headers=auth).json()["status"] == "draft"
+        moves = [e["details"] for e in get_audit_log(tmp_path).for_action("assessment_status_changed")]
+        assert sorted(m["after"] for m in moves) == ["draft", "paperGenerated"]
 
 
 def test_delete_nonexistent_assessment_404(tmp_path, monkeypatch):
@@ -338,6 +364,27 @@ def test_delete_existing_assessment_removes_it(tmp_path, monkeypatch):
         assert r.status_code == 200
         gone = client.get(f"/api/v1/assessments/{assessment['id']}", headers=auth)
         assert gone.status_code == 404
+        [row] = get_audit_log(tmp_path).for_action("assessment_deleted")
+        assert row["assessment_id"] == assessment["id"] and row["details"]["status"] == assessment["status"]
+
+
+def test_only_the_author_or_principal_deletes_and_never_an_approved_paper(tmp_path, monkeypatch):
+    """N-2-2: a colleague cannot delete someone's paper, and nobody deletes
+    an approved one (it is the record of what was set)."""
+    monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
+    with TestClient(app) as client:
+        author = _register_and_login(client)
+        colleague = _register_and_login(client, "governance-colleague@example.com")
+        mine = _create_assessment(client, author)
+        assert client.delete(f"/api/v1/assessments/{mine['id']}", headers=colleague).status_code == 403
+        principal = _principal(client, monkeypatch)
+        assert client.patch(f"/api/v1/assessments/{mine['id']}/approve", headers=principal).status_code == 200
+        for who in (author, principal):
+            r = client.delete(f"/api/v1/assessments/{mine['id']}", headers=who)
+            assert r.status_code == 409, r.text
+        assert client.get(f"/api/v1/assessments/{mine['id']}", headers=author).status_code == 200
+        other = _create_assessment(client, author)
+        assert client.delete(f"/api/v1/assessments/{other['id']}", headers=principal).status_code == 200
 
 
 def test_generate_paper_rejects_zero_selected_questions(tmp_path, monkeypatch):

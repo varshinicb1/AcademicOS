@@ -222,14 +222,23 @@ _grant_checker = None
 _ADMIN_DEPS: dict = {}
 
 
-def set_grant_checker(fn) -> None:
-    global _grant_checker
+_scope_reader = None
+SCOPE_DETAIL = ("your admin grant covers only some classes, sections or subjects, "
+                "and this action is outside them")
+
+
+def set_grant_checker(fn, scopes=None) -> None:
+    """fn(user_id, capability, **target) -> bool; scopes(user_id, capability)
+    -> the scopes of the user's active grants for it."""
+    global _grant_checker, _scope_reader
     _grant_checker = fn
+    _scope_reader = scopes
 
 
 def holds(user: User, capability: str, **target) -> bool:
-    """Whether `user` may administer `capability` (for `target`, when the
-    route names a grade, section or subject)."""
+    """Whether `user` may administer `capability` for `target` (the grade,
+    section and subject the action touches). With no target, only the
+    principal and an unlimited grant hold it (grants.scope_admits)."""
     if user.role == "principal":
         return True
     if user.role != "teacher" or _grant_checker is None:
@@ -237,21 +246,46 @@ def holds(user: User, capability: str, **target) -> bool:
     return bool(_grant_checker(user.id, capability, **target))
 
 
-def require_admin(capability: str):
+def holds_any(user: User, capability: str) -> bool:
+    """Whether `user` holds the capability for at least part of the school."""
+    if user.role == "principal":
+        return True
+    if user.role != "teacher" or _scope_reader is None:
+        return False
+    return bool(_scope_reader(user.id, capability))
+
+
+def require_in_scope(user: User, capability: str, *, grade: Optional[int] = None,
+                     section_id: Optional[str] = None, subject_id: Optional[str] = None) -> None:
+    """For a route taken with require_admin(capability, scoped=True): the
+    action's own target must be inside one of the caller's grants."""
+    if not holds(user, capability, grade=grade, section_id=section_id, subject_id=subject_id):
+        raise HTTPException(403, SCOPE_DETAIL)
+
+
+def require_admin(capability: str, *, scoped: bool = False):
     """The dependency for a delegable principal route. One function object
-    per capability, so tests/test_role_gates.py can read the capability off
-    a route's dependency chain."""
+    per (capability, scoped), so tests/test_role_gates.py can read the
+    capability off a route's dependency chain.
+
+    Unscoped (the default), the route acts on the whole school, and a grant
+    limited to some classes does not reach it. `scoped=True` admits any
+    holder of the capability, and the route must then check the section or
+    class it acts on with require_in_scope."""
     if capability not in ADMIN_CAPABILITIES:
         raise ValueError(f"unknown admin capability {capability!r}")
-    dep = _ADMIN_DEPS.get(capability)
+    dep = _ADMIN_DEPS.get((capability, scoped))
     if dep is None:
         def dep(current: User = Depends(get_current_user)) -> User:
-            if not holds(current, capability):
+            if scoped and not holds_any(current, capability):
                 raise HTTPException(403, ADMIN_DETAIL)
+            if not scoped and not holds(current, capability):
+                raise HTTPException(403, SCOPE_DETAIL if holds_any(current, capability) else ADMIN_DETAIL)
             return current
         dep.capability = capability
-        dep.__name__ = f"require_admin_{capability}"
-        _ADMIN_DEPS[capability] = dep
+        dep.scoped = scoped
+        dep.__name__ = f"require_admin_{capability}" + ("_scoped" if scoped else "")
+        _ADMIN_DEPS[(capability, scoped)] = dep
     return dep
 
 

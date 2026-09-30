@@ -47,12 +47,16 @@ def clean_scope(scope: Optional[dict]) -> dict[str, list]:
 
 def scope_admits(scope: dict, *, grade: Optional[int] = None, section_id: Optional[str] = None,
                  subject_id: Optional[str] = None) -> bool:
-    if grade is not None and scope.get("grades") and grade not in scope["grades"]:
-        return False
-    if section_id is not None and scope.get("sectionIds") and section_id not in scope["sectionIds"]:
-        return False
-    if subject_id is not None and scope.get("subjectIds") and subject_id not in scope["subjectIds"]:
-        return False
+    """Whether a grant with this scope covers the target. Each axis the scope
+    limits must be named by the target and be in the list: a grant for
+    classes 6 and 7 does not cover an action that names no class (a
+    whole-school solve, the school's user list), and a Science HOD's grant
+    does not cover a change to a whole section. Until 2026-09-30 an axis the
+    target left out passed, and no route named one, so every limited grant
+    acted as a whole-school grant (N-67-1)."""
+    for key, value in (("grades", grade), ("sectionIds", section_id), ("subjectIds", subject_id)):
+        if scope.get(key) and (value is None or value not in scope[key]):
+            return False
     return True
 
 
@@ -108,3 +112,8 @@ class GrantsMixin:
 
     def holds(self, user_id: str, capability: str, **target: Any) -> bool:
         return any(scope_admits(g["scope"], **target) for g in self.active_grants(user_id, capability))
+
+    def grant_scopes(self, user_id: str, capability: str) -> list[dict]:
+        """The scopes of the user's active grants for the capability ({} is
+        the whole school); [] when they hold none."""
+        return [g["scope"] for g in self.active_grants(user_id, capability)]

@@ -251,6 +251,13 @@ class LocalApiClient extends ApiClient {
     final newStatus = statusName != null
         ? AssessmentStatus.values.firstWhere((s) => s.name == statusName, orElse: () => current.status)
         : current.status;
+    if (newStatus != current.status &&
+        editableAssessmentStatuses.contains(current.status) &&
+        !editableAssessmentStatuses.contains(newStatus)) {
+      // Mirrors PATCH /status: a paper leaves authoring only through
+      // approveAssessment(), never a bare status change.
+      throw NotPrincipalException();
+    }
     if (!editableAssessmentStatuses.contains(current.status) && editableAssessmentStatuses.contains(newStatus)) {
       // Mirrors PATCH /assessments/{id}/status's own guard: forward
       // progression (principalApproved -> printed -> conducted -> ...) is
