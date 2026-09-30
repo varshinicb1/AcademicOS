@@ -25,9 +25,11 @@ from ..api.rate_limit import rate_limit_login, rate_limit_register
 from ..config import Config
 from .schemas import Camel
 from .users import (
-    EmailAlreadyRegistered, InvalidCredentials, Invite, InviteAlreadyUsed, InviteNotFound,
-    RegistrationRefused, User, UserStore, get_user_store,
+    AccountClosed, EmailAlreadyRegistered, InvalidCredentials, Invite, InviteAlreadyUsed, InviteNotFound,
+    RegistrationRefused, User, UserStore, get_user_store, is_closed,
 )
+
+CLOSED_DETAIL = "your school has closed this account; ask the school office if this is a mistake"
 
 router = APIRouter(prefix="/api/v1/auth")
 
@@ -132,9 +134,11 @@ def login(req: LoginRequest) -> AuthResponse:
     store = _require()
     try:
         user = store.authenticate(email=req.email, password=req.password)
+        token = store.create_session(user.id)
     except InvalidCredentials:
         raise HTTPException(401, "incorrect email or password")
-    token = store.create_session(user.id)
+    except AccountClosed:
+        raise HTTPException(403, CLOSED_DETAIL)
     return AuthResponse(user=_to_response(user), token=token)
 
 
@@ -320,10 +324,65 @@ def list_school_users(role: Optional[str] = None,
     and scoped to the caller's own school_id (never a query parameter),
     same posture as every other per-school administrative read in this
     codebase."""
-    if role is not None and role not in ("teacher", "principal", "student", "parent"):
+    if role is not None and role not in ("teacher", "principal", "student", "parent", "left"):
         raise HTTPException(400, f"invalid role filter: {role!r}")
-    users = _require().users_for_school(principal.school_id, role=role)
+    if role == "left":
+        # The accounts the school has closed, each with the role it had.
+        users = [u for u in _require().users_for_school(principal.school_id) if is_closed(u.role)]
+    else:
+        users = [u for u in _require().users_for_school(principal.school_id, role=role)
+                 if not is_closed(u.role)]
     return [_to_response(u) for u in users]
+
+
+def _school_account(user_id: str, admin: User) -> User:
+    user = _require().get(user_id)
+    if user is None or user.school_id != admin.school_id:
+        raise HTTPException(404, "no such account in your school")
+    return user
+
+
+def _audit_account(action: str, admin: User, user: User, before: str) -> None:
+    from .audit_log import get_audit_log
+    if _cfg is not None:
+        get_audit_log(_cfg.data_root).append(
+            action, actor=admin.id,
+            details={"userId": user.id, "name": user.name, "before": before, "after": user.role})
+
+
+@router.post("/users/{user_id}/close", response_model=UserResponse)
+def close_account(user_id: str, admin: User = Depends(require_admin("users"))) -> UserResponse:
+    """A person has left the school: their account can no longer sign in,
+    every session they hold ends, and their admin grants are revoked. Their
+    papers, marks and history stay, attributed to them (N-67-8)."""
+    user = _school_account(user_id, admin)
+    if user.id == admin.id:
+        raise HTTPException(422, "you cannot close your own account")
+    if user.role == "principal":
+        raise HTTPException(403, "the principal's account is changed by the operator, not in the app")
+    before = user.role
+    closed = _require().close_account(user.id)
+    try:
+        from ..operations import routes as ops
+        for g in ops.store().active_grants(user.id):
+            ops.store().revoke_grant(g["id"], revoked_by=admin.id)
+    except Exception:  # noqa: BLE001 - a closed account holds no role a grant could apply to
+        logging.getLogger(__name__).warning("could not revoke %s's grants on closing", user.id, exc_info=True)
+    if before != closed.role:
+        _audit_account("account_closed", admin, closed, before)
+    return _to_response(closed)
+
+
+@router.post("/users/{user_id}/reopen", response_model=UserResponse)
+def reopen_account(user_id: str, admin: User = Depends(require_admin("users"))) -> UserResponse:
+    """Undo a close: the account gets back the role it had. Grants are not
+    restored; the principal gives them again if they are still wanted."""
+    user = _school_account(user_id, admin)
+    before = user.role
+    reopened = _require().reopen_account(user.id)
+    if before != reopened.role:
+        _audit_account("account_reopened", admin, reopened, before)
+    return _to_response(reopened)
 
 
 # ---------------- invites (principal only, own school only) ----------------

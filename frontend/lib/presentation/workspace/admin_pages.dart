@@ -357,13 +357,51 @@ class GrantsPage extends StatefulWidget {
 
 class _GrantsPageState extends State<GrantsPage> {
   late Future<(List<Map<String, dynamic>>, List<Map<String, dynamic>>, List<Map<String, dynamic>>)> _future = _load();
+  List<Map<String, dynamic>> _left = const [];
 
   Future<(List<Map<String, dynamic>>, List<Map<String, dynamic>>, List<Map<String, dynamic>>)> _load() async {
     final teachers = await Ops.list('/auth/users', query: {'role': 'teacher'});
     final grants = await Ops.list('/admin/grants');
     final mine = await Ops.map('/my-grants');
     final caps = (mine['available'] as List).map((e) => Map<String, dynamic>.from(e as Map)).toList();
+    // The accounts the school has closed, so one closed by mistake can be reopened.
+    _left = await Ops.list('/auth/users', query: {'role': 'left'});
     return (teachers, grants, caps);
+  }
+
+  /// Someone has left the school: their sign-in stops working at once and
+  /// their admin access ends; their papers, marks and history stay (N-67-8).
+  Future<void> _close(Map<String, dynamic> person) async {
+    final ok = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(
+      title: Text("Close ${person['name']}'s account?"),
+      content: const Text('Use this when someone has left the school. They are signed out everywhere and '
+          'cannot sign in again, and any admin access they had ends. Their papers, marks and history '
+          'stay. You can reopen the account later.'),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Cancel'))),
+        FilledButton(
+          style: FilledButton.styleFrom(backgroundColor: Theme.of(ctx).colorScheme.error),
+          onPressed: () => Navigator.pop(ctx, true),
+          child: const Text('Close account'),
+        ),
+      ],
+    ));
+    if (ok != true) return;
+    try {
+      await Ops.post('/auth/users/${person['id']}/close');
+      _reload();
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
+    }
+  }
+
+  Future<void> _reopen(Map<String, dynamic> person) async {
+    try {
+      await Ops.post('/auth/users/${person['id']}/reopen');
+      _reload();
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
+    }
   }
 
   void _reload() => setState(() { _future = _load(); });
@@ -384,6 +422,10 @@ class _GrantsPageState extends State<GrantsPage> {
         ),
         const SizedBox(height: 8),
         const Text('Only for these classes (none ticked: the whole school)'),
+        const SizedBox(height: 2),
+        Text("An admin limited to some classes acts only on those classes' sections. "
+            'School-wide pages and actions stay with you.',
+            style: Theme.of(ctx).textTheme.bodySmall),
         Wrap(spacing: 4, children: [
           for (var g = 1; g <= 12; g++)
             FilterChip(label: Text('$g'), selected: grades.contains(g),
@@ -427,6 +469,13 @@ class _GrantsPageState extends State<GrantsPage> {
                   Row(children: [
                     Expanded(child: Text(t['name'], style: Theme.of(context).textTheme.titleSmall)),
                     TextButton.icon(onPressed: () => _grant(t, caps), icon: const Icon(Icons.add), label: const Text('Grant')),
+                    PopupMenuButton<String>(
+                      tooltip: 'More for ${t['name']}',
+                      onSelected: (_) => _close(t),
+                      itemBuilder: (_) => const [
+                        PopupMenuItem(value: 'close', child: Text('Close account (left the school)')),
+                      ],
+                    ),
                   ]),
                   Wrap(spacing: 6, runSpacing: 4, children: [
                     for (final g in grants.where((g) => g['userId'] == t['id']))
@@ -442,6 +491,19 @@ class _GrantsPageState extends State<GrantsPage> {
                   ]),
                 ]),
               ),
+            if (_left.isNotEmpty) ...[
+              const SizedBox(height: 16),
+              Text('Closed accounts', style: Theme.of(context).textTheme.titleSmall),
+              const SizedBox(height: 8),
+              for (final person in _left)
+                AppCard(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  child: Row(children: [
+                    Expanded(child: Text(person['name'] as String)),
+                    TextButton(onPressed: () => _reopen(person), child: const Text('Reopen')),
+                  ]),
+                ),
+            ],
           ]);
         },
       ),

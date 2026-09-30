@@ -190,7 +190,7 @@ Planned in the last session but **not started** (the audit defect IDs are in `do
   and measure false positives by reading every refused stem. The relink needs `answer_keys.db` and the
   683 MB parse trees, which live only in the main checkout.
 - **Every new route** needs a row in `api/route_policy.py` and an entry in `tests/test_route_inventory.py`
-  (307 routes today). If the schema changes, regenerate the OpenAPI contract and TS types.
+  (309 routes today). If the schema changes, regenerate the OpenAPI contract and TS types.
 - **Deploy traps:**
   - `firebase-tools` must be v13; v15 ignores the token.
   - Cloud Run env vars need the `^@^` delimiter.

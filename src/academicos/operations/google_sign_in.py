@@ -19,6 +19,7 @@ from pydantic import Field
 
 from ..api.rate_limit import RateLimiter, get_client_ip
 from ..assessment.schemas import Camel
+from ..assessment.users import AccountClosed
 
 router = APIRouter(prefix="/api/v1/auth")
 
@@ -89,5 +90,8 @@ def sign_in_with_google(req: GoogleSignIn, request: Request):
     if user is None:
         raise HTTPException(401, f"No AcademicOS account uses {claims['email']}. Ask your school for an "
                                  "invite, or sign in with the email your school has.")
-    token = users.create_session(user.id)
+    try:
+        token = users.create_session(user.id)
+    except AccountClosed:
+        raise HTTPException(403, auth_routes.CLOSED_DETAIL)
     return auth_routes.AuthResponse(user=auth_routes._to_response(user), token=token)

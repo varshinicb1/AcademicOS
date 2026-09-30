@@ -75,6 +75,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/auth/logout"),
     ("GET", "/api/v1/auth/me"),
     ("GET", "/api/v1/auth/users"),
+    ("POST", "/api/v1/auth/users/{user_id}/close"),
+    ("POST", "/api/v1/auth/users/{user_id}/reopen"),
     ("POST", "/api/v1/auth/invites"),
     ("GET", "/api/v1/auth/invites"),
     ("DELETE", "/api/v1/auth/invites/{code}"),
@@ -418,6 +420,8 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     # --- auth_routes.py (identity reads + principal approval) ---
     ("GET", "/api/v1/auth/me"),
     ("GET", "/api/v1/auth/users"),
+    ("POST", "/api/v1/auth/users/{user_id}/close"),
+    ("POST", "/api/v1/auth/users/{user_id}/reopen"),
     # Invites are principal-only (require_principal -> get_current_user).
     ("POST", "/api/v1/auth/invites"),
     ("GET", "/api/v1/auth/invites"),
@@ -950,7 +954,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 302: NFR-7 error tracking (/health/errors, client reports, the operator's list).
     # 304: INT-2 a person's own number and SMS/WhatsApp consent (get, set).
     # 307: the question bank's coverage map and review queue (3).
-    assert len(API_ROUTES) == 307
+    # 309: closing and reopening an account (N-67-8).
+    assert len(API_ROUTES) == 309
 
 
 def test_docs_routes_present():

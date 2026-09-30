@@ -203,3 +203,42 @@ def test_api_responses_carry_security_headers(w):
     assert r.headers["x-content-type-options"] == "nosniff"
     assert r.headers["x-frame-options"] == "DENY"
     assert "max-age" in r.headers["strict-transport-security"]
+
+
+# ---------------- N-67-8: a person who leaves can be closed out ----------------
+
+def test_closing_an_account_ends_its_sessions_and_sign_in_and_reopening_restores_it(w):
+    from academicos.assessment.audit_log import get_audit_log
+    from academicos.assessment import auth_routes
+    ana = w.uid["ana"]
+    _grant(w, "ana", "exams", {})
+    closed = w.c.post(f"/api/v1/auth/users/{ana}/close", headers=w.p)
+    assert closed.status_code == 200, closed.text
+    assert closed.json()["role"] == "left:teacher"
+    assert w.c.get("/api/v1/auth/me", headers=w.t["ana"]).status_code == 401
+    login = w.c.post("/api/v1/auth/login", json={"email": "ana@example.com", "password": "correct horse battery"})
+    assert login.status_code == 403 and "closed" in login.json()["detail"]
+    staff = [u["id"] for u in w.c.get("/api/v1/auth/users", headers=w.p).json()]
+    left = [u["id"] for u in w.c.get("/api/v1/auth/users", params={"role": "left"}, headers=w.p).json()]
+    assert ana not in staff and left == [ana]
+    assert w.c.get("/api/v1/my-grants", headers=w.p).status_code == 200
+    assert [g for g in w.c.get("/api/v1/admin/grants", headers=w.p).json() if g["userId"] == ana] == []
+    rows = get_audit_log(auth_routes._cfg.data_root).for_action("account_closed")
+    principal_id = w.c.get("/api/v1/auth/me", headers=w.p).json()["id"]
+    assert (rows[0]["details"]["before"], rows[0]["actor"]) == ("teacher", principal_id)
+
+    reopened = w.c.post(f"/api/v1/auth/users/{ana}/reopen", headers=w.p)
+    assert reopened.json()["role"] == "teacher"
+    again = w.c.post("/api/v1/auth/login", json={"email": "ana@example.com", "password": "correct horse battery"})
+    assert again.status_code == 200, again.text
+
+
+def test_only_the_schools_users_admin_closes_and_never_the_principal_or_themselves(w):
+    ana = w.uid["ana"]
+    assert w.c.post(f"/api/v1/auth/users/{ana}/close", headers=w.t["bala"]).status_code == 403
+    assert w.c.post(f"/api/v1/auth/users/{ana}/close", headers=w.p2).status_code == 404
+    me = w.c.get("/api/v1/auth/me", headers=w.p).json()["id"]
+    assert w.c.post(f"/api/v1/auth/users/{me}/close", headers=w.p).status_code == 422
+    _grant(w, "bala", "users", {})
+    assert w.c.post(f"/api/v1/auth/users/{me}/close", headers=w.t["bala"]).status_code == 403
+    assert w.c.post(f"/api/v1/auth/users/{ana}/close", headers=w.t["bala"]).status_code == 200
