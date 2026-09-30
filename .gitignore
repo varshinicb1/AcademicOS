@@ -71,6 +71,7 @@ docs/research/*
 !docs/research/case-studies.md
 !docs/research/interface-specification.md
 !docs/research/production-ai-principles.md
+!docs/research/question-sourcing-2026-09-30.md
 
 # Large build artifacts / distributables (not source, don't belong in git)
 *.zip

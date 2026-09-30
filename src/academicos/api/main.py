@@ -297,6 +297,11 @@ from . import error_tracking  # noqa: E402
 
 error_tracking.install(app)
 
+# INT-2: a person's own number and consent for SMS and WhatsApp.
+from ..operations import messaging_routes  # noqa: E402
+
+app.include_router(messaging_routes.router)
+
 
 class SearchRequest(BaseModel):
     query: str = Field(min_length=2, max_length=MAX_QUERY_CHARS)

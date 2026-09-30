@@ -106,7 +106,7 @@ The checks most likely to catch a new contributor out:
   one table of who may call each (method, path). `tests/test_role_gates.py` fails
   on any served route missing from it, and on any row whose level does not match
   the route's real dependency chain. `tests/test_route_inventory.py` pins the
-  route count (305 at the time of writing): a new route bumps it in the same
+  route count (307 at the time of writing): a new route bumps it in the same
   commit, with the reason.
 - **Registration is invite-only**, in tests too. Use
   `tests/_auth_helpers.py` (`invite_code`, `register_invited`, `grant_consent`)
