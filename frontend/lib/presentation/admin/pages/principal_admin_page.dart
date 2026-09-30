@@ -296,18 +296,26 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     });
     try {
       final subjects = await GetIt.I<CurriculumApi>().subjects(gradeId);
-      final sections = _academicYearId == null
-          ? <SectionSummary>[]
-          : (await GetIt.I<CurriculumApi>().sections(_academicYearId!)).where((s) => s.gradeId == gradeId).toList();
       if (!mounted) return;
       setState(() {
         _pushSubjects = subjects;
-        _pushSections = sections;
         _loadingPushSubjects = false;
       });
     } catch (e) {
       if (mounted) setState(() => _loadingPushSubjects = false);
       _showMessage('Could not load subjects: ${serverErrorMessage(e)}');
+      return;
+    }
+    // The sections come separately: without them the school-wide plan can
+    // still be pushed, so a failed or slow sections call must not hold the
+    // subject list back.
+    if (_academicYearId == null) return;
+    try {
+      final sections =
+          (await GetIt.I<CurriculumApi>().sections(_academicYearId!)).where((s) => s.gradeId == gradeId).toList();
+      if (mounted) setState(() => _pushSections = sections);
+    } catch (e) {
+      _showMessage('Could not load sections: ${serverErrorMessage(e)}');
     }
   }
 
