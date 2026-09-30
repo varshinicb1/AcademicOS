@@ -355,6 +355,10 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     # --- operations/messaging_routes.py (INT-2) ---
     ("GET", "/api/v1/me/contact"),
     ("PUT", "/api/v1/me/contact"),
+    # --- operations/report_cards.py (EX-8) ---
+    ("GET", "/api/v1/report-cards/students/{student_id}"),
+    ("GET", "/api/v1/report-cards/students/{student_id}/pdf"),
+    ("GET", "/api/v1/report-cards/sections/{section_id}/pdf"),
     # --- consent_routes.py (DPDP Act 2023 parental consent) ---
     ("GET", "/api/v1/consent"),
     ("POST", "/api/v1/consent"),
@@ -381,6 +385,10 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     # INT-2: the caller's own number (authenticates first).
     ("GET", "/api/v1/me/contact"),
     ("PUT", "/api/v1/me/contact"),
+    # EX-8 report cards (authenticate first).
+    ("GET", "/api/v1/report-cards/students/{student_id}"),
+    ("GET", "/api/v1/report-cards/students/{student_id}/pdf"),
+    ("GET", "/api/v1/report-cards/sections/{section_id}/pdf"),
     # paper-timing authenticates first, like the other paper routes.
     ("GET", "/api/v1/paper-timing"),
     # --- routes.py (assessment designer) ---
@@ -942,8 +950,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 299: SCH-8 added a room's periods out of use (list, set); EX-5/D41 the school
     # profile (get, set) and its logo (get, upload, remove).
     # 302: NFR-7 error tracking (/health/errors, client reports, the operator's list).
-    # 304: INT-2 a person's own number and SMS/WhatsApp consent (get, set).
-    assert len(API_ROUTES) == 304
+    # 307: EX-8 report cards (a student's, as JSON and PDF; a section's PDF).
+    assert len(API_ROUTES) == 307
 
 
 def test_docs_routes_present():

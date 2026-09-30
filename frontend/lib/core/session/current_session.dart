@@ -42,4 +42,7 @@ class CurrentSession {
 
   /// "teacher" | "principal" | "student" online; the device profile's role offline.
   static String get role => _onDevice ? LocalStore.instance.teacherRole : _field('role');
+
+  /// The signed-in person's name as the school knows it (empty offline).
+  static String get name => _onDevice ? '' : _field('name');
 }
