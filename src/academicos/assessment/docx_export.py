@@ -17,6 +17,7 @@ from __future__ import annotations
 import io
 import re
 import zipfile
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 from xml.sax.saxutils import escape
@@ -31,6 +32,10 @@ _NUMBER_W = 567                      # 1 cm for the question number
 
 _W = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" ' \
      'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"'
+# For the logo's inline picture.
+_DRAWING_NS = ('xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" '
+               'xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" '
+               'xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"')
 
 
 _XML_INVALID = re.compile("[\x00-\x08\x0b\x0c\x0e-\x1f\ufffe\uffff]")
@@ -81,20 +86,94 @@ def _question(gq) -> list[str]:
     return out
 
 
-def _body(paper, template) -> str:
+@dataclass(frozen=True)
+class _Logo:
+    data: bytes
+    ext: str             # "png" or "jpeg": the part's name and its content type
+    cx: int              # EMU
+    cy: int
+
+
+_EMU_PER_MM = 36000
+_TWIPS_PER_MM = 56.6929
+_LOGO_MM = 18            # the PDF draws the logo in an 18 mm box beside the title
+_LOGO_CELL = round(22 * _TWIPS_PER_MM)
+
+
+def _logo(template) -> Optional[_Logo]:
+    """The school's logo, read from the same file the PDF draws
+    (`template.logo_url`, which the export route sets from the school
+    profile: `school_profile.branding_for_school`), sized to fit the PDF's
+    18 mm box without stretching it. None when there is no logo, the file is
+    not on this server, or it is not a PNG or JPEG image that can be read --
+    the paper still prints, as the PDF does, without it."""
+    path = Path(template.logo_url) if template is not None and template.logo_url else None
+    if path is None or not path.is_file():
+        return None
+    data = path.read_bytes()
+    ext = "png" if data.startswith(b"\x89PNG") else "jpeg" if data.startswith(b"\xff\xd8") else None
+    if ext is None:
+        return None
+    try:
+        from PIL import Image
+        with Image.open(io.BytesIO(data)) as im:
+            width, height = im.size
+    except Exception:                    # a bad logo must not kill the export
+        return None
+    if width <= 0 or height <= 0:
+        return None
+    box = _LOGO_MM * _EMU_PER_MM
+    scale = box / max(width, height)
+    return _Logo(data, ext, max(1, round(width * scale)), max(1, round(height * scale)))
+
+
+def _drawing(logo: _Logo) -> str:
+    """An inline picture run, the image part being `rIdLogo`."""
+    return (
+        '<w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0">'
+        f'<wp:extent cx="{logo.cx}" cy="{logo.cy}"/><wp:docPr id="1" name="School logo"/>'
+        '<wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1"/></wp:cNvGraphicFramePr>'
+        '<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">'
+        f'<pic:pic><pic:nvPicPr><pic:cNvPr id="0" name="logo.{logo.ext}"/><pic:cNvPicPr/></pic:nvPicPr>'
+        '<pic:blipFill><a:blip r:embed="rIdLogo"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill>'
+        f'<pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="{logo.cx}" cy="{logo.cy}"/></a:xfrm>'
+        '<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic>'
+        '</a:graphicData></a:graphic></wp:inline></w:drawing></w:r>')
+
+
+def _beside_logo(title: list[str], logo: Optional[_Logo]) -> list[str]:
+    """The title block with the logo to its left, in a borderless two-cell
+    table -- the band the PDF prints (`pdf._beside_logo`)."""
+    if logo is None:
+        return title
+    none = "".join(f'<w:{side} w:val="nil"/>' for side in
+                   ("top", "left", "bottom", "right", "insideH", "insideV"))
+    rest = _TEXT_W - _LOGO_CELL
+    cell = '<w:tc><w:tcPr><w:tcW w:w="{w}" w:type="dxa"/><w:vAlign w:val="center"/></w:tcPr>{body}</w:tc>'
+    return [
+        f'<w:tbl><w:tblPr><w:tblW w:w="{_TEXT_W}" w:type="dxa"/><w:tblLayout w:type="fixed"/>'
+        f'<w:tblBorders>{none}</w:tblBorders></w:tblPr>'
+        f'<w:tblGrid><w:gridCol w:w="{_LOGO_CELL}"/><w:gridCol w:w="{rest}"/></w:tblGrid><w:tr>'
+        + cell.format(w=_LOGO_CELL, body=f"<w:p>{_drawing(logo)}</w:p>")
+        + cell.format(w=rest, body="".join(title) or "<w:p/>")
+        + "</w:tr></w:tbl>"]
+
+
+def _body(paper, template, logo: Optional[_Logo] = None) -> str:
     m = paper.metadata
     from .pdf import printable_school_name
     school = printable_school_name(m.school_name, template)
-    paras = [_p(_run(school, bold=True, size=32), align="center", space_after=40)] if school else []
+    title_block = [_p(_run(school, bold=True, size=32), align="center", space_after=40)] if school else []
     if m.exam_name and m.exam_name != m.assessment_title:
-        paras.append(_p(_run(m.exam_name, bold=True, size=26), align="center", space_after=40))
+        title_block.append(_p(_run(m.exam_name, bold=True, size=26), align="center", space_after=40))
     title = m.assessment_title + (f"  |  SET {paper.set_label}" if paper.set_label else "")
-    paras.append(_p(_run(title, bold=True, size=26), align="center", space_after=40))
-    paras.append(_p(_run(f"Subject: {m.subject}  |  Class: {m.grade}"), align="center", space_after=40))
+    title_block.append(_p(_run(title, bold=True, size=26), align="center", space_after=40))
+    title_block.append(_p(_run(f"Subject: {m.subject}  |  Class: {m.grade}"), align="center", space_after=40))
     if template and template.tagline:
-        paras.append(_p(_run(template.tagline, italic=True), align="center", space_after=40))
+        title_block.append(_p(_run(template.tagline, italic=True), align="center", space_after=40))
     if m.date_line:
-        paras.append(_p(_run(m.date_line), align="center", space_after=40))
+        title_block.append(_p(_run(m.date_line), align="center", space_after=40))
+    paras = _beside_logo(title_block, logo)
     paras.append(_p(_run("Roll No.: ____________        Name: ______________________________"), space_after=120))
     marks = f"Maximum Marks: {m.total_marks}" + (f"   [SET {paper.set_label}]" if paper.set_label else "")
     paras.append(_p(_run(f"Time Allowed: {format_duration(m.duration_minutes)}",
@@ -125,8 +204,8 @@ def _body(paper, template) -> str:
             f'<w:pgSz w:w="{_PAGE_W}" w:h="{_PAGE_H}"/>'
             f'<w:pgMar w:top="{_MARGIN}" w:right="{_MARGIN}" w:bottom="{_MARGIN}" w:left="{_MARGIN}" '
             f'w:header="567" w:footer="567" w:gutter="0"/></w:sectPr>')
-    return (f'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document {_W}><w:body>'
-            + "".join(paras) + sect + "</w:body></w:document>")
+    return (f'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document {_W} {_DRAWING_NS}>'
+            "<w:body>" + "".join(paras) + sect + "</w:body></w:document>")
 
 
 def _plain(markup: str) -> str:
@@ -149,8 +228,19 @@ def _footer(paper, template, watermark_id: Optional[str]) -> str:
 
 
 def export_docx(paper, output_dir: Path, template=None, watermark_id: Optional[str] = None) -> Path:
+    """The paper as a .docx. With a logo on the school's branding (the file
+    the PDF draws), the Word file carries it too, beside the title as on the
+    PDF: it had none (v3 audit N-2-9, 0 files in word/media on 42 of 42
+    exported after a logo upload, while the PDFs printed it)."""
     output_dir.mkdir(parents=True, exist_ok=True)
     out_path = output_dir / f"{paper.id}.docx"
+    logo = _logo(template)
+    image_types = ""
+    image_rel = ""
+    if logo is not None:
+        image_types = f'<Default Extension="{logo.ext}" ContentType="image/{logo.ext}"/>'
+        image_rel = ('<Relationship Id="rIdLogo" Type="http://schemas.openxmlformats.org/officeDocument/'
+                     f'2006/relationships/image" Target="media/logo.{logo.ext}"/>')
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
         z.writestr("[Content_Types].xml",
@@ -158,6 +248,7 @@ def export_docx(paper, output_dir: Path, template=None, watermark_id: Optional[s
                    '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
                    '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
                    '<Default Extension="xml" ContentType="application/xml"/>'
+                   + image_types +
                    '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>'
                    '<Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/>'
                    '<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>'
@@ -178,8 +269,11 @@ def export_docx(paper, output_dir: Path, template=None, watermark_id: Optional[s
                    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
                    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
                    '<Relationship Id="rIdFooter" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml"/>'
+                   + image_rel +
                    '</Relationships>')
-        z.writestr("word/document.xml", _body(paper, template))
+        z.writestr("word/document.xml", _body(paper, template, logo))
         z.writestr("word/footer1.xml", _footer(paper, template, watermark_id))
+        if logo is not None:
+            z.writestr(f"word/media/logo.{logo.ext}", logo.data)
     out_path.write_bytes(buf.getvalue())
     return out_path

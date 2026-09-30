@@ -822,7 +822,8 @@ def export_paper(paper_id: str, fmt: str, current: User = Depends(require_staff)
     # LayoutError/IndexError/ValueError on content it cannot lay out).
     if fmt in ("answer-key", "answer_key", "answerKey"):
         try:
-            path = pdf_export.export_answer_key_pdf(paper, out_dir, template=template)
+            path = pdf_export.export_answer_key_pdf(paper, out_dir, template=template,
+                                                    watermark_id=watermark_id)
         except Exception as exc:
             log.exception("answer key for paper %s failed to render", paper_id)
             raise HTTPException(422, f"this answer key could not be rendered: {exc}") from exc

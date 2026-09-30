@@ -741,24 +741,43 @@ def export_pdf(paper: GeneratedPaper, output_dir: Path,
 
 
 def export_answer_key_pdf(paper: GeneratedPaper, output_dir: Path,
-                          template: Optional[SchoolTemplate] = None) -> Path:
-    """Companion marking sheet: question number, marks, expected answer / value points."""
+                          template: Optional[SchoolTemplate] = None,
+                          watermark_id: Optional[str] = None) -> Path:
+    """Companion marking sheet: question number, marks, expected answer / value points.
+
+    Headed like the paper it marks -- exam name, subject and class, time
+    allowed and maximum marks -- and footed like it: the Q.P. code, the page
+    count and, per export, the traceable-copy id. The key printed only the
+    school, the title and "MARKING SCHEME" (v3 audit N-2-9): a loose key page
+    could not be matched to its paper, and a leaked key could not be traced
+    to the export that produced it, though the export itself was audited."""
     _register_unicode_font()
     output_dir.mkdir(parents=True, exist_ok=True)
     out_path = output_dir / f"{paper.id}_answer_key.pdf"
     styles = _build_styles(template.brand_color if template and template.brand_color else "#000000")
 
+    margin = 18 * mm
     doc = SimpleDocTemplate(str(out_path), pagesize=A4, topMargin=16 * mm,
-                            bottomMargin=18 * mm, leftMargin=18 * mm, rightMargin=18 * mm)
-    set_suffix = f" — SET {paper.set_label}" if paper.set_label else ""
-    school = printable_school_name(paper.metadata.school_name, template)
-    title_block = ([Paragraph(escape(school), styles.school)] if school else []) + [
-        Paragraph(escape(paper.metadata.assessment_title) + set_suffix,
+                            bottomMargin=margin, leftMargin=margin, rightMargin=margin,
+                            title=f"{paper.metadata.assessment_title} - marking scheme",
+                            author="AcademicOS")
+    m = paper.metadata
+    set_suffix = f" — SET {escape(paper.set_label)}" if paper.set_label else ""
+    school = printable_school_name(m.school_name, template)
+    title_block = [Paragraph(escape(school), styles.school)] if school else []
+    if m.exam_name and m.exam_name != m.assessment_title:
+        title_block.append(Paragraph(escape(m.exam_name), styles.exam))
+    title_block += [
+        Paragraph(escape(m.assessment_title) + set_suffix,
                   styles.exam if school else styles.school),
+        Paragraph(f"Subject: {escape(m.subject)} &nbsp;&nbsp;|&nbsp;&nbsp; Class: {m.grade}",
+                  styles.meta),
+        Paragraph(f"Time Allowed: {format_duration(m.duration_minutes)} &nbsp;&nbsp;|&nbsp;&nbsp; "
+                  f"Maximum Marks: {m.total_marks}", styles.meta),
         Paragraph("MARKING SCHEME / VALUE POINTS", styles.exam),
     ]
     logo_path = Path(template.logo_url) if template and template.logo_url else None
-    story: list = _beside_logo(title_block, logo_path, A4[0] - 36 * mm) + [
+    story: list = _beside_logo(title_block, logo_path, A4[0] - 2 * margin) + [
         Spacer(1, 8),
         HRFlowable(width="100%", thickness=1, color=colors.black, spaceAfter=8),
     ]
@@ -789,5 +808,7 @@ def export_answer_key_pdf(paper: GeneratedPaper, output_dir: Path,
         ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
     ]))
     story.append(table)
-    doc.build(story)
+    footer = _page_furniture(paper, template, watermark_id=watermark_id)
+    doc.build(story, onFirstPage=footer, onLaterPages=footer,
+              canvasmaker=_paged_canvas(margin))
     return out_path
