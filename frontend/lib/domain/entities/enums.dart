@@ -233,23 +233,25 @@ enum AssessmentStatus {
 }
 
 extension AssessmentStatusX on AssessmentStatus {
+  // The words a teacher reads on a paper's chip -- the Today page's words
+  // ("Ready", "In review"), not the generator's internal steps.
   String get label => switch (this) {
-    AssessmentStatus.draft => 'Draft',
-    AssessmentStatus.blueprintReady => 'Blueprint Ready',
-    AssessmentStatus.questionsSelected => 'Questions Selected',
-    AssessmentStatus.questionOptimized => 'Questions Optimized',
-    AssessmentStatus.paperGenerated => 'Paper Generated',
-    AssessmentStatus.underReview => 'Under Review',
+    AssessmentStatus.draft ||
+    AssessmentStatus.blueprintReady ||
+    AssessmentStatus.questionsSelected ||
+    AssessmentStatus.questionOptimized => 'Draft',
+    AssessmentStatus.paperGenerated => 'Ready',
+    AssessmentStatus.underReview => 'In review',
     AssessmentStatus.principalApproved => 'Approved',
     AssessmentStatus.printed => 'Printed',
     AssessmentStatus.conducted => 'Conducted',
     AssessmentStatus.scanning => 'Scanning',
     AssessmentStatus.scanned => 'Scanned',
-    AssessmentStatus.evaluating => 'Evaluating',
-    AssessmentStatus.evaluated => 'Evaluated',
-    AssessmentStatus.teacherReviewed => 'Teacher Reviewed',
-    AssessmentStatus.reportsGenerated => 'Reports Ready',
-    AssessmentStatus.remediationSent => 'Remediation Sent',
+    AssessmentStatus.evaluating => 'Marking',
+    AssessmentStatus.evaluated => 'Marked',
+    AssessmentStatus.teacherReviewed => 'Marks checked',
+    AssessmentStatus.reportsGenerated => 'Reports ready',
+    AssessmentStatus.remediationSent => 'Follow-up sent',
     AssessmentStatus.archived => 'Archived',
   };
 
