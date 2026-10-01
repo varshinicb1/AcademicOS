@@ -37,7 +37,7 @@ class BankPickerSource {
         grade: c.grade!,
         chapterIds: c.chapterIds.toList(),
         chapters: c.chapters,
-        onPaper: c.onPaper,
+        onPaper: c.onShownPaper,
       );
 }
 

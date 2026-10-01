@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/constants/wording.dart';
 import '../../../domain/repositories/requests.dart' show GeneratedQuestion, GeneratedSection;
 import '../paper_builder_controller.dart';
 import 'bank_picker.dart';
@@ -8,7 +9,8 @@ import 'bank_picker.dart';
 /// best question for the slot, from the server), Pick (the teacher's own
 /// choice from the bank) and Remove (the question off the paper; the
 /// section then shows as short). The paper is already saved; every change
-/// is saved to it and to every set as it is made.
+/// is saved as it is made. Each set has its own questions: Swap and Pick
+/// change the set on screen, Remove takes the same place out of every set.
 class PaperStep extends StatelessWidget {
   final PaperBuilderController c;
   const PaperStep({super.key, required this.c});
@@ -30,7 +32,7 @@ class PaperStep extends StatelessWidget {
       () => header,
       for (final s in paper.sections) ...[
         () => _SectionHeading(s: s),
-        for (final q in s.questions) () => _QuestionCard(c: c, q: q, editable: c.viewingSet == 'A'),
+        for (final q in s.questions) () => _QuestionCard(c: c, q: q),
       ],
     ];
     return ListView.builder(
@@ -89,10 +91,16 @@ class _Header extends StatelessWidget {
           selected: {c.viewingSet},
           onSelectionChanged: (s) => c.showSet(s.first),
         ),
+        // True of the sets the server makes: each prints its own questions
+        // in the same sections and marks (QA P-10).
         if (c.viewingSet != 'A')
           Padding(
             padding: const EdgeInsets.only(top: 6),
-            child: Text('Set ${c.viewingSet} is Set A reordered. Swap or pick on Set A; every set follows.',
+            child: Text(
+                'Set ${c.viewingSet} has its own questions in the same sections and marks. '
+                'Swap or Pick here changes Set ${c.viewingSet} only; Remove takes the question in '
+                'the same place out of every set.',
+                key: const ValueKey('set-explained'),
                 style: theme.textTheme.bodySmall),
           ),
       ],
@@ -110,7 +118,7 @@ class _SectionHeading extends StatelessWidget {
     final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 4),
-      child: Text('Section ${s.label} · ${s.name} · ${s.totalMarks} marks',
+      child: Text('${sectionHeading(s.label, s.name)} · ${marksText(s.totalMarks)}',
           style: theme.textTheme.titleSmall?.copyWith(color: theme.colorScheme.primary, fontWeight: FontWeight.w700)),
     );
   }
@@ -119,17 +127,17 @@ class _SectionHeading extends StatelessWidget {
 class _QuestionCard extends StatelessWidget {
   final PaperBuilderController c;
   final GeneratedQuestion q;
-  final bool editable;
-  const _QuestionCard({required this.c, required this.q, required this.editable});
+  const _QuestionCard({required this.c, required this.q});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final slot = '${q.displayNumber}';
     final orSlot = '${q.displayNumber}_OR';
-    final busy = c.busySlots.contains(slot) || c.busySlots.contains(orSlot);
-    final error = c.slotErrors[slot] ?? c.slotErrors[orSlot];
-    final notes = [...?c.slotNotes[slot], ...?c.slotNotes[orSlot]];
+    final (key, orKey) = (c.slotKey(slot), c.slotKey(orSlot));
+    final busy = c.busySlots.contains(key) || c.busySlots.contains(orKey);
+    final error = c.slotErrors[key] ?? c.slotErrors[orKey];
+    final notes = [...?c.slotNotes[key], ...?c.slotNotes[orKey]];
     return Card(
       key: ValueKey('question-$slot'),
       margin: const EdgeInsets.symmetric(vertical: 4),
@@ -162,43 +170,42 @@ class _QuestionCard extends StatelessWidget {
               padding: const EdgeInsets.only(top: 4),
               child: Text(error, style: TextStyle(color: theme.colorScheme.error)),
             ),
-          if (editable)
-            Wrap(spacing: 4, crossAxisAlignment: WrapCrossAlignment.center, children: [
-              if (busy) const Padding(
-                padding: EdgeInsets.all(12),
-                child: SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)),
-              ),
-              TextButton.icon(
-                onPressed: busy ? null : () => c.swap(slot),
-                icon: const Icon(Icons.swap_horiz),
-                label: const Text('Swap'),
+          Wrap(spacing: 4, crossAxisAlignment: WrapCrossAlignment.center, children: [
+            if (busy) const Padding(
+              padding: EdgeInsets.all(12),
+              child: SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)),
+            ),
+            TextButton.icon(
+              onPressed: busy ? null : () => c.swap(slot),
+              icon: const Icon(Icons.swap_horiz),
+              label: const Text('Swap'),
+              style: TextButton.styleFrom(minimumSize: const Size(0, 44)),
+            ),
+            TextButton.icon(
+              onPressed: busy ? null : () => _pick(context, slot),
+              icon: const Icon(Icons.manage_search),
+              label: const Text('Pick'),
+              style: TextButton.styleFrom(minimumSize: const Size(0, 44)),
+            ),
+            TextButton.icon(
+              onPressed: busy ? null : () => _remove(context, slot),
+              icon: const Icon(Icons.remove_circle_outline),
+              label: const Text('Remove'),
+              style: TextButton.styleFrom(minimumSize: const Size(0, 44)),
+            ),
+            if (q.internalChoiceText != null) ...[
+              TextButton(
+                onPressed: busy ? null : () => c.swap(orSlot),
                 style: TextButton.styleFrom(minimumSize: const Size(0, 44)),
+                child: const Text('Swap OR'),
               ),
-              TextButton.icon(
-                onPressed: busy ? null : () => _pick(context, slot),
-                icon: const Icon(Icons.manage_search),
-                label: const Text('Pick'),
+              TextButton(
+                onPressed: busy ? null : () => _remove(context, orSlot),
                 style: TextButton.styleFrom(minimumSize: const Size(0, 44)),
+                child: const Text('Remove OR'),
               ),
-              TextButton.icon(
-                onPressed: busy ? null : () => _remove(context, slot),
-                icon: const Icon(Icons.remove_circle_outline),
-                label: const Text('Remove'),
-                style: TextButton.styleFrom(minimumSize: const Size(0, 44)),
-              ),
-              if (q.internalChoiceText != null) ...[
-                TextButton(
-                  onPressed: busy ? null : () => c.swap(orSlot),
-                  style: TextButton.styleFrom(minimumSize: const Size(0, 44)),
-                  child: const Text('Swap OR'),
-                ),
-                TextButton(
-                  onPressed: busy ? null : () => _remove(context, orSlot),
-                  style: TextButton.styleFrom(minimumSize: const Size(0, 44)),
-                  child: const Text('Remove OR'),
-                ),
-              ],
-            ]),
+            ],
+          ]),
         ]),
       ),
     );
@@ -210,9 +217,10 @@ class _QuestionCard extends StatelessWidget {
     final alternative = slot.endsWith('_OR');
     final what = alternative
         ? 'Q${q.displayNumber} will print without its OR choice.'
-        : 'The paper drops to ${c.paperMarks - q.marks} marks'
+        : 'The paper drops to ${marksText(c.paperMarks - q.marks)}'
             '${q.internalChoiceText != null ? ', its OR choice goes with it,' : ''}'
-            ' and the questions after it are renumbered.';
+            ' and the questions after it are renumbered.'
+            '${c.setIds.length > 1 ? ' Every set loses its question in the same place.' : ''}';
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(

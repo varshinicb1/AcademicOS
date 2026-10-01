@@ -91,7 +91,7 @@ void main() {
       expect(find.text('Answer key (Set B) downloaded'), findsOneWidget);
       expectActionReady(tester, builderPrimary(), size, label: 'Download again');
       // The secondary actions on this step are phone-sized too.
-      for (final label in ['Open in my papers', 'Make another like this']) {
+      for (final label in ['Open in my papers', 'Make and save another like this']) {
         final button = find.ancestor(of: find.text(label), matching: find.byWidgetPredicate((w) => w is ButtonStyleButton));
         await scrollToAndExpectReady(tester, button, size, label: label);
       }

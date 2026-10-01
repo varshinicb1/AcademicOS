@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/constants/wording.dart';
 import '../paper_builder_controller.dart';
 
 /// Step 5: the paper is saved; download the paper and its answer key (every
@@ -24,7 +25,7 @@ class FinishStep extends StatelessWidget {
           Expanded(child: Text('Your paper is saved', style: theme.textTheme.titleMedium)),
         ]),
         const SizedBox(height: 4),
-        Text('${r.paper.metadata.assessmentTitle} · Class ${c.grade} ${c.subject} · ${c.paperMarks} marks'
+        Text('${r.paper.metadata.assessmentTitle} · Class ${c.grade} ${c.subject} · ${marksText(c.paperMarks)}'
             '${sets.length > 1 ? ' · Sets ${sets.join(', ')}' : ''}'),
         if (r.gaps.isNotEmpty)
           Padding(
@@ -71,11 +72,17 @@ class FinishStep extends StatelessWidget {
           style: OutlinedButton.styleFrom(minimumSize: const Size(0, 48)),
         ),
         const SizedBox(height: 8),
+        // It saves a second paper at once; the button says so (QA P-25).
         OutlinedButton.icon(
           onPressed: c.generating ? null : c.makeAnother,
           icon: const Icon(Icons.replay),
-          label: const Text('Make another like this'),
+          label: const Text('Make and save another like this'),
           style: OutlinedButton.styleFrom(minimumSize: const Size(0, 48)),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 4),
+          child: Text('A second paper, saved now: the same template and chapters, with other questions.',
+              style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
         ),
         const SizedBox(height: 8),
         TextButton(
