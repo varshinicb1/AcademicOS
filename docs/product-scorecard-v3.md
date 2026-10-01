@@ -91,3 +91,4 @@ Record each audit under `docs/audits/` and log it below, with its date, commit, 
 |---|---|---|---|
 | 2026-09-30 | `e3a64de` | **40.0** (QB 6.15, EX 7.92, SCH 6.67, TA 5.00, SA 3.13, ADM 4.72, API 2.71, NTF/INT 1.88, NFR 1.88) | [`audits/2026-09-30-e3a64de-v3.md`](audits/2026-09-30-e3a64de-v3.md): the v3 baseline |
 | 2026-10-01 | `9f5c41d` | **42.1** (QB 6.15, EX 8.75, SCH 6.67, TA 5.00, SA 3.13, ADM 5.83, API 2.71, NTF/INT 2.03, NFR 1.88) | [`audits/2026-10-01-9f5c41d-v3.md`](audits/2026-10-01-9f5c41d-v3.md): incremental; EX-6, EX-7, ROLE-1, ROLE-3, ADM-5, NTF-3 moved |
+| 2026-10-01 | `9f5c41d` | **43.7** (QB 6.15, EX 8.75, SCH 7.08, TA 5.00, SA 4.06, ADM 5.83, API 2.71, NTF/INT 2.03, NFR 2.03) | [`audits/2026-10-01-9f5c41d-v3-full.md`](audits/2026-10-01-9f5c41d-v3-full.md): full re-audit of every hold; adds SCH-9, SA-3, SA-5, SA-6, NFR-8 |
