@@ -81,7 +81,7 @@ class _StudentReportCardPageState extends State<StudentReportCardPage> {
                 ]),
                 const Gap(4),
                 for (final p in (s['papers'] as List).cast<Map>())
-                  Text('${p['examTypeLabel']}: ${p['absent'] == true ? tr('absent') : _n(p['obtained'])}/${p['maximum']}',
+                  Text('${p['examTypeLabel']}: ${p['absent'] == true ? tr('absent') : p['incomplete'] == true ? tr('incomplete') : _n(p['obtained'])}/${p['maximum']}',
                       style: theme.textTheme.bodySmall),
               ])),
             const Gap(8),

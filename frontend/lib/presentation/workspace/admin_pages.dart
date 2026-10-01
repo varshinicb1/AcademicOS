@@ -346,6 +346,35 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
     ].join();
   }
 
+  /// The key's requests per minute over the last few minutes, the same count
+  /// its quota is enforced on (`GET /api-keys/{id}/usage`).
+  Future<void> _showUsage(Map<String, dynamic> k) async {
+    List<Map<String, dynamic>> rows;
+    try {
+      rows = await Ops.list('/api-keys/${k['id']}/usage');
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e')));
+      return;
+    }
+    if (!mounted) return;
+    final total = rows.fold<int>(0, (s, r) => s + (r['count'] as num).toInt());
+    await showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('${k['label']} · usage'),
+        content: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(rows.isEmpty
+              ? 'No requests in the last few minutes. Last used ${k['lastUsedAt'] ?? 'never'}.'
+              : '$total requests in the last few minutes; the quota is ${k['quotaPerMinute']} a minute.'),
+          const SizedBox(height: 8),
+          for (final r in rows) Text('${r['windowStart']}: ${r['count']}'),
+        ]),
+        actions: [TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Close'))],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -363,9 +392,11 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
           return ListView(padding: const EdgeInsets.all(16), children: [
             for (final k in snap.data!)
               ListTile(
+                // N-67-10: the principal sees what a key is used for, not only that it exists.
+                onTap: () => _showUsage(k),
                 title: Text('${k['label']} · ${k['prefix']}…'),
                 subtitle: Text('${(k['scopes'] as List).join(', ')}${_limitsText(k)} · '
-                    'last used ${k['lastUsedAt'] ?? 'never'}'),
+                    'last used ${k['lastUsedAt'] ?? 'never'} · tap for usage'),
                 trailing: k['active'] == true
                     ? TextButton(
                         onPressed: () async {

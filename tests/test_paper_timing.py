@@ -212,3 +212,60 @@ def test_no_route_writes_a_generation_action_the_report_does_not_read():
     assert written == set(pt.GENERATION_ACTIONS), (
         f"routes write {sorted(written)}, the report reads "
         f"{sorted(pt.GENERATION_ACTIONS)}")
+
+
+# --- a paper counts once, and only while it exists ---------------------------
+#
+# D42 (audits 2026-09-27 to 2026-10-01): every press of Generate counted as a
+# paper set and a full baseline saved. Generate pressed again on the same
+# choices made the same questions under a second paper id and counted twice,
+# a regeneration on the same assessment counted the paper it replaced, and a
+# deleted paper still counted.
+
+def _asm(aid, paper_id, questions=("q1", "q2"), teacher="u1", subject="Science", grade=10):
+    from types import SimpleNamespace
+    return SimpleNamespace(id=aid, teacher_id=teacher, subject=subject, grade=grade,
+                           generated_paper_id=paper_id, selected_question_ids=list(questions))
+
+
+def test_each_paper_that_still_exists_counts_once(data_root):
+    _append(data_root, "template_paper_generated", paper_id="t1", seconds=2.0)
+    _append(data_root, "template_paper_generated", paper_id="t2", seconds=2.0)    # pressed again
+    _append(data_root, "template_paper_generated", paper_id="t3", seconds=9.0)    # deleted since
+    _append(data_root, "id_curated_paper_generated", paper_id="h1", seconds=30.0)  # replaced by h2
+    _append(data_root, "id_curated_paper_generated", paper_id="h2", seconds=6.0)
+    # a1 and a2 hold the same questions (Generate pressed twice); t3's
+    # assessment is gone; a4 now holds h2, not h1.
+    kept = pt.kept_papers([_asm("a1", "t1"), _asm("a2", "t2"), _asm("a4", "h2", questions=("q7",)),
+                           _asm("a5", None)])
+    rep = pt.report(data_root, school_id="s1", kept=kept)
+    assert rep.papers == 2
+    assert rep.papers_by_path == {"builder": 1, "hand-picked": 1}
+    # Generation time is per counted paper: 2 s and 6 s, not every press.
+    assert rep.median_generation_seconds == 4.0 and rep.total_generation_seconds == 8.0
+    assert rep.estimated_minutes_saved_total == pytest.approx(2 * rep.estimated_minutes_saved_per_paper)
+    assert "DECLARED, not measured" in rep.as_dict()["caveat"], "still labelled an estimate"
+
+
+def test_the_same_questions_are_another_paper_for_another_teacher_or_class(data_root):
+    for pid in ("t1", "t2", "t3"):
+        _append(data_root, "template_paper_generated", paper_id=pid)
+    kept = pt.kept_papers([_asm("a1", "t1"), _asm("a2", "t2", teacher="u2"), _asm("a3", "t3", grade=9)])
+    assert pt.report(data_root, school_id="s1", kept=kept).papers == 3
+
+
+def test_every_report_the_routes_give_counts_kept_papers_only():
+    """Without `kept` the report counts every recorded generation (no store
+    to check against): each caller in src/ must pass it."""
+    import re
+    calls = []
+    for path in (REPO / "src" / "academicos").rglob("*.py"):
+        text = path.read_text(encoding="utf-8")
+        for m in re.finditer(r"paper_timing\.report\(", text):
+            depth, i = 1, m.end()
+            while depth:
+                depth += {"(": 1, ")": -1}.get(text[i], 0)
+                i += 1
+            calls.append((path.name, text[m.end():i]))
+    assert calls, "found no caller at all; the scan is broken"
+    assert all("kept=" in args for _, args in calls), [name for name, args in calls if "kept=" not in args]

@@ -1291,7 +1291,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 children: [
                   Text('School-Wide Master Calendar', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
                   const Gap(2),
-                  Text('Master schedule of all lessons across all subjects and grades (§11-14).',
+                  Text('Master schedule of all lessons across all subjects and grades.',
                       style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
                 ],
               ),

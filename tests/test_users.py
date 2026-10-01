@@ -228,3 +228,18 @@ def test_users_for_school_filters_by_role(store_no_key):
 
 def test_users_for_school_empty_school_returns_empty_list(store_no_key):
     assert store_no_key.users_for_school("nobody_here") == []
+
+
+def test_a_key_stored_with_a_trailing_newline_accepts_the_key_as_typed(tmp_path):
+    """The live secret was saved as "<key>\n" and the web trims the field, so
+    every first-principal registration on live was a 403 (2026-10-01)."""
+    s = UserStore(tmp_path / "users.sqlite", principal_bootstrap_key="the-real-secret\n")
+    try:
+        user = _bootstrap(s, key="  the-real-secret ")
+        assert user.role == "principal" and user.school_id == "s1"
+        with pytest.raises(RegistrationRefused):
+            _bootstrap(s, school="s2", email="q@example.com", key="the-real-secre")
+        with pytest.raises(RegistrationRefused):
+            _bootstrap(s, school="s3", email="r@example.com", key="   ")
+    finally:
+        s.conn.close()

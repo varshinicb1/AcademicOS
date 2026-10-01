@@ -167,13 +167,16 @@ def test_the_chapter_view_reaches_every_question_the_class_serves(
 #     merge rebuilds from the sources. Lowered to the measured counts on the
 #     owner's rule: only where the bank holds fewer questions that are all
 #     answerable.
+#   * the extraction repair (2026-10-01): cbe:q:Maths10AS8 is refused as
+#     `value-missing` ("(Using π= )", and its key's Rs 8800 contradicts the
+#     stem's Rs 50 a metre). It carried a tag: Mathematics 10, 306 -> 305.
 # The second kind is the one to be careful with: a net that barely moves can
 # hide a large two-way churn, so a rebuild that shifts these wants a
 # per-record diff (id, old tag, new tag, method), not just a total.
 
 TAG_FLOOR = {
     ("Mathematics", 6): 213, ("Mathematics", 7): 189, ("Mathematics", 8): 491,
-    ("Mathematics", 9): 73, ("Mathematics", 10): 306,
+    ("Mathematics", 9): 73, ("Mathematics", 10): 305,
     ("Science", 6): 105, ("Science", 7): 127, ("Science", 8): 75,
     ("Science", 9): 270, ("Science", 10): 397,
 }
@@ -228,7 +231,7 @@ FILED_FLOOR = {
     # web pool serves every record of the bank, so the view files every tag
     # (Science 10 files 4 more through chapterIds the syllabus knows).
     ("Mathematics", 6): 213, ("Mathematics", 7): 189, ("Mathematics", 8): 491,
-    ("Mathematics", 9): 73, ("Mathematics", 10): 306,
+    ("Mathematics", 9): 73, ("Mathematics", 10): 305,
     ("Science", 6): 105, ("Science", 7): 127, ("Science", 8): 75,
     ("Science", 9): 270, ("Science", 10): 401,
 }

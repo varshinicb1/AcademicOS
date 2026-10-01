@@ -141,3 +141,28 @@ def test_a_day_in_no_term_asks_for_the_term(rc, monkeypatch):
     r = _card(rc, rc.p)
     assert r.status_code == 409 and "termId" in r.json()["detail"]
     assert _card(rc, rc.p, termId=rc.term).status_code == 200
+
+
+def test_a_paper_with_only_some_marks_entered_is_incomplete_and_counts_for_neither_side(rc, tmp_path):
+    """v3 audit N-2-10: a paper whose marks were only partly entered was
+    totalled over the whole paper and graded, as on the marks grid. It reads
+    "incomplete" and, like an absence, counts for neither side."""
+    import fitz
+    from academicos.assessment import routes as ar
+    from academicos.operations.routes import store as ops
+    part = _paper("p_part", "Science", 10, "periodic", "2026-07-15", [10, 10, 10])
+    ar._require_papers().save(part, school_id="school_1")
+    ops().save_marks(part.id, [(rc.ids["s1"], "p_part_q0", 2)], absent=[], present=[], entered_by="teacher")
+    card = _card(rc, rc.p).json()
+    sci = {s["subject"]: s for s in card["subjects"]}["Science"]
+    [line] = [p for p in sci["papers"] if p["paperId"] == "p_part"]
+    assert (line["incomplete"], line["absent"], line["obtained"], line["maximum"]) == (True, False, None, 30)
+    assert all(p["incomplete"] is False for p in sci["papers"] if p["paperId"] != "p_part")
+    assert (sci["obtained"], sci["maximum"], sci["percent"], sci["band"]) == (38.0, 50, 76.0, "B1"), \
+        "2 of 30 is not a 6.7% paper"
+    assert (card["obtained"], card["maximum"], card["band"]) == (56.0, 70, "B1")
+    r = rc.c.get(f"/api/v1/report-cards/students/{rc.ids['s1']}/pdf", headers=rc.p)
+    (tmp_path / "p.pdf").write_bytes(r.content)
+    with fitz.open(str(tmp_path / "p.pdf")) as doc:
+        text = doc[0].get_text()
+    assert "Periodic test: incomplete/30" in text and "38/50" in text

@@ -115,6 +115,10 @@ void main() {
     expect(find.textContaining('1 changed'), findsOneWidget);
     expect(find.text('Partly'), findsOneWidget);
     expect(find.text('Covering'), findsOneWidget);
+    // The lesson's buttons sit under it: on a 390 px phone the title keeps the
+    // row's width instead of wrapping one word a line beside three buttons.
+    final title = tester.getSize(find.textContaining('Concave mirrors').first);
+    expect(title.width, greaterThan(250));
   });
 
   testWidgets('Leave for today in three taps (TA-3)', (tester) async {

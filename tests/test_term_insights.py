@@ -305,3 +305,44 @@ def test_an_existing_terms_table_gains_the_baseline_column(tmp_path):
     conn.close()
     store = CurriculumStore(db)
     assert store.get_term("term_old").manual_baseline_minutes is None
+
+
+def test_a_paper_counts_once_and_only_while_it_exists(tmp_path, monkeypatch, seeded):
+    """D42: Generate pressed again on the same choices made the same paper
+    under a second id and both counted, a regeneration on one assessment
+    counted the paper it replaced, and a deleted paper still counted. The
+    term report's time saved reads the same figures."""
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal, teacher = _users(client)
+        store, year = _school(tmp_path)
+        _term(store, year)
+        tid = client.post(BASE, json={
+            "name": "Unit test", "grade": 10, "subject": "Science", "examType": "unit_test",
+            "totalMarks": 8, "durationMinutes": 40,
+            "sections": [{"title": "Section A", "questionCount": 2, "marksEach": 1},
+                         {"title": "Section B", "questionCount": 2, "marksEach": 3}],
+            "scope": {"chapterIds": ["ch1"]}}, headers=teacher).json()["id"]
+        first, again = (client.post(GEN, json={"templateId": tid}, headers=teacher).json() for _ in range(2))
+        assert first["assessmentId"] != again["assessmentId"]
+        assert ([q["questionId"] for s in first["paper"]["sections"] for q in s["questions"]]
+                == [q["questionId"] for s in again["paper"]["sections"] for q in s["questions"]])
+        quick = client.post("/api/v1/papers/quick-generate", headers=teacher, json={
+            "subject": "Science", "grade": 10, "chapterIds": ["ch1"], "totalMarks": 20}).json()
+        assert client.delete(f"/api/v1/assessments/{quick['assessmentId']}", headers=teacher).status_code == 200
+        picked = client.post("/api/v1/papers/generate-from-ids", headers=teacher, json={
+            "subject": "Science", "grade": 10, "questionIds": ["o0", "o1"]}).json()
+        r = client.post("/api/v1/papers/generate-from-ids", headers=teacher, json={
+            "subject": "Science", "grade": 10, "questionIds": ["o2", "o3"],
+            "assessmentId": picked["assessmentId"]})
+        assert r.status_code == 200, r.text
+
+        body = client.get("/api/v1/paper-timing", headers=principal).json()
+        assert body["papers"] == 2, "5 presses, 2 papers that still exist"
+        assert body["papersByPath"] == {"builder": 1, "hand-picked": 1}
+        assert body["examCoverage"]["covered"] == [{"grade": 10, "subject": "Science", "papers": 2}]
+        assert body["estimatedMinutesSavedTotal"] == pytest.approx(2 * body["estimatedMinutesSavedPerPaper"], abs=0.1)
+        term = client.get("/api/v1/dashboard/term", headers=principal)
+        assert term.status_code == 200, term.text
+        saved = term.json()["timeSaved"]
+        assert saved["papers"] == 2 and saved["estimated"] is True
+        assert term.json()["exams"]["papersSet"] == 2
