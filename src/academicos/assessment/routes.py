@@ -582,23 +582,15 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
     )
     store.save(assessment)
 
-    get_audit_log(cfg.data_root).append(
-        "quick_paper_generated", assessment_id=asm_id,
-        details={
-            "paperId": paper.id,
-            "setCount": request.set_count,
-            "tier": tier,
-            "userId": current.id,
-            "schoolId": current.school_id,
-            # The class and subject the paper was set for: PRD 12.6's exam
-            # coverage counts papers per class and subject per term.
-            "subject": request.subject,
-            "grade": request.grade,
-            # MEASURED: how long the machine took. Decision 11 makes this the
-            # renewal criterion, and it was not recorded anywhere before.
-            "generationSeconds": round(time.perf_counter() - _started, 3),
-            "questionCount": len(paper.questions) if hasattr(paper, "questions") else 0,
-        },
+    # MEASURED: how long the machine took, with the baseline in force stored
+    # beside it (paper_timing.record_generation, the one writer).
+    paper_timing.record_generation(
+        "quick_paper_generated", data_root=cfg.data_root, school_id=current.school_id,
+        user_id=current.id, paper_id=paper.id, assessment_id=asm_id,
+        elapsed_seconds=time.perf_counter() - _started,
+        question_count=sum(len(s.questions) for s in paper.sections),
+        subject=request.subject, grade=request.grade,
+        details={"setCount": request.set_count, "tier": tier},
     )
     # After saving, like the other generate routes: about this request. Kept
     # alongside the optimizer/overlap/competency warnings set before the save.
@@ -720,20 +712,14 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(r
         )
         store.save(new_asm)
 
-    get_audit_log(cfg.data_root).append(
-        "id_curated_paper_generated", assessment_id=asm_id,
-        details={
-            "paperId": paper.id,
-            "questionCount": len(found_questions),
-            "userId": current.id,
-            "schoolId": current.school_id,
-            "subject": request.subject,
-            "grade": request.grade,
-            # MEASURED, same as quick generation. This route is the curated
-            # path, so a school using only it would otherwise report zero
-            # papers and conclude nothing was saved.
-            "generationSeconds": round(time.perf_counter() - _started_ids, 3),
-        },
+    # MEASURED, same as quick generation. This route is the curated path, so
+    # a school using only it would otherwise report zero papers and conclude
+    # nothing was saved.
+    paper_timing.record_generation(
+        "id_curated_paper_generated", data_root=cfg.data_root, school_id=current.school_id,
+        user_id=current.id, paper_id=paper.id, assessment_id=asm_id,
+        elapsed_seconds=time.perf_counter() - _started_ids,
+        question_count=len(found_questions), subject=request.subject, grade=request.grade,
     )
     # After saving: about this request, not the paper.
     paper.warnings, paper.similar_pairs = warnings, pairs

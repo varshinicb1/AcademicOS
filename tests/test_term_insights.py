@@ -346,3 +346,40 @@ def test_a_paper_counts_once_and_only_while_it_exists(tmp_path, monkeypatch, see
         saved = term.json()["timeSaved"]
         assert saved["papers"] == 2 and saved["estimated"] is True
         assert term.json()["exams"]["papersSet"] == 2
+
+
+def test_a_paper_keeps_the_baseline_in_force_when_it_was_made(tmp_path, monkeypatch, seeded):
+    """D51: no generation row carried `baselineMinutesAtRecordTime` (the
+    routes appended their rows directly; `record_generation` was dead code),
+    so raising a term's baseline rewrote the saving of every paper already
+    reported -- 13 papers went from 780 to 1,560 minutes. Each row now carries
+    the baseline in force, and the report reads it: a later change moves only
+    the papers made after it."""
+    from academicos.assessment.audit_log import get_audit_log
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal, teacher = _users(client)
+        store, year = _school(tmp_path)
+        term = _term(store, year)
+        assert client.put(BASELINE.format(term.id), json={"minutes": 60}, headers=principal).status_code == 200
+        _set_papers(client, teacher)
+        audit = get_audit_log(tmp_path)
+        for action in pt.GENERATION_ACTIONS:
+            details = audit.for_action(action)[0]["details"]
+            assert details["baselineMinutesAtRecordTime"] == 60, action
+            assert "Term 1" in details["baselineProvenanceAtRecordTime"], action
+
+        assert client.put(BASELINE.format(term.id), json={"minutes": 120}, headers=principal).status_code == 200
+        r = client.post("/api/v1/papers/generate-from-ids", headers=teacher, json={
+            "subject": "Science", "grade": 10, "questionIds": ["o2", "o3"]})
+        assert r.status_code == 200, r.text
+
+        body = client.get("/api/v1/paper-timing", headers=principal).json()
+        assert body["papers"] == 4
+        assert body["baselineMinutesPerPaper"] == 120          # what a paper made now gets
+        assert body["papersAtRecordedBaseline"] == 4
+        # Three papers at 60 and one at 120, less a second or so of generation.
+        assert body["estimatedMinutesSavedTotal"] == pytest.approx(3 * 60 + 120, abs=1)
+        saved = client.get("/api/v1/dashboard/term", headers=principal).json()["timeSaved"]
+        assert saved["minutesTotal"] == pytest.approx(3 * 60 + 120, abs=1)
+        science = client.get("/api/v1/dashboard/term?subject=Science&grade=10", headers=principal).json()
+        assert science["timeSaved"]["minutesTotal"] == pytest.approx(3 * 60 + 120, abs=1)

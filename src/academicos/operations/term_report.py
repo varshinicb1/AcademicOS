@@ -263,12 +263,16 @@ def _exams_and_time(current: User, year_id: str, scope: Scope, school: _School,
     not_yet = [ClassSubject(grade=c["grade"], subject=c["subject"]) for c in cov["notYet"]]
     papers = sum(c.papers for c in covered)
     filtered = f.grade is not None or f.subject is not None
+    # Each paper's own saving, against the baseline it was made under (D51),
+    # summed over the papers the filter keeps.
+    saved = sum(m for (g, s), m in rep.saved_by_class_subject.items() if f.keep(g, s))
     if not filtered:
         papers += cov["unattributed"]
+        saved += rep.saved_unattributed
     exams = Exams(scheduled=scheduled, papers_set=papers, covered=covered, not_yet=not_yet,
                   unattributed=0 if filtered else cov["unattributed"])
-    per = rep.estimated_minutes_saved_per_paper
-    time = TimeSaved(papers=papers, minutes_per_paper=round(per, 1), minutes_total=round(per * papers, 1),
+    per = saved / papers if papers else 0.0
+    time = TimeSaved(papers=papers, minutes_per_paper=round(per, 1), minutes_total=round(saved, 1),
                      baseline_minutes_per_paper=rep.baseline_minutes_per_paper,
                      baseline_provenance=rep.baseline_provenance)
     return exams, time

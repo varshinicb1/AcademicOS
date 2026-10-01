@@ -140,17 +140,70 @@ def test_the_timer_measures_something_real():
     assert timer.elapsed_seconds < 5.0        # sanity: not minutes
 
 
-def test_the_action_constant_matches_what_the_route_writes():
+def test_the_action_constant_matches_what_the_route_writes(data_root):
     """The writer and the reader must not drift apart.
 
-    `routes.py` appends this action with `generationSeconds` in the details; if
-    either changes alone, the report silently reports zero papers.
+    `routes.py` records this action through `record_generation`, which puts
+    `generationSeconds` in the details; if either changes alone, the report
+    silently reports zero papers.
     """
     source = (REPO / "src" / "academicos" / "assessment"
               / "routes.py").read_text(encoding="utf-8")
     assert '"quick_paper_generated"' in source
+    assert "paper_timing.record_generation(" in source
     assert pt.ACTION == "quick_paper_generated"
-    assert "generationSeconds" in source
+    pt.record_generation(data_root=data_root, school_id="s1", user_id="u1",
+                         paper_id="p1", elapsed_seconds=1.0)
+    from academicos.assessment.audit_log import get_audit_log
+    row = get_audit_log(data_root).for_action(pt.ACTION)[0]
+    assert row["details"]["generationSeconds"] == 1.0
+
+
+def test_an_action_the_report_does_not_read_is_refused(data_root):
+    with pytest.raises(ValueError, match="not a generation action"):
+        pt.record_generation("paper_made", data_root=data_root, school_id="s1",
+                             user_id="u1", paper_id="p1", elapsed_seconds=1.0)
+
+
+def test_every_route_records_its_generation_through_the_one_writer():
+    """D51: the routes appended their rows directly, so `record_generation`
+    -- the only writer that stored the baseline in force -- was dead code and
+    no row carried one. Each generation action is now written only there."""
+    import re
+    for path in (REPO / "src" / "academicos").rglob("*.py"):
+        if path.name == "paper_timing.py":
+            continue
+        text = path.read_text(encoding="utf-8")
+        for action in re.findall(r'"([a-z_]+_paper_generated)"', text):
+            assert re.search(r'record_generation\(\s*"' + action + '"', text), (path.name, action)
+
+
+# --- a paper keeps the baseline it was made under (D51) ----------------------
+#
+# Audit 2026-09-27: 0 generation rows carried `baselineMinutesAtRecordTime`,
+# and raising Term 1's baseline from 60 to 120 moved the same 13 papers from
+# 780 to 1,560 minutes saved -- a closed term's figure rewritten after the fact.
+
+def test_a_paper_keeps_the_baseline_it_was_made_under(monkeypatch, data_root):
+    monkeypatch.delenv(pt._ENV_KEY, raising=False)
+    pt.record_generation(data_root=data_root, school_id="s1", user_id="u1",
+                         paper_id="p1", elapsed_seconds=0.0)           # under 45
+    monkeypatch.setenv(pt._ENV_KEY, "90")
+    pt.record_generation(data_root=data_root, school_id="s1", user_id="u1",
+                         paper_id="p2", elapsed_seconds=0.0)           # under 90
+    rep = pt.report(data_root, school_id="s1", baseline=(120.0, "set by the principal for Term 1"))
+    assert rep.estimated_minutes_saved_total == 45.0 + 90.0
+    assert rep.papers_at_recorded_baseline == 2
+    # What a paper made now would be measured against.
+    assert rep.baseline_minutes_per_paper == 120.0
+    assert rep.as_dict()["papersAtRecordedBaseline"] == 2
+
+
+def test_a_row_from_before_rows_carried_a_baseline_takes_todays(data_root):
+    _append(data_root, "template_paper_generated", seconds=0.0)
+    rep = pt.report(data_root, school_id="s1", baseline=(60.0, "set by the principal for Term 1"))
+    assert rep.estimated_minutes_saved_total == 60.0
+    assert rep.papers_at_recorded_baseline == 0
 
 
 # --- every way the product makes a paper is counted -------------------------

@@ -27,7 +27,7 @@ from pydantic import Field
 
 from ..operations.question_reviews import bank_usable
 from ..config import Config
-from . import paper_edit
+from . import paper_edit, paper_timing
 from .audit_log import get_audit_log
 from .auth_routes import require_staff
 from .authz import require_own_school, require_school_owns_paper
@@ -472,12 +472,12 @@ def generate_from_template(
             "scope": template.scope.model_dump(by_alias=True, mode="json"),
             "fillFromOutsideScope": req.fill_from_outside_scope}},
     ))
-    get_audit_log(cfg.data_root).append(
-        "template_paper_generated", assessment_id=asm_id,
-        details={"paperId": paper.id, "templateId": template.id, "userId": current.id,
-                 "schoolId": current.school_id, "gaps": len(gaps),
-                 "subject": template.subject, "grade": template.grade,
-                 "generationSeconds": round(time.perf_counter() - started, 3)},
+    paper_timing.record_generation(
+        "template_paper_generated", data_root=cfg.data_root, school_id=current.school_id,
+        user_id=current.id, paper_id=paper.id, assessment_id=asm_id,
+        elapsed_seconds=time.perf_counter() - started,
+        question_count=len(selected), subject=template.subject, grade=template.grade,
+        details={"templateId": template.id, "gaps": len(gaps)},
     )
     return TemplatePaperResponse(paper=paper, assessment_id=asm_id, complete=not gaps,
                                  gaps=gaps, notes=notes, availability=report)

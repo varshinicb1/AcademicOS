@@ -133,6 +133,15 @@ class SavedTimeReport:
     # two always add up to `papers`.
     papers_by_class_subject: dict[tuple[int, str], int] = field(default_factory=dict)
     unattributed: int = 0
+    # The minutes saved on those papers, split the same way, so a report
+    # filtered to some classes adds up their own papers' savings -- each paper
+    # is measured against the baseline it was made under, so a per-paper
+    # average times a count is not their sum.
+    saved_by_class_subject: dict[tuple[int, str], float] = field(default_factory=dict)
+    saved_unattributed: float = 0.0
+    # How many of `papers` carry the baseline in force when they were made
+    # (the rest predate rows carrying one and use `baseline_minutes_per_paper`).
+    papers_at_recorded_baseline: int = 0
 
     def as_dict(self) -> dict:
         return {
@@ -140,8 +149,11 @@ class SavedTimeReport:
             "papersByPath": dict(self.papers_by_path),
             "medianGenerationSeconds": round(self.median_generation_seconds, 2),
             "totalGenerationSeconds": round(self.total_generation_seconds, 2),
+            # The baseline a paper made now is measured against. Each paper
+            # already made keeps the one in force when it was made.
             "baselineMinutesPerPaper": self.baseline_minutes_per_paper,
             "baselineProvenance": self.baseline_provenance,
+            "papersAtRecordedBaseline": self.papers_at_recorded_baseline,
             "estimatedMinutesSavedPerPaper": round(
                 self.estimated_minutes_saved_per_paper, 1),
             "estimatedMinutesSavedTotal": round(
@@ -178,30 +190,58 @@ def baseline_minutes() -> tuple[float, str]:
     return _DEFAULT_BASELINE_MINUTES, _DEFAULT_PROVENANCE
 
 
-def record_generation(*, data_root, school_id: str, user_id: str,
+def baseline_in_force(data_root, school_id: str) -> tuple[float, str]:
+    """The baseline a paper made now is measured against, and where it came
+    from: the principal's own for the term covering the school's today, else
+    the declared one. `record_generation` stores it on the paper's row."""
+    from ..curriculum.store import get_curriculum_store
+    term = get_curriculum_store(data_root).term_for_date(school_id, school_today())
+    if term is not None and term.manual_baseline_minutes is not None:
+        return float(term.manual_baseline_minutes), f"set by the principal for {term.name}"
+    return baseline_minutes()
+
+
+def record_generation(action: str = ACTION, *, data_root, school_id: str, user_id: str,
                       paper_id: str, elapsed_seconds: float,
                       question_count: int = 0,
-                      subject: str = "", grade: str = "") -> str | None:
-    """Append a timestamped generation record to the audit log.
+                      subject: str = "", grade: str | int = "",
+                      assessment_id: str | None = None,
+                      details: Mapping | None = None) -> str:
+    """Append a timestamped generation record to the audit log, under
+    `action` (one of GENERATION_ACTIONS). Every generation route writes its
+    row here, so each row carries the same measured and declared fields.
 
-    Returns the audit entry id, or None if the audit store is unavailable. A
-    missing audit store must NOT fail generation -- the paper is the thing the
-    user asked for, and measurement is secondary to it. The caller is expected
-    to log the miss; see the routes.
+    The baseline in force for the school when the paper was made
+    (`baseline_in_force`) is stored on the row, and the report reads it from
+    there: a principal raising the term's baseline later moves only the papers
+    made after the change, never the saving of papers already reported (D51:
+    the routes appended their rows directly and none carried it, so moving
+    Term 1's baseline from 60 to 120 rewrote the same 13 papers from 780 to
+    1,560 minutes).
+
+    `details` adds route-specific fields (template id, set count, ...).
+    Returns the audit entry id.
     """
+    if action not in GENERATION_ACTIONS:
+        raise ValueError(f"{action!r} is not a generation action the report reads")
     if elapsed_seconds < 0:
         raise ValueError(
             f"elapsed_seconds={elapsed_seconds} is negative; a duration cannot "
             "be. This is a caller bug, not a slow paper."
         )
     audit: AuditLog = get_audit_log(data_root)
-    baseline, _provenance = baseline_minutes()
+    baseline, provenance = baseline_in_force(data_root, school_id)
     return audit.append(
-        ACTION,
+        action,
+        assessment_id=assessment_id,
         actor=user_id,
         details={
+            **dict(details or {}),
             "paperId": paper_id,
+            "userId": user_id,
             "schoolId": school_id,
+            # The class and subject the paper was set for: PRD 12.6's exam
+            # coverage counts papers per class and subject per term.
             "subject": subject,
             "grade": grade,
             "questionCount": question_count,
@@ -210,8 +250,19 @@ def record_generation(*, data_root, school_id: str, user_id: str,
             # DECLARED, recorded alongside so a later baseline change does not
             # silently rewrite the history of what was reported.
             "baselineMinutesAtRecordTime": baseline,
+            "baselineProvenanceAtRecordTime": provenance,
         },
     )
+
+
+def recorded_baseline(details: Mapping) -> Optional[float]:
+    """The baseline stored on a generation row, or None for a row written
+    before rows carried one (or carrying something that is not a positive
+    number)."""
+    value = details.get("baselineMinutesAtRecordTime")
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or value <= 0:
+        return None
+    return float(value)
 
 
 def class_subject(grade, subject) -> Optional[tuple[int, str]]:
@@ -264,7 +315,10 @@ def report(data_root, *, school_id: str | None = None,
     returns (subject, class) for an entry written before generation recorded
     them; an entry neither can place is counted as unattributed. `baseline`
     is (minutes, where it came from) and replaces the deployment's declared
-    baseline, e.g. with the one the principal set for the term.
+    baseline, e.g. with the one the principal set for the term. A paper whose
+    row carries the baseline in force when it was made is measured against
+    that one (`record_generation`); `baseline` is for older rows, and is what
+    the report says a paper made now is measured against.
 
     `kept` (`kept_papers`) is the papers that still exist: only their
     generations count, and papers sharing a key count once, at their first
@@ -280,10 +334,14 @@ def report(data_root, *, school_id: str | None = None,
         # The most recent `limit` across every path, not the first path's.
         entries = entries[-limit:]
 
+    baseline, provenance = baseline if baseline is not None else baseline_minutes()
     elapsed: list[float] = []
     by_path: Counter[str] = Counter()
     by_pair: Counter[tuple[int, str]] = Counter()
+    saved_by_pair: dict[tuple[int, str], float] = {}
     unattributed = 0
+    saved_unattributed = 0.0
+    at_recorded = 0
     counted: set[Hashable] = set()
     for path, entry in entries:
         details = entry.get("details") or {}
@@ -302,16 +360,25 @@ def report(data_root, *, school_id: str | None = None,
                 counted.add(key)
             elapsed.append(float(value))
             by_path[path] += 1
+            # The baseline the paper was made under, where its row carries
+            # one (D51); a row from before rows did takes today's.
+            recorded = recorded_baseline(details)
+            at_recorded += recorded is not None
+            # Clamped at zero: a machine slower than a teacher by hand is not
+            # a saving, and reporting a negative one invites the reader to
+            # distrust the figure that IS real.
+            saved = max(0.0, (recorded if recorded is not None else baseline) - float(value) / 60.0)
             pair = class_subject(details.get("grade"), details.get("subject"))
             if pair is None and attribute is not None and entry.get("assessment_id"):
                 found = attribute(entry["assessment_id"])
                 pair = class_subject(found[1], found[0]) if found else None
             if pair is None:
                 unattributed += 1
+                saved_unattributed += saved
             else:
                 by_pair[pair] += 1
+                saved_by_pair[pair] = saved_by_pair.get(pair, 0.0) + saved
 
-    baseline, provenance = baseline if baseline is not None else baseline_minutes()
     if not elapsed:
         return SavedTimeReport(
             papers=0, median_generation_seconds=0.0, total_generation_seconds=0.0,
@@ -320,23 +387,21 @@ def report(data_root, *, school_id: str | None = None,
             estimated_minutes_saved_total=0.0,
         )
 
-    total = sum(elapsed)
-    median = statistics.median(elapsed)
-    per_paper = baseline - (median / 60.0)
+    saved_total = saved_unattributed + sum(saved_by_pair.values())
     return SavedTimeReport(
         papers=len(elapsed),
-        median_generation_seconds=median,
-        total_generation_seconds=total,
+        median_generation_seconds=statistics.median(elapsed),
+        total_generation_seconds=sum(elapsed),
         baseline_minutes_per_paper=baseline,
         baseline_provenance=provenance,
-        # Clamped at zero: a machine slower than a teacher by hand is not a
-        # saving, and reporting a negative one invites the reader to distrust
-        # the figure that IS real.
-        estimated_minutes_saved_per_paper=max(0.0, per_paper),
-        estimated_minutes_saved_total=max(0.0, per_paper) * len(elapsed),
+        estimated_minutes_saved_per_paper=saved_total / len(elapsed),
+        estimated_minutes_saved_total=saved_total,
         papers_by_path=dict(by_path),
         papers_by_class_subject=dict(by_pair),
         unattributed=unattributed,
+        saved_by_class_subject=saved_by_pair,
+        saved_unattributed=saved_unattributed,
+        papers_at_recorded_baseline=at_recorded,
     )
 
 
