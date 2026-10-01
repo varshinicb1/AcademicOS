@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
+import 'report_cards_page.dart';
 import 'student_pages.dart';
 import 'strings.dart';
 import 'package:academicos/core/theme/app_theme.dart';
@@ -78,6 +79,14 @@ class _ChildView extends StatelessWidget {
           subtitle: Text(child['sectionName'] != null ? 'Class ${child['sectionName']}' : 'Not placed in a class yet'),
           trailing: _ConsentChip(studentId: id, status: child['consent'] as String, onChanged: onChanged),
         ),
+        // EX-8: this term's report card.
+        Align(alignment: Alignment.centerLeft, child: TextButton.icon(
+          key: ValueKey('child-report-card-$id'),
+          onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(
+              builder: (_) => StudentReportCardPage(studentId: id, name: child['name'] as String))),
+          icon: const Icon(Icons.grading_outlined),
+          label: Text(tr('Report card')),
+        )),
         const TabBar(tabs: [Tab(text: 'Week'), Tab(text: 'Today'), Tab(text: 'Homework'), Tab(text: 'Progress')]),
         Expanded(child: TabBarView(children: [
           _Week(studentId: id),
