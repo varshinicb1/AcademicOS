@@ -1339,26 +1339,93 @@ def add_holiday(academic_year_id: str, req: AddHolidayRequest,
         raise HTTPException(404, "create a calendar for this academic year first")
     try:
         calendar_mod.validate_holiday(date_=req.date, end_date=req.end_date, kind=req.kind,
-                                      year_start=year.start_date, year_end=year.end_date)
+                                      year_start=year.start_date, year_end=year.end_date,
+                                      last_period=req.last_period, grades=req.grades,
+                                      timetable_weekday=req.timetable_weekday, calendar=cal,
+                                      year_grades={g.number for g in store.grades_for_year(academic_year_id)})
     except ValueError as e:
         raise HTTPException(422, str(e))
+    if req.kind == calendar_mod.WORKING_DAY and any(
+            h.kind == calendar_mod.WORKING_DAY and h.date == req.date for h in store.holidays_for_calendar(cal.id)):
+        raise HTTPException(409, f"{req.date} is already a working day on the calendar; remove it to change it")
     h, moved, not_moved = declare_holiday(store, year, cal, date=req.date, label=req.label, kind=req.kind,
-                                          end_date=req.end_date, principal=principal, move_lessons=req.move_lessons)
-    return HolidayResponse(id=h.id, calendar_id=h.calendar_id, date=h.date, label=h.label,
-                           kind=h.kind, end_date=h.end_date, lessons_moved=moved, not_moved=not_moved)
+                                          end_date=req.end_date, principal=principal, move_lessons=req.move_lessons,
+                                          last_period=req.last_period, grades=req.grades,
+                                          timetable_weekday=req.timetable_weekday)
+    return _holiday_response(h, lessons_moved=moved, not_moved=not_moved)
+
+
+def _holiday_response(h, **extra) -> HolidayResponse:
+    return HolidayResponse(id=h.id, calendar_id=h.calendar_id, date=h.date, label=h.label, kind=h.kind,
+                           end_date=h.end_date, last_period=h.last_period, grades=h.grades,
+                           timetable_weekday=h.timetable_weekday, **extra)
 
 
 def declare_holiday(store: CurriculumStore, year, cal, *, date: str, label: str, kind: str,
-                    end_date: Optional[str], principal: User, move_lessons: bool = True):
+                    end_date: Optional[str], principal: User, move_lessons: bool = True,
+                    last_period: Optional[int] = None, grades: Optional[list[int]] = None,
+                    timetable_weekday: Optional[int] = None):
     """Add a holiday and, unless it is an event that still teaches, move the
     lessons on it and tell the people affected. One path for the holiday
     route and the Excel/CSV import (N-8-6: the import used to add the day
     only, leaving lessons dated on it and telling no one). Returns (holiday,
-    lessons moved, plans not moved); the counts are None when nothing moved."""
-    h = store.add_holiday(calendar_id=cal.id, date=date, label=label, kind=kind, end_date=end_date)
-    moved, not_moved = (_move_lessons_off_holiday(store, year, h, principal)
-                        if move_lessons and h.kind != "event" else (None, None))
-    return h, moved, not_moved
+    lessons moved, plans not moved); the counts are None when nothing moved.
+
+    A day that runs differently (a half day, an exam window, a compensatory
+    working day: N-3-19) re-lays the plans it touches instead."""
+    h = store.add_holiday(calendar_id=cal.id, date=date, label=label, kind=kind, end_date=end_date,
+                          last_period=last_period, grades=grades, timetable_weekday=timetable_weekday)
+    if not move_lessons or h.kind == "event":
+        return h, None, None
+    if h.kind in calendar_mod.DAY_KINDS:
+        return (h, *_reflow_for_calendar_day(store, year, h, principal.id))
+    return (h, *_move_lessons_off_holiday(store, year, h, principal))
+
+
+_DAY_KIND_NAMES = {calendar_mod.HALF_DAY: "half day", calendar_mod.EXAM_WINDOW: "exam window",
+                   calendar_mod.WORKING_DAY: "working day"}
+
+
+def _reflow_for_calendar_day(store: CurriculumStore, year, day, actor_id: str, *,
+                             removed: bool = False) -> tuple[int, list[str]]:
+    """A half day, an exam window or a compensatory working day changes which
+    periods teach (N-3-19), so each plan it touches is laid again from the
+    day on, onto the periods that now happen (scheduling.reflow_plan, the
+    move a lost period makes): a lesson in a period a half day cuts, or in
+    an exam window of its class, moves to the plan's next period, and a
+    compensatory day takes the next lessons. Removing the day (`removed`)
+    lays them back. From the school's today on: a passed day is the record.
+    Returns (lessons moved, plans that could not be moved, named)."""
+    from ..assessment.audit_log import get_audit_log
+    first = max(day.date, _school_today().isoformat())
+    last = day.end_date or day.date
+    if first > last:
+        return 0, []
+    if removed or day.kind == calendar_mod.WORKING_DAY:
+        # Every plan with a lesson still ahead: the lessons after the day move.
+        plans = store._fetchall(
+            "SELECT DISTINCT book_id, section_id FROM scheduled_lessons WHERE academic_year_id=? "
+            "AND status='scheduled' AND date>=?", (year.id, first))
+    else:
+        plans = store._fetchall(
+            "SELECT DISTINCT book_id, section_id FROM scheduled_lessons WHERE academic_year_id=? "
+            "AND status='scheduled' AND date>=? AND date<=?", (year.id, first, last))
+    if day.kind == calendar_mod.EXAM_WINDOW and day.grades:
+        plans = [p for p in plans if calendar_mod.grade_number_for_book(store, p["book_id"]) in day.grades]
+    reason = f"{_DAY_KIND_NAMES[day.kind]}{' removed' if removed else ''}: {day.label}"
+    audit = get_audit_log(_cfg.data_root)
+    moved, not_moved = 0, []
+    for plan in plans:
+        try:
+            result = scheduling_mod.reflow_plan(store, audit, academic_year_id=year.id, book_id=plan["book_id"],
+                                                section_id=plan["section_id"], from_date=first, reason=reason,
+                                                changed_by=actor_id)
+        except ValueError as e:
+            book = store.get_book(plan["book_id"])
+            not_moved.append(f"{book.title if book else plan['book_id']}: {e}")
+            continue
+        moved += result.lessons_pushed
+    return moved, not_moved
 
 
 HOLIDAY_NOTICE_DAYS = 14
@@ -1447,6 +1514,9 @@ def delete_holiday(academic_year_id: str, holiday_id: str,
     if cal is None or h is None or h.calendar_id != cal.id:
         raise HTTPException(404, "holiday not found in this academic year's calendar")
     store.remove_holiday(holiday_id)
+    if h.kind in calendar_mod.DAY_KINDS:
+        # The plans were laid around the day (N-3-19): lay them back.
+        _reflow_for_calendar_day(store, store.get_academic_year(academic_year_id), h, principal.id, removed=True)
     return {"ok": True}
 
 
@@ -1458,9 +1528,7 @@ def list_holidays(academic_year_id: str,
     cal = store.get_calendar_for_year(academic_year_id)
     if cal is None:
         return []
-    return [HolidayResponse(id=h.id, calendar_id=h.calendar_id, date=h.date, label=h.label,
-                            kind=h.kind, end_date=h.end_date)
-            for h in store.holidays_for_calendar(cal.id)]
+    return [_holiday_response(h) for h in store.holidays_for_calendar(cal.id)]
 
 
 # ---------------- terms (PRD 12.6, section 0 decision 11) ----------------
@@ -1680,7 +1748,8 @@ def get_working_days(academic_year_id: str,
         academic_year_id=academic_year_id, total_days=result.total_days,
         working_days=result.working_days, weekly_off_count=result.weekly_off_count,
         alternate_saturday_off_count=result.alternate_saturday_off_count,
-        holiday_count=result.holiday_count, dates=list(result.dates))
+        holiday_count=result.holiday_count, dates=list(result.dates),
+        compensatory_count=result.compensatory_count)
 
 
 @router.post("/books/{book_id}/teaching-time-estimates", response_model=ComputeTeachingTimeResponse)

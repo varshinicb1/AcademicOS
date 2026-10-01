@@ -454,6 +454,11 @@ class CurriculumStore(SchoolModelMixin, CoverMixin, SchoolProfileMixin):
         cols = {r["name"] for r in self._fetchall("PRAGMA table_info(holidays)")}
         if "end_date" not in cols:
             self._exec("ALTER TABLE holidays ADD COLUMN end_date TEXT")
+        # N-3-19: half days, exam windows and compensatory working days are
+        # calendar rows too, each with its own field (models.Holiday).
+        for col, ddl in (("last_period", "INTEGER"), ("grades_json", "TEXT"), ("timetable_weekday", "INTEGER")):
+            if col not in cols:
+                self._exec(f"ALTER TABLE holidays ADD COLUMN {col} {ddl}")
         # Terms went live before a term carried its own paper baseline, so a
         # school's existing terms table needs the column added, not assumed.
         term_cols = {r["name"] for r in self._fetchall("PRAGMA table_info(terms)")}
@@ -1791,9 +1796,16 @@ class CurriculumStore(SchoolModelMixin, CoverMixin, SchoolProfileMixin):
         self._commit()
         return self.get_calendar_for_year(academic_year_id)
 
+    @staticmethod
+    def _holiday_from_row(r: dict) -> Holiday:
+        d = dict(r)
+        grades = d.pop("grades_json", None)
+        d["grades"] = json.loads(grades) if grades else None
+        return Holiday(**d)
+
     def get_holiday(self, holiday_id: str) -> Optional[Holiday]:
         r = self._fetchone("SELECT * FROM holidays WHERE id=?", (holiday_id,))
-        return Holiday(**dict(r)) if r else None
+        return self._holiday_from_row(r) if r else None
 
     def remove_holiday(self, holiday_id: str) -> None:
         with self._conn_lock:
@@ -1804,21 +1816,29 @@ class CurriculumStore(SchoolModelMixin, CoverMixin, SchoolProfileMixin):
         self._commit()
 
     def add_holiday(self, *, calendar_id: str, date: str, label: str, kind: str = "holiday",
-                    end_date: Optional[str] = None) -> Holiday:
+                    end_date: Optional[str] = None, last_period: Optional[int] = None,
+                    grades: Optional[list[int]] = None,
+                    timetable_weekday: Optional[int] = None) -> Holiday:
+        """A closure, an event, or a day that runs differently (a half day,
+        an exam window, a compensatory working day: calendar.DAY_KINDS).
+        calendar.validate_holiday checks the fields belong to the kind."""
         if end_date is not None and end_date < date:
             raise ValueError(f"holiday end_date {end_date} is before its date {date}")
         h = Holiday(id=new_id("holiday"), calendar_id=calendar_id, date=date, label=label,
-                   kind=kind, end_date=end_date)
+                    kind=kind, end_date=end_date, last_period=last_period,
+                    grades=sorted(set(grades)) if grades else None, timetable_weekday=timetable_weekday)
         self._exec(
-            "INSERT INTO holidays (id, calendar_id, date, label, kind, end_date) VALUES (?,?,?,?,?,?)",
-            (h.id, h.calendar_id, h.date, h.label, h.kind, h.end_date))
+            "INSERT INTO holidays (id, calendar_id, date, label, kind, end_date, last_period, grades_json, "
+            "timetable_weekday) VALUES (?,?,?,?,?,?,?,?,?)",
+            (h.id, h.calendar_id, h.date, h.label, h.kind, h.end_date, h.last_period,
+             json.dumps(h.grades) if h.grades else None, h.timetable_weekday))
         self._commit()
         return h
 
     def holidays_for_calendar(self, calendar_id: str) -> list[Holiday]:
         rows = self._fetchall(
             "SELECT * FROM holidays WHERE calendar_id=? ORDER BY date", (calendar_id,))
-        return [Holiday(**dict(r)) for r in rows]
+        return [self._holiday_from_row(r) for r in rows]
 
     # ---------------- teaching time estimates ----------------
 

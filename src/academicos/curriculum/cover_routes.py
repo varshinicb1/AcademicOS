@@ -512,7 +512,10 @@ def declare_closure(academic_year_id: str, req: ClosureRequest,
     holiday_added = False
     if req.add_holiday and only is None:
         cal = store.get_calendar_for_year(academic_year_id)
-        if cal is not None and not any(h.date == req.date for h in store.holidays_for_calendar(cal.id)):
+        from .calendar import CLOSURE_KINDS
+        # A half day or an exam window on the date does not close it (N-3-19).
+        if cal is not None and not any(h.date == req.date and h.kind in CLOSURE_KINDS
+                                       for h in store.holidays_for_calendar(cal.id)):
             store.add_holiday(calendar_id=cal.id, date=req.date, label=req.reason, kind="school")
             holiday_added = True
     reflowed = 0

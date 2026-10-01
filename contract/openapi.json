@@ -87,6 +87,20 @@
             ],
             "title": "Enddate"
           },
+          "grades": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grades"
+          },
           "kind": {
             "default": "holiday",
             "title": "Kind",
@@ -97,10 +111,32 @@
             "title": "Label",
             "type": "string"
           },
+          "lastPeriod": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastperiod"
+          },
           "moveLessons": {
             "default": true,
             "title": "Movelessons",
             "type": "boolean"
+          },
+          "timetableWeekday": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timetableweekday"
           }
         },
         "required": [
@@ -6407,6 +6443,20 @@
             ],
             "title": "Enddate"
           },
+          "grades": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grades"
+          },
           "id": {
             "title": "Id",
             "type": "string"
@@ -6418,6 +6468,17 @@
           "label": {
             "title": "Label",
             "type": "string"
+          },
+          "lastPeriod": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastperiod"
           },
           "lessonsMoved": {
             "anyOf": [
@@ -6443,6 +6504,17 @@
               }
             ],
             "title": "Notmoved"
+          },
+          "timetableWeekday": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timetableweekday"
           }
         },
         "required": [
@@ -17283,6 +17355,11 @@
             "title": "Alternatesaturdayoffcount",
             "type": "integer"
           },
+          "compensatoryCount": {
+            "default": 0,
+            "title": "Compensatorycount",
+            "type": "integer"
+          },
           "dates": {
             "items": {
               "type": "string"
@@ -27998,7 +28075,7 @@
     },
     "/api/v1/my-calendar": {
       "get": {
-        "description": "The caller's dated school events from today: holidays, cover and\ninvigilation duties, exam papers and homework due. The ICS feed carries\nthe same; the weekly periods are the timetable's, so they are left out.",
+        "description": "The caller's dated school events from today: holidays, half days,\nexam windows and compensatory working days (N-3-19), cover and\ninvigilation duties, exam papers and homework due. The ICS feed carries\nthe same; the weekly periods are the timetable's, so they are left out.",
         "operationId": "my_calendar_api_v1_my_calendar_get",
         "parameters": [
           {

@@ -377,6 +377,11 @@ def adjust_lesson(
     wd = working_days_for_year(store, lesson.academic_year_id)
     if new_date not in wd.dates:
         raise ValueError(f"{new_date} is not a real working day for this academic year")
+    window = calendar_mod.school_days(store, lesson.academic_year_id).exam_window(
+        new_date, calendar_mod.grade_number_for_book(store, lesson.book_id))
+    if window is not None:
+        # The school is open, but this class is not taught (N-3-19).
+        raise ValueError(f"{new_date} is in the exam window {window!r} for this class: nothing is taught then")
     occupants = [l for l in store.scheduled_lessons_for_book(lesson.academic_year_id, lesson.book_id,
                                                              lesson.section_id)
                  if l.date == new_date and l.id != lesson_id and l.status != "unscheduled"]

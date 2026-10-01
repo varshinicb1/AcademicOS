@@ -33,7 +33,10 @@ import json
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta, timezone
-from typing import Any, Callable, Optional
+from typing import TYPE_CHECKING, Any, Callable, Optional
+
+if TYPE_CHECKING:   # calendar imports the store, which imports this module
+    from .calendar import SchoolDays
 
 COVER_SCHEMA = """
 CREATE TABLE IF NOT EXISTS leave_requests (
@@ -248,14 +251,21 @@ class CoverMixin:
 
     # ---------------- helpers ----------------
 
-    def _exam_days(self, academic_year_id: str, on: Optional[str] = None) -> dict[str, ExamDay]:
-        """{date: ExamDay} over the year's published exam papers (only
-        `on`'s, when given). Every section of a paper's class sits it."""
+    def _exam_days(self, academic_year_id: str, on: Optional[str] = None,
+                   school_days: Optional[SchoolDays] = None) -> dict[str, ExamDay]:
+        """{date: ExamDay} over the year's published exam papers and the
+        calendar's exam windows (only `on`'s, when given). Every section of
+        a paper's class sits it. An exam window (N-3-19) stops its classes'
+        teaching all day, with or without a datesheet, so the day view, cover
+        and the plans treat it as they treat a paper; a paper inside a
+        window is named by the paper."""
+        if school_days is None:
+            school_days = self._school_days(academic_year_id)
+        windows = {d: w for d, w in school_days.exam_windows.items() if on is None or d == on}
         year = self.get_academic_year(academic_year_id) if self.exam_source else None
-        if year is None:
-            return {}
-        papers = [p for p in self.exam_source(year.school_id, academic_year_id) if on is None or p["date"] == on]
-        if not papers:
+        papers = [p for p in self.exam_source(year.school_id, academic_year_id)
+                  if on is None or p["date"] == on] if year is not None else []
+        if not papers and not windows:
             return {}
         by_grade = {g.number: [s.id for s in self.sections_for_grade(g.id)]
                     for g in self.grades_for_year(academic_year_id)}
@@ -268,10 +278,16 @@ class CoverMixin:
                 day.sitting.setdefault(sid, []).append((*span, label))
             for _, teacher in p["duties"]:
                 day.invigilating.setdefault(teacher, []).append(span)
+        for d, rows in windows.items():
+            for grades, label in rows:
+                sections = [sid for g, ids in by_grade.items() if grades is None or g in grades for sid in ids]
+                for sid in sections:
+                    days[d].sitting.setdefault(sid, []).append((0, 24 * 60, f"Exam window: {label}"))
         return dict(days)
 
-    def _exam_day(self, academic_year_id: str, on: str) -> ExamDay:
-        return self._exam_days(academic_year_id, on).get(on) or ExamDay()
+    def _exam_day(self, academic_year_id: str, on: str,
+                  school_days: Optional[SchoolDays] = None) -> ExamDay:
+        return self._exam_days(academic_year_id, on, school_days).get(on) or ExamDay()
 
     def _cover_times(self, section) -> dict[int, tuple[int, int]]:
         bell = self.bell_for_section(section)
@@ -279,12 +295,18 @@ class CoverMixin:
             return {}
         return {s.period: (_minutes(s.start), _minutes(s.end)) for s in bell.slots if s.kind == "teaching"}
 
-    def _working_dates(self, academic_year_id: str) -> set[str]:
-        from .calendar import working_days_for_year
+    def _school_days(self, academic_year_id: str) -> SchoolDays:
+        """How each day of the year runs (calendar.SchoolDays): a half day
+        cuts its later periods, a compensatory working day runs another
+        weekday's timetable (N-3-19). No calendar: no working day."""
+        from .calendar import SchoolDays, school_days
         try:
-            return set(working_days_for_year(self, academic_year_id).dates)
+            return school_days(self, academic_year_id)
         except ValueError:
-            return set()
+            return SchoolDays()
+
+    def _working_dates(self, academic_year_id: str) -> set[str]:
+        return set(self._school_days(academic_year_id).working)
 
     def _leave_from_row(self, r: dict) -> LeaveRequest:
         r = dict(r)
@@ -389,20 +411,21 @@ class CoverMixin:
         is there: they take the class. It needs a substitute only when both
         are away, whichever went on leave second. Nor does a period the class
         spends sitting an exam paper (v3 audit N-3-12)."""
-        working = self._working_dates(leave.academic_year_id)
+        days = self._school_days(leave.academic_year_id)
         own = [e for e in self.timetable_for_year(leave.academic_year_id)
                if leave.teacher_id in (e.teacher_id, e.co_teacher_id)]
         sections = {s.id: s for s in self.sections_for_year(leave.academic_year_id)}
-        exam_days = self._exam_days(leave.academic_year_id) if own else {}
+        exam_days = self._exam_days(leave.academic_year_id, school_days=days) if own else {}
         out = []
         for d in _dates(leave.start_date, leave.end_date):
-            if d not in working:
+            if d not in days.working:
                 continue
-            wd = date.fromisoformat(d).weekday()
+            wd = days.weekday(d)
             exams = exam_days.get(d) or ExamDay()
             for e in own:
                 sec = sections.get(e.section_id)
-                if sec is None or e.day_of_week != wd or not self._leave_covers(leave, sec, e.period):
+                if sec is None or e.day_of_week != wd or not days.keeps(d, e.period) \
+                        or not self._leave_covers(leave, sec, e.period):
                     continue
                 if exams.sits(sec.id, self._cover_times(sec).get(e.period)):
                     continue
@@ -487,12 +510,13 @@ class CoverMixin:
         cancelled, or marked present), the period has a teacher again: its
         substitution, opened under the other teacher's leave, is cancelled."""
         sections = {s.id: s for s in self.sections_for_year(leave.academic_year_id)}
+        days = self._school_days(leave.academic_year_id)
         entries = {(e.section_id, e.day_of_week, e.period): e for e in self.timetable_for_year(leave.academic_year_id)
                    if e.co_teacher_id}
         for sub in self._subs_where("academic_year_id=? AND date>=? AND date>=? AND date<=? "
                                     "AND status IN ('open','proposed','accepted') AND leave_id<>?",
                                     (leave.academic_year_id, today, leave.start_date, leave.end_date, leave.id)):
-            e = entries.get((sub.section_id, date.fromisoformat(sub.date).weekday(), sub.period))
+            e = entries.get((sub.section_id, days.weekday(sub.date), sub.period))
             sec = sections.get(sub.section_id)
             if e is None or sec is None or leave.teacher_id not in (e.teacher_id, e.co_teacher_id):
                 continue
@@ -567,18 +591,24 @@ class CoverMixin:
 
     def _busy_spans(self, teacher_id: str, on: str, academic_year_id: str,
                     sections: dict, exclude_sub: Optional[str] = None,
-                    exams: Optional[ExamDay] = None) -> list[tuple[int, int]]:
+                    exams: Optional[ExamDay] = None,
+                    school_days: Optional[SchoolDays] = None) -> list[tuple[int, int]]:
         """Clock spans a teacher is busy on a date: their own periods (if
-        not on leave then, and not while that class sits an exam paper),
-        substitution duties, make-up periods and invigilation duties. An
-        invigilator was proposed as a substitute during their own paper
-        (v3 audit N-3-12). `exams` is that day's, when the caller has it."""
+        not on leave then, and not while that class sits an exam paper or is
+        in an exam window), substitution duties, make-up periods and
+        invigilation duties. An invigilator was proposed as a substitute
+        during their own paper (v3 audit N-3-12). `exams` and `school_days`
+        are the caller's, when it has them. A period a half day cuts is not
+        held; a compensatory day runs its weekday's periods (N-3-19)."""
+        if school_days is None:
+            school_days = self._school_days(academic_year_id)
         if exams is None:
-            exams = self._exam_day(academic_year_id, on)
-        wd = date.fromisoformat(on).weekday()
+            exams = self._exam_day(academic_year_id, on, school_days)
+        wd = school_days.weekday(on)
         spans = list(exams.invigilating.get(teacher_id, ()))
         for e in self.timetable_for_year(academic_year_id):
-            if teacher_id not in (e.teacher_id, e.co_teacher_id) or e.day_of_week != wd:
+            if teacher_id not in (e.teacher_id, e.co_teacher_id) or e.day_of_week != wd \
+                    or not school_days.keeps(on, e.period):
                 continue
             sec = sections.get(e.section_id)
             if sec is None or self._on_leave(teacher_id, on, sec, e.period):
@@ -641,14 +671,16 @@ class CoverMixin:
         no_class = [t for t in dict.fromkeys(self.staff_source(sub.school_id) if self.staff_source else [])
                     if t not in teaches]
         last_resort = set(no_class)
-        exams = self._exam_day(sub.academic_year_id, sub.date)
+        days = self._school_days(sub.academic_year_id)
+        exams = self._exam_day(sub.academic_year_id, sub.date, days)
         out: list[Candidate] = []
         for t in [*teaches, *no_class]:
             if t == sub.absent_teacher_id:
                 continue
             if self._on_leave(t, sub.date, section, sub.period):
                 continue
-            spans = self._busy_spans(t, sub.date, sub.academic_year_id, sections, exclude_sub=sub.id, exams=exams)
+            spans = self._busy_spans(t, sub.date, sub.academic_year_id, sections, exclude_sub=sub.id, exams=exams,
+                                     school_days=days)
             if any(s < slot[1] and slot[0] < e for s, e in spans):
                 continue
             if len(spans) >= MAX_PER_DAY:
@@ -847,7 +879,10 @@ class CoverMixin:
             raise KeyError(academic_year_id)
         if not year.start_date <= on <= year.end_date:
             raise CoverError("the date is outside this academic year")
-        wd = date.fromisoformat(on).weekday()
+        days = self._school_days(academic_year_id)
+        wd = days.weekday(on)
+        exams = self._exam_day(academic_year_id, on, days)
+        sections = {s.id: s for s in self.sections_for_year(academic_year_id)}
         out = []
         with self._conn_lock:
             # The day's cover is cancelled below. A period someone was only
@@ -858,9 +893,15 @@ class CoverMixin:
                 if section_ids is None or sub.section_id in section_ids:
                     self._clear_lost(sub, replan=False)
             for e in self.timetable_for_year(academic_year_id):
-                if e.day_of_week != wd:
+                if e.day_of_week != wd or not days.keeps(on, e.period):
                     continue
                 if section_ids is not None and e.section_id not in section_ids:
+                    continue
+                # A period the class spends sitting an exam, or in an exam
+                # window, was not going to be taught: closing the day loses
+                # nothing there (N-3-19).
+                sec = sections.get(e.section_id)
+                if sec is not None and exams.sits(e.section_id, self._cover_times(sec).get(e.period)):
                     continue
                 if self._lost_where("date=? AND section_id=? AND period=?", (on, e.section_id, e.period)):
                     continue
@@ -892,25 +933,26 @@ class CoverMixin:
         times = self._cover_times(section)
         alloc = self.allocation_for(lp.section_id, lp.subject_id)
         teacher = alloc.teacher_id if alloc else None
-        working = self._working_dates(lp.academic_year_id)
+        days = self._school_days(lp.academic_year_id)
         start = max(date.fromisoformat(today), date.fromisoformat(lp.date) + timedelta(days=1))
         section_week = [e for e in self.timetable_for_section(lp.section_id)]
-        exam_days = self._exam_days(lp.academic_year_id)
+        exam_days = self._exam_days(lp.academic_year_id, school_days=days)
         out = []
         for i in range(days_ahead):
             d = (start + timedelta(days=i)).isoformat()
-            if d not in working:
+            if d not in days.working:
                 continue
-            wd = date.fromisoformat(d).weekday()
+            wd = days.weekday(d)
             exams = exam_days.get(d) or ExamDay()
             taken = {e.period for e in section_week if e.day_of_week == wd}
             taken |= {x.compensation_period for x in self._lost_where(
                 "section_id=? AND compensation_date=? AND status='compensated'", (lp.section_id, d))}
-            busy = self._busy_spans(teacher, d, lp.academic_year_id, sections, exams=exams) if teacher else []
+            busy = self._busy_spans(teacher, d, lp.academic_year_id, sections, exams=exams,
+                                    school_days=days) if teacher else []
             if teacher and len(busy) >= MAX_PER_DAY:
                 continue
             for p, (s, e) in sorted(times.items()):
-                if p in taken or exams.sits(section.id, (s, e)):
+                if p in taken or not days.keeps(d, p) or exams.sits(section.id, (s, e)):
                     continue
                 if teacher and (self._on_leave(teacher, d, section, p) or any(bs < e and s < be for bs, be in busy)):
                     continue
@@ -967,16 +1009,20 @@ class CoverMixin:
             return Counter(), Counter()
         lost = self._lost_where("academic_year_id=? AND section_id=? AND subject_id=?",
                                 (academic_year_id, section_id, subject_id))
-        held = {(l.date, l.period) for l in lost}
+        days = self._school_days(academic_year_id)
+        # A lost period a half day has since cut was not going to be held:
+        # it takes no other period off the day (N-3-19).
+        held = {(l.date, l.period) for l in lost if days.keeps(l.date, l.period)}
         extra = Counter(l.compensation_date for l in lost if l.status == "compensated" and l.compensation_date)
-        exam_days = self._exam_days(academic_year_id)
+        exam_days = self._exam_days(academic_year_id, school_days=days)
         if exam_days:
             times = self._cover_times(section)
             week = [e for e in self.timetable_for_section(section_id) if e.subject_id == subject_id]
             for d, exams in exam_days.items():
-                wd = date.fromisoformat(d).weekday()
+                wd = days.weekday(d)
                 held |= {(d, e.period) for e in week
-                         if e.day_of_week == wd and exams.sits(section_id, times.get(e.period))}
+                         if e.day_of_week == wd and days.keeps(d, e.period)
+                         and exams.sits(section_id, times.get(e.period))}
         return Counter(d for d, _ in held), extra
 
     # ---------------- the day (what actually happens) ----------------
@@ -997,18 +1043,19 @@ class CoverMixin:
         A period the class spends sitting a published exam paper is kind
         'exam', with no teacher: it is not taught. Until the v3 audit
         (N-3-12) grade 10's day showed regular teaching through its paper."""
-        if on not in self._working_dates(academic_year_id):
+        days = self._school_days(academic_year_id)
+        if on not in days.working:
             return []
-        wd = date.fromisoformat(on).weekday()
+        wd = days.weekday(on)
         sections = {s.id: s for s in self.sections_for_year(academic_year_id)}
         subs = {(s.section_id, s.period): s for s in self._subs_where(
             "academic_year_id=? AND date=? AND status<>'cancelled'", (academic_year_id, on))}
         lost = {(l.section_id, l.period): l for l in self._lost_where("academic_year_id=? AND date=?",
                                                                       (academic_year_id, on))}
-        exams = self._exam_day(academic_year_id, on)
+        exams = self._exam_day(academic_year_id, on, days)
         rows: list[dict[str, Any]] = []
         for e in self.timetable_for_year(academic_year_id):
-            if e.day_of_week != wd:
+            if e.day_of_week != wd or not days.keeps(on, e.period):
                 continue
             sec = sections.get(e.section_id)
             if sec is None:
