@@ -152,6 +152,7 @@ def init(config: Config) -> None:
     _cfg = config
     _store = get_curriculum_store(config.data_root)
     _store.staff_source = _staff_for_cover
+    _store.exam_source = _exam_papers_for_cover
 
 
 def _staff_for_cover(school_id: str) -> list[str]:
@@ -160,6 +161,16 @@ def _staff_for_cover(school_id: str) -> list[str]:
     still sit with one (v3 audit N-3-16). The curriculum store cannot read
     the user store, so it is handed this at boot."""
     return [u.id for u in _require_users().users_for_school(school_id, role="teacher")]
+
+
+def _exam_papers_for_cover(school_id: str, academic_year_id: str) -> list[dict]:
+    """The year's published exam papers with their invigilators, for the
+    cover engine and the plans (cover.py): a class sitting a paper is not
+    taught, and an invigilator is not free (v3 audit N-3-12)."""
+    from ..operations import routes as ops_routes   # lazily: operations imports this package
+    if ops_routes._cfg is None:
+        return []
+    return ops_routes.store().published_papers(school_id, academic_year_id)
 
 
 def _require() -> CurriculumStore:

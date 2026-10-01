@@ -161,7 +161,9 @@ class DayRowResponse(Camel):
     # are there. `co_teacher` as the kind: the co-teacher takes it alone.
     co_teacher_id: Optional[str] = None
     room_id: Optional[str] = None
-    kind: str        # regular | substitute | supervised | combined | lost | uncovered | away | makeup | co_teacher
+    # regular | substitute | supervised | combined | lost | uncovered | away | makeup | co_teacher
+    # | exam (the class sits a published exam paper; the note names it)
+    kind: str
     substitution_id: Optional[str] = None
     lost_period_id: Optional[str] = None
     note: Optional[str] = None

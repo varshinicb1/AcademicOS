@@ -477,6 +477,38 @@ def reteach(store: CurriculumStore, audit_log: AuditLog, *, lesson, changed_by: 
     return moves
 
 
+def replan_section(store: CurriculumStore, audit_log: AuditLog, *, academic_year_id: str, section_id: str,
+                   from_date: str, reason: str, changed_by: str,
+                   subject_id: Optional[str] = None) -> int:
+    """Re-lays a section's plans -- every book of `subject_id`, or every
+    book when None -- from `from_date` on, onto the periods that now happen
+    (calendar.teaching_slots_for_book: a period the class sits an exam
+    paper in is off). A lesson whose period went moves to the plan's next
+    free period and the rest follow, exactly as PUSH moves them, but no
+    further day is skipped: the period that went is already off the list.
+    Run when what the periods hold changes (an exam published or its
+    datesheet changed). Returns how many plans changed."""
+    books = sorted({r["book_id"] for r in store._fetchall(
+        "SELECT DISTINCT book_id FROM scheduled_lessons WHERE academic_year_id=? AND section_id=?",
+        (academic_year_id, section_id))})
+    changed = 0
+    for book_id in books:
+        book = store.get_book(book_id)
+        if book is None or (subject_id is not None and book.subject_id != subject_id):
+            continue
+        try:
+            cadence = _resolve_cadence(store, academic_year_id, book_id, None, section_id)
+            moves, dropped = _reflow(store, audit_log, academic_year_id=academic_year_id, book_id=book_id,
+                                     periods_per_week=cadence, from_date=from_date, skip_disruption_day=False,
+                                     reason=reason, changed_by=changed_by, section_id=section_id)
+        except ValueError:
+            # No teaching period of this book is left on or after from_date
+            # (or the plan has no cadence to lay it at): nothing can move.
+            continue
+        changed += bool(moves or dropped)
+    return changed
+
+
 @dataclass(frozen=True)
 class PushResult:
     academic_year_id: str
