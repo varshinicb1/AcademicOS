@@ -101,7 +101,13 @@ class _InvitesPanelState extends State<InvitesPanel> {
             actions: [
               TextButton(
                 onPressed: () => Clipboard.setData(ClipboardData(text: invite.code)),
-                child: const Text('Copy'),
+                child: const Text('Copy code'),
+              ),
+              // A link opens Create account with the code already filled in,
+              // so nobody types a 22-character code.
+              TextButton(
+                onPressed: () => Clipboard.setData(ClipboardData(text: inviteLink(invite.code))),
+                child: const Text('Copy invite link'),
               ),
               FilledButton(onPressed: () => Navigator.pop(ctx), child: const Text('Done')),
             ],
@@ -214,3 +220,8 @@ class _InvitesPanelState extends State<InvitesPanel> {
     );
   }
 }
+
+/// The link that opens Create account with [code] filled in: this site's
+/// own address, so it is right on any deployment.
+String inviteLink(String code) =>
+    '${Uri.base.origin}/#/login?invite=${Uri.encodeQueryComponent(code)}';

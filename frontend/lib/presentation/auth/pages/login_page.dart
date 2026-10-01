@@ -28,7 +28,12 @@ import '../widgets/google_button.dart';
 /// key) is kept, collapsed and clearly separate, so nobody mistakes it for
 /// the normal way in.
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  /// Opened from an invite link (`/login?invite=<code>`) or a school-setup
+  /// link (`/login?school=<id>`): the form starts on that path, pre-filled.
+  const LoginPage({super.key, this.inviteCode, this.schoolId});
+
+  final String? inviteCode;
+  final String? schoolId;
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -57,6 +62,16 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    final invite = widget.inviteCode?.trim() ?? '';
+    final school = widget.schoolId?.trim() ?? '';
+    if (invite.isNotEmpty) {
+      _registering = true;
+      _inviteCode.text = invite;
+    } else if (school.isNotEmpty) {
+      _registering = true;
+      _firstPrincipal = true;
+      _schoolId.text = school;
+    }
     if (!GetIt.I.isRegistered<Dio>()) return;     // a widget test with no server
     GetIt.I<Dio>().get('/auth/providers').then((r) {
       final data = r.data as Map;
@@ -181,7 +196,12 @@ class _LoginPageState extends State<LoginPage> {
       if (!mounted) return;
       // AuthApi already ran every DioException through the shared error
       // path, so this is the server's (or the connection's) own sentence.
-      setState(() => _error = serverErrorMessage(e));
+      var message = serverErrorMessage(e);
+      if (_registering && _firstPrincipal && message.contains('principal key not accepted')) {
+        message = 'That principal key was not accepted. Copy it again in full -- it is '
+            'case-sensitive -- and check the school ID with AcademicOS.';
+      }
+      setState(() => _error = message);
     } catch (e) {
       // Not a request failure -- AuthApi turns every one into an
       // AuthException -- but something like a response that failed to
@@ -195,59 +215,70 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  /// Collapsed by default: this is the operator's one-time path for a school
-  /// that has no principal yet, not an alternative to an invite. The server
-  /// refuses it once the school has a principal.
-  Widget _firstPrincipalSection(ThemeData theme) {
-    return Theme(
-      data: theme.copyWith(dividerColor: Colors.transparent),
-      child: ExpansionTile(
-        key: const Key('register-first-principal'),
-        tilePadding: EdgeInsets.zero,
-        childrenPadding: EdgeInsets.zero,
-        initiallyExpanded: _firstPrincipal,
-        onExpansionChanged: (open) => setState(() {
-          _firstPrincipal = open;
-          _error = null;
-        }),
-        title: Text('First principal of a new school', style: theme.textTheme.titleSmall),
-        subtitle: Text(
-          'Only with the principal key your AcademicOS operator gave you, '
-          'and only if your school has no principal yet.',
-          style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-        ),
-        children: [
-          const SizedBox(height: 8),
-          TextFormField(
-            key: const Key('register-school-id'),
-            controller: _schoolId,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(
-              labelText: 'School ID',
-              hintText: "The new school's ID, from your operator",
-              prefixIcon: Icon(Icons.apartment_outlined),
-            ),
-            validator: (v) =>
-                (_firstPrincipal && (v == null || v.trim().isEmpty)) ? 'Required' : null,
-          ),
-          const SizedBox(height: 12),
-          TextFormField(
-            key: const Key('register-principal-key'),
-            controller: _principalKey,
-            obscureText: true,
-            textInputAction: TextInputAction.done,
-            decoration: const InputDecoration(
-              labelText: 'Principal key',
-              prefixIcon: Icon(Icons.key_outlined),
-            ),
-            validator: (v) =>
-                (_firstPrincipal && (v == null || v.trim().isEmpty)) ? 'Required' : null,
-          ),
-          const SizedBox(height: 4),
+  /// How this person is joining: with an invite (teachers, students and
+  /// parents -- the default, and the only path that cannot name a school), or
+  /// as the first principal of a new school, once, with the school ID and
+  /// principal key from AcademicOS. Until 2026-10-01 the second was a
+  /// collapsed row under the password, and principals stopped at the invite
+  /// code's "Required" without finding it.
+  Widget _joinChoice(ThemeData theme) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      SegmentedButton<bool>(
+        key: const Key('register-path'),
+        showSelectedIcon: false,
+        segments: const [
+          ButtonSegment(value: false, icon: Icon(Icons.confirmation_number_outlined),
+              label: Text('I have an invite code')),
+          ButtonSegment(value: true, icon: Icon(Icons.apartment_outlined),
+              label: Text('Set up my school')),
         ],
+        selected: {_firstPrincipal},
+        onSelectionChanged: _submitting
+            ? null
+            : (sel) => setState(() {
+                  _firstPrincipal = sel.first;
+                  _error = null;
+                }),
       ),
-    );
+      const SizedBox(height: 8),
+      Text(
+        _firstPrincipal
+            ? 'For the principal, once: enter the school ID and principal key AcademicOS '
+                'gave you. Then invite your teachers and students from Setup, Invite people.'
+            : 'Teachers, students and parents: use the invite code or link your principal sent you.',
+        style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+      ),
+      const SizedBox(height: 12),
+    ]);
   }
+
+  List<Widget> _principalFields() => [
+        TextFormField(
+          key: const Key('register-school-id'),
+          controller: _schoolId,
+          textInputAction: TextInputAction.next,
+          decoration: const InputDecoration(
+            labelText: 'School ID',
+            hintText: 'From AcademicOS, e.g. stmarys-hyd',
+            prefixIcon: Icon(Icons.apartment_outlined),
+          ),
+          validator: (v) => (v == null || v.trim().isEmpty) ? 'Required' : null,
+        ),
+        const SizedBox(height: 12),
+        TextFormField(
+          key: const Key('register-principal-key'),
+          controller: _principalKey,
+          obscureText: true,
+          textInputAction: TextInputAction.next,
+          decoration: const InputDecoration(
+            labelText: 'Principal key',
+            hintText: 'Paste it exactly as you received it',
+            prefixIcon: Icon(Icons.key_outlined),
+          ),
+          validator: (v) => (v == null || v.trim().isEmpty) ? 'Required' : null,
+        ),
+        const SizedBox(height: 12),
+      ];
 
   @override
   Widget build(BuildContext context) {
@@ -336,6 +367,8 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                           if (_registering) ...[
+                            _joinChoice(theme),
+                            if (_firstPrincipal) ..._principalFields(),
                             if (!_firstPrincipal) ...[
                               TextFormField(
                                 key: const Key('register-invite-code'),
@@ -394,10 +427,6 @@ class _LoginPageState extends State<LoginPage> {
                             validator: (v) =>
                                 (v == null || v.length < 8) ? 'At least 8 characters' : null,
                           ),
-                          if (_registering) ...[
-                            const SizedBox(height: 8),
-                            _firstPrincipalSection(theme),
-                          ],
                           const SizedBox(height: 20),
                           FilledButton(
                             // The form's one submit.
@@ -435,8 +464,10 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 16),
                   Text(
                     _registering
-                        ? 'Your school and role come from your invite. '
-                            'Ask your principal for one if you do not have it.'
+                        ? (_firstPrincipal
+                            ? 'The principal key works once per school. Lost it? Ask AcademicOS.'
+                            : 'Your school and role come from your invite. '
+                                'Ask your principal for one if you do not have it.')
                         : 'Teachers approve papers, students track their schedule -- '
                             'your role is picked up automatically after you sign in.',
                     style: theme.textTheme.bodySmall?.copyWith(color: colors.onSurfaceVariant),

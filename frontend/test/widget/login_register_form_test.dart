@@ -2,9 +2,9 @@
 // users.py): the server takes the new account's school and role from a
 // principal-issued invite code. Before that this form asked for a school id
 // and the server believed it, so anyone who knew a school's id joined it as a
-// teacher. These tests pin the form's default path to the invite code and
-// keep the operator's first-principal path (school id + key) collapsed and
-// separate; and they check the principal's invite panel talks to the real
+// teacher. These tests pin the form's default path to the invite code, keep
+// the first principal's path (school id + key) a separate, visible choice, and
+// check the pre-filling links; and they check the principal's invite panel talks to the real
 // invite routes.
 import 'package:academicos/data/datasources/api/auth_api.dart';
 import 'package:academicos/presentation/admin/widgets/invites_panel.dart';
@@ -66,30 +66,47 @@ void main() {
     expect(find.byKey(const Key('register-school-id')), findsNothing);
     expect(find.text('Teacher'), findsNothing);
     expect(find.text('Student'), findsNothing);
-    // The first-principal path exists but starts collapsed.
-    expect(find.text('First principal of a new school'), findsOneWidget);
+    // The school-setup path is offered up front (it used to be a collapsed
+    // row under the password, which principals never found), but not chosen.
+    expect(find.text('Set up my school'), findsOneWidget);
     expect(find.byKey(const Key('register-principal-key')), findsNothing);
   });
 
-  testWidgets('expanding the first-principal path swaps the invite code for school id + key',
+  testWidgets('"Set up my school" swaps the invite code for school id + key, first',
       (tester) async {
     await _openRegister(tester);
-    // Below the fold on the 800x600 test surface.
-    await tester.ensureVisible(find.text('First principal of a new school'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('First principal of a new school'));
+    await tester.tap(find.text('Set up my school'));
     await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('register-school-id')), findsOneWidget);
     expect(find.byKey(const Key('register-principal-key')), findsOneWidget);
     expect(find.byKey(const Key('register-invite-code')), findsNothing);
+    // School ID and key come before the person's own details.
+    final schoolY = tester.getTopLeft(find.byKey(const Key('register-school-id'))).dy;
+    final nameY = tester.getTopLeft(find.widgetWithText(TextFormField, 'Your name')).dy;
+    expect(schoolY, lessThan(nameY));
+  });
+
+  testWidgets('a school-setup link opens on that path with the school ID filled', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: LoginPage(schoolId: 'stmarys-hyd')));
+    await tester.pumpAndSettle();
+    final field = tester.widget<TextFormField>(find.byKey(const Key('register-school-id')));
+    expect(field.controller!.text, 'stmarys-hyd');
+    expect(find.byKey(const Key('register-invite-code')), findsNothing);
+  });
+
+  testWidgets('an invite link opens Create account with the code filled', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: LoginPage(inviteCode: 'abc123XYZ')));
+    await tester.pumpAndSettle();
+    final field = tester.widget<TextFormField>(find.byKey(const Key('register-invite-code')));
+    expect(field.controller!.text, 'abc123XYZ');
   });
 
   testWidgets('sign-in shows neither invite nor school fields', (tester) async {
     await tester.pumpWidget(const MaterialApp(home: LoginPage()));
     expect(find.byKey(const Key('register-invite-code')), findsNothing);
     expect(find.byKey(const Key('register-school-id')), findsNothing);
-    expect(find.text('First principal of a new school'), findsNothing);
+    expect(find.text('Set up my school'), findsNothing);
   });
 
   testWidgets('the invite panel lists invites and withdraws an open one', (tester) async {
