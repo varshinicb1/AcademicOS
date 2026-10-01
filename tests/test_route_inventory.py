@@ -284,6 +284,21 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/api-keys"),
     ("DELETE", "/api/v1/api-keys/{key_id}"),
     ("GET", "/api/v1/api-keys/{key_id}/usage"),
+    # API-6 a key's webhooks (api_key_routes.py).
+    ("POST", "/api/v1/api-keys/{key_id}/webhooks"),
+    ("GET", "/api/v1/api-keys/{key_id}/webhooks"),
+    ("DELETE", "/api/v1/api-keys/{key_id}/webhooks/{webhook_id}"),
+    ("GET", "/api/v1/api-keys/{key_id}/webhooks/{webhook_id}/deliveries"),
+    # ROLE-4 multi-campus owners (owner_routes.py).
+    ("POST", "/api/v1/owner-links"),
+    ("GET", "/api/v1/owner-links"),
+    ("DELETE", "/api/v1/owner-links/{link_id}"),
+    ("POST", "/api/v1/owner/links/redeem"),
+    ("GET", "/api/v1/owner/schools"),
+    ("POST", "/api/v1/owner/active-school"),
+    ("DELETE", "/api/v1/owner/active-school"),
+    ("GET", "/api/v1/owner/overview"),
+    ("POST", "/api/v1/owner/register"),
     ("POST", "/api/v1/assessments/{assessment_id}/review-request"),
     ("POST", "/api/v1/assessments/{assessment_id}/review-decision"),
     ("GET", "/api/v1/assessments/{assessment_id}/reviews"),
@@ -617,6 +632,20 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/api-keys"),
     ("DELETE", "/api/v1/api-keys/{key_id}"),
     ("GET", "/api/v1/api-keys/{key_id}/usage"),
+    # API-6 a key's webhooks (api_key_routes.py).
+    ("POST", "/api/v1/api-keys/{key_id}/webhooks"),
+    ("GET", "/api/v1/api-keys/{key_id}/webhooks"),
+    ("DELETE", "/api/v1/api-keys/{key_id}/webhooks/{webhook_id}"),
+    ("GET", "/api/v1/api-keys/{key_id}/webhooks/{webhook_id}/deliveries"),
+    # ROLE-4 multi-campus owners (owner_routes.py).
+    ("POST", "/api/v1/owner-links"),
+    ("GET", "/api/v1/owner-links"),
+    ("DELETE", "/api/v1/owner-links/{link_id}"),
+    ("POST", "/api/v1/owner/links/redeem"),
+    ("GET", "/api/v1/owner/schools"),
+    ("POST", "/api/v1/owner/active-school"),
+    ("DELETE", "/api/v1/owner/active-school"),
+    ("GET", "/api/v1/owner/overview"),
     ("POST", "/api/v1/assessments/{assessment_id}/review-request"),
     ("POST", "/api/v1/assessments/{assessment_id}/review-decision"),
     ("GET", "/api/v1/assessments/{assessment_id}/reviews"),
@@ -927,6 +956,15 @@ def _valid_body_for(method: str, path: str) -> dict:
                 "email": "teacher1@example.com", "password": "correct horse battery"}
     if path == "/api/v1/auth/invites":
         return {"role": "teacher"}
+    if path == "/api/v1/owner/register":
+        return {"name": "Owner One", "email": "owner1@example.com",
+                "password": "correct horse battery", "code": "own_x"}
+    if path == "/api/v1/owner/links/redeem":
+        return {"code": "own_x"}
+    if path == "/api/v1/api-keys/{key_id}/webhooks":
+        return {"url": "https://partner.example/hook"}
+    if path == "/api/v1/owner/active-school":
+        return {"schoolId": "school_1"}
     if path == "/api/v1/auth/login":
         return {"email": "teacher1@example.com", "password": "correct horse battery"}
     if path == "/v1/question/solve":
@@ -998,7 +1036,10 @@ def test_canonical_route_inventory_matches_live_app():
     # 322: N-3-20 elective groups and combined classes (4), splitting and merging a section (2).
     # 324: N-3-17 a leave request's supporting document (attach, read).
     # 325: SCH-8 a long leave's temporary replacement teacher.
-    assert len(API_ROUTES) == 325
+    # 334: ROLE-4 owners over several schools: owner links (3), owner
+    # registration, redeem, schools, choose and leave a school, overview.
+    # 338: API-6 a key's webhooks (register, list, revoke, delivery log).
+    assert len(API_ROUTES) == 338
 
 
 def test_docs_routes_present():

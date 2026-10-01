@@ -12,6 +12,7 @@ import '../../data/datasources/api/api_error.dart';
 import '../../core/session/current_session.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
+import 'owner_pages.dart';
 import 'strings.dart';
 import 'package:academicos/core/theme/app_theme.dart';
 import '../shared/widgets/shell.dart';
@@ -397,14 +398,22 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
                 title: Text('${k['label']} · ${k['prefix']}…'),
                 subtitle: Text('${(k['scopes'] as List).join(', ')}${_limitsText(k)} · '
                     'last used ${k['lastUsedAt'] ?? 'never'} · tap for usage'),
-                trailing: k['active'] == true
-                    ? TextButton(
+                trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                  // API-6: the partner's webhooks for this key, and their delivery log.
+                  TextButton(
+                      onPressed: () => context.push('/school/api-keys/${k['id']}/webhooks'
+                          '?label=${Uri.encodeQueryComponent('${k['label']}')}'),
+                      child: const Text('Webhooks')),
+                  if (k['active'] == true)
+                    TextButton(
                         onPressed: () async {
                           await Ops.delete('/api-keys/${k['id']}');
                           _reload();
                         },
                         child: const Text('Revoke'))
-                    : const ChipTag(label: 'Revoked'),
+                  else
+                    const ChipTag(label: 'Revoked'),
+                ]),
               ),
           ]);
         },
@@ -525,11 +534,17 @@ class _GrantsPageState extends State<GrantsPage> {
           if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
           if (snap.hasError) return ErrorDisplay(message: snap.error.toString(), onRetry: _reload);
           final (teachers, grants, caps) = snap.data!;
+          // ROLE-4: the school's own principal links an owner here. An owner
+          // acting in the school does not: the server refuses it.
+          final ownerAccess = CurrentSession.role == 'principal' && !CurrentSession.isOwner;
           if (teachers.isEmpty) {
-            return const EmptyState(icon: Icons.people_outline, title: 'No teachers yet',
+            const none = EmptyState(icon: Icons.people_outline, title: 'No teachers yet',
                 message: 'Invite teachers first; then you can make any of them an admin for one area.');
+            if (!ownerAccess) return none;
+            return ListView(padding: const EdgeInsets.all(16), children: const [OwnerLinksCard(), none]);
           }
           return ListView(padding: const EdgeInsets.all(16), children: [
+            if (ownerAccess) const OwnerLinksCard(),
             for (final t in teachers)
               AppCard(
                 margin: const EdgeInsets.only(bottom: 10),

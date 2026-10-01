@@ -6,6 +6,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../../../core/session/current_session.dart';
+import '../../../core/session/owner_session.dart';
+import '../../../data/datasources/api/api_error.dart';
 
 /// Drop into any page's `AppBar(leading: shellLeading(context), ...)`.
 ///
@@ -194,6 +196,15 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           _inbox,
         ]),
       ];
+    case 'owner':
+      // ROLE-4, before the owner has chosen a school: its schools side by
+      // side. Choosing one (the switcher above the navigation) makes it that
+      // school's principal, with the principal's navigation.
+      return [
+        (title: null, items: [
+          _item(Icons.domain_outlined, Icons.domain, 'All schools', '/owner'),
+        ]),
+      ];
     default:
       return [
         (title: null, items: [
@@ -235,6 +246,9 @@ int navIndexFor(List<NavItem> items, String location) {
 /// (a widget test that mounts the shell alone).
 String _signedInRole() => Hive.isBoxOpen('academicos_cache') ? CurrentSession.role : '';
 
+/// An owner over several schools (ROLE-4); false with no local store.
+bool _signedInIsOwner() => Hive.isBoxOpen('academicos_cache') && CurrentSession.isOwner;
+
 /// A teacher's admin capabilities (`/my-grants`), fetched once per session
 /// and shared by every shell build; empty until they arrive, or offline.
 class _Grants {
@@ -265,7 +279,15 @@ class MainShell extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final isMobile = width < AppConstants.mobileBreakpoint;
+    return ValueListenableBuilder<int>(
+      valueListenable: OwnerSession.switched,
+      builder: (context, _, __) => _build(context, width, isMobile),
+    );
+  }
+
+  Widget _build(BuildContext context, double width, bool isMobile) {
     final role = _signedInRole();
+    final owner = _signedInIsOwner();
     _Grants.ensureLoaded(role);
     return ValueListenableBuilder<Set<String>>(
       valueListenable: _Grants.caps,
@@ -279,12 +301,13 @@ class MainShell extends StatelessWidget {
           child: Scaffold(
             key: _scaffoldKey,
             drawer: isMobile
-                ? Drawer(child: SafeArea(child: SideNav(sections: sections, selected: selected, inDrawer: true)))
+                ? Drawer(child: SafeArea(child: SideNav(sections: sections, selected: selected, inDrawer: true,
+                    schoolSwitcher: owner)))
                 : null,
             body: Row(
               children: [
                 if (!isMobile)
-                  SideNav(sections: sections, selected: selected, compact: width < 1000),
+                  SideNav(sections: sections, selected: selected, compact: width < 1000, schoolSwitcher: owner),
                 // Each page owns its own AppBar (shellLeading() gives it the
                 // menu button on a phone), so the shell renders none.
                 Expanded(child: child),
@@ -304,12 +327,16 @@ class MainShell extends StatelessWidget {
 /// a short window.
 class SideNav extends StatelessWidget {
   const SideNav({super.key, required this.sections, required this.selected,
-      this.compact = false, this.inDrawer = false});
+      this.compact = false, this.inDrawer = false, this.schoolSwitcher = false});
 
   final List<NavSection> sections;
   final int selected;
   final bool compact;
   final bool inDrawer;
+
+  /// Show the owner's school switcher under the product mark (ROLE-4). Only
+  /// an owner account gets it.
+  final bool schoolSwitcher;
 
   @override
   Widget build(BuildContext context) {
@@ -356,6 +383,11 @@ class SideNav extends StatelessWidget {
             ],
           ),
         ),
+        if (schoolSwitcher)
+          Padding(
+            padding: EdgeInsets.fromLTRB(compact ? 4 : 12, 0, compact ? 4 : 12, 8),
+            child: SchoolSwitcher(compact: compact, inDrawer: inDrawer),
+          ),
         Expanded(child: ListView(padding: const EdgeInsets.symmetric(horizontal: 8), children: rows)),
         Padding(padding: const EdgeInsets.fromLTRB(8, 4, 8, 12), child: settings),
       ],
@@ -419,6 +451,92 @@ class _NavRow extends StatelessWidget {
         selected: selected,
         onTap: () => _go(context),
       ),
+    );
+  }
+}
+
+/// The owner's school switcher (ROLE-4): which linked school the session
+/// acts in, and the others to switch to, or back to all schools. Choosing a
+/// school makes the session that school's principal; the page then reloads
+/// for it (MainShell keys the page by school).
+class SchoolSwitcher extends StatefulWidget {
+  const SchoolSwitcher({super.key, this.compact = false, this.inDrawer = false});
+
+  final bool compact;
+  final bool inDrawer;
+
+  @override
+  State<SchoolSwitcher> createState() => _SchoolSwitcherState();
+}
+
+class _SchoolSwitcherState extends State<SchoolSwitcher> {
+  late Future<List<Map<String, dynamic>>> _schools = OwnerSession.schools();
+
+  static const _all = '';
+
+  Future<void> _switch(String schoolId) async {
+    final router = GoRouter.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    if (widget.inDrawer) Navigator.of(context).pop();
+    try {
+      if (schoolId == _all) {
+        await OwnerSession.leave();
+        router.go('/owner');
+      } else {
+        await OwnerSession.choose(schoolId);
+        router.go('/school');
+      }
+    } catch (e) {
+      messenger.showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
+      if (mounted) setState(() { _schools = OwnerSession.schools(); });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: _schools,
+      builder: (context, snap) {
+        final schools = snap.data ?? const <Map<String, dynamic>>[];
+        final current = CurrentSession.schoolId;
+        final active = schools.where((s) => s['schoolId'] == current).firstOrNull;
+        final label = current.isEmpty
+            ? 'All schools'
+            : (active?['name'] as String?) ?? (active?['schoolId'] as String?) ?? 'School';
+        final menu = PopupMenuButton<String>(
+          key: const Key('school-switcher'),
+          tooltip: 'Switch school ($label)',
+          onSelected: _switch,
+          onOpened: () => setState(() { _schools = OwnerSession.schools(); }),
+          itemBuilder: (_) => [
+            for (final s in schools)
+              CheckedPopupMenuItem<String>(
+                value: s['schoolId'] as String,
+                checked: s['schoolId'] == current,
+                child: Text((s['name'] as String?) ?? (s['schoolId'] as String)),
+              ),
+            if (schools.isNotEmpty) const PopupMenuDivider(),
+            CheckedPopupMenuItem<String>(value: _all, checked: current.isEmpty, child: const Text('All schools')),
+          ],
+          child: widget.compact
+              ? const Padding(padding: EdgeInsets.all(12), child: Icon(Icons.swap_horiz))
+              : Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: theme.colorScheme.outlineVariant),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(children: [
+                    const Icon(Icons.domain, size: 18),
+                    const SizedBox(width: 8),
+                    Expanded(child: Text(label, overflow: TextOverflow.ellipsis, style: theme.textTheme.bodyMedium)),
+                    const Icon(Icons.unfold_more, size: 18),
+                  ]),
+                ),
+        );
+        return Semantics(label: 'School: $label', button: true, child: menu);
+      },
     );
   }
 }
