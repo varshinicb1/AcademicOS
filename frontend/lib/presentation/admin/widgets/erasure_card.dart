@@ -20,7 +20,8 @@ class ErasureCard extends StatefulWidget {
   /// Injected in tests; the app uses the registered AuthApi.
   final AuthApi? api;
 
-  /// Injected in tests; the school's date otherwise.
+  /// Injected in tests; the device's date otherwise. The server refuses a
+  /// date after the school's own today (IST).
   final DateTime? today;
 
   @override
@@ -107,9 +108,12 @@ class _ErasureCardState extends State<ErasureCard> {
       });
       await _load();
     } catch (e) {
-      // A 503 says which parts are left; the account stays closed.
-      if (mounted) setState(() => _error = serverErrorMessage(e));
+      // A 503 says which parts are left; the account stays closed. The
+      // preview is counted again, so it shows what is left, not what was.
+      final message = serverErrorMessage(e);
       if (mounted) await _load();
+      if (mounted) await _showPreview(preview.userId);
+      if (mounted) setState(() => _error = message);
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -219,7 +223,8 @@ class _ConfirmErasure extends StatefulWidget {
 
 class _ConfirmErasureState extends State<_ConfirmErasure> {
   final _name = TextEditingController();
-  late String _by = widget.preview.role == 'student' ? 'parent' : widget.preview.role;
+  // Nothing chosen until the principal says: the audit log keeps it.
+  String? _by;
   late DateTime _on = DateUtils.dateOnly(widget.today);
 
   @override
@@ -246,7 +251,7 @@ class _ConfirmErasureState extends State<_ConfirmErasure> {
             const Text('Whose written request is this?'),
             RadioGroup<String>(
               groupValue: _by,
-              onChanged: (v) => setState(() => _by = v ?? _by),
+              onChanged: (v) => setState(() => _by = v),
               child: const Column(mainAxisSize: MainAxisSize.min, children: [
                 RadioListTile<String>(dense: true, value: 'parent', title: Text('A parent or guardian')),
                 RadioListTile<String>(dense: true, value: 'student', title: Text('The student')),
@@ -280,7 +285,7 @@ class _ConfirmErasureState extends State<_ConfirmErasure> {
         FilledButton(
           style: FilledButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.error,
               foregroundColor: Theme.of(context).colorScheme.onError),
-          onPressed: matches ? () => Navigator.pop(context, (_by, _on, _name.text.trim())) : null,
+          onPressed: matches && _by != null ? () => Navigator.pop(context, (_by!, _on, _name.text.trim())) : null,
           child: const Text('Erase'),
         ),
       ],

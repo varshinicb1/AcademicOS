@@ -68,8 +68,13 @@ class ForgetMixin:
                        invite_codes: Iterable[str] = (), dry_run: bool = False) -> dict[str, int]:
         """Delete everything this store holds of one student. Returns the rows
         per table (the rows that would go, with dry_run)."""
-        about = self._notices_about_student(student_id, school_id=school_id, name=name)
+        handed_in = {r["homework_id"] for r in self._fetchall(
+            "SELECT homework_id FROM homework_submissions WHERE student_id=?", (student_id,))}
+        about = self._notices_about_student(student_id, school_id=school_id, name=name, handed_in=handed_in)
         codes = list(invite_codes)
+        # An account with no email must not match every row whose email is
+        # blank (an unbound invite, another blank account): "0" matches none.
+        by_email = "lower(student_email)=?" if email else "0"
         steps = [
             *self._own_steps(student_id, email),
             ("notifications", f"id IN ({_marks(about)})", tuple(about)),
@@ -81,8 +86,9 @@ class ForgetMixin:
             ("paper_marks", "student_id=?", (student_id,)),
             ("paper_absent", "student_id=?", (student_id,)),
             ("guardianships", "student_id=?", (student_id,)),
-            ("guardian_invites", "student_id=? OR lower(student_email)=?", (student_id, email)),
-            ("pending_guardian_links", "lower(student_email)=?", (email,)),
+            ("guardian_invites", f"school_id=? AND (student_id=? OR {by_email})",
+             (school_id, student_id, *((email,) if email else ()))),
+            ("pending_guardian_links", f"school_id=? AND {by_email}", (school_id, *((email,) if email else ()))),
             ("pending_enrollments", f"code IN ({_marks(codes)})", tuple(codes)),
         ]
         return self._forget(steps, dry_run)
@@ -118,24 +124,29 @@ class ForgetMixin:
             ("device_tokens", "user_id=?", (user_id,)),
             ("contact_numbers", "user_id=?", (user_id,)),
             ("calendar_feeds", "user_id=?", (user_id,)),
-            ("sign_in_codes", "lower(email)=?", (email,)),
+            ("sign_in_codes", "lower(email)=?" if email else "0", (email,) if email else ()),
         ]
 
-    def _notices_about_student(self, student_id: str, *, school_id: str, name: str) -> list[str]:
+    def _notices_about_student(self, student_id: str, *, school_id: str, name: str,
+                               handed_in: set[str]) -> list[str]:
         """Other people's notifications that carry this student's data: the
         ones keyed on the student (a parent's homework and test marks,
         `hwgraded:<hw>:<student>:...`, `testmarks-parent:<paper>:<student>`)
-        and a teacher's "<name> handed in" notice. Their own are deleted by
-        user_id."""
+        and a teacher's "<name> handed in" notice (`hwsubmitted:<hw>:<day>`)
+        for a homework the student handed in -- it names the student only by
+        name, so another student of that name who handed in the same homework
+        cannot be told apart. Their own are deleted by user_id."""
         rows = self._fetchall(
             "SELECT id, kind, dedupe_key, data_json FROM notifications WHERE school_id=? AND user_id<>? "
             "AND (instr(COALESCE(dedupe_key, ''), ?) > 0 OR kind='homework_submitted')",
             (school_id, student_id, student_id))
         out = []
         for r in rows:
-            if student_id in (r["dedupe_key"] or "").split(":"):
+            key = (r["dedupe_key"] or "").split(":")
+            if student_id in key:
                 out.append(r["id"])
-            elif r["kind"] == "homework_submitted" and name and _param(r["data_json"], "student") == name:
+            elif (r["kind"] == "homework_submitted" and name and len(key) > 1 and key[1] in handed_in
+                  and _param(r["data_json"], "student") == name):
                 out.append(r["id"])
         return out
 

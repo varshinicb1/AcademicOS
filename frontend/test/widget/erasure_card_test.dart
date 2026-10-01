@@ -102,9 +102,11 @@ void main() {
     expect(tester.widget<FilledButton>(erase).onPressed, isNull);
     await tester.enterText(find.byType(TextField), 'asha  kumar ');
     await tester.pump();
-    expect(tester.widget<FilledButton>(erase).onPressed, isNotNull);
+    // The name alone is not enough: whose request it is is chosen, never defaulted.
+    expect(tester.widget<FilledButton>(erase).onPressed, isNull);
     await tester.tap(find.text('The school'));
     await tester.pump();
+    expect(tester.widget<FilledButton>(erase).onPressed, isNotNull);
     await tester.tap(erase);
     await tester.pumpAndSettle();
 
@@ -115,7 +117,7 @@ void main() {
   });
 
   testWidgets('an erasure that could not finish says what the server said', (tester) async {
-    await _pump(tester, (503, {
+    final capture = await _pump(tester, (503, {
       'detail': 'the erasure is not finished: marked answer sheets could not be erased yet. '
           'Run the erasure again to finish it.',
     }));
@@ -123,10 +125,14 @@ void main() {
     await tester.tap(find.text("Erase Asha Kumar's data"));
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextField), 'Asha Kumar');
+    await tester.tap(find.text('A parent or guardian'));
     await tester.pump();
     await tester.tap(find.widgetWithText(FilledButton, 'Erase'));
     await tester.pumpAndSettle();
     expect(find.textContaining('marked answer sheets could not be erased yet'), findsOneWidget);
     expect(find.textContaining('is erased'), findsNothing);
+    // What is left is counted again, beside the server's sentence.
+    expect(capture.bodies.single, containsPair('requestedBy', 'parent'));
+    expect(find.text("Erase Asha Kumar's data"), findsOneWidget);
   });
 }

@@ -387,3 +387,123 @@ def test_the_curriculum_store_names_a_student_only_in_enrollments(tmp_path):
              if any(c[1] in ("student_id", "parent_id", "guardian_id")
                     for c in store.conn.execute(f"PRAGMA table_info({t})"))}
     assert named == {"student_enrollments"}
+
+
+# ---------------- the review of PR #87: what a rerun must still find ----------------
+
+
+class _FlakyBlobs(_FakeBlobs):
+    """A blob store whose deletes fail until it is told to work."""
+
+    def __init__(self, keys=()):
+        super().__init__(keys)
+        self.down = True
+
+    def delete(self, key):
+        if self.down:
+            raise ConnectionError("GCS is unreachable")
+        super().delete(key)
+
+
+def test_a_photo_the_blob_store_could_not_delete_keeps_its_row_for_the_rerun(w, school, monkeypatch):
+    """Review finding 1: the rows went in the same run whose photo delete
+    failed, so the rerun found no photo, answered 200 and left the object in
+    GCS. The parts that delete what the failed one still needs are skipped."""
+    from academicos.operations import homework_photos
+    blobs = _FlakyBlobs()
+    monkeypatch.setattr(homework_photos, "_blobs", lambda: blobs)
+    [photo] = _ops().photos_of_student(school.asha)
+    key = f"{school.hw.id}/{school.asha}/{photo['id']}.png"
+    with _ops()._conn_lock:
+        _ops().conn.execute("UPDATE homework_photos SET blob_key=? WHERE id=?", (key, photo["id"]))
+    blobs.objects.add(key)
+    url = f"/api/v1/auth/users/{school.asha}/erasure"
+
+    first = w.c.post(url, json=_body(), headers=w.p)
+    assert first.status_code == 503 and "photos of written homework" in first.json()["detail"]
+    held = _held(school.asha)
+    assert held["homework_photos"] == 1 and held["account"] == 1     # still there to find
+    assert held["homework_submissions"] == 1                          # school_records was skipped
+    assert key in blobs.objects
+
+    blobs.down = False
+    second = w.c.post(url, json=_body(), headers=w.p)
+    assert second.status_code == 200, second.text
+    assert blobs.objects == set() and blobs.deleted == [key]
+    assert {k: v for k, v in _held(school.asha).items() if v} == {}
+
+
+def test_invites_stay_until_the_rows_they_lead_to_are_gone(w, school, monkeypatch):
+    """Review finding 2: the invites went even when the school records did
+    not, and the rerun could no longer find the pending enrollment by code."""
+    from academicos.operations.forget import ForgetMixin
+    invites_before = len(_users().invites_of(_users().get(school.asha)))
+    assert invites_before >= 1
+    url = f"/api/v1/auth/users/{school.asha}/erasure"
+    with monkeypatch.context() as m:
+        m.setattr(ForgetMixin, "forget_student", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("locked")))
+        r = w.c.post(url, json=_body(), headers=w.p)
+    assert r.status_code == 503
+    assert len(_users().invites_of(_users().get(school.asha))) == invites_before
+    assert w.c.post(url, json=_body(), headers=w.p).status_code == 200
+
+
+def test_a_blank_email_matches_nobody_elses_invites_or_links(w, school):
+    """Review finding 3: an account with an empty email matched every
+    unbound invite of the school ("" = ""), and with it another student's
+    place waiting in a section."""
+    from academicos.assessment.users import User
+    from _auth_helpers import invite_code
+    ops = _ops()
+    code = invite_code("school_1", "student")                     # unbound: email ""
+    with ops._conn_lock:
+        ops.conn.execute("INSERT INTO pending_enrollments (code, school_id, section_id, created_by, created_at) "
+                         "VALUES (?,?,?,?,?)", (code, "school_1", w.b10, "p", "2026-06-01"))
+        ops.conn.execute("INSERT INTO pending_guardian_links (parent_id, school_id, student_email, relation, "
+                         "created_by, created_at) VALUES (?,?,?,?,?,?)",
+                         (school.meena, "school_1", "", "mother", "p", "2026-06-01"))
+        ops.conn.execute("INSERT INTO sign_in_codes (email, code_hash, expires_at, created_at) VALUES (?,?,?,?)",
+                         ("", "h", "2099-01-01", "2026-06-01"))
+    blank = User(id="user_blank0000000", school_id="school_1", name="Blank", email="", role="student",
+                 created_at="2026-06-01")
+    assert code not in {i.code for i in _users().invites_of(blank)}
+    counts = ops.forget_student(blank.id, school_id="school_1", email="", name="Blank",
+                                invite_codes=[], dry_run=True)
+    assert counts["pending_guardian_links"] == 0 and counts["sign_in_codes"] == 0
+    assert counts["guardian_invites"] == 0
+
+
+def test_another_student_of_the_same_name_keeps_the_teachers_notice_about_her(w, school):
+    """Review finding 4: the teacher's "Asha handed in" notice was matched by
+    name alone, so a second Asha's notice went too. It is matched only for
+    a homework the erased student handed in."""
+    other = register_invited(w.c, "school_1", "asha2@example.com", name="Asha", role="student")["user"]
+    hw2 = _ops().create_homework(school_id="school_1", academic_year_id=w.year, teacher_id=w.uid["ana"],
+                                 subject_id=w.sci10, subject_name="Science", grade=10, section_ids=[w.b10],
+                                 title="Second worksheet", instructions="", chapter_ids=[],
+                                 questions=[_q("q1", "short_answer", "Why?", 1, points=[("x", "x")])],
+                                 due_date="2026-06-05", created_by=w.uid["ana"], publish=True)
+    _ops().notify(school_id="school_1", user_ids=[w.uid["ana"]], kind="homework_submitted",
+                  params={"title": "Second worksheet", "student": "Asha", "count": 1, "total": 3},
+                  dedupe_key=f"hwsubmitted:{hw2.id}:2026-06-01")
+    assert w.c.post(f"/api/v1/auth/users/{school.asha}/erasure", json=_body(), headers=w.p).status_code == 200
+    left = _ops().conn.execute("SELECT dedupe_key FROM notifications WHERE user_id=? AND kind='homework_submitted'",
+                               (w.uid["ana"],)).fetchall()
+    assert [r["dedupe_key"] for r in left if r["dedupe_key"].startswith(f"hwsubmitted:{hw2.id}")] != []
+    assert other["id"] != school.asha
+
+
+def test_another_schools_rows_for_the_same_email_stay(w, school):
+    """Review finding 5: the email-matched deletes were not scoped to the
+    school; school B can be waiting for the student's email after a move."""
+    ops = _ops()
+    with ops._conn_lock:
+        ops.conn.execute("INSERT INTO pending_guardian_links (parent_id, school_id, student_email, relation, "
+                         "created_by, created_at) VALUES (?,?,?,?,?,?)",
+                         ("parent_b", "school_2", "s1@example.com", "mother", "p2", "2026-06-01"))
+        ops.conn.execute("INSERT INTO guardian_invites (code, school_id, student_id, student_email, relation, "
+                         "created_by, created_at) VALUES (?,?,?,?,?,?,?)",
+                         ("code_b", "school_2", None, "s1@example.com", "mother", "p2", "2026-06-01"))
+    assert w.c.post(f"/api/v1/auth/users/{school.asha}/erasure", json=_body(), headers=w.p).status_code == 200
+    assert ops.conn.execute("SELECT COUNT(*) FROM pending_guardian_links WHERE school_id='school_2'").fetchone()[0] == 1
+    assert ops.conn.execute("SELECT COUNT(*) FROM guardian_invites WHERE school_id='school_2'").fetchone()[0] == 1

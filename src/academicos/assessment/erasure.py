@@ -24,9 +24,10 @@ How, in order:
      restart cannot restore the deleted rows from the blob store;
   4. only if every part succeeded, the account row itself goes, its name and
      email with it.
-A part that fails does not stop the others. The account stays (closed) and
-the route answers 503 naming what is left, so the principal runs it again;
-every part deletes only what is still there.
+A part that fails does not stop the others, except those that would delete
+what a rerun of it needs to find (`Part.needs`): those are skipped. The
+account stays (closed) and the route answers 503 naming what is left, so the
+principal runs it again; every part deletes only what is still there.
 
 GET previews the same parts with counts and changes nothing.
 
@@ -116,6 +117,11 @@ class Part:
     label: str
     roles: tuple[str, ...]
     run: Callable[[Target, bool], Count]
+    # Parts that must have finished first: this one deletes what a rerun of
+    # them needs to find (the photo rows name the photo files; the invite
+    # codes find the pending enrollments). If one failed, this part is
+    # skipped and reported, so the rerun still has everything to finish with.
+    needs: tuple[str, ...] = ()
 
 
 def _users():
@@ -243,14 +249,14 @@ PARTS = (
     Part("class", "Class enrollment", S, _enrollment),
     Part("homework_photo_files", "Photos of written homework", S, _homework_photo_files),
     Part("school_records", "Homework, marks, progress, practice, parent links, notifications and settings",
-         P, _school_records),
+         P, _school_records, needs=("homework_photo_files",)),
     Part("marked_sheets", "Marked answer sheets", S, _graded),
     Part("scans", "Scanned answer sheets, the text read from them and their PDFs", S, _scans),
     Part("remediation_practice", "Practice made from marked work", S, _remediation),
     Part("learner_model", "Mastery model", S, _learner_model),
     Part("learner_events", "Learning event log", S, _learner_events),
     Part("report_files", "Progress report PDFs", S, _report_files),
-    Part("invites", "Invites sent to the person", P, _invites),
+    Part("invites", "Invites sent to the person", P, _invites, needs=("school_records",)),
 )
 
 
@@ -369,13 +375,19 @@ def erase(user_id: str, body: ErasureRequest, principal: User = Depends(require_
     if not is_closed(user.role):
         _users().close_account(user.id)
     parts: list[ErasurePart] = []
+    unfinished: set[str] = set()
     for p in _parts_for(t):
+        if any(n in unfinished for n in p.needs):
+            unfinished.add(p.key)
+            parts.append(ErasurePart(part=p.key, label=p.label, count=0, error="skipped"))
+            continue
         try:
             c = p.run(t, False)
             parts.append(ErasurePart(part=p.key, label=p.label, count=_total(c),
                                      tables=c if isinstance(c, dict) else None))
         except Exception as exc:  # noqa: BLE001 - every other part still runs; this one is reported
             log.exception("erasure of %s: part %s failed", user.id, p.key)
+            unfinished.add(p.key)
             parts.append(ErasurePart(part=p.key, label=p.label, count=0, error=type(exc).__name__))
     # Uploaded now: a restart before the debounced upload would restore the
     # deleted rows from the last snapshot.

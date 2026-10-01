@@ -2121,7 +2121,11 @@ class CurriculumStore(SchoolModelMixin, CoverMixin, SchoolProfileMixin):
             if found and not dry_run:
                 with secure_delete(self.conn):
                     self._exec("DELETE FROM student_enrollments WHERE student_id=?", (student_id,))
-                self._commit()
+        if found and not dry_run:
+            # After the hold, as every write here commits (see the terms
+            # section): SnapshotSync's upload takes its own lock, then this one.
+            self._commit()
+            with self._conn_lock:
                 truncate_wal(self.conn)
         return int(found is not None)
 

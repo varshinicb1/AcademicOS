@@ -27,6 +27,10 @@ from typing import Iterator
 
 log = logging.getLogger(__name__)
 
+# What `PRAGMA secure_delete` reads back (0, 1, 2) as the value that sets it
+# again: 2 is FAST, which an integer does not set.
+_SETTING = {0: "OFF", 1: "ON", 2: "FAST"}
+
 
 @contextlib.contextmanager
 def secure_delete(conn: sqlite3.Connection) -> Iterator[None]:
@@ -35,7 +39,7 @@ def secure_delete(conn: sqlite3.Connection) -> Iterator[None]:
     try:
         yield
     finally:
-        conn.execute(f"PRAGMA secure_delete={int(before)}")
+        conn.execute(f"PRAGMA secure_delete={_SETTING.get(int(before), 'OFF')}")
 
 
 def truncate_wal(conn: sqlite3.Connection) -> bool:

@@ -790,17 +790,21 @@ class UserStore:
         """The invites that name this person: sent to their email, or used to
         create their account. Local and remote rows both, like
         invites_for_school."""
+        # An unbound invite's email is "": a blank account email must not
+        # match every one of them, so the email is matched only when there is one.
         email = user.email.strip().lower()
         merged: dict[str, Invite] = {}
         with self._conn_lock:
             rows = self.conn.execute(
-                "SELECT * FROM invites WHERE school_id=? AND (lower(email)=? OR used_by=?)",
-                (user.school_id, email, user.id)).fetchall()
+                "SELECT * FROM invites WHERE school_id=? AND ((lower(email)=? AND ?<>'') OR used_by=?)",
+                (user.school_id, email, email, user.id)).fetchall()
         for r in rows:
             merged[r["code"]] = _row_to_invite(dict(r))
         if self._remote_invites.enabled:
-            for r in (self._remote_invites.select(school_id=user.school_id, email=email)
-                      + self._remote_invites.select(school_id=user.school_id, used_by=user.id)):
+            rows = self._remote_invites.select(school_id=user.school_id, used_by=user.id)
+            if email:
+                rows += self._remote_invites.select(school_id=user.school_id, email=email)
+            for r in rows:
                 merged[r["code"]] = _row_to_invite(r)
         return list(merged.values())
 

@@ -841,8 +841,11 @@ everywhere), then:
 The operations and curriculum snapshots are then uploaded at once, so a
 restart cannot restore the deleted rows from the blob store. Only when every
 part succeeded does the account row go, and the name and email with it. A
-part that fails is reported (503, naming it). The account stays closed, and
-running the erasure again finishes it.
+part that fails is reported (503, naming it), and so is a part that would
+delete what the failed one still needs to find: the photo rows name the
+photo files, and the invite codes find the places waiting in a section, so
+those parts are skipped. The account stays closed, and running the erasure
+again finishes it.
 
 **Nothing left in the files.** SQLite deletes run with `secure_delete` on (some
 builds have it off by default), and then the WAL is checkpointed and
@@ -868,11 +871,18 @@ student's name and email nowhere, and their id only in the audit log.
   downloaded or printed.
 
 **Known limits:**
+- A teacher's "<name> handed in" notice names the student only by name. It
+  is deleted for a homework the erased student handed in, so another student
+  of the same name who handed in the same homework loses that notice too.
+- The remediation-practice and scan-session stores keep the student only
+  inside each row's JSON, so erasure reads every row of those tables, every
+  school's, to find them.
+- An email is matched only when the account has one: an account with a blank
+  email matches no unbound invite or blank-email row.
 - On Cloud SQL a deleted row's space is reclaimed by VACUUM, not overwritten
   at once.
 - A file deleted from the container disk is unlinked, not overwritten.
-- On the Supabase (Render) release, the remediation-practice and scan-session
-  stores find a student by reading every row. PostgREST caps a read at its
+- On the Supabase (Render) release, that read is capped by PostgREST's
   max-rows (1,000 by default), so a larger table would need paging. Cloud SQL
   has no such cap.
 
