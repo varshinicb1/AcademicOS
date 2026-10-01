@@ -2841,6 +2841,11 @@
             ],
             "title": "Highestpercent"
           },
+          "incomplete": {
+            "default": 0,
+            "title": "Incomplete",
+            "type": "integer"
+          },
           "lowestPercent": {
             "anyOf": [
               {
@@ -6148,6 +6153,11 @@
             ],
             "title": "Band"
           },
+          "complete": {
+            "default": false,
+            "title": "Complete",
+            "type": "boolean"
+          },
           "marks": {
             "additionalProperties": {
               "type": "number"
@@ -8621,6 +8631,11 @@
           "examTypeLabel": {
             "title": "Examtypelabel",
             "type": "string"
+          },
+          "incomplete": {
+            "default": false,
+            "title": "Incomplete",
+            "type": "boolean"
           },
           "maximum": {
             "title": "Maximum",
@@ -29233,7 +29248,7 @@
     },
     "/api/v1/papers/{paper_id}/analysis": {
       "get": {
-        "description": "Results by question, chapter, topic and class. Absent students are\ncounted, not averaged in.",
+        "description": "Results by question, chapter, topic and class. Absent students, and\nstudents whose marks are only partly entered, are counted, not averaged\nin. A question's mean and facility read the marks entered for it.",
         "operationId": "analysis_api_v1_papers__paper_id__analysis_get",
         "parameters": [
           {
@@ -29418,7 +29433,7 @@
     },
     "/api/v1/papers/{paper_id}/marks": {
       "get": {
-        "description": "The grid: the section's students (or everyone marked) by the paper's\nquestions, with totals, percentages and grade bands.",
+        "description": "The grid: the section's students (or everyone marked) by the paper's\nquestions, with totals, percentages and grade bands for each complete\nrow.",
         "operationId": "marks_grid_api_v1_papers__paper_id__marks_get",
         "parameters": [
           {

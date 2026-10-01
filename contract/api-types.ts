@@ -4475,8 +4475,9 @@ export interface paths {
         };
         /**
          * Analysis
-         * @description Results by question, chapter, topic and class. Absent students are
-         *     counted, not averaged in.
+         * @description Results by question, chapter, topic and class. Absent students, and
+         *     students whose marks are only partly entered, are counted, not averaged
+         *     in. A question's mean and facility read the marks entered for it.
          */
         get: operations["analysis_api_v1_papers__paper_id__analysis_get"];
         put?: never;
@@ -4535,7 +4536,8 @@ export interface paths {
         /**
          * Marks Grid
          * @description The grid: the section's students (or everyone marked) by the paper's
-         *     questions, with totals, percentages and grade bands.
+         *     questions, with totals, percentages and grade bands for each complete
+         *     row.
          */
         get: operations["marks_grid_api_v1_papers__paper_id__marks_get"];
         /**
@@ -6857,6 +6859,11 @@ export interface components {
             };
             /** Highestpercent */
             highestPercent?: number | null;
+            /**
+             * Incomplete
+             * @default 0
+             */
+            incomplete: number;
             /** Lowestpercent */
             lowestPercent?: number | null;
             /** Meanpercent */
@@ -8109,6 +8116,11 @@ export interface components {
             absent: boolean;
             /** Band */
             band?: string | null;
+            /**
+             * Complete
+             * @default false
+             */
+            complete: boolean;
             /** Marks */
             marks: {
                 [key: string]: number;
@@ -9041,6 +9053,11 @@ export interface components {
             examType: string;
             /** Examtypelabel */
             examTypeLabel: string;
+            /**
+             * Incomplete
+             * @default false
+             */
+            incomplete: boolean;
             /** Maximum */
             maximum: number;
             /** Obtained */

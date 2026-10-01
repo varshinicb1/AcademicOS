@@ -82,3 +82,35 @@ def test_the_analysis(w, paper):
     assert a["summary"]["students"] == 2 and a["summary"]["meanPercent"] == 50.0
     assert a["summary"]["bands"]["B1"] == 1 and a["summary"]["bands"]["E"] == 1      # 75% and 25%
     assert [c["name"] for c in a["chapters"]] == ["light"] and a["chapters"][0]["questions"] == 3
+
+
+def test_a_partly_entered_row_is_incomplete_and_left_out_of_the_class_figures(w, paper):
+    """v3 audit N-2-10: a row with only some cells entered was graded over the
+    whole paper (5 of 38 cells read 5.0, 6.2%, band E) and averaged into the
+    class. It is now marked incomplete, ungraded, and left out of the class
+    figures; its entered cells still count for their questions."""
+    r = _put(w, paper, {"entries": [_cell(w, "s1", "q1", 1), _cell(w, "s1", "q2", 1), _cell(w, "s1", "q3", 2),
+                                    _cell(w, "s2", "q3", 1)]})
+    assert r.status_code == 200, r.text
+    rows = {x["studentId"]: x for x in r.json()["rows"]}
+    done, part = rows[w.ids["s1"]], rows[w.ids["s2"]]
+    assert done["complete"] is True and (done["total"], done["percent"], done["band"]) == (4, 100, "A1")
+    assert part["complete"] is False and part["marks"] == {"q3": 1}, "what was entered is kept"
+    assert (part["total"], part["percent"], part["band"]) == (None, None, None), "not graded as a whole paper"
+    grid = w.c.get(f"/api/v1/papers/{paper}/marks", params={"sectionId": w.a10}, headers=w.ana).json()
+    assert {x["studentId"]: x["complete"] for x in grid["rows"]} == {w.ids["s1"]: True, w.ids["s2"]: False}
+
+    a = w.c.get(f"/api/v1/papers/{paper}/analysis", params={"sectionId": w.a10}, headers=w.ana).json()
+    s = a["summary"]
+    assert (s["students"], s["absent"], s["incomplete"]) == (2, 0, 1)
+    assert (s["meanPercent"], s["medianPercent"], s["lowestPercent"]) == (100.0, 100.0, 100.0)
+    assert s["bands"]["A1"] == 1 and sum(s["bands"].values()) == 1, "the incomplete row has no band"
+    by_q = {q["questionId"]: q for q in a["questions"]}
+    assert (by_q["q3"]["attempted"], by_q["q3"]["facility"]) == (2, 0.75), "entered cells count for their question"
+    assert (by_q["q1"]["attempted"], by_q["q1"]["facility"]) == (1, 1.0), "a missing cell is not a zero"
+
+    # Entering the rest grades the row and brings it into the class figures.
+    _put(w, paper, {"entries": [_cell(w, "s2", "q1", 0), _cell(w, "s2", "q2", 0)]})
+    a = w.c.get(f"/api/v1/papers/{paper}/analysis", params={"sectionId": w.a10}, headers=w.ana).json()
+    assert a["summary"]["incomplete"] == 0 and a["summary"]["meanPercent"] == 62.5
+    assert a["summary"]["bands"]["E"] == 1

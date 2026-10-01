@@ -25,7 +25,7 @@ def test_marks_save_for_the_consented_and_name_the_rest(w, paper):  # noqa: F811
     grid = r.json()
     assert grid["withoutConsent"] == ["Bhavna"], "named, not an internal id"
     rows = {x["studentId"]: x for x in grid["rows"]}
-    assert rows[w.ids["s1"]]["total"] == 1 and rows[w.ids["s2"]]["total"] is None
+    assert rows[w.ids["s1"]]["marks"] == {"q1": 1} and rows[w.ids["s2"]]["marks"] == {}
     # Only students without consent: still refused, by name.
     only = _put(w, paper, {"entries": [_cell(w, "s2", "q1", 1)]})
     assert only.status_code == 409 and "Bhavna" in only.json()["detail"] and "user_" not in only.json()["detail"]
@@ -55,9 +55,19 @@ def test_the_teacher_hears_homework_is_coming_in(w):
 
 
 def test_a_student_and_their_parent_hear_a_tests_marks_once(w, paper):  # noqa: F811
+    from test_guardians import _h, _parent
+    mum = _h(_parent(w))
+
+    def told(who=w.s1):
+        return [i for i in w.c.get("/api/v1/notifications", headers=who).json()["items"] if i["kind"] == "test_marks"]
     assert _put(w, paper, {"entries": [_cell(w, "s1", "q1", 1), _cell(w, "s1", "q3", 2)]}).status_code == 200
+    # Two of three questions entered is not a total (v3 audit N-2-10): told
+    # "3 out of 4" here, the student never heard the real total, since a
+    # later save is not sent again.
+    assert told() == [] and told(mum) == [], "neither is told a partly entered total"
     assert _put(w, paper, {"entries": [_cell(w, "s1", "q2", 1)]}).status_code == 200
-    told = [i for i in w.c.get("/api/v1/notifications", headers=w.s1).json()["items"] if i["kind"] == "test_marks"]
-    assert len(told) == 1, "once per paper, not on every save"
-    assert told[0]["title"] == "Marks: Light test" and "3 out of 4" in told[0]["body"]
-    assert told[0]["link"] == "/my-learning"
+    assert _put(w, paper, {"entries": [_cell(w, "s1", "q2", 0)]}).status_code == 200
+    assert len(told()) == 1 and len(told(mum)) == 1, "once per paper, not on every save"
+    assert told()[0]["title"] == "Marks: Light test" and "4 out of 4" in told()[0]["body"]
+    assert "4 out of 4" in told(mum)[0]["body"]
+    assert told()[0]["link"] == "/my-learning"
