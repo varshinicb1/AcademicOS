@@ -354,7 +354,7 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
       rows = await Ops.list('/api-keys/${k['id']}/usage');
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
       return;
     }
     if (!mounted) return;
