@@ -710,6 +710,23 @@ class _GenerateTab extends StatefulWidget {
   State<_GenerateTab> createState() => _GenerateTabState();
 }
 
+/// One period of the generated week's diff as a line: "Mon P3: Science
+/// (Ana) → Maths (Bala)", with "free" for a period added or emptied.
+String periodChangeLine(Map change) {
+  String holds(Map? p) {
+    if (p == null) return tr('free');
+    final teacher = p['teacherName'] as String?;
+    final room = p['roomName'] as String?;
+    return [
+      '${p['subjectName'] ?? p['subjectId']}${teacher == null ? '' : ' ($teacher)'}',
+      if (room != null) room,
+    ].join(', ');
+  }
+
+  return '${tr(_dayNames[change['dayOfWeek'] as int])} P${change['period']}: '
+      '${holds(change['before'] as Map?)} → ${holds(change['after'] as Map?)}';
+}
+
 class _GenerateTabState extends State<_GenerateTab> {
   final _maxDay = TextEditingController(text: '7');
   final _maxRow = TextEditingController(text: '4');
@@ -725,27 +742,44 @@ class _GenerateTabState extends State<_GenerateTab> {
     super.dispose();
   }
 
-  Future<void> _solve({required bool apply}) async {
+  /// Generates a week and shows it without writing; the server keeps it
+  /// under a preview id, and publishing writes exactly that week (N-3-6).
+  Future<void> _preview() async {
     final maxDay = int.tryParse(_maxDay.text.trim()), maxRow = int.tryParse(_maxRow.text.trim());
     if (maxDay == null || maxDay < 1 || maxDay > 12 || maxRow == null || maxRow < 1 || maxRow > 12) {
       setState(() => _error = tr('A teacher\'s most a day and in a row are whole numbers from 1 to 12.'));
       return;
     }
+    await _send(() => Ops.post('$_base/academic-years/${widget.data.yearId}/timetable/solve', body: {
+          'apply': false,
+          'keepExisting': _keep,
+          'maxPerDay': maxDay,
+          'maxConsecutive': maxRow,
+          'timeLimitSeconds': 60,
+        }));
+  }
+
+  Future<void> _publish() async {
+    final id = _result?['previewId'] as String?;
+    if (id == null) return;
+    final ok = await _send(
+        () => Ops.post('$_base/academic-years/${widget.data.yearId}/timetable/previews/$id/publish'));
+    // A stale or replaced preview cannot be published: preview again first.
+    if (!ok && mounted) setState(() => _result = {...?_result, 'previewId': null});
+  }
+
+  Future<bool> _send(Future<dynamic> Function() call) async {
     setState(() {
       _busy = true;
       _error = null;
     });
     try {
-      final r = await Ops.post('$_base/academic-years/${widget.data.yearId}/timetable/solve', body: {
-        'apply': apply,
-        'keepExisting': _keep,
-        'maxPerDay': maxDay,
-        'maxConsecutive': maxRow,
-        'timeLimitSeconds': 60,
-      });
+      final r = await call();
       if (mounted) setState(() => _result = Map<String, dynamic>.from(r as Map));
+      return true;
     } catch (e) {
       if (mounted) setState(() => _error = serverErrorMessage(e));
+      return false;
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -756,9 +790,15 @@ class _GenerateTabState extends State<_GenerateTab> {
     final theme = Theme.of(context);
     final r = _result;
     final solved = r?['status'] == 'solved';
+    final changes = ((r?['changes'] as List?) ?? const []).cast<Map>();
+    final bySection = <String, List<Map>>{};
+    for (final c in changes) {
+      bySection.putIfAbsent(c['sectionId'] as String, () => []).add(c);
+    }
     return ListView(padding: const EdgeInsets.all(16), children: [
       Text(tr('Generate a clash-free week for every section from the allocations, rooms and bell. '
-          'Preview first: nothing changes until you publish.'), style: theme.textTheme.bodySmall),
+          'Preview first: nothing changes until you publish, and publishing writes exactly the week previewed.'),
+          style: theme.textTheme.bodySmall),
       const Gap(12),
       Wrap(spacing: 12, runSpacing: 12, children: [
         SizedBox(width: 180, child: TextField(key: const ValueKey('solve-max-day'), controller: _maxDay,
@@ -776,10 +816,10 @@ class _GenerateTabState extends State<_GenerateTab> {
       ),
       if (_error != null) ...[_errorText(context, _error!), const Gap(8)],
       Wrap(spacing: 8, children: [
-        FilledButton.tonal(key: const ValueKey('solve-preview'), onPressed: _busy ? null : () => _solve(apply: false),
+        FilledButton.tonal(key: const ValueKey('solve-preview'), onPressed: _busy ? null : _preview,
             style: phoneTapTarget(context), child: Text(tr('Preview'))),
-        FilledButton(key: const ValueKey('solve-publish'), onPressed: _busy || !solved || r?['applied'] == true
-            ? null : () => _solve(apply: true),
+        FilledButton(key: const ValueKey('solve-publish'),
+            onPressed: _busy || !solved || r?['applied'] == true || r?['previewId'] == null ? null : _publish,
             style: phoneTapTarget(context), child: Text(tr('Publish'))),
       ]),
       if (_busy) ...[const Gap(12), const LinearProgressIndicator()],
@@ -798,6 +838,22 @@ class _GenerateTabState extends State<_GenerateTab> {
           Text('${tr('keeps')} ${r['kept']}, ${tr('moves or adds')} ${r['movedOrAdded']}, '
               '${tr('removes')} ${r['removed']} ${tr('periods')} (${r['seconds']} s)'),
         for (final p in (r['problems'] as List? ?? const [])) Text('- $p'),
+        if (solved && changes.isEmpty) Text(key: const ValueKey('solve-no-changes'), tr('No period changes.')),
+        if (changes.isNotEmpty) ...[
+          const Gap(8),
+          Text('${changes.length} ${tr('periods change')}:', style: theme.textTheme.titleSmall),
+          // Section by section, each period's before and after.
+          for (final MapEntry(key: sectionId, value: rows) in bySection.entries)
+            ExpansionTile(
+              key: ValueKey('solve-changes-$sectionId'),
+              tilePadding: EdgeInsets.zero,
+              childrenPadding: const EdgeInsets.only(bottom: 8),
+              expandedCrossAxisAlignment: CrossAxisAlignment.start,
+              title: Text('${rows.first['sectionName'] ?? widget.data.sectionLabel(sectionId)}: '
+                  '${rows.length} ${tr('periods')}'),
+              children: [for (final c in rows) Text(periodChangeLine(c), style: theme.textTheme.bodySmall)],
+            ),
+        ],
       ],
     ]);
   }

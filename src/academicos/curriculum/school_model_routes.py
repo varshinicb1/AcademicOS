@@ -18,7 +18,7 @@ from ..assessment.auth_routes import get_current_user, require_admin, require_pr
 from ..assessment.users import User
 from . import routes as cr
 from .schemas import Camel
-from .school_model import InUse, TimetableClash
+from .school_model import InUse, StalePreview, TimetableClash
 
 router = APIRouter(prefix="/api/v1/curriculum")
 
@@ -625,6 +625,29 @@ class ProposedEntryResponse(Camel):
     co_teacher_id: Optional[str] = None
 
 
+class PeriodResponse(Camel):
+    """What one period holds, with names to read it by."""
+    subject_id: str
+    subject_name: Optional[str] = None
+    teacher_id: Optional[str] = None
+    teacher_name: Optional[str] = None
+    room_id: Optional[str] = None
+    room_name: Optional[str] = None
+    co_teacher_id: Optional[str] = None
+
+
+class PeriodChangeResponse(Camel):
+    """One period of one section the generated week changes (N-3-6):
+    `before` -> `after`. No `before` is a period added; no `after`, one
+    that becomes free."""
+    section_id: str
+    section_name: Optional[str] = None
+    day_of_week: int
+    period: int
+    before: Optional[PeriodResponse] = None
+    after: Optional[PeriodResponse] = None
+
+
 class SolveResponse(Camel):
     status: str           # solved | infeasible | timeout | nothing_to_solve
     applied: bool
@@ -634,6 +657,77 @@ class SolveResponse(Camel):
     removed: int
     seconds: float
     entries: list[ProposedEntryResponse]
+    # A proposal (apply: false) is kept under this id: publishing it writes
+    # exactly this week, not a second solve (N-3-6).
+    preview_id: Optional[str] = None
+    # Every period that differs from the current week, section by section.
+    changes: list[PeriodChangeResponse] = []
+
+
+def _changes(before: list, after: list, section_ids: set[str]) -> list[PeriodChangeResponse]:
+    """The per-period diff of a week: each (section, day, period) whose
+    subject, teacher, room or co-teacher differs, in section, day and
+    period order."""
+    store, users = cr._require(), cr._require_users()
+    names: dict[tuple[str, str], Optional[str]] = {}
+
+    def name(kind: str, key: Optional[str]) -> Optional[str]:
+        if key is None:
+            return None
+        if (kind, key) not in names:
+            if kind == "subject":
+                row = store.get_subject(key)
+            elif kind == "room":
+                row = store.get_room(key)
+            else:
+                row = users.get(key)
+            names[(kind, key)] = row.name if row else None
+        return names[(kind, key)]
+
+    def holds(e) -> Optional[PeriodResponse]:
+        if e is None:
+            return None
+        return PeriodResponse(subject_id=e.subject_id, subject_name=name("subject", e.subject_id),
+                              teacher_id=e.teacher_id, teacher_name=name("user", e.teacher_id),
+                              room_id=e.room_id, room_name=name("room", e.room_id),
+                              co_teacher_id=getattr(e, "co_teacher_id", None))
+
+    def keyed(entries: list) -> dict:
+        return {(e.section_id, e.day_of_week, e.period): e for e in entries if e.section_id in section_ids}
+
+    def same(a, b) -> bool:
+        look = lambda e: (e.subject_id, e.teacher_id, e.room_id, getattr(e, "co_teacher_id", None))  # noqa: E731
+        return a is not None and b is not None and look(a) == look(b)
+
+    old, new = keyed(before), keyed(after)
+    labels = {s.id: store._section_label(s) for s in (store.get_section(sid) for sid in section_ids) if s}
+    out = []
+    for key in sorted(set(old) | set(new), key=lambda k: (labels.get(k[0], k[0]), k[1], k[2])):
+        if not same(old.get(key), new.get(key)):
+            out.append(PeriodChangeResponse(section_id=key[0], section_name=labels.get(key[0]),
+                                            day_of_week=key[1], period=key[2],
+                                            before=holds(old.get(key)), after=holds(new.get(key))))
+    return out
+
+
+def _proposed(entries: list) -> list[ProposedEntryResponse]:
+    return [ProposedEntryResponse(section_id=e.section_id, day_of_week=e.day_of_week, period=e.period,
+                                  subject_id=e.subject_id, teacher_id=e.teacher_id, room_id=e.room_id,
+                                  co_teacher_id=e.co_teacher_id)
+            for e in entries]
+
+
+def _published(principal: User, academic_year_id: str, week_before: list, solving: set[str],
+               summary: dict[str, Any], preview_id: Optional[str] = None) -> None:
+    """The audit entry and the notices for a week just written."""
+    store = cr._require()
+    _audit("timetable_solved", principal,
+           {"academicYearId": academic_year_id, "sections": len(solving), "kept": summary["kept"],
+            "movedOrAdded": summary["movedOrAdded"], "removed": summary["removed"],
+            **({"previewId": preview_id} if preview_id else {})})
+    _tell_timetable_change(principal, week_before,
+                           [e for e in store.timetable_for_year(academic_year_id) if e.section_id in solving],
+                           solving)
 
 
 @router.post("/academic-years/{academic_year_id}/timetable/solve", response_model=SolveResponse)
@@ -643,8 +737,13 @@ def solve_timetable(academic_year_id: str, req: SolveRequest,
     the allocations and bells: no teacher, room or section in two places,
     a teacher's maximum a day and in a row, subjects spread across the week,
     unavailable periods free, locked periods kept, and -- with keepExisting
-    -- the fewest changes to the current week. `apply: false` returns the
-    proposal and its diff without writing; `apply: true` publishes it."""
+    -- the fewest changes to the current week. Every changed period is
+    listed in `changes`.
+
+    `apply: false` writes nothing: it keeps the proposal under `previewId`,
+    which `POST .../timetable/previews/{previewId}/publish` writes exactly
+    (N-3-6). `apply: true` generates and publishes in one step: the week
+    written is the one returned."""
     from .timetable_solver import SolveOptions, solve
     cr._require_school_owns_academic_year(academic_year_id, principal)
     store = cr._require()
@@ -653,30 +752,60 @@ def solve_timetable(academic_year_id: str, req: SolveRequest,
         for sid in req.section_ids:
             cr._require_school_owns_section(sid, principal)
         section_ids = set(req.section_ids)
+    # Fingerprinted before the solve reads anything: a change made while it
+    # runs makes the preview stale, never silently part of it.
+    inputs = store.timetable_inputs_hash(academic_year_id)
     result = solve(store, academic_year_id, SolveOptions(
         max_per_day=req.max_per_day, max_consecutive=req.max_consecutive,
         keep_existing=req.keep_existing, time_limit_seconds=req.time_limit_seconds,
         section_ids=section_ids))
-    applied = False
-    if req.apply and result.status == "solved":
-        solving = section_ids or {s.id for s in store.sections_for_year(academic_year_id)}
-        week_before = [e for e in store.timetable_for_year(academic_year_id) if e.section_id in solving]
+    solving = section_ids or {s.id for s in store.sections_for_year(academic_year_id)}
+    summary = {"kept": result.kept, "movedOrAdded": result.moved_or_added, "removed": result.removed,
+               "seconds": round(result.seconds, 2)}
+    week_before = [e for e in store.timetable_for_year(academic_year_id) if e.section_id in solving]
+    applied, preview_id = False, None
+    if result.status == "solved" and req.apply:
         store.apply_solved_timetable(academic_year_id, result.entries, solving)
         applied = True
-        _audit("timetable_solved", principal,
-               {"academicYearId": academic_year_id, "sections": len(solving), "kept": result.kept,
-                "movedOrAdded": result.moved_or_added, "removed": result.removed})
-        _tell_timetable_change(principal, week_before,
-                               [e for e in store.timetable_for_year(academic_year_id) if e.section_id in solving],
-                               solving)
+        _published(principal, academic_year_id, week_before, solving, summary)
+    elif result.status == "solved":
+        preview_id = store.save_timetable_preview(academic_year_id=academic_year_id, section_ids=solving,
+                                                  entries=result.entries, summary=summary, inputs_hash=inputs,
+                                                  created_by=principal.id)
     return SolveResponse(
         status=result.status, applied=applied, problems=result.problems, kept=result.kept,
         moved_or_added=result.moved_or_added, removed=result.removed, seconds=round(result.seconds, 2),
-        entries=[ProposedEntryResponse(section_id=e.section_id, day_of_week=e.day_of_week,
-                                       period=e.period, subject_id=e.subject_id,
-                                       teacher_id=e.teacher_id, room_id=e.room_id,
-                                       co_teacher_id=e.co_teacher_id)
-                 for e in result.entries])
+        entries=_proposed(result.entries), preview_id=preview_id,
+        changes=_changes(week_before, result.entries, solving) if result.status == "solved" else [])
+
+
+@router.post("/academic-years/{academic_year_id}/timetable/previews/{preview_id}/publish",
+             response_model=SolveResponse)
+def publish_timetable_preview(academic_year_id: str, preview_id: str,
+                              principal: User = Depends(require_admin("timetable"))) -> SolveResponse:
+    """Publish exactly the week a preview showed -- no second solve, so what
+    the principal approved is what the school gets (N-3-6). 404: no such
+    preview (a newer one or a publish replaced it). 409: the timetable,
+    allocations, bells, rooms or availability changed after the preview was
+    made; preview again."""
+    from .timetable_solver import ProposedEntry
+    cr._require_school_owns_academic_year(academic_year_id, principal)
+    store = cr._require()
+    try:
+        preview, week_before = store.publish_timetable_preview(preview_id, academic_year_id,
+                                                               lambda d: ProposedEntry(**d))
+    except KeyError:
+        raise HTTPException(404, "that preview is gone: a newer preview or a publish replaced it; preview again")
+    except StalePreview:
+        raise HTTPException(409, "the timetable, allocations, bells, rooms or availability changed after this "
+                                 "preview was made; preview again to see the week that fits them now")
+    solving, summary = preview["section_ids"], preview["summary"]
+    entries = [ProposedEntry(**d) for d in preview["entries"]]
+    _published(principal, academic_year_id, week_before, solving, summary, preview_id=preview_id)
+    return SolveResponse(status="solved", applied=True, problems=[], kept=summary["kept"],
+                         moved_or_added=summary["movedOrAdded"], removed=summary["removed"],
+                         seconds=summary["seconds"], entries=_proposed(entries), preview_id=preview_id,
+                         changes=_changes(week_before, entries, solving))
 
 
 class UnavailableSlot(_Req):

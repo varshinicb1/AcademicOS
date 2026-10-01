@@ -170,6 +170,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/curriculum/sections/{section_id}/timetable"),
     ("GET", "/api/v1/curriculum/my-timetable"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/previews/{preview_id}/publish"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability"),
     ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability"),
@@ -500,6 +501,7 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/curriculum/sections/{section_id}/timetable"),
     ("GET", "/api/v1/curriculum/my-timetable"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/previews/{preview_id}/publish"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability"),
     ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability"),
@@ -974,7 +976,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 311: TA-2 the caller's own calendar and teaching load in the apps.
     # 314: EX-8 report cards (a student's, as JSON and PDF; a section's PDF).
     # 315: N-67-5 every section's lesson plan in one action.
-    assert len(API_ROUTES) == 315
+    # 316: N-3-6 publishing exactly a previewed week.
+    assert len(API_ROUTES) == 316
 
 
 def test_docs_routes_present():

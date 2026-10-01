@@ -9301,6 +9301,61 @@
         "title": "PathQuery",
         "type": "object"
       },
+      "PeriodChangeResponse": {
+        "description": "One period of one section the generated week changes (N-3-6):\n`before` -> `after`. No `before` is a period added; no `after`, one\nthat becomes free.",
+        "properties": {
+          "after": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PeriodResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "before": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PeriodResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "dayOfWeek": {
+            "title": "Dayofweek",
+            "type": "integer"
+          },
+          "period": {
+            "title": "Period",
+            "type": "integer"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "sectionName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionname"
+          }
+        },
+        "required": [
+          "sectionId",
+          "dayOfWeek",
+          "period"
+        ],
+        "title": "PeriodChangeResponse",
+        "type": "object"
+      },
       "PeriodConfigurationResponse": {
         "properties": {
           "academicYearId": {
@@ -9327,6 +9382,86 @@
           "periodMinutes"
         ],
         "title": "PeriodConfigurationResponse",
+        "type": "object"
+      },
+      "PeriodResponse": {
+        "description": "What one period holds, with names to read it by.",
+        "properties": {
+          "coTeacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coteacherid"
+          },
+          "roomId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomid"
+          },
+          "roomName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomname"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "subjectName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subjectname"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          },
+          "teacherName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teachername"
+          }
+        },
+        "required": [
+          "subjectId"
+        ],
+        "title": "PeriodResponse",
         "type": "object"
       },
       "PhotoResponse": {
@@ -13967,6 +14102,14 @@
             "title": "Applied",
             "type": "boolean"
           },
+          "changes": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/PeriodChangeResponse"
+            },
+            "title": "Changes",
+            "type": "array"
+          },
           "entries": {
             "items": {
               "$ref": "#/components/schemas/ProposedEntryResponse"
@@ -13981,6 +14124,17 @@
           "movedOrAdded": {
             "title": "Movedoradded",
             "type": "integer"
+          },
+          "previewId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previewid"
           },
           "problems": {
             "items": {
@@ -21479,9 +21633,63 @@
         "summary": "Add Timetable Slot"
       }
     },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/previews/{preview_id}/publish": {
+      "post": {
+        "description": "Publish exactly the week a preview showed -- no second solve, so what\nthe principal approved is what the school gets (N-3-6). 404: no such\npreview (a newer one or a publish replaced it). 409: the timetable,\nallocations, bells, rooms or availability changed after the preview was\nmade; preview again.",
+        "operationId": "publish_timetable_preview_api_v1_curriculum_academic_years__academic_year_id__timetable_previews__preview_id__publish_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "preview_id",
+            "required": true,
+            "schema": {
+              "title": "Preview Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SolveResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Publish Timetable Preview"
+      }
+    },
     "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve": {
       "post": {
-        "description": "Generate a clash-free week for the whole school (or `sectionIds`) from\nthe allocations and bells: no teacher, room or section in two places,\na teacher's maximum a day and in a row, subjects spread across the week,\nunavailable periods free, locked periods kept, and -- with keepExisting\n-- the fewest changes to the current week. `apply: false` returns the\nproposal and its diff without writing; `apply: true` publishes it.",
+        "description": "Generate a clash-free week for the whole school (or `sectionIds`) from\nthe allocations and bells: no teacher, room or section in two places,\na teacher's maximum a day and in a row, subjects spread across the week,\nunavailable periods free, locked periods kept, and -- with keepExisting\n-- the fewest changes to the current week. Every changed period is\nlisted in `changes`.\n\n`apply: false` writes nothing: it keeps the proposal under `previewId`,\nwhich `POST .../timetable/previews/{previewId}/publish` writes exactly\n(N-3-6). `apply: true` generates and publishes in one step: the week\nwritten is the one returned.",
         "operationId": "solve_timetable_api_v1_curriculum_academic_years__academic_year_id__timetable_solve_post",
         "parameters": [
           {

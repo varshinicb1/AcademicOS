@@ -107,6 +107,23 @@ CREATE TABLE IF NOT EXISTS room_unavailability (
   PRIMARY KEY (academic_year_id, room_id, day_of_week, period)
 );
 
+-- SCH-3 (audit N-3-6): a generated week the principal previewed, kept so
+-- that publishing writes exactly that week instead of solving again (the
+-- solver is not deterministic). `inputs_hash` fingerprints everything the
+-- week was made from; a publish after any of it changed is refused.
+CREATE TABLE IF NOT EXISTS timetable_previews (
+  id               TEXT PRIMARY KEY,
+  school_id        TEXT NOT NULL,
+  academic_year_id TEXT NOT NULL,
+  section_ids_json TEXT NOT NULL,
+  entries_json     TEXT NOT NULL,
+  summary_json     TEXT NOT NULL,
+  inputs_hash      TEXT NOT NULL,
+  created_by       TEXT,
+  created_at       TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_tt_preview_year ON timetable_previews(academic_year_id, created_at);
+
 -- SCH-4: the cadence each section's plan of a book was placed with (the
 -- school-wide plan's stays in book_schedule_cadences).
 CREATE TABLE IF NOT EXISTS section_plan_cadences (
@@ -147,6 +164,16 @@ class TimetableClash(ValueError):
 
 class InUse(Exception):
     """A delete refused because something still points at the row (the 409)."""
+
+
+class StalePreview(Exception):
+    """A previewed week whose inputs changed after it was made (the 409):
+    publishing it would write a week nobody checked against today's data."""
+
+
+# Previews kept per year: the newest few, so two people previewing at once
+# do not lose each other's, and the database does not fill with weeks.
+PREVIEWS_KEPT = 3
 
 
 @dataclass
@@ -916,6 +943,86 @@ class SchoolModelMixin:
                 written += 1
         self._commit()
         return written
+
+    # ---------------- previewed weeks (SCH-3, audit N-3-6) ----------------
+
+    def timetable_inputs_hash(self, academic_year_id: str) -> str:
+        """A fingerprint of everything a generated week is made from: the
+        year's sections and their bells, allocations, bell schedules, the
+        current timetable (locks included), unavailable periods and rooms.
+        Equal fingerprints mean a previewed week still fits the school."""
+        import hashlib
+        with self._conn_lock:
+            year = self.get_academic_year(academic_year_id)
+
+            def rows(sql: str, params: tuple = (academic_year_id,)) -> list:
+                return sorted(json.dumps({k: v for k, v in r.items() if k not in ("id", "created_at")},
+                                         sort_keys=True, default=str)
+                              for r in self._fetchall(sql, params))
+            parts = {
+                "sections": rows("SELECT id AS sid, bell_schedule_id FROM sections WHERE academic_year_id=?"),
+                "allocations": rows("SELECT * FROM teaching_allocations WHERE academic_year_id=?"),
+                "bells": rows("SELECT id AS bid, days_json, slots_json, is_default FROM bell_schedules "
+                              "WHERE academic_year_id=?"),
+                "timetable": rows("SELECT * FROM timetable_entries WHERE academic_year_id=?"),
+                "teachers_away": rows("SELECT * FROM teacher_unavailability WHERE academic_year_id=?"),
+                "rooms_closed": rows("SELECT * FROM room_unavailability WHERE academic_year_id=?"),
+                "rooms": rows("SELECT id AS rid, kind FROM rooms WHERE school_id=?",
+                              (year.school_id if year else "",)),
+            }
+        return hashlib.sha256(json.dumps(parts, sort_keys=True).encode()).hexdigest()
+
+    def save_timetable_preview(self, *, academic_year_id: str, section_ids: set[str], entries: list,
+                               summary: dict[str, Any], inputs_hash: str, created_by: Optional[str]) -> str:
+        """Keep a generated week to publish later; returns its id. Only the
+        year's newest PREVIEWS_KEPT are kept."""
+        with self._conn_lock:
+            year = self.get_academic_year(academic_year_id)
+            if year is None:
+                raise KeyError(academic_year_id)
+            preview_id = _new_id("ttprev")
+            self._exec("INSERT INTO timetable_previews (id, school_id, academic_year_id, section_ids_json, "
+                       "entries_json, summary_json, inputs_hash, created_by, created_at) VALUES (?,?,?,?,?,?,?,?,?)",
+                       (preview_id, year.school_id, academic_year_id, json.dumps(sorted(section_ids)),
+                        json.dumps([dict(e.__dict__) for e in entries]), json.dumps(summary), inputs_hash,
+                        created_by, _now()))
+            self._exec("DELETE FROM timetable_previews WHERE academic_year_id=? AND id NOT IN "
+                       "(SELECT id FROM timetable_previews WHERE academic_year_id=? "
+                       "ORDER BY created_at DESC, rowid DESC LIMIT ?)",
+                       (academic_year_id, academic_year_id, PREVIEWS_KEPT))
+        self._commit()
+        return preview_id
+
+    def get_timetable_preview(self, preview_id: str) -> Optional[dict[str, Any]]:
+        r = self._fetchone("SELECT * FROM timetable_previews WHERE id=?", (preview_id,))
+        if r is None:
+            return None
+        return {"id": r["id"], "school_id": r["school_id"], "academic_year_id": r["academic_year_id"],
+                "section_ids": set(json.loads(r["section_ids_json"])), "entries": json.loads(r["entries_json"]),
+                "summary": json.loads(r["summary_json"]), "inputs_hash": r["inputs_hash"],
+                "created_by": r["created_by"], "created_at": r["created_at"]}
+
+    def publish_timetable_preview(self, preview_id: str, academic_year_id: str,
+                                  make_entry) -> tuple[dict[str, Any], list[TimetableEntry]]:
+        """Write exactly the previewed week, checked and written in one lock
+        hold. KeyError: no such preview for this year. StalePreview: what it
+        was made from has changed since. `make_entry` turns a stored entry
+        back into the solver's ProposedEntry. Returns (preview, the solved
+        sections' week as it was before)."""
+        with self._conn_lock:
+            preview = self.get_timetable_preview(preview_id)
+            if preview is None or preview["academic_year_id"] != academic_year_id:
+                raise KeyError(preview_id)
+            if self.timetable_inputs_hash(academic_year_id) != preview["inputs_hash"]:
+                raise StalePreview(preview_id)
+            before = [e for e in self.timetable_for_year(academic_year_id)
+                      if e.section_id in preview["section_ids"]]
+            self.apply_solved_timetable(academic_year_id, [make_entry(d) for d in preview["entries"]],
+                                        preview["section_ids"])
+            # Every other preview of the year was made from the week just replaced.
+            self._exec("DELETE FROM timetable_previews WHERE academic_year_id=?", (academic_year_id,))
+        self._commit()
+        return preview, before
 
     def timetable_gaps(self, section_id: str) -> list[dict[str, Any]]:
         """Per allocated subject of the section: allocated vs timetabled

@@ -28,8 +28,21 @@ class _Backend implements HttpClientAdapter {
   final List<(String, String, dynamic)> sent = [];
   Map<String, dynamic> solveAnswer = {
     'status': 'solved', 'applied': false, 'problems': <String>[], 'kept': 40, 'movedOrAdded': 4,
-    'removed': 2, 'seconds': 1.5, 'entries': <dynamic>[],
+    'removed': 2, 'seconds': 1.5, 'entries': <dynamic>[], 'previewId': 'ttprev_1',
+    'changes': [
+      {'sectionId': 'sec_a', 'sectionName': '10-A', 'dayOfWeek': 0, 'period': 3,
+        'before': {'subjectId': 'sci', 'subjectName': 'Science', 'teacherId': 't_ana', 'teacherName': 'Ana'},
+        'after': {'subjectId': 'mat', 'subjectName': 'Maths', 'teacherId': 't_dev', 'teacherName': 'Dev',
+          'roomId': 'room_1', 'roomName': 'Room 1'}},
+      {'sectionId': 'sec_a', 'sectionName': '10-A', 'dayOfWeek': 1, 'period': 1, 'before': null,
+        'after': {'subjectId': 'sci', 'subjectName': 'Science', 'teacherId': 't_ana', 'teacherName': 'Ana'}},
+      {'sectionId': 'sec_b', 'sectionName': '10-B', 'dayOfWeek': 4, 'period': 2,
+        'before': {'subjectId': 'mat', 'subjectName': 'Maths', 'teacherId': 't_dev', 'teacherName': 'Dev'},
+        'after': null},
+    ],
   };
+  // The publish route's refusal, when set: 409 for a preview made stale.
+  int? publishStatus;
   int? roomClosureStatus;
   bool weekClash = false;
 
@@ -99,6 +112,13 @@ class _Backend implements HttpClientAdapter {
       case ('POST', '/curriculum/academic-years/ay_1/timetable/solve'):
         final apply = (o.data as Map)['apply'] == true;
         return _ok({...solveAnswer, 'applied': apply && solveAnswer['status'] == 'solved'});
+      case ('POST', '/curriculum/academic-years/ay_1/timetable/previews/ttprev_1/publish'):
+        if (publishStatus != null) {
+          return ResponseBody.fromString(jsonEncode({'detail': 'the timetable, allocations, bells, rooms or '
+              'availability changed after this preview was made; preview again to see the week that fits them now'}),
+              publishStatus!, headers: _json);
+        }
+        return _ok({...solveAnswer, 'applied': true});
       case ('PUT', '/curriculum/sections/sec_a/timetable'):
         if (weekClash) {
           return ResponseBody.fromString(jsonEncode({'detail': {
@@ -254,7 +274,7 @@ void main() {
     expect(backend.sent, isEmpty);
   });
 
-  testWidgets('a preview shows the changes and publishing sends apply', (tester) async {
+  testWidgets('a preview lists every changed period, and publishing writes that preview (N-3-6)', (tester) async {
     await pump(tester);
     await openTab(tester, 'Generate');
     final publish = find.byKey(const ValueKey('solve-publish'));
@@ -263,10 +283,35 @@ void main() {
     expect(find.text('A week that meets every rule:'), findsOneWidget);
     expect(find.textContaining('keeps 40, moves or adds 4, removes 2 periods'), findsOneWidget);
     expect((backend.sent.single.$3 as Map)['apply'], isFalse);
+    expect(find.text('3 periods change:'), findsOneWidget);
+    expect(find.text('10-A: 2 periods'), findsOneWidget);
+    expect(find.text('10-B: 1 periods'), findsOneWidget);
+    await tapKey(tester, 'solve-changes-sec_a');
+    expect(find.text('Mon P3: Science (Ana) → Maths (Dev), Room 1'), findsOneWidget);
+    expect(find.text('Tue P1: free → Science (Ana)'), findsOneWidget);
 
+    // Publishing sends the preview's id, never a second solve.
     await tapKey(tester, 'solve-publish');
-    expect((backend.sent.last.$3 as Map)['apply'], isTrue);
+    final (method, path, _) = backend.sent.last;
+    expect((method, path), ('POST', '/curriculum/academic-years/ay_1/timetable/previews/ttprev_1/publish'));
+    expect(backend.sent.where((s) => s.$2.endsWith('/timetable/solve')), hasLength(1));
     expect(find.text('Published. Teachers have been told.'), findsOneWidget);
+  });
+
+  testWidgets('a preview made stale is refused, and Publish waits for a new preview', (tester) async {
+    backend.publishStatus = 409;
+    await pump(tester);
+    await openTab(tester, 'Generate');
+    await tapKey(tester, 'solve-preview');
+    await tapKey(tester, 'solve-publish');
+    expect(find.textContaining('changed after this preview was made; preview again'), findsOneWidget);
+    expect(tester.widget<FilledButton>(find.byKey(const ValueKey('solve-publish'))).onPressed, isNull);
+    expect(find.text('A week that meets every rule:'), findsOneWidget, reason: 'the preview stays to read');
+  });
+
+  test('a changed period reads as before and after', () {
+    expect(periodChangeLine({'dayOfWeek': 5, 'period': 8, 'before': {'subjectId': 'x', 'subjectName': 'Art'}, 'after': null}),
+        'Sat P8: Art → free');
   });
 
   testWidgets('a week no timetable can meet lists why and cannot be published', (tester) async {
