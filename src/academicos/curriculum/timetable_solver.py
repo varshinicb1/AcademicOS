@@ -21,7 +21,10 @@ Hard rules
   of that kind for each period, no room holds two classes at one clock
   time, and a room's unavailable periods (a lab out of use) stay free;
 - SCH-2 double periods: an allocation's `double_periods` come as two
-  periods in a row with no break between them, in the same room.
+  periods in a row with no break between them, in the same room;
+- SCH-8 groups (audit N-3-20): an elective group or a combined class is one
+  block -- each of its periods holds every member section and every lane's
+  teacher and room at once.
 
 Objective: keep the current timetable. A re-solve after a change (a new
 allocation, a teacher leaving) moves the fewest periods (SCH-3: "re-solve
@@ -42,6 +45,7 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 from .school_model import WEEKDAY_NAMES, adjacent_pairs
+from .teaching_groups import GroupSession
 
 
 @dataclass
@@ -112,6 +116,9 @@ class SolveResult:
     moved_or_added: int = 0          # entries that are new or moved
     removed: int = 0                 # current entries no longer present
     seconds: float = 0.0
+    # The periods of the groups this solve placed (`group_ids`), N-3-20.
+    group_sessions: list[GroupSession] = field(default_factory=list)
+    group_ids: set[str] = field(default_factory=set)
 
 
 def _minutes(hhmm: str) -> int:
@@ -176,6 +183,16 @@ def check_feasibility(store, academic_year_id: str, options: SolveOptions) -> li
         need_by_section[a.section_id] += a.periods_per_week
         for t in _teachers_of(a):
             need_by_teacher[t] += a.periods_per_week
+    # SCH-8 (N-3-20): an elective or a combined class takes its periods from
+    # every member section, and from every lane's teacher.
+    for g in store.teaching_groups_for_year(academic_year_id):
+        members = [sid for sid in g.section_ids if sid in sections]
+        if len({repr(grids[sid]) for sid in members}) > 1:
+            problems.append(f"{g.name} joins sections on different bells; give them one bell")
+        for sid in members:
+            need_by_section[sid] += g.periods_per_week
+        for t in g.teacher_ids:
+            need_by_teacher[t] += g.periods_per_week
     week_slots = 0
     for sid, need in need_by_section.items():
         grid = grids[sid]
@@ -276,7 +293,9 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
 
     sections = {s.id: s for s in store.sections_for_year(academic_year_id)}
     allocs = [a for a in store.allocations_for_year(academic_year_id) if a.section_id in sections]
-    if not allocs:
+    groups = [g for g in store.teaching_groups_for_year(academic_year_id)
+              if g.section_ids and all(sid in sections for sid in g.section_ids)]
+    if not allocs and not groups:
         return SolveResult(status="nothing_to_solve",
                            problems=["no allocations yet: give each section its subjects, teachers "
                                      "and periods a week first"])
@@ -292,7 +311,7 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
     rooms = store.rooms_for_school(school_id)
     closed = store.room_unavailability_for_year(academic_year_id)
     managed_kinds = {a.room_kind for a in allocs if a.room_kind}
-    managed_rooms = {r.id for r in rooms if r.kind in managed_kinds}
+    managed_rooms = {r.id for r in rooms if r.kind in managed_kinds} | {r for g in groups for r in g.room_ids}
     model = cp_model.CpModel()
     x: dict[tuple[str, int, int], cp_model.IntVar] = {}       # (alloc id, day, period)
     y: dict[tuple[str, int, int, str], cp_model.IntVar] = {}  # (alloc id, day, period, room id)
@@ -323,6 +342,36 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
                         ys.append(y[(a.id, d, p, r.id)])
                     model.Add(sum(ys) == v)          # a period in a lab is in exactly one lab
 
+    # SCH-8 (N-3-20): a group is placed when every one of its sections is
+    # being solved; otherwise its periods stay where they are. A group
+    # period takes its member sections' period (`None`: no allocation).
+    solving_groups = {g.id: g for g in groups if set(g.section_ids) <= solving}
+    placed_groups = [s for s in store.group_sessions_for_year(academic_year_id)
+                     if any(g.id == s.group_id for g in groups)]
+    group_of = {g.id: g for g in groups}
+    gx: dict[tuple[str, int, int], object] = {}
+    gx_of: dict[str, list[tuple[int, int, object]]] = defaultdict(list)
+    for g in solving_groups.values():
+        days, periods = grids[g.section_ids[0]]
+        blocked = set().union(*(unavailable.get(t, set()) for t in g.teacher_ids))
+        for d in days:
+            for p in periods:
+                if (d, p) in blocked or any((d, p) in closed.get(r, set()) for r in g.room_ids):
+                    continue
+                v = model.NewBoolVar(f"g_{g.id}_{d}_{p}")
+                gx[(g.id, d, p)] = v
+                gx_of[g.id].append((d, p, v))
+                for sid in g.section_ids:
+                    by_section_slot[(sid, d, p)].append((None, v))
+        if not gx_of[g.id]:
+            return SolveResult(status="infeasible", seconds=time.monotonic() - started, problems=[
+                f"{g.name} has no period in which all its teachers and rooms are free"])
+    fixed_group_periods = [(group_of[s.group_id], s) for s in placed_groups if s.group_id not in solving_groups]
+    for g, s_ in fixed_group_periods:
+        for sid in g.section_ids:
+            if sid in solving:
+                by_section_slot[(sid, s_.day_of_week, s_.period)].append((None, 1))
+
     # Every allocation gets exactly its periods, spread across the week.
     for a in alloc_by_id.values():
         days, _ = grids[a.section_id]
@@ -330,6 +379,17 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
         cap = _day_cap(a, days)
         on_day: dict[int, list] = defaultdict(list)
         for d, _, v in x_of[a.id]:
+            on_day[d].append(v)
+        for vs in on_day.values():
+            if len(vs) > cap:
+                model.Add(sum(vs) <= cap)
+
+    for g in solving_groups.values():
+        days, _ = grids[g.section_ids[0]]
+        model.Add(sum(v for _, _, v in gx_of[g.id]) == g.periods_per_week)
+        cap = max(1, math.ceil(g.periods_per_week / len(days)))
+        on_day = defaultdict(list)
+        for d, _, v in gx_of[g.id]:
             on_day[d].append(v)
         for vs in on_day.values():
             if len(vs) > cap:
@@ -373,18 +433,18 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
 
     # A section holds one subject per period (fixed sections are not solved).
     for key, held in by_section_slot.items():
-        if key in locked or len(held) < 2:
+        if key in locked or len(held) < 2 or all(isinstance(v, int) for _, v in held):
             continue
         model.Add(sum(v for _, v in held) <= 1)
 
     # Locked entries stay (and their slot holds nothing else).
     for key, e in locked.items():
-        held = by_section_slot.get(key, [])
-        match = [v for aid, v in held if alloc_by_id[aid].subject_id == e.subject_id]
+        held = [(aid, v) for aid, v in by_section_slot.get(key, []) if not isinstance(v, int)]
+        match = [v for aid, v in held if aid is not None and alloc_by_id[aid].subject_id == e.subject_id]
         if match:
             model.Add(match[0] == 1)
         for aid, v in held:
-            if alloc_by_id[aid].subject_id != e.subject_id:
+            if aid is None or alloc_by_id[aid].subject_id != e.subject_id:
                 model.Add(v == 0)
 
     # A teacher is in one place at a time, by clock time. Interval-graph
@@ -403,8 +463,20 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
                 for t in {e.teacher_id, e.co_teacher_id} - {None}:
                     by_teacher[t].append((e.day_of_week, start, end, 1))
 
-    # A room holds one class at a time, by clock time, like a teacher.
+    # A group's period holds every lane's teacher and room (N-3-20).
     by_room: dict[str, list[tuple[int, int, int, object]]] = defaultdict(list)
+    group_periods = [(solving_groups[gid], d, p, v) for (gid, d, p), v in gx.items()] + \
+        [(g, s_.day_of_week, s_.period, 1) for g, s_ in fixed_group_periods]
+    for g, d, p, v in group_periods:
+        start, end = grids[g.section_ids[0]][1].get(p, (None, None))
+        if start is None:
+            continue
+        for t in g.teacher_ids:
+            by_teacher[t].append((d, start, end, v))
+        for r in g.room_ids:
+            by_room[r].append((d, start, end, v))
+
+    # A room holds one class at a time, by clock time, like a teacher.
     for (aid, d, p, rid), v in y.items():
         start, end = grids[alloc_by_id[aid].section_id][1][p]
         by_room[rid].append((d, start, end, v))
@@ -462,6 +534,10 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
             yv = y.get((a.id, e.day_of_week, e.period, e.room_id)) if e.room_id else None
             if yv is not None:
                 objective.append(1 - yv)       # and keep its lab, all else equal
+        for s_ in placed_groups:
+            v = gx.get((s_.group_id, s_.day_of_week, s_.period))
+            if v is not None:
+                objective.append(10 * (1 - v))
     edge_load: dict[str, list] = defaultdict(list)
     for (aid, d, p), v in x.items():
         a = alloc_by_id[aid]
@@ -482,7 +558,10 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
     # begins from a week that is nearly right, not from nothing.
     placed = {(e.section_id, e.day_of_week, e.period, e.subject_id): e.room_id for e in current
               if e.section_id in solving}
-    if placed:
+    placed_group_keys = {(s_.group_id, s_.day_of_week, s_.period) for s_ in placed_groups}
+    if placed or placed_group_keys:
+        for key, v in gx.items():
+            model.AddHint(v, key in placed_group_keys)
         for (aid, d, p), v in x.items():
             a = alloc_by_id[aid]
             model.AddHint(v, (a.section_id, d, p, a.subject_id) in placed)
@@ -530,12 +609,18 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
             entries.append(ProposedEntry(section_id=a.section_id, day_of_week=d, period=p,
                                          subject_id=a.subject_id, teacher_id=a.teacher_id,
                                          room_id=room, co_teacher_id=a.co_teacher_id))
+    group_out = [GroupSession(group_id=gid, day_of_week=d, period=p) for (gid, d, p), v in gx.items()
+                 if solver.Value(v)]
     before = {(e.section_id, e.day_of_week, e.period, e.subject_id) for e in current
               if e.section_id in solving}
+    before |= {("group", s_.group_id, s_.day_of_week, s_.period) for s_ in placed_groups
+               if s_.group_id in solving_groups}
     after = {(e.section_id, e.day_of_week, e.period, e.subject_id) for e in entries
              if e.section_id in solving}
+    after |= {("group", s_.group_id, s_.day_of_week, s_.period) for s_ in group_out}
     return SolveResult(status="solved", entries=entries, kept=len(before & after),
-                       moved_or_added=len(after - before), removed=len(before - after), seconds=seconds)
+                       moved_or_added=len(after - before), removed=len(before - after), seconds=seconds,
+                       group_sessions=group_out, group_ids=set(solving_groups))
 
 
 def _search(solver, model, stall_seconds: float) -> int:

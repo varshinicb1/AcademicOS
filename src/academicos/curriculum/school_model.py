@@ -333,6 +333,17 @@ class _Busy:
         return next((e for other, e in self._at.get((who, day), ()) if _overlap(span, other)), None)
 
 
+@dataclass
+class _GroupPeriod:
+    """A period of an elective or combined class (N-3-20), as the clash
+    checks see it: on its first member section's bell, which all its
+    members share."""
+    section_id: str
+    day_of_week: int
+    period: int
+    group_name: str
+
+
 _UNCHANGED: Any = object()
 
 
@@ -392,6 +403,10 @@ class SchoolModelMixin:
             if doubles < 0 or 2 * doubles > periods_per_week:
                 raise ValueError(f"{doubles} double period(s) take {2 * doubles} periods; this subject "
                                  f"has {periods_per_week} a week")
+            for g in self.groups_for_section(section_id):
+                if any(lane.subject_id == subject_id for lane in g.lanes):
+                    raise ValueError(f"this section is taught that subject in the group {g.name}; "
+                                     "change the group instead")
             placed = len(self._entries_where("section_id=? AND subject_id=?", (section_id, subject_id)))
             if placed > periods_per_week:
                 raise ValueError(f"the timetable already gives this subject {placed} periods a week; "
@@ -447,15 +462,35 @@ class SchoolModelMixin:
         for e in self.timetable_for_teacher(co_teacher_id, section.academic_year_id):
             if e.section_id != section.id:
                 busy.add(co_teacher_id, e)
+        self._group_busy(section.academic_year_id, busy)
         clashes = []
         for e in mine:
             other = busy.find(co_teacher_id, e.day_of_week, clock.span(section.id, e.period))
             if other is not None:
-                where = sections.get(other.section_id)
                 clashes.append(f"{WEEKDAY_NAMES[e.day_of_week]} period {e.period}: the co-teacher already teaches "
-                               f"{self._section_label(where) if where else 'another section'} then")
+                               f"{self._clash_label(other, sections)} then")
         if clashes:
             raise TimetableClash(clashes)
+
+    def _group_busy(self, academic_year_id: str, teacher_busy: "_Busy",
+                    room_busy: Optional["_Busy"] = None) -> None:
+        """Each lane's teacher and room are taken for every period of their
+        elective or combined class (N-3-20)."""
+        for g, d, p in self.group_periods_for_year(academic_year_id):
+            if not g.section_ids:
+                continue
+            slot = _GroupPeriod(section_id=g.section_ids[0], day_of_week=d, period=p, group_name=g.name)
+            for t in g.teacher_ids:
+                teacher_busy.add(t, slot)
+            for r in g.room_ids if room_busy is not None else ():
+                room_busy.add(r, slot)
+
+    def _clash_label(self, clash, sections: dict) -> str:
+        """Who a clash is with: a group by its name, else the section."""
+        if getattr(clash, "group_name", None):
+            return f"the group {clash.group_name}"
+        other = sections.get(clash.section_id)
+        return self._section_label(other) if other else "another section"
 
     def allocation_for(self, section_id: str, subject_id: str) -> Optional[TeachingAllocation]:
         r = self._fetchone("SELECT * FROM teaching_allocations WHERE section_id=? AND subject_id=?",
@@ -513,6 +548,15 @@ class SchoolModelMixin:
         for e in self.timetable_for_year(academic_year_id):
             for t in {e.teacher_id, e.co_teacher_id} - {None}:
                 per_day[t][e.day_of_week] += 1
+        # A lane of an elective or a combined class is one class a teacher
+        # takes, for the group's periods (N-3-20).
+        for g in self.teaching_groups_for_year(academic_year_id):
+            for t in g.teacher_ids:
+                allocated[t] += g.periods_per_week
+                cells[t] += 1
+        for g, d, _ in self.group_periods_for_year(academic_year_id):
+            for t in g.teacher_ids:
+                per_day[t][d] += 1
         teachers = set(allocated) | set(per_day)
         return sorted(
             ({"teacherId": t, "allocatedPerWeek": allocated[t], "sectionSubjects": cells[t],
@@ -776,6 +820,11 @@ class SchoolModelMixin:
                         teacher_busy.add(t, e)
                 if e.room_id:
                     room_busy.add(e.room_id, e)
+            # SCH-8 (N-3-20): this section's periods in an elective or a
+            # combined class are the group's, and every lane's teacher and
+            # room are taken in each of the group's periods.
+            self._group_busy(section.academic_year_id, teacher_busy, room_busy)
+            in_group = {(d, p): g for g, d, p in self.group_periods_for_section(section_id)}
             room_closed = self.room_unavailability_for_year(section.academic_year_id)
             for i, raw in enumerate(entries, start=1):
                 day, period = int(raw["day_of_week"]), int(raw["period"])
@@ -792,6 +841,10 @@ class SchoolModelMixin:
                     problems.append(f"{where}: given twice for {label}")
                     continue
                 seen.add((day, period))
+                if (day, period) in in_group:
+                    problems.append(f"{where}: {label} is in {in_group[(day, period)].name} then; "
+                                    "change the group, not the section")
+                    continue
                 alloc = allocs.get(subject_id)
                 if alloc is None:
                     problems.append(f"{where}: {label} has no allocation for that subject; "
@@ -816,14 +869,12 @@ class SchoolModelMixin:
                 for who, t in (("teacher", teacher_id), ("co-teacher", co_teacher_id)):
                     clash = teacher_busy.find(t, day, span) if t else None
                     if clash is not None:
-                        other = sections_by_id.get(clash.section_id)
                         problems.append(f"{where}: the {who} already teaches "
-                                        f"{self._section_label(other) if other else 'another section'} then")
+                                        f"{self._clash_label(clash, sections_by_id)} then")
                 clash = room_busy.find(room_id, day, span) if room_id else None
                 if clash is not None:
-                    other = sections_by_id.get(clash.section_id)
                     problems.append(f"{where}: the room is already used by "
-                                    f"{self._section_label(other) if other else 'another section'} then")
+                                    f"{self._clash_label(clash, sections_by_id)} then")
                 per_subject[subject_id] += 1
                 rows.append(TimetableEntry(id=_new_id("tt"), school_id=section.school_id,
                                            academic_year_id=section.academic_year_id,
@@ -918,10 +969,13 @@ class SchoolModelMixin:
         return cleaned
 
     def apply_solved_timetable(self, academic_year_id: str, entries: list,
-                               section_ids: set[str]) -> int:
-        """Write a solver's week for `section_ids` in one lock hold. An entry
+                               section_ids: set[str], group_sessions: list = (),
+                               group_ids: set[str] = frozenset()) -> int:
+        """Write a solver's week for `section_ids` -- and the periods of the
+        groups in `group_ids` (N-3-20) -- in one lock hold. An entry
         identical to a locked one stays locked. Returns entries written."""
         with self._conn_lock:
+            self._replace_group_sessions(academic_year_id, set(group_ids), group_sessions)
             year = self.get_academic_year(academic_year_id)
             if year is None:
                 raise KeyError(academic_year_id)
@@ -969,11 +1023,15 @@ class SchoolModelMixin:
                 "rooms_closed": rows("SELECT * FROM room_unavailability WHERE academic_year_id=?"),
                 "rooms": rows("SELECT id AS rid, kind FROM rooms WHERE school_id=?",
                               (year.school_id if year else "",)),
+                "groups": rows("SELECT id AS gid, kind, periods_per_week, section_ids_json, lanes_json "
+                               "FROM teaching_groups WHERE academic_year_id=?"),
+                "group_periods": rows("SELECT * FROM group_sessions WHERE academic_year_id=?"),
             }
         return hashlib.sha256(json.dumps(parts, sort_keys=True).encode()).hexdigest()
 
     def save_timetable_preview(self, *, academic_year_id: str, section_ids: set[str], entries: list,
-                               summary: dict[str, Any], inputs_hash: str, created_by: Optional[str]) -> str:
+                               summary: dict[str, Any], inputs_hash: str, created_by: Optional[str],
+                               group_sessions: list = (), group_ids: set[str] = frozenset()) -> str:
         """Keep a generated week to publish later; returns its id. Only the
         year's newest PREVIEWS_KEPT are kept."""
         with self._conn_lock:
@@ -984,8 +1042,10 @@ class SchoolModelMixin:
             self._exec("INSERT INTO timetable_previews (id, school_id, academic_year_id, section_ids_json, "
                        "entries_json, summary_json, inputs_hash, created_by, created_at) VALUES (?,?,?,?,?,?,?,?,?)",
                        (preview_id, year.school_id, academic_year_id, json.dumps(sorted(section_ids)),
-                        json.dumps([dict(e.__dict__) for e in entries]), json.dumps(summary), inputs_hash,
-                        created_by, _now()))
+                        json.dumps({"entries": [dict(e.__dict__) for e in entries],
+                                    "groupSessions": [dict(s.__dict__) for s in group_sessions],
+                                    "groupIds": sorted(group_ids)}),
+                        json.dumps(summary), inputs_hash, created_by, _now()))
             self._exec("DELETE FROM timetable_previews WHERE academic_year_id=? AND id NOT IN "
                        "(SELECT id FROM timetable_previews WHERE academic_year_id=? "
                        "ORDER BY created_at DESC, rowid DESC LIMIT ?)",
@@ -997,18 +1057,21 @@ class SchoolModelMixin:
         r = self._fetchone("SELECT * FROM timetable_previews WHERE id=?", (preview_id,))
         if r is None:
             return None
+        week = json.loads(r["entries_json"])
         return {"id": r["id"], "school_id": r["school_id"], "academic_year_id": r["academic_year_id"],
-                "section_ids": set(json.loads(r["section_ids_json"])), "entries": json.loads(r["entries_json"]),
+                "section_ids": set(json.loads(r["section_ids_json"])), "entries": week["entries"],
+                "group_sessions": week["groupSessions"], "group_ids": set(week["groupIds"]),
                 "summary": json.loads(r["summary_json"]), "inputs_hash": r["inputs_hash"],
                 "created_by": r["created_by"], "created_at": r["created_at"]}
 
     def publish_timetable_preview(self, preview_id: str, academic_year_id: str,
-                                  make_entry) -> tuple[dict[str, Any], list[TimetableEntry]]:
+                                  make_entry) -> tuple[dict[str, Any], list[TimetableEntry], list]:
         """Write exactly the previewed week, checked and written in one lock
         hold. KeyError: no such preview for this year. StalePreview: what it
         was made from has changed since. `make_entry` turns a stored entry
         back into the solver's ProposedEntry. Returns (preview, the solved
-        sections' week as it was before)."""
+        sections' week as it was before, and the solved groups' periods as
+        they were: (group, day, period))."""
         with self._conn_lock:
             preview = self.get_timetable_preview(preview_id)
             if preview is None or preview["academic_year_id"] != academic_year_id:
@@ -1017,12 +1080,17 @@ class SchoolModelMixin:
                 raise StalePreview(preview_id)
             before = [e for e in self.timetable_for_year(academic_year_id)
                       if e.section_id in preview["section_ids"]]
+            groups_before = [(g, d, p) for g, d, p in self.group_periods_for_year(academic_year_id)
+                             if g.id in preview["group_ids"]]
+            from .teaching_groups import GroupSession
             self.apply_solved_timetable(academic_year_id, [make_entry(d) for d in preview["entries"]],
-                                        preview["section_ids"])
+                                        preview["section_ids"],
+                                        [GroupSession(**s) for s in preview["group_sessions"]],
+                                        preview["group_ids"])
             # Every other preview of the year was made from the week just replaced.
             self._exec("DELETE FROM timetable_previews WHERE academic_year_id=?", (academic_year_id,))
         self._commit()
-        return preview, before
+        return preview, before, groups_before
 
     def timetable_gaps(self, section_id: str) -> list[dict[str, Any]]:
         """Per allocated subject of the section: allocated vs timetabled

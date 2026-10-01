@@ -6244,6 +6244,251 @@
         "title": "GroupAnalysis",
         "type": "object"
       },
+      "GroupLaneBody": {
+        "additionalProperties": false,
+        "description": "One lane: its subject (a subject of the sections' class), teacher,\nroom, and for an elective the students who chose it. `id` keeps a lane\nacross an edit.",
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "roomId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomid"
+          },
+          "studentIds": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 200,
+            "title": "Studentids",
+            "type": "array"
+          },
+          "subjectId": {
+            "minLength": 1,
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          }
+        },
+        "required": [
+          "subjectId"
+        ],
+        "title": "GroupLaneBody",
+        "type": "object"
+      },
+      "GroupLaneResponse": {
+        "description": "One lane of a group: an elective's subject choice, or a combined\nclass's one subject, with its teacher and room.",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "roomId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomid"
+          },
+          "roomName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomname"
+          },
+          "studentIds": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Studentids",
+            "type": "array"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "subjectName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subjectname"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          },
+          "teacherName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teachername"
+          }
+        },
+        "required": [
+          "id",
+          "subjectId"
+        ],
+        "title": "GroupLaneResponse",
+        "type": "object"
+      },
+      "GroupPeriodResponse": {
+        "description": "A period a section spends in an elective group or a combined class\n(N-3-20), with every lane taught then.",
+        "properties": {
+          "dayOfWeek": {
+            "title": "Dayofweek",
+            "type": "integer"
+          },
+          "endTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Endtime"
+          },
+          "groupId": {
+            "title": "Groupid",
+            "type": "string"
+          },
+          "groupName": {
+            "title": "Groupname",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "lanes": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/GroupLaneResponse"
+            },
+            "title": "Lanes",
+            "type": "array"
+          },
+          "period": {
+            "title": "Period",
+            "type": "integer"
+          },
+          "startTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starttime"
+          }
+        },
+        "required": [
+          "groupId",
+          "groupName",
+          "kind",
+          "dayOfWeek",
+          "period"
+        ],
+        "title": "GroupPeriodResponse",
+        "type": "object"
+      },
+      "GroupSessionResponse": {
+        "description": "A period of an elective group or a combined class (N-3-20).",
+        "properties": {
+          "dayOfWeek": {
+            "title": "Dayofweek",
+            "type": "integer"
+          },
+          "groupId": {
+            "title": "Groupid",
+            "type": "string"
+          },
+          "period": {
+            "title": "Period",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "groupId",
+          "dayOfWeek",
+          "period"
+        ],
+        "title": "GroupSessionResponse",
+        "type": "object"
+      },
+      "GroupSlotResponse": {
+        "properties": {
+          "dayOfWeek": {
+            "title": "Dayofweek",
+            "type": "integer"
+          },
+          "period": {
+            "title": "Period",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "dayOfWeek",
+          "period"
+        ],
+        "title": "GroupSlotResponse",
+        "type": "object"
+      },
       "GuardianInviteRequest": {
         "additionalProperties": false,
         "properties": {
@@ -9385,7 +9630,7 @@
         "type": "object"
       },
       "PeriodResponse": {
-        "description": "What one period holds, with names to read it by.",
+        "description": "What one period holds, with names to read it by. A group's period\n(N-3-20) carries the group; its subject is the group's first lane's.",
         "properties": {
           "coTeacherId": {
             "anyOf": [
@@ -9397,6 +9642,28 @@
               }
             ],
             "title": "Coteacherid"
+          },
+          "groupId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Groupid"
+          },
+          "groupName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Groupname"
           },
           "roomId": {
             "anyOf": [
@@ -13418,6 +13685,48 @@
         "title": "SectionFix",
         "type": "object"
       },
+      "SectionMergeRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "intoSectionId": {
+            "minLength": 1,
+            "title": "Intosectionid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "intoSectionId"
+        ],
+        "title": "SectionMergeRequest",
+        "type": "object"
+      },
+      "SectionMergeResponse": {
+        "properties": {
+          "allocationsRemoved": {
+            "title": "Allocationsremoved",
+            "type": "integer"
+          },
+          "into": {
+            "$ref": "#/components/schemas/SectionResponse"
+          },
+          "movedStudents": {
+            "title": "Movedstudents",
+            "type": "integer"
+          },
+          "periodsRemoved": {
+            "title": "Periodsremoved",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "into",
+          "movedStudents",
+          "periodsRemoved",
+          "allocationsRemoved"
+        ],
+        "title": "SectionMergeResponse",
+        "type": "object"
+      },
       "SectionResponse": {
         "description": "One class of a grade (\"10-B\", M1.1). studentCount is how many\nstudents are enrolled in it now.",
         "properties": {
@@ -13466,6 +13775,60 @@
           "name"
         ],
         "title": "SectionResponse",
+        "type": "object"
+      },
+      "SectionSplitRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "studentIds": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 200,
+            "minItems": 1,
+            "title": "Studentids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "name",
+          "studentIds"
+        ],
+        "title": "SectionSplitRequest",
+        "type": "object"
+      },
+      "SectionSplitResponse": {
+        "description": "The new section, and what it took from the old one. Its week is\ngenerated next: POST .../timetable/solve with sectionIds [its id].",
+        "properties": {
+          "allocationsCopied": {
+            "title": "Allocationscopied",
+            "type": "integer"
+          },
+          "groupsJoined": {
+            "title": "Groupsjoined",
+            "type": "integer"
+          },
+          "movedStudents": {
+            "title": "Movedstudents",
+            "type": "integer"
+          },
+          "section": {
+            "$ref": "#/components/schemas/SectionResponse"
+          }
+        },
+        "required": [
+          "section",
+          "movedStudents",
+          "allocationsCopied",
+          "groupsJoined"
+        ],
+        "title": "SectionSplitResponse",
         "type": "object"
       },
       "SectionStudentResponse": {
@@ -13534,6 +13897,14 @@
               "$ref": "#/components/schemas/TimetableGapResponse"
             },
             "title": "Gaps",
+            "type": "array"
+          },
+          "groupPeriods": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/GroupPeriodResponse"
+            },
+            "title": "Groupperiods",
             "type": "array"
           },
           "sectionId": {
@@ -14115,6 +14486,14 @@
               "$ref": "#/components/schemas/ProposedEntryResponse"
             },
             "title": "Entries",
+            "type": "array"
+          },
+          "groupSessions": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/GroupSessionResponse"
+            },
+            "title": "Groupsessions",
             "type": "array"
           },
           "kept": {
@@ -15772,6 +16151,120 @@
         "title": "TeacherUnavailabilityResponse",
         "type": "object"
       },
+      "TeachingGroupRequest": {
+        "additionalProperties": false,
+        "description": "kind: \"elective\" (two or more parallel lanes, each its own subject\nand teacher) or \"combined\" (one lane: the sections taught together).",
+        "properties": {
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "lanes": {
+            "items": {
+              "$ref": "#/components/schemas/GroupLaneBody"
+            },
+            "maxItems": 12,
+            "minItems": 1,
+            "title": "Lanes",
+            "type": "array"
+          },
+          "name": {
+            "maxLength": 60,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "periodsPerWeek": {
+            "maximum": 60.0,
+            "minimum": 1.0,
+            "title": "Periodsperweek",
+            "type": "integer"
+          },
+          "sectionIds": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "minItems": 1,
+            "title": "Sectionids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "kind",
+          "name",
+          "periodsPerWeek",
+          "sectionIds",
+          "lanes"
+        ],
+        "title": "TeachingGroupRequest",
+        "type": "object"
+      },
+      "TeachingGroupResponse": {
+        "properties": {
+          "academicYearId": {
+            "title": "Academicyearid",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "lanes": {
+            "items": {
+              "$ref": "#/components/schemas/GroupLaneResponse"
+            },
+            "title": "Lanes",
+            "type": "array"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "periods": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/GroupSlotResponse"
+            },
+            "title": "Periods",
+            "type": "array"
+          },
+          "periodsPerWeek": {
+            "title": "Periodsperweek",
+            "type": "integer"
+          },
+          "sectionIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sectionids",
+            "type": "array"
+          },
+          "sectionNames": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sectionnames",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "academicYearId",
+          "kind",
+          "name",
+          "periodsPerWeek",
+          "sectionIds",
+          "sectionNames",
+          "lanes"
+        ],
+        "title": "TeachingGroupResponse",
+        "type": "object"
+      },
       "TeachingTimeEstimateResponse": {
         "properties": {
           "academicYearId": {
@@ -16363,6 +16856,28 @@
               }
             ],
             "title": "Endtime"
+          },
+          "groupId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Groupid"
+          },
+          "groupName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Groupname"
           },
           "id": {
             "title": "Id",
@@ -21342,6 +21857,108 @@
         "summary": "Set Teacher Unavailability"
       }
     },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/teaching-groups": {
+      "get": {
+        "description": "The year's elective groups and combined classes, with their lanes and\nwhere they are placed.",
+        "operationId": "list_teaching_groups_api_v1_curriculum_academic_years__academic_year_id__teaching_groups_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TeachingGroupResponse"
+                  },
+                  "title": "Response List Teaching Groups Api V1 Curriculum Academic Years  Academic Year Id  Teaching Groups Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Teaching Groups"
+      },
+      "post": {
+        "description": "An elective group (students of one or more sections of a class split\ninto parallel lanes, taught at the same time by different teachers) or a\ncombined class (two or more sections taught together by one teacher in\none room). Generating the timetable places it as one block.",
+        "operationId": "create_teaching_group_api_v1_curriculum_academic_years__academic_year_id__teaching_groups_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeachingGroupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeachingGroupResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Teaching Group"
+      }
+    },
     "/api/v1/curriculum/academic-years/{academic_year_id}/terms": {
       "get": {
         "operationId": "list_terms_api_v1_curriculum_academic_years__academic_year_id__terms_get",
@@ -24639,6 +25256,116 @@
         "summary": "Set Section Bell"
       }
     },
+    "/api/v1/curriculum/sections/{section_id}/merge": {
+      "post": {
+        "description": "Merge a section into another of its class mid-year (SCH-8): every\nstudent moves and keeps the other section's week; the emptied section,\nits week and its allocations are removed. 422 while it is in a group\nthe other section is not in. Its students and the teachers who lose\nperiods are told.",
+        "operationId": "merge_section_api_v1_curriculum_sections__section_id__merge_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SectionMergeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionMergeResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Merge Section"
+      }
+    },
+    "/api/v1/curriculum/sections/{section_id}/split": {
+      "post": {
+        "description": "Split a section mid-year (SCH-8): `studentIds` move to a new section\nof the class named `name`, which gets the old section's bell, a copy of\neach of its allocations and its groups. The old section keeps its week;\ngenerate the new section's next (solve with sectionIds [its id]).",
+        "operationId": "split_section_api_v1_curriculum_sections__section_id__split_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SectionSplitRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionSplitResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Split Section"
+      }
+    },
     "/api/v1/curriculum/sections/{section_id}/students": {
       "get": {
         "description": "Who is enrolled in this section, and only this section.",
@@ -25711,6 +26438,106 @@
           }
         ],
         "summary": "Mark Teacher Attendance"
+      }
+    },
+    "/api/v1/curriculum/teaching-groups/{group_id}": {
+      "delete": {
+        "description": "The group and its periods; its sections' periods then are free.",
+        "operationId": "delete_teaching_group_api_v1_curriculum_teaching_groups__group_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "title": "Group Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Delete Teaching Group Api V1 Curriculum Teaching Groups  Group Id  Delete",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Delete Teaching Group"
+      },
+      "put": {
+        "description": "Replace a group's definition. Changing its sections, periods a week\nor a lane's teacher or room takes its placed periods away: generate the\ntimetable again to place it.",
+        "operationId": "update_teaching_group_api_v1_curriculum_teaching_groups__group_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "title": "Group Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeachingGroupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeachingGroupResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Update Teaching Group"
       }
     },
     "/api/v1/curriculum/terms/current": {

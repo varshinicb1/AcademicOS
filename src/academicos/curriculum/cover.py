@@ -603,6 +603,15 @@ class CoverMixin:
                 t = self._cover_times(sections[lp.section_id]).get(lp.compensation_period)
                 if t:
                     spans.append(t)
+        # A lane of an elective or a combined class is no section's own
+        # period, but its teacher is busy then all the same (N-3-20).
+        for g, _, d, p in self.group_periods_for_teacher(teacher_id, academic_year_id):
+            sec = sections.get(g.section_ids[0]) if g.section_ids else None
+            if d != wd or sec is None or self._on_leave(teacher_id, on, sec, p):
+                continue
+            t = self._cover_times(sec).get(p)
+            if t:
+                spans.append(t)
         return spans
 
     def substitute_candidates(self, sub_id: str) -> list[Candidate]:
