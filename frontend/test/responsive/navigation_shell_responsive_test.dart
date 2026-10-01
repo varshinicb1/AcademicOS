@@ -119,6 +119,22 @@ void main() {
         label: 'Settings in the side navigation');
   });
 
+  testWidgets('a screen reader finds every side navigation item on a laptop (QA P-28, S-22)', (tester) async {
+    // Each page route in the shell's navigator lays a modal barrier that
+    // blocks the semantics painted before it in its container: the sidebar
+    // vanished for a screen reader on every desktop page.
+    final semantics = tester.ensureSemantics();
+    useScreen(tester, laptopScreen);
+    await tester.pumpWidget(_shellApp());
+    await tester.pumpAndSettle();
+    for (final destination in ['Today', 'Papers', 'Question bank', 'School', 'Settings']) {
+      expect(find.bySemanticsLabel(destination), findsWidgets, reason: '$destination is announced');
+    }
+    final papers = tester.getSemantics(find.descendant(of: find.byType(SideNav), matching: find.text('Papers')));
+    expect(papers.getSemanticsData().flagsCollection.isButton, isTrue, reason: 'announced as something to press');
+    semantics.dispose();
+  });
+
   testWidgets('between the phone breakpoint and 1000 px the side navigation is icons with names', (tester) async {
     useScreen(tester, (size: const Size(900, 700), textScale: 1.0));
     await tester.pumpWidget(_shellApp());

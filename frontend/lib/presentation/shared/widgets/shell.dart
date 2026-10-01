@@ -172,7 +172,9 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           _item(Icons.quiz_outlined, Icons.quiz, 'Question bank', '/questions'),
           _item(Icons.rate_review_outlined, Icons.rate_review, 'Paper reviews', '/school/reviews'),
           _item(Icons.event_available_outlined, Icons.event_available, 'Exam duties', '/school/my-exams'),
-          _item(Icons.event_busy_outlined, Icons.event_busy, 'Leave', '/school/my-day'),
+          // Check-in, today's lessons, cover duties and leave: the page is
+          // "My day", and "Leave" hid the rest of it (QA S-21).
+          _item(Icons.schedule_outlined, Icons.schedule, 'My day', '/school/my-day'),
         ]),
         if (admin.isNotEmpty) (title: 'Admin', items: admin),
       ];
@@ -287,7 +289,15 @@ class MainShell extends StatelessWidget {
                   SideNav(sections: sections, selected: selected, compact: width < 1000),
                 // Each page owns its own AppBar (shellLeading() gives it the
                 // menu button on a phone), so the shell renders none.
-                Expanded(child: child),
+                //
+                // A semantics container of its own: every page route in
+                // the nested navigator lays a modal barrier, which blocks
+                // the semantics of whatever was painted before it in the
+                // same container -- the whole desktop sidebar. A screen
+                // reader found no Papers, Question bank or any other item
+                // there; the phone's drawer, a route of its own, was fine
+                // (QA P-28, S-22).
+                Expanded(child: Semantics(container: true, child: child)),
               ],
             ),
           ),

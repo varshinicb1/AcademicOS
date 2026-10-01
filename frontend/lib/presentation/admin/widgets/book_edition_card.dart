@@ -172,7 +172,9 @@ class _BookEditionCardState extends State<BookEditionCard> {
         children: [
           DropdownButtonFormField<String>(
             initialValue: _gradeId,
-            decoration: const InputDecoration(labelText: 'Grade'),
+            // Not "Grade": "Assign a teacher" below has a class picker too,
+            // and a screen reader heard two controls with one name (QA S-22).
+            decoration: const InputDecoration(labelText: 'Books for class'),
             isExpanded: true,
             items: [
               for (final g in widget.grades) DropdownMenuItem(value: g.id, child: Text(g.label)),
