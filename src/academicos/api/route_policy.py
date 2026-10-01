@@ -249,6 +249,8 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/curriculum/leave-requests"): _p(STAFF, "the principal sees all; a teacher their own"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/decision"): _p(ADMIN["leave"]),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/cancel"): _p(STAFF, "the teacher or the principal"),
+    # SCH-8: a temporary replacement teacher for a long leave.
+    ("PUT", "/api/v1/curriculum/leave-requests/{leave_id}/replacement"): _p(ADMIN["leave"]),
     # N-3-17: a leave's supporting document; the handler admits only the
     # teacher on leave, whoever applied for them and the school's leave admin.
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/document"): _p(STAFF, "the teacher on leave or the principal"),

@@ -174,6 +174,9 @@ class LeaveRequest:
     document_size: Optional[int] = None
     document_blob_key: Optional[str] = None
     document_at: Optional[str] = None
+    # A temporary replacement teacher for a long leave (SCH-8): takes the
+    # teacher's periods, and their classes' lessons, for the leave's dates.
+    replacement_id: Optional[str] = None
 
 
 @dataclass
@@ -520,6 +523,118 @@ class CoverMixin:
             self._release_co_taught_cover(leave, today)
         self._commit()
         return leave
+
+    # ---------------- long leave: a temporary replacement (SCH-8) ----------------
+
+    def _free_for(self, teacher_id: str, sub: "Substitution", section, sections: dict,
+                  school_days: Optional[SchoolDays] = None) -> bool:
+        """`teacher_id` can be in `sub`'s period: not on leave then, and not
+        busy by clock time (their own classes, duties, make-ups, invigilation)."""
+        slot = self._cover_times(section).get(sub.period)
+        if slot is None or self._on_leave(teacher_id, sub.date, section, sub.period):
+            return False
+        spans = self._busy_spans(teacher_id, sub.date, sub.academic_year_id, sections, exclude_sub=sub.id,
+                                 school_days=school_days)
+        return not any(s < slot[1] and slot[0] < e for s, e in spans)
+
+    def set_leave_replacement(self, leave_id: str, replacement_id: Optional[str], *,
+                              today: str) -> tuple[LeaveRequest, list["Substitution"]]:
+        """Long leave (SCH-8): a temporary replacement teacher takes over the
+        teacher's periods for the leave's dates. Every period of the leave
+        from today on that the replacement is free for (by clock time, and
+        not on leave) is theirs, accepted -- they were brought in to teach the
+        subject, so nothing is lost -- and the lessons of those dates in the
+        teacher's section plans are theirs to teach (replaces). A period they
+        cannot take keeps the engine's proposal. None takes the replacement
+        off: their periods go back to the engine. Returns (the leave, its
+        substitutions from today on)."""
+        with self._conn_lock:
+            leave = self.get_leave(leave_id)
+            if leave is None:
+                raise KeyError(leave_id)
+            if leave.status != "approved":
+                raise CoverError(f"this leave is {leave.status}; a replacement takes over approved leave")
+            if replacement_id == leave.teacher_id:
+                raise CoverError("the replacement is the teacher on leave; choose someone else")
+            previous = leave.replacement_id
+            self._exec("UPDATE leave_requests SET replacement_id=? WHERE id=?", (replacement_id, leave_id))
+            leave.replacement_id = replacement_id
+            sections = {s.id: s for s in self.sections_for_year(leave.academic_year_id)}
+            days = self._school_days(leave.academic_year_id)
+            out = []
+            for sub in self._subs_where("leave_id=? AND date>=? AND status<>'cancelled'", (leave_id, today)):
+                section = sections.get(sub.section_id)
+                if replacement_id and section is not None and self._free_for(replacement_id, sub, section,
+                                                                             sections, days):
+                    self._exec("UPDATE substitutions SET substitute_id=?, status='accepted', mode='substitute', "
+                               "note=?, updated_at=? WHERE id=?",
+                               (replacement_id, "temporary replacement for the leave", _now(), sub.id))
+                    self._clear_lost(sub)
+                elif previous and sub.substitute_id == previous:
+                    self._exec("UPDATE substitutions SET substitute_id=NULL, status='open', mode='substitute', "
+                               "note=NULL, updated_at=? WHERE id=?", (_now(), sub.id))
+                    best = self.substitute_candidates(sub.id)
+                    self._propose(self.get_substitution(sub.id), best[0] if best else None)
+                out.append(self.get_substitution(sub.id))
+        self._commit()
+        return leave, out
+
+    def replacement_cells(self, teacher_id: str) -> list[tuple[str, str, str, str]]:
+        """(section, subject, from, to): the classes a temporary replacement
+        teaches, and when -- the cells of each teacher whose approved leave
+        they replace, for that leave's dates."""
+        out = []
+        for r in self._fetchall("SELECT * FROM leave_requests WHERE replacement_id=? AND status='approved'",
+                                (teacher_id,)):
+            leave = self._leave_from_row(r)
+            for a in self.allocations_for_teacher(leave.teacher_id, leave.academic_year_id):
+                out.append((a.section_id, a.subject_id, leave.start_date, leave.end_date))
+        return out
+
+    def replaces(self, teacher_id: str, section_id: str, subject_id: str, on: str) -> bool:
+        """`teacher_id` teaches this class's subject on `on` as a replacement."""
+        return any((s, subj) == (section_id, subject_id) and start <= on <= end
+                   for s, subj, start, end in self.replacement_cells(teacher_id))
+
+    # ---------------- a teacher joins or leaves mid-year (SCH-8) ----------------
+
+    def follow_teacher_change(self, section_id: str, subject_id: str, old_teacher: Optional[str],
+                              new_teacher: Optional[str], *, today: str) -> int:
+        """set_allocation moves a class's timetable periods to its new
+        teacher; this moves the rest. A section's plan follows by itself (its
+        lessons are the allocated teacher's). Cover opened from today on for
+        the old teacher's absence from this class is cancelled -- the new
+        teacher takes the class -- unless the new teacher is away then too,
+        when it stays, for them. And the subject's books (the school-wide
+        plan's teacher): the new teacher gets each one the old teacher had;
+        the old keeps them only while they teach the subject to some class.
+        Returns how many substitutions were cancelled."""
+        if old_teacher is None or new_teacher is None or old_teacher == new_teacher:
+            return 0
+        section = self.get_section(section_id)
+        if section is None:
+            return 0
+        cancelled = 0
+        with self._conn_lock:
+            for sub in self._subs_where("section_id=? AND subject_id=? AND absent_teacher_id=? AND date>=? "
+                                        "AND status<>'cancelled'", (section_id, subject_id, old_teacher, today)):
+                if self._on_leave(new_teacher, sub.date, section, sub.period):
+                    self._exec("UPDATE substitutions SET absent_teacher_id=?, updated_at=? WHERE id=?",
+                               (new_teacher, _now(), sub.id))
+                    continue
+                self._clear_lost(sub)
+                self._exec("UPDATE substitutions SET status='cancelled', note=?, updated_at=? WHERE id=?",
+                           ("the class has a new teacher", _now(), sub.id))
+                cancelled += 1
+            books = ({b.id for b in self.books_for_subject(subject_id)}
+                     & {a.book_id for a in self.assignments_for_teacher(old_teacher)})
+            for book_id in sorted(books):
+                self.assign_teacher(school_id=section.school_id, teacher_id=new_teacher, book_id=book_id)
+            if not any(a.subject_id == subject_id for a in self.allocations_for_teacher(old_teacher)):
+                for book_id in sorted(books):
+                    self.unassign_teacher(teacher_id=old_teacher, book_id=book_id)
+        self._commit()
+        return cancelled
 
     def _release_co_taught_cover(self, leave: LeaveRequest, today: str) -> None:
         """SCH-8: a co-taught period got a substitute only because both of

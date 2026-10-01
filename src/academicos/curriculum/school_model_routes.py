@@ -284,6 +284,10 @@ def set_allocation(section_id: str, subject_id: str, req: AllocationRequest,
         raise HTTPException(404, "subject not found")
     except ValueError as e:
         raise HTTPException(422, str(e))
+    if before is not None and before.teacher_id != after.teacher_id:
+        # SCH-8: a teacher joins or leaves mid-year; the cover and the books follow.
+        cr._require().follow_teacher_change(section_id, subject_id, before.teacher_id, after.teacher_id,
+                                            today=cr._school_today().isoformat())
     # The SCH-2/SCH-8 fields are recorded when either side uses them, so a
     # plain cell's entry reads as it always has.
     special = any(x is not None and (x.co_teacher_id or x.room_kind or x.double_periods)

@@ -486,7 +486,9 @@ class CurriculumStore(SchoolModelMixin, CoverMixin, SchoolProfileMixin):
         # N-3-17: a leave request's supporting document.
         leave_cols = {r["name"] for r in self._fetchall("PRAGMA table_info(leave_requests)")}
         for col, ddl in (("document_type", "TEXT"), ("document_name", "TEXT"), ("document_size", "INTEGER"),
-                         ("document_blob_key", "TEXT"), ("document_at", "TEXT")):
+                         ("document_blob_key", "TEXT"), ("document_at", "TEXT"),
+                         # SCH-8: a temporary replacement teacher for a long leave.
+                         ("replacement_id", "TEXT")):
             if col not in leave_cols:
                 self._exec(f"ALTER TABLE leave_requests ADD COLUMN {col} {ddl}")
         # SCH-3: a locked period is kept by the timetable solver.

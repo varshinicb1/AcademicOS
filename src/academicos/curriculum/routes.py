@@ -2058,7 +2058,10 @@ def get_my_schedule(start_date: str, end_date: str,
     # SCH-4: a section's plan is the allocated teacher's (M1.2), whatever
     # the book assignments say.
     my_cells = {(a.section_id, a.subject_id) for a in store.allocations_for_teacher(current.id)}
-    if not book_ids and not my_cells:
+    # SCH-8: a temporary replacement teaches the classes of the teacher on
+    # long leave for the leave's dates.
+    standing_in = store.replacement_cells(current.id)
+    if not book_ids and not my_cells and not standing_in:
         return []
     subject_of_book: dict[str, Optional[str]] = {}
 
@@ -2068,7 +2071,9 @@ def get_my_schedule(start_date: str, end_date: str,
         if l.book_id not in subject_of_book:
             b = store.get_book(l.book_id)
             subject_of_book[l.book_id] = b.subject_id if b else None
-        return (l.section_id, subject_of_book[l.book_id]) in my_cells
+        cell = (l.section_id, subject_of_book[l.book_id])
+        return cell in my_cells or any(cell == (s, subj) and start <= l.date <= end
+                                       for s, subj, start, end in standing_in)
     lessons = [l for l in store.scheduled_lessons_for_date_range(current.school_id, start_date, end_date)
               if _mine(l)]
     section_names = {s.id: s for s in (store.get_section(sid) for sid in {l.section_id for l in lessons
@@ -2094,6 +2099,21 @@ def get_my_schedule(start_date: str, end_date: str,
     return out
 
 
+def _teaches_lesson(store: CurriculumStore, lesson, user: User) -> bool:
+    """A section's lesson is its allocated teacher's (SCH-4, M1.2) -- after a
+    mid-year change, the new teacher's -- or, for the dates of a long leave,
+    the temporary replacement's (SCH-8). A school-wide plan's lesson is its
+    book's assigned teachers'."""
+    if lesson.section_id is None:
+        return lesson.book_id in {a.book_id for a in store.assignments_for_teacher(user.id)}
+    book = store.get_book(lesson.book_id)
+    if book is None:
+        return False
+    alloc = store.allocation_for(lesson.section_id, book.subject_id)
+    return (alloc is not None and alloc.teacher_id == user.id) or \
+        store.replaces(user.id, lesson.section_id, book.subject_id, lesson.date)
+
+
 @router.patch("/scheduled-lessons/{lesson_id}", response_model=ScheduledLessonResponse)
 def mark_lesson(lesson_id: str, req: MarkLessonRequest,
                 current: User = Depends(get_current_user)) -> ScheduledLessonResponse:
@@ -2109,14 +2129,7 @@ def mark_lesson(lesson_id: str, req: MarkLessonRequest,
         raise HTTPException(404, "scheduled lesson not found")
     if lesson.school_id != current.school_id:
         raise HTTPException(403, "this lesson belongs to a different school")
-    if lesson.section_id is not None:
-        # SCH-4: a section's lesson is its allocated teacher's (M1.2).
-        book = store.get_book(lesson.book_id)
-        alloc = store.allocation_for(lesson.section_id, book.subject_id) if book else None
-        is_assigned = alloc is not None and alloc.teacher_id == current.id
-    else:
-        is_assigned = lesson.book_id in {a.book_id for a in store.assignments_for_teacher(current.id)}
-    if current.role != "principal" and not is_assigned:
+    if current.role != "principal" and not _teaches_lesson(store, lesson, current):
         raise HTTPException(403, "you are not assigned to teach this book")
     # 409: the request is well formed but the lesson holds no day to have
     # been taught on (a PUSH could not fit it before the year ends).
@@ -2221,8 +2234,10 @@ def get_lesson_history(lesson_id: str,
         raise HTTPException(404, "scheduled lesson not found")
     if lesson.school_id != current.school_id:
         raise HTTPException(403, "this lesson belongs to a different school")
-    is_assigned = lesson.book_id in {a.book_id for a in store.assignments_for_teacher(current.id)}
-    if current.role != "principal" and not is_assigned:
+    # The same teacher who marks it reads its history: a section's lesson was
+    # checked against book assignments only, so its allocated teacher got a
+    # 403 (SCH-8: after a mid-year change, always).
+    if current.role != "principal" and not _teaches_lesson(store, lesson, current):
         raise HTTPException(403, "you are not assigned to teach this book")
     from ..assessment.audit_log import get_audit_log
     entries = scheduling_mod.reschedule_history_for_lesson(get_audit_log(_cfg.data_root), lesson_id)

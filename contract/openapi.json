@@ -7627,6 +7627,17 @@
             "title": "Reason",
             "type": "string"
           },
+          "replacementId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Replacementid"
+          },
           "startDate": {
             "title": "Startdate",
             "type": "string"
@@ -11557,6 +11568,24 @@
           "name"
         ],
         "title": "RenameRequest",
+        "type": "object"
+      },
+      "ReplacementRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          }
+        },
+        "title": "ReplacementRequest",
         "type": "object"
       },
       "ReportCardResponse": {
@@ -23237,6 +23266,61 @@
           }
         ],
         "summary": "Upload Leave Document"
+      }
+    },
+    "/api/v1/curriculum/leave-requests/{leave_id}/replacement": {
+      "put": {
+        "description": "Long leave (SCH-8): name a temporary replacement teacher, who takes the\nteacher's periods for the leave's dates -- each one they are free for,\naccepted at once -- and teaches their classes' lessons of those dates.\nNull takes the replacement off, and the engine proposes cover again.\nReturns the leave and its substitutions from today on.",
+        "operationId": "set_leave_replacement_api_v1_curriculum_leave_requests__leave_id__replacement_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "leave_id",
+            "required": true,
+            "schema": {
+              "title": "Leave Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplacementRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveDecisionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set Leave Replacement"
       }
     },
     "/api/v1/curriculum/lost-periods/{lost_id}/compensate": {

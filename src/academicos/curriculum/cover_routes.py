@@ -55,6 +55,11 @@ class LeaveDecisionRequest(_Req):
     approve: bool
 
 
+class ReplacementRequest(_Req):
+    # The temporary replacement teacher; null takes the replacement off.
+    teacher_id: Optional[str] = None
+
+
 class LeaveDocumentResponse(Camel):
     content_type: str
     name: str
@@ -78,6 +83,8 @@ class LeaveResponse(Camel):
     # The supporting document, when one is attached (N-3-17); its bytes are
     # at GET .../leave-requests/{id}/document.
     document: Optional[LeaveDocumentResponse] = None
+    # A temporary replacement teacher for a long leave (SCH-8).
+    replacement_id: Optional[str] = None
 
 
 class SubstitutionResponse(Camel):
@@ -257,7 +264,8 @@ def _leave(l) -> LeaveResponse:
     return LeaveResponse(id=l.id, academic_year_id=l.academic_year_id, teacher_id=l.teacher_id,
                          start_date=l.start_date, end_date=l.end_date, kind=l.kind, periods=l.periods,
                          reason=l.reason, handover_note=l.handover_note, status=l.status,
-                         created_by=l.created_by, decided_by=l.decided_by, document=document)
+                         created_by=l.created_by, decided_by=l.decided_by, document=document,
+                         replacement_id=l.replacement_id)
 
 
 def _sub(s) -> SubstitutionResponse:
@@ -381,6 +389,31 @@ def cancel_leave(leave_id: str, current: User = Depends(require_staff)) -> Leave
         raise HTTPException(409, str(e))
     _audit("leave_cancelled", current, {"leaveId": leave_id, "before": leave.status, "after": after.status})
     return _leave(after)
+
+
+@router.put("/leave-requests/{leave_id}/replacement", response_model=LeaveDecisionResponse)
+def set_leave_replacement(leave_id: str, req: ReplacementRequest,
+                          principal: User = Depends(require_admin("leave"))) -> LeaveDecisionResponse:
+    """Long leave (SCH-8): name a temporary replacement teacher, who takes the
+    teacher's periods for the leave's dates -- each one they are free for,
+    accepted at once -- and teaches their classes' lessons of those dates.
+    Null takes the replacement off, and the engine proposes cover again.
+    Returns the leave and its substitutions from today on."""
+    leave = _owned_leave(leave_id, principal)
+    if leave.status != "approved":
+        raise HTTPException(409, f"this leave is {leave.status}; approve it before naming a replacement")
+    if req.teacher_id:
+        _staff_of_school(req.teacher_id, principal)
+    try:
+        after, subs = cr._require().set_leave_replacement(leave_id, req.teacher_id, today=_today())
+    except CoverError as e:
+        raise HTTPException(422, str(e))
+    _audit("leave_replacement_set", principal, {"leaveId": leave_id, "before": leave.replacement_id,
+                                                "after": req.teacher_id,
+                                                "periods": sum(1 for s in subs if s.substitute_id == req.teacher_id)})
+    for s in subs:
+        _notify_proposed(s)
+    return LeaveDecisionResponse(leave=_leave(after), substitutions=[_sub(s) for s in subs])
 
 
 # ---------------- the leave's supporting document (SCH-5, N-3-17) ----------------
