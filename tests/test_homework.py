@@ -268,3 +268,22 @@ def test_chapter_picks_filter_by_type_and_skip_what_the_section_had(w):
     assert _create(w, "ana", questionIds=[], chapterIds=["light"], types=["long_answer"]).status_code == 422
     second = _create(w, "ana", questionIds=[], chapterIds=["light"], count=2, title="Again").json()
     assert "q3" not in {q["id"] for q in second["questions"]}, "10-A already had q3"
+
+
+def test_marked_homework_counts_in_the_principals_school_insights(w):
+    """QA S-04: four students enrolled, homework marked 4/5, and School
+    insights read "0 Students, 0% mastery": it counted only marked papers."""
+    url = "/api/v1/insights/school/school_1"
+    before = w.c.get(url, headers=w.p).json()
+    assert before["students"] == 3 and before["studentsWithEvidence"] == 0 and before["subjects"] == []
+
+    hw = _create(w, "ana").json()
+    w.c.post(f"/api/v1/my-homework/{hw['id']}/submit", json={"answers": {"q1": "A", "q2": "B"}}, headers=w.s1)
+    g = w.c.post(f"/api/v1/homework/{hw['id']}/submissions/{w.ids['s1']}/grade", json={"marks": {"q3": 2}},
+                 headers=w.ana)
+    assert g.status_code == 200, g.text
+    after = w.c.get(url, headers=w.p).json()
+    assert after["students"] == 3 and after["studentsWithEvidence"] == 1
+    [science] = after["subjects"]
+    assert (science["subject"], science["grade"], science["students"]) == ("Science", 10, 1)
+    assert after["averageMastery"] > 0

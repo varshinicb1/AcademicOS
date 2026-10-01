@@ -12921,6 +12921,11 @@
             "title": "Students",
             "type": "integer"
           },
+          "studentsWithEvidence": {
+            "default": 0,
+            "title": "Studentswithevidence",
+            "type": "integer"
+          },
           "subjects": {
             "items": {
               "$ref": "#/components/schemas/SubjectRollupResponse"

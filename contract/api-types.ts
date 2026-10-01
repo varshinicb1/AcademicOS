@@ -10781,6 +10781,11 @@ export interface components {
             schoolId: string;
             /** Students */
             students: number;
+            /**
+             * Studentswithevidence
+             * @default 0
+             */
+            studentsWithEvidence: number;
             /** Subjects */
             subjects: components["schemas"]["SubjectRollupResponse"][];
         };
