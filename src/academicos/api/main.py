@@ -41,6 +41,7 @@ from ..config import (Config, LLMNotEnabled, build_identity, enforce_production_
 from ..curriculum import routes as curriculum_routes
 from ..curriculum import school_model_routes
 from ..curriculum import teaching_group_routes
+from ..curriculum import school_setup_routes
 from ..curriculum import cover_routes
 from ..assessment import api_key_routes
 from ..assessment import marks_routes
@@ -271,6 +272,7 @@ app.include_router(consent_routes.router)
 app.include_router(curriculum_routes.router)
 app.include_router(school_model_routes.router)
 app.include_router(teaching_group_routes.router)
+app.include_router(school_setup_routes.router)
 app.include_router(cover_routes.router)
 app.include_router(operations_routes.router)
 app.include_router(homework_routes.router)

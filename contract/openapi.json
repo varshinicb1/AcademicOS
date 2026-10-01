@@ -13948,6 +13948,151 @@
         "title": "SchoolProfileResponse",
         "type": "object"
       },
+      "SchoolSetupRequest": {
+        "additionalProperties": false,
+        "description": "Every field has a default: an empty body sets up the Indian year\ncontaining today, classes 6-10 with section A, Sunday off, two terms and\nan 8-period bell.",
+        "properties": {
+          "bell": {
+            "$ref": "#/components/schemas/SetupBellBody"
+          },
+          "classes": {
+            "items": {
+              "$ref": "#/components/schemas/SetupClassBody"
+            },
+            "maxItems": 12,
+            "minItems": 1,
+            "title": "Classes",
+            "type": "array"
+          },
+          "endDate": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Enddate"
+          },
+          "secondAndFourthSaturdaysOff": {
+            "default": false,
+            "title": "Secondandfourthsaturdaysoff",
+            "type": "boolean"
+          },
+          "startDate": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Startdate"
+          },
+          "terms": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/SetupTermBody"
+                },
+                "maxItems": 4,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Terms"
+          },
+          "weeklyOffDays": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 7,
+            "title": "Weeklyoffdays",
+            "type": "array"
+          },
+          "yearLabel": {
+            "anyOf": [
+              {
+                "maxLength": 20,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Yearlabel"
+          }
+        },
+        "title": "SchoolSetupRequest",
+        "type": "object"
+      },
+      "SchoolSetupResponse": {
+        "description": "`created` and `alreadyExisted` are sentences for the person who\npressed the button; `skipped` names what could not be made and why.",
+        "properties": {
+          "academicYear": {
+            "$ref": "#/components/schemas/AcademicYearResponse"
+          },
+          "alreadyExisted": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Alreadyexisted",
+            "type": "array"
+          },
+          "bellScheduleId": {
+            "title": "Bellscheduleid",
+            "type": "string"
+          },
+          "calendarId": {
+            "title": "Calendarid",
+            "type": "string"
+          },
+          "classes": {
+            "items": {
+              "$ref": "#/components/schemas/SetupClassResponse"
+            },
+            "title": "Classes",
+            "type": "array"
+          },
+          "created": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Created",
+            "type": "array"
+          },
+          "skipped": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Skipped",
+            "type": "array"
+          },
+          "termIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Termids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "academicYear",
+          "classes",
+          "calendarId",
+          "termIds",
+          "bellScheduleId",
+          "created",
+          "alreadyExisted",
+          "skipped"
+        ],
+        "title": "SchoolSetupResponse",
+        "type": "object"
+      },
       "SchoolSummary": {
         "description": "One school's numbers. Counts only: nothing here names a student, a\nteacher, a paper or a section.",
         "properties": {
@@ -15221,6 +15366,142 @@
           "periodsPerWeek"
         ],
         "title": "SetSubjectPeriodAllocationRequest",
+        "type": "object"
+      },
+      "SetupBellBody": {
+        "additionalProperties": false,
+        "description": "The default bell: `periods` periods of `periodMinutes` from `startsAt`,\nand one break of `breakMinutes` after period `breakAfterPeriod` (0: none).",
+        "properties": {
+          "breakAfterPeriod": {
+            "default": 4,
+            "maximum": 12.0,
+            "minimum": 0.0,
+            "title": "Breakafterperiod",
+            "type": "integer"
+          },
+          "breakMinutes": {
+            "default": 20,
+            "maximum": 90.0,
+            "minimum": 5.0,
+            "title": "Breakminutes",
+            "type": "integer"
+          },
+          "periodMinutes": {
+            "default": 40,
+            "maximum": 90.0,
+            "minimum": 20.0,
+            "title": "Periodminutes",
+            "type": "integer"
+          },
+          "periods": {
+            "default": 8,
+            "maximum": 12.0,
+            "minimum": 1.0,
+            "title": "Periods",
+            "type": "integer"
+          },
+          "startsAt": {
+            "default": "08:00",
+            "maxLength": 5,
+            "minLength": 5,
+            "title": "Startsat",
+            "type": "string"
+          }
+        },
+        "title": "SetupBellBody",
+        "type": "object"
+      },
+      "SetupClassBody": {
+        "additionalProperties": false,
+        "description": "One class and its sections. Classes 6-10 can be set up here.",
+        "properties": {
+          "grade": {
+            "maximum": 12.0,
+            "minimum": 1.0,
+            "title": "Grade",
+            "type": "integer"
+          },
+          "sections": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "minItems": 1,
+            "title": "Sections",
+            "type": "array"
+          }
+        },
+        "required": [
+          "grade"
+        ],
+        "title": "SetupClassBody",
+        "type": "object"
+      },
+      "SetupClassResponse": {
+        "properties": {
+          "chaptersAdded": {
+            "title": "Chaptersadded",
+            "type": "integer"
+          },
+          "created": {
+            "title": "Created",
+            "type": "boolean"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "gradeId": {
+            "title": "Gradeid",
+            "type": "string"
+          },
+          "sections": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sections",
+            "type": "array"
+          },
+          "subjects": {
+            "title": "Subjects",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "grade",
+          "gradeId",
+          "sections",
+          "subjects",
+          "chaptersAdded",
+          "created"
+        ],
+        "title": "SetupClassResponse",
+        "type": "object"
+      },
+      "SetupTermBody": {
+        "additionalProperties": false,
+        "properties": {
+          "endDate": {
+            "title": "Enddate",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "startDate": {
+            "title": "Startdate",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "startDate",
+          "endDate"
+        ],
+        "title": "SetupTermBody",
         "type": "object"
       },
       "ShareRequest": {
@@ -26654,6 +26935,50 @@
           }
         ],
         "summary": "Upload School Logo"
+      }
+    },
+    "/api/v1/curriculum/school-setup": {
+      "post": {
+        "description": "Sets up the caller's school to start: academic year, classes and\nsections with their CBSE subjects and chapters, calendar, terms and bell\nschedule. Safe to call again; it adds only what is missing.",
+        "operationId": "school_setup_api_v1_curriculum_school_setup_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SchoolSetupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchoolSetupResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "School Setup"
       }
     },
     "/api/v1/curriculum/sections/{section_id}": {
