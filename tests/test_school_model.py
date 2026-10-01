@@ -290,6 +290,30 @@ def test_my_timetable_is_the_teachers_and_the_students_own_week(w):
     assert theirs["sectionId"] == w.sec["10-B"] and len(theirs["entries"]) == 2
 
 
+def test_a_teachers_week_has_each_periods_own_bell_times(w):
+    """N-3-15: staff were sent the year's default bell, and the week grid
+    labelled every period with it -- a teacher on the Junior bell saw Main's
+    times for every period."""
+    _bell(w)
+    junior = w.c.post(f"{BASE}/academic-years/{w.year}/bell-schedules", json=JUNIOR, headers=w.p1).json()
+    w.c.put(f"{BASE}/sections/{w.sec['6-A']}/bell-schedule", json={"bellScheduleId": junior["id"]}, headers=w.p1)
+    sci6, sci10 = w.sub6["Science"], w.sub10["Science"]
+    _alloc(w, "6-A", sci6, w.t1_id, 6)
+    assert _week(w, "6-A", [_e(0, 1, sci6), _e(1, 3, sci6)]).status_code == 200
+    mine = w.c.get(f"{BASE}/my-timetable", headers=w.t1).json()
+    assert mine["bellSchedule"]["name"] == "Junior", "every period Ana teaches is on the Junior bell"
+    assert sorted((e["period"], e["startTime"], e["endTime"]) for e in mine["entries"]) == \
+        [(1, "08:05", "08:35"), (3, "09:05", "09:35")]
+    # On both bells, each period keeps its own section's times.
+    _alloc(w, "10-A", sci10, w.t1_id, 6)
+    assert _week(w, "10-A", [_e(2, 3, sci10)]).status_code == 200
+    mine = w.c.get(f"{BASE}/my-timetable", headers=w.t1).json()
+    assert {(e["dayOfWeek"], e["period"]): (e["startTime"], e["endTime"]) for e in mine["entries"]} == \
+        {(0, 1): ("08:05", "08:35"), (1, 3): ("09:05", "09:35"), (2, 3): ("09:25", "10:05")}
+    year = w.c.get(f"{BASE}/academic-years/{w.year}/timetable", params={"teacherId": w.t1_id}, headers=w.p1).json()
+    assert {e["startTime"] for e in year if e["period"] == 3} == {"09:05", "09:25"}
+
+
 def _timetable_notices(user_id):
     from academicos.operations.routes import store
     return sum(1 for n in store().inbox(user_id) if n.kind == "timetable_published")

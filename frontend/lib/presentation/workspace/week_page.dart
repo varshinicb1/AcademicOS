@@ -174,6 +174,22 @@ class _Notice extends StatelessWidget {
       );
 }
 
+/// The time of one period, from its own section's bell, as the server
+/// sends it with each entry (audit N-3-15); null when it sent none.
+String? entryTime(Map e) => e['startTime'] == null ? null : '${e['startTime']}-${e['endTime']}';
+
+/// Each row's label time. A teacher's periods can sit on two bells (a junior
+/// wing's and the main one), so a row is labelled with the time its own
+/// periods share; a row whose periods differ gets no label time (each cell
+/// then shows its own), and an empty row takes the bell's.
+Map<int, String?> rowTimes(List<Map> entries, Map<int, String> bellTimes, Iterable<int> periods) => {
+      for (final p in periods)
+        p: () {
+          final own = {for (final e in entries) if (e['period'] == p && entryTime(e) != null) entryTime(e)!};
+          return own.length == 1 ? own.single : own.isEmpty ? bellTimes[p] : null;
+        }(),
+    };
+
 class _Grid extends StatelessWidget {
   final Map<String, dynamic> d;
   final bool student;
@@ -184,12 +200,13 @@ class _Grid extends StatelessWidget {
     final theme = Theme.of(context);
     final entries = (d['entries'] as List).cast<Map>();
     final bell = d['bellSchedule'] as Map?;
-    final times = <int, String>{
+    final bellTimes = <int, String>{
       for (final s in ((bell?['slots'] as List?) ?? const []).cast<Map>())
         if (s['period'] != null) s['period'] as int: '${s['start']}-${s['end']}',
     };
     final days = ((bell?['days'] as List?)?.cast<int>() ?? [0, 1, 2, 3, 4, 5]).toList()..sort();
-    final periods = {for (final e in entries) e['period'] as int, ...times.keys}.toList()..sort();
+    final periods = {for (final e in entries) e['period'] as int, ...bellTimes.keys}.toList()..sort();
+    final times = rowTimes(entries, bellTimes, periods);
     final cell = <(int, int), Map>{for (final e in entries) (e['dayOfWeek'] as int, e['period'] as int): e};
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -197,7 +214,7 @@ class _Grid extends StatelessWidget {
       child: DataTable(
         columnSpacing: 14,
         dataRowMinHeight: 52,
-        dataRowMaxHeight: 64,
+        dataRowMaxHeight: 80,
         columns: [
           const DataColumn(label: Text('')),
           for (final day in days) DataColumn(label: Text(tr(_dayNames[day]))),
@@ -216,6 +233,8 @@ class _Grid extends StatelessWidget {
                         Text(cell[(day, p)]!['subjectName'] ?? '', style: theme.textTheme.bodyMedium),
                         Text((student ? cell[(day, p)]!['teacherName'] : cell[(day, p)]!['sectionName']) ?? '',
                             style: theme.textTheme.bodySmall),
+                        if (entryTime(cell[(day, p)]!) != null && entryTime(cell[(day, p)]!) != times[p])
+                          Text(entryTime(cell[(day, p)]!)!, style: theme.textTheme.bodySmall),
                       ])),
             ]),
         ],

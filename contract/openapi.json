@@ -16199,6 +16199,17 @@
             "title": "Dayofweek",
             "type": "integer"
           },
+          "endTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Endtime"
+          },
           "id": {
             "title": "Id",
             "type": "string"
@@ -16248,6 +16259,17 @@
               }
             ],
             "title": "Sectionname"
+          },
+          "startTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starttime"
           },
           "subjectId": {
             "title": "Subjectid",

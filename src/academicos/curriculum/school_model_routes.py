@@ -147,6 +147,10 @@ class TimetableEntryResponse(Camel):
     teacher_name: Optional[str] = None
     co_teacher_name: Optional[str] = None
     room_name: Optional[str] = None
+    # The period's times on its OWN section's bell (N-3-15): a teacher's
+    # week mixes sections on a junior and a main bell.
+    start_time: Optional[str] = None
+    end_time: Optional[str] = None
 
 
 class TimetableGapResponse(Camel):
@@ -202,7 +206,7 @@ def _bell(b) -> BellScheduleResponse:
         is_default=b.is_default, teaching_periods=b.teaching_periods)
 
 
-def _entry(e) -> TimetableEntryResponse:
+def _entry(e, when: Optional[tuple[str, str]] = None) -> TimetableEntryResponse:
     store = cr._require()
     subject = store.get_subject(e.subject_id)
     section = store.get_section(e.section_id)
@@ -217,7 +221,27 @@ def _entry(e) -> TimetableEntryResponse:
                                   section_name=store._section_label(section) if section else None,
                                   teacher_name=teacher.name if teacher else None,
                                   co_teacher_name=co.name if co else None,
-                                  room_name=room.name if room else None)
+                                  room_name=room.name if room else None,
+                                  start_time=when[0] if when else None, end_time=when[1] if when else None)
+
+
+def _section_bells(store, section_ids) -> dict[str, Any]:
+    """Each section's own bell (its schedule, else the year's default), read
+    once per section."""
+    out: dict[str, Any] = {}
+    for sid in section_ids:
+        if sid not in out:
+            section = store.get_section(sid)
+            out[sid] = store.bell_for_section(section) if section is not None else None
+    return out
+
+
+def _entries(entries: list) -> list[TimetableEntryResponse]:
+    """Entries with each period's times from its own section's bell (N-3-15)."""
+    bells = _section_bells(cr._require(), [e.section_id for e in entries])
+    times = {sid: {s.period: (s.start, s.end) for s in b.slots if s.kind == "teaching"} if b else {}
+             for sid, b in bells.items()}
+    return [_entry(e, times[e.section_id].get(e.period)) for e in entries]
 
 
 def _section_week(section) -> SectionTimetableResponse:
@@ -225,7 +249,7 @@ def _section_week(section) -> SectionTimetableResponse:
     bell = store.bell_for_section(section)
     return SectionTimetableResponse(
         section_id=section.id, bell_schedule_id=bell.id if bell else None,
-        entries=[_entry(e) for e in store.timetable_for_section(section.id)],
+        entries=_entries(store.timetable_for_section(section.id)),
         gaps=[TimetableGapResponse(subject_id=g["subjectId"], allocated=g["allocated"],
                                    timetabled=g["timetabled"])
               for g in store.timetable_gaps(section.id)])
@@ -468,7 +492,7 @@ def year_timetable(academic_year_id: str, section_id: Optional[str] = Query(defa
         entries = [e for e in entries if e.section_id == section_id]
     if teacher_id:
         entries = [e for e in entries if teacher_id in (e.teacher_id, e.co_teacher_id)]
-    return [_entry(e) for e in entries]
+    return _entries(entries)
 
 
 @router.get("/sections/{section_id}/timetable", response_model=SectionTimetableResponse)
@@ -567,13 +591,17 @@ def my_timetable(current: User = Depends(get_current_user)) -> MyTimetableRespon
         grade = store.get_grade(section.grade_id)
         return MyTimetableResponse(role=current.role, academic_year_id=section.academic_year_id,
                                    section_id=section.id, bell_schedule=_bell(bell) if bell else None,
-                                   entries=[_entry(e) for e in store.timetable_for_section(section.id)],
+                                   entries=_entries(store.timetable_for_section(section.id)),
                                    grade=grade.number if grade else None)
-    bells = store.bell_schedules_for_year(year.id)
-    default = next((b for b in bells if b.is_default), None)
+    # A teacher's periods can be on several bells (N-3-15): each entry has
+    # its own section's times, and the bell is the one they all use -- the
+    # year's default only when they use more than one, or none yet.
+    mine = store.timetable_for_teacher(current.id, year.id)
+    used = {b.id: b for b in _section_bells(store, [e.section_id for e in mine]).values() if b}
+    bell = next(iter(used.values())) if len(used) == 1 else next(
+        (b for b in store.bell_schedules_for_year(year.id) if b.is_default), None)
     return MyTimetableResponse(role=current.role, academic_year_id=year.id,
-                               bell_schedule=_bell(default) if default else None,
-                               entries=[_entry(e) for e in store.timetable_for_teacher(current.id, year.id)])
+                               bell_schedule=_bell(bell) if bell else None, entries=_entries(mine))
 
 
 # ---------------- generation (SCH-3) ----------------

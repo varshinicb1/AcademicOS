@@ -162,6 +162,34 @@ void main() {
     expect(find.text('P1'), findsOneWidget, reason: 'the grid is still there');
   });
 
+  testWidgets("Week: each period shows its own section's bell time (N-3-15)", (tester) async {
+    // Two Junior periods and one Main period; the bell sent is Main's. The
+    // grid used to label every row with Main's times.
+    server.answers['/curriculum/my-timetable'] = '{"role":"teacher","entries":['
+        '{"dayOfWeek":0,"period":1,"subjectName":"Science","sectionName":"6-A","startTime":"08:20","endTime":"09:00"},'
+        '{"dayOfWeek":1,"period":2,"subjectName":"Science","sectionName":"6-A","startTime":"09:00","endTime":"09:40"},'
+        '{"dayOfWeek":2,"period":2,"subjectName":"Maths","sectionName":"10-A","startTime":"08:45","endTime":"09:25"}],'
+        '"bellSchedule":{"slots":[{"period":1,"start":"08:05","end":"08:45"},'
+        '{"period":2,"start":"08:45","end":"09:25"}],"days":[0,1,2,3,4,5]}}';
+    await pump(tester, const WeekPage());
+    expect(tester.takeException(), isNull);
+    expect(find.text('08:20-09:00'), findsOneWidget, reason: "P1 is taught only on the Junior bell");
+    expect(find.text('08:05-08:45'), findsNothing, reason: "Main's P1 time is nobody's here");
+    // P2 is on both bells: the row has no one time, each period shows its own.
+    expect(find.text('09:00-09:40'), findsOneWidget);
+    expect(find.text('08:45-09:25'), findsOneWidget);
+  });
+
+  test('a row takes the time its periods share, else none', () {
+    final entries = [
+      {'period': 1, 'startTime': '08:20', 'endTime': '09:00'},
+      {'period': 2, 'startTime': '09:00', 'endTime': '09:40'},
+      {'period': 2, 'startTime': '08:45', 'endTime': '09:25'},
+    ];
+    expect(rowTimes(entries, {1: '08:05-08:45', 2: '08:45-09:25', 3: '09:25-10:05'}, [1, 2, 3]),
+        {1: '08:20-09:00', 2: null, 3: '09:25-10:05'});
+  });
+
   testWidgets('Week: a student gets no load section', (tester) async {
     LocalStore.instance.authUser = {'id': 's1', 'schoolId': 'school_1', 'role': 'student', 'name': 'Asha'};
     await pump(tester, const WeekPage());
