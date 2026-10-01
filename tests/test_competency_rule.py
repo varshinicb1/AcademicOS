@@ -394,6 +394,11 @@ def test_the_served_class_6_to_10_signals():
     assert by_dict == by_schema
     del by_dict[None]
     # 435 CBE items until the fidelity rebuild of 2026-09-28, which refused the
-    # ones that cannot be answered as printed (corpus/fidelity.py).
-    assert dict(by_dict) == {"cbeItemBank": 366, "assertionReasonLabels": 2}
+    # ones that cannot be answered as printed (corpus/fidelity.py). 366 -> 365
+    # with the extraction repair of 2026-10-01 (dde445a, #78): cbe:q:Maths10AS8
+    # is refused as value-missing ("(Using π= )", and its key's Rs 8800
+    # contradicts the stem's Rs 50 a metre) -- the one id that left, measured by
+    # serving the bank before and after; tests/test_catalog_chapters.py lowered
+    # its chapter floor for it then, and this count was missed.
+    assert dict(by_dict) == {"cbeItemBank": 365, "assertionReasonLabels": 2}
     assert not exemplar
