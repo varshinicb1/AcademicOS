@@ -1,0 +1,31 @@
+{
+  "subject": "Hindi",
+  "grade": 3,
+  "book": "Veena",
+  "source_files": [
+    "chapters_text/chve1/01.txt"
+  ],
+  "chapters": [
+    {
+      "id": "hindi-3/सीखो",
+      "name": "सीखो",
+      "number": 1,
+      "book": "Veena",
+      "source_file": "chapters_text/chve1/01.txt",
+      "pages": [
+        1,
+        8
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "hindi-3/सीखो/सीखो",
+          "name": "सीखो",
+          "page": 1,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "subject": "Hindi",
+  "grade": 2,
+  "book": "Sarangi",
+  "source_files": [
+    "chapters_text/bhsr1/01.txt",
+    "chapters_text/bhsr1/02.txt"
+  ],
+  "chapters": [
+    {
+      "id": "hindi-2/नीमा-की-दादी",
+      "name": "नीमा की दादी",
+      "number": 1,
+      "book": "Sarangi",
+      "source_file": "chapters_text/bhsr1/01.txt",
+      "pages": [
+        1,
+        6
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "hindi-2/नीमा-की-दादी/चित्र-और-बातचीत",
+          "name": "चित्र और बातचीत",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-2/नीमा-की-दादी/नीमा-की-दादी",
+          "name": "नीमा की दादी",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-2/नीमा-की-दादी/अभ्यास",
+          "name": "अभ्यास",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-2/नीमा-की-दादी/शब्दों-का-खेल",
+          "name": "शब्दों का खेल",
+          "page": 4,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "hindi-2/घर",
+      "name": "घर",
+      "number": 2,
+      "book": "Sarangi",
+      "source_file": "chapters_text/bhsr1/02.txt",
+      "pages": [
+        1,
+        2
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "hindi-2/घर/घर",
+          "name": "घर",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-2/घर/खोजें-जानें",
+          "name": "खोजें-जानें",
+          "page": 2,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}

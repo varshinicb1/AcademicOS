@@ -1,0 +1,189 @@
+{
+  "subject": "EVS",
+  "grade": 5,
+  "book": "Our Wonderous World",
+  "source_files": [
+    "chapters_text/eeev1/01.txt",
+    "chapters_text/eeev1/02.txt",
+    "chapters_text/eeev1/04.txt"
+  ],
+  "chapters": [
+    {
+      "id": "evs-5/water-the-essence-of-life",
+      "name": "Water — The Essence of Life",
+      "number": 1,
+      "book": "Our Wonderous World",
+      "source_file": "chapters_text/eeev1/01.txt",
+      "pages": [
+        1,
+        20
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "evs-5/water-the-essence-of-life/water-the-essence-of-life",
+          "name": "Water — The Essence of Life",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/water-the-essence-of-life/water-has-different-forms",
+          "name": "Water has Different Forms",
+          "page": 4,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/water-the-essence-of-life/water-cycle",
+          "name": "Water Cycle",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/water-the-essence-of-life/groundwater",
+          "name": "Groundwater",
+          "page": 8,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/water-the-essence-of-life/surface-water",
+          "name": "Surface Water",
+          "page": 9,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/water-the-essence-of-life/life-in-water",
+          "name": "Life in Water",
+          "page": 13,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "evs-5/journey-of-a-river",
+      "name": "Journey of a River",
+      "number": 2,
+      "book": "Our Wonderous World",
+      "source_file": "chapters_text/eeev1/02.txt",
+      "pages": [
+        1,
+        17
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "evs-5/journey-of-a-river/where-i-begin-where-i-flow",
+          "name": "Where I Begin, Where I Flow",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/journey-of-a-river/the-life-i-hold",
+          "name": "The Life I Hold",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/journey-of-a-river/the-many-ways-i-support-lives",
+          "name": "The Many Ways I Support Lives",
+          "page": 4,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/journey-of-a-river/dams-storing-my-water-changing-my-flow",
+          "name": "Dams — Storing My Water, Changing My Flow",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/journey-of-a-river/what-pollutes-me-and-why-it-matters",
+          "name": "What Pollutes Me and Why it Matters",
+          "page": 7,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/journey-of-a-river/when-a-river-floods",
+          "name": "When a River Floods",
+          "page": 11,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/journey-of-a-river/when-a-river-runs-dry",
+          "name": "When a River Runs Dry!",
+          "page": 14,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "evs-5/our-school-a-happy-place",
+      "name": "Our School — A Happy Place",
+      "number": 4,
+      "book": "Our Wonderous World",
+      "source_file": "chapters_text/eeev1/04.txt",
+      "pages": [
+        1,
+        18
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "evs-5/our-school-a-happy-place/green-school",
+          "name": "Green School",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/our-school-a-happy-place/be-a-school-explorer",
+          "name": "Be a School Explorer!",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/our-school-a-happy-place/waste-management",
+          "name": "Waste Management",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/our-school-a-happy-place/let-us-be-cool",
+          "name": "Let Us be Cool!",
+          "page": 8,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/our-school-a-happy-place/dripping-water",
+          "name": "Dripping Water",
+          "page": 8,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/our-school-a-happy-place/greenery-around-us",
+          "name": "Greenery Around Us",
+          "page": 10,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/our-school-a-happy-place/traffic-signs",
+          "name": "Traffic Signs",
+          "page": 12,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/our-school-a-happy-place/fire-safety",
+          "name": "Fire Safety",
+          "page": 13,
+          "subtopics": []
+        },
+        {
+          "id": "evs-5/our-school-a-happy-place/what-we-do-matters",
+          "name": "What We do Matters!",
+          "page": 15,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}
