@@ -45,6 +45,7 @@ from .schemas import (
     CalendarResponse,
     ChapterCoverageResponse,
     ChapterResponse,
+    CompressedSubtopicResponse,
     CoverageReportResponse,
     DelayedLessonResponse,
     DelayedTopicsReportResponse,
@@ -1764,28 +1765,48 @@ def compute_teaching_time_estimates(book_id: str, academic_year_id: str,
     overwrites an existing estimate (§29 -- an admin who has since
     hand-adjusted an estimate must not have it clobbered by a re-run).
 
+    The budget is sized from a section's own week (N-3-8): `sectionId`'s,
+    or, when none is named, the largest of the class's sections that have
+    the subject in their timetable. Only a class with no section week falls
+    back to the school-wide slots.
+
     `periods_per_week`: an explicit value in the request always wins (a
-    one-off override); when omitted, resolves this book's subject's real,
-    persisted SubjectPeriodAllocation for the year instead of forcing the
-    caller to re-supply it every time -- 400 with a clear message if
-    neither exists, never a guessed default."""
+    one-off override); when omitted, resolves the section's allocation
+    (`sectionId`), else this book's subject's persisted
+    SubjectPeriodAllocation for the year, else the most any section of the
+    class is allocated -- 400 with a clear message if none exists, never a
+    guessed default."""
     store = _require()
     _require_school_owns_book(book_id, principal)
     _require_school_owns_academic_year(academic_year_id, principal)
+    book = store.get_book(book_id)
+    if req.section_id is not None:
+        section = _require_school_owns_section(req.section_id, principal)
+        subject_row = store.get_subject(book.subject_id) if book else None
+        if subject_row is None or subject_row.grade_id != section.grade_id:
+            raise HTTPException(422, "that book is not one of this section's class's books")
     periods_per_week = req.periods_per_week
+    if periods_per_week is None and req.section_id is not None:
+        alloc = store.allocation_for(req.section_id, book.subject_id)
+        periods_per_week = alloc.periods_per_week if alloc else None
     if periods_per_week is None:
         subject = store.subject_name_for_book(book_id)
         allocation = store.subject_period_allocation(academic_year_id, subject) if subject else None
-        if allocation is None:
+        if allocation is not None:
+            periods_per_week = allocation.periods_per_week
+        else:
+            per_section = [a.periods_per_week for a in store.allocations_for_year(academic_year_id)
+                           if book is not None and a.subject_id == book.subject_id]
+            periods_per_week = max(per_section) if per_section else None
+        if periods_per_week is None:
             raise HTTPException(
-                400, "periods_per_week not given and no SubjectPeriodAllocation is set for this "
-                "subject/year -- either pass periodsPerWeek explicitly or "
-                "POST .../subject-period-allocations first")
-        periods_per_week = allocation.periods_per_week
+                400, "periods_per_week not given and no allocation is set for this subject -- "
+                "either pass periodsPerWeek explicitly or allocate the subject to a section first")
     try:
         result = calendar_mod.compute_teaching_time_estimates(
             store, academic_year_id=academic_year_id, book_id=book_id,
-            periods_per_week=periods_per_week, approved_by=principal.id, recompute=req.recompute)
+            periods_per_week=periods_per_week, approved_by=principal.id, recompute=req.recompute,
+            section_id=req.section_id)
     except ValueError as e:
         raise HTTPException(404, str(e))
     return ComputeTeachingTimeResponse(
@@ -1795,7 +1816,7 @@ def compute_teaching_time_estimates(book_id: str, academic_year_id: str,
         total_instructional_minutes=result.total_instructional_minutes,
         units_skipped_no_subtopics=list(result.units_skipped_no_subtopics),
         estimates_created=len(result.estimates), periods_allocated=result.periods_allocated,
-        periods_short=result.periods_short, fits_in_year=result.fits_in_year)
+        periods_short=result.periods_short, fits_in_year=result.fits_in_year, section_id=result.section_id)
 
 
 @router.get("/subtopics/{subtopic_id}/teaching-time-estimate",
@@ -1842,7 +1863,10 @@ def schedule_book(book_id: str, academic_year_id: str, req: ScheduleBookRequest,
     only what is still to be taught. New lessons are placed from
     the school's today (or the year's first day, if later): a day that has
     passed cannot be taught on, and the shortfall warning counts only the
-    periods left."""
+    periods left. With `fitToPeriodsLeft`, a syllabus that needs more periods
+    than are left is fitted to them: each subtopic gets proportionally fewer,
+    at least one, and every one given fewer is listed in
+    `subtopicsCompressed` (D35)."""
     store = _require()
     _require_school_owns_book(book_id, principal)
     _require_school_owns_academic_year(academic_year_id, principal)
@@ -1867,7 +1891,8 @@ def schedule_book(book_id: str, academic_year_id: str, req: ScheduleBookRequest,
         result = scheduling_mod.schedule_book(
             store, school_id=principal.school_id, academic_year_id=academic_year_id,
             book_id=book_id, periods_per_week=periods, force=req.force,
-            from_date=_school_today().isoformat(), section_id=req.section_id)
+            from_date=_school_today().isoformat(), section_id=req.section_id,
+            fit_to_periods_left=req.fit_to_periods_left)
     except ValueError as e:
         raise HTTPException(409, str(e))
     return ScheduleBookResponse(
@@ -1882,7 +1907,13 @@ def schedule_book(book_id: str, academic_year_id: str, req: ScheduleBookRequest,
         teaching_periods_available=result.teaching_periods_available,
         lessons_kept=result.lessons_kept, past_lessons_kept=result.past_lessons_kept,
         all_subtopics_scheduled=result.all_subtopics_scheduled,
-        warning=result.warning, section_id=result.section_id)
+        warning=result.warning, section_id=result.section_id,
+        chapters_without_subtopics=list(result.chapters_without_subtopics),
+        subtopics_compressed=[CompressedSubtopicResponse(subtopic_id=c.subtopic_id,
+                                                         periods_needed=c.periods_needed,
+                                                         periods_planned=c.periods_planned)
+                              for c in result.subtopics_compressed],
+        fit_note=result.fit_note)
 
 
 def _minutes(hhmm: str) -> int:
@@ -1908,7 +1939,9 @@ def build_lesson_plans(academic_year_id: str, req: BuildPlansRequest,
        What was taught, marked or has passed is kept (`force`).
 
     A section and subject that cannot be planned is named in `notPlanned`
-    with the reason, never skipped silently."""
+    with the reason, never skipped silently, and each plan names the
+    chapters it left out for want of subtopics (`chaptersWithoutSubtopics`,
+    D119)."""
     store = _require()
     _require_school_owns_academic_year(academic_year_id, principal)
     out = BuildPlansResponse()
@@ -1970,7 +2003,8 @@ def build_lesson_plans(academic_year_id: str, req: BuildPlansRequest,
         try:
             r = scheduling_mod.schedule_book(store, school_id=principal.school_id, academic_year_id=academic_year_id,
                                              book_id=book.id, periods_per_week=per_week, force=True,
-                                             from_date=today, section_id=a.section_id)
+                                             from_date=today, section_id=a.section_id,
+                                             fit_to_periods_left=req.fit_to_periods_left)
         except ValueError as e:
             out.not_planned.append(f"{label}: {e}")
             continue
@@ -1978,7 +2012,9 @@ def build_lesson_plans(academic_year_id: str, req: BuildPlansRequest,
             section_id=a.section_id, section_name=store._section_label(section),
             subject_name=subject.name if subject else "", lessons_created=r.lessons_created,
             subtopics_without_estimate=len(r.subtopics_without_estimate),
-            last_scheduled_date=r.last_scheduled_date, warning=r.warning))
+            last_scheduled_date=r.last_scheduled_date, warning=r.warning,
+            chapters_without_subtopics=list(r.chapters_without_subtopics),
+            subtopics_compressed=len(r.subtopics_compressed), fit_note=r.fit_note))
     return out
 
 
@@ -2137,6 +2173,16 @@ def mark_lesson(lesson_id: str, req: MarkLessonRequest,
         raise HTTPException(
             409, "this lesson has no day in the plan (it no longer fit before the year ends) -- "
                  "ADJUST it onto a working day first")
+    # 409 again: a lesson's day that has not come yet cannot have been taught
+    # (or missed). A future lesson marked completed counted toward the
+    # principal's coverage before its day (audit D67). Undoing a mark
+    # ('scheduled') is always allowed.
+    today = _school_today()
+    if req.status != "scheduled" and date.fromisoformat(lesson.date) > today:
+        raise HTTPException(
+            409, f"this lesson is planned for {lesson.date}, after today ({today.isoformat()}); it can be "
+                 "marked taught, partly taught or not taught from its own day on -- if it was taught "
+                 "early, ask the principal to move it to the day it was taught")
     status, note = req.status, req.note
     if status == "partly":
         status, note = "completed", "Partly taught" + (f": {req.note}" if req.note else "")
@@ -2397,12 +2443,15 @@ def get_my_progress(academic_year_id: str,
 def get_coverage_report(academic_year_id: str, as_of_date: Optional[str] = None,
                         principal: User = Depends(require_admin("reports"))) -> CoverageReportResponse:
     """Planned vs. actually-taught coverage, variance, and completion %
-    aggregated by Subject and Chapter for school management (§17, §32)."""
+    aggregated by Subject and Chapter for school management (§17, §32).
+    `as_of_date` defaults to the school's today (IST), the same day delayed
+    topics read; it was the server's UTC date, so between 00:00 and 05:30
+    IST Coverage & Pace showed yesterday beside today's overdue list (D66)."""
     store = _require()
     _require_school_owns_academic_year(academic_year_id, principal)
     data = store.get_coverage_report(school_id=principal.school_id,
                                      academic_year_id=academic_year_id,
-                                     as_of_date=as_of_date)
+                                     as_of_date=as_of_date or _school_today().isoformat())
     users_store = _require_users()
     for s in data["subjects"]:
         if s.get("teacher_id"):

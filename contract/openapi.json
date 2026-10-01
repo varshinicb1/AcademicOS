@@ -2015,6 +2015,11 @@
             "default": false,
             "title": "Approveproposedtopics",
             "type": "boolean"
+          },
+          "fitToPeriodsLeft": {
+            "default": false,
+            "title": "Fittoperiodsleft",
+            "type": "boolean"
           }
         },
         "title": "BuildPlansRequest",
@@ -3402,6 +3407,29 @@
         "title": "CompetencyWeights",
         "type": "object"
       },
+      "CompressedSubtopicResponse": {
+        "properties": {
+          "periodsNeeded": {
+            "title": "Periodsneeded",
+            "type": "integer"
+          },
+          "periodsPlanned": {
+            "title": "Periodsplanned",
+            "type": "integer"
+          },
+          "subtopicId": {
+            "title": "Subtopicid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subtopicId",
+          "periodsNeeded",
+          "periodsPlanned"
+        ],
+        "title": "CompressedSubtopicResponse",
+        "type": "object"
+      },
       "ComputeTeachingTimeRequest": {
         "properties": {
           "periodsPerWeek": {
@@ -3420,6 +3448,17 @@
             "default": false,
             "title": "Recompute",
             "type": "boolean"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
           }
         },
         "title": "ComputeTeachingTimeRequest",
@@ -3465,6 +3504,17 @@
             "default": 0,
             "title": "Periodsshort",
             "type": "integer"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
           },
           "totalInstructionalMinutes": {
             "title": "Totalinstructionalminutes",
@@ -10306,6 +10356,25 @@
       },
       "PlanBuiltResponse": {
         "properties": {
+          "chaptersWithoutSubtopics": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Chapterswithoutsubtopics",
+            "type": "array"
+          },
+          "fitNote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fitnote"
+          },
           "lastScheduledDate": {
             "anyOf": [
               {
@@ -10332,6 +10401,11 @@
           "subjectName": {
             "title": "Subjectname",
             "type": "string"
+          },
+          "subtopicsCompressed": {
+            "default": 0,
+            "title": "Subtopicscompressed",
+            "type": "integer"
           },
           "subtopicsWithoutEstimate": {
             "default": 0,
@@ -13400,6 +13474,11 @@
       },
       "ScheduleBookRequest": {
         "properties": {
+          "fitToPeriodsLeft": {
+            "default": false,
+            "title": "Fittoperiodsleft",
+            "type": "boolean"
+          },
           "force": {
             "default": false,
             "title": "Force",
@@ -13447,6 +13526,14 @@
             "title": "Bookid",
             "type": "string"
           },
+          "chaptersWithoutSubtopics": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Chapterswithoutsubtopics",
+            "type": "array"
+          },
           "firstScheduledDate": {
             "anyOf": [
               {
@@ -13457,6 +13544,17 @@
               }
             ],
             "title": "Firstscheduleddate"
+          },
+          "fitNote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fitnote"
           },
           "lastScheduledDate": {
             "anyOf": [
@@ -13497,6 +13595,14 @@
               }
             ],
             "title": "Sectionid"
+          },
+          "subtopicsCompressed": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/CompressedSubtopicResponse"
+            },
+            "title": "Subtopicscompressed",
+            "type": "array"
           },
           "subtopicsPartiallyScheduled": {
             "items": {
@@ -22569,7 +22675,7 @@
     },
     "/api/v1/curriculum/academic-years/{academic_year_id}/lesson-plans": {
       "post": {
-        "description": "Every section's dated plan in one action (N-67-5). A school set up on\nthe web had none: seeding proposes topics but approving them was a\nchapter-at-a-time step on another tab, and each section and subject was\nthen planned on its own. This does the same steps the Lesson plans page\ndoes for one section, for all of them:\n\n1. With `approveProposedTopics`, the principal approves the topic\n   proposals still pending on the year's chosen books. The principal's\n   own click is the approval; nothing is approved without it.\n2. Each book's subtopics are timed against the year (idempotent), at the\n   most periods a week any section has for it.\n3. Each section's plan is laid on its own week from its allocation.\n   What was taught, marked or has passed is kept (`force`).\n\nA section and subject that cannot be planned is named in `notPlanned`\nwith the reason, never skipped silently.",
+        "description": "Every section's dated plan in one action (N-67-5). A school set up on\nthe web had none: seeding proposes topics but approving them was a\nchapter-at-a-time step on another tab, and each section and subject was\nthen planned on its own. This does the same steps the Lesson plans page\ndoes for one section, for all of them:\n\n1. With `approveProposedTopics`, the principal approves the topic\n   proposals still pending on the year's chosen books. The principal's\n   own click is the approval; nothing is approved without it.\n2. Each book's subtopics are timed against the year (idempotent), at the\n   most periods a week any section has for it.\n3. Each section's plan is laid on its own week from its allocation.\n   What was taught, marked or has passed is kept (`force`).\n\nA section and subject that cannot be planned is named in `notPlanned`\nwith the reason, never skipped silently, and each plan names the\nchapters it left out for want of subtopics (`chaptersWithoutSubtopics`,\nD119).",
         "operationId": "build_lesson_plans_api_v1_curriculum_academic_years__academic_year_id__lesson_plans_post",
         "parameters": [
           {
@@ -23959,7 +24065,7 @@
         "summary": "Get Book Schedule"
       },
       "post": {
-        "description": "Generates the real, dated schedule for this book -- see\nscheduling.py's module docstring for the full method and its honestly-\ndocumented weekday-assignment simplification. Requires\ncompute_teaching_time_estimates() to have already run for this\n(book, academic_year); a Subtopic without a real estimate is skipped\nand reported, never given a guessed period count. `allSubtopicsScheduled`\nis false, with a `warning` sentence, whenever any subtopic ends up\nwithout its full dated periods. `force` keeps completed/skipped lessons,\nand every lesson dated before today (taught or overdue), and replans\nonly what is still to be taught. New lessons are placed from\nthe school's today (or the year's first day, if later): a day that has\npassed cannot be taught on, and the shortfall warning counts only the\nperiods left.",
+        "description": "Generates the real, dated schedule for this book -- see\nscheduling.py's module docstring for the full method and its honestly-\ndocumented weekday-assignment simplification. Requires\ncompute_teaching_time_estimates() to have already run for this\n(book, academic_year); a Subtopic without a real estimate is skipped\nand reported, never given a guessed period count. `allSubtopicsScheduled`\nis false, with a `warning` sentence, whenever any subtopic ends up\nwithout its full dated periods. `force` keeps completed/skipped lessons,\nand every lesson dated before today (taught or overdue), and replans\nonly what is still to be taught. New lessons are placed from\nthe school's today (or the year's first day, if later): a day that has\npassed cannot be taught on, and the shortfall warning counts only the\nperiods left. With `fitToPeriodsLeft`, a syllabus that needs more periods\nthan are left is fitted to them: each subtopic gets proportionally fewer,\nat least one, and every one given fewer is listed in\n`subtopicsCompressed` (D35).",
         "operationId": "schedule_book_api_v1_curriculum_books__book_id__schedule_post",
         "parameters": [
           {
@@ -24087,7 +24193,7 @@
     },
     "/api/v1/curriculum/books/{book_id}/teaching-time-estimates": {
       "post": {
-        "description": "Distributes this subject's real, calendar-grounded instructional\ntime across its real, approved Subtopics -- see calendar.py's\ncompute_teaching_time_estimates() docstring for the full method.\nIdempotent per subtopic: re-running never duplicates or silently\noverwrites an existing estimate (§29 -- an admin who has since\nhand-adjusted an estimate must not have it clobbered by a re-run).\n\n`periods_per_week`: an explicit value in the request always wins (a\none-off override); when omitted, resolves this book's subject's real,\npersisted SubjectPeriodAllocation for the year instead of forcing the\ncaller to re-supply it every time -- 400 with a clear message if\nneither exists, never a guessed default.",
+        "description": "Distributes this subject's real, calendar-grounded instructional\ntime across its real, approved Subtopics -- see calendar.py's\ncompute_teaching_time_estimates() docstring for the full method.\nIdempotent per subtopic: re-running never duplicates or silently\noverwrites an existing estimate (§29 -- an admin who has since\nhand-adjusted an estimate must not have it clobbered by a re-run).\n\nThe budget is sized from a section's own week (N-3-8): `sectionId`'s,\nor, when none is named, the largest of the class's sections that have\nthe subject in their timetable. Only a class with no section week falls\nback to the school-wide slots.\n\n`periods_per_week`: an explicit value in the request always wins (a\none-off override); when omitted, resolves the section's allocation\n(`sectionId`), else this book's subject's persisted\nSubjectPeriodAllocation for the year, else the most any section of the\nclass is allocated -- 400 with a clear message if none exists, never a\nguessed default.",
         "operationId": "compute_teaching_time_estimates_api_v1_curriculum_books__book_id__teaching_time_estimates_post",
         "parameters": [
           {
@@ -25787,7 +25893,7 @@
     },
     "/api/v1/curriculum/reporting/coverage": {
       "get": {
-        "description": "Planned vs. actually-taught coverage, variance, and completion %\naggregated by Subject and Chapter for school management (§17, §32).",
+        "description": "Planned vs. actually-taught coverage, variance, and completion %\naggregated by Subject and Chapter for school management (§17, §32).\n`as_of_date` defaults to the school's today (IST), the same day delayed\ntopics read; it was the server's UTC date, so between 00:00 and 05:30\nIST Coverage & Pace showed yesterday beside today's overdue list (D66).",
         "operationId": "get_coverage_report_api_v1_curriculum_reporting_coverage_get",
         "parameters": [
           {
@@ -26918,7 +27024,7 @@
         "summary": "Section Timetable"
       },
       "put": {
-        "description": "Replace a section's whole week. Checked before anything is written: a\nteacher or room already busy in another section, a period or day the\nbell does not have, a subject with no allocation or more periods than\nallocated. A 409 lists every clash; the old week is kept.",
+        "description": "Replace a section's whole week. Checked before anything is written: a\nteacher or room already busy in another section, a period or day the\nbell does not have, a subject with no allocation or more periods than\nallocated. A 409 lists every clash; the old week is kept. A subject\nwhose weekdays changed has its plan re-laid on the new week from today\n(N-3-14).",
         "operationId": "replace_section_timetable_api_v1_curriculum_sections__section_id__timetable_put",
         "parameters": [
           {

@@ -2383,8 +2383,16 @@ def test_full_boot_completion_tracking(tmp_path, monkeypatch):
     completed with a note, an unassigned same-school teacher is refused,
     a principal can override, and the mark is honestly reflected back
     through both GET /my-schedule and the PATCH response itself."""
+    from datetime import date
+
+    from academicos.curriculum import routes as curriculum_routes
+
     monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
     with _boot_client(tmp_path, monkeypatch) as client:
+        # The plan starts on the school's today and a lesson is marked on its
+        # own day (D67), so today is pinned to the year's first day: on a real
+        # Sunday the first lesson would be tomorrow's.
+        monkeypatch.setattr(curriculum_routes, "_school_today", lambda: date(2026, 6, 1))
         principal = client.post("/api/v1/auth/register", json={
             "schoolId": "school_1", "name": "Principal", "email": "principal@example.com",
             "password": "correct horse battery", "principalKey": "test-bootstrap-key",

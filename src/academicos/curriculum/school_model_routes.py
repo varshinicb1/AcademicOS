@@ -619,6 +619,40 @@ def _tell_timetable_change(principal: User, before: list, after: list, section_i
                           params={}, exclude=teachers)
 
 
+def _replan_changed_weeks(principal: User, before: list, after: list, section_ids: set[str]) -> int:
+    """N-3-14: a section whose week changed has its plan re-laid on the new
+    week. For each section and subject whose periods per weekday differ,
+    every still-to-teach lesson from the school's today on moves onto the
+    periods the section now has (scheduling.replan_section, the reflow a
+    lost period uses); taught, skipped and past lessons stay. Each move is
+    on the audit log with the reason. A subject with no period left in the
+    new week is left as it is: there is nothing to lay it on until the week
+    is filled in. Until now a mid-term change stranded lessons on weekdays
+    the section no longer has the subject. Returns the plans that changed."""
+    from collections import Counter
+
+    from ..assessment.audit_log import get_audit_log
+    from . import scheduling
+
+    store = cr._require()
+    today = cr._school_today().isoformat()
+    log = get_audit_log(cr._cfg.data_root)
+    changed = 0
+    for sid in sorted(section_ids):
+        old = Counter((e.subject_id, e.day_of_week) for e in before if e.section_id == sid)
+        new = Counter((e.subject_id, e.day_of_week) for e in after if e.section_id == sid)
+        section = store.get_section(sid)
+        if section is None:
+            continue
+        still_taught = {subject_id for subject_id, _ in new}
+        for subject_id in sorted({s for s, _ in (old - new) + (new - old)} & still_taught):
+            changed += scheduling.replan_section(
+                store, log, academic_year_id=section.academic_year_id, section_id=sid,
+                subject_id=subject_id, from_date=today, changed_by=principal.id,
+                reason=f"{store._section_label(section)}'s timetable changed")
+    return changed
+
+
 @router.put("/sections/{section_id}/timetable", response_model=SectionTimetableResponse)
 def replace_section_timetable(section_id: str, req: SectionTimetableRequest,
                               principal: User = Depends(require_admin("timetable", scoped=True))
@@ -626,7 +660,9 @@ def replace_section_timetable(section_id: str, req: SectionTimetableRequest,
     """Replace a section's whole week. Checked before anything is written: a
     teacher or room already busy in another section, a period or day the
     bell does not have, a subject with no allocation or more periods than
-    allocated. A 409 lists every clash; the old week is kept."""
+    allocated. A 409 lists every clash; the old week is kept. A subject
+    whose weekdays changed has its plan re-laid on the new week from today
+    (N-3-14)."""
     section = cr._require_school_owns_section(section_id, principal)
     cr.require_section_in_scope(section_id, principal, "timetable")
     for e in req.entries:
@@ -641,9 +677,11 @@ def replace_section_timetable(section_id: str, req: SectionTimetableRequest,
                                   "clashes": e.clashes})
     except ValueError as e:
         raise HTTPException(422, str(e))
+    week_after = store.timetable_for_section(section_id)
+    replanned = _replan_changed_weeks(principal, week_before, week_after, {section_id})
     _audit("timetable_replaced", principal, {"sectionId": section_id, "before": before,
-                                             "after": len(req.entries)})
-    _tell_timetable_change(principal, week_before, store.timetable_for_section(section_id), {section_id})
+                                             "after": len(req.entries), "plansReplanned": replanned})
+    _tell_timetable_change(principal, week_before, week_after, {section_id})
     return _section_week(store.get_section(section.id))
 
 
@@ -855,15 +893,19 @@ def _proposed(entries: list) -> list[ProposedEntryResponse]:
 
 def _published(principal: User, academic_year_id: str, week_before: list, solving: set[str],
                summary: dict[str, Any], preview_id: Optional[str] = None) -> None:
-    """The audit entry and the notices for a week just written."""
+    """The re-laid plans, the audit entry and the notices for a week just
+    written -- by a one-step solve or by publishing a preview (N-3-6). A
+    subject whose weekdays changed has its future lessons moved onto the new
+    week (N-3-14)."""
     store = cr._require()
+    week_after = [e for e in store.timetable_for_year(academic_year_id) if e.section_id in solving]
+    replanned = _replan_changed_weeks(principal, week_before, week_after, solving)
     _audit("timetable_solved", principal,
            {"academicYearId": academic_year_id, "sections": len(solving), "kept": summary["kept"],
             "movedOrAdded": summary["movedOrAdded"], "removed": summary["removed"],
+            "plansReplanned": replanned,
             **({"previewId": preview_id} if preview_id else {})})
-    _tell_timetable_change(principal, week_before,
-                           [e for e in store.timetable_for_year(academic_year_id) if e.section_id in solving],
-                           solving)
+    _tell_timetable_change(principal, week_before, week_after, solving)
 
 
 @router.post("/academic-years/{academic_year_id}/timetable/solve", response_model=SolveResponse)
