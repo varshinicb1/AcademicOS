@@ -28,7 +28,7 @@ void main() {
   test('the principal runs and sets up the school from the side navigation', () {
     final p = labels('principal');
     expect(p, containsAll(['Overview', 'Paper reviews', 'Term report', 'Exams', 'Timetable',
-        'Attendance and cover', 'Staff and access', 'Import and export', 'School profile',
+        'Attendance and cover', 'Invite people', 'Staff and access', 'Import and export', 'School profile',
         'Lesson plans', 'Periods owed']));
     expect([for (final s in navSectionsFor('principal')) s.title], [null, 'Run the school', 'Setup']);
   });
