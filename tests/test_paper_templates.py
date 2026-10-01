@@ -1564,10 +1564,10 @@ def test_preset_instructions_describe_the_paper_that_was_printed():
     assert lines[0] == "This question paper has 4 sections."
     by_title = {line.split(":")[0]: line for line in lines[1:-1]}
     assert set(by_title) == {s.title for s in t.sections[:4]}
-    assert "1 of them offer" in by_title["Section B - Very short answer"]
+    assert "1 of them offers" in by_title["Section B - Very short answer"]
     assert "OR" not in by_title["Section C - Short answer"]
     d = by_title["Section D - Long answer"]
-    assert "3 question(s)" in d and "OR" not in d, d
+    assert "3 questions" in d and "OR" not in d, d
 
 
 def test_a_relax_type_fix_names_the_types_to_apply():
@@ -1668,11 +1668,18 @@ def test_the_real_papers_instructions_match_the_ors_it_prints(
             if not s["filled"]:
                 assert line is None, line
                 continue
-            assert f"{s['filled']} question(s)" in line, line
+            assert _n(s["filled"], "question") in line, line
             if s["choicesFilled"]:
-                assert f"{s['choicesFilled']} of them offer an internal choice" in line, line
+                assert f"{_n(s['choicesFilled'], 'of them offer', 'of them offers')} an internal choice" \
+                    in line, line
             else:
                 assert "OR" not in line, line
+
+
+def _n(n: int, many: str, one: str = "") -> str:
+    """How the printed instructions count: "1 question", "3 questions"
+    (they said "question(s)" until QA P-33)."""
+    return f"{n} {(one or many) if n == 1 else (many if one else many + 's')}"
 
 
 def _printed_title(section: dict, report: dict) -> str:
@@ -1697,9 +1704,10 @@ def _assert_instructions_describe(lines: list[str], sections: list[dict]) -> Non
         if not s["filled"]:
             assert line is None, line
             continue
-        assert f"{s['filled']} question(s) of {s['marksEach']} mark(s)" in line, line
+        assert f"{_n(s['filled'], 'question')} of {_n(s['marksEach'], 'mark')}" in line, line
         if s["choicesFilled"]:
-            assert f"{s['choicesFilled']} of them offer an internal choice" in line, line
+            assert f"{_n(s['choicesFilled'], 'of them offer', 'of them offers')} an internal choice" \
+                in line, line
         else:
             assert "OR" not in line, line
 
