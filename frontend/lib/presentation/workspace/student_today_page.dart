@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
+import 'calendar_day_notice.dart';
 import 'ops_api.dart';
 import 'strings.dart';
 import '../shared/widgets/shell.dart';
@@ -30,6 +31,8 @@ class _StudentTodayPageState extends State<StudentTodayPage> {
       ? null
       : nextPeriodLine(_rows!.cast<Map>(), DateTime.now(), what: (r) => r['subjectName'] as String? ?? '');
   List<Map<String, dynamic>> _due = [];
+  // The calendar's word on the day: a holiday, a half day, an exam window.
+  List<Map<String, dynamic>> _calendarDay = [];
   Map<String, dynamic>? _exam;
   String? _error;
 
@@ -45,6 +48,7 @@ class _StudentTodayPageState extends State<StudentTodayPage> {
           .map((e) => Map<String, dynamic>.from(e as Map)).toList();
       final homework = await Ops.list('/my-homework');
       final exams = await Ops.map('/my-exams');
+      final calendar = await Ops.list('/my-calendar', query: {'days': 2});
       final today = isoDate(DateTime.now());
       final soon = isoDate(DateTime.now().add(const Duration(days: 3)));
       Map<String, dynamic>? next;
@@ -60,6 +64,7 @@ class _StudentTodayPageState extends State<StudentTodayPage> {
         _rows = rows..sort((a, b) => (a['period'] as int).compareTo(b['period'] as int));
         _due = homework.where((h) => h['myStatus'] == 'not_submitted' && (h['dueDate'] as String).compareTo(soon) <= 0).toList();
         _exam = next;
+        _calendarDay = calendarDayItems(calendar, isoDate(_day));
         _error = null;
       });
     } catch (e) {
@@ -74,6 +79,7 @@ class _StudentTodayPageState extends State<StudentTodayPage> {
         'lost' => tr('Cancelled'),
         'uncovered' => tr('No teacher yet'),
         'makeup' => tr('Extra period'),
+        'exam' => tr('Exam'),
         _ => '',
       };
 
@@ -105,6 +111,7 @@ class _StudentTodayPageState extends State<StudentTodayPage> {
               : RefreshIndicator(
                   onRefresh: _load,
                   child: ListView(padding: const EdgeInsets.all(16), children: [
+                    CalendarDayNotice(_calendarDay),
                     if (_exam != null)
                       AppCard(
                         margin: const EdgeInsets.only(bottom: 12),
@@ -135,7 +142,9 @@ class _StudentTodayPageState extends State<StudentTodayPage> {
                     const SizedBox(height: 8),
                     if (_rows!.isEmpty)
                       EmptyState(icon: Icons.weekend_outlined, title: tr('No classes'),
-                          message: tr('A holiday, a weekly off, or no timetable yet.')),
+                          message: _calendarDay.any((i) => i['kind'] == 'holiday')
+                              ? tr('A holiday.')
+                              : tr('A holiday, a weekly off, or no timetable yet.')),
                     for (final r in _rows!)
                       ListTile(
                         leading: CircleAvatar(child: Text('${r['period']}')),
@@ -145,6 +154,7 @@ class _StudentTodayPageState extends State<StudentTodayPage> {
                           if (periodWhenWhere(r).isNotEmpty) periodWhenWhere(r),
                           if (r['teacherName'] != null && r['kind'] != 'lost') r['teacherName'],
                           if (_kind(r['kind'] as String).isNotEmpty) _kind(r['kind'] as String),
+                          if (r['kind'] == 'exam' && r['note'] != null) r['note'],
                         ].join(' · ')),
                         trailing: r['changed'] == true ? ChipTag(label: tr('Changed')) : null,
                       ),

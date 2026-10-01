@@ -9,6 +9,7 @@ import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 import '../widgets/book_edition_card.dart';
+import '../widgets/calendar_days_card.dart';
 import '../widgets/calendar_rules_card.dart';
 import '../widgets/insights_card.dart';
 import '../widgets/invites_panel.dart';
@@ -1668,6 +1669,16 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
           ),
         ),
         const Gap(16),
+        if (_academicYearId != null && _calendar != null) ...[
+          CalendarDaysCard(
+            api: GetIt.I<CurriculumApi>(),
+            academicYearId: _academicYearId!,
+            grades: (data.grades.map((g) => g.number).toSet().toList()..sort()),
+            onMessage: _showMessage,
+            onChanged: _loadCalendarSetup,
+          ),
+          const Gap(16),
+        ],
         AppCard(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1698,6 +1709,10 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 Text('Weekly Offs: ${_workingDaysSummary!.weeklyOffCount}'),
                 const Gap(4),
                 Text('Alternate Saturdays Off: ${_workingDaysSummary!.alternateSaturdayOffCount}'),
+                if (_workingDaysSummary!.compensatoryCount > 0) ...[
+                  const Gap(4),
+                  Text('Off days made working days: ${_workingDaysSummary!.compensatoryCount}'),
+                ],
               ] else if (_calendarLoadError != null)
                 Text('Working days could not be computed: $_calendarLoadError',
                     style: TextStyle(color: theme.colorScheme.error))
@@ -1715,7 +1730,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                     children: [
                       Expanded(
                         child: Text(
-                            '• ${h.date}${h.endDate != null ? ' to ${h.endDate}' : ''}: ${h.label} (${h.kind})',
+                            '• ${h.date}${h.endDate != null ? ' to ${h.endDate}' : ''}: ${h.label} (${h.describe})',
                             style: theme.textTheme.bodySmall),
                       ),
                       IconButton(

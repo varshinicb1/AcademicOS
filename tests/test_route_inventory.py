@@ -190,6 +190,9 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/leave-requests"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/decision"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/cancel"),
+    ("PUT", "/api/v1/curriculum/leave-requests/{leave_id}/replacement"),
+    ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/document"),
+    ("GET", "/api/v1/curriculum/leave-requests/{leave_id}/document"),
     ("GET", "/api/v1/curriculum/substitutions"),
     ("GET", "/api/v1/curriculum/substitutions/{sub_id}/candidates"),
     ("POST", "/api/v1/curriculum/substitutions/{sub_id}/assign"),
@@ -527,6 +530,9 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/leave-requests"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/decision"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/cancel"),
+    ("PUT", "/api/v1/curriculum/leave-requests/{leave_id}/replacement"),
+    ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/document"),
+    ("GET", "/api/v1/curriculum/leave-requests/{leave_id}/document"),
     ("GET", "/api/v1/curriculum/substitutions"),
     ("GET", "/api/v1/curriculum/substitutions/{sub_id}/candidates"),
     ("POST", "/api/v1/curriculum/substitutions/{sub_id}/assign"),
@@ -990,7 +996,9 @@ def test_canonical_route_inventory_matches_live_app():
     # 315: N-67-5 every section's lesson plan in one action.
     # 316: N-3-6 publishing exactly a previewed week.
     # 322: N-3-20 elective groups and combined classes (4), splitting and merging a section (2).
-    assert len(API_ROUTES) == 322
+    # 324: N-3-17 a leave request's supporting document (attach, read).
+    # 325: SCH-8 a long leave's temporary replacement teacher.
+    assert len(API_ROUTES) == 325
 
 
 def test_docs_routes_present():

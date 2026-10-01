@@ -87,6 +87,20 @@
             ],
             "title": "Enddate"
           },
+          "grades": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grades"
+          },
           "kind": {
             "default": "holiday",
             "title": "Kind",
@@ -97,10 +111,32 @@
             "title": "Label",
             "type": "string"
           },
+          "lastPeriod": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastperiod"
+          },
           "moveLessons": {
             "default": true,
             "title": "Movelessons",
             "type": "boolean"
+          },
+          "timetableWeekday": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timetableweekday"
           }
         },
         "required": [
@@ -1850,6 +1886,20 @@
           "file"
         ],
         "title": "Body_ingest_school_document_api_v1_ingest_school_documents_post",
+        "type": "object"
+      },
+      "Body_upload_leave_document_api_v1_curriculum_leave_requests__leave_id__document_post": {
+        "properties": {
+          "file": {
+            "contentMediaType": "application/octet-stream",
+            "title": "File",
+            "type": "string"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_leave_document_api_v1_curriculum_leave_requests__leave_id__document_post",
         "type": "object"
       },
       "Body_upload_photo_api_v1_my_homework__homework_id__photos_post": {
@@ -6652,6 +6702,20 @@
             ],
             "title": "Enddate"
           },
+          "grades": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grades"
+          },
           "id": {
             "title": "Id",
             "type": "string"
@@ -6663,6 +6727,17 @@
           "label": {
             "title": "Label",
             "type": "string"
+          },
+          "lastPeriod": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastperiod"
           },
           "lessonsMoved": {
             "anyOf": [
@@ -6688,6 +6763,17 @@
               }
             ],
             "title": "Notmoved"
+          },
+          "timetableWeekday": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timetableweekday"
           }
         },
         "required": [
@@ -7693,6 +7779,34 @@
         "title": "LeaveDecisionResponse",
         "type": "object"
       },
+      "LeaveDocumentResponse": {
+        "properties": {
+          "contentType": {
+            "title": "Contenttype",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "size": {
+            "title": "Size",
+            "type": "integer"
+          },
+          "uploadedAt": {
+            "title": "Uploadedat",
+            "type": "string"
+          }
+        },
+        "required": [
+          "contentType",
+          "name",
+          "size",
+          "uploadedAt"
+        ],
+        "title": "LeaveDocumentResponse",
+        "type": "object"
+      },
       "LeaveResponse": {
         "properties": {
           "academicYearId": {
@@ -7713,6 +7827,16 @@
               }
             ],
             "title": "Decidedby"
+          },
+          "document": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LeaveDocumentResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "endDate": {
             "title": "Enddate",
@@ -7747,6 +7871,17 @@
           "reason": {
             "title": "Reason",
             "type": "string"
+          },
+          "replacementId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Replacementid"
           },
           "startDate": {
             "title": "Startdate",
@@ -11835,6 +11970,24 @@
           "name"
         ],
         "title": "RenameRequest",
+        "type": "object"
+      },
+      "ReplacementRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          }
+        },
+        "title": "ReplacementRequest",
         "type": "object"
       },
       "ReportCardResponse": {
@@ -17974,6 +18127,11 @@
             "title": "Alternatesaturdayoffcount",
             "type": "integer"
           },
+          "compensatoryCount": {
+            "default": 0,
+            "title": "Compensatorycount",
+            "type": "integer"
+          },
           "dates": {
             "items": {
               "type": "string"
@@ -23861,6 +24019,157 @@
         "summary": "Decide Leave"
       }
     },
+    "/api/v1/curriculum/leave-requests/{leave_id}/document": {
+      "get": {
+        "description": "The request's supporting document, for the teacher on leave and the\nschool's leave admin. A read by anyone but the teacher is logged.",
+        "operationId": "leave_document_api_v1_curriculum_leave_requests__leave_id__document_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "leave_id",
+            "required": true,
+            "schema": {
+              "title": "Leave Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Leave Document"
+      },
+      "post": {
+        "description": "Attach a supporting document to a leave request: a PDF, JPEG or PNG of\nat most 2 MB. The teacher on leave, or whoever applied for them (the\nprincipal), may; a second upload replaces the first. Only while the\nrequest stands (pending or approved).",
+        "operationId": "upload_leave_document_api_v1_curriculum_leave_requests__leave_id__document_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "leave_id",
+            "required": true,
+            "schema": {
+              "title": "Leave Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_leave_document_api_v1_curriculum_leave_requests__leave_id__document_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Upload Leave Document"
+      }
+    },
+    "/api/v1/curriculum/leave-requests/{leave_id}/replacement": {
+      "put": {
+        "description": "Long leave (SCH-8): name a temporary replacement teacher, who takes the\nteacher's periods for the leave's dates -- each one they are free for,\naccepted at once -- and teaches their classes' lessons of those dates.\nNull takes the replacement off, and the engine proposes cover again.\nReturns the leave and its substitutions from today on.",
+        "operationId": "set_leave_replacement_api_v1_curriculum_leave_requests__leave_id__replacement_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "leave_id",
+            "required": true,
+            "schema": {
+              "title": "Leave Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplacementRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveDecisionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set Leave Replacement"
+      }
+    },
     "/api/v1/curriculum/lost-periods/{lost_id}/compensate": {
       "post": {
         "operationId": "compensate_api_v1_curriculum_lost_periods__lost_id__compensate_post",
@@ -29055,7 +29364,7 @@
     },
     "/api/v1/my-calendar": {
       "get": {
-        "description": "The caller's dated school events from today: holidays, cover and\ninvigilation duties, exam papers and homework due. The ICS feed carries\nthe same; the weekly periods are the timetable's, so they are left out.",
+        "description": "The caller's dated school events from today: holidays, half days,\nexam windows and compensatory working days (N-3-19), cover and\ninvigilation duties, exam papers and homework due. The ICS feed carries\nthe same; the weekly periods are the timetable's, so they are left out.",
         "operationId": "my_calendar_api_v1_my_calendar_get",
         "parameters": [
           {

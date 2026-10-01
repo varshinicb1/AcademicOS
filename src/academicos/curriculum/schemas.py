@@ -373,6 +373,14 @@ class AddHolidayRequest(Camel):
     # periods, and the teachers and students affected are told. False only
     # records the day (e.g. entering last year's list before any plan exists).
     move_lessons: bool = True
+    # A day that runs differently (calendar.DAY_KINDS, v3 audit N-3-19) and
+    # its own field: half_day keeps periods 1..lastPeriod; exam_window stops
+    # teaching for these classes (grade numbers; none is every class);
+    # working_day (an off day made a working day) runs the timetable of
+    # timetableWeekday (0 = Monday).
+    last_period: Optional[int] = None
+    grades: Optional[list[int]] = None
+    timetable_weekday: Optional[int] = None
 
 
 class HolidayResponse(Camel):
@@ -382,6 +390,9 @@ class HolidayResponse(Camel):
     label: str
     kind: str
     end_date: Optional[str] = None
+    last_period: Optional[int] = None
+    grades: Optional[list[int]] = None
+    timetable_weekday: Optional[int] = None
     # On the add only: lessons moved off the holiday, and the plans that
     # could not be moved (no cadence to reflow them on), named.
     lessons_moved: Optional[int] = None
@@ -432,6 +443,9 @@ class WorkingDaysResponse(Camel):
     alternate_saturday_off_count: int
     holiday_count: int
     dates: list[str]
+    # Weekly offs and alternate Saturdays made working days (N-3-19); they
+    # are among working_days.
+    compensatory_count: int = 0
 
 
 class SetSubjectPeriodAllocationRequest(Camel):
