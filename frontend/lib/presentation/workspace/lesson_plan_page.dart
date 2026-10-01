@@ -145,6 +145,11 @@ class _LessonPlanPageState extends State<LessonPlanPage> {
                 allocation: school.allocation(_sectionId!, _subjectId!),
               ),
             ],
+            // N-67-5: or every section at once.
+            if (CurrentSession.role == 'principal') ...[
+              const Gap(24),
+              _PlanAll(yearId: school.yearId),
+            ],
           ]);
         },
       ),
@@ -450,5 +455,83 @@ class _PlanResult extends StatelessWidget {
                 '${estimates!['totalSubjectPeriods']}.'),
       ],
     ]);
+  }
+}
+
+/// Every section's plan in one action (N-67-5), for the principal: the
+/// topics proposed when the school was seeded are approved (only with the
+/// box ticked -- it is the principal's approval), each book is timed against
+/// the year, and each section's lessons are laid on its own week.
+class _PlanAll extends StatefulWidget {
+  final String yearId;
+  const _PlanAll({required this.yearId});
+
+  @override
+  State<_PlanAll> createState() => _PlanAllState();
+}
+
+class _PlanAllState extends State<_PlanAll> {
+  bool _approve = true;
+  bool _busy = false;
+  Map<String, dynamic>? _result;
+  String? _error;
+
+  Future<void> _run() async {
+    setState(() {
+      _busy = true;
+      _error = null;
+      _result = null;
+    });
+    try {
+      final r = await Ops.post('$_base/academic-years/${widget.yearId}/lesson-plans',
+          body: {'approveProposedTopics': _approve});
+      if (mounted) setState(() => _result = Map<String, dynamic>.from(r as Map));
+    } catch (e) {
+      if (mounted) setState(() => _error = serverErrorMessage(e));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final r = _result;
+    final plans = ((r?['plans'] as List?) ?? const []).cast<Map>();
+    final missed = ((r?['notPlanned'] as List?) ?? const []).cast<String>();
+    final lessons = plans.fold<int>(0, (n, p) => n + (p['lessonsCreated'] as int? ?? 0));
+    return AppCard(
+      key: const ValueKey('plan-all'),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(tr('Plan every section'), style: theme.textTheme.titleSmall),
+        Text(tr('Every section and subject with periods a week gets its dated plan from its book.'),
+            style: theme.textTheme.bodySmall),
+        CheckboxListTile(
+          key: const ValueKey('plan-all-approve'),
+          contentPadding: EdgeInsets.zero,
+          value: _approve,
+          onChanged: _busy ? null : (v) => setState(() => _approve = v ?? false),
+          title: Text(tr("Approve the topics proposed for each chapter (from the NCERT book's own headings)")),
+        ),
+        FilledButton(
+          key: const ValueKey('plan-all-run'),
+          onPressed: _busy ? null : _run,
+          style: phoneTapTarget(context),
+          child: Text(tr('Plan every section')),
+        ),
+        if (_busy) ...[const Gap(8), const LinearProgressIndicator()],
+        if (_error != null) ...[
+          const Gap(8),
+          Notice(kind: NoticeKind.danger, title: tr('The plans were not made.'), lines: [_error!]),
+        ],
+        if (r != null) ...[
+          const Gap(8),
+          Text(key: const ValueKey('plan-all-result'),
+              '${plans.length} ${tr('plans made')}, $lessons ${tr('lessons dated')}'
+              '${(r['subtopicsCreated'] as int? ?? 0) > 0 ? ' · ${r['subtopicsCreated']} ${tr('subtopics approved')}' : ''}'),
+          for (final m in missed) Text('• $m', style: theme.textTheme.bodySmall),
+        ],
+      ]),
+    );
   }
 }

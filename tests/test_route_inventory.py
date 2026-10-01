@@ -219,6 +219,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/calendar-feed/reset"),
     ("GET", "/api/v1/my-calendar"),
     ("GET", "/api/v1/my-load"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/lesson-plans"),
     ("GET", "/api/v1/ics/{token}.ics"),
     ("POST", "/v1/homework-sets"),
     ("POST", "/api/v1/my-homework/{homework_id}/photos"),
@@ -550,6 +551,7 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/calendar-feed/reset"),
     ("GET", "/api/v1/my-calendar"),
     ("GET", "/api/v1/my-load"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/lesson-plans"),
     ("POST", "/api/v1/my-homework/{homework_id}/photos"),
     ("GET", "/api/v1/my-homework/{homework_id}/photos"),
     ("GET", "/api/v1/my-homework/{homework_id}/photos/{photo_id}"),
@@ -971,7 +973,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 309: closing and reopening an account (N-67-8).
     # 311: TA-2 the caller's own calendar and teaching load in the apps.
     # 314: EX-8 report cards (a student's, as JSON and PDF; a section's PDF).
-    assert len(API_ROUTES) == 314
+    # 315: N-67-5 every section's lesson plan in one action.
+    assert len(API_ROUTES) == 315
 
 
 def test_docs_routes_present():

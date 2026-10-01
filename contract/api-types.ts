@@ -1167,6 +1167,41 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/lesson-plans": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Build Lesson Plans
+         * @description Every section's dated plan in one action (N-67-5). A school set up on
+         *     the web had none: seeding proposes topics but approving them was a
+         *     chapter-at-a-time step on another tab, and each section and subject was
+         *     then planned on its own. This does the same steps the Lesson plans page
+         *     does for one section, for all of them:
+         *
+         *     1. With `approveProposedTopics`, the principal approves the topic
+         *        proposals still pending on the year's chosen books. The principal's
+         *        own click is the approval; nothing is approved without it.
+         *     2. Each book's subtopics are timed against the year (idempotent), at the
+         *        most periods a week any section has for it.
+         *     3. Each section's plan is laid on its own week from its allocation.
+         *        What was taught, marked or has passed is kept (`force`).
+         *
+         *     A section and subject that cannot be planned is named in `notPlanned`
+         *     with the reason, never skipped silently.
+         */
+        post: operations["build_lesson_plans_api_v1_curriculum_academic_years__academic_year_id__lesson_plans_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/academic-years/{academic_year_id}/lost-periods": {
         parameters: {
             query?: never;
@@ -6452,6 +6487,42 @@ export interface components {
             /** Title */
             title: string;
         };
+        /** BuildPlansRequest */
+        BuildPlansRequest: {
+            /**
+             * Approveproposedtopics
+             * @default false
+             */
+            approveProposedTopics: boolean;
+        };
+        /** BuildPlansResponse */
+        BuildPlansResponse: {
+            /**
+             * Notplanned
+             * @default []
+             */
+            notPlanned: string[];
+            /**
+             * Plans
+             * @default []
+             */
+            plans: components["schemas"]["PlanBuiltResponse"][];
+            /**
+             * Runsapproved
+             * @default 0
+             */
+            runsApproved: number;
+            /**
+             * Subtopicscreated
+             * @default 0
+             */
+            subtopicsCreated: number;
+            /**
+             * Topicscreated
+             * @default 0
+             */
+            topicsCreated: number;
+        };
         /** BulkAwardRequest */
         BulkAwardRequest: {
             /**
@@ -9264,6 +9335,26 @@ export interface components {
             /** Questionid */
             questionId: string;
         };
+        /** PlanBuiltResponse */
+        PlanBuiltResponse: {
+            /** Lastscheduleddate */
+            lastScheduledDate?: string | null;
+            /** Lessonscreated */
+            lessonsCreated: number;
+            /** Sectionid */
+            sectionId: string;
+            /** Sectionname */
+            sectionName: string;
+            /** Subjectname */
+            subjectName: string;
+            /**
+             * Subtopicswithoutestimate
+             * @default 0
+             */
+            subtopicsWithoutEstimate: number;
+            /** Warning */
+            warning?: string | null;
+        };
         /** PracticeItemResponse */
         PracticeItemResponse: {
             /** Conceptid */
@@ -9301,6 +9392,8 @@ export interface components {
              * @default 8
              */
             count: number;
+            /** Exampaperid */
+            examPaperId?: string | null;
             /** Subject */
             subject?: string | null;
         };
@@ -14379,6 +14472,41 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    build_lesson_plans_api_v1_curriculum_academic_years__academic_year_id__lesson_plans_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BuildPlansRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BuildPlansResponse"];
                 };
             };
             /** @description Validation Error */

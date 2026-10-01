@@ -1895,6 +1895,54 @@
         "title": "BookResponse",
         "type": "object"
       },
+      "BuildPlansRequest": {
+        "properties": {
+          "approveProposedTopics": {
+            "default": false,
+            "title": "Approveproposedtopics",
+            "type": "boolean"
+          }
+        },
+        "title": "BuildPlansRequest",
+        "type": "object"
+      },
+      "BuildPlansResponse": {
+        "properties": {
+          "notPlanned": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Notplanned",
+            "type": "array"
+          },
+          "plans": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/PlanBuiltResponse"
+            },
+            "title": "Plans",
+            "type": "array"
+          },
+          "runsApproved": {
+            "default": 0,
+            "title": "Runsapproved",
+            "type": "integer"
+          },
+          "subtopicsCreated": {
+            "default": 0,
+            "title": "Subtopicscreated",
+            "type": "integer"
+          },
+          "topicsCreated": {
+            "default": 0,
+            "title": "Topicscreated",
+            "type": "integer"
+          }
+        },
+        "title": "BuildPlansResponse",
+        "type": "object"
+      },
       "BulkAwardRequest": {
         "properties": {
           "allStudents": {
@@ -9219,6 +9267,61 @@
         "title": "PickRequest",
         "type": "object"
       },
+      "PlanBuiltResponse": {
+        "properties": {
+          "lastScheduledDate": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastscheduleddate"
+          },
+          "lessonsCreated": {
+            "title": "Lessonscreated",
+            "type": "integer"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "sectionName": {
+            "title": "Sectionname",
+            "type": "string"
+          },
+          "subjectName": {
+            "title": "Subjectname",
+            "type": "string"
+          },
+          "subtopicsWithoutEstimate": {
+            "default": 0,
+            "title": "Subtopicswithoutestimate",
+            "type": "integer"
+          },
+          "warning": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Warning"
+          }
+        },
+        "required": [
+          "sectionId",
+          "sectionName",
+          "subjectName",
+          "lessonsCreated"
+        ],
+        "title": "PlanBuiltResponse",
+        "type": "object"
+      },
       "PracticeItemResponse": {
         "properties": {
           "conceptId": {
@@ -9307,6 +9410,18 @@
             "minimum": 3.0,
             "title": "Count",
             "type": "integer"
+          },
+          "examPaperId": {
+            "anyOf": [
+              {
+                "maxLength": 80,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exampaperid"
           },
           "subject": {
             "anyOf": [
@@ -20200,6 +20315,61 @@
           }
         ],
         "summary": "Delete Holiday"
+      }
+    },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/lesson-plans": {
+      "post": {
+        "description": "Every section's dated plan in one action (N-67-5). A school set up on\nthe web had none: seeding proposes topics but approving them was a\nchapter-at-a-time step on another tab, and each section and subject was\nthen planned on its own. This does the same steps the Lesson plans page\ndoes for one section, for all of them:\n\n1. With `approveProposedTopics`, the principal approves the topic\n   proposals still pending on the year's chosen books. The principal's\n   own click is the approval; nothing is approved without it.\n2. Each book's subtopics are timed against the year (idempotent), at the\n   most periods a week any section has for it.\n3. Each section's plan is laid on its own week from its allocation.\n   What was taught, marked or has passed is kept (`force`).\n\nA section and subject that cannot be planned is named in `notPlanned`\nwith the reason, never skipped silently.",
+        "operationId": "build_lesson_plans_api_v1_curriculum_academic_years__academic_year_id__lesson_plans_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildPlansRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuildPlansResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Build Lesson Plans"
       }
     },
     "/api/v1/curriculum/academic-years/{academic_year_id}/lost-periods": {
