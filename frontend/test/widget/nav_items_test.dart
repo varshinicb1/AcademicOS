@@ -10,8 +10,11 @@ void main() {
 
   test('a teacher sees their day, papers, homework and marking; no principal tools', () {
     final t = labels('teacher');
-    expect(t.take(7), ['Today', 'My week', 'Papers', 'Homework', 'Mark answer sheets', 'Class progress', 'Inbox']);
+    expect(t.take(8),
+        ['Today', 'My day', 'My week', 'Papers', 'Homework', 'Mark answer sheets', 'Class progress', 'Inbox']);
     expect(t, containsAll(['Question bank', 'Paper reviews', 'Exam duties']));
+    expect([for (final s in navSectionsFor('teacher')) s.title], [null, 'More']);
+    expect(navSectionsFor('teacher').last.collapsible, isTrue);
     expect(t, isNot(contains('School insights')));
     expect(t, isNot(contains('Mastery')), reason: 'the student-id mastery page is not a teacher destination');
   });
@@ -22,15 +25,35 @@ void main() {
     expect(labels('teacher', grants: {'exams'}), isNot(contains('Timetable')));
     final sections = navSectionsFor('teacher', grants: {'leave'});
     expect(sections.last.title, 'Admin');
+    expect(sections.last.openByDefault, isTrue, reason: 'the tools a principal handed over start open');
     expect(navSectionsFor('teacher').any((s) => s.title == 'Admin'), isFalse);
   });
 
-  test('the principal runs and sets up the school from the side navigation', () {
-    final p = labels('principal');
-    expect(p, containsAll(['Overview', 'Paper reviews', 'Term report', 'Exams', 'Timetable',
-        'Attendance and cover', 'Invite people', 'Staff and access', 'Import and export', 'School profile',
-        'Lesson plans', 'Periods owed']));
-    expect([for (final s in navSectionsFor('principal')) s.title], [null, 'Run the school', 'Setup']);
+  test('the principal sees eight core pages; the rest fold under More and Setup', () {
+    final sections = navSectionsFor('principal');
+    expect([for (final s in sections) s.title], [null, 'More', 'Setup']);
+    expect([for (final i in sections.first.items) i.label], ['Overview', 'Papers', 'Exams', 'Timetable',
+        'Lesson plans', 'Attendance and cover', 'Term report', 'Inbox']);
+    expect(sections.first.collapsible, isFalse);
+    expect([for (final i in sections[1].items) i.label], ['Paper reviews', 'School insights', 'Periods owed',
+        'Homework', 'Class progress', 'Question bank']);
+    expect([for (final i in sections[2].items) i.label], ['Invite people', 'Staff and access', 'School profile',
+        'Import and export', 'API keys', 'Calendar and terms']);
+    for (final s in sections.skip(1)) {
+      expect(s.collapsible, isTrue, reason: '${s.title} folds away');
+      expect(s.openByDefault, isFalse, reason: '${s.title} starts folded');
+    }
+  });
+
+  test('folding the menu dropped no principal page', () {
+    // Every destination the principal had before 2026-10-01, by path.
+    const before = ['/school', '/assessment', '/school/reviews', '/school/term-report', '/analytics/school',
+      '/school/inbox', '/school/exams', '/school/timetable', '/school/lesson-plans', '/school/cover',
+      '/school/periods-owed', '/school/homework', '/school/class-progress', '/school/question-bank', '/admin',
+      '/school/grants', '/school/import', '/school/school-profile', '/school/api-keys'];
+    final paths = [for (final i in navItemsFor('principal')) i.path];
+    expect(paths, containsAll(before));
+    expect(paths, contains('/admin?tab=calendar-setup'));
   });
 
   test('a student and a parent get their own few destinations', () {
@@ -54,6 +77,10 @@ void main() {
     expect(at(principal, '/school/reviews'), 'Paper reviews');
     expect(at(principal, '/assessment/abc'), 'Papers');
     expect(at(principal, '/somewhere-else'), isNull);
+    expect(at(principal, '/admin'), 'Invite people');
+    expect(at(principal, '/admin?tab=calendar-setup'), 'Calendar and terms');
+    expect(at(principal, '/admin?tab=roster'), 'Invite people', reason: 'another tab is read by its path');
+    expect(at(principal, '/school/question-bank?review=1'), 'Question bank');
     final student = navItemsFor('student');
     expect(at(student, '/school/my-homework/h1'), 'Homework');
     expect(at(student, '/school/today'), 'Today');

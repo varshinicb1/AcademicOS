@@ -323,7 +323,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             name: 'principal-admin',
             // ?tab=calendar-setup opens Calendar & Setup, where terms are
             // declared: the link the time-saved guidance gives (audit D43).
-            builder: (context, state) => PrincipalAdminPage(initialTab: state.uri.queryParameters['tab']),
+            // Keyed by the tab, so the menu's Calendar and terms opens that
+            // tab even from the console's other tabs (the page reads it once).
+            builder: (context, state) => PrincipalAdminPage(
+                key: ValueKey('admin:${state.uri.queryParameters['tab'] ?? ''}'),
+                initialTab: state.uri.queryParameters['tab']),
           ),
           GoRoute(
             path: '/scan',
@@ -378,6 +382,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               // that builds this router) could not start.
               GoRoute(
                 path: 'login',
+                // Not 'login' again: go_router asserts route names are
+                // unique, so a debug build (and any test that builds this
+                // router) failed before the first frame.
                 name: 'settings-login',
                 builder: (context, state) => LoginPage(
             inviteCode: state.uri.queryParameters['invite'],

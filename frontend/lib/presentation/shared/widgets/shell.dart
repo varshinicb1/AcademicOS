@@ -10,6 +10,7 @@ import '../../../core/session/current_session.dart';
 import '../../../core/session/owner_session.dart';
 import '../../../data/datasources/api/api_error.dart';
 import '../../guide/guide_page.dart';
+import '../device_memory.dart';
 
 /// Drop into any page's `AppBar(leading: shellLeading(context), ...)`.
 ///
@@ -88,14 +89,25 @@ class _ShellDrawerScope extends InheritedWidget {
 }
 
 /// One destination in the side navigation: [match] is the path prefix that
-/// selects it (the longest match wins), [path] where a tap goes.
+/// selects it (the longest match wins), [path] where a tap goes. A [match]
+/// with a query ('/admin?tab=calendar-setup') selects only that exact
+/// location.
 typedef NavItem = ({IconData icon, IconData selectedIcon, String label, String path, String match});
 
-/// A group of destinations under an optional heading.
-typedef NavSection = ({String? title, List<NavItem> items});
+/// A group of destinations under an optional heading. A [collapsible] group
+/// folds away behind its heading; [openByDefault] is how it starts on a
+/// device that has not opened or closed it yet (SideNav remembers).
+typedef NavSection = ({String? title, List<NavItem> items, bool collapsible, bool openByDefault});
 
 NavItem _item(IconData icon, IconData selected, String label, String path, [String? match]) =>
     (icon: icon, selectedIcon: selected, label: label, path: path, match: match ?? path);
+
+/// The destinations always on show, under no heading.
+NavSection _core(List<NavItem> items) => (title: null, items: items, collapsible: false, openByDefault: true);
+
+/// A group that folds away behind its heading.
+NavSection _group(String title, List<NavItem> items, {bool open = false}) =>
+    (title: title, items: items, collapsible: true, openByDefault: open);
 
 final _inbox = _item(Icons.notifications_outlined, Icons.notifications, 'Inbox', '/school/inbox');
 
@@ -114,29 +126,35 @@ final _inbox = _item(Icons.notifications_outlined, Icons.notifications, 'Inbox',
 /// An unknown role -- the offline build, which has no accounts and no
 /// school server, or a test with no account -- keeps the pages that work on
 /// the device.
+///
+/// The principal's list was eighteen destinations under three headings, and
+/// the first school to use it found it confusing ("too many options",
+/// 2026-10-01). It now shows the eight pages a principal uses every week,
+/// with the rest folded under More and Setup; every page is still listed.
+/// A teacher's is folded the same way.
 List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
   switch (role) {
     case 'principal':
       return [
-        (title: null, items: [
+        _core([
           _item(Icons.space_dashboard_outlined, Icons.space_dashboard, 'Overview', '/school'),
           _item(Icons.assignment_outlined, Icons.assignment, 'Papers', '/assessment'),
-          _item(Icons.rate_review_outlined, Icons.rate_review, 'Paper reviews', '/school/reviews'),
-          _item(Icons.assessment_outlined, Icons.assessment, 'Term report', '/school/term-report'),
-          _item(Icons.insights_outlined, Icons.insights, 'School insights', '/analytics/school'),
-          _inbox,
-        ]),
-        (title: 'Run the school', items: [
           _item(Icons.event_note_outlined, Icons.event_note, 'Exams', '/school/exams'),
           _item(Icons.table_chart_outlined, Icons.table_chart, 'Timetable', '/school/timetable'),
           _item(Icons.menu_book_outlined, Icons.menu_book, 'Lesson plans', '/school/lesson-plans'),
           _item(Icons.how_to_reg_outlined, Icons.how_to_reg, 'Attendance and cover', '/school/cover'),
+          _item(Icons.assessment_outlined, Icons.assessment, 'Term report', '/school/term-report'),
+          _inbox,
+        ]),
+        _group('More', [
+          _item(Icons.rate_review_outlined, Icons.rate_review, 'Paper reviews', '/school/reviews'),
+          _item(Icons.insights_outlined, Icons.insights, 'School insights', '/analytics/school'),
           _item(Icons.restore_outlined, Icons.restore, 'Periods owed', '/school/periods-owed'),
           _item(Icons.assignment_turned_in_outlined, Icons.assignment_turned_in, 'Homework', '/school/homework'),
           _item(Icons.trending_up_outlined, Icons.trending_up, 'Class progress', '/school/class-progress'),
           _item(Icons.library_books_outlined, Icons.library_books, 'Question bank', '/school/question-bank'),
         ]),
-        (title: 'Setup', items: [
+        _group('Setup', [
           // The guided setup (onboarding/pages/setup_wizard_page.dart): the whole
           // first-run in one flow, reopenable any time.
           _item(Icons.auto_fix_high_outlined, Icons.auto_fix_high, 'Set up your school', '/school/setup'),
@@ -145,8 +163,12 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           // School insights or a bulk import (handover review, 2026-10-01).
           _item(Icons.person_add_alt_1_outlined, Icons.person_add_alt_1, 'Invite people', '/admin'),
           _item(Icons.admin_panel_settings_outlined, Icons.admin_panel_settings, 'Staff and access', '/school/grants'),
-          _item(Icons.upload_file_outlined, Icons.upload_file, 'Import and export', '/school/import'),
           _item(Icons.badge_outlined, Icons.badge, 'School profile', '/school/school-profile'),
+          _item(Icons.upload_file_outlined, Icons.upload_file, 'Import and export', '/school/import'),
+          // The calendar rules, terms, period length and holidays: the admin
+          // console's Calendar & Setup tab, until now reached only by its tab.
+          _item(Icons.calendar_month_outlined, Icons.calendar_month, 'Calendar and terms',
+              '/admin?tab=calendar-setup'),
         ]),
       ];
     case 'teacher':
@@ -168,8 +190,12 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           _item(Icons.library_books_outlined, Icons.library_books, 'Review answers', '/school/question-bank'),
       ];
       return [
-        (title: null, items: [
+        _core([
           _item(Icons.today_outlined, Icons.today, 'Today', '/home'),
+          // The day's periods, lessons to mark taught, cover asked of the
+          // teacher and their leave: the teacher app's first tab. It was
+          // listed as "Leave", which is one card on it.
+          _item(Icons.wb_sunny_outlined, Icons.wb_sunny, 'My day', '/school/my-day'),
           _item(Icons.calendar_view_week_outlined, Icons.calendar_view_week, 'My week', '/school/week'),
           _item(Icons.assignment_outlined, Icons.assignment, 'Papers', '/assessment'),
           _item(Icons.assignment_turned_in_outlined, Icons.assignment_turned_in, 'Homework', '/school/homework'),
@@ -177,19 +203,17 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           _item(Icons.trending_up_outlined, Icons.trending_up, 'Class progress', '/school/class-progress'),
           _inbox,
         ]),
-        (title: 'Resources', items: [
+        _group('More', [
           _item(Icons.quiz_outlined, Icons.quiz, 'Question bank', '/questions'),
           _item(Icons.rate_review_outlined, Icons.rate_review, 'Paper reviews', '/school/reviews'),
           _item(Icons.event_available_outlined, Icons.event_available, 'Exam duties', '/school/my-exams'),
-          // Check-in, today's lessons, cover duties and leave: the page is
-          // "My day", and "Leave" hid the rest of it (QA S-21).
-          _item(Icons.schedule_outlined, Icons.schedule, 'My day', '/school/my-day'),
         ]),
-        if (admin.isNotEmpty) (title: 'Admin', items: admin),
+        // What the principal handed this teacher: open until they fold it.
+        if (admin.isNotEmpty) _group('Admin', admin, open: true),
       ];
     case 'student':
       return [
-        (title: null, items: [
+        _core([
           _item(Icons.today_outlined, Icons.today, 'Today', '/school/today', '/school'),
           _item(Icons.calendar_view_week_outlined, Icons.calendar_view_week, 'My week', '/school/week'),
           _item(Icons.assignment_outlined, Icons.assignment, 'Homework', '/school/my-homework'),
@@ -200,7 +224,7 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
       ];
     case 'parent':
       return [
-        (title: null, items: [
+        _core([
           _item(Icons.family_restroom_outlined, Icons.family_restroom, 'My children', '/school/family', '/school'),
           _inbox,
         ]),
@@ -210,13 +234,13 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
       // side. Choosing one (the switcher above the navigation) makes it that
       // school's principal, with the principal's navigation.
       return [
-        (title: null, items: [
+        _core([
           _item(Icons.domain_outlined, Icons.domain, 'All schools', '/owner'),
         ]),
       ];
     default:
       return [
-        (title: null, items: [
+        _core([
           _item(Icons.today_outlined, Icons.today, 'Today', '/home'),
           _item(Icons.assignment_outlined, Icons.assignment, 'Papers', '/assessment'),
           _item(Icons.quiz_outlined, Icons.quiz, 'Question bank', '/questions'),
@@ -239,11 +263,17 @@ List<NavItem> navItemsFor(String role, {Set<String> grants = const {}}) =>
 /// The destination [location] belongs to: the longest [NavItem.match] it
 /// equals or sits under, or -1 when none does (a page reached another way,
 /// such as a detail screen of a destination that is not listed).
+///
+/// [location] may carry a query: it then picks a destination whose match
+/// names that query exactly, and otherwise is read by its path alone.
 int navIndexFor(List<NavItem> items, String location) {
+  final q = location.indexOf('?');
+  final path = q < 0 ? location : location.substring(0, q);
   var best = -1, bestLength = -1;
   for (var i = 0; i < items.length; i++) {
     final m = items[i].match;
-    if ((location == m || location.startsWith('$m/')) && m.length > bestLength) {
+    final hit = m.contains('?') ? location == m : (path == m || path.startsWith('$m/'));
+    if (hit && m.length > bestLength) {
       best = i;
       bestLength = m.length;
     }
@@ -253,7 +283,7 @@ int navIndexFor(List<NavItem> items, String location) {
 
 /// The signed-in role, or '' when there is no local store to read it from
 /// (a widget test that mounts the shell alone).
-String _signedInRole() => Hive.isBoxOpen('academicos_cache') ? CurrentSession.role : '';
+String signedInRole() => Hive.isBoxOpen('academicos_cache') ? CurrentSession.role : '';
 
 /// An owner over several schools (ROLE-4); false with no local store.
 bool _signedInIsOwner() => Hive.isBoxOpen('academicos_cache') && CurrentSession.isOwner;
@@ -309,16 +339,16 @@ class MainShell extends StatelessWidget {
   }
 
   Widget _build(BuildContext context, double width, bool isMobile) {
-    final role = _signedInRole();
+    final role = signedInRole();
     final owner = _signedInIsOwner();
     _Grants.ensureLoaded(role);
     return ValueListenableBuilder<Set<String>>(
       valueListenable: _Grants.caps,
       builder: (context, grants, _) {
         final sections = navSectionsFor(role, grants: role == 'teacher' ? grants : const {});
-        final location = GoRouterState.of(context).uri.path;
+        final uri = GoRouterState.of(context).uri;
         final items = [for (final s in sections) ...s.items];
-        final selected = navIndexFor(items, location);
+        final selected = navIndexFor(items, uri.toString());
         return _ShellDrawerScope(
           openDrawer: () => _scaffoldKey.currentState?.openDrawer(),
           child: Scaffold(
@@ -351,12 +381,26 @@ class MainShell extends StatelessWidget {
   }
 }
 
+/// Whether a collapsible menu group is open on this device: what the person
+/// last chose, or the group's default ([NavSection.openByDefault]).
+abstract final class NavGroups {
+  static String _key(String title) => 'nav_group_open:$title';
+
+  static bool isOpen(NavSection s) => DeviceMemory.read(_key(s.title!)) as bool? ?? s.openByDefault;
+
+  static void setOpen(NavSection s, bool open) => DeviceMemory.write(_key(s.title!), open);
+}
+
 /// The side navigation: the product mark, the role's grouped destinations
-/// and Settings. Full width with labels on a laptop, icons with tooltips
-/// between the phone breakpoint and 1000 px, and the same list in the
-/// drawer on a phone. It scrolls, so a principal's fifteen destinations fit
-/// a short window.
-class SideNav extends StatelessWidget {
+/// and Settings. Full width with labels on a laptop, icons with
+/// tooltips between the phone breakpoint and 1000 px, and the same list in
+/// the drawer on a phone. It scrolls, so a long list fits a short window.
+///
+/// A collapsible group ([NavSection.collapsible]) shows only its heading
+/// until it is opened, and the device remembers it open or closed. A group
+/// holding the page on screen opens by itself, so the selected destination
+/// is never hidden by a fold the person did not make on this page.
+class SideNav extends StatefulWidget {
   const SideNav({super.key, required this.sections, required this.selected,
       this.compact = false, this.inDrawer = false, this.schoolSwitcher = false});
 
@@ -370,13 +414,48 @@ class SideNav extends StatelessWidget {
   final bool schoolSwitcher;
 
   @override
+  State<SideNav> createState() => _SideNavState();
+}
+
+class _SideNavState extends State<SideNav> {
+  /// Groups closed here while they hold the page on screen: kept closed
+  /// until the page changes, instead of springing open again.
+  final Set<String> _closedHere = {};
+
+  @override
+  void didUpdateWidget(SideNav old) {
+    super.didUpdateWidget(old);
+    if (old.selected != widget.selected) _closedHere.clear();
+  }
+
+  void _toggle(NavSection s, bool open) {
+    setState(() {
+      NavGroups.setOpen(s, !open);
+      if (open) {
+        _closedHere.add(s.title!);
+      } else {
+        _closedHere.remove(s.title!);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
+    final compact = widget.compact, inDrawer = widget.inDrawer, selected = widget.selected;
     var index = 0;
     final rows = <Widget>[];
-    for (final s in sections) {
-      if (s.title != null) {
+    for (final s in widget.sections) {
+      final first = index;
+      index += s.items.length;
+      if (s.collapsible) {
+        final holdsPage = selected >= first && selected < index;
+        final open = NavGroups.isOpen(s) || (holdsPage && !_closedHere.contains(s.title));
+        rows.add(_NavGroupHeader(
+            title: s.title!, open: open, compact: compact, inDrawer: inDrawer, onToggle: () => _toggle(s, open)));
+        if (!open) continue;
+      } else if (s.title != null) {
         rows.add(compact
             ? Padding(padding: const EdgeInsets.symmetric(vertical: 8), child: Divider(indent: 16, endIndent: 16, color: colors.outlineVariant))
             : Padding(
@@ -384,14 +463,14 @@ class SideNav extends StatelessWidget {
                 child: Text(s.title!, style: theme.textTheme.labelSmall?.copyWith(color: colors.onSurfaceVariant)),
               ));
       }
-      for (final item in s.items) {
-        final i = index++;
-        rows.add(_NavRow(item: item, selected: i == selected, compact: compact, inDrawer: inDrawer));
+      for (var i = 0; i < s.items.length; i++) {
+        rows.add(_NavRow(item: s.items[i], selected: first + i == selected, compact: compact, inDrawer: inDrawer));
       }
     }
+    final location = GoRouterState.of(context).uri.path;
     final settings = _NavRow(
       item: _item(Icons.settings_outlined, Icons.settings, 'Settings', '/settings'),
-      selected: GoRouterState.of(context).uri.path.startsWith('/settings'),
+      selected: location.startsWith('/settings'),
       compact: compact,
       inDrawer: inDrawer,
     );
@@ -422,7 +501,7 @@ class SideNav extends StatelessWidget {
             ],
           ),
         ),
-        if (schoolSwitcher)
+        if (widget.schoolSwitcher)
           Padding(
             padding: EdgeInsets.fromLTRB(compact ? 4 : 12, 0, compact ? 4 : 12, 8),
             child: SchoolSwitcher(compact: compact, inDrawer: inDrawer),
@@ -490,6 +569,53 @@ class _NavRow extends StatelessWidget {
         title: Text(item.label),
         selected: selected,
         onTap: () => _go(context),
+      ),
+    );
+  }
+}
+
+/// The heading of a collapsible menu group: its name and a chevron, which
+/// opens or folds the group. Between the phone breakpoint and 1000 px (icons
+/// only) it is a chevron button named after the group.
+class _NavGroupHeader extends StatelessWidget {
+  const _NavGroupHeader({required this.title, required this.open, required this.compact, required this.inDrawer,
+      required this.onToggle});
+
+  final String title;
+  final bool open;
+  final bool compact;
+  final bool inDrawer;
+  final VoidCallback onToggle;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    final chevron = Icon(open ? Icons.expand_less : Icons.expand_more, size: 20);
+    if (compact) {
+      return Column(children: [
+        Padding(padding: const EdgeInsets.only(top: 8), child: Divider(indent: 16, endIndent: 16, color: colors.outlineVariant)),
+        IconButton(
+          key: ValueKey('nav-group-$title'),
+          tooltip: open ? 'Hide $title' : 'Show $title',
+          style: IconButton.styleFrom(foregroundColor: colors.onSurfaceVariant, minimumSize: const Size(48, 44)),
+          icon: chevron,
+          onPressed: onToggle,
+        ),
+      ]);
+    }
+    return Semantics(
+      expanded: open,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: ListTile(
+          key: ValueKey('nav-group-$title'),
+          dense: !inDrawer,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+          title: Text(title, style: theme.textTheme.labelLarge?.copyWith(color: colors.onSurfaceVariant)),
+          trailing: chevron,
+          onTap: onToggle,
+        ),
       ),
     );
   }
