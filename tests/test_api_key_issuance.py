@@ -42,6 +42,51 @@ def test_scopes_and_who_may(w):
     assert w.c.get("/api/v1/api-keys", headers=w.p2).json() == []
 
 
+def test_scopes_no_route_checks_are_refused_like_the_student_ones(w):
+    """N-67-10: `papers:create` and `curriculum:read` gated nothing, yet the
+    web offered the first and ticked the second by default. Refused at mint
+    with a 422, as `students:read` is, saying "not yet" rather than "never"."""
+    for scope in ("papers:create", "curriculum:read"):
+        r = w.c.post("/api/v1/api-keys", json={"label": "x", "scopes": ["questions:read", scope]},
+                     headers=w.p)
+        assert r.status_code == 422 and "not available yet" in r.json()["detail"], scope
+    ok = w.c.post("/api/v1/api-keys", json={"label": "x", "scopes": ["questions:read", "facets:read"]},
+                  headers=w.p).json()
+    assert ok["scopesAvailable"] == ["facets:read", "questions:read"]
+
+
+def test_a_key_limited_to_classes_and_subjects_on_the_running_app(w, monkeypatch):
+    """API-3: a key scoped to "which grades/subjects". Minted through the
+    web's call, listed with its limits, audited, and held to them on /v1."""
+    from academicos.assessment import qbank_routes
+    from academicos.assessment.qbank_engine import QuestionBank
+    from test_homework import BANK
+    keyed = [dict(q, answerScheme={**q["answerScheme"], "provenance": "cbse_marking_scheme"}) for q in BANK]
+    maths = dict(keyed[0], id="m1", subject="Mathematics")
+    monkeypatch.setattr(qbank_routes, "_bank", QuestionBank(keyed + [maths]))
+
+    typo = w.c.post("/api/v1/api-keys", json={"label": "x", "scopes": ["questions:read"],
+                                              "subjects": ["Sceince"]}, headers=w.p)
+    assert typo.status_code == 422 and "Sceince" in typo.json()["detail"] and "Science" in typo.json()["detail"]
+    assert w.c.post("/api/v1/api-keys", json={"label": "x", "scopes": ["questions:read"], "grades": [13]},
+                    headers=w.p).status_code == 422
+
+    made = w.c.post("/api/v1/api-keys", json={"label": "Class 10 Science", "scopes": ["questions:read"],
+                                              "grades": [10], "subjects": ["science"]}, headers=w.p)
+    assert made.status_code == 200, made.text
+    body = made.json()
+    assert body["grades"] == [10] and body["subjects"] == ["Science"], "spelled as the bank spells it"
+    listed = w.c.get("/api/v1/api-keys", headers=w.p).json()
+    assert listed[0]["grades"] == [10] and listed[0]["subjects"] == ["Science"]
+
+    h = {"X-API-Key": body["key"]}
+    served = w.c.get("/v1/questions", headers=h).json()
+    assert {i["subject"] for i in served["items"]} == {"Science"} and served["totalMatching"] == 4
+    assert w.c.get("/v1/questions", params={"subject": "Mathematics"}, headers=h).status_code == 403
+    assert w.c.get("/v1/questions/m1", headers=h).status_code == 403
+    assert w.c.get("/v1/questions/q1", headers=h).status_code == 200
+
+
 def test_the_store_keeps_keys_through_a_snapshot(shared_gcs, tmp_path):
     """With a blob store behind it, a key minted before a restart
     authenticates after one, on a container whose disk started empty."""

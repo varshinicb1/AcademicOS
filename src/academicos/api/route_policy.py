@@ -100,7 +100,7 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/v1/questions"): _p(API_KEY),
     ("GET", "/v1/questions/{question_id}"): _p(API_KEY),
     ("GET", "/v1/questions/{question_id}/scheme"): _p(API_KEY),
-    ("GET", "/v1/subtopics/{subtopic_id}/questions"): _p(API_KEY),
+    ("GET", "/v1/subtopics/{subtopic_id:path}/questions"): _p(API_KEY, "a subtopic id carries slashes, so the route matches a path (D52)"),
     ("GET", "/v1/facets"): _p(API_KEY),
     ("GET", "/v1/coverage"): _p(API_KEY, "aggregate answer-key coverage; no question text crosses it"),
 
