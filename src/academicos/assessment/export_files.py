@@ -77,7 +77,8 @@ def sweep(papers_dir: Path, now: float | None = None) -> None:
     cutoff = (now or time.time()) - KEEP_SECONDS
     for d in root.iterdir():
         try:
-            if d.is_dir() and d.stat().st_mtime < cutoff:
-                shutil.rmtree(d, ignore_errors=True)
-        except FileNotFoundError:          # another sweep got there first
-            pass
+            expired = d.is_dir() and d.stat().st_mtime < cutoff
+        except FileNotFoundError:          # another sweep removed it: nothing left to do
+            continue
+        if expired:
+            shutil.rmtree(d, ignore_errors=True)
