@@ -417,6 +417,96 @@
    "path": "/api/v1/catalog",
    "status": 200,
    "body": null
+  },
+  {
+   "file": "search_10_science_any.json",
+   "method": "POST",
+   "path": "/api/v1/questions/search",
+   "status": 200,
+   "body": {
+    "subject": "Science",
+    "grade": 10,
+    "limit": 60
+   }
+  },
+  {
+   "file": "generate_from_ids_10_science.json",
+   "method": "POST",
+   "path": "/api/v1/papers/generate-from-ids",
+   "status": 200,
+   "body": {
+    "subject": "Science",
+    "grade": 10,
+    "questionIds": [
+     "cbe:q:Science10PB1",
+     "cbe:q:Science10PB6"
+    ],
+    "title": "Class 10 Science test",
+    "teacherSeconds": 600.0
+   }
+  },
+  {
+   "file": "generate_from_ids_10_science_unknown.json",
+   "method": "POST",
+   "path": "/api/v1/papers/generate-from-ids",
+   "status": 404,
+   "body": {
+    "subject": "Science",
+    "grade": 10,
+    "questionIds": [
+     "cbe:q:Science10PB1",
+     "cbe:q:Science10PB6",
+     "no-such-id-xyz"
+    ],
+    "title": "Class 10 Science test",
+    "teacherSeconds": 600.0
+   }
+  },
+  {
+   "file": "quick_preview_10_science_40.json",
+   "method": "POST",
+   "path": "/api/v1/papers/quick-generate",
+   "status": 200,
+   "body": {
+    "subject": "Science",
+    "grade": 10,
+    "totalMarks": 40,
+    "tier": "standard",
+    "chapterIds": [],
+    "setCount": 1,
+    "preview": true
+   }
+  },
+  {
+   "file": "quick_preview_10_social_80.json",
+   "method": "POST",
+   "path": "/api/v1/papers/quick-generate",
+   "status": 200,
+   "body": {
+    "subject": "Social Science",
+    "grade": 10,
+    "totalMarks": 80,
+    "tier": "standard",
+    "chapterIds": [],
+    "setCount": 1,
+    "preview": true
+   }
+  },
+  {
+   "file": "quick_10_science_40.json",
+   "method": "POST",
+   "path": "/api/v1/papers/quick-generate",
+   "status": 200,
+   "body": {
+    "subject": "Science",
+    "grade": 10,
+    "totalMarks": 40,
+    "tier": "standard",
+    "chapterIds": [],
+    "setCount": 1,
+    "preview": false,
+    "teacherSeconds": 300.0
+   }
   }
  ]
 }

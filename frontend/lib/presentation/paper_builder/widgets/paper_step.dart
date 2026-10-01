@@ -50,7 +50,7 @@ class _Header extends StatelessWidget {
     final theme = Theme.of(context);
     final r = c.result!;
     final short = c.shortSections;
-    final expected = c.template?.totalMarks ?? c.paperMarks;
+    final expected = c.template?.totalMarks ?? c.quickMarksAsked ?? c.paperMarks;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Text(r.paper.metadata.assessmentTitle, style: theme.textTheme.titleMedium),
       Text(

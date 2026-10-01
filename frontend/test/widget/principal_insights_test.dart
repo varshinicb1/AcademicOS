@@ -72,6 +72,28 @@ void main() {
     expect(find.textContaining(_caveat), findsOneWidget);
   });
 
+  // Audit D49: the headline read "<n> minutes saved per paper ..." with
+  // "estimate" only in the caveat below it, and the saving was the baseline
+  // less server compute. It now says estimated where it is quoted, and what
+  // the teachers' measured time was.
+  testWidgets('the headline says estimated, and says how much teacher time was measured', (tester) async {
+    await _pump(tester, InsightsCard(
+        timing: _timing(extra: {'papersWithTeacherTime': 9, 'medianTeacherMinutes': 12.0}),
+        catalog: _catalog()));
+    final headline = tester.widget<Text>(find.byKey(const ValueKey('time-saved-headline'))).data!;
+    expect(headline, startsWith('An estimated 45 minutes saved per paper'));
+    final teacher = tester.widget<Text>(find.byKey(const ValueKey('teacher-time'))).data!;
+    expect(teacher, contains('median of 12 minutes a paper'));
+    expect(teacher, contains('measured on 9 of 12 papers'));
+    expect(teacher, contains('the other 3 papers count the whole baseline'));
+  });
+
+  testWidgets('with no teacher time measured, every paper counts the whole baseline', (tester) async {
+    await _pump(tester, InsightsCard(timing: _timing(), catalog: _catalog()));
+    expect(tester.widget<Text>(find.byKey(const ValueKey('teacher-time'))).data,
+        'No teacher time was measured on these papers, so each counts the whole baseline.');
+  });
+
   testWidgets('no paper yet reads as not measured, not as zero saved', (tester) async {
     await _pump(tester, InsightsCard(timing: _timing(papers: 0), catalog: _catalog()));
     expect(find.textContaining('No paper has been generated'), findsOneWidget);
@@ -145,7 +167,52 @@ void main() {
       'notYet': <Map<String, dynamic>>[], 'unattributed': 0, 'classesDeclared': false}};
     await _pump(tester, InsightsCard(timing: _timing(extra: extra), catalog: _catalog()));
     expect(find.textContaining('have no paper yet'), findsNothing);
-    expect(find.textContaining('Set up your classes'), findsOneWidget);
+    expect(find.textContaining('This year has no classes set up yet'), findsOneWidget);
+  });
+
+  // Audit D117: "not yet" listed pairs the bank has no question for (Hindi
+  // 6-10, Social Science 6-9, English 7-8), so the card read "Class 6 Hindi:
+  // no paper yet". The server now names those apart, and so does the card.
+  testWidgets('a class the bank cannot serve is not "no paper yet"', (tester) async {
+    final t = _term();
+    final extra = {...t, 'examCoverage': {
+      ...(t['examCoverage'] as Map<String, dynamic>),
+      'notYet': [{'grade': 10, 'subject': 'Mathematics'}],
+      'noQuestions': [{'grade': 6, 'subject': 'Hindi'}, {'grade': 7, 'subject': 'English'}]}};
+    await _pump(tester, InsightsCard(timing: _timing(extra: extra), catalog: _catalog()));
+    expect(find.textContaining('1 of 2 class-subject pairs have no paper yet. '
+        'The question bank has no questions yet for 2 more class-subject pairs.'), findsOneWidget);
+    await tester.tap(find.text('Exam coverage'));
+    await tester.pumpAndSettle();
+    expect(find.text('Class 10 Mathematics: no paper yet'), findsOneWidget);
+    expect(find.text('Class 6 Hindi: no paper yet'), findsNothing);
+    expect(find.text('Class 6 Hindi: the question bank has no questions for this class yet'), findsOneWidget);
+  });
+
+  // Audit D43: with classes set up and no term, /paper-timing said
+  // `classesDeclared false` and the card printed "Set up your classes and
+  // subjects for this year in calendar setup" -- false, and naming a screen
+  // the web app does not have. The server now lists the classes from the
+  // year, and names the one step left with the console tab that does it.
+  testWidgets('classes set up, no term: no false instruction, and a button to the page that declares terms',
+      (tester) async {
+    const step = "Declare this year's terms on the School Admin console, under Calendar & Setup, "
+        'to see one term at a time.';
+    final extra = {'scope': 'allTime', 'term': null,
+      'scopeNote': 'No term of this school covers 2026-10-01, so these figures are for all time. $step',
+      'setup': {'need': 'terms', 'label': 'Declare terms', 'link': '/admin?tab=calendar-setup', 'message': step},
+      'examCoverage': {
+        'covered': [{'grade': 10, 'subject': 'Science', 'papers': 12}],
+        'notYet': [{'grade': 9, 'subject': 'Science'}], 'unattributed': 0, 'classesDeclared': true}};
+    final opened = <String>[];
+    await _pump(tester, InsightsCard(
+        timing: _timing(extra: extra), catalog: _catalog(), onOpenSetup: opened.add));
+    expect(find.textContaining('Set up your classes'), findsNothing);
+    expect(find.textContaining('calendar setup'), findsNothing);
+    expect(find.textContaining('1 of 2 class-subject pairs have no paper yet'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('timing-setup')));
+    expect(opened, ['/admin?tab=calendar-setup']);
+    expect(find.text('Declare terms'), findsOneWidget);
   });
 
   testWidgets('papers it could not match to a class are said, not hidden', (tester) async {
@@ -159,7 +226,8 @@ void main() {
   testWidgets('with no term covering today the server note is shown verbatim',
       (tester) async {
     const note = 'No term of this school covers 2026-09-27, so these figures are '
-        'for all time. Declare the school’s terms in calendar setup.';
+        "for all time. Declare this year's terms on the School Admin console, under "
+        'Calendar & Setup, to see one term at a time.';
     final extra = {'scope': 'allTime', 'scopeNote': note, 'term': null,
       'examCoverage': {'covered': <Map<String, dynamic>>[], 'notYet': <Map<String, dynamic>>[],
         'unattributed': 0, 'classesDeclared': false}};

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/download/pdf_saver.dart';
 import '../../data/datasources/api/api_error.dart';
@@ -192,6 +193,17 @@ class _TermReportPageState extends State<TermReportPage> {
       Text('${tr('As of')} ${scope['asOf']}', style: theme.textTheme.bodySmall),
       if (scope['note'] != null)
         Padding(padding: const EdgeInsets.only(top: 6), child: Text(scope['note'] as String, style: theme.textTheme.bodySmall)),
+      // The page that does what the note asks, not a description of it (audit D43).
+      if (scope['noteLink'] is String)
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            key: const Key('term-report-setup'),
+            onPressed: () => context.go(scope['noteLink'] as String),
+            icon: const Icon(Icons.arrow_forward),
+            label: Text(tr('Declare terms')),
+          ),
+        ),
       const SizedBox(height: 12),
       Wrap(spacing: 8, runSpacing: 8, children: [
         stat(tr('Lessons taught / planned'), '${syllabus['taughtToDate']} / ${syllabus['plannedToDate']}'),
@@ -213,7 +225,15 @@ class _TermReportPageState extends State<TermReportPage> {
       if ((exams['notYet'] as List).isNotEmpty)
         Padding(padding: const EdgeInsets.symmetric(vertical: 6), child: Text(
             '${tr('No paper yet')}: ${(exams['notYet'] as List).cast<Map>().map((c) => '${c['grade']} ${c['subject']}').join(', ')}')),
-      Text('${tr('Time saved is an estimate')}: ${time['minutesPerPaper']} min × ${time['papers']} · ${time['baselineProvenance']}',
+      // The bank's gap, apart from the teachers' (audit D117).
+      if ((exams['noQuestions'] as List? ?? const []).isNotEmpty)
+        Padding(padding: const EdgeInsets.symmetric(vertical: 6), child: Text(
+            key: const Key('term-report-no-questions'),
+            '${tr('The question bank has no questions for these classes yet')}: '
+            '${(exams['noQuestions'] as List).cast<Map>().map((c) => '${c['grade']} ${c['subject']}').join(', ')}')),
+      Text('${tr('Time saved is an estimate')}: ${time['minutesPerPaper']} min × ${time['papers']} · '
+          '${time['papersWithTeacherTime'] ?? 0} ${tr('of')} ${time['papers']} ${tr('less the teacher\'s measured time')} · '
+          '${time['baselineProvenance']}',
           style: theme.textTheme.bodySmall),
       SectionHeader(title: tr('Homework'), subtitle: tr('Issued this term and handed in')),
       for (final h in (homework['rows'] as List).cast<Map>())

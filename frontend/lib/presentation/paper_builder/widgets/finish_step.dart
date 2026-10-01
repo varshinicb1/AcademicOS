@@ -70,13 +70,16 @@ class FinishStep extends StatelessWidget {
           label: const Text('Open in my papers'),
           style: OutlinedButton.styleFrom(minimumSize: const Size(0, 48)),
         ),
-        const SizedBox(height: 8),
-        OutlinedButton.icon(
-          onPressed: c.generating ? null : c.makeAnother,
-          icon: const Icon(Icons.replay),
-          label: const Text('Make another like this'),
-          style: OutlinedButton.styleFrom(minimumSize: const Size(0, 48)),
-        ),
+        // Only a template paper has a template to make another from.
+        if (c.fromTemplate) ...[
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
+            onPressed: c.generating ? null : c.makeAnother,
+            icon: const Icon(Icons.replay),
+            label: const Text('Make another like this'),
+            style: OutlinedButton.styleFrom(minimumSize: const Size(0, 48)),
+          ),
+        ],
         const SizedBox(height: 8),
         TextButton(
           onPressed: () => c.goTo(BuilderStep.paper),

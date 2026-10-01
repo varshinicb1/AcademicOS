@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/constants/release_scope.dart';
 import '../../../data/datasources/api/pillar_api.dart';
@@ -29,10 +30,16 @@ class InsightsCard extends StatelessWidget {
     required this.timing,
     required this.catalog,
     this.onSetBaseline,
+    this.onOpenSetup,
   });
 
   final PaperTiming timing;
   final Catalog catalog;
+
+  /// Opens the web page a setup step names ([TimingSetup.link]). The admin
+  /// console passes one that switches to its own tab; absent, the card
+  /// navigates to the link.
+  final void Function(String link)? onOpenSetup;
 
   /// Sets (minutes) or clears (null) the term's own baseline. Absent, the
   /// card offers no way to change it.
@@ -69,18 +76,45 @@ class InsightsCard extends StatelessWidget {
     return '$total questions across ${rows.length} class-subject pairs$gap.';
   }
 
+  /// What the saving is the baseline less: the teachers' own time making
+  /// the papers, where the web app measured it.
+  String _teacherTimeLine() {
+    final n = timing.papersWithTeacherTime;
+    final median = timing.medianTeacherMinutes;
+    if (n == 0 || median == null) {
+      return 'No teacher time was measured on these papers, so each counts the whole baseline.';
+    }
+    final rest = timing.papers - n;
+    return 'Teachers took a median of ${median.toStringAsFixed(median < 10 ? 1 : 0)} minutes a paper, '
+        'from opening the builder to generating the paper (measured on $n of ${_papers(timing.papers)})'
+        '${rest > 0 ? '; the other ${_papers(rest)} count the whole baseline' : ''}.';
+  }
+
   /// The exam coverage line, read unopened.
   String _coverageSummary() {
     final cov = timing.examCoverage;
     final when = timing.isTerm ? 'this term' : 'so far';
     final set = '${_papers(timing.papers)} set $when.';
+    // Only when the school really has no classes for the year: with its
+    // classes set up and no term, this read "Set up your classes and
+    // subjects for this year in calendar setup", which was false and named
+    // a screen the web app does not have (audit D43).
     if (!cov.classesDeclared) {
-      return '$set Set up your classes and subjects for this year in calendar '
-          'setup to see which are still without one.';
+      return '$set This year has no classes set up yet, so the classes still without a paper '
+          'cannot be listed.';
     }
+    // Pairs the bank cannot serve are counted apart: "no paper yet" of a
+    // class the bank has no question for puts the bank's gap on the
+    // teachers (audit D117).
     final pairs = cov.covered.length + cov.notYet.length;
-    if (cov.notYet.isEmpty) return '$set Every class-subject pair has at least one.';
-    return '$set ${cov.notYet.length} of $pairs class-subject pairs have no paper yet.';
+    final bank = cov.noQuestions.isEmpty
+        ? ''
+        : ' The question bank has no questions yet for ${cov.noQuestions.length} more '
+            'class-subject pair${cov.noQuestions.length == 1 ? '' : 's'}.';
+    if (cov.notYet.isEmpty) {
+      return pairs == 0 ? '$set$bank' : '$set Every class-subject pair the bank can serve has at least one.$bank';
+    }
+    return '$set ${cov.notYet.length} of $pairs class-subject pairs have no paper yet.$bank';
   }
 
   @override
@@ -110,6 +144,21 @@ class InsightsCard extends StatelessWidget {
               if (timing.scopeNote != null)
                 Text(timing.scopeNote!, style: theme.textTheme.bodySmall),
             ],
+            // The one step the school has left, as a button to the page that
+            // does it -- never an instruction naming a screen without it.
+            if (timing.setup case final setup?) ...[
+              if (timing.isTerm || timing.scopeNote == null)
+                Text(setup.message, style: theme.textTheme.bodySmall),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton.icon(
+                  key: const ValueKey('timing-setup'),
+                  onPressed: () => onOpenSetup != null ? onOpenSetup!(setup.link) : context.go(setup.link),
+                  icon: const Icon(Icons.arrow_forward),
+                  label: Text(setup.label),
+                ),
+              ),
+            ],
             const Divider(height: 24),
             // Collapsed, like the bank below: the summary carries the gap.
             ExpansionTile(
@@ -122,6 +171,9 @@ class InsightsCard extends StatelessWidget {
                   _line(theme, 'Class ${c.grade} ${c.subject}: ${_papers(c.papers)}'),
                 for (final c in cov.notYet)
                   _line(theme, 'Class ${c.grade} ${c.subject}: no paper yet'),
+                for (final c in cov.noQuestions)
+                  _line(theme, 'Class ${c.grade} ${c.subject}: the question bank has no questions '
+                      'for this class yet'),
               ],
             ),
             if (cov.unattributed > 0)
@@ -143,18 +195,19 @@ class InsightsCard extends StatelessWidget {
                 style: theme.textTheme.bodyMedium,
               )
             else ...[
+              // "Estimated" in the headline itself, not only in the caveat
+              // below it: this is the sentence that gets quoted (audit D49).
               Text(
-                '${timing.estimatedMinutesSavedPerPaper.toStringAsFixed(0)} minutes '
+                'An estimated ${timing.estimatedMinutesSavedPerPaper.toStringAsFixed(0)} minutes '
                 'saved per paper, ${timing.estimatedMinutesSavedTotal.toStringAsFixed(0)} '
                 'in total, against a baseline of '
                 '${timing.baselineMinutesPerPaper.toStringAsFixed(0)} minutes a paper '
                 '(${timing.baselineProvenance}).',
+                key: const ValueKey('time-saved-headline'),
                 style: theme.textTheme.bodyMedium,
               ),
               const SizedBox(height: 4),
-              Text('Generation itself took a median of '
-                  '${timing.medianGenerationSeconds.toStringAsFixed(2)} seconds.',
-                  style: theme.textTheme.bodySmall),
+              Text(_teacherTimeLine(), key: const ValueKey('teacher-time'), style: theme.textTheme.bodySmall),
               const SizedBox(height: 8),
               Text(timing.caveat,
                   style: theme.textTheme.bodySmall

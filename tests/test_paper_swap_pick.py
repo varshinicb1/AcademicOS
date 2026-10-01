@@ -769,6 +769,34 @@ def test_generate_warns_about_selected_questions_that_repeat_each_other(tmp_path
         assert QUADRATIC_A[0] in twice.json()["detail"]
 
 
+def test_generate_from_ids_prints_exactly_the_chosen_questions_or_refuses(tmp_path, monkeypatch, seeded):
+    """D57: three class 7 ids plus `cbe:q:Maths8BS2` (class 8), or plus
+    `no-such-id-xyz`, returned 200 printing the three with `warnings []` --
+    the paper silently left out a question the teacher chose. An id the
+    class's bank does not hold is now refused, by name; the pick route
+    already refused it with 404."""
+    other = [dict(_rec("e8", 1, "ch1", 3), grade=8)]
+    monkeypatch.setitem(pool_mod._CACHE, ("Science", "VIII"), _pool(other))
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+
+        def post(ids):
+            return client.post("/api/v1/papers/generate-from-ids", headers=t1,
+                               json={"subject": "Science", "grade": 10, "questionIds": ids})
+
+        for stray in ("no-such-id-xyz", "e8"):
+            r = post(["o0", "o1", "t0", stray])
+            assert r.status_code == 404, r.text
+            assert stray in r.json()["detail"] and "Class 10 Science" in r.json()["detail"]
+            assert "o0" not in r.json()["detail"]
+        assert client.get("/api/v1/assessments", headers=t1).json() == [], "nothing saved"
+
+        ok = post(["o0", "o1", "t0"])
+        assert ok.status_code == 200, ok.text
+        printed = [q["questionId"] for s in ok.json()["sections"] for q in s["questions"]]
+        assert sorted(printed) == ["o0", "o1", "t0"]
+
+
 def test_generate_from_ids_warns_about_ids_that_repeat_each_other(tmp_path, monkeypatch):
     """POST /papers/generate-from-ids builds the paper straight from the
     teacher's curated ids (the Flutter client's path): both twins curated
