@@ -11,6 +11,7 @@ import '../../../core/session/owner_session.dart';
 import '../../../data/datasources/api/api_error.dart';
 import '../../guide/guide_page.dart';
 import '../device_memory.dart';
+import 'theme_toggle.dart';
 
 /// Drop into any page's `AppBar(leading: shellLeading(context), ...)`.
 ///
@@ -39,17 +40,37 @@ Widget? shellLeading(BuildContext context) {
 /// destination (a homework, an exam, a child's progress) keeps its back arrow
 /// by using a plain [AppBar].
 ///
-/// Its last action is the Guide's question mark ([GuideButton]), for a
-/// signed-in role that has a guide; the Guide's own page passes [guide] false.
+/// Its last actions, for a signed-in person, are the light/dark toggle and
+/// the Guide's question mark ([SignedInBarActions]); the Guide's own page
+/// passes [guide] false.
 AppBar destinationAppBar(BuildContext context,
         {required Widget title, List<Widget>? actions, PreferredSizeWidget? bottom, bool guide = true}) =>
     AppBar(
       leading: forceShellLeading(context),
       automaticallyImplyLeading: false,
       title: title,
-      actions: [...?actions, if (guide) const GuideButton()],
+      actions: [...?actions, SignedInBarActions(guide: guide)],
       bottom: bottom,
     );
+
+/// The end of a signed-in page's app bar: the light/dark toggle
+/// ([ThemeToggleButton]) and, unless [guide] is false, the Guide's question
+/// mark. Nothing when no one is signed in to the online product (the offline
+/// build, or a test that mounts a page alone).
+class SignedInBarActions extends StatelessWidget {
+  const SignedInBarActions({super.key, this.guide = true});
+
+  final bool guide;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!guideAvailableFor(signedInRole())) return const SizedBox.shrink();
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+      const ThemeToggleButton(),
+      if (guide) const GuideButton(),
+    ]);
+  }
+}
 
 /// Same as [shellLeading] but skips the canPop check — for shell-root pages
 /// reached through a nested GoRoute (e.g. '/planner/daily' under '/planner'),
