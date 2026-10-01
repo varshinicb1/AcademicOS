@@ -71,6 +71,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("DELETE", "/api/v1/papers/{paper_id}/questions/{slot}"),
     # --- auth_routes.py (teacher/principal identity) ---
     ("POST", "/api/v1/auth/register"),
+    ("POST", "/api/v1/auth/operator/school-invites"),
     ("POST", "/api/v1/auth/login"),
     ("POST", "/api/v1/auth/logout"),
     ("GET", "/api/v1/auth/me"),
@@ -974,7 +975,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 311: TA-2 the caller's own calendar and teaching load in the apps.
     # 314: EX-8 report cards (a student's, as JSON and PDF; a section's PDF).
     # 315: N-67-5 every section's lesson plan in one action.
-    assert len(API_ROUTES) == 315
+    # 316: the operator's single-use invite for a new school's first principal.
+    assert len(API_ROUTES) == 316
 
 
 def test_docs_routes_present():
