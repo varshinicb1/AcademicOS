@@ -33,6 +33,8 @@ class _Backend implements HttpClientAdapter {
   };
   int? roomClosureStatus;
   bool weekClash = false;
+  // The week now published (GET .../timetable), as the server answers it.
+  List<Map<String, dynamic>> published = [];
 
   static const _json = {Headers.contentTypeHeader: ['application/json']};
 
@@ -97,6 +99,8 @@ class _Backend implements HttpClientAdapter {
         ]);
       case ('POST', '/curriculum/academic-years/ay_1/bell-schedules'):
         return _ok({'id': 'bell_2', ...Map<String, dynamic>.from(o.data as Map)});
+      case ('GET', '/curriculum/academic-years/ay_1/timetable'):
+        return _ok(published);
       case ('POST', '/curriculum/academic-years/ay_1/timetable/solve'):
         final apply = (o.data as Map)['apply'] == true;
         return _ok({...solveAnswer, 'applied': apply && solveAnswer['status'] == 'solved'});
@@ -279,6 +283,59 @@ void main() {
     await tapKey(tester, 'solve-publish');
     expect((backend.sent.last.$3 as Map)['apply'], isTrue);
     expect(find.text('Published. Teachers have been told.'), findsOneWidget);
+  });
+
+  // The preview gave only counts, so the principal published without seeing
+  // which periods move (QA S-17, 2026-10-01). It now lists them against the
+  // published week, as the server counts them.
+  testWidgets('a preview lists the periods that move, are new or go, before Publish', (tester) async {
+    Map<String, dynamic> entry(String section, int day, int period, String subject, [String? name]) => {
+          'id': 'tt_$section$day$period', 'sectionId': section, 'dayOfWeek': day, 'period': period,
+          'subjectId': subject, 'teacherId': 't_ana', 'locked': false,
+          'subjectName': name, 'sectionName': section == 'sec_a' ? '10-A' : '10-B',
+        };
+    backend.published = [
+      entry('sec_a', 0, 1, 'sci', 'Science'),
+      entry('sec_a', 1, 2, 'mat'), // no name: named from the class's subjects
+      entry('sec_b', 0, 2, 'sci', 'Science'),
+    ];
+    backend.solveAnswer = {
+      'status': 'solved', 'applied': false, 'problems': <String>[], 'kept': 1, 'movedOrAdded': 2, 'removed': 2,
+      'seconds': 0.4,
+      'entries': [
+        {'sectionId': 'sec_a', 'dayOfWeek': 0, 'period': 1, 'subjectId': 'sci', 'teacherId': 't_ana'},
+        {'sectionId': 'sec_a', 'dayOfWeek': 2, 'period': 1, 'subjectId': 'mat', 'teacherId': 't_ana'},
+        {'sectionId': 'sec_a', 'dayOfWeek': 4, 'period': 2, 'subjectId': 'sci', 'teacherId': 't_ana'},
+      ],
+    };
+    await pump(tester);
+    await openTab(tester, 'Generate');
+    await tapKey(tester, 'solve-preview');
+    expect(find.byKey(const ValueKey('solve-changes')), findsOneWidget);
+    expect(find.text('What publishing changes:'), findsOneWidget);
+    expect(find.text('• 10-A Maths: moves from Tue period 2 to Wed period 1'), findsOneWidget);
+    expect(find.text('• 10-A Science: new on Fri period 2'), findsOneWidget);
+    expect(find.text('• 10-B Science: no longer on Mon period 2'), findsOneWidget);
+    expect(find.textContaining('Mon period 1'), findsNothing, reason: 'a kept period is not a change');
+    expect(tester.takeException(), isNull, reason: 'the list fits a phone');
+
+    await tapKey(tester, 'solve-publish');
+    expect(find.text('Published. Teachers have been told.'), findsOneWidget);
+    expect(find.byKey(const ValueKey('solve-changes')), findsNothing,
+        reason: 'publishing solves again; the preview\'s list is not claimed for it');
+  });
+
+  testWidgets("a school's first week says every period is new", (tester) async {
+    backend.solveAnswer = {
+      ...backend.solveAnswer,
+      'entries': [
+        {'sectionId': 'sec_a', 'dayOfWeek': 0, 'period': 1, 'subjectId': 'sci', 'teacherId': 't_ana'},
+      ],
+    };
+    await pump(tester);
+    await openTab(tester, 'Generate');
+    await tapKey(tester, 'solve-preview');
+    expect(find.textContaining('No week is published yet, so every period is new.'), findsOneWidget);
   });
 
   testWidgets('a week no timetable can meet lists why and cannot be published', (tester) async {

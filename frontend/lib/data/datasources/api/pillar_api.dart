@@ -187,7 +187,14 @@ class SubjectRollup {
 }
 
 class SchoolInsights {
+  /// Students enrolled in the school (since QA S-04; before it, only those
+  /// with marked papers were counted).
   final int students;
+
+  /// Students with marked papers, marked homework or finished practice: the
+  /// evidence the mastery figures are built from. Null from a server (or the
+  /// offline engine) that does not report it.
+  final int? studentsWithEvidence;
   final int assessments;
   final double averageMastery;
   final List<SubjectRollup> subjects;
@@ -195,6 +202,7 @@ class SchoolInsights {
 
   SchoolInsights.fromJson(Map<String, dynamic> j)
       : students = j['students'] ?? 0,
+        studentsWithEvidence = (j['studentsWithEvidence'] as num?)?.toInt(),
         assessments = j['assessments'] ?? 0,
         averageMastery = (j['averageMastery'] ?? 0).toDouble(),
         subjects = ((j['subjects'] ?? []) as List)

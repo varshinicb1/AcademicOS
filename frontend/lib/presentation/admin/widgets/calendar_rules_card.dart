@@ -22,6 +22,42 @@ class CalendarRulesCard extends StatefulWidget {
 
   const CalendarRulesCard({super.key, required this.saved, required this.busy, required this.onSubmit});
 
+  static const _ordinals = {'first': '1st', 'second': '2nd', 'third': '3rd', 'fourth': '4th', 'fifth': '5th'};
+
+  /// A Saturday rule in words: 'second_fourth' and '2nd,4th' are "2nd and 4th
+  /// Saturdays off". The status line showed the stored value itself (QA S-19).
+  static String saturdayRuleWords(String rule) {
+    final r = rule.trim().toLowerCase();
+    if (r == 'none' || r.isEmpty) return 'every Saturday a working day';
+    if (r == 'all') return 'every Saturday off';
+    final parts = [for (final p in r.split(RegExp(r'[,_\s]+'))) if (p.isNotEmpty) _ordinals[p] ?? p];
+    if (parts.isEmpty || parts.any((p) => !RegExp(r'^[1-5](st|nd|rd|th)$').hasMatch(p))) {
+      return 'Saturday rule "$rule"';
+    }
+    final list = parts.length == 1
+        ? parts.single
+        : '${parts.take(parts.length - 1).join(', ')} and ${parts.last}';
+    return '$list Saturdays off';
+  }
+
+  /// Weekly off days in words: "Sundays off", "Saturdays and Sundays off".
+  static String weeklyOffWords(List<String> days) {
+    if (days.isEmpty) return 'no weekly off day';
+    final names = [for (final d in days) d.isEmpty ? d : '${d[0].toUpperCase()}${d.substring(1).toLowerCase()}s'];
+    final list = names.length == 1
+        ? names.single
+        : '${names.take(names.length - 1).join(', ')} and ${names.last}';
+    return '$list off';
+  }
+
+  /// The saved calendar as one sentence. With Saturday a weekly off day the
+  /// Saturday rule changes nothing, so it is not repeated.
+  static String describe(CalendarInfo c) {
+    final offs = weeklyOffWords(c.weeklyOffDays);
+    if (c.weeklyOffDays.any((d) => d.toLowerCase() == 'saturday')) return 'Saved: $offs.';
+    return 'Saved: $offs; ${saturdayRuleWords(c.alternateSaturdayRule)}.';
+  }
+
   @override
   State<CalendarRulesCard> createState() => _CalendarRulesCardState();
 }
@@ -109,7 +145,8 @@ class _CalendarRulesCardState extends State<CalendarRulesCard> {
     ];
     final saved = _savedRule;
     if (saved != null && !_ruleChoices.containsKey(saved)) {
-      items.add(DropdownMenuItem(value: saved, child: _entry('Saved: $saved')));
+      final words = CalendarRulesCard.saturdayRuleWords(saved);
+      items.add(DropdownMenuItem(value: saved, child: _entry('Saved: ${words[0].toUpperCase()}${words.substring(1)}')));
     }
     return items;
   }
@@ -126,8 +163,8 @@ class _CalendarRulesCardState extends State<CalendarRulesCard> {
           const Gap(8),
           if (saved != null) ...[
             Text(
-              'Saved: weekly off ${saved.weeklyOffDays.join(', ')}; '
-              'Saturday rule ${saved.alternateSaturdayRule}',
+              CalendarRulesCard.describe(saved),
+              key: const ValueKey('calendar-saved-line'),
               style: theme.textTheme.bodySmall,
             ),
             if (_savedOutsideMenus)

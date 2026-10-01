@@ -13,6 +13,7 @@ import '../widgets/calendar_rules_card.dart';
 import '../widgets/erasure_card.dart';
 import '../widgets/insights_card.dart';
 import '../widgets/invites_panel.dart';
+import '../widgets/password_reset.dart';
 import '../widgets/pending_topics_card.dart';
 import '../widgets/school_setup_card.dart';
 import '../widgets/sections_card.dart';
@@ -54,7 +55,11 @@ const _noEditionMessage =
 /// 3. Reschedule: Disruption handling via PUSH (shifting subsequent lessons
 ///    forward past a closure) and ADJUST (rescheduling a single lesson to a new date).
 class PrincipalAdminPage extends StatefulWidget {
-  const PrincipalAdminPage({super.key});
+  /// 'calendar' opens on Calendar & Setup (the dashboard's setup checklist
+  /// links there); anything else, or nothing, opens on Roster.
+  final String? initialTab;
+
+  const PrincipalAdminPage({super.key, this.initialTab});
 
   @override
   State<PrincipalAdminPage> createState() => _PrincipalAdminPageState();
@@ -140,6 +145,10 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   // The year's saved calendar, once loaded: its presence turns "Initialize"
   // into "Update" (a second create is a 409; PUT corrects it in place).
   CalendarInfo? _calendar;
+  // True when this page set up the school's first year a moment ago: such a
+  // year has no calendar (only Initialize Calendar makes one), so asking for
+  // it would only fetch the server's 404 (QA S-15).
+  bool _calendarKnownMissing = false;
   final _periodMinutesController = TextEditingController(text: '45');
   bool _savingPeriodMinutes = false;
   final _holidayDateController = TextEditingController(
@@ -159,7 +168,8 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: _AdminTab.values.length, vsync: this);
+    final initial = widget.initialTab == 'calendar' ? _AdminTab.calendarSetup : _AdminTab.roster;
+    _tabController = TabController(length: _AdminTab.values.length, vsync: this, initialIndex: initial.index);
     _tabController.addListener(() {
       final tab = _AdminTab.values[_tabController.index];
       if (tab == _AdminTab.masterCalendar && _masterLessons.isEmpty && !_loadingMasterCalendar) {
@@ -171,6 +181,13 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       }
     });
     _future = _load();
+    if (initial == _AdminTab.calendarSetup) {
+      // The listener above only hears a change of tab, not the one it opens on.
+      _future.then((_) => _loadCalendarSetup(), onError: (Object e) {
+        // The page's own FutureBuilder shows this failure with Retry.
+        _showMessage(serverErrorMessage(e));
+      });
+    }
   }
 
   @override
@@ -516,15 +533,17 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     setState(() => _creatingCalendar = true);
     try {
       final api = GetIt.I<CurriculumApi>();
-      if (updating) {
-        await api.updateCalendar(_academicYearId!,
-            weeklyOffDays: weeklyOffDays, alternateSaturdayRule: altSatRule);
-      } else {
-        await api.createCalendar(_academicYearId!,
-            weeklyOffDays: weeklyOffDays, alternateSaturdayRule: altSatRule);
-      }
+      final saved = updating
+          ? await api.updateCalendar(_academicYearId!,
+              weeklyOffDays: weeklyOffDays, alternateSaturdayRule: altSatRule)
+          : await api.createCalendar(_academicYearId!,
+              weeklyOffDays: weeklyOffDays, alternateSaturdayRule: altSatRule);
+      _calendarKnownMissing = false;
       _showMessage(updating ? 'Academic Calendar updated.' : 'Academic Calendar initialized successfully.');
-      _loadCalendarSetup();
+      // The saved line is the server's answer to this save, not a second
+      // read: it said "Saturday rule none" after an update until a reload
+      // (QA S-19).
+      _loadCalendarSetup(saved: saved);
     } catch (e) {
       _showMessage('Could not ${updating ? 'update' : 'initialize'} calendar: ${serverErrorMessage(e)}');
     } finally {
@@ -589,12 +608,14 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     }
   }
 
-  Future<void> _loadCalendarSetup() async {
+  /// The year's calendar, its working days and its holidays. [saved] is a
+  /// calendar the server has just returned from a save, used as it is.
+  Future<void> _loadCalendarSetup({CalendarInfo? saved}) async {
     if (_academicYearId == null) return;
     setState(() => _loadingWorkingDays = true);
     try {
       final api = GetIt.I<CurriculumApi>();
-      final cal = await api.getCalendar(_academicYearId!);
+      final cal = saved ?? (_calendarKnownMissing ? null : await api.getCalendar(_academicYearId!));
       if (mounted) {
         setState(() {
           _calendar = cal;
@@ -684,7 +705,11 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                   year: data.year,
                   onDone: () {
                     _showMessage('Classes set up. Add your calendar rules and terms on Calendar & Setup.');
-                    setState(() { _future = _load(); });
+                    setState(() {
+                      // A year the setup just made has no calendar yet.
+                      if (data.year == null) _calendarKnownMissing = true;
+                      _future = _load();
+                    });
                   },
                 ),
                 const Gap(16),
@@ -833,6 +858,9 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
             ],
           ),
         ),
+        const Gap(24),
+        // QA S-05: a teacher, student or parent who forgot their password.
+        const PasswordResetCard(),
         const Gap(24),
         // NFR-1: erasure on the school's written request (principal only).
         const ErasureCard(),
@@ -1448,7 +1476,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       children: [
         Text('Curriculum Delivery Sequence', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
         const Gap(4),
-        Text('Drag and drop units or chapters to reorder delivery sequence (§13).',
+        Text('Drag units or chapters into the order they are taught.',
             style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
         const Gap(12),
         AppCard(
@@ -1576,7 +1604,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       children: [
         Text('Calendar & Period Configuration', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
         const Gap(4),
-        Text('Setup academic calendar rules, period durations, and block holidays (§8, §10).',
+        Text('The weekly off days and Saturday rule, the terms, the period length and the holidays.',
             style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
         const Gap(12),
         CalendarRulesCard(
@@ -1680,12 +1708,17 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
               Row(
                 children: [
                   Expanded(
-                    child: Text('Teaching Days Computation (§10)',
+                    child: Text('Teaching days this year',
                         style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
                   ),
                   IconButton(tooltip: 'Reload', 
                     icon: const Icon(Icons.refresh),
-                    onPressed: _loadingWorkingDays ? null : _loadCalendarSetup,
+                    onPressed: _loadingWorkingDays
+                        ? null
+                        : () {
+                            _calendarKnownMissing = false;
+                            _loadCalendarSetup();
+                          },
                   ),
                 ],
               ),

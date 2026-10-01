@@ -30,6 +30,7 @@ class _Backend implements HttpClientAdapter {
   final rejected = <String>[];
   List<Map<String, dynamic>> lessons = [];
   ({int status, Object body})? estimatesAnswer;
+  Map<String, dynamic>? plansAnswer;
 
   static const _json = {Headers.contentTypeHeader: ['application/json']};
   ResponseBody _ok(Object body) => ResponseBody.fromString(jsonEncode(body), 200, headers: _json);
@@ -98,6 +99,7 @@ class _Backend implements HttpClientAdapter {
           'periodsAllocated': 14, 'periodsShort': 2, 'fitsInYear': false,
         });
       case ('POST', '/curriculum/academic-years/ay_1/lesson-plans'):
+        if (plansAnswer != null) return _ok(plansAnswer!);
         return _ok({
           'runsApproved': 13, 'topicsCreated': 39, 'subtopicsCreated': 117,
           'plans': [
@@ -192,6 +194,46 @@ void main() {
     expect(find.text('2 plans made, 278 lessons dated · 117 subtopics approved'), findsOneWidget);
     expect(find.text('• 10-A English: no book is chosen for the subject'), findsOneWidget,
         reason: 'what was not planned is named, with why');
+  });
+
+  // With the box unticked nothing is approved, so a school whose topics are
+  // only proposed gets plans with no lessons. "7 plans made, 0 lessons dated"
+  // said neither why nor what to do (QA S-14, 2026-10-01).
+  testWidgets('plans with no lessons say the topics are not approved, and to tick the box', (tester) async {
+    backend.plansAnswer = {
+      'runsApproved': 0, 'topicsCreated': 0, 'subtopicsCreated': 0,
+      'plans': [
+        {'sectionId': 'sec_a', 'sectionName': '10-A', 'subjectName': 'Science', 'lessonsCreated': 0},
+        {'sectionId': 'sec_b', 'sectionName': '10-B', 'subjectName': 'Science', 'lessonsCreated': 0},
+      ],
+      'notPlanned': <String>[],
+    };
+    await pumpPage(tester, const LessonPlanPage(), _narrow);
+    await tapKey(tester, 'plan-all-approve');
+    await tapKey(tester, 'plan-all-run');
+    expect(backend.sent.single.$4, {'approveProposedTopics': false});
+    expect(find.text('2 plans made, 0 lessons dated'), findsOneWidget);
+    expect(find.byKey(const ValueKey('plan-all-no-topics')), findsOneWidget);
+    expect(find.text('No lesson was dated: the books have no approved topics yet.'), findsOneWidget);
+    expect(find.textContaining('Tick "Approve the topics proposed for each chapter"'), findsOneWidget);
+    expect(find.textContaining('10-A Science'), findsOneWidget, reason: 'each plan with no lessons is named');
+    expectNoOverflow(tester);
+  });
+
+  testWidgets('with the box ticked and still nothing to approve, it says where topics are added', (tester) async {
+    backend.plansAnswer = {
+      'runsApproved': 0, 'topicsCreated': 0, 'subtopicsCreated': 0,
+      'plans': [
+        {'sectionId': 'sec_a', 'sectionName': '10-A', 'subjectName': 'Science', 'lessonsCreated': 0},
+        {'sectionId': 'sec_b', 'sectionName': '10-B', 'subjectName': 'Science', 'lessonsCreated': 140},
+      ],
+      'notPlanned': <String>[],
+    };
+    await pumpPage(tester, const LessonPlanPage(), _narrow);
+    await tapKey(tester, 'plan-all-run');
+    expect(find.text('1 plan has no lessons: its book has no approved topics yet.'), findsOneWidget);
+    expect(find.textContaining('Sequence Reorder tab'), findsOneWidget);
+    expect(find.textContaining('Tick "Approve'), findsNothing);
   });
 
   testWidgets('the book, its chapters and which of them can be planned are shown', (tester) async {

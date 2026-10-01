@@ -25,6 +25,7 @@ import '../../../core/theme/theme_controller.dart';
 import '../../onboarding/pages/app_tour_page.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import '../../workspace/strings.dart';
 
 const _kOfflineBuild = bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false);
 
@@ -45,19 +46,18 @@ class _SettingsPageState extends State<SettingsPage> {
   bool _autoSync = LocalStore.instance.box.get('pref_auto_sync', defaultValue: true) as bool;
   bool _biometricAuth = LocalStore.instance.box.get('pref_biometric_auth', defaultValue: false) as bool;
   String _selectedTheme = LocalStore.instance.themeModeName;
-  String _selectedLanguage = LocalStore.instance.box.get('pref_language', defaultValue: 'en') as String;
+  // The one language setting: the School page's language button changes the
+  // same value (strings.dart). Settings used to keep its own 'pref_language',
+  // which nothing read, and offered English only while the School page
+  // offered Hindi (QA S-16).
+  String _selectedLanguage = uiHindi ? 'hi' : 'en';
   String _sarvamApiKey = LocalStore.instance.sarvamApiKey ?? '';
 
-  // Real fix: this used to list 13 languages in a dropdown when not one of
-  // them was actually wired to any translated string anywhere in the app --
-  // main.dart's MaterialApp only ever loads Flutter's own built-in widget
-  // labels (GlobalMaterialLocalizations etc.), never an AppLocalizations
-  // delegate, so picking "Hindi" here silently changed nothing a teacher
-  // could see. Real per-string translation for even one Indian language is
-  // a genuinely large task (every screen, not just this list), so until
-  // that's actually built, the only honest option to offer is the one that
-  // really works.
-  static const _languageNames = {'en': 'English'};
+  // Only what is translated is offered. This once listed 13 languages that
+  // no string was translated into; Hindi now covers the School pages and
+  // the phone apps (strings.dart), and the subtitle says which screens stay
+  // in English.
+  static const _languageNames = {'en': 'English', 'hi': 'हिन्दी (Hindi)'};
 
   @override
   void initState() {
@@ -111,6 +111,10 @@ class _SettingsPageState extends State<SettingsPage> {
             // the real reviewerId on review/finalize and gates the
             // principal-approve action (auth_routes.require_principal).
             if (!_kOfflineBuild) _buildAuthTile(),
+            // QA S-05: after a reset, the person chooses their own password.
+            if (!_kOfflineBuild && LocalStore.instance.authUser != null)
+              _buildListTile(Icons.password, 'Change password', 'Choose a new password for this account',
+                  _changePassword),
             _buildSwitchTile(Icons.fingerprint, 'Biometric Auth', 'Lock the app behind your fingerprint or face', _biometricAuth, (v) async {
               if (v) {
                 final ok = await AppLock.confirmCanEnable();
@@ -143,8 +147,8 @@ class _SettingsPageState extends State<SettingsPage> {
             }),
             _buildDropdownTile(Icons.language, 'Language', _selectedLanguage, _languageNames, (v) {
               setState(() => _selectedLanguage = v);
-              LocalStore.instance.box.put('pref_language', v);
-            }, subtitle: 'Hindi and other Indian languages are not translated yet'),
+              setUiLanguage(v);
+            }, subtitle: hindiCoverage),
             // Real fix: same problem as Notifications above -- "Auto Sync"
             // toggled a preference nothing ever read, since there is no
             // server for this offline build to sync to in the first place.
@@ -301,7 +305,12 @@ class _SettingsPageState extends State<SettingsPage> {
     return ListTile(
       leading: Icon(Icons.verified_user, color: Theme.of(context).colorScheme.primary),
       title: Text('Signed in as $name'),
-      subtitle: Text(role == 'principal' ? 'Principal' : 'Teacher',
+      subtitle: Text(switch (role) {
+            'principal' => 'Principal',
+            'student' => 'Student',
+            'parent' => 'Parent',
+            _ => 'Teacher',
+          },
           style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
       trailing: TextButton(
         onPressed: () async {
@@ -391,11 +400,89 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _editTextField(String title, String value, ValueChanged<String> onChanged) {
     final controller = TextEditingController(text: value);
-    showDialog(context: context, builder: (_) => AlertDialog(
+    // The dialog's own context pops the dialog; this page's would pop the
+    // page beneath it inside the shell (the QA S-01 mistake).
+    showDialog(context: context, builder: (dialog) => AlertDialog(
       title: Text(title),
       content: TextField(controller: controller, autofocus: true, decoration: const InputDecoration(hintText: 'Enter value')),
-      actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')), FilledButton(onPressed: () { onChanged(controller.text); Navigator.pop(context); }, child: const Text('Save'))],
+      actions: [TextButton(onPressed: () => Navigator.pop(dialog), child: const Text('Cancel')), FilledButton(onPressed: () { onChanged(controller.text); Navigator.pop(dialog); }, child: const Text('Save'))],
     ));
+  }
+
+  /// The signed-in person's own password (QA S-05). The server ends every
+  /// session, this one too, and answers with a new token for this device,
+  /// which replaces the stored one -- the next request would be a 401
+  /// otherwise.
+  Future<void> _changePassword() async {
+    final current = TextEditingController();
+    final fresh = TextEditingController();
+    final again = TextEditingController();
+    String? error;
+    var busy = false;
+    final changed = await showDialog<bool>(
+      context: context,
+      builder: (dialog) => StatefulBuilder(builder: (dialog, set) {
+        Future<void> submit() async {
+          if (fresh.text.length < 8) {
+            set(() => error = 'The new password needs at least 8 characters.');
+            return;
+          }
+          if (fresh.text != again.text) {
+            set(() => error = 'The two new passwords are not the same.');
+            return;
+          }
+          set(() {
+            busy = true;
+            error = null;
+          });
+          try {
+            final token = await GetIt.I<AuthApi>()
+                .changePassword(currentPassword: current.text, newPassword: fresh.text);
+            final user = LocalStore.instance.authUser;
+            if (user != null) LocalStore.instance.signIn(token, user);
+            if (dialog.mounted) Navigator.pop(dialog, true);
+          } catch (e) {
+            set(() {
+              busy = false;
+              error = serverErrorMessage(e);
+            });
+          }
+        }
+
+        return AlertDialog(
+          title: const Text('Change password'),
+          content: SizedBox(
+            width: 400,
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              TextField(key: const Key('password-current'), controller: current, obscureText: true,
+                  decoration: const InputDecoration(labelText: 'Current password',
+                      helperText: 'Or the one-time password the school gave you')),
+              const SizedBox(height: 12),
+              TextField(key: const Key('password-new'), controller: fresh, obscureText: true,
+                  decoration: const InputDecoration(labelText: 'New password', helperText: 'At least 8 characters')),
+              const SizedBox(height: 12),
+              TextField(key: const Key('password-again'), controller: again, obscureText: true,
+                  onSubmitted: (_) => busy ? null : submit(),
+                  decoration: const InputDecoration(labelText: 'New password again')),
+              if (error != null) ...[
+                const SizedBox(height: 12),
+                Text(error!, key: const Key('password-error'),
+                    style: TextStyle(color: Theme.of(dialog).colorScheme.error)),
+              ],
+            ]),
+          ),
+          actions: [
+            TextButton(onPressed: busy ? null : () => Navigator.pop(dialog, false), child: const Text('Cancel')),
+            FilledButton(key: const Key('password-save'), onPressed: busy ? null : submit,
+                child: const Text('Change password')),
+          ],
+        );
+      }),
+    );
+    if (changed == true && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Password changed. You stay signed in here; every other device is signed out.')));
+    }
   }
 
   void _clearCache() {
@@ -413,11 +500,11 @@ class _SettingsPageState extends State<SettingsPage> {
           '${dir.path}/academicos_backup_${DateTime.now().toIso8601String().replaceAll(':', '-')}.json');
       await file.writeAsString(jsonEncode(dump));
       if (!mounted) return;
-      showDialog(context: context, builder: (_) => AlertDialog(
+      showDialog(context: context, builder: (dialog) => AlertDialog(
         title: const Text('Backup saved'),
         content: Text('Saved to:\n${file.path}\n\nCopy this file with a file manager to restore '
             'it on another device, or keep it as a safety copy.'),
-        actions: [FilledButton(onPressed: () => Navigator.pop(context), child: const Text('OK'))],
+        actions: [FilledButton(onPressed: () => Navigator.pop(dialog), child: const Text('OK'))],
       ));
     } catch (e) {
       if (!mounted) return;
@@ -480,7 +567,8 @@ class _SettingsPageState extends State<SettingsPage> {
     );
 
     if (!mounted) return;
-    Navigator.of(context).pop(); // close progress dialog
+    // The dialog is on the root navigator; this page is inside the shell's.
+    Navigator.of(context, rootNavigator: true).pop(); // close progress dialog
 
     if (result.success) {
       await CorpusRepository.instance.reload();
@@ -499,17 +587,17 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _confirmClearDemoData() {
-    showDialog(context: context, builder: (_) => AlertDialog(
+    showDialog(context: context, builder: (dialog) => AlertDialog(
       title: const Text('Clear Demo Data'),
       content: const Text('Removes the sample Class X Science class this app started with. '
           'Do this before setting up a real school so demo and real data never mix.'),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+        TextButton(onPressed: () => Navigator.pop(dialog), child: const Text('Cancel')),
         FilledButton(
           onPressed: () async {
             await DemoSeeder.clearDemoData();
+            if (dialog.mounted) Navigator.pop(dialog);
             if (!mounted) return;
-            Navigator.pop(context);
             ScaffoldMessenger.of(context)
                 .showSnackBar(const SnackBar(content: Text('Demo data cleared')));
             setState(() {});
@@ -521,19 +609,19 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _confirmClearAllData() {
-    showDialog(context: context, builder: (_) => AlertDialog(
+    showDialog(context: context, builder: (dialog) => AlertDialog(
       title: const Text('Clear All Local Data'),
       content: const Text(
           'This permanently deletes every assessment, evaluation, mastery record, and '
           'setting stored on this device -- including real (non-demo) data. This cannot '
           'be undone.'),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+        TextButton(onPressed: () => Navigator.pop(dialog), child: const Text('Cancel')),
         FilledButton(
           onPressed: () async {
             await LocalStore.instance.box.clear();
+            if (dialog.mounted) Navigator.pop(dialog);
             if (!mounted) return;
-            Navigator.pop(context);
             ScaffoldMessenger.of(context)
                 .showSnackBar(const SnackBar(content: Text('All local data cleared')));
             setState(() {});
@@ -545,7 +633,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _showHelp() {
-    showDialog(context: context, builder: (_) => AlertDialog(
+    showDialog(context: context, builder: (dialog) => AlertDialog(
       title: const Text('Help & Support'),
       content: const SingleChildScrollView(
         child: Column(
@@ -570,7 +658,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close')),
+        TextButton(onPressed: () => Navigator.pop(dialog), child: const Text('Close')),
       ],
     ));
   }

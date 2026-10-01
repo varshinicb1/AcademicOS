@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/local_engine/local_store.dart';
+import '../../../core/sync/network_policy.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
@@ -34,7 +35,12 @@ class _MasteryDashboardState extends State<MasteryDashboard> {
     super.initState();
     final real = _realStudentIds;
     _studentId = widget.studentId ?? (real.isNotEmpty ? real.first : 'stu_meera');
-    _future = GetIt.I<PillarApi>().knowledge(_studentId);
+    // The demo student exists only in the offline build's own store. On the
+    // web, asking the server for her is a 404 every time this page is built
+    // (QA S-15), so with no student to show it shows the empty state instead.
+    _future = !kOfflineBuild && widget.studentId == null && real.isEmpty
+        ? Future.value(StudentMastery.fromJson({'studentId': _studentId}))
+        : GetIt.I<PillarApi>().knowledge(_studentId);
   }
 
   void _reload(String studentId) {
@@ -62,7 +68,8 @@ class _MasteryDashboardState extends State<MasteryDashboard> {
               return [
                 for (final id in real)
                   PopupMenuItem(value: id, child: Text(LocalStore.instance.studentName(id))),
-                if (real.isEmpty) const PopupMenuItem(value: 'stu_meera', child: Text('Meera (no real data yet)')),
+                if (real.isEmpty && kOfflineBuild)
+                  const PopupMenuItem(value: 'stu_meera', child: Text('Meera (no real data yet)')),
               ];
             },
             // Real accessibility bug found by audit: PopupMenuButton doesn't

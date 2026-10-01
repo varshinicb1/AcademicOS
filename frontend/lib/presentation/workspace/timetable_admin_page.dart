@@ -702,6 +702,53 @@ class _BellTabState extends State<_BellTab> {
 
 // ------------------------------------------------------------------ generate
 
+/// The periods a generated week changes against the week now published,
+/// counted as the server counts them: a period is its section, day, period
+/// and subject. A subject's period that leaves one slot and lands on another
+/// in the same section is a move; one with no partner is new or removed.
+/// [who] names a section's subject ("10-A Science"). Sorted by who, then
+/// day and period.
+///
+/// The preview gave only counts ("keeps 36, moves or adds 4, removes 0"),
+/// so the principal published without seeing which periods move (QA S-17,
+/// 2026-10-01).
+List<String> timetableChanges(
+    List<Map> before, List<Map> after, String Function(String sectionId, String subjectId) who) {
+  String key(Map e) => '${e['sectionId']}|${e['dayOfWeek']}|${e['period']}|${e['subjectId']}';
+  final was = {for (final e in before) key(e)};
+  final will = {for (final e in after) key(e)};
+  final groups = <String, ({List<Map> out, List<Map> into})>{};
+  ({List<Map> out, List<Map> into}) group(Map e) =>
+      groups.putIfAbsent('${e['sectionId']}|${e['subjectId']}', () => (out: [], into: []));
+  for (final e in before) {
+    if (!will.contains(key(e))) group(e).out.add(e);
+  }
+  for (final e in after) {
+    if (!was.contains(key(e))) group(e).into.add(e);
+  }
+  int order(Map e) => (e['dayOfWeek'] as int) * 100 + (e['period'] as int);
+  String slot(Map e) => '${tr(_dayNames[e['dayOfWeek'] as int])} ${tr('period')} ${e['period']}';
+  final lines = <({String who, int at, String text})>[];
+  for (final g in groups.values) {
+    g.out.sort((a, b) => order(a) - order(b));
+    g.into.sort((a, b) => order(a) - order(b));
+    final first = g.out.isNotEmpty ? g.out.first : g.into.first;
+    final name = who(first['sectionId'] as String, first['subjectId'] as String);
+    for (var i = 0; i < g.out.length || i < g.into.length; i++) {
+      if (i < g.out.length && i < g.into.length) {
+        lines.add((who: name, at: order(g.out[i]),
+            text: '$name: ${tr('moves from')} ${slot(g.out[i])} ${tr('to')} ${slot(g.into[i])}'));
+      } else if (i < g.into.length) {
+        lines.add((who: name, at: order(g.into[i]), text: '$name: ${tr('new on')} ${slot(g.into[i])}'));
+      } else {
+        lines.add((who: name, at: order(g.out[i]), text: '$name: ${tr('no longer on')} ${slot(g.out[i])}'));
+      }
+    }
+  }
+  lines.sort((a, b) => a.who != b.who ? a.who.compareTo(b.who) : a.at - b.at);
+  return [for (final l in lines) l.text];
+}
+
 class _GenerateTab extends StatefulWidget {
   final _SchoolData data;
   const _GenerateTab({required this.data});
@@ -717,6 +764,11 @@ class _GenerateTabState extends State<_GenerateTab> {
   bool _busy = false;
   Map<String, dynamic>? _result;
   String? _error;
+  // What the preview changes, period by period; null until listed.
+  List<String>? _changes;
+  String? _changesError;
+  // No week has been published: every period of the preview is new.
+  bool _firstWeek = false;
 
   @override
   void dispose() {
@@ -743,11 +795,55 @@ class _GenerateTabState extends State<_GenerateTab> {
         'maxConsecutive': maxRow,
         'timeLimitSeconds': 60,
       });
-      if (mounted) setState(() => _result = Map<String, dynamic>.from(r as Map));
+      final result = Map<String, dynamic>.from(r as Map);
+      if (mounted) {
+        setState(() {
+          _result = result;
+          _changes = null;
+          _changesError = null;
+          _firstWeek = false;
+        });
+      }
+      if (!apply && result['status'] == 'solved') await _listChanges(result);
     } catch (e) {
       if (mounted) setState(() => _error = serverErrorMessage(e));
     } finally {
       if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  /// The preview's changes against the published week. The solve answer
+  /// carries the whole proposed week; the published one is read here, and a
+  /// subject the published week does not name is named from its class.
+  Future<void> _listChanges(Map<String, dynamic> result) async {
+    try {
+      final data = widget.data;
+      final before = await Ops.list('$_base/academic-years/${data.yearId}/timetable');
+      final after = ((result['entries'] as List?) ?? const []).cast<Map>();
+      final names = <String, String>{
+        for (final e in before)
+          if (e['subjectName'] != null) e['subjectId'] as String: e['subjectName'] as String
+      };
+      final grades = {
+        for (final e in after)
+          if (!names.containsKey(e['subjectId']))
+            data.sections.where((x) => x['id'] == e['sectionId']).firstOrNull?['gradeId'] as String?
+      }.whereType<String>();
+      for (final g in grades) {
+        for (final subject in await Ops.list('$_base/grades/$g/subjects')) {
+          names[subject['id'] as String] = subject['name'] as String;
+        }
+      }
+      final changes = timetableChanges(before, after,
+          (section, subject) => '${data.sectionLabel(section)} ${names[subject] ?? subject}');
+      if (mounted) {
+        setState(() {
+          _firstWeek = before.isEmpty;
+          _changes = changes;
+        });
+      }
+    } catch (e) {
+      if (mounted) setState(() => _changesError = serverErrorMessage(e));
     }
   }
 
@@ -756,6 +852,7 @@ class _GenerateTabState extends State<_GenerateTab> {
     final theme = Theme.of(context);
     final r = _result;
     final solved = r?['status'] == 'solved';
+    final changes = _changes;
     return ListView(padding: const EdgeInsets.all(16), children: [
       Text(tr('Generate a clash-free week for every section from the allocations, rooms and bell. '
           'Preview first: nothing changes until you publish.'), style: theme.textTheme.bodySmall),
@@ -797,6 +894,27 @@ class _GenerateTabState extends State<_GenerateTab> {
         if (solved)
           Text('${tr('keeps')} ${r['kept']}, ${tr('moves or adds')} ${r['movedOrAdded']}, '
               '${tr('removes')} ${r['removed']} ${tr('periods')} (${r['seconds']} s)'),
+        if (solved && r['applied'] != true) ...[
+          if (_changesError != null)
+            Text('${tr('The changed periods could not be listed')}: $_changesError',
+                style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.error))
+          else if (changes != null) ...[
+            const Gap(8),
+            if (_firstWeek)
+              Text(key: const ValueKey('solve-changes'),
+                  tr('No week is published yet, so every period is new. See each section on the Week tab after '
+                      'publishing.'))
+            else if (changes.isEmpty)
+              Text(key: const ValueKey('solve-changes'), tr('No period changes: the published week stays as it is.'))
+            else
+              Notice(
+                key: const ValueKey('solve-changes'),
+                kind: NoticeKind.info,
+                title: tr('What publishing changes:'),
+                lines: firstFew(changes, max: 40),
+              ),
+          ],
+        ],
         for (final p in (r['problems'] as List? ?? const [])) Text('- $p'),
       ],
     ]);

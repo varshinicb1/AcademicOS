@@ -140,6 +140,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               child: QuestionBankPage(),
             ),
           ),
+          // School insights is a page of its own, not a child of '/analytics':
+          // nested there, the Mastery dashboard was built underneath it on every
+          // visit and asked for the demo student's knowledge, a 404 for every
+          // real school (QA S-15). Declared first so '/analytics' does not
+          // claim the path.
+          GoRoute(
+            path: '/analytics/school',
+            name: 'principal',
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: PrincipalPage(),
+            ),
+          ),
           GoRoute(
             path: '/analytics',
             name: 'analytics',
@@ -164,13 +176,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                   child: GapAnalysisPage(
                     assessmentId: state.uri.queryParameters['assessment'] ?? '',
                   ),
-                ),
-              ),
-              GoRoute(
-                path: 'school',
-                name: 'principal',
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: PrincipalPage(),
                 ),
               ),
             ],
@@ -299,7 +304,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/admin',
             name: 'principal-admin',
-            builder: (context, state) => const PrincipalAdminPage(),
+            builder: (context, state) => PrincipalAdminPage(initialTab: state.uri.queryParameters['tab']),
           ),
           GoRoute(
             path: '/scan',
@@ -349,9 +354,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 name: 'legal',
                 builder: (context, state) => LegalPage(doc: state.pathParameters['doc']!),
               ),
+              // Its own name: two routes named 'login' fail go_router's
+              // duplicate-name assertion, so a debug build (and any test
+              // that builds this router) could not start.
               GoRoute(
                 path: 'login',
-                name: 'login',
+                name: 'settings-login',
                 builder: (context, state) => LoginPage(
             inviteCode: state.uri.queryParameters['invite'],
             schoolId: state.uri.queryParameters['school']),

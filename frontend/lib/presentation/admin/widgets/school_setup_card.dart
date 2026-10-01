@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import '../../../core/constants/release_scope.dart';
 import '../../../data/datasources/api/curriculum_api.dart';
 import '../../shared/widgets/common_widgets.dart';
+import '../../workspace/notice.dart';
 import 'terms_card.dart';
 
 /// A new school's first step on the web: its academic year and the CBSE
@@ -16,12 +17,22 @@ import 'terms_card.dart';
 /// term. This runs the same idempotent seed the API offers
 /// (POST /curriculum/seed/cbse), one class at a time: a class that fails can
 /// be retried and the ones already set up are reused, not duplicated.
+///
+/// Classes 6-10 have CBSE syllabus files and always get their subjects.
+/// Classes 1-5 get subjects only where the server holds their NCERT books;
+/// a deployment without them creates those classes with sections and no
+/// subjects. The card said "with their subjects, books, chapters" for all
+/// ten, and the summary that showed "Class 1: 0 subjects" vanished the moment
+/// the last class was done (QA S-03, 2026-10-01). It now says so before and
+/// after, and the summary stays until the principal presses Continue.
 class SchoolSetupCard extends StatefulWidget {
   final CurriculumApi api;
 
   /// The school's year, when one exists without classes: its label and dates
   /// are reused so the seed adds classes to it rather than a second year.
   final AcademicYearSummary? year;
+
+  /// Pressed Continue after every class was set up.
   final VoidCallback onDone;
 
   /// Today, for the default year; a test passes a fixed date.
@@ -39,6 +50,20 @@ class SchoolSetupCard extends StatefulWidget {
 
   static const maxSectionsPerClass = 10;
 
+  /// The first class with a CBSE syllabus file: below it, a class's subjects
+  /// come from its NCERT books, which a server may not hold.
+  static const firstSyllabusClass = 6;
+
+  /// "Class 3", "Classes 1 to 5", "Classes 1, 3 and 4".
+  static String classesLabel(List<int> grades) {
+    final g = [...grades]..sort();
+    if (g.isEmpty) return '';
+    if (g.length == 1) return 'Class ${g.single}';
+    final run = g.last - g.first == g.length - 1;
+    if (run && g.length > 2) return 'Classes ${g.first} to ${g.last}';
+    return 'Classes ${g.take(g.length - 1).join(', ')} and ${g.last}';
+  }
+
   /// The sections a class set up with [count] sections has: A, B, C, ...
   static List<String> sectionNames(int count) =>
       [for (var i = 0; i < count; i++) String.fromCharCode('A'.codeUnitAt(0) + i)];
@@ -54,10 +79,17 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
   final _sections = TextEditingController(text: '1');
   // The name printed at the top of every paper (EX-5, audit D41).
   final _schoolName = TextEditingController();
+  // The name School profile already saved: shown here rather than asking for
+  // it again blank (QA S-09), and not sent again unless it is changed.
+  String? _savedName;
+  String? _nameNote;
   bool _busy = false;
+  bool _finished = false;
   String? _progress;
   String? _error;
   final List<String> _done = [];
+  // Classes the server set up with no subjects (no NCERT books for them here).
+  final List<int> _empty = [];
 
   @override
   void initState() {
@@ -67,6 +99,20 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
     _label = TextEditingController(text: y?.label.isNotEmpty == true ? y!.label : label);
     _start = TextEditingController(text: y?.startDate ?? start);
     _end = TextEditingController(text: y?.endDate ?? end);
+    _loadName();
+  }
+
+  Future<void> _loadName() async {
+    try {
+      final name = await widget.api.schoolName();
+      if (!mounted || name == null) return;
+      setState(() {
+        _savedName = name;
+        if (_schoolName.text.trim().isEmpty) _schoolName.text = name;
+      });
+    } catch (e) {
+      if (mounted) setState(() => _nameNote = 'The saved name could not be read: ${serverErrorMessage(e)}');
+    }
   }
 
   @override
@@ -101,8 +147,9 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
       _busy = true;
       _error = null;
       _done.clear();
+      _empty.clear();
     });
-    if (schoolName.isNotEmpty) {
+    if (schoolName.isNotEmpty && schoolName != _savedName) {
       try {
         await widget.api.setSchoolName(schoolName);
       } catch (err) {
@@ -131,8 +178,12 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
             await widget.api.createSection(r.gradeId, name: name);
           }
         }
-        _done.add('Class $grade: ${r.subjectsSeeded} subjects, ${r.chaptersSeeded} chapters'
-            '${perClass > 1 ? ', sections ${wanted.first}-${wanted.last}' : ''}');
+        final sections = perClass > 1 ? 'sections ${wanted.first} to ${wanted.last}' : 'section A';
+        if (r.subjectsSeeded == 0) _empty.add(grade);
+        setState(() => _done.add(r.subjectsSeeded == 0
+            ? 'Class $grade: $sections, no subjects'
+            : 'Class $grade: ${r.subjectsSeeded} ${r.subjectsSeeded == 1 ? 'subject' : 'subjects'}, '
+                '${r.chaptersSeeded} ${r.chaptersSeeded == 1 ? 'chapter' : 'chapters'}, $sections'));
       } catch (err) {
         if (!mounted) return;
         setState(() {
@@ -148,8 +199,8 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
     setState(() {
       _busy = false;
       _progress = null;
+      _finished = true;
     });
-    widget.onDone();
   }
 
   @override
@@ -157,6 +208,9 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
     final theme = Theme.of(context);
     final muted = theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant);
     final classes = '${releaseGrades.first} to ${releaseGrades.last}';
+    final withSyllabus = [for (final g in releaseGrades) if (g >= SchoolSetupCard.firstSyllabusClass) g];
+    final booksOnly = [for (final g in releaseGrades) if (g < SchoolSetupCard.firstSyllabusClass) g];
+    if (_finished) return _summary(theme, muted, classes);
     return AppCard(
       key: const ValueKey('school-setup-card'),
       child: Column(
@@ -165,9 +219,18 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
           Text('Set up your school year', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
           const Gap(4),
           Text(
-            'Creates the academic year and CBSE classes $classes with their subjects, books, '
-            'chapters and sections. Then add your calendar rules and terms on Calendar & Setup, and '
-            'choose each subject\'s book edition and each section\'s class teacher on Roster.',
+            [
+              'Creates the academic year and classes $classes with their sections.',
+              if (withSyllabus.isNotEmpty)
+                '${SchoolSetupCard.classesLabel(withSyllabus)} come with their CBSE subjects, books and chapters.',
+              if (booksOnly.isNotEmpty)
+                '${SchoolSetupCard.classesLabel(booksOnly)} get subjects only if this server holds their NCERT '
+                    'books; otherwise they are set up with sections and no subjects. The summary at the end says '
+                    'which.',
+              'Then add your calendar rules and terms on Calendar & Setup, and choose each subject\'s book '
+                  'edition and each section\'s class teacher on Roster.',
+            ].join(' '),
+            key: const ValueKey('setup-explainer'),
             style: muted,
           ),
           const Gap(12),
@@ -175,10 +238,12 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
             key: const ValueKey('setup-school-name'),
             controller: _schoolName,
             enabled: !_busy,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'School name',
               hintText: 'Sunrise Public School',
-              helperText: 'Printed at the top of every paper. You can change it later on the School tab.',
+              helperText: _nameNote ??
+                  'Printed at the top of every paper. You can change it later on School profile.',
+              helperMaxLines: 3,
             ),
           ),
           const Gap(12),
@@ -225,7 +290,7 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
             const Gap(4),
             const LinearProgressIndicator(),
           ],
-          for (final line in _done) Text(line, style: muted),
+          for (final (i, line) in _done.indexed) Text(line, key: ValueKey('setup-done-$i'), style: muted),
           if (_error != null) ...[
             const Gap(8),
             Text(_error!, key: const ValueKey('setup-error'), style: TextStyle(color: theme.colorScheme.error)),
@@ -237,6 +302,48 @@ class _SchoolSetupCardState extends State<SchoolSetupCard> {
             style: phoneTapTarget(context),
             icon: const Icon(Icons.school_outlined),
             label: Text('Set up classes $classes'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// What every class got, kept on screen until the principal moves on.
+  Widget _summary(ThemeData theme, TextStyle? muted, String classes) {
+    final empty = SchoolSetupCard.classesLabel(_empty);
+    return AppCard(
+      key: const ValueKey('school-setup-card'),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Classes $classes are set up', key: const ValueKey('setup-finished'),
+              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+          const Gap(8),
+          for (final (i, line) in _done.indexed) Text(line, key: ValueKey('setup-done-$i'), style: muted),
+          if (_empty.isNotEmpty) ...[
+            const Gap(12),
+            Notice(
+              key: const ValueKey('setup-empty-classes'),
+              kind: NoticeKind.warning,
+              title: '$empty ${_empty.length == 1 ? 'has' : 'have'} no subjects: this server holds no '
+                  'NCERT books for ${_empty.length == 1 ? 'it' : 'them'}.',
+              lines: const [
+                'Their sections are ready, so students can join them.',
+                'Timetables and lesson plans need subjects, so these classes cannot have them until their '
+                    'books are added. Ask AcademicOS to add them.',
+              ],
+            ),
+          ],
+          const Gap(12),
+          Text('Next: add your calendar rules and terms on Calendar & Setup, then invite your teachers.',
+              style: muted),
+          const Gap(12),
+          FilledButton.icon(
+            key: const ValueKey('setup-continue'),
+            onPressed: widget.onDone,
+            style: phoneTapTarget(context),
+            icon: const Icon(Icons.arrow_forward),
+            label: const Text('Continue'),
           ),
         ],
       ),
