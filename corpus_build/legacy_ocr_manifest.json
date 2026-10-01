@@ -1,0 +1,382 @@
+[
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\aejm1\\aejm113.pdf",
+    "label": "aejm1-ch13",
+    "language": "en-IN",
+    "subject": "Mathematics",
+    "class": 1,
+    "pages": 11,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Mathematics\\c01\\aejm1-ch13.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\fegp1\\fegp110.pdf",
+    "label": "fegp1-ch10",
+    "language": "en-IN",
+    "subject": "Mathematics",
+    "class": 6,
+    "pages": 56,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Mathematics\\c06\\fegp1-ch10.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\fepr1\\fepr105.pdf",
+    "label": "fepr1-ch05",
+    "language": "en-IN",
+    "subject": "English",
+    "class": 6,
+    "pages": 34,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\English\\c06\\fepr1-ch05.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\gecu1\\gecu112.pdf",
+    "label": "gecu1-ch12",
+    "language": "en-IN",
+    "subject": "Science",
+    "class": 7,
+    "pages": 20,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Science\\c07\\gecu1-ch12.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\gegp1\\gegp104.pdf",
+    "label": "gegp1-ch04",
+    "language": "en-IN",
+    "subject": "Mathematics",
+    "class": 7,
+    "pages": 41,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Mathematics\\c07\\gegp1-ch04.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\gepr1\\gepr102.pdf",
+    "label": "gepr1-ch02",
+    "language": "en-IN",
+    "subject": "English",
+    "class": 7,
+    "pages": 48,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\English\\c07\\gepr1-ch02.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhkr1\\jhkr101.pdf",
+    "label": "jhkr1-ch01",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 9,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhkr1-ch01.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhkr1\\jhkr102.pdf",
+    "label": "jhkr1-ch02",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 14,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhkr1-ch02.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhkr1\\jhkr103.pdf",
+    "label": "jhkr1-ch03",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 5,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhkr1-ch03.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhks1\\jhks101.pdf",
+    "label": "jhks1-ch01",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 9,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhks1-ch01.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhks1\\jhks102.pdf",
+    "label": "jhks1-ch02",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 7,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhks1-ch02.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhks1\\jhks103.pdf",
+    "label": "jhks1-ch03",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 5,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhks1-ch03.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhks1\\jhks104.pdf",
+    "label": "jhks1-ch04",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 6,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhks1-ch04.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhks1\\jhks105.pdf",
+    "label": "jhks1-ch05",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 7,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhks1-ch05.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhks1\\jhks106.pdf",
+    "label": "jhks1-ch06",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 8,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhks1-ch06.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhks1\\jhks107.pdf",
+    "label": "jhks1-ch07",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 9,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhks1-ch07.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhks1\\jhks108.pdf",
+    "label": "jhks1-ch08",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 9,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhks1-ch08.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhks1\\jhks109.pdf",
+    "label": "jhks1-ch09",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 6,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhks1-ch09.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhks1\\jhks110.pdf",
+    "label": "jhks1-ch10",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 12,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhks1-ch10.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhks1\\jhks111.pdf",
+    "label": "jhks1-ch11",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 12,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhks1-ch11.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhks1\\jhks112.pdf",
+    "label": "jhks1-ch12",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 8,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhks1-ch12.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsp1\\jhsp101.pdf",
+    "label": "jhsp1-ch01",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 7,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsp1-ch01.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsp1\\jhsp102.pdf",
+    "label": "jhsp1-ch02",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 5,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsp1-ch02.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsp1\\jhsp103.pdf",
+    "label": "jhsp1-ch03",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 7,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsp1-ch03.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsp1\\jhsp104.pdf",
+    "label": "jhsp1-ch04",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 6,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsp1-ch04.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsp1\\jhsp105.pdf",
+    "label": "jhsp1-ch05",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 5,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsp1-ch05.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsp1\\jhsp106.pdf",
+    "label": "jhsp1-ch06",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 5,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsp1-ch06.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsp1\\jhsp107.pdf",
+    "label": "jhsp1-ch07",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 5,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsp1-ch07.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsp1\\jhsp108.pdf",
+    "label": "jhsp1-ch08",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 17,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsp1-ch08.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsp1\\jhsp109.pdf",
+    "label": "jhsp1-ch09",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 9,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsp1-ch09.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsp1\\jhsp110.pdf",
+    "label": "jhsp1-ch10",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 12,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsp1-ch10.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsp1\\jhsp111.pdf",
+    "label": "jhsp1-ch11",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 10,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsp1-ch11.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsp1\\jhsp112.pdf",
+    "label": "jhsp1-ch12",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 8,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsp1-ch12.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsp1\\jhsp113.pdf",
+    "label": "jhsp1-ch13",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 10,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsp1-ch13.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsp1\\jhsp114.pdf",
+    "label": "jhsp1-ch14",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 10,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsp1-ch14.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsy1\\jhsy101.pdf",
+    "label": "jhsy1-ch01",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 19,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsy1-ch01.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsy1\\jhsy102.pdf",
+    "label": "jhsy1-ch02",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 12,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsy1-ch02.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\jhsy1\\jhsy103.pdf",
+    "label": "jhsy1-ch03",
+    "language": "hi-IN",
+    "subject": "Hindi",
+    "class": 10,
+    "pages": 13,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Hindi\\c10\\jhsy1-ch03.md"
+  }
+]

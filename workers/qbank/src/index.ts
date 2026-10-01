@@ -37,6 +37,9 @@ export interface Env {
 
 const JSON_HEADERS = { "Content-Type": "application/json" };
 
+/** Namespaces this Worker's counters inside the KV namespace both Workers share. */
+const NS = "qbank";
+
 /** Daily ceiling. Over this, requests are refused with a reason rather than billed. */
 const NEURON_BUDGET = 9000;
 
@@ -111,29 +114,32 @@ function jaccard(a: Set<string>, b: Set<string>): number {
 
 async function spent(env: Env): Promise<number> {
 	const day = new Date().toISOString().slice(0, 10);
-	if ((await env.STATE.get("day")) !== day) return 0;
-	return Number((await env.STATE.get("neurons")) || 0);
+	if ((await env.STATE.get(`${NS}:day`)) !== day) return 0;
+	return Number((await env.STATE.get(`${NS}:neurons`)) || 0);
 }
 
 async function addSpent(env: Env, neurons: number, usd: number): Promise<void> {
 	const day = new Date().toISOString().slice(0, 10);
-	if ((await env.STATE.get("day")) !== day) {
-		await env.STATE.put("day", day);
-		await env.STATE.put("neurons", String(neurons));
-		await env.STATE.put("usd", String(usd));
+	if ((await env.STATE.get(`${NS}:day`)) !== day) {
+		await env.STATE.put(`${NS}:day`, day);
+		await env.STATE.put(`${NS}:neurons`, String(neurons));
+		await env.STATE.put(`${NS}:usd`, String(usd));
 		return;
 	}
 	// Two ledgers, because the two providers charge in different units and adding a
-	// neuron to a dollar would be a number that means nothing.
-	await env.STATE.put("neurons",
-		String(Number((await env.STATE.get("neurons")) || 0) + neurons));
-	await env.STATE.put("usd",
-		String(Number((await env.STATE.get("usd")) || 0) + usd));
+	// neuron to a dollar would be a number that means nothing. The keys are
+	// namespaced too: the batch worker shares this KV namespace, and the two were
+	// overwriting each other's totals, which quietly made the daily ceiling mean
+	// nothing for whichever had answered last.
+	await env.STATE.put(`${NS}:neurons`,
+		String(Number((await env.STATE.get(`${NS}:neurons`)) || 0) + neurons));
+	await env.STATE.put(`${NS}:usd`,
+		String(Number((await env.STATE.get(`${NS}:usd`)) || 0) + usd));
 }
 
 async function spentUsd(env: Env): Promise<number> {
 	if ((await env.STATE.get("day")) !== new Date().toISOString().slice(0, 10)) return 0;
-	return Number((await env.STATE.get("usd")) || 0);
+	return Number((await env.STATE.get(`${NS}:usd`)) || 0);
 }
 
 // --------------------------------------------------------------------------- //

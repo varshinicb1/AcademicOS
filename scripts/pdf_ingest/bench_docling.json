@@ -1,0 +1,46 @@
+[
+ {
+  "code": "aemr1",
+  "chapter": 1,
+  "class": 1,
+  "subject": "English",
+  "language": "en",
+  "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\aemr1\\aemr101.pdf",
+  "docling": {
+   "chars": 4540,
+   "heading_recall": 0.7778,
+   "n_titles": 9,
+   "anchor_recall": 0.6667,
+   "anchor_ng5": 0.8027,
+   "n_anchors": 9,
+   "dup_line_rate": 0.4318,
+   "devanagari_out": 0,
+   "devanagari_in_truth": 0,
+   "replacement_chars": 0,
+   "s_per_page": 32.0294,
+   "tables": null
+  }
+ },
+ {
+  "code": "ahsr1",
+  "chapter": 1,
+  "class": 1,
+  "subject": "Hindi",
+  "language": "hi",
+  "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\ahsr1\\ahsr101.pdf",
+  "docling": {
+   "chars": 3416,
+   "heading_recall": 0.5,
+   "n_titles": 2,
+   "anchor_recall": 0.0,
+   "anchor_ng5": 0.4472,
+   "n_anchors": 2,
+   "dup_line_rate": 0.3276,
+   "devanagari_out": 2171,
+   "devanagari_in_truth": 135,
+   "replacement_chars": 0,
+   "s_per_page": 35.1827,
+   "tables": null
+  }
+ }
+]

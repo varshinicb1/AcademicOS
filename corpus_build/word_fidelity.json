@@ -1,0 +1,5487 @@
+[
+ {
+  "chapter": "aejm1-ch13",
+  "language": "en-IN",
+  "page_count": 11,
+  "pages_scored": 9,
+  "worst_page_score": 0.9574,
+  "mean_page_score": 0.9878,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 24,
+    "source": "raw",
+    "score": 0.9583,
+    "glossary": false,
+    "missing_sample": [
+     "elephant"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 47,
+    "source": "raw",
+    "score": 0.9574,
+    "glossary": false,
+    "missing_sample": [
+     "______________",
+     "__________________"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 39,
+    "source": "raw",
+    "score": 0.9744,
+    "glossary": false,
+    "missing_sample": [
+     "____________"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 29,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 5,
+    "words": 44,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 6,
+    "words": 47,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 7,
+    "words": 39,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 8,
+    "words": 25,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 9,
+    "words": 38,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 10,
+    "score": null,
+    "words": 1,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 11,
+    "score": null,
+    "words": 1,
+    "note": "skipped-short",
+    "source": "raw"
+   }
+  ]
+ },
+ {
+  "chapter": "fegp1-ch10",
+  "language": "en-IN",
+  "page_count": 56,
+  "pages_scored": 43,
+  "worst_page_score": 0.9326,
+  "mean_page_score": 0.9984,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 89,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 2,
+    "words": 87,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 3,
+    "words": 73,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 4,
+    "words": 84,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 5,
+    "words": 77,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 6,
+    "words": 67,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 7,
+    "words": 103,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 8,
+    "words": 56,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 9,
+    "words": 89,
+    "source": "raw",
+    "score": 0.9326,
+    "glossary": false,
+    "missing_sample": [
+     "carrying",
+     "digging",
+     "extracted",
+     "minerals",
+     "people",
+     "rock"
+    ]
+   },
+   {
+    "page": 10,
+    "words": 103,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 11,
+    "words": 91,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 12,
+    "words": 46,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 13,
+    "words": 74,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 14,
+    "words": 71,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 15,
+    "words": 90,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 16,
+    "words": 64,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 17,
+    "words": 67,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 18,
+    "words": 90,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 19,
+    "words": 75,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 20,
+    "words": 67,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 21,
+    "words": 83,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 22,
+    "words": 79,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 23,
+    "words": 66,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 24,
+    "words": 86,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 25,
+    "words": 113,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 26,
+    "words": 118,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 27,
+    "words": 95,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 28,
+    "words": 111,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 29,
+    "words": 79,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 30,
+    "words": 56,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 31,
+    "score": null,
+    "words": 3,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 32,
+    "score": null,
+    "words": 0,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 33,
+    "score": null,
+    "words": 0,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 34,
+    "score": null,
+    "words": 0,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 35,
+    "score": null,
+    "words": 0,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 36,
+    "score": null,
+    "words": 9,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 37,
+    "score": null,
+    "words": 0,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 38,
+    "score": null,
+    "words": 11,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 39,
+    "score": null,
+    "words": 0,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 40,
+    "score": null,
+    "words": 8,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 41,
+    "score": null,
+    "words": 0,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 42,
+    "score": null,
+    "words": 1,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 43,
+    "score": null,
+    "words": 1,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 44,
+    "words": 58,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 45,
+    "words": 48,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 46,
+    "words": 35,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 47,
+    "words": 41,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 48,
+    "words": 57,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 49,
+    "words": 43,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 50,
+    "words": 36,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 51,
+    "words": 29,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 52,
+    "words": 39,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 53,
+    "words": 61,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 54,
+    "words": 46,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 55,
+    "words": 46,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 56,
+    "words": 72,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   }
+  ]
+ },
+ {
+  "chapter": "fepr1-ch05",
+  "language": "en-IN",
+  "page_count": 34,
+  "pages_scored": 34,
+  "worst_page_score": 0.9375,
+  "mean_page_score": 0.9953,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 67,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 2,
+    "words": 75,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 3,
+    "words": 98,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 4,
+    "words": 104,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 5,
+    "words": 123,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 6,
+    "words": 76,
+    "source": "raw",
+    "score": 0.9868,
+    "glossary": false,
+    "missing_sample": [
+     "________________"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 116,
+    "source": "raw",
+    "score": 0.9914,
+    "glossary": false,
+    "missing_sample": [
+     "____________"
+    ]
+   },
+   {
+    "page": 8,
+    "words": 95,
+    "source": "raw",
+    "score": 0.9895,
+    "glossary": false,
+    "missing_sample": [
+     "__________________________"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 68,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 10,
+    "words": 67,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 11,
+    "words": 87,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 12,
+    "words": 53,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 13,
+    "words": 68,
+    "source": "raw",
+    "score": 0.9853,
+    "glossary": false,
+    "missing_sample": [
+     "______________"
+    ]
+   },
+   {
+    "page": 14,
+    "words": 105,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 15,
+    "words": 58,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 16,
+    "words": 57,
+    "source": "raw",
+    "score": 0.9825,
+    "glossary": false,
+    "missing_sample": [
+     "nose"
+    ]
+   },
+   {
+    "page": 17,
+    "words": 64,
+    "source": "raw",
+    "score": 0.9844,
+    "glossary": false,
+    "missing_sample": [
+     "____________"
+    ]
+   },
+   {
+    "page": 18,
+    "words": 106,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 19,
+    "words": 108,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 20,
+    "words": 33,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 21,
+    "words": 83,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 22,
+    "words": 127,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 23,
+    "words": 118,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 24,
+    "words": 91,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 25,
+    "words": 46,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 26,
+    "words": 137,
+    "source": "raw",
+    "score": 0.9927,
+    "glossary": false,
+    "missing_sample": [
+     "_____________"
+    ]
+   },
+   {
+    "page": 27,
+    "words": 100,
+    "source": "raw",
+    "score": 0.99,
+    "glossary": false,
+    "missing_sample": [
+     "dangerous"
+    ]
+   },
+   {
+    "page": 28,
+    "words": 89,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 29,
+    "words": 129,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 30,
+    "words": 80,
+    "source": "raw",
+    "score": 0.9375,
+    "glossary": false,
+    "missing_sample": [
+     "1⁄4jk",
+     "fnyyh1⁄2",
+     "lekjd",
+     "ubz",
+     "vah"
+    ]
+   },
+   {
+    "page": 31,
+    "words": 31,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 32,
+    "words": 78,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 33,
+    "words": 106,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 34,
+    "words": 91,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   }
+  ]
+ },
+ {
+  "chapter": "gecu1-ch12",
+  "language": "en-IN",
+  "page_count": 20,
+  "pages_scored": 19,
+  "worst_page_score": 0.9032,
+  "mean_page_score": 0.9782,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 69,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 2,
+    "words": 97,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 3,
+    "words": 118,
+    "source": "raw",
+    "score": 0.9915,
+    "glossary": false,
+    "missing_sample": [
+     "eeper"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 97,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 5,
+    "words": 130,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 6,
+    "words": 146,
+    "source": "raw",
+    "score": 0.9795,
+    "glossary": false,
+    "missing_sample": [
+     "eff",
+     "northeast",
+     "northwest"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 124,
+    "source": "raw",
+    "score": 0.9032,
+    "glossary": false,
+    "missing_sample": [
+     "diff",
+     "âàøˆø",
+     "âçp",
+     "æçù",
+     "çssüæð",
+     "çìùæñüsíñ",
+     "ìmì",
+     "öæçù",
+     "ømì",
+     "ùéüæð",
+     "üvæøæ",
+     "üæçù"
+    ]
+   },
+   {
+    "page": 8,
+    "words": 124,
+    "source": "raw",
+    "score": 0.9839,
+    "glossary": false,
+    "missing_sample": [
+     "diff",
+     "gure"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 103,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 10,
+    "words": 93,
+    "source": "raw",
+    "score": 0.957,
+    "glossary": false,
+    "missing_sample": [
+     "diff",
+     "eeper",
+     "erence",
+     "hence"
+    ]
+   },
+   {
+    "page": 11,
+    "words": 151,
+    "source": "raw",
+    "score": 0.9669,
+    "glossary": false,
+    "missing_sample": [
+     "diff",
+     "eeper",
+     "eff",
+     "erence",
+     "infl"
+    ]
+   },
+   {
+    "page": 12,
+    "words": 138,
+    "source": "raw",
+    "score": 0.9928,
+    "glossary": false,
+    "missing_sample": [
+     "eeper"
+    ]
+   },
+   {
+    "page": 13,
+    "words": 126,
+    "source": "raw",
+    "score": 0.9841,
+    "glossary": false,
+    "missing_sample": [
+     "off",
+     "scientifi"
+    ]
+   },
+   {
+    "page": 14,
+    "words": 197,
+    "source": "raw",
+    "score": 0.9746,
+    "glossary": false,
+    "missing_sample": [
+     "cult",
+     "diffi",
+     "ected",
+     "eeper",
+     "refl"
+    ]
+   },
+   {
+    "page": 15,
+    "words": 97,
+    "source": "raw",
+    "score": 0.9897,
+    "glossary": false,
+    "missing_sample": [
+     "gure"
+    ]
+   },
+   {
+    "page": 16,
+    "words": 133,
+    "source": "raw",
+    "score": 0.9624,
+    "glossary": false,
+    "missing_sample": [
+     "_____________",
+     "__________________",
+     "diff",
+     "eff",
+     "orts"
+    ]
+   },
+   {
+    "page": 17,
+    "words": 130,
+    "source": "raw",
+    "score": 0.9615,
+    "glossary": false,
+    "missing_sample": [
+     "diff",
+     "else",
+     "enquiry",
+     "erence",
+     "innovation"
+    ]
+   },
+   {
+    "page": 18,
+    "words": 183,
+    "source": "raw",
+    "score": 0.9454,
+    "glossary": false,
+    "missing_sample": [
+     "diff",
+     "disciplinary",
+     "economy",
+     "eeper",
+     "eff",
+     "erence",
+     "geography",
+     "history",
+     "inter",
+     "technology"
+    ]
+   },
+   {
+    "page": 19,
+    "words": 132,
+    "source": "raw",
+    "score": 0.9924,
+    "glossary": false,
+    "missing_sample": [
+     "diff"
+    ]
+   },
+   {
+    "page": 20,
+    "score": null,
+    "words": 1,
+    "note": "skipped-short",
+    "source": "raw"
+   }
+  ]
+ },
+ {
+  "chapter": "gegp1-ch04",
+  "language": "en-IN",
+  "page_count": 41,
+  "pages_scored": 41,
+  "worst_page_score": 0.9861,
+  "mean_page_score": 0.9992,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 86,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 2,
+    "words": 90,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 3,
+    "words": 84,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 4,
+    "words": 107,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 5,
+    "words": 93,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 6,
+    "words": 93,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 7,
+    "words": 75,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 8,
+    "words": 107,
+    "source": "raw",
+    "score": 0.9907,
+    "glossary": false,
+    "missing_sample": [
+     "_____"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 93,
+    "source": "raw",
+    "score": 0.9892,
+    "glossary": false,
+    "missing_sample": [
+     "seeing"
+    ]
+   },
+   {
+    "page": 10,
+    "words": 112,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 11,
+    "words": 91,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 12,
+    "words": 72,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 13,
+    "words": 79,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 14,
+    "words": 49,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 15,
+    "words": 101,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 16,
+    "words": 67,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 17,
+    "words": 80,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 18,
+    "words": 60,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 19,
+    "words": 98,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 20,
+    "words": 72,
+    "source": "raw",
+    "score": 0.9861,
+    "glossary": false,
+    "missing_sample": [
+     "_________"
+    ]
+   },
+   {
+    "page": 21,
+    "words": 82,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 22,
+    "words": 135,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 23,
+    "words": 72,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 24,
+    "words": 60,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 25,
+    "words": 83,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 26,
+    "words": 73,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 27,
+    "words": 62,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 28,
+    "words": 80,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 29,
+    "words": 38,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 30,
+    "words": 35,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 31,
+    "words": 43,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 32,
+    "words": 51,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 33,
+    "words": 40,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 34,
+    "words": 81,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 35,
+    "words": 103,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 36,
+    "words": 39,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 37,
+    "words": 72,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 38,
+    "words": 56,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 39,
+    "words": 41,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 40,
+    "words": 40,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 41,
+    "words": 21,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   }
+  ]
+ },
+ {
+  "chapter": "gepr1-ch02",
+  "language": "en-IN",
+  "page_count": 48,
+  "pages_scored": 48,
+  "worst_page_score": 0.9636,
+  "mean_page_score": 0.9957,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 68,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 2,
+    "words": 112,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 3,
+    "words": 138,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 4,
+    "words": 153,
+    "source": "raw",
+    "score": 0.9935,
+    "glossary": false,
+    "missing_sample": [
+     "______________________________________________________"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 120,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 6,
+    "words": 120,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 7,
+    "words": 118,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 8,
+    "words": 137,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 9,
+    "words": 150,
+    "source": "raw",
+    "score": 0.9933,
+    "glossary": false,
+    "missing_sample": [
+     "______________"
+    ]
+   },
+   {
+    "page": 10,
+    "words": 102,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 11,
+    "words": 137,
+    "source": "raw",
+    "score": 0.9927,
+    "glossary": false,
+    "missing_sample": [
+     "______________"
+    ]
+   },
+   {
+    "page": 12,
+    "words": 113,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 13,
+    "words": 136,
+    "source": "raw",
+    "score": 0.9926,
+    "glossary": false,
+    "missing_sample": [
+     "______________"
+    ]
+   },
+   {
+    "page": 14,
+    "words": 68,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 15,
+    "words": 98,
+    "source": "raw",
+    "score": 0.9796,
+    "glossary": false,
+    "missing_sample": [
+     "_____________",
+     "_____________________________"
+    ]
+   },
+   {
+    "page": 16,
+    "words": 80,
+    "source": "raw",
+    "score": 0.9875,
+    "glossary": false,
+    "missing_sample": [
+     "adoption"
+    ]
+   },
+   {
+    "page": 17,
+    "words": 33,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 18,
+    "words": 81,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 19,
+    "words": 112,
+    "source": "raw",
+    "score": 0.9911,
+    "glossary": false,
+    "missing_sample": [
+     "_______________________"
+    ]
+   },
+   {
+    "page": 20,
+    "words": 109,
+    "source": "raw",
+    "score": 0.9908,
+    "glossary": false,
+    "missing_sample": [
+     "_________________"
+    ]
+   },
+   {
+    "page": 21,
+    "words": 111,
+    "source": "raw",
+    "score": 0.991,
+    "glossary": false,
+    "missing_sample": [
+     "_________________"
+    ]
+   },
+   {
+    "page": 22,
+    "words": 96,
+    "source": "raw",
+    "score": 0.9896,
+    "glossary": false,
+    "missing_sample": [
+     "_________________"
+    ]
+   },
+   {
+    "page": 23,
+    "words": 55,
+    "source": "raw",
+    "score": 0.9636,
+    "glossary": false,
+    "missing_sample": [
+     "sprint",
+     "stagger"
+    ]
+   },
+   {
+    "page": 24,
+    "words": 117,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 25,
+    "words": 128,
+    "source": "raw",
+    "score": 0.9766,
+    "glossary": false,
+    "missing_sample": [
+     "______________________",
+     "_________________________",
+     "______________________________"
+    ]
+   },
+   {
+    "page": 26,
+    "words": 74,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 27,
+    "words": 58,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 28,
+    "words": 78,
+    "source": "raw",
+    "score": 0.9744,
+    "glossary": false,
+    "missing_sample": [
+     "hkok",
+     "vfrffknsokks"
+    ]
+   },
+   {
+    "page": 29,
+    "words": 68,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 30,
+    "words": 117,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 31,
+    "words": 104,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 32,
+    "words": 70,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 33,
+    "words": 111,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 34,
+    "words": 96,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 35,
+    "words": 131,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 36,
+    "words": 121,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 37,
+    "words": 128,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 38,
+    "words": 87,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 39,
+    "words": 146,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 40,
+    "words": 124,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 41,
+    "words": 135,
+    "source": "raw",
+    "score": 0.9926,
+    "glossary": false,
+    "missing_sample": [
+     "______________"
+    ]
+   },
+   {
+    "page": 42,
+    "words": 129,
+    "source": "raw",
+    "score": 0.9922,
+    "glossary": false,
+    "missing_sample": [
+     "__________________"
+    ]
+   },
+   {
+    "page": 43,
+    "words": 105,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 44,
+    "words": 131,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 45,
+    "words": 102,
+    "source": "raw",
+    "score": 0.9902,
+    "glossary": false,
+    "missing_sample": [
+     "dqvqecde"
+    ]
+   },
+   {
+    "page": 46,
+    "words": 109,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 47,
+    "words": 143,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 48,
+    "words": 125,
+    "source": "raw",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   }
+  ]
+ },
+ {
+  "chapter": "jhkr1-ch01",
+  "language": "hi-IN",
+  "page_count": 9,
+  "pages_scored": 8,
+  "worst_page_score": 0.9714,
+  "mean_page_score": 0.9884,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 70,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9714,
+    "glossary": false,
+    "missing_sample": [
+     "अधचदरकर",
+     "तपड4"
+    ]
+   },
+   {
+    "page": 2,
+    "score": null,
+    "words": 1,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 3,
+    "words": 88,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 4,
+    "words": 119,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9916,
+    "glossary": false,
+    "missing_sample": [
+     "वफतक"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 104,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 6,
+    "words": 104,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9808,
+    "glossary": false,
+    "missing_sample": [
+     "दनतपवक",
+     "वफतक"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 58,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9828,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर"
+    ]
+   },
+   {
+    "page": 8,
+    "words": 102,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9804,
+    "glossary": false,
+    "missing_sample": [
+     "परवतन",
+     "वफतक"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 27,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   }
+  ]
+ },
+ {
+  "chapter": "jhkr1-ch02",
+  "language": "hi-IN",
+  "page_count": 14,
+  "pages_scored": 14,
+  "worst_page_score": 0.9385,
+  "mean_page_score": 0.9693,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 79,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9747,
+    "glossary": false,
+    "missing_sample": [
+     "अथहन",
+     "वफतक"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 121,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9917,
+    "glossary": false,
+    "missing_sample": [
+     "वफजतक"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 65,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9385,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर",
+     "तथटनय",
+     "वफतक",
+     "शखत5"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 131,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9771,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर",
+     "वफमर",
+     "ससटस"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 130,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9385,
+    "glossary": false,
+    "missing_sample": [
+     "आगनइजशन",
+     "आशचय",
+     "उफपर",
+     "चतलखत",
+     "डडडर",
+     "मतमगध",
+     "वफतक",
+     "सपणत"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 62,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9839,
+    "glossary": false,
+    "missing_sample": [
+     "वडड"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 96,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9583,
+    "glossary": false,
+    "missing_sample": [
+     "तरपफ_",
+     "रपइएग",
+     "वफतक",
+     "वबल18"
+    ]
+   },
+   {
+    "page": 8,
+    "words": 123,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9512,
+    "glossary": false,
+    "missing_sample": [
+     "आइए।",
+     "उफपर",
+     "नझनहट",
+     "मतमगध",
+     "सपणत",
+     "सवणम"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 134,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9552,
+    "glossary": false,
+    "missing_sample": [
+     "अववफ",
+     "उऋसकतपवक",
+     "उटजन",
+     "वफतक",
+     "सखय23",
+     "हउफस"
+    ]
+   },
+   {
+    "page": 10,
+    "words": 110,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9636,
+    "glossary": false,
+    "missing_sample": [
+     "उटजत",
+     "उफपर",
+     "डइवस",
+     "वफमर"
+    ]
+   },
+   {
+    "page": 11,
+    "words": 130,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9769,
+    "glossary": false,
+    "missing_sample": [
+     "महमत",
+     "वफतक",
+     "सपणत"
+    ]
+   },
+   {
+    "page": 12,
+    "words": 121,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9917,
+    "glossary": false,
+    "missing_sample": [
+     "डडडर"
+    ]
+   },
+   {
+    "page": 13,
+    "words": 108,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9815,
+    "glossary": false,
+    "missing_sample": [
+     "महटवपण",
+     "वफतक"
+    ]
+   },
+   {
+    "page": 14,
+    "words": 79,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9873,
+    "glossary": false,
+    "missing_sample": [
+     "उटरदयऋव"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhkr1-ch03",
+  "language": "hi-IN",
+  "page_count": 5,
+  "pages_scored": 5,
+  "worst_page_score": 0.8947,
+  "mean_page_score": 0.9377,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 75,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9333,
+    "glossary": false,
+    "missing_sample": [
+     "उटर",
+     "नमट3",
+     "वफतक",
+     "वफतकर",
+     "सपश"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 126,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9444,
+    "glossary": false,
+    "missing_sample": [
+     "एलम",
+     "पदथ",
+     "बरपत",
+     "महटव",
+     "वफतकर",
+     "वफस",
+     "समपत"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 38,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8947,
+    "glossary": false,
+    "missing_sample": [
+     "ऋऋकल",
+     "पदथ",
+     "पफस",
+     "वफतक"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 86,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9419,
+    "glossary": false,
+    "missing_sample": [
+     "अभयस",
+     "अववफ",
+     "महटव",
+     "महटवपण",
+     "वफस"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 39,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9744,
+    "glossary": false,
+    "missing_sample": [
+     "वफतक"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch01",
+  "language": "hi-IN",
+  "page_count": 9,
+  "pages_scored": 8,
+  "worst_page_score": 0.9412,
+  "mean_page_score": 0.973,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "score": null,
+    "words": 11,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 2,
+    "words": 45,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9778,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 72,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9583,
+    "glossary": false,
+    "missing_sample": [
+     "गउफघट",
+     "वललभचय",
+     "सवधक"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 68,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9412,
+    "glossary": false,
+    "missing_sample": [
+     "नगण",
+     "रजधम",
+     "लकधमत",
+     "वफषण"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 18,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 6,
+    "words": 70,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 7,
+    "words": 93,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.957,
+    "glossary": false,
+    "missing_sample": [
+     "तवफ",
+     "वफषण",
+     "ववफचतय",
+     "सवरफयत"
+    ]
+   },
+   {
+    "page": 8,
+    "words": 60,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.95,
+    "glossary": true,
+    "missing_sample": [
+     "तरदय",
+     "बडभग",
+     "वफषण"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 38,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": true,
+    "missing_sample": []
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch02",
+  "language": "hi-IN",
+  "page_count": 7,
+  "pages_scored": 7,
+  "worst_page_score": 0.9333,
+  "mean_page_score": 0.9504,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 85,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9412,
+    "glossary": false,
+    "missing_sample": [
+     "उदट",
+     "मयदओ",
+     "लसदस",
+     "वनयपतक",
+     "सघषपण"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 33,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9394,
+    "glossary": false,
+    "missing_sample": [
+     "वरफध",
+     "वशवमत"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 48,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9375,
+    "glossary": false,
+    "missing_sample": [
+     "गसइए।",
+     "तपररधन",
+     "लरकइए।"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 89,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9663,
+    "glossary": false,
+    "missing_sample": [
+     "कषतयकल",
+     "गभनह",
+     "बयथ"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 90,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9333,
+    "glossary": false,
+    "missing_sample": [
+     "कषतयकल",
+     "गभनह",
+     "तवफ",
+     "परतवरफयए",
+     "बतइए",
+     "वरफध"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 105,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9714,
+    "glossary": true,
+    "missing_sample": [
+     "लरकइए",
+     "वरफध",
+     "सवरफयत"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 82,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9634,
+    "glossary": true,
+    "missing_sample": [
+     "बलपवक",
+     "वरफध",
+     "वरफधत"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch03",
+  "language": "hi-IN",
+  "page_count": 5,
+  "pages_scored": 5,
+  "worst_page_score": 0.9211,
+  "mean_page_score": 0.9702,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 76,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9211,
+    "glossary": false,
+    "missing_sample": [
+     "अजतशत",
+     "इæजल",
+     "परवट",
+     "यशकर",
+     "वफतय",
+     "ससवफत"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 52,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9808,
+    "glossary": false,
+    "missing_sample": [
+     "यथथ"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 68,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9853,
+    "glossary": false,
+    "missing_sample": [
+     "दबलत"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 91,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.978,
+    "glossary": false,
+    "missing_sample": [
+     "आऋमकथऋमक",
+     "सवजनक"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 70,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9857,
+    "glossary": true,
+    "missing_sample": [
+     "अदकथनक"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch04",
+  "language": "hi-IN",
+  "page_count": 6,
+  "pages_scored": 5,
+  "worst_page_score": 0.9412,
+  "mean_page_score": 0.9734,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 104,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9519,
+    "glossary": false,
+    "missing_sample": [
+     "उटर",
+     "ककरमट",
+     "दशनकत",
+     "दशनशसत",
+     "सघष"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 51,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9412,
+    "glossary": false,
+    "missing_sample": [
+     "आàन",
+     "महटवपण",
+     "सववयपक"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 21,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 4,
+    "score": null,
+    "words": 4,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 5,
+    "words": 76,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9737,
+    "glossary": false,
+    "missing_sample": [
+     "अतमन",
+     "परवतन"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 34,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": true,
+    "missing_sample": []
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch05",
+  "language": "hi-IN",
+  "page_count": 7,
+  "pages_scored": 7,
+  "worst_page_score": 0.9143,
+  "mean_page_score": 0.9618,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 103,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9612,
+    "glossary": false,
+    "missing_sample": [
+     "नगजन",
+     "वफतय",
+     "सवरफयत",
+     "ससवफत"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 73,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9589,
+    "glossary": false,
+    "missing_sample": [
+     "आदलनधम",
+     "छयवदटर",
+     "नगजन"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 16,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 4,
+    "words": 35,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9143,
+    "glossary": false,
+    "missing_sample": [
+     "नगजन",
+     "मधपवफ",
+     "सपवफ"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 55,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9818,
+    "glossary": false,
+    "missing_sample": [
+     "वरफध"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 73,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9452,
+    "glossary": false,
+    "missing_sample": [
+     "अथवयवसथ",
+     "नगजन",
+     "महटव",
+     "सवरफयत"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 35,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9714,
+    "glossary": true,
+    "missing_sample": [
+     "मधपवफ"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch06",
+  "language": "hi-IN",
+  "page_count": 8,
+  "pages_scored": 7,
+  "worst_page_score": 0.9355,
+  "mean_page_score": 0.9617,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 89,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9438,
+    "glossary": false,
+    "missing_sample": [
+     "जनसट",
+     "परदश।",
+     "पवगरह",
+     "लखनउफ",
+     "सदयबध"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 40,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.95,
+    "glossary": false,
+    "missing_sample": [
+     "महटव",
+     "महटवपण"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 48,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 4,
+    "words": 63,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9683,
+    "glossary": false,
+    "missing_sample": [
+     "उफच",
+     "उफचई"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 87,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9655,
+    "glossary": true,
+    "missing_sample": [
+     "कयवरफम",
+     "वफस",
+     "सवरफयत"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 32,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9688,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर"
+    ]
+   },
+   {
+    "page": 7,
+    "score": null,
+    "words": 2,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 8,
+    "words": 62,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9355,
+    "glossary": false,
+    "missing_sample": [
+     "उखशय",
+     "तरदय",
+     "मगदशन",
+     "वतमन"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch07",
+  "language": "hi-IN",
+  "page_count": 9,
+  "pages_scored": 9,
+  "worst_page_score": 0.9268,
+  "mean_page_score": 0.9587,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 107,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9626,
+    "glossary": false,
+    "missing_sample": [
+     "इएधन",
+     "मधयवगय",
+     "महटवपण",
+     "वफपटन"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 100,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.98,
+    "glossary": false,
+    "missing_sample": [
+     "उफहपह",
+     "पफज"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 101,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9505,
+    "glossary": false,
+    "missing_sample": [
+     "ददमनय",
+     "नषकष",
+     "परफमवल",
+     "महटव",
+     "वफपटन"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 116,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9569,
+    "glossary": false,
+    "missing_sample": [
+     "अववफ",
+     "उपफ",
+     "पफज",
+     "भतपव",
+     "वफपटन"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 54,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9815,
+    "glossary": false,
+    "missing_sample": [
+     "वफपटन"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 86,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9535,
+    "glossary": false,
+    "missing_sample": [
+     "आइए।",
+     "तरदयसथल",
+     "पफज",
+     "वफपटन"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 112,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9464,
+    "glossary": false,
+    "missing_sample": [
+     "उखशय",
+     "उटरदयऋव",
+     "पफज",
+     "पयवरण",
+     "वफपटन",
+     "सवजनक"
+    ]
+   },
+   {
+    "page": 8,
+    "words": 82,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9268,
+    "glossary": false,
+    "missing_sample": [
+     "कमवचय",
+     "चनतपण",
+     "महटव",
+     "वफतऋव",
+     "वफपटन",
+     "सवरफयत"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 100,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.97,
+    "glossary": false,
+    "missing_sample": [
+     "अथशसत",
+     "सरभपण",
+     "सहचयगत"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch08",
+  "language": "hi-IN",
+  "page_count": 9,
+  "pages_scored": 9,
+  "worst_page_score": 0.9263,
+  "mean_page_score": 0.9731,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 88,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9659,
+    "glossary": false,
+    "missing_sample": [
+     "मजकपफरपर",
+     "मवकष",
+     "महटवपण"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 31,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 3,
+    "words": 95,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 4,
+    "words": 79,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9873,
+    "glossary": false,
+    "missing_sample": [
+     "घर_"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 132,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9773,
+    "glossary": false,
+    "missing_sample": [
+     "उऋकष",
+     "उटजत",
+     "वफपकप"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 124,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 7,
+    "words": 95,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9263,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर",
+     "चमऋवफत",
+     "दनचय",
+     "पतवध",
+     "पफट",
+     "सवरफयत",
+     "ससवफतक"
+    ]
+   },
+   {
+    "page": 8,
+    "words": 93,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9355,
+    "glossary": true,
+    "missing_sample": [
+     "पतवध",
+     "भवकषत",
+     "यथथ",
+     "ववरफम",
+     "सयदय",
+     "ससवफत"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 29,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9655,
+    "glossary": false,
+    "missing_sample": [
+     "पलवफ"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch09",
+  "language": "hi-IN",
+  "page_count": 6,
+  "pages_scored": 6,
+  "worst_page_score": 0.9756,
+  "mean_page_score": 0.9872,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 89,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9775,
+    "glossary": false,
+    "missing_sample": [
+     "यथथवद",
+     "वरफतकर"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 109,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9908,
+    "glossary": false,
+    "missing_sample": [
+     "परवतन"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 82,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9756,
+    "glossary": false,
+    "missing_sample": [
+     "फवफ",
+     "लखनउफ"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 79,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 5,
+    "words": 98,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 6,
+    "words": 49,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9796,
+    "glossary": true,
+    "missing_sample": [
+     "वफदरसथ"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch10",
+  "language": "hi-IN",
+  "page_count": 12,
+  "pages_scored": 12,
+  "worst_page_score": 0.9635,
+  "mean_page_score": 0.9781,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 79,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9873,
+    "glossary": false,
+    "missing_sample": [
+     "सवततयटर"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 60,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9833,
+    "glossary": false,
+    "missing_sample": [
+     "महटवपण"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 117,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9915,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 139,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9856,
+    "glossary": false,
+    "missing_sample": [
+     "जवरफ",
+     "वफठओ"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 144,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9931,
+    "glossary": false,
+    "missing_sample": [
+     "आशचय"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 137,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9635,
+    "glossary": false,
+    "missing_sample": [
+     "आवरफत",
+     "ऋयगपत",
+     "चतलख",
+     "परशनचé",
+     "वरफतकरय"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 127,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9685,
+    "glossary": false,
+    "missing_sample": [
+     "अववफ।",
+     "कऱवई",
+     "वचसव",
+     "सडवफ"
+    ]
+   },
+   {
+    "page": 8,
+    "words": 66,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9697,
+    "glossary": false,
+    "missing_sample": [
+     "ऑपफ",
+     "गमजश"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 56,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9643,
+    "glossary": false,
+    "missing_sample": [
+     "अतवरध",
+     "टकरहट"
+    ]
+   },
+   {
+    "page": 10,
+    "words": 101,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9901,
+    "glossary": false,
+    "missing_sample": [
+     "टकरहट"
+    ]
+   },
+   {
+    "page": 11,
+    "words": 98,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9694,
+    "glossary": true,
+    "missing_sample": [
+     "पसतवफ",
+     "वचसव",
+     "सवततत"
+    ]
+   },
+   {
+    "page": 12,
+    "words": 68,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9706,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर",
+     "शवरफवर"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch11",
+  "language": "hi-IN",
+  "page_count": 12,
+  "pages_scored": 12,
+  "worst_page_score": 0.9114,
+  "mean_page_score": 0.9726,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 79,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9114,
+    "glossary": false,
+    "missing_sample": [
+     "अदधवषक",
+     "कयकरम",
+     "लखनउफ",
+     "वफदरत",
+     "वफवर",
+     "वशवव",
+     "सवदधन"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 48,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 3,
+    "words": 97,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9897,
+    "glossary": false,
+    "missing_sample": [
+     "शमसखन"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 139,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9568,
+    "glossary": false,
+    "missing_sample": [
+     "उटरदध",
+     "उफहपह",
+     "गपफ",
+     "दबलतओ",
+     "शसततगत",
+     "सवफ।"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 97,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9588,
+    "glossary": false,
+    "missing_sample": [
+     "कयकरम",
+     "पनजवत।",
+     "महटव",
+     "महऱम"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 122,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9672,
+    "glossary": false,
+    "missing_sample": [
+     "अऋयदक",
+     "उऋवफषट",
+     "उपशसतय",
+     "नसगक"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 146,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9932,
+    "glossary": false,
+    "missing_sample": [
+     "तऋपय"
+    ]
+   },
+   {
+    "page": 8,
+    "words": 105,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9714,
+    "glossary": false,
+    "missing_sample": [
+     "गइए।",
+     "महऱम",
+     "वशवव"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 83,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.988,
+    "glossary": false,
+    "missing_sample": [
+     "महऱम"
+    ]
+   },
+   {
+    "page": 10,
+    "words": 107,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9626,
+    "glossary": true,
+    "missing_sample": [
+     "उफपर",
+     "उफहपह",
+     "कयकरम",
+     "सवरफयत"
+    ]
+   },
+   {
+    "page": 11,
+    "words": 72,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9722,
+    "glossary": true,
+    "missing_sample": [
+     "नसगक",
+     "परवफतक"
+    ]
+   },
+   {
+    "page": 12,
+    "words": 12,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch12",
+  "language": "hi-IN",
+  "page_count": 8,
+  "pages_scored": 7,
+  "worst_page_score": 0.9388,
+  "mean_page_score": 0.97,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 76,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9605,
+    "glossary": false,
+    "missing_sample": [
+     "पसतवफ",
+     "बदधदम",
+     "महटवपण"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 35,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9714,
+    "glossary": false,
+    "missing_sample": [
+     "ससवफत"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 66,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9848,
+    "glossary": false,
+    "missing_sample": [
+     "ससवफत।"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 109,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9541,
+    "glossary": false,
+    "missing_sample": [
+     "आवषवफत",
+     "गरफऋवकषण",
+     "परषवफत",
+     "ससवफत",
+     "ससवफत_"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 101,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9802,
+    "glossary": false,
+    "missing_sample": [
+     "अससवफत",
+     "ससवफत"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 98,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9388,
+    "glossary": false,
+    "missing_sample": [
+     "अससवफत",
+     "गइए।",
+     "तवफ",
+     "महटवपण",
+     "सवरफयत",
+     "ससवफत"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 23,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": true,
+    "missing_sample": []
+   },
+   {
+    "page": 8,
+    "score": null,
+    "words": 1,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch01",
+  "language": "hi-IN",
+  "page_count": 7,
+  "pages_scored": 5,
+  "worst_page_score": 0.9286,
+  "mean_page_score": 0.9452,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "score": null,
+    "words": 11,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 2,
+    "score": null,
+    "words": 0,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 3,
+    "words": 56,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9286,
+    "glossary": false,
+    "missing_sample": [
+     "करतदश",
+     "बáडबर",
+     "भवपण",
+     "महटव"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 53,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9623,
+    "glossary": false,
+    "missing_sample": [
+     "परभवपण",
+     "सपश"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 42,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9524,
+    "glossary": false,
+    "missing_sample": [
+     "ऐवफ",
+     "वफडल"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 81,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9383,
+    "glossary": false,
+    "missing_sample": [
+     "उटर",
+     "ऐवफ",
+     "परचच",
+     "वफडल",
+     "सपश"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 18,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9444,
+    "glossary": true,
+    "missing_sample": [
+     "वफडल"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch02",
+  "language": "hi-IN",
+  "page_count": 5,
+  "pages_scored": 5,
+  "worst_page_score": 0.913,
+  "mean_page_score": 0.9572,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 70,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9429,
+    "glossary": false,
+    "missing_sample": [
+     "गइए।",
+     "मधयभव",
+     "वफवर",
+     "समपत"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 45,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 3,
+    "words": 58,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9828,
+    "glossary": false,
+    "missing_sample": [
+     "सदभ"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 76,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9474,
+    "glossary": false,
+    "missing_sample": [
+     "दख_",
+     "वफस",
+     "वफसट",
+     "सवफ"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 46,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.913,
+    "glossary": true,
+    "missing_sample": [
+     "æपद",
+     "दयधन",
+     "वफजर",
+     "शरवफषण"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch03",
+  "language": "hi-IN",
+  "page_count": 7,
+  "pages_scored": 6,
+  "worst_page_score": 0.9107,
+  "mean_page_score": 0.9573,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 57,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9825,
+    "glossary": false,
+    "missing_sample": [
+     "कतगन"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 46,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 3,
+    "words": 47,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9787,
+    "glossary": false,
+    "missing_sample": [
+     "यह_"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 56,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9107,
+    "glossary": false,
+    "missing_sample": [
+     "अमऋय",
+     "तलकनथ",
+     "लकवग",
+     "वपट",
+     "सतवफ"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 91,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9341,
+    "glossary": false,
+    "missing_sample": [
+     "तलकनथ",
+     "यह_",
+     "लकवग",
+     "वपट",
+     "वफस",
+     "सतवफ"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 80,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9375,
+    "glossary": true,
+    "missing_sample": [
+     "अमऋय",
+     "कमवर",
+     "दधवद",
+     "शबदथ",
+     "सतरदय"
+    ]
+   },
+   {
+    "page": 7,
+    "score": null,
+    "words": 14,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch04",
+  "language": "hi-IN",
+  "page_count": 6,
+  "pages_scored": 6,
+  "worst_page_score": 0.9231,
+  "mean_page_score": 0.9513,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 85,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9294,
+    "glossary": false,
+    "missing_sample": [
+     "उटरखड",
+     "पáभषण",
+     "परमशदत",
+     "वफदर",
+     "समतनदन",
+     "सवणकरण"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 58,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9655,
+    "glossary": false,
+    "missing_sample": [
+     "मससमल",
+     "समतनदन"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 39,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9231,
+    "glossary": false,
+    "missing_sample": [
+     "उटजत",
+     "दपण",
+     "सपश"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 54,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.963,
+    "glossary": false,
+    "missing_sample": [
+     "तऋपय",
+     "तरदय"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 82,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9268,
+    "glossary": true,
+    "missing_sample": [
+     "चतऋमक",
+     "चतमय",
+     "तरदय",
+     "दपण",
+     "परवफतक",
+     "सपश"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 26,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": true,
+    "missing_sample": []
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch05",
+  "language": "hi-IN",
+  "page_count": 5,
+  "pages_scored": 5,
+  "worst_page_score": 0.9385,
+  "mean_page_score": 0.9683,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 65,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9385,
+    "glossary": false,
+    "missing_sample": [
+     "उटरखड",
+     "कतनगर",
+     "पतकरत",
+     "महटवपण"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 56,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9643,
+    "glossary": false,
+    "missing_sample": [
+     "चतण",
+     "परणमसव"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 39,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9744,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 84,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9643,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर",
+     "महटवपण",
+     "सवततत"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 30,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": true,
+    "missing_sample": []
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch06",
+  "language": "hi-IN",
+  "page_count": 5,
+  "pages_scored": 5,
+  "worst_page_score": 0.9355,
+  "mean_page_score": 0.9633,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 62,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9516,
+    "glossary": false,
+    "missing_sample": [
+     "अभनतय",
+     "रचनकम",
+     "वफपफ"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 61,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9836,
+    "glossary": false,
+    "missing_sample": [
+     "परणमत"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 37,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9459,
+    "glossary": false,
+    "missing_sample": [
+     "कबनय",
+     "पफद"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 58,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 5,
+    "words": 93,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9355,
+    "glossary": true,
+    "missing_sample": [
+     "कबनय",
+     "दशभकतपण",
+     "पफद",
+     "परचच",
+     "यतय",
+     "वफपफ"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch07",
+  "language": "hi-IN",
+  "page_count": 5,
+  "pages_scored": 5,
+  "worst_page_score": 0.9385,
+  "mean_page_score": 0.9516,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 77,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.961,
+    "glossary": false,
+    "missing_sample": [
+     "चतकल",
+     "बरसटर",
+     "सतपत"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 65,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9385,
+    "glossary": false,
+    "missing_sample": [
+     "आचय",
+     "आशवद",
+     "वफस",
+     "सघष"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 41,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9512,
+    "glossary": false,
+    "missing_sample": [
+     "आऋमतण",
+     "णयम"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 79,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.962,
+    "glossary": false,
+    "missing_sample": [
+     "आऋमतण",
+     "तपठ",
+     "वफस"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 73,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9452,
+    "glossary": true,
+    "missing_sample": [
+     "परवरफम",
+     "वफसट",
+     "शबदथ",
+     "सपण"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch08",
+  "language": "hi-IN",
+  "page_count": 17,
+  "pages_scored": 16,
+  "worst_page_score": 0.9643,
+  "mean_page_score": 0.9862,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 28,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9643,
+    "glossary": false,
+    "missing_sample": [
+     "रवæनथ"
+    ]
+   },
+   {
+    "page": 2,
+    "score": null,
+    "words": 0,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 3,
+    "words": 89,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9775,
+    "glossary": false,
+    "missing_sample": [
+     "कमभम",
+     "मगलसत"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 43,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 5,
+    "words": 87,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 6,
+    "words": 139,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 7,
+    "words": 143,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.979,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर",
+     "पसतवफ",
+     "हमदद"
+    ]
+   },
+   {
+    "page": 8,
+    "words": 145,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9862,
+    "glossary": false,
+    "missing_sample": [
+     "चकरवत",
+     "पफवफ"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 128,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 10,
+    "words": 141,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9787,
+    "glossary": false,
+    "missing_sample": [
+     "टनमट",
+     "बलपवक",
+     "समचरपत"
+    ]
+   },
+   {
+    "page": 11,
+    "words": 131,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9924,
+    "glossary": false,
+    "missing_sample": [
+     "आकसफड"
+    ]
+   },
+   {
+    "page": 12,
+    "words": 32,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 13,
+    "words": 79,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 14,
+    "words": 112,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9643,
+    "glossary": false,
+    "missing_sample": [
+     "पययवच",
+     "परभवपण",
+     "पसतवफ",
+     "महटवपण"
+    ]
+   },
+   {
+    "page": 15,
+    "words": 107,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9907,
+    "glossary": false,
+    "missing_sample": [
+     "परचच"
+    ]
+   },
+   {
+    "page": 16,
+    "words": 87,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9655,
+    "glossary": true,
+    "missing_sample": [
+     "छतवस",
+     "महटवपण",
+     "शमनक"
+    ]
+   },
+   {
+    "page": 17,
+    "words": 53,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9811,
+    "glossary": true,
+    "missing_sample": [
+     "उखशय"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch09",
+  "language": "hi-IN",
+  "page_count": 9,
+  "pages_scored": 9,
+  "worst_page_score": 0.9079,
+  "mean_page_score": 0.9527,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 60,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9667,
+    "glossary": false,
+    "missing_sample": [
+     "पáशर",
+     "पफज"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 76,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9079,
+    "glossary": false,
+    "missing_sample": [
+     "कबनय",
+     "कयकतओ",
+     "गणतत",
+     "वणत",
+     "वफतसकलप",
+     "वरफतकरय",
+     "सवसव"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 79,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9494,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर",
+     "कपफ",
+     "पनरवट",
+     "सपश"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 136,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9632,
+    "glossary": false,
+    "missing_sample": [
+     "कपफ",
+     "जयतमय",
+     "पणदस",
+     "पफट",
+     "सवसधरण"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 96,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9688,
+    "glossary": false,
+    "missing_sample": [
+     "धमतलल",
+     "पफट",
+     "सपश"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 75,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9333,
+    "glossary": false,
+    "missing_sample": [
+     "धमतलल",
+     "पफट",
+     "परतवरफय",
+     "महटवपण",
+     "सवजनक"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 100,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.98,
+    "glossary": false,
+    "missing_sample": [
+     "पणदस",
+     "सपश"
+    ]
+   },
+   {
+    "page": 8,
+    "words": 122,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9508,
+    "glossary": false,
+    "missing_sample": [
+     "आवट",
+     "उटम",
+     "गणतत",
+     "परवरफय",
+     "वणत",
+     "वफतल"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 87,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.954,
+    "glossary": true,
+    "missing_sample": [
+     "पनरवट",
+     "मखनजर",
+     "वफदर",
+     "सपश"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch10",
+  "language": "hi-IN",
+  "page_count": 12,
+  "pages_scored": 12,
+  "worst_page_score": 0.8909,
+  "mean_page_score": 0.9617,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 66,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9091,
+    "glossary": false,
+    "missing_sample": [
+     "आमतत",
+     "कयभर",
+     "छटसगढ",
+     "दरदशन",
+     "रचनकम",
+     "शसतय"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 63,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9841,
+    "glossary": false,
+    "missing_sample": [
+     "वफदरत"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 133,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9774,
+    "glossary": false,
+    "missing_sample": [
+     "आमतत",
+     "पवसय",
+     "वफदर"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 119,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9664,
+    "glossary": false,
+    "missing_sample": [
+     "नशचयपवक",
+     "मपफ",
+     "वनमरतपवक",
+     "वफदरत"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 130,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9538,
+    "glossary": false,
+    "missing_sample": [
+     "अनयमनसकतपवक",
+     "उफबउफ",
+     "कपफ",
+     "तरदय",
+     "ननमष",
+     "मतवत"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 135,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.963,
+    "glossary": false,
+    "missing_sample": [
+     "एकतत",
+     "ककतवयवमढ",
+     "कयकरम",
+     "तरषट",
+     "दभगयवश"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 84,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 8,
+    "words": 87,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 9,
+    "words": 80,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.975,
+    "glossary": false,
+    "missing_sample": [
+     "नदशनसर",
+     "पययवच"
+    ]
+   },
+   {
+    "page": 10,
+    "words": 55,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8909,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर",
+     "उफबउफ",
+     "ककतवयवमढ",
+     "ननमष",
+     "वफदरत",
+     "वरफय"
+    ]
+   },
+   {
+    "page": 11,
+    "words": 90,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9556,
+    "glossary": false,
+    "missing_sample": [
+     "एकतत",
+     "वरफमश",
+     "वरफय",
+     "वरफयवशषण"
+    ]
+   },
+   {
+    "page": 12,
+    "words": 58,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9655,
+    "glossary": true,
+    "missing_sample": [
+     "ननमष",
+     "सहसपण"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch11",
+  "language": "hi-IN",
+  "page_count": 10,
+  "pages_scored": 10,
+  "worst_page_score": 0.9298,
+  "mean_page_score": 0.9606,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 65,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9385,
+    "glossary": false,
+    "missing_sample": [
+     "उटल",
+     "वफतय",
+     "वफतसकलप",
+     "सनतकटर"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 82,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9634,
+    "glossary": false,
+    "missing_sample": [
+     "उखशयपरक",
+     "चमऋवफत",
+     "शवरफवर"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 117,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9487,
+    "glossary": false,
+    "missing_sample": [
+     "उऋसहपवक",
+     "गभरतपवक",
+     "जऩलसट",
+     "सवऋकषट",
+     "सवणपदक",
+     "सवशरषठ"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 146,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9932,
+    "glossary": false,
+    "missing_sample": [
+     "आदशवद"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 138,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.971,
+    "glossary": false,
+    "missing_sample": [
+     "चतकन",
+     "चमऋकष",
+     "ममजञ",
+     "सवशरषठ"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 80,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9625,
+    "glossary": false,
+    "missing_sample": [
+     "आइए।",
+     "चतकन",
+     "नदशत"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 105,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9905,
+    "glossary": false,
+    "missing_sample": [
+     "आदशवद"
+    ]
+   },
+   {
+    "page": 8,
+    "words": 72,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9444,
+    "glossary": false,
+    "missing_sample": [
+     "चतकन",
+     "चमऋकष",
+     "ममजञ",
+     "सवऋकषट"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 83,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9639,
+    "glossary": true,
+    "missing_sample": [
+     "अऋयदक",
+     "वफमर",
+     "सवऋकषट"
+    ]
+   },
+   {
+    "page": 10,
+    "words": 57,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9298,
+    "glossary": true,
+    "missing_sample": [
+     "अऋयदक",
+     "अदगलकर",
+     "चमऋकष",
+     "ममजञ"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch12",
+  "language": "hi-IN",
+  "page_count": 8,
+  "pages_scored": 8,
+  "worst_page_score": 0.9255,
+  "mean_page_score": 0.9724,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 51,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9412,
+    "glossary": false,
+    "missing_sample": [
+     "महटवपण",
+     "शषक",
+     "सठटर"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 49,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 3,
+    "words": 32,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9688,
+    "glossary": false,
+    "missing_sample": [
+     "दपफ"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 123,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9919,
+    "glossary": false,
+    "missing_sample": [
+     "सपश"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 143,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.993,
+    "glossary": false,
+    "missing_sample": [
+     "ऑपफ"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 82,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9878,
+    "glossary": false,
+    "missing_sample": [
+     "सपश"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 103,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9709,
+    "glossary": false,
+    "missing_sample": [
+     "अथगत",
+     "दपफ",
+     "पयवरण"
+    ]
+   },
+   {
+    "page": 8,
+    "words": 94,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9255,
+    "glossary": true,
+    "missing_sample": [
+     "उफपर",
+     "पयटक",
+     "पयवरण",
+     "परतकसव",
+     "परतवष",
+     "वफदर",
+     "सपश"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch13",
+  "language": "hi-IN",
+  "page_count": 10,
+  "pages_scored": 10,
+  "worst_page_score": 0.9403,
+  "mean_page_score": 0.9624,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 67,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9403,
+    "glossary": false,
+    "missing_sample": [
+     "पटय।",
+     "पसतवफ",
+     "रवæ",
+     "शषसथ"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 58,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9828,
+    "glossary": false,
+    "missing_sample": [
+     "दनचय"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 56,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 4,
+    "words": 117,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9573,
+    "glossary": false,
+    "missing_sample": [
+     "आदशवद",
+     "उफपर",
+     "गरमपण",
+     "पणकट",
+     "परतसपध"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 61,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9836,
+    "glossary": false,
+    "missing_sample": [
+     "वतमन"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 81,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9506,
+    "glossary": false,
+    "missing_sample": [
+     "उटर",
+     "गरमपण",
+     "परवतन",
+     "वतमन"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 74,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9459,
+    "glossary": false,
+    "missing_sample": [
+     "आदशवद",
+     "गरमपण",
+     "वतमन",
+     "वरफयए"
+    ]
+   },
+   {
+    "page": 8,
+    "words": 61,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9508,
+    "glossary": false,
+    "missing_sample": [
+     "आदशवद",
+     "उटर",
+     "उफपर"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 94,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9681,
+    "glossary": true,
+    "missing_sample": [
+     "पणकट",
+     "पसतवफ",
+     "वफरट"
+    ]
+   },
+   {
+    "page": 10,
+    "words": 18,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9444,
+    "glossary": true,
+    "missing_sample": [
+     "गरमपण"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch14",
+  "language": "hi-IN",
+  "page_count": 10,
+  "pages_scored": 10,
+  "worst_page_score": 0.9423,
+  "mean_page_score": 0.9852,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 52,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9423,
+    "glossary": false,
+    "missing_sample": [
+     "छटसगढ",
+     "नदशक",
+     "महटवपण"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 48,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 3,
+    "words": 66,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9848,
+    "glossary": false,
+    "missing_sample": [
+     "आसपफउखल"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 99,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9596,
+    "glossary": false,
+    "missing_sample": [
+     "आमतण",
+     "गवऩर",
+     "पफज",
+     "शमसखल"
+    ]
+   },
+   {
+    "page": 5,
+    "words": 91,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.989,
+    "glossary": false,
+    "missing_sample": [
+     "पफज"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 27,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 7,
+    "words": 67,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 8,
+    "words": 85,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9765,
+    "glossary": false,
+    "missing_sample": [
+     "पफज",
+     "म_भर"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 86,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": true,
+    "missing_sample": []
+   },
+   {
+    "page": 10,
+    "words": 25,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": true,
+    "missing_sample": []
+   }
+  ]
+ },
+ {
+  "chapter": "jhsy1-ch01",
+  "language": "hi-IN",
+  "page_count": 19,
+  "pages_scored": 18,
+  "worst_page_score": 0.9569,
+  "mean_page_score": 0.9852,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 95,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9789,
+    "glossary": false,
+    "missing_sample": [
+     "मनसथत",
+     "यतणओ1"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 127,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9921,
+    "glossary": false,
+    "missing_sample": [
+     "सवफ।"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 128,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9844,
+    "glossary": false,
+    "missing_sample": [
+     "जनउफ",
+     "हरकतन"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 127,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 5,
+    "words": 124,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9758,
+    "glossary": false,
+    "missing_sample": [
+     "पवजनम",
+     "बतउफग",
+     "बवफठ"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 120,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9833,
+    "glossary": false,
+    "missing_sample": [
+     "उखशय",
+     "परतवरफय"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 120,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9917,
+    "glossary": false,
+    "missing_sample": [
+     "उपजउफ"
+    ]
+   },
+   {
+    "page": 8,
+    "words": 126,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9603,
+    "glossary": false,
+    "missing_sample": [
+     "उटरधकरय",
+     "गमहट",
+     "तनवपण",
+     "नषकष19",
+     "मखनजर"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 114,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9912,
+    "glossary": false,
+    "missing_sample": [
+     "कऱवई"
+    ]
+   },
+   {
+    "page": 10,
+    "words": 122,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9754,
+    "glossary": false,
+    "missing_sample": [
+     "असमथ",
+     "आऋमसमपण",
+     "उफपर"
+    ]
+   },
+   {
+    "page": 11,
+    "words": 89,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 12,
+    "words": 31,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 13,
+    "words": 124,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9839,
+    "glossary": false,
+    "missing_sample": [
+     "कयवश",
+     "परतवरफयए"
+    ]
+   },
+   {
+    "page": 14,
+    "words": 125,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.992,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर"
+    ]
+   },
+   {
+    "page": 15,
+    "score": null,
+    "words": 1,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 16,
+    "words": 110,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9818,
+    "glossary": false,
+    "missing_sample": [
+     "असमथ",
+     "फलसव"
+    ]
+   },
+   {
+    "page": 17,
+    "words": 116,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9569,
+    "glossary": false,
+    "missing_sample": [
+     "उटरधकर",
+     "उफपर",
+     "चचनय",
+     "वफदर",
+     "सतवफ"
+    ]
+   },
+   {
+    "page": 18,
+    "words": 111,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 19,
+    "words": 68,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9853,
+    "glossary": false,
+    "missing_sample": [
+     "मनवट"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsy1-ch02",
+  "language": "hi-IN",
+  "page_count": 12,
+  "pages_scored": 11,
+  "worst_page_score": 0.9385,
+  "mean_page_score": 0.9738,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 100,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.99,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर"
+    ]
+   },
+   {
+    "page": 2,
+    "score": null,
+    "words": 1,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 3,
+    "words": 123,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9837,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर",
+     "पफवफ"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 113,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 5,
+    "words": 62,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9839,
+    "glossary": false,
+    "missing_sample": [
+     "दइए"
+    ]
+   },
+   {
+    "page": 6,
+    "words": 68,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9853,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 103,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9806,
+    "glossary": false,
+    "missing_sample": [
+     "जवरफ",
+     "पसतवफ"
+    ]
+   },
+   {
+    "page": 8,
+    "words": 100,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.96,
+    "glossary": false,
+    "missing_sample": [
+     "अबउफट",
+     "आकषत",
+     "बलपवक",
+     "महटवपण"
+    ]
+   },
+   {
+    "page": 9,
+    "words": 108,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9907,
+    "glossary": false,
+    "missing_sample": [
+     "आकषत"
+    ]
+   },
+   {
+    "page": 10,
+    "words": 65,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9385,
+    "glossary": false,
+    "missing_sample": [
+     "उटजत",
+     "डइएग",
+     "बबरत",
+     "मअटल13"
+    ]
+   },
+   {
+    "page": 11,
+    "words": 114,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9561,
+    "glossary": false,
+    "missing_sample": [
+     "उफपर",
+     "चरतक",
+     "धवफ",
+     "मअटल",
+     "महटवपण"
+    ]
+   },
+   {
+    "page": 12,
+    "words": 35,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9429,
+    "glossary": false,
+    "missing_sample": [
+     "वतमन",
+     "सववफत"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsy1-ch03",
+  "language": "hi-IN",
+  "page_count": 13,
+  "pages_scored": 11,
+  "worst_page_score": 0.9138,
+  "mean_page_score": 0.9758,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "words": 80,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9625,
+    "glossary": false,
+    "missing_sample": [
+     "महटवपण",
+     "वफषण",
+     "सनउफग"
+    ]
+   },
+   {
+    "page": 2,
+    "words": 129,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9612,
+    "glossary": false,
+    "missing_sample": [
+     "पफन।",
+     "पफवफ",
+     "मपफ",
+     "लखनउफ",
+     "सवरफमक"
+    ]
+   },
+   {
+    "page": 3,
+    "words": 127,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9921,
+    "glossary": false,
+    "missing_sample": [
+     "लखनउफ"
+    ]
+   },
+   {
+    "page": 4,
+    "words": 102,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9804,
+    "glossary": false,
+    "missing_sample": [
+     "अलबट20",
+     "ज23"
+    ]
+   },
+   {
+    "page": 5,
+    "score": null,
+    "words": 1,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 6,
+    "words": 92,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9674,
+    "glossary": false,
+    "missing_sample": [
+     "दगत24",
+     "नचइए।",
+     "मलउफ।"
+    ]
+   },
+   {
+    "page": 7,
+    "words": 97,
+    "source": "decoded:walkman_chanakya",
+    "score": 1.0,
+    "glossary": false,
+    "missing_sample": []
+   },
+   {
+    "page": 8,
+    "words": 87,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9885,
+    "glossary": false,
+    "missing_sample": [
+     "महटव"
+    ]
+   },
+   {
+    "page": 9,
+    "score": null,
+    "words": 1,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 10,
+    "words": 101,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9901,
+    "glossary": false,
+    "missing_sample": [
+     "ऑपफ"
+    ]
+   },
+   {
+    "page": 11,
+    "words": 95,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9895,
+    "glossary": false,
+    "missing_sample": [
+     "टरव33"
+    ]
+   },
+   {
+    "page": 12,
+    "words": 86,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9884,
+    "glossary": false,
+    "missing_sample": [
+     "शरपफखन"
+    ]
+   },
+   {
+    "page": 13,
+    "words": 58,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9138,
+    "glossary": false,
+    "missing_sample": [
+     "पइए",
+     "परतवरफय",
+     "मखनजर",
+     "महटव",
+     "महटवपण"
+    ]
+   }
+  ]
+ }
+]

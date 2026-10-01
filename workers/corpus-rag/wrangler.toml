@@ -1,0 +1,29 @@
+name = "corpus-rag"
+main = "src/index.ts"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+# Embeddings (bge-m3) and the reranker both run on the account's own Workers AI
+# credentials, so nothing here expires mid-request the way a lifted API token does.
+[ai]
+binding = "AI"
+
+# One index, one namespace per chapter. 572 namespaces is inside the 1,000 the
+# free plan allows, and per-chapter isolation is what stops a question about
+# "acids" in Class 7 from being answered out of Class 10.
+[[vectorize]]
+binding = "VECTORIZE"
+index_name = "ncert-chapters"
+
+# FTS5 side of the hybrid: BM25 for the exact term, proper noun and number the
+# dense side tends to blur.
+[[d1_databases]]
+binding = "CORPUS"
+database_name = "academicos-corpus"
+database_id = "1f8e89fc-4acd-462a-a65d-53bbc19dfc38"
+
+# Packed chunk archive. The indexer reads one object instead of 572, because a
+# per-object put loop over 12k chunks is what made the earlier seeding abort.
+[[r2_buckets]]
+binding = "PACKS"
+bucket_name = "academicos-qgen"

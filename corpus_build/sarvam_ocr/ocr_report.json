@@ -1,0 +1,50 @@
+[
+  {
+    "label": "aejm1-ch13",
+    "status": "ok",
+    "out": "D:\\wt\\tagfix\\corpus_build\\sarvam_ocr\\aejm1-ch13.md",
+    "sha": "81879534d419e268",
+    "chars": 9681,
+    "failures": []
+  },
+  {
+    "label": "fegp1-ch10",
+    "status": "ok",
+    "out": "D:\\wt\\tagfix\\corpus_build\\sarvam_ocr\\fegp1-ch10.md",
+    "sha": "2c286fb7a738c1f1",
+    "chars": 83304,
+    "failures": []
+  },
+  {
+    "label": "fepr1-ch05",
+    "status": "ok",
+    "out": "D:\\wt\\tagfix\\corpus_build\\sarvam_ocr\\fepr1-ch05.md",
+    "sha": "3d58845dbed7a372",
+    "chars": 55760,
+    "failures": []
+  },
+  {
+    "label": "gecu1-ch12",
+    "status": "ok",
+    "out": "D:\\wt\\tagfix\\corpus_build\\sarvam_ocr\\gecu1-ch12.md",
+    "sha": "94c1900a9066a678",
+    "chars": 48039,
+    "failures": []
+  },
+  {
+    "label": "gegp1-ch04",
+    "status": "ok",
+    "out": "D:\\wt\\tagfix\\corpus_build\\sarvam_ocr\\gegp1-ch04.md",
+    "sha": "34f6d4228ab4cff1",
+    "chars": 85520,
+    "failures": []
+  },
+  {
+    "label": "gepr1-ch02",
+    "status": "ok",
+    "out": "D:\\wt\\tagfix\\corpus_build\\sarvam_ocr\\gepr1-ch02.md",
+    "sha": "c2ca48089bc2b3c6",
+    "chars": 84695,
+    "failures": []
+  }
+]

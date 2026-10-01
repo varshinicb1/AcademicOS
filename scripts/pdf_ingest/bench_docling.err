@@ -1,0 +1,41 @@
+[32m[INFO] 2026-10-01 15:53:56,631 [RapidOCR] base.py:23: Using engine_name: torch[0m
+[32m[INFO] 2026-10-01 15:53:56,648 [RapidOCR] device_config.py:57: Using CPU device[0m
+[32m[INFO] 2026-10-01 15:53:56,673 [RapidOCR] download_file.py:60: File exists and is valid: C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\PP-OCRv6_det_small.pth[0m
+[32m[INFO] 2026-10-01 15:53:56,674 [RapidOCR] main.py:50: Using C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\PP-OCRv6_det_small.pth[0m
+[32m[INFO] 2026-10-01 15:53:56,899 [RapidOCR] base.py:23: Using engine_name: torch[0m
+[32m[INFO] 2026-10-01 15:53:56,900 [RapidOCR] device_config.py:57: Using CPU device[0m
+[32m[INFO] 2026-10-01 15:53:56,913 [RapidOCR] download_file.py:60: File exists and is valid: C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\ch_ptocr_mobile_v2.0_cls_mobile.pth[0m
+[32m[INFO] 2026-10-01 15:53:56,914 [RapidOCR] main.py:50: Using C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\ch_ptocr_mobile_v2.0_cls_mobile.pth[0m
+[32m[INFO] 2026-10-01 15:53:57,087 [RapidOCR] base.py:23: Using engine_name: torch[0m
+[32m[INFO] 2026-10-01 15:53:57,283 [RapidOCR] device_config.py:57: Using CPU device[0m
+[32m[INFO] 2026-10-01 15:53:57,337 [RapidOCR] download_file.py:60: File exists and is valid: C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\PP-OCRv6_rec_small.pth[0m
+[32m[INFO] 2026-10-01 15:53:57,338 [RapidOCR] main.py:50: Using C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\PP-OCRv6_rec_small.pth[0m
+Loading weights:   0%|          | 0/770 [00:00<?, ?it/s]Loading weights:  28%|##7       | 212/770 [00:00<00:00, 2092.69it/s]Loading weights:  55%|#####4    | 422/770 [00:00<00:00, 2003.29it/s]Loading weights: 100%|##########| 770/770 [00:00<00:00, 2897.66it/s]
+C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\torch\nn\modules\conv.py:560: UserWarning: Using padding='same' with even kernel lengths and odd dilation may require a zero-padded copy of the input be created (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\aten\src\ATen\native\Convolution.cpp:1105.)
+  return F.conv2d(
+[32m[INFO] 2026-10-01 16:01:28,633 [RapidOCR] base.py:23: Using engine_name: torch[0m
+[32m[INFO] 2026-10-01 16:01:28,636 [RapidOCR] device_config.py:57: Using CPU device[0m
+[32m[INFO] 2026-10-01 16:01:28,705 [RapidOCR] download_file.py:60: File exists and is valid: C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\PP-OCRv6_det_small.pth[0m
+[32m[INFO] 2026-10-01 16:01:28,708 [RapidOCR] main.py:50: Using C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\PP-OCRv6_det_small.pth[0m
+[32m[INFO] 2026-10-01 16:01:29,134 [RapidOCR] base.py:23: Using engine_name: torch[0m
+[32m[INFO] 2026-10-01 16:01:29,136 [RapidOCR] device_config.py:57: Using CPU device[0m
+[32m[INFO] 2026-10-01 16:01:29,155 [RapidOCR] download_file.py:60: File exists and is valid: C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\ch_ptocr_mobile_v2.0_cls_mobile.pth[0m
+[32m[INFO] 2026-10-01 16:01:29,159 [RapidOCR] main.py:50: Using C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\ch_ptocr_mobile_v2.0_cls_mobile.pth[0m
+[32m[INFO] 2026-10-01 16:01:29,451 [RapidOCR] base.py:23: Using engine_name: torch[0m
+[32m[INFO] 2026-10-01 16:01:29,456 [RapidOCR] device_config.py:57: Using CPU device[0m
+[32m[INFO] 2026-10-01 16:01:29,569 [RapidOCR] download_file.py:60: File exists and is valid: C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\PP-OCRv6_rec_small.pth[0m
+[32m[INFO] 2026-10-01 16:01:29,570 [RapidOCR] main.py:50: Using C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\PP-OCRv6_rec_small.pth[0m
+Loading weights:   0%|          | 0/770 [00:00<?, ?it/s]Loading weights:  20%|##        | 157/770 [00:00<00:00, 1389.19it/s]Loading weights:  38%|###8      | 296/770 [00:00<00:00, 1250.11it/s]Loading weights:  63%|######2   | 482/770 [00:00<00:00, 1495.30it/s]Loading weights:  86%|########6 | 665/770 [00:00<00:00, 1605.18it/s]Loading weights: 100%|##########| 770/770 [00:00<00:00, 1632.27it/s]
+[32m[INFO] 2026-10-01 16:05:34,513 [RapidOCR] base.py:23: Using engine_name: torch[0m
+[32m[INFO] 2026-10-01 16:05:34,516 [RapidOCR] device_config.py:57: Using CPU device[0m
+[32m[INFO] 2026-10-01 16:05:34,555 [RapidOCR] download_file.py:60: File exists and is valid: C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\PP-OCRv6_det_small.pth[0m
+[32m[INFO] 2026-10-01 16:05:34,556 [RapidOCR] main.py:50: Using C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\PP-OCRv6_det_small.pth[0m
+[32m[INFO] 2026-10-01 16:05:34,747 [RapidOCR] base.py:23: Using engine_name: torch[0m
+[32m[INFO] 2026-10-01 16:05:34,748 [RapidOCR] device_config.py:57: Using CPU device[0m
+[32m[INFO] 2026-10-01 16:05:34,759 [RapidOCR] download_file.py:60: File exists and is valid: C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\ch_ptocr_mobile_v2.0_cls_mobile.pth[0m
+[32m[INFO] 2026-10-01 16:05:34,759 [RapidOCR] main.py:50: Using C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\ch_ptocr_mobile_v2.0_cls_mobile.pth[0m
+[32m[INFO] 2026-10-01 16:05:34,908 [RapidOCR] base.py:23: Using engine_name: torch[0m
+[32m[INFO] 2026-10-01 16:05:34,910 [RapidOCR] device_config.py:57: Using CPU device[0m
+[32m[INFO] 2026-10-01 16:05:34,975 [RapidOCR] download_file.py:60: File exists and is valid: C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\PP-OCRv6_rec_small.pth[0m
+[32m[INFO] 2026-10-01 16:05:34,976 [RapidOCR] main.py:50: Using C:\Users\varsh\AppData\Local\Temp\opencode\docling-venv\Lib\site-packages\rapidocr\models\PP-OCRv6_rec_small.pth[0m
+Loading weights:   0%|          | 0/770 [00:00<?, ?it/s]Loading weights:  33%|###2      | 251/770 [00:00<00:00, 2333.88it/s]Loading weights:  63%|######2   | 485/770 [00:00<00:00, 1785.84it/s]Loading weights: 100%|##########| 770/770 [00:00<00:00, 2844.71it/s]
