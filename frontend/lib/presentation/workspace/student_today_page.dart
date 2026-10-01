@@ -6,6 +6,7 @@ import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'strings.dart';
 import '../shared/widgets/shell.dart';
+import 'period_line.dart';
 
 /// A student's day (SA-1): the periods as they will actually run --
 /// substitutes, cancelled and make-up periods marked -- then homework due
@@ -23,6 +24,11 @@ class _StudentTodayPageState extends State<StudentTodayPage> {
       ? DateTime.now().add(const Duration(days: 1))
       : DateTime.now();
   List<Map<String, dynamic>>? _rows;
+
+  /// "Next: period 3 at 10:00 · Science (in 25 min)" on today's page.
+  String? get _nextLine => _rows == null || isoDate(_day) != isoDate(DateTime.now())
+      ? null
+      : nextPeriodLine(_rows!.cast<Map>(), DateTime.now(), what: (r) => r['subjectName'] as String? ?? '');
   List<Map<String, dynamic>> _due = [];
   Map<String, dynamic>? _exam;
   String? _error;
@@ -121,6 +127,11 @@ class _StudentTodayPageState extends State<StudentTodayPage> {
                           Expanded(child: Text('${h['title']} · ${h['subjectName']} · ${tr('due')} ${h['dueDate']}')),
                         ]),
                       ),
+                    if (_nextLine != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        child: Text(_nextLine!, style: Theme.of(context).textTheme.titleSmall),
+                      ),
                     const SizedBox(height: 8),
                     if (_rows!.isEmpty)
                       EmptyState(icon: Icons.weekend_outlined, title: tr('No classes'),
@@ -131,9 +142,11 @@ class _StudentTodayPageState extends State<StudentTodayPage> {
                         title: Text(r['subjectName'] ?? '', style: TextStyle(
                             decoration: r['kind'] == 'lost' ? TextDecoration.lineThrough : null)),
                         subtitle: Text([
+                          if (periodWhenWhere(r).isNotEmpty) periodWhenWhere(r),
                           if (r['teacherName'] != null && r['kind'] != 'lost') r['teacherName'],
                           if (_kind(r['kind'] as String).isNotEmpty) _kind(r['kind'] as String),
                         ].join(' · ')),
+                        trailing: r['changed'] == true ? ChipTag(label: tr('Changed')) : null,
                       ),
                   ]),
                 ),

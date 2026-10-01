@@ -7146,10 +7146,17 @@ export interface components {
         };
         /** DayRowResponse */
         DayRowResponse: {
+            /**
+             * Changed
+             * @default false
+             */
+            changed: boolean;
             /** Coteacherid */
             coTeacherId?: string | null;
             /** Coteachername */
             coTeacherName?: string | null;
+            /** Endtime */
+            endTime?: string | null;
             /** Kind */
             kind: string;
             /** Lostperiodid */
@@ -7160,10 +7167,14 @@ export interface components {
             period: number;
             /** Roomid */
             roomId?: string | null;
+            /** Roomname */
+            roomName?: string | null;
             /** Sectionid */
             sectionId: string;
             /** Sectionname */
             sectionName?: string | null;
+            /** Starttime */
+            startTime?: string | null;
             /** Subjectid */
             subjectId: string;
             /** Subjectname */
@@ -8463,6 +8474,11 @@ export interface components {
             sectionId?: string | null;
             /** Totalmarks */
             totalMarks: number;
+            /**
+             * Withoutconsent
+             * @default []
+             */
+            withoutConsent: string[];
         };
         /** MarksRequest */
         MarksRequest: {
@@ -11141,6 +11157,8 @@ export interface components {
             absentTeacherId: string;
             /** Date */
             date: string;
+            /** Handovernote */
+            handoverNote?: string | null;
             /** Id */
             id: string;
             /** Leaveid */

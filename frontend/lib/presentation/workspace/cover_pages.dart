@@ -10,6 +10,7 @@ import 'teacher_homework.dart' show TeachingContext;
 import 'strings.dart';
 import 'package:academicos/core/theme/app_theme.dart';
 import '../shared/widgets/shell.dart';
+import 'period_line.dart';
 
 const _base = '/curriculum';
 
@@ -268,6 +269,9 @@ class _MyDayPageState extends State<MyDayPage> {
   List<Map<String, dynamic>> _lessons = [];
   TeachingContext? _ctx;
   String? _error;
+  // The school's class and subject labels failing to load no longer blanks
+  // the day: each row carries its own names, so the day shows with a note.
+  String? _ctxError;
   String? _checkedIn;
 
   String get _today => isoDate(DateTime.now());
@@ -275,7 +279,8 @@ class _MyDayPageState extends State<MyDayPage> {
   @override
   void initState() {
     super.initState();
-    TeachingContext.load().then((c) => setState(() => _ctx = c), onError: (Object e) => setState(() => _error = serverErrorMessage(e)));
+    TeachingContext.load().then((c) => setState(() => _ctx = c),
+        onError: (Object e) => setState(() => _ctxError = serverErrorMessage(e)));
     _load();
   }
 
@@ -349,13 +354,14 @@ class _MyDayPageState extends State<MyDayPage> {
     }
   }
 
-  /// Mark today's lesson taught or not (TA-1); a skipped lesson reflows the plan.
+  /// Mark today's lesson taught, partly taught or not (TA-1). Not taught or
+  /// partly taught plans the subtopic again at the next free period.
   Future<void> _markLesson(String id, String status) async {
     String? note;
-    if (status == 'skipped') {
+    if (status == 'skipped' || status == 'partly') {
       final c = TextEditingController();
       final ok = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(
-        title: const Text('Why was it not taught?'),
+        title: Text(status == 'skipped' ? tr('Why was it not taught?') : tr('What is left to teach?')),
         content: TextField(controller: c, autofocus: true),
         actions: [
           TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Cancel'))),
@@ -423,13 +429,22 @@ class _MyDayPageState extends State<MyDayPage> {
           : _rows == null
               ? const LoadingIndicator()
               : ListView(padding: const EdgeInsets.all(16), children: [
+                  if (_ctxError != null)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Text(_ctxError!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
+                    ),
                   if (pending.isNotEmpty) ...[
                     SectionHeader(title: tr('Cover asked of you')),
                     for (final d in pending)
                       ListTile(
                         title: Text('${d['date']} · period ${d['period']} · '
                             '${_ctx?.sectionLabels[d['sectionId']] ?? d['sectionId']}'),
-                        subtitle: Text(_ctx?.subjectNames[d['subjectId']] ?? ''),
+                        subtitle: Text([
+                          _ctx?.subjectNames[d['subjectId']] ?? '',
+                          if (d['handoverNote'] != null) '${tr('Note')}: ${d['handoverNote']}',
+                        ].where((s) => s.isNotEmpty).join('\n')),
+                        isThreeLine: d['handoverNote'] != null,
                         trailing: Wrap(spacing: 8, children: [
                           OutlinedButton(onPressed: () => _respond(d['id'], false), child: Text(tr('Decline'))),
                           FilledButton(onPressed: () => _respond(d['id'], true), child: Text(tr('Accept'))),
@@ -446,10 +461,14 @@ class _MyDayPageState extends State<MyDayPage> {
                             ? Wrap(spacing: 6, children: [
                                 OutlinedButton(onPressed: () => _markLesson(l['lessonId'] as String, 'skipped'),
                                     child: Text(tr('Not taught'))),
+                                OutlinedButton(onPressed: () => _markLesson(l['lessonId'] as String, 'partly'),
+                                    child: Text(tr('Partly'))),
                                 FilledButton(onPressed: () => _markLesson(l['lessonId'] as String, 'completed'),
                                     child: Text(tr('Taught'))),
                               ])
-                            : ChipTag(label: l['status'] == 'completed' ? 'Taught' : 'Not taught'),
+                            : ChipTag(label: l['status'] == 'skipped'
+                                ? tr('Not taught')
+                                : (l['note'] as String? ?? '').startsWith('Partly') ? tr('Partly taught') : tr('Taught')),
                       ),
                   ],
                   SectionHeader(
@@ -468,14 +487,30 @@ class _MyDayPageState extends State<MyDayPage> {
                           TextButton(onPressed: () => _cancelLeave(l['id'] as String), child: Text(tr('Cancel'))),
                       ]),
                     ),
-                  SectionHeader(title: tr('Today'), subtitle: '${_rows!.length} periods'),
+                  SectionHeader(
+                    title: tr('Today'),
+                    subtitle: [
+                      '${_rows!.length} periods',
+                      if (_rows!.any((r) => r['changed'] == true))
+                        '${_rows!.where((r) => r['changed'] == true).length} ${tr('changed')}',
+                      nextPeriodLine(_rows!.cast<Map>(), DateTime.now(),
+                              what: (r) => r['sectionName'] as String? ?? '') ??
+                          '',
+                    ].where((s) => s.isNotEmpty).join(' · '),
+                  ),
                   if (_rows!.isEmpty) const Text('No periods today.'),
                   for (final r in _rows!)
                     ListTile(
                       leading: CircleAvatar(child: Text('${r['period']}')),
-                      title: Text('${_ctx?.sectionLabels[r['sectionId']] ?? r['sectionId']} · '
-                          '${_ctx?.subjectNames[r['subjectId']] ?? ''}'),
-                      trailing: ChipTag(label: kinds[r['kind']] ?? r['kind']),
+                      title: Text('${r['sectionName'] ?? _ctx?.sectionLabels[r['sectionId']] ?? r['sectionId']} · '
+                          '${r['subjectName'] ?? _ctx?.subjectNames[r['subjectId']] ?? ''}'),
+                      subtitle: Text([
+                        periodWhenWhere(r),
+                        if (r['note'] != null && r['kind'] != 'regular') r['note'] as String,
+                      ].where((s) => s.isNotEmpty).join(' · ')),
+                      trailing: ChipTag(
+                          label: kinds[r['kind']] ?? r['kind'],
+                          color: r['changed'] == true ? Theme.of(context).colorScheme.tertiary : null),
                     ),
                 ]),
     );
