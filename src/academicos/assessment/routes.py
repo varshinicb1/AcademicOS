@@ -13,7 +13,6 @@ from pathlib import Path
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from fastapi.responses import FileResponse
 from typing import get_args
 
 from ..config import Config
@@ -856,6 +855,11 @@ def export_paper(paper_id: str, fmt: str, current: User = Depends(require_staff)
     # _page_furniture docstring and docs/compliance.md's paper-release-
     # locking checklist item.
     watermark_id = f"exp_{uuid.uuid4().hex[:10]}"
+    # Each export renders into its own directory and is then published as the
+    # paper's latest copy (export_files): two exports at once tore downloads.
+    from . import export_files
+    papers_dir, out_dir = out_dir, export_files.run_dir(out_dir, watermark_id)
+    export_files.sweep(papers_dir)
     # A render failure is the paper's content, not the server: say so with a
     # 422 naming the cause instead of a bare 500 (ReportLab raises
     # LayoutError/IndexError/ValueError on content it cannot lay out).
@@ -866,11 +870,13 @@ def export_paper(paper_id: str, fmt: str, current: User = Depends(require_staff)
         except Exception as exc:
             log.exception("answer key for paper %s failed to render", paper_id)
             raise HTTPException(422, f"this answer key could not be rendered: {_render_cause(exc)}") from exc
+        export_files.publish(papers_dir, path)
         get_audit_log(cfg.data_root).append(
             "answer_key_exported", assessment_id=paper.assessment_id, actor=current.id,
             details={"paperId": paper_id, "format": fmt, "file": path.name, "watermarkId": watermark_id},
         )
-        return {"url": f"/api/v1/papers/{paper_id}/file?format=answer-key", "watermarkId": watermark_id}
+        return {"url": f"/api/v1/papers/{paper_id}/file?format=answer-key&export={watermark_id}",
+                "watermarkId": watermark_id}
     try:
         if fmt == "docx":
             from . import docx_export
@@ -880,31 +886,42 @@ def export_paper(paper_id: str, fmt: str, current: User = Depends(require_staff)
     except Exception as exc:
         log.exception("paper %s failed to render", paper_id)
         raise HTTPException(422, f"this paper could not be rendered: {_render_cause(exc)}") from exc
+    export_files.publish(papers_dir, path)
     get_audit_log(cfg.data_root).append(
         "paper_exported", assessment_id=paper.assessment_id, actor=current.id,
         details={"paperId": paper_id, "format": fmt, "watermarkId": watermark_id},
     )
-    suffix = "?format=docx" if fmt == "docx" else ""
-    return {"url": f"/api/v1/papers/{paper_id}/file{suffix}", "watermarkId": watermark_id}
+    query = f"format=docx&export={watermark_id}" if fmt == "docx" else f"export={watermark_id}"
+    return {"url": f"/api/v1/papers/{paper_id}/file?{query}", "watermarkId": watermark_id}
 
 
 @router.get("/papers/{paper_id}/file")
-def get_paper_file(paper_id: str, format: str = "pdf", current: User = Depends(require_staff)):
+def get_paper_file(paper_id: str, format: str = "pdf", export: Optional[str] = None,
+                   current: User = Depends(require_staff)):
+    """The exported file: with `export` (the id an export returned), exactly
+    that export's file; without, the paper's latest export."""
+    from fastapi.responses import Response
+    from . import export_files
     cfg, store = _require()
     require_school_owns_paper(_require_papers(), store, paper_id, current)
-    suffix = ("_answer_key.pdf" if format in ("answer-key", "answer_key")
-              else ".docx" if format == "docx" else ".pdf")
-    path = cfg.artifacts_dir / "papers" / f"{paper_id}{suffix}"
+    fmt = "answer-key" if format in ("answer-key", "answer_key") else "docx" if format == "docx" else "pdf"
+    if export is not None and not export_files.EXPORT_ID.match(export):
+        raise HTTPException(422, "export is the id an export returned (exp_ and 10 hex digits)")
+    path = export_files.exported_file(cfg.artifacts_dir / "papers", paper_id, fmt, export)
     if not path.exists():
-        raise HTTPException(404, f"{'docx' if format == 'docx' else 'pdf'} not generated yet")
+        raise HTTPException(404, "that export has expired; export the paper again" if export
+                            else f"{'docx' if fmt == 'docx' else 'pdf'} not generated yet")
+    data = export_files.read_whole(path)
     paper = _require_papers().get(paper_id)
     get_audit_log(cfg.data_root).append(
         "paper_downloaded", assessment_id=paper.assessment_id if paper else None, actor=current.id,
-        details={"paperId": paper_id, "format": format, "schoolId": current.school_id},
+        details={"paperId": paper_id, "format": format, "schoolId": current.school_id,
+                 **({"watermarkId": export} if export else {})},
     )
-    media = ("application/vnd.openxmlformats-officedocument.wordprocessingml.document" if format == "docx"
+    media = ("application/vnd.openxmlformats-officedocument.wordprocessingml.document" if fmt == "docx"
              else "application/pdf")
-    return FileResponse(str(path), media_type=media, filename=f"{paper_id}{suffix}")
+    return Response(content=data, media_type=media,
+                    headers={"Content-Disposition": f'attachment; filename="{path.name}"'})
 
 
 # ---- Assessments ----

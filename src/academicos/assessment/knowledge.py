@@ -158,6 +158,22 @@ class KnowledgeStore:
         self._table = durable_table("learner_models")
         self._migration_checked = False
         self._migration_lock = threading.Lock()
+        # One lock per student around every read-modify-write of their model.
+        # Two writers for one student at once (marks for two subjects, a
+        # homework marked while a sheet is finalized) each loaded, added their
+        # evidence and saved, and the later save dropped the earlier one's; a
+        # reader of a local file could catch it half-written and fail (stress
+        # test on production's commit, 2026-10-01). The release runs one
+        # process (Cloud Run max-instances=1), so an in-process lock covers it.
+        self._student_locks: dict[str, threading.RLock] = {}
+        self._student_locks_guard = threading.Lock()
+
+    def _lock_for(self, student_id: str) -> threading.RLock:
+        with self._student_locks_guard:
+            lock = self._student_locks.get(student_id)
+            if lock is None:
+                lock = self._student_locks[student_id] = threading.RLock()
+            return lock
 
     @property
     def _remote(self) -> bool:
@@ -198,7 +214,8 @@ class KnowledgeStore:
 
     def load(self, student_id: str) -> LearnerModel:
         model = LearnerModel(learner_id=student_id)
-        raw = self._read_raw(student_id)
+        with self._lock_for(student_id):
+            raw = self._read_raw(student_id)
         if raw is None:
             return model
         for cid, cs in raw.get("concepts", {}).items():
@@ -259,10 +276,11 @@ class KnowledgeStore:
         """Fold a marked paper into the student's knowledge state. Appends:
         calling it twice counts the paper twice. A finalized sheet goes
         through record_sheet() instead."""
-        model = self.load(student_id)
-        for i in self._interactions(results, None):
-            model.observe(i)
-        self.save(model)
+        with self._lock_for(student_id):
+            model = self.load(student_id)
+            for i in self._interactions(results, None):
+                model.observe(i)
+            self.save(model)
         _tell(student_id, results, None)
         return model
 
@@ -308,6 +326,12 @@ class KnowledgeStore:
         other sheets, sheets finalized before tagging existed) are untouched."""
         if not source:
             raise ValueError("record_sheet needs a source tag")
+        with self._lock_for(student_id):
+            return self._record_sheet(student_id, results, source)
+
+    def _record_sheet(self, student_id: str, results: list[tuple[QuestionSchema, Evaluation]],
+                      source: str) -> bool:
+        """record_sheet's body, under the student's lock."""
         model = self.load(student_id)
         new = self._interactions(results, source)
         old = self._tagged(model, source)

@@ -4425,7 +4425,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get Paper File */
+        /**
+         * Get Paper File
+         * @description The exported file: with `export` (the id an export returned), exactly
+         *     that export's file; without, the paper's latest export.
+         */
         get: operations["get_paper_file_api_v1_papers__paper_id__file_get"];
         put?: never;
         post?: never;
@@ -19691,6 +19695,7 @@ export interface operations {
         parameters: {
             query?: {
                 format?: string;
+                export?: string | null;
             };
             header?: never;
             path: {
