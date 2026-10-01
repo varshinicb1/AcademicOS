@@ -97,6 +97,15 @@ class _Backend implements HttpClientAdapter {
           'unitsSkippedNoSubtopics': ['Unit 3: Natural Phenomena'], 'estimatesCreated': 2,
           'periodsAllocated': 14, 'periodsShort': 2, 'fitsInYear': false,
         });
+      case ('POST', '/curriculum/academic-years/ay_1/lesson-plans'):
+        return _ok({
+          'runsApproved': 13, 'topicsCreated': 39, 'subtopicsCreated': 117,
+          'plans': [
+            {'sectionId': 'sec_a', 'sectionName': '10-A', 'subjectName': 'Science', 'lessonsCreated': 140},
+            {'sectionId': 'sec_b', 'sectionName': '10-B', 'subjectName': 'Science', 'lessonsCreated': 138},
+          ],
+          'notPlanned': ['10-A English: no book is chosen for the subject'],
+        });
       case ('POST', '/curriculum/books/book_sci/schedule'):
         lessons = [for (var i = 0; i < 12; i++) _lesson(i, 'scheduled')];
         return _ok({
@@ -172,6 +181,18 @@ void main() {
     await tester.tap(find.byKey(ValueKey(key)));
     await tester.pumpAndSettle();
   }
+
+  testWidgets('the principal plans every section at once, approving the proposed topics (N-67-5)', (tester) async {
+    await pumpPage(tester, const LessonPlanPage(), _narrow);
+    expect(find.byKey(const ValueKey('plan-all')), findsOneWidget);
+    await tapKey(tester, 'plan-all-run');
+    final (m, path, _, body) = backend.sent.single;
+    expect((m, path), ('POST', '/curriculum/academic-years/ay_1/lesson-plans'));
+    expect(body, {'approveProposedTopics': true}, reason: 'the ticked box is the approval');
+    expect(find.text('2 plans made, 278 lessons dated · 117 subtopics approved'), findsOneWidget);
+    expect(find.text('• 10-A English: no book is chosen for the subject'), findsOneWidget,
+        reason: 'what was not planned is named, with why');
+  });
 
   testWidgets('the book, its chapters and which of them can be planned are shown', (tester) async {
     await pumpPage(tester, const LessonPlanPage(), _narrow);

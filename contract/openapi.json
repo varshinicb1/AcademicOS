@@ -497,6 +497,16 @@
       "ApiKeyCreateRequest": {
         "additionalProperties": false,
         "properties": {
+          "grades": {
+            "items": {
+              "maximum": 12.0,
+              "minimum": 1.0,
+              "type": "integer"
+            },
+            "maxItems": 12,
+            "title": "Grades",
+            "type": "array"
+          },
           "label": {
             "maxLength": 100,
             "minLength": 1,
@@ -516,6 +526,16 @@
             },
             "minItems": 1,
             "title": "Scopes",
+            "type": "array"
+          },
+          "subjects": {
+            "items": {
+              "maxLength": 80,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 40,
+            "title": "Subjects",
             "type": "array"
           }
         },
@@ -539,6 +559,13 @@
           "createdBy": {
             "title": "Createdby",
             "type": "string"
+          },
+          "grades": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Grades",
+            "type": "array"
           },
           "id": {
             "title": "Id",
@@ -595,6 +622,13 @@
             },
             "title": "Scopesavailable",
             "type": "array"
+          },
+          "subjects": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Subjects",
+            "type": "array"
           }
         },
         "required": [
@@ -625,6 +659,13 @@
           "createdBy": {
             "title": "Createdby",
             "type": "string"
+          },
+          "grades": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Grades",
+            "type": "array"
           },
           "id": {
             "title": "Id",
@@ -669,6 +710,13 @@
               "type": "string"
             },
             "title": "Scopes",
+            "type": "array"
+          },
+          "subjects": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Subjects",
             "type": "array"
           }
         },
@@ -1893,6 +1941,54 @@
           "status"
         ],
         "title": "BookResponse",
+        "type": "object"
+      },
+      "BuildPlansRequest": {
+        "properties": {
+          "approveProposedTopics": {
+            "default": false,
+            "title": "Approveproposedtopics",
+            "type": "boolean"
+          }
+        },
+        "title": "BuildPlansRequest",
+        "type": "object"
+      },
+      "BuildPlansResponse": {
+        "properties": {
+          "notPlanned": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Notplanned",
+            "type": "array"
+          },
+          "plans": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/PlanBuiltResponse"
+            },
+            "title": "Plans",
+            "type": "array"
+          },
+          "runsApproved": {
+            "default": 0,
+            "title": "Runsapproved",
+            "type": "integer"
+          },
+          "subtopicsCreated": {
+            "default": 0,
+            "title": "Subtopicscreated",
+            "type": "integer"
+          },
+          "topicsCreated": {
+            "default": 0,
+            "title": "Topicscreated",
+            "type": "integer"
+          }
+        },
+        "title": "BuildPlansResponse",
         "type": "object"
       },
       "BulkAwardRequest": {
@@ -6622,7 +6718,7 @@
       },
       "HomeworkSetRequest": {
         "additionalProperties": false,
-        "description": "N answer-keyed questions for a class, from chapters, in a mix of\ntypes, avoiding questions the caller has already used. The API knows no\nstudents (API-5), so \"already had\" is the caller's list of ids.",
+        "description": "N answer-keyed questions for a class, from chapters, topics or\nsubtopics, in a mix of marks or of types, avoiding questions the caller\nhas already used. The API knows no students (API-5), so \"already had\" is\nthe caller's list of ids.\n\nAPI-2 asks for \"this mix of marks and types\"; the audit found neither a\nmarks mix nor a topic filter, and `count` silently ignored whenever\n`types` was sent (N-67-11). The three ways to ask:\n\n  * `count` alone: that many, spread across the chosen chapters.\n  * a mix -- `types` as `{\"mcq\": 5, \"short_answer\": 3}` or `marks` as\n    `{\"1\": 4, \"3\": 2}` -- that many of each. `count`, if sent too, must\n    agree with the mix's total; it is a 422 rather than one of the two\n    quietly winning.\n  * `types` as a list, `[\"mcq\", \"short_answer\"]`: `count` questions of\n    those types, spread across them. With a `marks` mix it chooses the\n    types inside each mark value.\n\nA types mix and a marks mix together are refused: honouring both at once\nis an allocation problem a greedy pick gets wrong without saying so.",
         "properties": {
           "chapterIds": {
             "items": {
@@ -6634,6 +6730,7 @@
           },
           "count": {
             "default": 10,
+            "description": "how many questions, when no mix is given",
             "maximum": 50.0,
             "minimum": 1.0,
             "title": "Count",
@@ -6653,6 +6750,16 @@
             "title": "Grade",
             "type": "integer"
           },
+          "marks": {
+            "additionalProperties": {
+              "maximum": 50.0,
+              "minimum": 0.0,
+              "type": "integer"
+            },
+            "description": "a mix of marks, {\"1\": 4, \"3\": 2}: four 1-mark and two 3-mark questions. Give `types` as a list to choose the types inside it.",
+            "title": "Marks",
+            "type": "object"
+          },
           "seed": {
             "anyOf": [
               {
@@ -6668,13 +6775,43 @@
             "title": "Subject",
             "type": "string"
           },
-          "types": {
-            "additionalProperties": {
-              "type": "integer"
+          "subtopicIds": {
+            "description": "only questions carrying one of these subtopic ids (a record's `subtopicIds`)",
+            "items": {
+              "type": "string"
             },
-            "description": "e.g. {\"mcq\": 5, \"short_answer\": 3}",
-            "title": "Types",
-            "type": "object"
+            "maxItems": 50,
+            "title": "Subtopicids",
+            "type": "array"
+          },
+          "topicIds": {
+            "description": "only questions carrying one of these topic ids (a record's `topicIds`)",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 50,
+            "title": "Topicids",
+            "type": "array"
+          },
+          "types": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "maximum": 50.0,
+                  "minimum": 0.0,
+                  "type": "integer"
+                },
+                "type": "object"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            ],
+            "description": "a mix, {\"mcq\": 5, \"short_answer\": 3}: that many of each type; or a list, [\"mcq\", \"short_answer\"]: `count` questions of those types, spread across them",
+            "title": "Types"
           }
         },
         "required": [
@@ -9219,6 +9356,61 @@
         "title": "PickRequest",
         "type": "object"
       },
+      "PlanBuiltResponse": {
+        "properties": {
+          "lastScheduledDate": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastscheduleddate"
+          },
+          "lessonsCreated": {
+            "title": "Lessonscreated",
+            "type": "integer"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "sectionName": {
+            "title": "Sectionname",
+            "type": "string"
+          },
+          "subjectName": {
+            "title": "Subjectname",
+            "type": "string"
+          },
+          "subtopicsWithoutEstimate": {
+            "default": 0,
+            "title": "Subtopicswithoutestimate",
+            "type": "integer"
+          },
+          "warning": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Warning"
+          }
+        },
+        "required": [
+          "sectionId",
+          "sectionName",
+          "subjectName",
+          "lessonsCreated"
+        ],
+        "title": "PlanBuiltResponse",
+        "type": "object"
+      },
       "PracticeItemResponse": {
         "properties": {
           "conceptId": {
@@ -9307,6 +9499,18 @@
             "minimum": 3.0,
             "title": "Count",
             "type": "integer"
+          },
+          "examPaperId": {
+            "anyOf": [
+              {
+                "maxLength": 80,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exampaperid"
           },
           "subject": {
             "anyOf": [
@@ -16810,6 +17014,142 @@
         "title": "UserResponse",
         "type": "object"
       },
+      "V1BadRequest": {
+        "description": "A 400: a cursor that does not decode, a `key_provenance` or `trust`\noutside its vocabulary, or two filters no record can satisfy together.",
+        "properties": {
+          "detail": {
+            "$ref": "#/components/schemas/V1Problem"
+          }
+        },
+        "required": [
+          "detail"
+        ],
+        "title": "V1BadRequest",
+        "type": "object"
+      },
+      "V1Error": {
+        "description": "The body of a 401, 403, 404, 429 or 503 from `/v1`: one sentence.",
+        "properties": {
+          "detail": {
+            "examples": [
+              "this key does not hold the 'questions:read' scope"
+            ],
+            "title": "Detail",
+            "type": "string"
+          }
+        },
+        "required": [
+          "detail"
+        ],
+        "title": "V1Error",
+        "type": "object"
+      },
+      "V1InvalidInput": {
+        "properties": {
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "examples": [
+              [
+                "query",
+                "subjct"
+              ]
+            ],
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Loc",
+            "type": "array"
+          },
+          "msg": {
+            "examples": [
+              "unknown query parameter 'subjct'; this route takes ..."
+            ],
+            "title": "Msg",
+            "type": "string"
+          },
+          "type": {
+            "examples": [
+              "extra_forbidden"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "V1InvalidInput",
+        "type": "object"
+      },
+      "V1Problem": {
+        "description": "RFC 9457's fields, carried under `detail` by a 400.",
+        "properties": {
+          "detail": {
+            "examples": [
+              "the cursor is not decodable; omit it to start again"
+            ],
+            "title": "Detail",
+            "type": "string"
+          },
+          "status": {
+            "examples": [
+              400
+            ],
+            "title": "Status",
+            "type": "integer"
+          },
+          "title": {
+            "examples": [
+              "invalid cursor"
+            ],
+            "title": "Title",
+            "type": "string"
+          },
+          "type": {
+            "examples": [
+              "about:blank"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "title",
+          "status",
+          "detail"
+        ],
+        "title": "V1Problem",
+        "type": "object"
+      },
+      "V1ValidationError": {
+        "description": "A 422: a query parameter the route does not take (`type`\n`extra_forbidden`), a value of the wrong type or out of range, or a body\nthat does not validate. The shape of every FastAPI validation error.",
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/V1InvalidInput"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "required": [
+          "detail"
+        ],
+        "title": "V1ValidationError",
+        "type": "object"
+      },
       "ValidationError": {
         "properties": {
           "ctx": {
@@ -16968,6 +17308,18 @@
     "securitySchemes": {
       "HTTPBearer": {
         "description": "Session token from POST /api/v1/auth/login, sent as `Authorization: Bearer <token>`.",
+        "scheme": "bearer",
+        "type": "http"
+      },
+      "QuestionBankApiKey": {
+        "description": "A question-bank API key (`acos_qb_...`), minted by a principal on the web console's API keys page.",
+        "in": "header",
+        "name": "X-API-Key",
+        "type": "apiKey"
+      },
+      "QuestionBankApiKeyBearer": {
+        "bearerFormat": "acos_qb_...",
+        "description": "The same API key, sent as `Authorization: Bearer acos_qb_...`. A user's session token is not a key and is refused here.",
         "scheme": "bearer",
         "type": "http"
       }
@@ -17341,7 +17693,7 @@
         "summary": "List Keys"
       },
       "post": {
-        "description": "Mint a key for this school. Copy `key` now: it is not shown again.\nScopes are the question-bank API's; any that would reach student data\nare refused outright.",
+        "description": "Mint a key for this school. Copy `key` now: it is not shown again.\nScopes are the question-bank API's; any that would reach student data\nare refused outright, and any no route checks yet are refused as \"not\navailable yet\". `grades` and `subjects` limit what the key can read.",
         "operationId": "create_key_api_v1_api_keys_post",
         "requestBody": {
           "content": {
@@ -20200,6 +20552,61 @@
           }
         ],
         "summary": "Delete Holiday"
+      }
+    },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/lesson-plans": {
+      "post": {
+        "description": "Every section's dated plan in one action (N-67-5). A school set up on\nthe web had none: seeding proposes topics but approving them was a\nchapter-at-a-time step on another tab, and each section and subject was\nthen planned on its own. This does the same steps the Lesson plans page\ndoes for one section, for all of them:\n\n1. With `approveProposedTopics`, the principal approves the topic\n   proposals still pending on the year's chosen books. The principal's\n   own click is the approval; nothing is approved without it.\n2. Each book's subtopics are timed against the year (idempotent), at the\n   most periods a week any section has for it.\n3. Each section's plan is laid on its own week from its allocation.\n   What was taught, marked or has passed is kept (`force`).\n\nA section and subject that cannot be planned is named in `notPlanned`\nwith the reason, never skipped silently.",
+        "operationId": "build_lesson_plans_api_v1_curriculum_academic_years__academic_year_id__lesson_plans_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildPlansRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuildPlansResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Build Lesson Plans"
       }
     },
     "/api/v1/curriculum/academic-years/{academic_year_id}/lost-periods": {
@@ -31723,42 +32130,8 @@
     },
     "/v1/coverage": {
       "get": {
-        "description": "How much of the bank is answerable, per subject and class.\n\nThe audit found no way to ask this over HTTP (`/v1/coverage` was a 404)\nwhile the MCP server had `coverage_report` -- so the number a buyer could\nread and the number an agent could read came from different places, or in\nthe HTTP case from nowhere. Both now return `QuestionBank.coverage()`\nverbatim (rule Q5).\n\nEvery count here names a set a request can actually be handed:\n`withOfficialCbseScheme` is `?key_provenance=cbse_marking_scheme`, and per\nsubject and class `markValues` lists the distinct mark denominations while\n`marksTotal` is what the answer-keyed questions add up to. The field was\ncalled `marksAvailable` and held the denominations, which on a coverage\nendpoint reads as the total a buyer would size a purchase on.\n\nAggregate counts, so it takes `facets:read` rather than `questions:read`:\nno question text or marking scheme crosses this route.",
+        "description": "How much of the bank is answerable, per subject and class.\n\nThe audit found no way to ask this over HTTP (`/v1/coverage` was a 404)\nwhile the MCP server had `coverage_report` -- so the number a buyer could\nread and the number an agent could read came from different places, or in\nthe HTTP case from nowhere. Both now return `QuestionBank.coverage()`\nverbatim (rule Q5).\n\nEvery count here names a set a request can actually be handed:\n`withOfficialCbseScheme` is `?key_provenance=cbse_marking_scheme`, and per\nsubject and class `markValues` lists the distinct mark denominations while\n`marksTotal` is what the answer-keyed questions add up to. The field was\ncalled `marksAvailable` and held the denominations, which on a coverage\nendpoint reads as the total a buyer would size a purchase on.\n\nAggregate counts, so it takes `facets:read` rather than `questions:read`:\nno question text or marking scheme crosses this route. A key limited to\nsome classes or subjects is told the coverage of those.",
         "operationId": "get_coverage_v1_coverage_get",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-API-Key",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Api-Key"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "content": {
@@ -31768,17 +32141,81 @@
             },
             "description": "Successful Response"
           },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "No key, an unknown key, or a revoked one. Send the key as `X-API-Key: acos_qb_...` or `Authorization: Bearer acos_qb_...`.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "`Bearer`",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The key is valid but does not hold this route's scope, or the request (or the record asked for) is outside the classes or subjects the key is limited to."
+          },
           "422": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "$ref": "#/components/schemas/V1ValidationError"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "A query parameter this route does not take, or a parameter or body that does not validate. `loc` names it."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The key has spent its requests for this minute. Wait `Retry-After` seconds: the time left in the current one-minute window.",
+            "headers": {
+              "Retry-After": {
+                "description": "seconds until the window reopens",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The question bank is not loaded on this server."
           }
         },
+        "security": [
+          {
+            "QuestionBankApiKeyBearer": []
+          },
+          {
+            "QuestionBankApiKey": []
+          }
+        ],
         "summary": "Get Coverage",
         "tags": [
           "question-bank"
@@ -31869,38 +32306,6 @@
               "title": "Include Unkeyed",
               "type": "boolean"
             }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-API-Key",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Api-Key"
-            }
           }
         ],
         "responses": {
@@ -31912,17 +32317,91 @@
             },
             "description": "Successful Response"
           },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1BadRequest"
+                }
+              }
+            },
+            "description": "A cursor that does not decode, a `key_provenance` or `trust` outside its vocabulary, or two filters no record can satisfy together. RFC 9457's fields, under `detail`."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "No key, an unknown key, or a revoked one. Send the key as `X-API-Key: acos_qb_...` or `Authorization: Bearer acos_qb_...`.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "`Bearer`",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The key is valid but does not hold this route's scope, or the request (or the record asked for) is outside the classes or subjects the key is limited to."
+          },
           "422": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "$ref": "#/components/schemas/V1ValidationError"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "A query parameter this route does not take, or a parameter or body that does not validate. `loc` names it."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The key has spent its requests for this minute. Wait `Retry-After` seconds: the time left in the current one-minute window.",
+            "headers": {
+              "Retry-After": {
+                "description": "seconds until the window reopens",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The question bank is not loaded on this server."
           }
         },
+        "security": [
+          {
+            "QuestionBankApiKeyBearer": []
+          },
+          {
+            "QuestionBankApiKey": []
+          }
+        ],
         "summary": "Get Facets",
         "tags": [
           "question-bank"
@@ -32019,42 +32498,8 @@
     },
     "/v1/homework-sets": {
       "post": {
-        "description": "A homework set (API-2). With `types`, that many of each type; without,\n`count` questions spread across the chosen chapters. The same request\nwith the same `seed` returns the same set; `shortfall` says what the\nbank could not supply.",
+        "description": "A homework set (API-2): `count` questions, or a mix of types or of\nmarks (see `HomeworkSetRequest`), from the chosen chapters, topics and\nsubtopics. The same request with the same `seed` returns the same set;\n`shortfall` names each bucket the bank could not fill and by how many\n(`\"any\"` when no mix was given).",
         "operationId": "homework_set_v1_homework_sets_post",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-API-Key",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Api-Key"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -32074,17 +32519,81 @@
             },
             "description": "Successful Response"
           },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "No key, an unknown key, or a revoked one. Send the key as `X-API-Key: acos_qb_...` or `Authorization: Bearer acos_qb_...`.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "`Bearer`",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The key is valid but does not hold this route's scope, or the request (or the record asked for) is outside the classes or subjects the key is limited to."
+          },
           "422": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "$ref": "#/components/schemas/V1ValidationError"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "A query parameter this route does not take, or a parameter or body that does not validate. `loc` names it."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The key has spent its requests for this minute. Wait `Retry-After` seconds: the time left in the current one-minute window.",
+            "headers": {
+              "Retry-After": {
+                "description": "seconds until the window reopens",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The question bank is not loaded on this server."
           }
         },
+        "security": [
+          {
+            "QuestionBankApiKeyBearer": []
+          },
+          {
+            "QuestionBankApiKey": []
+          }
+        ],
         "summary": "Homework Set",
         "tags": [
           "question-bank"
@@ -32185,7 +32694,7 @@
     },
     "/v1/questions": {
       "get": {
-        "description": "Paged, filtered question list. The workhorse endpoint.\n\n**Answer-keyed by default (rule Q1).** See `_q1_filter` for the two ways\nto ask for the rest, and `key_provenance` to narrow to one kind of key.",
+        "description": "Paged, filtered question list. The workhorse endpoint.\n\n**Answer-keyed by default (rule Q1).** See `_q1_filter` for the two ways\nto ask for the rest, and `key_provenance` to narrow to one kind of key.\nA parameter not listed here is a 422, and a class or subject outside the\nkey's limits is a 403.",
         "operationId": "list_questions_v1_questions_get",
         "parameters": [
           {
@@ -32317,6 +32826,96 @@
             }
           },
           {
+            "description": "exact topic id, one of a record's `topicIds` (e.g. 'science-10/life-processes/nutrition').",
+            "in": "query",
+            "name": "topic_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "exact topic id, one of a record's `topicIds` (e.g. 'science-10/life-processes/nutrition').",
+              "title": "Topic Id"
+            }
+          },
+          {
+            "description": "exact competency id, one of a record's `competencyIds`. No record carried one when this filter was added (2026-10-01), so it answers an empty page until the bank is tagged; it exists so a client written now keeps working.",
+            "in": "query",
+            "name": "competency",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "exact competency id, one of a record's `competencyIds`. No record carried one when this filter was added (2026-10-01), so it answers an empty page until the bank is tagged; it exists so a client written now keeps working.",
+              "title": "Competency"
+            }
+          },
+          {
+            "description": "where the question comes from, as the record's `source` names it: 'cbse_board_paper', 'cbse_sample_paper', 'cbse_question_bank', 'ncert_exemplar', ... Case is ignored; the `source` facet lists what the bank holds.",
+            "in": "query",
+            "name": "source",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "where the question comes from, as the record's `source` names it: 'cbse_board_paper', 'cbse_sample_paper', 'cbse_question_bank', 'ncert_exemplar', ... Case is ignored; the `source` facet lists what the bank holds.",
+              "title": "Source"
+            }
+          },
+          {
+            "description": "narrow to one trust label (QB-5): 'published' for a key CBSE or NCERT published, 'checked' for one checked before it was served (grounded in the textbook, two agreeing solves, or a teacher's approval). The list's `keyTier`. Narrows within the answer-keyed set, so with has_scheme=false it is a 400.",
+            "in": "query",
+            "name": "trust",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "narrow to one trust label (QB-5): 'published' for a key CBSE or NCERT published, 'checked' for one checked before it was served (grounded in the textbook, two agreeing solves, or a teacher's approval). The list's `keyTier`. Narrows within the answer-keyed set, so with has_scheme=false it is a 400.",
+              "title": "Trust"
+            }
+          },
+          {
+            "description": "the publication the question was printed in, as its rights attribution names it (e.g. 'NCERT, Exemplar Problems, Class X Science'). Case and spacing are ignored; the `book` facet lists the exact names.",
+            "in": "query",
+            "name": "book",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "the publication the question was printed in, as its rights attribution names it (e.g. 'NCERT, Exemplar Problems, Class X Science'). Case and spacing are ignored; the `book` facet lists the exact names.",
+              "title": "Book"
+            }
+          },
+          {
             "description": "true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing. Since the Q1 pass this is the shared answer-key rule (published provenance AND real content), not the CBSE label alone; use key_provenance for the board's own schemes.",
             "in": "query",
             "name": "has_scheme",
@@ -32435,38 +33034,6 @@
               "title": "Include Unkeyed",
               "type": "boolean"
             }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-API-Key",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Api-Key"
-            }
           }
         ],
         "responses": {
@@ -32478,17 +33045,91 @@
             },
             "description": "Successful Response"
           },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1BadRequest"
+                }
+              }
+            },
+            "description": "A cursor that does not decode, a `key_provenance` or `trust` outside its vocabulary, or two filters no record can satisfy together. RFC 9457's fields, under `detail`."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "No key, an unknown key, or a revoked one. Send the key as `X-API-Key: acos_qb_...` or `Authorization: Bearer acos_qb_...`.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "`Bearer`",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The key is valid but does not hold this route's scope, or the request (or the record asked for) is outside the classes or subjects the key is limited to."
+          },
           "422": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "$ref": "#/components/schemas/V1ValidationError"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "A query parameter this route does not take, or a parameter or body that does not validate. `loc` names it."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The key has spent its requests for this minute. Wait `Retry-After` seconds: the time left in the current one-minute window.",
+            "headers": {
+              "Retry-After": {
+                "description": "seconds until the window reopens",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The question bank is not loaded on this server."
           }
         },
+        "security": [
+          {
+            "QuestionBankApiKeyBearer": []
+          },
+          {
+            "QuestionBankApiKey": []
+          }
+        ],
         "summary": "List Questions",
         "tags": [
           "question-bank"
@@ -32508,38 +33149,6 @@
               "title": "Question Id",
               "type": "string"
             }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-API-Key",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Api-Key"
-            }
           }
         ],
         "responses": {
@@ -32551,17 +33160,91 @@
             },
             "description": "Successful Response"
           },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "No key, an unknown key, or a revoked one. Send the key as `X-API-Key: acos_qb_...` or `Authorization: Bearer acos_qb_...`.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "`Bearer`",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The key is valid but does not hold this route's scope, or the request (or the record asked for) is outside the classes or subjects the key is limited to."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "No question with that id."
+          },
           "422": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "$ref": "#/components/schemas/V1ValidationError"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "A query parameter this route does not take, or a parameter or body that does not validate. `loc` names it."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The key has spent its requests for this minute. Wait `Retry-After` seconds: the time left in the current one-minute window.",
+            "headers": {
+              "Retry-After": {
+                "description": "seconds until the window reopens",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The question bank is not loaded on this server."
           }
         },
+        "security": [
+          {
+            "QuestionBankApiKeyBearer": []
+          },
+          {
+            "QuestionBankApiKey": []
+          }
+        ],
         "summary": "Get Question",
         "tags": [
           "question-bank"
@@ -32581,38 +33264,6 @@
               "title": "Question Id",
               "type": "string"
             }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-API-Key",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Api-Key"
-            }
           }
         ],
         "responses": {
@@ -32624,17 +33275,91 @@
             },
             "description": "Successful Response"
           },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "No key, an unknown key, or a revoked one. Send the key as `X-API-Key: acos_qb_...` or `Authorization: Bearer acos_qb_...`.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "`Bearer`",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The key is valid but does not hold this route's scope, or the request (or the record asked for) is outside the classes or subjects the key is limited to."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "No question with that id."
+          },
           "422": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "$ref": "#/components/schemas/V1ValidationError"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "A query parameter this route does not take, or a parameter or body that does not validate. `loc` names it."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The key has spent its requests for this minute. Wait `Retry-After` seconds: the time left in the current one-minute window.",
+            "headers": {
+              "Retry-After": {
+                "description": "seconds until the window reopens",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The question bank is not loaded on this server."
           }
         },
+        "security": [
+          {
+            "QuestionBankApiKeyBearer": []
+          },
+          {
+            "QuestionBankApiKey": []
+          }
+        ],
         "summary": "Get Scheme",
         "tags": [
           "question-bank"
@@ -32844,38 +33569,6 @@
               "title": "Include Unkeyed",
               "type": "boolean"
             }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-API-Key",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Api-Key"
-            }
           }
         ],
         "responses": {
@@ -32887,17 +33580,91 @@
             },
             "description": "Successful Response"
           },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1BadRequest"
+                }
+              }
+            },
+            "description": "A cursor that does not decode, a `key_provenance` or `trust` outside its vocabulary, or two filters no record can satisfy together. RFC 9457's fields, under `detail`."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "No key, an unknown key, or a revoked one. Send the key as `X-API-Key: acos_qb_...` or `Authorization: Bearer acos_qb_...`.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "`Bearer`",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The key is valid but does not hold this route's scope, or the request (or the record asked for) is outside the classes or subjects the key is limited to."
+          },
           "422": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "$ref": "#/components/schemas/V1ValidationError"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "A query parameter this route does not take, or a parameter or body that does not validate. `loc` names it."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The key has spent its requests for this minute. Wait `Retry-After` seconds: the time left in the current one-minute window.",
+            "headers": {
+              "Retry-After": {
+                "description": "seconds until the window reopens",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V1Error"
+                }
+              }
+            },
+            "description": "The question bank is not loaded on this server."
           }
         },
+        "security": [
+          {
+            "QuestionBankApiKeyBearer": []
+          },
+          {
+            "QuestionBankApiKey": []
+          }
+        ],
         "summary": "Questions For Subtopic",
         "tags": [
           "question-bank"

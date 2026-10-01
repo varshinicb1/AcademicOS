@@ -100,7 +100,7 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/v1/questions"): _p(API_KEY),
     ("GET", "/v1/questions/{question_id}"): _p(API_KEY),
     ("GET", "/v1/questions/{question_id}/scheme"): _p(API_KEY),
-    ("GET", "/v1/subtopics/{subtopic_id}/questions"): _p(API_KEY),
+    ("GET", "/v1/subtopics/{subtopic_id:path}/questions"): _p(API_KEY, "a subtopic id carries slashes, so the route matches a path (D52)"),
     ("GET", "/v1/facets"): _p(API_KEY),
     ("GET", "/v1/coverage"): _p(API_KEY, "aggregate answer-key coverage; no question text crosses it"),
 
@@ -288,6 +288,7 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/calendar-feed"): _p(ANY_USER, "the callers own feed; staff and students"),
     ("POST", "/api/v1/calendar-feed/reset"): _p(ANY_USER, "the callers own feed"),
     ("GET", "/api/v1/ics/{token}.ics"): _p(PUBLIC, "the unguessable feed token is the key; the owners own dates only"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/lesson-plans"): _p(PRINCIPAL, "approves proposed topics and plans every section (N-67-5)"),
     ("GET", "/api/v1/my-calendar"): _p(ANY_USER, "the callers own dated events; staff and students"),
     ("GET", "/api/v1/my-load"): _p(ANY_USER, "the callers own teaching load; staff only"),
     ("POST", "/v1/homework-sets"): _p(API_KEY, "questions:read"),
