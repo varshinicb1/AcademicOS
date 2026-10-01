@@ -91,14 +91,14 @@ class AppConstants {
   
   // Colors (semantic): design/tokens.json's values. The theme
   // (core/theme/app_theme.dart) reads the palette there, not these.
-  static const int primaryColorValue = 0xFF4F46E5;      // Indigo, brand 600
-  static const int secondaryColorValue = 0xFF475569;    // Slate 600
-  static const int accentColorValue = 0xFF4338CA;       // Indigo, brand 700
+  static const int primaryColorValue = 0xFF7A1F2B;      // Maroon, brand 600
+  static const int secondaryColorValue = 0xFF6A5A5B;    // Warm grey 600
+  static const int accentColorValue = 0xFF641822;       // Maroon, brand 700
   static const int successColorValue = 0xFF047857;      // Green
   static const int warningColorValue = 0xFFB45309;      // Amber
   static const int errorColorValue = 0xFFB91C1C;        // Red
   static const int surfaceColorValue = 0xFFFFFFFF;      // White, cards
-  static const int backgroundColorValue = 0xFFF8FAFC;   // Canvas, slate 50
+  static const int backgroundColorValue = 0xFFFBF7F0;   // Canvas, cream 50
 
   // Typography
   static const String fontFamily = 'Inter';

@@ -12,29 +12,29 @@
 :root {
 
   /* -- brand --------------------------------------------------------- */
-  --color-brand-50: #EEF2FF;
-  --color-brand-100: #E0E7FF;
-  --color-brand-500: #6366F1;
-  --color-brand-600: #4F46E5;
-  --color-brand-700: #4338CA;
+  --color-brand-50: #F5E6E8;
+  --color-brand-100: #EBCFD3;
+  --color-brand-500: #9B3442;
+  --color-brand-600: #7A1F2B;
+  --color-brand-700: #641822;
 
   /* -- neutral ------------------------------------------------------- */
   --color-neutral-0: #FFFFFF;
-  --color-neutral-25: #FCFCFD;
-  --color-neutral-50: #F8FAFC;
-  --color-neutral-100: #F1F5F9;
-  --color-neutral-200: #E2E8F0;
-  --color-neutral-300: #CBD5E1;
-  --color-neutral-400: #94A3B8;
-  --color-neutral-500: #64748B;
-  --color-neutral-600: #475569;
-  --color-neutral-700: #334155;
-  --color-neutral-900: #0F172A;
+  --color-neutral-25: #FEFCF8;
+  --color-neutral-50: #FBF7F0;
+  --color-neutral-100: #F4EEE4;
+  --color-neutral-200: #E9E0D3;
+  --color-neutral-300: #D9CDBB;
+  --color-neutral-400: #A99B8C;
+  --color-neutral-500: #776862;
+  --color-neutral-600: #6A5A5B;
+  --color-neutral-700: #4A3D3C;
+  --color-neutral-900: #2A1E1F;
 
   /* -- surface (canvas is off-white on purpose; card is pure white) -- */
-  --color-surface-canvas: #F8FAFC;
+  --color-surface-canvas: #FBF7F0;
   --color-surface-card: #FFFFFF;
-  --color-surface-inset: #F1F5F9;
+  --color-surface-inset: #F4EEE4;
 
   /* -- semantic (fg / bg / border) ----------------------------------- */
   --color-success-fg: #047857;
@@ -49,12 +49,12 @@
   --color-info-fg: #1D4ED8;
   --color-info-bg: #EFF6FF;
   --color-info-border: #BFDBFE;
-  --color-neutral-fg: #475569;
-  --color-neutral-bg: #F8FAFC;
-  --color-neutral-border: #E2E8F0;
+  --color-neutral-fg: #6A5A5B;
+  --color-neutral-bg: #FBF7F0;
+  --color-neutral-border: #E9E0D3;
 
   /* -- data visualisation -------------------------------------------- */
-  --color-series-1: #4F46E5;
+  --color-series-1: #7A1F2B;
   --color-series-2: #0891B2;
   --color-series-3: #059669;
   --color-series-4: #D97706;
@@ -97,20 +97,20 @@
   --space-16: 64px;
 
   /* -- interactive fills (every button state resolves to one of these)  */
-  --btn-primaryBg: #4F46E5;
-  --btn-primaryBgHover: #4338CA;
-  --btn-primaryBgActive: #3730A3;
+  --btn-primaryBg: #7A1F2B;
+  --btn-primaryBgHover: #641822;
+  --btn-primaryBgActive: #5A1520;
   --btn-primaryFg: #FFFFFF;
   --btn-secondaryBg: #FFFFFF;
-  --btn-secondaryBgHover: #F8FAFC;
-  --btn-secondaryBgActive: #F1F5F9;
+  --btn-secondaryBgHover: #FBF7F0;
+  --btn-secondaryBgActive: #F4EEE4;
   --btn-dangerBg: #DC2626;
   --btn-dangerBgHover: #B91C1C;
   --btn-dangerBgActive: #991B1B;
   --btn-dangerFg: #FFFFFF;
-  --btn-disabledBg: #F1F5F9;
-  --btn-disabledFg: #94A3B8;
-  --btn-disabledBorder: #E2E8F0;
+  --btn-disabledBg: #F4EEE4;
+  --btn-disabledFg: #A99B8C;
+  --btn-disabledBorder: #E9E0D3;
 
   /* -- radius -------------------------------------------------------- */
   --radius-none: 0;
@@ -165,7 +165,7 @@
   --comfortable-cellPaddingY: 10px;
 
   /* -- focus + targets ----------------------------------------------- */
-  --focus-ring: 0 0 0 2px #FFFFFF, 0 0 0 4px #4F46E5;
+  --focus-ring: 0 0 0 2px #FFFFFF, 0 0 0 4px #7A1F2B;
   --target-pointer: 32px;
   --target-touch: 44px;
 }

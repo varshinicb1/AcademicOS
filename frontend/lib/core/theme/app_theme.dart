@@ -42,19 +42,19 @@ class _Palette {
 
   static const light = _Palette(
     brightness: Brightness.light,
-    canvas: Color(0xFFF8FAFC), // neutral 50
+    canvas: Color(0xFFFBF7F0), // neutral 50
     card: Color(0xFFFFFFFF),
-    inset: Color(0xFFF1F5F9), // neutral 100
-    line: Color(0xFFE2E8F0), // neutral 200
-    lineStrong: Color(0xFFCBD5E1), // neutral 300
-    text: Color(0xFF0F172A), // neutral 900
-    textSecondary: Color(0xFF475569), // neutral 600
-    textMuted: Color(0xFF64748B), // neutral 500
-    accent: Color(0xFF4F46E5), // brand 600
-    accentHover: Color(0xFF4338CA), // brand 700
+    inset: Color(0xFFF4EEE4), // neutral 100
+    line: Color(0xFFE9E0D3), // neutral 200
+    lineStrong: Color(0xFFD9CDBB), // neutral 300
+    text: Color(0xFF2A1E1F), // neutral 900
+    textSecondary: Color(0xFF6A5A5B), // neutral 600
+    textMuted: Color(0xFF776862), // neutral 500
+    accent: Color(0xFF7A1F2B), // brand 600
+    accentHover: Color(0xFF641822), // brand 700
     onAccent: Color(0xFFFFFFFF),
-    accentTint: Color(0xFFEEF2FF), // brand 50
-    onAccentTint: Color(0xFF3730A3),
+    accentTint: Color(0xFFF5E6E8), // brand 50
+    onAccentTint: Color(0xFF5A1520),
     danger: Color(0xFFB91C1C),
     dangerTint: Color(0xFFFEF2F2),
     onDangerTint: Color(0xFF7F1D1D),
@@ -62,19 +62,19 @@ class _Palette {
 
   static const dark = _Palette(
     brightness: Brightness.dark,
-    canvas: Color(0xFF0B1120),
-    card: Color(0xFF111827),
-    inset: Color(0xFF1E293B),
-    line: Color(0xFF1F2937),
-    lineStrong: Color(0xFF334155),
-    text: Color(0xFFF1F5F9),
-    textSecondary: Color(0xFFCBD5E1),
-    textMuted: Color(0xFF94A3B8),
-    accent: Color(0xFF818CF8),
-    accentHover: Color(0xFFA5B4FC),
-    onAccent: Color(0xFF0F172A),
-    accentTint: Color(0xFF1E1B4B),
-    onAccentTint: Color(0xFFC7D2FE),
+    canvas: Color(0xFF17110F),
+    card: Color(0xFF1F1816),
+    inset: Color(0xFF2A211E),
+    line: Color(0xFF332925),
+    lineStrong: Color(0xFF4A3D3C),
+    text: Color(0xFFF4EEE4),
+    textSecondary: Color(0xFFD9CDBB),
+    textMuted: Color(0xFFA99B8C),
+    accent: Color(0xFFE39AA5),
+    accentHover: Color(0xFFEDB3BC),
+    onAccent: Color(0xFF2A1E1F),
+    accentTint: Color(0xFF3A1A1F),
+    onAccentTint: Color(0xFFF5D5DA),
     danger: Color(0xFFF87171),
     dangerTint: Color(0xFF450A0A),
     onDangerTint: Color(0xFFFECACA),
@@ -95,7 +95,7 @@ class _Palette {
         tertiaryContainer: accentTint,
         onTertiaryContainer: onAccentTint,
         error: danger,
-        onError: brightness == Brightness.light ? Colors.white : const Color(0xFF0F172A),
+        onError: brightness == Brightness.light ? Colors.white : const Color(0xFF2A1E1F),
         errorContainer: dangerTint,
         onErrorContainer: onDangerTint,
         surface: card,
@@ -112,7 +112,7 @@ class _Palette {
         scrim: Colors.black,
         inverseSurface: text,
         onInverseSurface: canvas,
-        inversePrimary: brightness == Brightness.light ? const Color(0xFFA5B4FC) : const Color(0xFF4F46E5),
+        inversePrimary: brightness == Brightness.light ? const Color(0xFFEDB3BC) : const Color(0xFF7A1F2B),
         surfaceTint: Colors.transparent,
       );
 }
@@ -127,8 +127,8 @@ abstract final class AppColors {
   static const Color warning = Color(0xFFB45309);
   static const Color danger = Color(0xFFB91C1C);
   static const Color info = Color(0xFF1D4ED8);
-  static const Color accent = Color(0xFF4F46E5);
-  static const Color neutral = Color(0xFF475569);
+  static const Color accent = Color(0xFF7A1F2B);
+  static const Color neutral = Color(0xFF6A5A5B);
 }
 
 /// Status colours for chips, banners and progress (tokens.json
@@ -440,17 +440,17 @@ class AppTheme {
       ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        backgroundColor: p.brightness == Brightness.light ? const Color(0xFF0F172A) : p.inset,
-        contentTextStyle: font(fontSize: 14, color: const Color(0xFFF8FAFC)),
-        actionTextColor: const Color(0xFFA5B4FC),
+        backgroundColor: p.brightness == Brightness.light ? const Color(0xFF2A1E1F) : p.inset,
+        contentTextStyle: font(fontSize: 14, color: const Color(0xFFFBF7F0)),
+        actionTextColor: const Color(0xFFEDB3BC),
         shape: control,
       ),
       tooltipTheme: TooltipThemeData(
         decoration: BoxDecoration(
-          color: p.brightness == Brightness.light ? const Color(0xFF0F172A) : p.inset,
+          color: p.brightness == Brightness.light ? const Color(0xFF2A1E1F) : p.inset,
           borderRadius: BorderRadius.circular(6),
         ),
-        textStyle: font(fontSize: 12, color: const Color(0xFFF8FAFC)),
+        textStyle: font(fontSize: 12, color: const Color(0xFFFBF7F0)),
       ),
       dataTableTheme: DataTableThemeData(
         headingTextStyle: font(fontSize: 12, fontWeight: FontWeight.w600, color: p.textMuted),
