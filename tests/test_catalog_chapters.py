@@ -170,6 +170,8 @@ def test_the_chapter_view_reaches_every_question_the_class_serves(
 #   * the extraction repair (2026-10-01): cbe:q:Maths10AS8 is refused as
 #     `value-missing` ("(Using π= )", and its key's Rs 8800 contradicts the
 #     stem's Rs 50 a metre). It carried a tag: Mathematics 10, 306 -> 305.
+#     cbe:q:SCIENCE8JS41c is refused as `key-covers-one-part` (a three-part
+#     question whose key answers part (a)); it carried a tag: Science 8, 75 -> 74.
 # The second kind is the one to be careful with: a net that barely moves can
 # hide a large two-way churn, so a rebuild that shifts these wants a
 # per-record diff (id, old tag, new tag, method), not just a total.
@@ -177,7 +179,7 @@ def test_the_chapter_view_reaches_every_question_the_class_serves(
 TAG_FLOOR = {
     ("Mathematics", 6): 213, ("Mathematics", 7): 189, ("Mathematics", 8): 491,
     ("Mathematics", 9): 73, ("Mathematics", 10): 305,
-    ("Science", 6): 105, ("Science", 7): 127, ("Science", 8): 75,
+    ("Science", 6): 105, ("Science", 7): 127, ("Science", 8): 74,
     ("Science", 9): 270, ("Science", 10): 397,
 }
 # Of those, the ones the map placed rather than the tagger.
@@ -232,7 +234,7 @@ FILED_FLOOR = {
     # (Science 10 files 4 more through chapterIds the syllabus knows).
     ("Mathematics", 6): 213, ("Mathematics", 7): 189, ("Mathematics", 8): 491,
     ("Mathematics", 9): 73, ("Mathematics", 10): 305,
-    ("Science", 6): 105, ("Science", 7): 127, ("Science", 8): 75,
+    ("Science", 6): 105, ("Science", 7): 127, ("Science", 8): 74,
     ("Science", 9): 270, ("Science", 10): 401,
 }
 

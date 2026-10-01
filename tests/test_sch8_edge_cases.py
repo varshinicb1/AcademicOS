@@ -18,6 +18,10 @@ week is laid on each Monday.
 """
 from __future__ import annotations
 
+from datetime import date
+
+from academicos.curriculum import routes as curriculum_routes
+
 from test_assessment_routes_auth import _register
 from test_calendar_days import MONDAYS, _plan
 from test_cover_exams import _dates
@@ -39,7 +43,7 @@ def _schedule(w, who, start="2026-06-01", end="2026-07-31"):
 # ---------------------------------------------------------------- long leave, a temporary replacement
 
 
-def test_a_temporary_replacement_takes_over_a_long_leave(w):
+def test_a_temporary_replacement_takes_over_a_long_leave(w, monkeypatch):
     book = _plan(w, w.a10, w.b10)
     eve = _register(w.c, "school_1", "eve@example.com", "Eve")
     eve_id, eve_h = eve["user"]["id"], _h(eve)
@@ -75,6 +79,8 @@ def test_a_temporary_replacement_takes_over_a_long_leave(w):
     assert sorted({l["date"] for l in mine}) == MONDAYS[:5]
     assert {l["sectionId"] for l in mine} == {w.a10, w.b10}
     in_leave = next(l for l in mine if l["date"] == "2026-06-08")
+    # D67: only a lesson whose day has come can be marked; move today past it.
+    monkeypatch.setattr(curriculum_routes, "_school_today", lambda: date(2026, 7, 31))
     assert w.c.patch(f"{BASE}/scheduled-lessons/{in_leave['lessonId']}", json={"status": "completed"},
                      headers=eve_h).status_code == 200
     after = next(l for l in w.store.scheduled_lessons_for_book(w.year, book, w.a10) if l.date == "2026-07-06")
@@ -119,7 +125,7 @@ def test_a_replacement_needs_an_approved_leave_and_someone_else(w):
 # ---------------------------------------------------------------- a teacher changes mid-year
 
 
-def test_a_mid_year_teacher_change_moves_the_timetable_cover_and_plans(w):
+def test_a_mid_year_teacher_change_moves_the_timetable_cover_and_plans(w, monkeypatch):
     book = _plan(w, w.a10, w.b10)
     w.store.assign_teacher(school_id="school_1", teacher_id=w.uid["ana"], book_id=book)
     # Ana is away next Monday; her 10-B period has cover opened.
@@ -152,6 +158,8 @@ def test_a_mid_year_teacher_change_moves_the_timetable_cover_and_plans(w):
     assert {l["sectionId"] for l in _schedule(w, w.t["chitra"])} == {w.b10}
     assert {l["sectionId"] for l in _schedule(w, w.t["ana"])} == {w.a10}
     lesson = next(l for l in w.store.scheduled_lessons_for_book(w.year, book, w.b10) if l.date == "2026-06-15")
+    # D67: only a lesson whose day has come can be marked; move today past it.
+    monkeypatch.setattr(curriculum_routes, "_school_today", lambda: date(2026, 7, 31))
     assert w.c.patch(f"{BASE}/scheduled-lessons/{lesson.id}", json={"status": "completed"},
                      headers=w.t["ana"]).status_code == 403
     assert w.c.patch(f"{BASE}/scheduled-lessons/{lesson.id}", json={"status": "completed"},

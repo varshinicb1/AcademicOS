@@ -124,6 +124,9 @@ def test_real_model_tags_plausible_chapters(tmp_path):
     """One real, non-mocked check that the actual sentence-transformers
     model produces a sane result end-to-end -- not just that the plumbing
     calls .encode() correctly."""
+    # The real model needs the optional `retrieval` extra; without it this is
+    # an environment without the model, not a tagger failure.
+    pytest.importorskip("sentence_transformers")
     cache = ChapterTagCache(tmp_path / "tags.sqlite")
     items = [
         ("h1", "State Ohm's law and define resistivity of a conductor."),

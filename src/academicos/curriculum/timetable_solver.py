@@ -37,6 +37,7 @@ solver's bare INFEASIBLE tells a principal nothing.
 """
 from __future__ import annotations
 
+import logging
 import math
 import os
 import time
@@ -46,6 +47,8 @@ from typing import Optional
 
 from .school_model import WEEKDAY_NAMES, adjacent_pairs
 from .teaching_groups import GroupSession
+
+log = logging.getLogger(__name__)
 
 
 @dataclass
@@ -88,8 +91,10 @@ def solver_workers() -> int:
             period = int(_read_text("/sys/fs/cgroup/cpu/cpu.cfs_period_us"))
             if quota > 0 and period > 0:
                 cpus = quota / period
-        except (OSError, ValueError):
-            pass
+        except (OSError, ValueError) as e:
+            # Not in a cgroup with a CPU quota (a laptop, a test): fall back
+            # to the CPUs this process may run on.
+            log.debug("no cgroup CPU quota: %s", e)
     if cpus is None:
         affinity = getattr(os, "sched_getaffinity", None)
         cpus = len(affinity(0)) if affinity else (os.cpu_count() or 1)
