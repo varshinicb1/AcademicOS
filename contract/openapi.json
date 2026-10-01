@@ -13800,6 +13800,58 @@
         "title": "SchoolInsightsResponse",
         "type": "object"
       },
+      "SchoolInviteRequest": {
+        "properties": {
+          "expiresInDays": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expiresindays"
+          },
+          "schoolId": {
+            "title": "Schoolid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "schoolId"
+        ],
+        "title": "SchoolInviteRequest",
+        "type": "object"
+      },
+      "SchoolInviteResponse": {
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "expiresAt": {
+            "title": "Expiresat",
+            "type": "string"
+          },
+          "link": {
+            "title": "Link",
+            "type": "string"
+          },
+          "schoolId": {
+            "title": "Schoolid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "schoolId",
+          "code",
+          "expiresAt",
+          "link"
+        ],
+        "title": "SchoolInviteResponse",
+        "type": "object"
+      },
       "SchoolProfileRequest": {
         "additionalProperties": false,
         "properties": {
@@ -20843,6 +20895,63 @@
           }
         ],
         "summary": "Me"
+      }
+    },
+    "/api/v1/auth/operator/school-invites": {
+      "post": {
+        "description": "The operator onboards a new school (2026-10-01): a single-use invite\nfor its first principal, as a link. Needs the operator key in\n`X-Operator-Key` (scripts/new_school.py reads it from Secret Manager).\n403 without it, 409 once the school has a principal, 422 for a bad ID.",
+        "operationId": "create_school_invite_api_v1_auth_operator_school_invites_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-Operator-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Operator-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SchoolInviteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchoolInviteResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create School Invite"
       }
     },
     "/api/v1/auth/providers": {

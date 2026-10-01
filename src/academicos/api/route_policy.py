@@ -109,6 +109,7 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/v1/coverage"): _p(API_KEY, "aggregate answer-key coverage; no question text crosses it"),
 
     # ---- assessment/auth_routes.py ----
+    ("POST", "/api/v1/auth/operator/school-invites"): _p(PUBLIC, "the operator key is checked in the route; rate-limited"),
     ("POST", "/api/v1/auth/register"): _p(PUBLIC, "needs an invite code or the bootstrap key (Task 301)"),
     ("POST", "/api/v1/auth/login"): _p(PUBLIC),
     ("POST", "/api/v1/auth/logout"): _p(PUBLIC, "deletes the bearer's own session if any; nothing to leak"),

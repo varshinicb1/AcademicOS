@@ -71,6 +71,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("DELETE", "/api/v1/papers/{paper_id}/questions/{slot}"),
     # --- auth_routes.py (teacher/principal identity) ---
     ("POST", "/api/v1/auth/register"),
+    ("POST", "/api/v1/auth/operator/school-invites"),
     ("POST", "/api/v1/auth/login"),
     ("POST", "/api/v1/auth/logout"),
     ("GET", "/api/v1/auth/me"),
@@ -1039,7 +1040,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 334: ROLE-4 owners over several schools: owner links (3), owner
     # registration, redeem, schools, choose and leave a school, overview.
     # 338: API-6 a key's webhooks (register, list, revoke, delivery log).
-    assert len(API_ROUTES) == 338
+    # 339: the operator's single-use invite for a new school's first principal.
+    assert len(API_ROUTES) == 339
 
 
 def test_docs_routes_present():

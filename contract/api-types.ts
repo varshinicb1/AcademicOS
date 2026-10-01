@@ -547,6 +547,29 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/auth/operator/school-invites": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create School Invite
+         * @description The operator onboards a new school (2026-10-01): a single-use invite
+         *     for its first principal, as a link. Needs the operator key in
+         *     `X-Operator-Key` (scripts/new_school.py reads it from Secret Manager).
+         *     403 without it, 409 once the school has a principal, 422 for a bad ID.
+         */
+        post: operations["create_school_invite_api_v1_auth_operator_school_invites_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/auth/providers": {
         parameters: {
             query?: never;
@@ -11369,6 +11392,24 @@ export interface components {
             /** Subjects */
             subjects: components["schemas"]["SubjectRollupResponse"][];
         };
+        /** SchoolInviteRequest */
+        SchoolInviteRequest: {
+            /** Expiresindays */
+            expiresInDays?: number | null;
+            /** Schoolid */
+            schoolId: string;
+        };
+        /** SchoolInviteResponse */
+        SchoolInviteResponse: {
+            /** Code */
+            code: string;
+            /** Expiresat */
+            expiresAt: string;
+            /** Link */
+            link: string;
+            /** Schoolid */
+            schoolId: string;
+        };
         /** SchoolProfileRequest */
         SchoolProfileRequest: {
             /** Address */
@@ -14580,6 +14621,41 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["UserResponse"];
+                };
+            };
+        };
+    };
+    create_school_invite_api_v1_auth_operator_school_invites_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Operator-Key"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SchoolInviteRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SchoolInviteResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
