@@ -1,0 +1,141 @@
+{
+  "subject": "EVS",
+  "grade": 3,
+  "book": "Our Wondrous World",
+  "source_files": [
+    "chapters_text/ceev1/01.txt",
+    "chapters_text/ceev1/02.txt",
+    "chapters_text/ceev1/04.txt"
+  ],
+  "chapters": [
+    {
+      "id": "evs-3/family-and-friends",
+      "name": "Family and Friends",
+      "number": 1,
+      "book": "Our Wondrous World",
+      "source_file": "chapters_text/ceev1/01.txt",
+      "pages": [
+        1,
+        18
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "evs-3/family-and-friends/playing-together",
+          "name": "Playing Together",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "evs-3/family-and-friends/singing-together",
+          "name": "Singing Together",
+          "page": 4,
+          "subtopics": []
+        },
+        {
+          "id": "evs-3/family-and-friends/laughing-together",
+          "name": "Laughing Together",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "evs-3/family-and-friends/types-of-families",
+          "name": "Types of Families",
+          "page": 7,
+          "subtopics": []
+        },
+        {
+          "id": "evs-3/family-and-friends/helping-each-other",
+          "name": "Helping Each Other",
+          "page": 9,
+          "subtopics": []
+        },
+        {
+          "id": "evs-3/family-and-friends/fun-with-family-and-friends",
+          "name": "Fun with Family and Friends",
+          "page": 14,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "evs-3/going-to-the-mela",
+      "name": "Going to the Mela",
+      "number": 2,
+      "book": "Our Wondrous World",
+      "source_file": "chapters_text/ceev1/02.txt",
+      "pages": [
+        1,
+        15
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "evs-3/going-to-the-mela/preparing-for-the-mela",
+          "name": "Preparing for the Mela",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "evs-3/going-to-the-mela/on-the-way-to-the-mela",
+          "name": "On the way to the Mela",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "evs-3/going-to-the-mela/at-the-mela",
+          "name": "At the Mela",
+          "page": 6,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "evs-3/getting-to-know-plants",
+      "name": "Getting to Know Plants",
+      "number": 4,
+      "book": "Our Wondrous World",
+      "source_file": "chapters_text/ceev1/04.txt",
+      "pages": [
+        1,
+        17
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "evs-3/getting-to-know-plants/so-many-kinds-of-plants",
+          "name": "So Many Kinds of Plants",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "evs-3/getting-to-know-plants/shrubs",
+          "name": "Shrubs",
+          "page": 4,
+          "subtopics": []
+        },
+        {
+          "id": "evs-3/getting-to-know-plants/herbs-and-grasses",
+          "name": "Herbs and Grasses",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "evs-3/getting-to-know-plants/climbers-and-creepers",
+          "name": "Climbers and Creepers",
+          "page": 7,
+          "subtopics": []
+        },
+        {
+          "id": "evs-3/getting-to-know-plants/parts-of-a-plant",
+          "name": "Parts of a Plant",
+          "page": 13,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}

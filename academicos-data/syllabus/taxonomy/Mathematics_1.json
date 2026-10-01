@@ -1,0 +1,341 @@
+{
+  "subject": "Mathematics",
+  "grade": 1,
+  "book": "Joyful-Mathematics (English)",
+  "source_files": [
+    "chapters_text/aejm1/01.txt",
+    "chapters_text/aejm1/02.txt",
+    "chapters_text/aejm1/04.txt",
+    "chapters_text/aejm1/05.txt",
+    "chapters_text/aejm1/07.txt"
+  ],
+  "chapters": [
+    {
+      "id": "mathematics-1/finding-the-furry-cat",
+      "name": "Finding the Furry Cat!",
+      "number": 1,
+      "book": "Joyful-Mathematics (English)",
+      "source_file": "chapters_text/aejm1/01.txt",
+      "pages": [
+        1,
+        9
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "mathematics-1/finding-the-furry-cat/let-us-sing",
+          "name": "Let us Sing",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/finding-the-furry-cat/let-us-do",
+          "name": "Let us Do",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/finding-the-furry-cat/chhuk-chhuk-goes-our-train",
+          "name": "Chhuk Chhuk goes our Train!",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/finding-the-furry-cat/let-us-play",
+          "name": "Let us Play",
+          "page": 8,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "mathematics-1/what-is-long-what-is-round",
+      "name": "What is Long? What is Round?",
+      "number": 2,
+      "book": "Joyful-Mathematics (English)",
+      "source_file": "chapters_text/aejm1/02.txt",
+      "pages": [
+        1,
+        8
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "mathematics-1/what-is-long-what-is-round/look-around",
+          "name": "Look Around",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/what-is-long-what-is-round/think-and-do",
+          "name": "Think and Do",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/what-is-long-what-is-round/let-us-do",
+          "name": "Let us Do",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/what-is-long-what-is-round/wise-grandmother",
+          "name": "Wise Grandmother",
+          "page": 4,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/what-is-long-what-is-round/let-us-slide",
+          "name": "Let us Slide",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/what-is-long-what-is-round/think-and-do-2",
+          "name": "Think and Do",
+          "page": 7,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "mathematics-1/making-10",
+      "name": "Making 10",
+      "number": 4,
+      "book": "Joyful-Mathematics (English)",
+      "source_file": "chapters_text/aejm1/04.txt",
+      "pages": [
+        1,
+        15
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "mathematics-1/making-10/dotty-bug-and-her-designs",
+          "name": "Dotty Bug and her Designs",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/making-10/vanishing-buttons",
+          "name": "Vanishing Buttons",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/making-10/write-0",
+          "name": "Write '0'",
+          "page": 4,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/making-10/tenth-birthday",
+          "name": "Tenth Birthday",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/making-10/the-handy-five-and-ten",
+          "name": "The Handy Five and Ten",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/making-10/number-pairs-of-10",
+          "name": "Number Pairs of 10",
+          "page": 7,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/making-10/counting-up-to-20",
+          "name": "Counting up to 20",
+          "page": 9,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "mathematics-1/how-many",
+      "name": "How Many?",
+      "number": 5,
+      "book": "Joyful-Mathematics (English)",
+      "source_file": "chapters_text/aejm1/05.txt",
+      "pages": [
+        1,
+        16
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "mathematics-1/how-many/going-out-with-grandfather",
+          "name": "Going out with Grandfather!",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/how-many/tell-how-many-altogether-fill-in-the-blanks",
+          "name": "Tell How many Altogether? Fill in the Blanks.",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/how-many/let-us-count",
+          "name": "Let us Count",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/how-many/add-and-draw",
+          "name": "Add and Draw",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/how-many/let-us-play-addition-with-dice",
+          "name": "Let us Play— Addition with Dice!",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/how-many/beads-and-string",
+          "name": "Beads and String",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/how-many/hop-and-find-the-sum",
+          "name": "Hop and Find the Sum",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/how-many/add-in-your-own-way",
+          "name": "Add in Your Own Way",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/how-many/let-us-do-number-pairs-and-matching",
+          "name": "Let us Do (Number Pairs and Matching)",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/how-many/addition-story",
+          "name": "Addition Story",
+          "page": 8,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/how-many/think-and-do",
+          "name": "Think and Do",
+          "page": 9,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/how-many/five-little-children",
+          "name": "Five Little Children",
+          "page": 10,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/how-many/let-us-talk",
+          "name": "Let us Talk",
+          "page": 11,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/how-many/hidden-dots",
+          "name": "Hidden Dots",
+          "page": 12,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/how-many/hop-backwards-on-the-number-strip",
+          "name": "Hop Backwards on the Number Strip",
+          "page": 14,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "mathematics-1/lina-s-family",
+      "name": "Lina’s Family",
+      "number": 7,
+      "book": "Joyful-Mathematics (English)",
+      "source_file": "chapters_text/aejm1/07.txt",
+      "pages": [
+        1,
+        12
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "mathematics-1/lina-s-family/lina-s-family-get-together",
+          "name": "Lina’s Family Get Together",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/lina-s-family/let-us-talk",
+          "name": "Let us Talk",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/lina-s-family/amazing-facts",
+          "name": "Amazing Facts",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/lina-s-family/let-us-do",
+          "name": "Let us Do",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/lina-s-family/think-and-do",
+          "name": "Think and Do",
+          "page": 4,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/lina-s-family/think-and-answer",
+          "name": "Think and Answer",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/lina-s-family/let-us-do-2",
+          "name": "Let us Do",
+          "page": 7,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/lina-s-family/let-us-do-3",
+          "name": "Let us Do",
+          "page": 7,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/lina-s-family/let-us-talk-2",
+          "name": "Let us Talk",
+          "page": 8,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-1/lina-s-family/let-us-do-4",
+          "name": "Let us Do",
+          "page": 8,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}

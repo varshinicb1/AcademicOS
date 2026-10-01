@@ -1,0 +1,32 @@
+name = "academicos-qgen"
+main = "src/index.ts"
+compatibility_date = "2025-09-01"
+# On, so /run, /status and /health are reachable. The cron trigger does not need a
+# public URL, but being able to start a run and see the day's neuron spend without
+# waiting for 02:17 is worth the workers.dev hostname.
+workers_dev = true
+
+# The whole reason this is a Worker: the AI binding calls Workers AI with the
+# account's own credentials, so the free tier needs no API token and nothing to
+# expire. An API token pulled out of ~/.wrangler works for about an hour and then
+# 401s, which is not a thing a nightly job can depend on.
+[ai]
+binding = "AI"
+
+# Chapter prompts in, raw completions out. The worker does not judge anything --
+# `cbse_generate.validate` does, in Python, where it has tests.
+[[r2_buckets]]
+binding = "BANK"
+bucket_name = "academicos-qgen"
+
+# A KV counter is overkill for one number; it is here because R2 listing is the
+# only state the worker needs and this keeps the budget check to one read.
+[[kv_namespaces]]
+binding = "STATE"
+id = "2170c3437be1471ea9e0c5fc7f016fe3"
+
+# Nightly. The free tier allows 10,000 neurons a day, and a chapter at 12 marks
+# measured ~913, so a nightly run is a handful of chapters and the run stops on
+# budget rather than overrunning.
+[triggers]
+crons = ["17 2 * * *"]

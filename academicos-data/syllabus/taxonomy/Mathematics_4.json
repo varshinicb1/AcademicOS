@@ -1,0 +1,207 @@
+{
+  "subject": "Mathematics",
+  "grade": 4,
+  "book": "Math-Mela",
+  "source_files": [
+    "chapters_text/demm1/01.txt",
+    "chapters_text/demm1/02.txt",
+    "chapters_text/demm1/04.txt"
+  ],
+  "chapters": [
+    {
+      "id": "mathematics-4/shapes-around-us",
+      "name": "Shapes Around Us",
+      "number": 1,
+      "book": "Math-Mela",
+      "source_file": "chapters_text/demm1/01.txt",
+      "pages": [
+        1,
+        23
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "mathematics-4/shapes-around-us/shapes-around-us",
+          "name": "Shapes Around Us",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/shapes-around-us/net-of-a-box",
+          "name": "Net of a box",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/shapes-around-us/sorting-3d-shapes",
+          "name": "Sorting 3D Shapes",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/shapes-around-us/build-with-cubes",
+          "name": "Build with Cubes",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/shapes-around-us/drawing-cubes-on-a-triangular-dot-paper",
+          "name": "Drawing Cubes on a Triangular Dot Paper",
+          "page": 7,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/shapes-around-us/when-lines-meet",
+          "name": "When Lines Meet",
+          "page": 8,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/shapes-around-us/right-angles",
+          "name": "Right Angles",
+          "page": 9,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/shapes-around-us/acute-and-obtuse-angles",
+          "name": "Acute and Obtuse Angles",
+          "page": 11,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/shapes-around-us/shapes-with-straws",
+          "name": "Shapes with Straws",
+          "page": 12,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/shapes-around-us/amazing-circles",
+          "name": "Amazing Circles",
+          "page": 15,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/shapes-around-us/puzzling-shapes",
+          "name": "Puzzling Shapes",
+          "page": 17,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/shapes-around-us/let-us-try",
+          "name": "Let Us Try",
+          "page": 19,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "mathematics-4/where-are-you-hiding",
+      "name": "Where Are You Hiding?",
+      "number": 2,
+      "book": "Math-Mela",
+      "source_file": "chapters_text/demm1/02.txt",
+      "pages": [
+        1,
+        10
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "mathematics-4/where-are-you-hiding/hide-and-seek",
+          "name": "Hide and Seek",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/where-are-you-hiding/boxy-buldings",
+          "name": "Boxy Buldings",
+          "page": 4,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/where-are-you-hiding/cat-finds-jagat",
+          "name": "Cat Finds Jagat",
+          "page": 4,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/where-are-you-hiding/grid-game",
+          "name": "Grid Game",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/where-are-you-hiding/grid-game-treasure-hunt",
+          "name": "Grid Game — Treasure Hunt",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/where-are-you-hiding/drone-around-the-school",
+          "name": "Drone Around the School",
+          "page": 8,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "mathematics-4/thousands-around-us",
+      "name": "Thousands Around Us",
+      "number": 4,
+      "book": "Math-Mela",
+      "source_file": "chapters_text/demm1/04.txt",
+      "pages": [
+        1,
+        23
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "mathematics-4/thousands-around-us/thousands-around-us",
+          "name": "Thousands Around Us",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/thousands-around-us/1000s-around-us",
+          "name": "1000s AROUND US",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/thousands-around-us/one-thousand-1000",
+          "name": "One Thousand (1000)",
+          "page": 7,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/thousands-around-us/grouping-and-regrouping",
+          "name": "Grouping and Regrouping",
+          "page": 8,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/thousands-around-us/numbers-beyond-1000-one-thousand",
+          "name": "Numbers Beyond 1000 (One Thousand)",
+          "page": 10,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/thousands-around-us/number-line",
+          "name": "Number Line",
+          "page": 13,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-4/thousands-around-us/comparing-numbers",
+          "name": "COMPARING NUMBERS",
+          "page": 18,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}

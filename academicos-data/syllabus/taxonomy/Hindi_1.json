@@ -1,0 +1,83 @@
+{
+  "subject": "Hindi",
+  "grade": 1,
+  "book": "Sarangi",
+  "source_files": [
+    "chapters_text/ahsr1/01.txt",
+    "chapters_text/ahsr1/02.txt"
+  ],
+  "chapters": [
+    {
+      "id": "hindi-1/मीना-का-परिवार",
+      "name": "मीना का परिवार",
+      "number": 1,
+      "book": "Sarangi",
+      "source_file": "chapters_text/ahsr1/01.txt",
+      "pages": [
+        1,
+        7
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "hindi-1/मीना-का-परिवार/मीना-का-परिवार",
+          "name": "मीना का परिवार",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-1/मीना-का-परिवार/चंदा-मामा-दूर-के",
+          "name": "चंदा मामा दूर के",
+          "page": 6,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "hindi-1/दादा-दादी",
+      "name": "दादा-दादी",
+      "number": 2,
+      "book": "Sarangi",
+      "source_file": "chapters_text/ahsr1/02.txt",
+      "pages": [
+        1,
+        3
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "hindi-1/दादा-दादी/दादा-दादी",
+          "name": "दादा-दादी",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-1/दादा-दादी/शब्दों-का-खेल",
+          "name": "शब्दों का खेल",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-1/दादा-दादी/झटपट-कहिए",
+          "name": "झटपट कहिए",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-1/दादा-दादी/आओ-सुनें",
+          "name": "आओ सुनें!",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-1/दादा-दादी/खोजें-जानें",
+          "name": "खोजें-जानें",
+          "page": 2,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}

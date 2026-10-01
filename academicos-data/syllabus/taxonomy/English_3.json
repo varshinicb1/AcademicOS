@@ -1,0 +1,165 @@
+{
+  "subject": "English",
+  "grade": 3,
+  "book": "Santoor",
+  "source_files": [
+    "chapters_text/cesa1/01.txt",
+    "chapters_text/cesa1/02.txt",
+    "chapters_text/cesa1/04.txt"
+  ],
+  "chapters": [
+    {
+      "id": "english-3/fun-with-friends",
+      "name": "Fun with Friends",
+      "number": 1,
+      "book": "Santoor",
+      "source_file": "chapters_text/cesa1/01.txt",
+      "pages": [
+        1,
+        14
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "english-3/fun-with-friends/fun-with-friends",
+          "name": "Fun with Friends",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "english-3/fun-with-friends/colours",
+          "name": "Colours",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "english-3/fun-with-friends/let-us-speak",
+          "name": "Let us speak",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "english-3/fun-with-friends/let-us-learn",
+          "name": "Let us learn",
+          "page": 7,
+          "subtopics": []
+        },
+        {
+          "id": "english-3/fun-with-friends/let-us-do",
+          "name": "Let us do",
+          "page": 13,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "english-3/badal-and-moti",
+      "name": "Badal and Moti",
+      "number": 2,
+      "book": "Santoor",
+      "source_file": "chapters_text/cesa1/02.txt",
+      "pages": [
+        1,
+        10
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "english-3/badal-and-moti/let-us-read",
+          "name": "Let us read",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "english-3/badal-and-moti/let-us-think",
+          "name": "Let us think",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "english-3/badal-and-moti/let-us-learn",
+          "name": "Let us learn",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "english-3/badal-and-moti/let-us-listen",
+          "name": "Let us listen",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "english-3/badal-and-moti/let-us-speak",
+          "name": "Let us speak",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "english-3/badal-and-moti/let-us-write",
+          "name": "Let us write",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "english-3/badal-and-moti/let-us-do",
+          "name": "Let us do",
+          "page": 8,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "english-3/out-in-the-garden",
+      "name": "Out in the Garden",
+      "number": 4,
+      "book": "Santoor",
+      "source_file": "chapters_text/cesa1/04.txt",
+      "pages": [
+        1,
+        8
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "english-3/out-in-the-garden/picture-reading",
+          "name": "Picture reading",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "english-3/out-in-the-garden/out-in-the-garden",
+          "name": "Out in the Garden",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "english-3/out-in-the-garden/let-us-think",
+          "name": "Let us think",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "english-3/out-in-the-garden/let-us-speak",
+          "name": "Let us speak",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "english-3/out-in-the-garden/let-us-learn",
+          "name": "Let us learn",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "english-3/out-in-the-garden/let-us-do",
+          "name": "Let us do",
+          "page": 7,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}

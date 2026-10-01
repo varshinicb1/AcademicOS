@@ -1,0 +1,89 @@
+{
+  "subject": "Mathematics",
+  "grade": 3,
+  "book": "Maths Mela",
+  "source_files": [
+    "chapters_text/cemm1/01.txt",
+    "chapters_text/cemm1/02.txt"
+  ],
+  "chapters": [
+    {
+      "id": "mathematics-3/what-s-in-a-name",
+      "name": "What's in a Name?",
+      "number": 1,
+      "book": "Maths Mela",
+      "source_file": "chapters_text/cemm1/01.txt",
+      "pages": [
+        1,
+        8
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "mathematics-3/what-s-in-a-name/what-s-in-a-name",
+          "name": "What's in a Name?",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-3/what-s-in-a-name/let-us-do",
+          "name": "Let us Do",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-3/what-s-in-a-name/let-us-think",
+          "name": "Let us Think",
+          "page": 4,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-3/what-s-in-a-name/let-us-do-2",
+          "name": "Let us Do",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-3/what-s-in-a-name/hair-styles",
+          "name": "Hair Styles",
+          "page": 6,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "mathematics-3/toy-joy",
+      "name": "Toy Joy",
+      "number": 2,
+      "book": "Maths Mela",
+      "source_file": "chapters_text/cemm1/02.txt",
+      "pages": [
+        1,
+        7
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "mathematics-3/toy-joy/let-us-do",
+          "name": "Let us Do",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-3/toy-joy/construct-and-describe",
+          "name": "Construct and Describe",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-3/toy-joy/let-us-do-2",
+          "name": "Let us Do",
+          "page": 3,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}
