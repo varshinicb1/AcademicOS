@@ -593,6 +593,33 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/auth/users/{user_id}/erasure": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Preview Erasure
+         * @description What erasing this student or parent would delete, part by part, and
+         *     what would stay. Changes nothing.
+         */
+        get: operations["preview_erasure_api_v1_auth_users__user_id__erasure_get"];
+        put?: never;
+        /**
+         * Erase
+         * @description Erase a student's or a parent's personal data on the school's written
+         *     request. Cannot be undone. See the module docstring for the order and
+         *     for what stays.
+         */
+        post: operations["erase_api_v1_auth_users__user_id__erasure_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/auth/users/{user_id}/reopen": {
         parameters: {
             query?: never;
@@ -7606,6 +7633,71 @@ export interface components {
             /** Studentid */
             studentId: string;
         };
+        /** ErasureKept */
+        ErasureKept: {
+            /** What */
+            what: string;
+            /** Why */
+            why: string;
+        };
+        /** ErasurePart */
+        ErasurePart: {
+            /** Count */
+            count: number;
+            /** Error */
+            error?: string | null;
+            /** Label */
+            label: string;
+            /** Part */
+            part: string;
+            /** Tables */
+            tables?: {
+                [key: string]: number;
+            } | null;
+        };
+        /** ErasurePreview */
+        ErasurePreview: {
+            /** Closed */
+            closed: boolean;
+            /** Kept */
+            kept: components["schemas"]["ErasureKept"][];
+            /** Name */
+            name: string;
+            /** Parts */
+            parts: components["schemas"]["ErasurePart"][];
+            /** Role */
+            role: string;
+            /** Userid */
+            userId: string;
+        };
+        /** ErasureRequest */
+        ErasureRequest: {
+            /** Confirmname */
+            confirmName: string;
+            /**
+             * Requestreceivedon
+             * Format: date
+             */
+            requestReceivedOn: string;
+            /**
+             * Requestedby
+             * @enum {string}
+             */
+            requestedBy: "parent" | "student" | "school";
+        };
+        /** ErasureResult */
+        ErasureResult: {
+            /** Erasedat */
+            erasedAt: string;
+            /** Kept */
+            kept: components["schemas"]["ErasureKept"][];
+            /** Parts */
+            parts: components["schemas"]["ErasurePart"][];
+            /** Role */
+            role: string;
+            /** Userid */
+            userId: string;
+        };
         /** ErrorGroupResponse */
         ErrorGroupResponse: {
             /** Count */
@@ -13592,6 +13684,72 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["UserResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    preview_erasure_api_v1_auth_users__user_id__erasure_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                user_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErasurePreview"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    erase_api_v1_auth_users__user_id__erasure_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                user_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ErasureRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErasureResult"];
                 };
             };
             /** @description Validation Error */

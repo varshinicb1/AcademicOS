@@ -35,6 +35,9 @@ specifically, not just its general ones.
       student data moves — purpose limitation, retention period, deletion rights,
       named data controller and processor spelled out in writing. Not verbal.
       ([ksandk.com](https://ksandk.com/data-protection-and-data-privacy/dpdp-compliance-for-schools-and-edtech/))
+  - The deletion right the DPA template promises (its sections 6.2, 6.3 and
+    9) is built since 2026-10-01: see "Erasure on request" below. The box
+    stays unticked until a DPA is signed.
 - [ ] **Breach notification duty to the Data Protection Board** and to affected
       users — the Act's own timeline, layered under the CERT-In 6-hour rule below.
 
@@ -791,6 +794,95 @@ and practice pages show the 409 sentence itself (`apiErrorMessage` in
   check applies; the phone is Task 305's concern in another stream.
 - Tests record consent in their setup (`grant_consent` in
   `tests/_auth_helpers.py`); nothing bypasses the rule.
+
+## Erasure on request (2026-10-01)
+
+The v3 audit's first hold on NFR-1 was "no route deletes or erases a user or
+a student's data", while `docs/dpa-template.md` (sections 6.2, 6.3 and 9)
+promises deletion within 30 days of the school's written request, scanned
+images, read text and derived marks and mastery included. Closing an account
+(N-67-8) keeps everything, and withdrawing consent only stops processing.
+`assessment/erasure.py` does the deletion now.
+
+**Who and how.** The principal, for a student or a parent of their own school:
+- `GET /api/v1/auth/users/{id}/erasure` shows what would be deleted, store by
+  store with counts, and what stays. It changes nothing. It is logged as a
+  read (`pii_read`, `what: erasure_preview`).
+- `POST` to the same path erases. Its body names whose written request it is
+  (`parent`, `student` or `school`), the day it reached the school (not
+  after today), and the person's name typed out, because an erasure cannot
+  be undone.
+- The web console has it on Admin → Roster ("Erase a student's or parent's
+  data"): pick the person, read the preview, confirm.
+- A delegated users admin can close an account but not erase one.
+- Staff are closed, not erased. The papers, marks and cover they made are the
+  school's records.
+
+**What is deleted, in order.** The account is closed first (signed out
+everywhere), then:
+- for a student:
+  - the consent record and the class enrollment;
+  - homework answers, marks and feedback, and the photos of written work, as
+    files, blob objects and rows;
+  - learning progress, self-practice, paper marks and absences;
+  - parent links and parent invites;
+  - the student's notifications, settings, phones, calendar link and number;
+  - other people's notices that carry the student's data (a parent's marks
+    notice, a teacher's "<name> handed in");
+  - marked answer sheets;
+  - scan sessions with their page images, read text and PDFs (every object
+    under the session's prefix in GCS);
+  - remediation practice, the mastery model, the learner event log and
+    progress-report PDFs;
+  - the invites sent to the student;
+- for a parent: their notifications, settings, phones, number, links to
+  children and invites.
+
+The operations and curriculum snapshots are then uploaded at once, so a
+restart cannot restore the deleted rows from the blob store. Only when every
+part succeeded does the account row go, and the name and email with it. A
+part that fails is reported (503, naming it). The account stays closed, and
+running the erasure again finishes it.
+
+**Nothing left in the files.** SQLite deletes run with `secure_delete` on (some
+builds have it off by default), and then the WAL is checkpointed and
+truncated (`storage/secure_delete.py`). An end-to-end run found an erased
+student's answers still in `operations.sqlite-wal` until that second step was
+added. After it, a sweep of the whole data directory finds the erased
+student's name and email nowhere, and their id only in the audit log.
+
+**What stays, and why** (the preview lists it too):
+- **The audit log.** It is append-only and hash-chained, and CERT-In's
+  directions require logs to be kept. The erasure is recorded there by id,
+  with counts and the request's date and origin, never the name or email.
+  Earlier entries name the person by id. Three kinds also carry a name or an
+  email: a consent recorded (the guardian's name), a parent invited (their
+  email), and an account closed or reopened (the name).
+- **A parent's consent for a child.** Erasing the parent keeps it: it is the
+  child's record and the basis for processing the child's work.
+- **Backups and versions** keep a copy until they expire: Cloud SQL backups
+  and point-in-time recovery, GCS object versions if versioning is on, and
+  snapshot conflict copies (`conflicts/*.sqlite`, which only the operator
+  merges or removes).
+- **Files the school took away**: papers, report cards and exports it
+  downloaded or printed.
+
+**Known limits:**
+- On Cloud SQL a deleted row's space is reclaimed by VACUUM, not overwritten
+  at once.
+- A file deleted from the container disk is unlinked, not overwritten.
+- On the Supabase (Render) release, the remediation-practice and scan-session
+  stores find a student by reading every row. PostgREST caps a read at its
+  max-rows (1,000 by default), so a larger table would need paging. Cloud SQL
+  has no such cap.
+
+**Held complete by tests** (`tests/test_erasure.py`):
+- Every operations table is either erased or named with a reason
+  (`operations/forget.py`).
+- Every Cloud SQL table in `deploy/gcp/schema.sql` is too.
+- The curriculum store names a student only in `student_enrollments`.
+- A new table with a person's data therefore fails the suite until erasure
+  covers it.
 
 ## Six-dimension audit (2026-08-19) — fixed bugs and open decisions
 

@@ -10,6 +10,7 @@ import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 import '../widgets/book_edition_card.dart';
 import '../widgets/calendar_rules_card.dart';
+import '../widgets/erasure_card.dart';
 import '../widgets/insights_card.dart';
 import '../widgets/invites_panel.dart';
 import '../widgets/pending_topics_card.dart';
@@ -831,6 +832,9 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
             ],
           ),
         ),
+        const Gap(24),
+        // NFR-1: erasure on the school's written request (principal only).
+        const ErasureCard(),
       ],
     );
   }

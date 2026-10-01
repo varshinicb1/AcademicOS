@@ -178,3 +178,10 @@ class SupabaseStorage:
                          headers=self._headers(), timeout=30)
         r.raise_for_status()
         return r.content
+
+    def delete(self, key: str) -> None:
+        """Remove one object (erasure). Already gone is not an error."""
+        r = requests.delete(f"{self._url}/storage/v1/object/{self.bucket}/{key}",
+                            headers=self._headers(), timeout=30)
+        if r.status_code != 404:
+            r.raise_for_status()

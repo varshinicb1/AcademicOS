@@ -113,6 +113,9 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/auth/users"): _p(ADMIN["users"]),
     ("POST", "/api/v1/auth/users/{user_id}/close"): _p(ADMIN["users"]),
     ("POST", "/api/v1/auth/users/{user_id}/reopen"): _p(ADMIN["users"]),
+    # NFR-1: never delegated -- an erasure cannot be undone (assessment/erasure.py).
+    ("GET", "/api/v1/auth/users/{user_id}/erasure"): _p(PRINCIPAL, "what erasing a student or parent deletes"),
+    ("POST", "/api/v1/auth/users/{user_id}/erasure"): _p(PRINCIPAL, "DPDP erasure on the school's request"),
     ("POST", "/api/v1/auth/invites"): _p(ADMIN["users"]),
     ("GET", "/api/v1/auth/invites"): _p(ADMIN["users"]),
     ("DELETE", "/api/v1/auth/invites/{code}"): _p(ADMIN["users"]),
