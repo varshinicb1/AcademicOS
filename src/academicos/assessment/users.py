@@ -65,9 +65,11 @@ users table that doesn't survive a restart means every teacher account
 """
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import logging
 import os
+import re
 import secrets
 import sqlite3
 import threading
@@ -94,6 +96,9 @@ _SESSION_LIFETIME = timedelta(days=30)
 INVITE_ROLES = ("teacher", "student", "parent")
 _INVITE_DEFAULT_DAYS = 14
 _INVITE_MAX_DAYS = 90
+# A school's ID: 3-60 lowercase letters, digits and hyphens (stmarys-hyd).
+_SCHOOL_ID = re.compile(r"[a-z0-9][a-z0-9-]{1,58}[a-z0-9]")
+_HAS_PRINCIPAL = "this school already has a principal; ask them for an invite"
 
 _DEMO_SEED_ENV = "ACOS_SEED_DEMO_USERS"
 
@@ -367,15 +372,22 @@ class UserStore:
         # _claim_invite); creating the account afterwards means a lost race
         # never leaves an account behind. If the create fails, the claim is
         # released so a storage error does not burn the principal's invite.
-        user_id = _new_user_id()
-        self._claim_invite(invite.code, user_id, backend)
-        try:
-            return self._insert_user(user_id=user_id, school_id=invite.school_id,
-                                     name=name, email=email, password=password,
-                                     role=invite.role)
-        except BaseException:
-            self._release_invite(invite.code, user_id, backend)
-            raise
+        # A principal invite makes the school's FIRST principal only: checked
+        # under the same lock as the key path, so two such invites (or an
+        # invite and the key) cannot both make a principal.
+        guard = self._bootstrap_lock if invite.role == "principal" else contextlib.nullcontext()
+        with guard:
+            if invite.role == "principal" and self._school_has_principal(invite.school_id):
+                raise RegistrationRefused(_HAS_PRINCIPAL)
+            user_id = _new_user_id()
+            self._claim_invite(invite.code, user_id, backend)
+            try:
+                return self._insert_user(user_id=user_id, school_id=invite.school_id,
+                                         name=name, email=email, password=password,
+                                         role=invite.role)
+            except BaseException:
+                self._release_invite(invite.code, user_id, backend)
+                raise
 
     def _register_first_principal(self, *, principal_key: str, school_id: Optional[str],
                                   role: Optional[str], name: str, email: str,
@@ -485,6 +497,9 @@ class UserStore:
             email=bound_email, created_by=created_by, created_at=now.isoformat(),
             expires_at=(now + timedelta(days=days)).isoformat(),
         )
+        return self._save_invite(invite)
+
+    def _save_invite(self, invite: Invite) -> Invite:
         row = asdict(invite)
         if self._remote_invites.enabled:
             # No local fallback when a remote store is configured, unlike
@@ -504,6 +519,29 @@ class UserStore:
                     tuple(row.values()))
                 self.conn.commit()
         return invite
+
+    def create_principal_invite(self, *, school_id: str, created_by: str = "operator",
+                                expires_in_days: Optional[int] = None) -> Invite:
+        """The operator's single-use invite for a new school's FIRST principal
+        (2026-10-01). The link carries the school and the role, so the
+        principal types no school ID and the operator's key never leaves the
+        operator. Refused once the school has a principal, and redeeming it
+        checks again under the same lock (_register_with_invite)."""
+        school_id = (school_id or "").strip().lower()
+        if not _SCHOOL_ID.fullmatch(school_id):
+            raise ValueError("a school ID is 3-60 lowercase letters, digits and hyphens, e.g. stmarys-hyd")
+        days = _INVITE_DEFAULT_DAYS if expires_in_days is None else expires_in_days
+        if isinstance(days, bool) or not isinstance(days, int) \
+                or not 1 <= days <= _INVITE_MAX_DAYS:
+            raise ValueError(f"expiresInDays must be a whole number from 1 to {_INVITE_MAX_DAYS}")
+        with self._bootstrap_lock:
+            if self._school_has_principal(school_id):
+                raise RegistrationRefused(_HAS_PRINCIPAL)
+            now = datetime.now(timezone.utc)
+            return self._save_invite(Invite(
+                code=secrets.token_urlsafe(16), school_id=school_id, role="principal", email="",
+                created_by=created_by, created_at=now.isoformat(),
+                expires_at=(now + timedelta(days=days)).isoformat()))
 
     def invites_for_school(self, school_id: str) -> list[Invite]:
         """Every invite the school has issued, used or not, newest first.
