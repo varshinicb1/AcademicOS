@@ -476,17 +476,22 @@ class _MyDayPageState extends State<MyDayPage> {
                   if (pending.isNotEmpty) ...[
                     SectionHeader(title: tr('Cover asked of you')),
                     for (final d in pending)
+                      // The buttons go under the text, not beside it: three of
+                      // them in `trailing` left a 390 px phone a one-word-wide
+                      // title (re-measure, 2026-10-01).
                       ListTile(
                         title: Text('${d['date']} · period ${d['period']} · '
                             '${_ctx?.sectionLabels[d['sectionId']] ?? d['sectionId']}'),
-                        subtitle: Text([
-                          _ctx?.subjectNames[d['subjectId']] ?? '',
-                          if (d['handoverNote'] != null) '${tr('Note')}: ${d['handoverNote']}',
-                        ].where((s) => s.isNotEmpty).join('\n')),
-                        isThreeLine: d['handoverNote'] != null,
-                        trailing: Wrap(spacing: 8, children: [
-                          OutlinedButton(onPressed: () => _respond(d['id'], false), child: Text(tr('Decline'))),
-                          FilledButton(onPressed: () => _respond(d['id'], true), child: Text(tr('Accept'))),
+                        subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          Text([
+                            _ctx?.subjectNames[d['subjectId']] ?? '',
+                            if (d['handoverNote'] != null) '${tr('Note')}: ${d['handoverNote']}',
+                          ].where((s) => s.isNotEmpty).join('\n')),
+                          const SizedBox(height: 8),
+                          Wrap(spacing: 8, runSpacing: 6, children: [
+                            OutlinedButton(onPressed: () => _respond(d['id'], false), child: Text(tr('Decline'))),
+                            FilledButton(onPressed: () => _respond(d['id'], true), child: Text(tr('Accept'))),
+                          ]),
                         ]),
                       ),
                   ],
@@ -495,19 +500,22 @@ class _MyDayPageState extends State<MyDayPage> {
                     for (final l in _lessons)
                       ListTile(
                         title: Text('${l['sectionName'] ?? ''} ${l['subjectName']}: ${l['subtopicName']}'),
-                        subtitle: Text('${l['chapterName']} · ${l['topicName']}'),
-                        trailing: l['status'] == 'scheduled'
-                            ? Wrap(spacing: 6, children: [
-                                OutlinedButton(onPressed: () => _markLesson(l['lessonId'] as String, 'skipped'),
-                                    child: Text(tr('Not taught'))),
-                                OutlinedButton(onPressed: () => _markLesson(l['lessonId'] as String, 'partly'),
-                                    child: Text(tr('Partly'))),
-                                FilledButton(onPressed: () => _markLesson(l['lessonId'] as String, 'completed'),
-                                    child: Text(tr('Taught'))),
-                              ])
-                            : ChipTag(label: l['status'] == 'skipped'
-                                ? tr('Not taught')
-                                : (l['note'] as String? ?? '').startsWith('Partly') ? tr('Partly taught') : tr('Taught')),
+                        subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          Text('${l['chapterName']} · ${l['topicName']}'),
+                          const SizedBox(height: 8),
+                          l['status'] == 'scheduled'
+                              ? Wrap(spacing: 6, runSpacing: 6, children: [
+                                  OutlinedButton(onPressed: () => _markLesson(l['lessonId'] as String, 'skipped'),
+                                      child: Text(tr('Not taught'))),
+                                  OutlinedButton(onPressed: () => _markLesson(l['lessonId'] as String, 'partly'),
+                                      child: Text(tr('Partly'))),
+                                  FilledButton(onPressed: () => _markLesson(l['lessonId'] as String, 'completed'),
+                                      child: Text(tr('Taught'))),
+                                ])
+                              : ChipTag(label: l['status'] == 'skipped'
+                                  ? tr('Not taught')
+                                  : (l['note'] as String? ?? '').startsWith('Partly') ? tr('Partly taught') : tr('Taught')),
+                        ]),
                       ),
                   ],
                   SectionHeader(
