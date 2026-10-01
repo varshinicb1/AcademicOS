@@ -4364,6 +4364,9 @@ export interface paths {
          *     `scopeNote`) -- an all-time number shown as "this term" would be the
          *     silent kind of wrong.
          *
+         *     A paper counts once, while it still exists (`paper_timing.kept_papers`):
+         *     pressing Generate again, a regeneration, or a deleted paper adds nothing.
+         *
          *     Scoped to the caller's school. The response separates what was MEASURED
          *     (generation time, from a monotonic clock) from what was DECLARED (the
          *     manual baseline -- the principal's own for the term when set), and says so
