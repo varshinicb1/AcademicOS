@@ -4753,6 +4753,185 @@
         "title": "EnrollStudentRequest",
         "type": "object"
       },
+      "ErasureKept": {
+        "properties": {
+          "what": {
+            "title": "What",
+            "type": "string"
+          },
+          "why": {
+            "title": "Why",
+            "type": "string"
+          }
+        },
+        "required": [
+          "what",
+          "why"
+        ],
+        "title": "ErasureKept",
+        "type": "object"
+      },
+      "ErasurePart": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "part": {
+            "title": "Part",
+            "type": "string"
+          },
+          "tables": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "integer"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tables"
+          }
+        },
+        "required": [
+          "part",
+          "label",
+          "count"
+        ],
+        "title": "ErasurePart",
+        "type": "object"
+      },
+      "ErasurePreview": {
+        "properties": {
+          "closed": {
+            "title": "Closed",
+            "type": "boolean"
+          },
+          "kept": {
+            "items": {
+              "$ref": "#/components/schemas/ErasureKept"
+            },
+            "title": "Kept",
+            "type": "array"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "parts": {
+            "items": {
+              "$ref": "#/components/schemas/ErasurePart"
+            },
+            "title": "Parts",
+            "type": "array"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          },
+          "userId": {
+            "title": "Userid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId",
+          "name",
+          "role",
+          "closed",
+          "parts",
+          "kept"
+        ],
+        "title": "ErasurePreview",
+        "type": "object"
+      },
+      "ErasureRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "confirmName": {
+            "title": "Confirmname",
+            "type": "string"
+          },
+          "requestReceivedOn": {
+            "format": "date",
+            "title": "Requestreceivedon",
+            "type": "string"
+          },
+          "requestedBy": {
+            "enum": [
+              "parent",
+              "student",
+              "school"
+            ],
+            "title": "Requestedby",
+            "type": "string"
+          }
+        },
+        "required": [
+          "requestedBy",
+          "requestReceivedOn",
+          "confirmName"
+        ],
+        "title": "ErasureRequest",
+        "type": "object"
+      },
+      "ErasureResult": {
+        "properties": {
+          "erasedAt": {
+            "title": "Erasedat",
+            "type": "string"
+          },
+          "kept": {
+            "items": {
+              "$ref": "#/components/schemas/ErasureKept"
+            },
+            "title": "Kept",
+            "type": "array"
+          },
+          "parts": {
+            "items": {
+              "$ref": "#/components/schemas/ErasurePart"
+            },
+            "title": "Parts",
+            "type": "array"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          },
+          "userId": {
+            "title": "Userid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId",
+          "role",
+          "erasedAt",
+          "parts",
+          "kept"
+        ],
+        "title": "ErasureResult",
+        "type": "object"
+      },
       "ErrorGroupResponse": {
         "properties": {
           "count": {
@@ -19009,6 +19188,104 @@
           }
         ],
         "summary": "Close Account"
+      }
+    },
+    "/api/v1/auth/users/{user_id}/erasure": {
+      "get": {
+        "description": "What erasing this student or parent would delete, part by part, and\nwhat would stay. Changes nothing.",
+        "operationId": "preview_erasure_api_v1_auth_users__user_id__erasure_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "title": "User Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErasurePreview"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Preview Erasure"
+      },
+      "post": {
+        "description": "Erase a student's or a parent's personal data on the school's written\nrequest. Cannot be undone. See the module docstring for the order and\nfor what stays.",
+        "operationId": "erase_api_v1_auth_users__user_id__erasure_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "title": "User Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErasureRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErasureResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Erase"
       }
     },
     "/api/v1/auth/users/{user_id}/reopen": {

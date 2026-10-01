@@ -409,6 +409,13 @@ def test_a_group_items_key_is_not_split_over_the_groups_marks():
               "• Bacterial cells do not have a well-defined nucleus. "
               "• Bacterial cells do not have membrane bound cell organelles.")
     assert ms.split_answer(answer, 6, stem).rule == ""
+    # As the served bank prints it since the extraction repair of 2026-10-01
+    # (dde445a), which took the "1 " off the labels after the first as leaked
+    # marks: one numbered label, then plain ones. Still a group.
+    repaired = ("1 (a) State two points of difference between the bacterial and the animal "
+                "cell.  (b) Explain how salt prevents food spoilage.  (c) Justify with two "
+                "examples that microorganisms can be beneficial.")
+    assert ms.split_answer(answer, 6, repaired).rule == ""
     # The same answer, for the sub-question it actually answers, still splits.
     one_part = ms.split_answer(answer + " 1 mark for each difference", 3,
                                "1 (a) State three points of difference.")

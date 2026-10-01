@@ -60,6 +60,39 @@ class Invite {
   bool get isOpen => status == 'open';
 }
 
+/// One store's share of an erasure: what it holds of the person (`count`).
+class ErasurePart {
+  final String part;
+  final String label;
+  final int count;
+  final String? error;
+
+  ErasurePart.fromJson(Map<String, dynamic> j)
+      : part = j['part'] as String,
+        label = j['label'] as String,
+        count = (j['count'] as num).toInt(),
+        error = j['error'] as String?;
+}
+
+/// GET /auth/users/{id}/erasure: what an erasure would delete, and what
+/// stays and why (the audit log, a parent's consent for a child, backups).
+class ErasurePreview {
+  final String userId;
+  final String name;
+  final String role; // "student" | "parent"
+  final bool closed;
+  final List<ErasurePart> parts;
+  final List<(String what, String why)> kept;
+
+  ErasurePreview.fromJson(Map<String, dynamic> j)
+      : userId = j['userId'] as String,
+        name = j['name'] as String,
+        role = j['role'] as String,
+        closed = j['closed'] as bool,
+        parts = (j['parts'] as List).map((e) => ErasurePart.fromJson(Map<String, dynamic>.from(e))).toList(),
+        kept = (j['kept'] as List).map((e) => ((e as Map)['what'] as String, e['why'] as String)).toList();
+}
+
 class AuthResult {
   final AuthUser user;
   final String token;
@@ -188,6 +221,29 @@ class AuthApi {
     } on DioException catch (e) {
       throw _asAuthException(e);
     }
+  }
+
+  /// What erasing this student or parent would delete, part by part, and
+  /// what would stay (GET /auth/users/{id}/erasure; principal only). Changes
+  /// nothing.
+  Future<ErasurePreview> erasurePreview(String userId) async {
+    final r = await _dio.get('/auth/users/${Uri.encodeComponent(userId)}/erasure');
+    return ErasurePreview.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  /// Erase a student's or parent's data on the school's written request
+  /// (DPDP). Cannot be undone. `requestedBy` is "parent" | "student" |
+  /// "school"; `requestReceivedOn` is the day the request reached the school;
+  /// `confirmName` must be the person's name. A 503 means some part could not
+  /// be erased yet: the account stays closed and running it again finishes it.
+  Future<List<ErasurePart>> erase(String userId,
+      {required String requestedBy, required DateTime requestReceivedOn, required String confirmName}) async {
+    final day = '${requestReceivedOn.year.toString().padLeft(4, '0')}-'
+        '${requestReceivedOn.month.toString().padLeft(2, '0')}-${requestReceivedOn.day.toString().padLeft(2, '0')}';
+    final r = await _dio.post('/auth/users/${Uri.encodeComponent(userId)}/erasure', data: {
+      'requestedBy': requestedBy, 'requestReceivedOn': day, 'confirmName': confirmName,
+    });
+    return ((r.data as Map)['parts'] as List).map((e) => ErasurePart.fromJson(Map<String, dynamic>.from(e))).toList();
   }
 
   /// The sign-in and invite forms' own wording for the statuses they expect;

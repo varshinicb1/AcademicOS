@@ -78,6 +78,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/auth/users"),
     ("POST", "/api/v1/auth/users/{user_id}/close"),
     ("POST", "/api/v1/auth/users/{user_id}/reopen"),
+    ("GET", "/api/v1/auth/users/{user_id}/erasure"),
+    ("POST", "/api/v1/auth/users/{user_id}/erasure"),
     ("POST", "/api/v1/auth/invites"),
     ("GET", "/api/v1/auth/invites"),
     ("DELETE", "/api/v1/auth/invites/{code}"),
@@ -436,6 +438,8 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/auth/users"),
     ("POST", "/api/v1/auth/users/{user_id}/close"),
     ("POST", "/api/v1/auth/users/{user_id}/reopen"),
+    ("GET", "/api/v1/auth/users/{user_id}/erasure"),
+    ("POST", "/api/v1/auth/users/{user_id}/erasure"),
     # Invites are principal-only (require_principal -> get_current_user).
     ("POST", "/api/v1/auth/invites"),
     ("GET", "/api/v1/auth/invites"),
@@ -976,7 +980,9 @@ def test_canonical_route_inventory_matches_live_app():
     # 314: EX-8 report cards (a student's, as JSON and PDF; a section's PDF).
     # 315: N-67-5 every section's lesson plan in one action.
     # 316: the operator's single-use invite for a new school's first principal.
-    assert len(API_ROUTES) == 316
+    # 318: NFR-1 erasing a student's or parent's data on the school's request
+    # (preview, erase).
+    assert len(API_ROUTES) == 318
 
 
 def test_docs_routes_present():
