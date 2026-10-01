@@ -236,8 +236,9 @@ class _PlanPanelState extends State<_PlanPanel> {
       _step = tr('Timing each subtopic against the year\'s periods...');
     });
     try {
+      // Sized from this section's own week (N-3-8), not the school-wide slots.
       final estimates = await Ops.post('$_base/books/$bookId/teaching-time-estimates', query: query,
-          body: {'periodsPerWeek': widget.allocation!['periodsPerWeek']});
+          body: {'periodsPerWeek': widget.allocation!['periodsPerWeek'], 'sectionId': widget.sectionId});
       if (!mounted) return;
       setState(() {
         _estimates = Map<String, dynamic>.from(estimates as Map);

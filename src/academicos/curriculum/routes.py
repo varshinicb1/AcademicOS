@@ -1695,28 +1695,48 @@ def compute_teaching_time_estimates(book_id: str, academic_year_id: str,
     overwrites an existing estimate (§29 -- an admin who has since
     hand-adjusted an estimate must not have it clobbered by a re-run).
 
+    The budget is sized from a section's own week (N-3-8): `sectionId`'s,
+    or, when none is named, the largest of the class's sections that have
+    the subject in their timetable. Only a class with no section week falls
+    back to the school-wide slots.
+
     `periods_per_week`: an explicit value in the request always wins (a
-    one-off override); when omitted, resolves this book's subject's real,
-    persisted SubjectPeriodAllocation for the year instead of forcing the
-    caller to re-supply it every time -- 400 with a clear message if
-    neither exists, never a guessed default."""
+    one-off override); when omitted, resolves the section's allocation
+    (`sectionId`), else this book's subject's persisted
+    SubjectPeriodAllocation for the year, else the most any section of the
+    class is allocated -- 400 with a clear message if none exists, never a
+    guessed default."""
     store = _require()
     _require_school_owns_book(book_id, principal)
     _require_school_owns_academic_year(academic_year_id, principal)
+    book = store.get_book(book_id)
+    if req.section_id is not None:
+        section = _require_school_owns_section(req.section_id, principal)
+        subject_row = store.get_subject(book.subject_id) if book else None
+        if subject_row is None or subject_row.grade_id != section.grade_id:
+            raise HTTPException(422, "that book is not one of this section's class's books")
     periods_per_week = req.periods_per_week
+    if periods_per_week is None and req.section_id is not None:
+        alloc = store.allocation_for(req.section_id, book.subject_id)
+        periods_per_week = alloc.periods_per_week if alloc else None
     if periods_per_week is None:
         subject = store.subject_name_for_book(book_id)
         allocation = store.subject_period_allocation(academic_year_id, subject) if subject else None
-        if allocation is None:
+        if allocation is not None:
+            periods_per_week = allocation.periods_per_week
+        else:
+            per_section = [a.periods_per_week for a in store.allocations_for_year(academic_year_id)
+                           if book is not None and a.subject_id == book.subject_id]
+            periods_per_week = max(per_section) if per_section else None
+        if periods_per_week is None:
             raise HTTPException(
-                400, "periods_per_week not given and no SubjectPeriodAllocation is set for this "
-                "subject/year -- either pass periodsPerWeek explicitly or "
-                "POST .../subject-period-allocations first")
-        periods_per_week = allocation.periods_per_week
+                400, "periods_per_week not given and no allocation is set for this subject -- "
+                "either pass periodsPerWeek explicitly or allocate the subject to a section first")
     try:
         result = calendar_mod.compute_teaching_time_estimates(
             store, academic_year_id=academic_year_id, book_id=book_id,
-            periods_per_week=periods_per_week, approved_by=principal.id, recompute=req.recompute)
+            periods_per_week=periods_per_week, approved_by=principal.id, recompute=req.recompute,
+            section_id=req.section_id)
     except ValueError as e:
         raise HTTPException(404, str(e))
     return ComputeTeachingTimeResponse(
@@ -1726,7 +1746,7 @@ def compute_teaching_time_estimates(book_id: str, academic_year_id: str,
         total_instructional_minutes=result.total_instructional_minutes,
         units_skipped_no_subtopics=list(result.units_skipped_no_subtopics),
         estimates_created=len(result.estimates), periods_allocated=result.periods_allocated,
-        periods_short=result.periods_short, fits_in_year=result.fits_in_year)
+        periods_short=result.periods_short, fits_in_year=result.fits_in_year, section_id=result.section_id)
 
 
 @router.get("/subtopics/{subtopic_id}/teaching-time-estimate",

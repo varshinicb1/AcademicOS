@@ -216,7 +216,8 @@ void main() {
     final (m1, p1, q1, b1) = backend.sent[0];
     expect((m1, p1), ('POST', '/curriculum/books/book_sci/teaching-time-estimates'));
     expect(q1, {'academic_year_id': 'ay_1'});
-    expect(b1, {'periodsPerWeek': 6}, reason: "the section's own allocation, not a school-wide one");
+    expect(b1, {'periodsPerWeek': 6, 'sectionId': 'sec_a'},
+        reason: "the section's own allocation and week, not a school-wide one (N-3-8)");
     final (m2, p2, q2, b2) = backend.sent[1];
     expect((m2, p2), ('POST', '/curriculum/books/book_sci/schedule'));
     expect(q2, {'academic_year_id': 'ay_1'});

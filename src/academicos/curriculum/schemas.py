@@ -472,6 +472,10 @@ class ComputeTeachingTimeRequest(Camel):
     # -- how estimates made before a calendar change, or by the
     # pre-2026-09-22 periods x weeks formula, are brought back inside the year.
     recompute: bool = False
+    # Size the budget from this section's own week (its periods of the
+    # subject on the year's working days); periodsPerWeek then defaults to
+    # its allocation. Omitted, the class's sections' weeks size it (N-3-8).
+    section_id: Optional[str] = None
 
 
 class TeachingTimeEstimateResponse(Camel):
@@ -501,6 +505,8 @@ class ComputeTeachingTimeResponse(Camel):
     periods_allocated: int = 0
     periods_short: int = 0
     fits_in_year: bool = True
+    # The section whose own week sized the budget; null: the school-wide slots.
+    section_id: Optional[str] = None
 
 
 # ---------------- micro scheduling (§11-14, §38-41) ----------------

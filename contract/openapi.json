@@ -3354,6 +3354,17 @@
             "default": false,
             "title": "Recompute",
             "type": "boolean"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
           }
         },
         "title": "ComputeTeachingTimeRequest",
@@ -3399,6 +3410,17 @@
             "default": 0,
             "title": "Periodsshort",
             "type": "integer"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
           },
           "totalInstructionalMinutes": {
             "title": "Totalinstructionalminutes",
@@ -21933,7 +21955,7 @@
     },
     "/api/v1/curriculum/books/{book_id}/teaching-time-estimates": {
       "post": {
-        "description": "Distributes this subject's real, calendar-grounded instructional\ntime across its real, approved Subtopics -- see calendar.py's\ncompute_teaching_time_estimates() docstring for the full method.\nIdempotent per subtopic: re-running never duplicates or silently\noverwrites an existing estimate (§29 -- an admin who has since\nhand-adjusted an estimate must not have it clobbered by a re-run).\n\n`periods_per_week`: an explicit value in the request always wins (a\none-off override); when omitted, resolves this book's subject's real,\npersisted SubjectPeriodAllocation for the year instead of forcing the\ncaller to re-supply it every time -- 400 with a clear message if\nneither exists, never a guessed default.",
+        "description": "Distributes this subject's real, calendar-grounded instructional\ntime across its real, approved Subtopics -- see calendar.py's\ncompute_teaching_time_estimates() docstring for the full method.\nIdempotent per subtopic: re-running never duplicates or silently\noverwrites an existing estimate (§29 -- an admin who has since\nhand-adjusted an estimate must not have it clobbered by a re-run).\n\nThe budget is sized from a section's own week (N-3-8): `sectionId`'s,\nor, when none is named, the largest of the class's sections that have\nthe subject in their timetable. Only a class with no section week falls\nback to the school-wide slots.\n\n`periods_per_week`: an explicit value in the request always wins (a\none-off override); when omitted, resolves the section's allocation\n(`sectionId`), else this book's subject's persisted\nSubjectPeriodAllocation for the year, else the most any section of the\nclass is allocated -- 400 with a clear message if none exists, never a\nguessed default.",
         "operationId": "compute_teaching_time_estimates_api_v1_curriculum_books__book_id__teaching_time_estimates_post",
         "parameters": [
           {

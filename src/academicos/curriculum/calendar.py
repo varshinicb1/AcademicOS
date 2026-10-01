@@ -330,6 +330,42 @@ def teaching_slots_for_book(store: CurriculumStore, academic_year_id: str, book_
     return sorted(out)
 
 
+def sections_with_a_week_for_book(store: CurriculumStore, book_id: str) -> list[str]:
+    """The sections of the book's class whose own timetable (TimetableEntry)
+    holds the book's subject -- the weeks a section plan of this book is
+    laid on."""
+    book = store.get_book(book_id)
+    subject = store.get_subject(book.subject_id) if book else None
+    if subject is None:
+        return []
+    return [s.id for s in store.sections_for_grade(subject.grade_id)
+            if any(e.subject_id == book.subject_id for e in store.timetable_for_section(s.id))]
+
+
+def teaching_budget_for_book(store: CurriculumStore, academic_year_id: str, book_id: str,
+                             periods_per_week: int, section_id: Optional[str] = None
+                             ) -> tuple[int, Optional[str]]:
+    """(the periods a book's estimates are sized to, the section whose week
+    sized them).
+
+    With a section, that section's periods of the subject on the year's
+    working days. Without one, the book's class's sections that have their
+    own week for the subject decide: the largest of their budgets, the same
+    "most periods any section has" rule Plan every section times a book at.
+    Only a class with no section week for the subject falls back to the
+    school-wide per-subject-name slots. Until v3 audit N-3-8 the estimates
+    always took that fallback, which with no named slots is one period per
+    working day: every book's budget was 235, the year's working days, for
+    a subject its sections teach 8-9 periods a week."""
+    if section_id is None:
+        weeks = {sid: len(teaching_slots_for_book(store, academic_year_id, book_id, periods_per_week, sid))
+                 for sid in sections_with_a_week_for_book(store, book_id)}
+        if weeks:
+            section_id = max(weeks, key=lambda sid: (weeks[sid], sid))
+            return weeks[section_id], section_id
+    return len(teaching_slots_for_book(store, academic_year_id, book_id, periods_per_week, section_id)), section_id
+
+
 def _largest_remainder(total: int, weights: list[float]) -> list[int]:
     """Splits `total` into integers proportional to `weights` that sum to
     `total` exactly. Equal weights when every weight is zero."""
@@ -362,6 +398,7 @@ class TeachingTimeComputationResult:
     estimates: tuple[TeachingTimeEstimate, ...]   # created (or recomputed) by this run
     periods_allocated: int = 0          # every estimate this book's subtopics now hold
     periods_short: int = 0              # allocated beyond the budget: the syllabus is bigger than the year
+    section_id: Optional[str] = None    # the section whose own week sized the budget; None: school-wide
 
     @property
     def fits_in_year(self) -> bool:
@@ -370,20 +407,21 @@ class TeachingTimeComputationResult:
 
 def compute_teaching_time_estimates(
     store: CurriculumStore, *, academic_year_id: str, book_id: str, periods_per_week: int,
-    approved_by: Optional[str] = None, recompute: bool = False,
+    approved_by: Optional[str] = None, recompute: bool = False, section_id: Optional[str] = None,
 ) -> TeachingTimeComputationResult:
     """Distributes a subject's real teaching periods for the year across its
     real Subtopics, weighted by each Unit's real CBSE marks (same signal a
     human HOD uses, and the one syllabus/timetable.py applies at Unit level).
 
     The budget is the number of real teaching periods the subject has this
-    year -- teaching_slots_for_book(): the calendar's working days (after
+    year -- teaching_budget_for_book(): the calendar's working days (after
     weekly offs, alternate Saturdays and every closure) x the subject's
-    periods on those days. It used to be periods_per_week x calendar weeks,
-    which ignored holidays: 264 periods for a 6-period subject whose year
-    really holds 220. `periods_per_week` still decides the no-timetable
-    fallback; with a timetable the timetable decides, exactly as it does in
-    scheduling.
+    periods on those days in the section's own week (`section_id`, or the
+    class's sections' weeks when none is named). It used to be
+    periods_per_week x calendar weeks, which ignored holidays: 264 periods
+    for a 6-period subject whose year really holds 220. `periods_per_week`
+    still decides the no-timetable fallback; with a timetable the timetable
+    decides, exactly as it does in scheduling.
 
     The split is exact. Every subtopic gets one period (it cannot be taught
     in none), and the rest of the budget goes to units by marks and evenly
@@ -427,7 +465,8 @@ def compute_teaching_time_estimates(
     start = _parse_date(year.start_date)
     end = _parse_date(year.end_date)
     calendar_weeks = max(1, -(-(end - start).days // 7))  # ceil division; reported, not the budget
-    budget = len(teaching_slots_for_book(store, academic_year_id, book_id, periods_per_week))
+    budget, sized_by = teaching_budget_for_book(store, academic_year_id, book_id, periods_per_week,
+                                                section_id)
 
     skipped: list[str] = []
     to_allocate: list[tuple[object, list[str]]] = []   # (unit, subtopic ids without a kept estimate)
@@ -481,5 +520,5 @@ def compute_teaching_time_estimates(
         total_subject_periods=budget,
         total_instructional_minutes=budget * period_cfg.period_minutes,
         units_skipped_no_subtopics=tuple(skipped), estimates=tuple(estimates),
-        periods_allocated=allocated, periods_short=max(0, allocated - budget),
+        periods_allocated=allocated, periods_short=max(0, allocated - budget), section_id=sized_by,
     )
