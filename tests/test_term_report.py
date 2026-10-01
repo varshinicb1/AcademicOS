@@ -56,9 +56,12 @@ def test_the_term_report_counts_and_filters(w):
 
 
 def test_with_no_term_it_is_the_year_so_far_and_says_so(w):
+    """D43: the note named "calendar setup", which is no page of the web
+    app; it now names the console tab that declares terms, and links it."""
     d = w.c.get("/api/v1/dashboard/term", headers=w.p).json()
     assert d["scope"]["kind"] == "year" and d["scope"]["name"] == "2026-27"
-    assert "Declare the school's terms" in d["scope"]["note"]
+    assert "Declare this year's terms on the School Admin console, under Calendar & Setup" in d["scope"]["note"]
+    assert d["scope"]["noteLink"] == "/admin?tab=calendar-setup"
 
 
 def test_the_report_downloads_as_excel_and_pdf_and_is_audited(w):

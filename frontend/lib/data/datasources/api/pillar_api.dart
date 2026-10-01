@@ -319,8 +319,14 @@ class PaperTiming {
         term = j['term'] == null
             ? null
             : TimingTerm.fromJson(Map<String, dynamic>.from(j['term'])),
+        setup = j['setup'] is Map ? TimingSetup.fromJson(Map<String, dynamic>.from(j['setup'] as Map)) : null,
         examCoverage = ExamCoverage.fromJson(
             Map<String, dynamic>.from(j['examCoverage'] ?? const {}));
+
+  /// What the school must set up before these figures can be per term or
+  /// name the classes without a paper, and the web page that does it; null
+  /// when nothing is missing (audit D43).
+  final TimingSetup? setup;
 
   /// No paper has been generated through the web app yet, so every figure
   /// below it is arithmetic on nothing. A screen must say that rather than
@@ -335,6 +341,21 @@ class PaperTiming {
   final ExamCoverage examCoverage;
 
   bool get isTerm => scope == 'term' && term != null;
+}
+
+/// One setup step the server names: [need] is "classes" or "terms", [link]
+/// the web route that has the control ("/admin?tab=calendar-setup").
+class TimingSetup {
+  final String need;
+  final String label;
+  final String link;
+  final String message;
+
+  TimingSetup.fromJson(Map<String, dynamic> j)
+      : need = j['need'] as String? ?? '',
+        label = j['label'] as String? ?? '',
+        link = j['link'] as String? ?? '',
+        message = j['message'] as String? ?? '';
 }
 
 /// The term a [PaperTiming] reports.

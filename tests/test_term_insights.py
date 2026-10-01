@@ -217,7 +217,48 @@ def test_with_no_term_covering_today_it_says_so_rather_than_passing_all_time_as_
         assert body["scope"] == "allTime" and body["term"] is None
         assert "no term" in body["scopeNote"].lower()
         assert body["papers"] == 3
+        # No year and no classes at all: classes come first, on the console.
         assert body["examCoverage"]["classesDeclared"] is False
+        assert body["setup"]["need"] == "classes" and body["setup"]["link"] == "/admin"
+
+
+def test_with_classes_set_up_and_no_term_the_guidance_is_true_and_links_the_page(
+        tmp_path, monkeypatch, seeded):
+    """D43: with class 10 seeded and no term, /paper-timing returned
+    `classesDeclared false` (the class list was read only through a term),
+    so the card told a school with its classes set up to "set up your classes
+    and subjects for this year in calendar setup" -- false, and naming a
+    screen the web app does not have. The classes now come from the year
+    covering today, and the one step left (terms) names the console tab that
+    declares them, with its link."""
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal, teacher = _users(client)
+        _school(tmp_path)                       # classes, no term
+        _set_papers(client, teacher)
+        body = client.get("/api/v1/paper-timing", headers=principal).json()
+        assert body["scope"] == "allTime"
+        cov = body["examCoverage"]
+        assert cov["classesDeclared"] is True
+        assert cov["notYet"] == [{"grade": 9, "subject": "Science"},
+                                 {"grade": 10, "subject": "Mathematics"}]
+        assert body["setup"] == {
+            "need": "terms", "label": "Declare terms", "link": "/admin?tab=calendar-setup",
+            "message": "Declare this year's terms on the School Admin console, under Calendar & "
+                       "Setup, to see one term at a time."}
+        assert body["scopeNote"].endswith(body["setup"]["message"])
+        assert "calendar setup" not in body["scopeNote"]
+
+        store, year = get_curriculum(tmp_path)
+        _term(store, year)
+        body = client.get("/api/v1/paper-timing", headers=principal).json()
+        assert body["scope"] == "term" and body["setup"] is None and body["scopeNote"] is None
+
+
+def get_curriculum(tmp_path):
+    from academicos.curriculum.store import get_curriculum_store
+    store = get_curriculum_store(tmp_path)
+    [year] = store.academic_years_for_school("school_1")
+    return store, year
 
 
 def test_another_schools_term_is_refused(tmp_path, monkeypatch, seeded):

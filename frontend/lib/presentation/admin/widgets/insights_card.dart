@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/constants/release_scope.dart';
 import '../../../data/datasources/api/pillar_api.dart';
@@ -29,10 +30,16 @@ class InsightsCard extends StatelessWidget {
     required this.timing,
     required this.catalog,
     this.onSetBaseline,
+    this.onOpenSetup,
   });
 
   final PaperTiming timing;
   final Catalog catalog;
+
+  /// Opens the web page a setup step names ([TimingSetup.link]). The admin
+  /// console passes one that switches to its own tab; absent, the card
+  /// navigates to the link.
+  final void Function(String link)? onOpenSetup;
 
   /// Sets (minutes) or clears (null) the term's own baseline. Absent, the
   /// card offers no way to change it.
@@ -88,9 +95,13 @@ class InsightsCard extends StatelessWidget {
     final cov = timing.examCoverage;
     final when = timing.isTerm ? 'this term' : 'so far';
     final set = '${_papers(timing.papers)} set $when.';
+    // Only when the school really has no classes for the year: with its
+    // classes set up and no term, this read "Set up your classes and
+    // subjects for this year in calendar setup", which was false and named
+    // a screen the web app does not have (audit D43).
     if (!cov.classesDeclared) {
-      return '$set Set up your classes and subjects for this year in calendar '
-          'setup to see which are still without one.';
+      return '$set This year has no classes set up yet, so the classes still without a paper '
+          'cannot be listed.';
     }
     final pairs = cov.covered.length + cov.notYet.length;
     if (cov.notYet.isEmpty) return '$set Every class-subject pair has at least one.';
@@ -123,6 +134,21 @@ class InsightsCard extends StatelessWidget {
               Text('All time', style: theme.textTheme.titleMedium),
               if (timing.scopeNote != null)
                 Text(timing.scopeNote!, style: theme.textTheme.bodySmall),
+            ],
+            // The one step the school has left, as a button to the page that
+            // does it -- never an instruction naming a screen without it.
+            if (timing.setup case final setup?) ...[
+              if (timing.isTerm || timing.scopeNote == null)
+                Text(setup.message, style: theme.textTheme.bodySmall),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton.icon(
+                  key: const ValueKey('timing-setup'),
+                  onPressed: () => onOpenSetup != null ? onOpenSetup!(setup.link) : context.go(setup.link),
+                  icon: const Icon(Icons.arrow_forward),
+                  label: Text(setup.label),
+                ),
+              ),
             ],
             const Divider(height: 24),
             // Collapsed, like the bank below: the summary carries the gap.

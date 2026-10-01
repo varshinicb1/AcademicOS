@@ -167,7 +167,33 @@ void main() {
       'notYet': <Map<String, dynamic>>[], 'unattributed': 0, 'classesDeclared': false}};
     await _pump(tester, InsightsCard(timing: _timing(extra: extra), catalog: _catalog()));
     expect(find.textContaining('have no paper yet'), findsNothing);
-    expect(find.textContaining('Set up your classes'), findsOneWidget);
+    expect(find.textContaining('This year has no classes set up yet'), findsOneWidget);
+  });
+
+  // Audit D43: with classes set up and no term, /paper-timing said
+  // `classesDeclared false` and the card printed "Set up your classes and
+  // subjects for this year in calendar setup" -- false, and naming a screen
+  // the web app does not have. The server now lists the classes from the
+  // year, and names the one step left with the console tab that does it.
+  testWidgets('classes set up, no term: no false instruction, and a button to the page that declares terms',
+      (tester) async {
+    const step = "Declare this year's terms on the School Admin console, under Calendar & Setup, "
+        'to see one term at a time.';
+    final extra = {'scope': 'allTime', 'term': null,
+      'scopeNote': 'No term of this school covers 2026-10-01, so these figures are for all time. $step',
+      'setup': {'need': 'terms', 'label': 'Declare terms', 'link': '/admin?tab=calendar-setup', 'message': step},
+      'examCoverage': {
+        'covered': [{'grade': 10, 'subject': 'Science', 'papers': 12}],
+        'notYet': [{'grade': 9, 'subject': 'Science'}], 'unattributed': 0, 'classesDeclared': true}};
+    final opened = <String>[];
+    await _pump(tester, InsightsCard(
+        timing: _timing(extra: extra), catalog: _catalog(), onOpenSetup: opened.add));
+    expect(find.textContaining('Set up your classes'), findsNothing);
+    expect(find.textContaining('calendar setup'), findsNothing);
+    expect(find.textContaining('1 of 2 class-subject pairs have no paper yet'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('timing-setup')));
+    expect(opened, ['/admin?tab=calendar-setup']);
+    expect(find.text('Declare terms'), findsOneWidget);
   });
 
   testWidgets('papers it could not match to a class are said, not hidden', (tester) async {
@@ -181,7 +207,8 @@ void main() {
   testWidgets('with no term covering today the server note is shown verbatim',
       (tester) async {
     const note = 'No term of this school covers 2026-09-27, so these figures are '
-        'for all time. Declare the school’s terms in calendar setup.';
+        "for all time. Declare this year's terms on the School Admin console, under "
+        'Calendar & Setup, to see one term at a time.';
     final extra = {'scope': 'allTime', 'scopeNote': note, 'term': null,
       'examCoverage': {'covered': <Map<String, dynamic>>[], 'notYet': <Map<String, dynamic>>[],
         'unattributed': 0, 'classesDeclared': false}};

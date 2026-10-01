@@ -12970,6 +12970,17 @@
             ],
             "title": "Note"
           },
+          "noteLink": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notelink"
+          },
           "startDate": {
             "title": "Startdate",
             "type": "string"

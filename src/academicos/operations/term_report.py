@@ -35,6 +35,8 @@ class Scope(Camel):
     as_of: str
     term_id: Optional[str] = None
     note: Optional[str] = None
+    # The web page where what `note` asks for is done (D43), or None.
+    note_link: Optional[str] = None
 
 
 class Filters(Camel):
@@ -204,13 +206,16 @@ def _resolve(current: User, term_id: Optional[str]) -> tuple[str, Scope]:
         return term.academic_year_id, Scope(kind="term", name=term.name, start_date=term.start_date,
                                             end_date=term.end_date, as_of=min(today, term.end_date),
                                             term_id=term.id)
+    from ..assessment import paper_timing
     year = next((y for y in cs.academic_years_for_school(current.school_id)
                  if y.start_date <= today <= y.end_date), None)
     if year is None:
-        raise HTTPException(404, "no academic year covers today; set one up in calendar setup")
+        raise HTTPException(404, "no academic year covers today; set up this year's classes on the "
+                                 f"School Admin console ({paper_timing.CLASSES_PAGE})")
+    step = paper_timing.setup_step(classes_declared=True, term_declared=False)
     return year.id, Scope(kind="year", name=year.label, start_date=year.start_date, end_date=year.end_date,
-                          as_of=today, note=("No term covers today, so this is the year so far. Declare the "
-                                             "school's terms in calendar setup to see one term."))
+                          as_of=today, note=f"No term covers today, so this is the year so far. {step['message']}",
+                          note_link=step["link"])
 
 
 def _syllabus(current: User, year_id: str, scope: Scope, f: _Filter) -> Syllabus:

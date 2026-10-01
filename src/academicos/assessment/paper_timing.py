@@ -91,6 +91,31 @@ def school_date(timestamp: str) -> Optional[str]:
         moment = moment.replace(tzinfo=timezone.utc)
     return moment.astimezone(_IST).date().isoformat()
 
+# Where the web app has the controls the time-saved and coverage guidance
+# names: the School Admin console's Calendar & Setup tab declares terms, and
+# the console itself sets up a new school's year and classes. An instruction
+# that names a screen without the control is worse than none (D43: the card
+# told a school with its classes set up to set them up, "in calendar setup").
+TERMS_PAGE = "/admin?tab=calendar-setup"
+CLASSES_PAGE = "/admin"
+
+
+def setup_step(*, classes_declared: bool, term_declared: bool) -> Optional[dict]:
+    """The one thing a school must do before a figure can be per term or
+    name its missing classes, with the web page that does it; None when
+    nothing is missing. Classes come first: terms belong to a year."""
+    if not classes_declared:
+        return {"need": "classes", "label": "Set up this year's classes", "link": CLASSES_PAGE,
+                "message": ("This school has no classes set up for the year covering today, so the "
+                            "classes still without a paper cannot be listed. Set up this year's "
+                            "classes on the School Admin console.")}
+    if not term_declared:
+        return {"need": "terms", "label": "Declare terms", "link": TERMS_PAGE,
+                "message": ("Declare this year's terms on the School Admin console, under "
+                            "Calendar & Setup, to see one term at a time.")}
+    return None
+
+
 # The action quick generation appends, and `record_generation` writes.
 ACTION = "quick_paper_generated"
 

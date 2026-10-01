@@ -769,17 +769,25 @@ def get_paper_timing(term_id: Optional[str] = Query(None, alias="termId"),
         return a.subject, a.grade
 
     baseline = None
-    universe = None
     if term is not None:
         if term.manual_baseline_minutes is not None:
             baseline = (float(term.manual_baseline_minutes),
                         f"set by the principal for {term.name}")
-        # The classes 1-10 (requirements v3) the school declared for the term's year, and their
-        # subjects: what "not yet" is measured against.
-        universe = [(g.number, s.name)
-                    for g in curriculum.grades_for_year(term.academic_year_id)
-                    if 1 <= g.number <= 10
-                    for s in curriculum.subjects_for_grade(g.id)]
+        year_id = term.academic_year_id
+    else:
+        # No term: the year covering today still says which classes the
+        # school has. Without a term this was None, so a school with its
+        # classes set up was told to set them up (D43).
+        today = paper_timing.school_today()
+        year = next((y for y in curriculum.academic_years_for_school(current.school_id)
+                     if y.start_date <= today <= y.end_date), None)
+        year_id = year.id if year is not None else None
+    # The classes 1-10 (requirements v3) the school declared for the year, and their
+    # subjects: what "not yet" is measured against.
+    universe = [(g.number, s.name)
+                for g in curriculum.grades_for_year(year_id)
+                if 1 <= g.number <= 10
+                for s in curriculum.subjects_for_grade(g.id)] if year_id else None
     rep = paper_timing.report(
         cfg.data_root, school_id=current.school_id, attribute=attribute, baseline=baseline,
         start_date=term.start_date if term else None,
@@ -788,11 +796,13 @@ def get_paper_timing(term_id: Optional[str] = Query(None, alias="termId"),
         kept=paper_timing.kept_papers(store.list_by_school(current.school_id)))
     body = rep.as_dict()
     body["examCoverage"] = paper_timing.exam_coverage(rep, universe)
+    # What the school must set up first, with the web page that does it.
+    body["setup"] = paper_timing.setup_step(
+        classes_declared=body["examCoverage"]["classesDeclared"], term_declared=term is not None)
     if term is None:
         body.update(scope="allTime", term=None, scopeNote=(
             f"No term of this school covers {paper_timing.school_today()}, so these figures "
-            "are for all time. Declare the school's terms in calendar setup to see this "
-            "term's papers and which classes have none yet."))
+            f"are for all time. {body['setup']['message']}"))
     else:
         body.update(scope="term", scopeNote=None, term={
             "id": term.id, "name": term.name,

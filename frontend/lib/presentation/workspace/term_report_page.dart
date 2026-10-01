@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/download/pdf_saver.dart';
 import '../../data/datasources/api/api_error.dart';
@@ -192,6 +193,17 @@ class _TermReportPageState extends State<TermReportPage> {
       Text('${tr('As of')} ${scope['asOf']}', style: theme.textTheme.bodySmall),
       if (scope['note'] != null)
         Padding(padding: const EdgeInsets.only(top: 6), child: Text(scope['note'] as String, style: theme.textTheme.bodySmall)),
+      // The page that does what the note asks, not a description of it (audit D43).
+      if (scope['noteLink'] is String)
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            key: const Key('term-report-setup'),
+            onPressed: () => context.go(scope['noteLink'] as String),
+            icon: const Icon(Icons.arrow_forward),
+            label: Text(tr('Declare terms')),
+          ),
+        ),
       const SizedBox(height: 12),
       Wrap(spacing: 8, runSpacing: 8, children: [
         stat(tr('Lessons taught / planned'), '${syllabus['taughtToDate']} / ${syllabus['plannedToDate']}'),

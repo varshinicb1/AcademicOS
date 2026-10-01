@@ -295,7 +295,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/admin',
             name: 'principal-admin',
-            builder: (context, state) => const PrincipalAdminPage(),
+            // ?tab=calendar-setup opens Calendar & Setup, where terms are
+            // declared: the link the time-saved guidance gives (audit D43).
+            builder: (context, state) => PrincipalAdminPage(initialTab: state.uri.queryParameters['tab']),
           ),
           GoRoute(
             path: '/scan',
