@@ -196,3 +196,84 @@ def test_leave_is_checked(s):
     _leave(s, w, "ana")
     with pytest.raises(CoverError, match="overlaps"):
         _leave(s, w, "ana")
+
+
+# ---- v3 audit N-3-9: the engine's own pick who does not teach the subject ----
+
+def test_the_engines_pick_who_does_not_teach_the_subject_supervises_and_the_period_is_owed(s):
+    """Approving Ana's leave puts Dev (Maths) on 10-A's Science period, the
+    only one free. He supervises: Science is not taught, so the period is
+    owed, and the summary does not call it filled. Until N-3-9 the engine's
+    pick was filed 'substitute' whoever it was, counted as filled, and
+    never owed (8 of 24 in the audit's school)."""
+    w = _school(s)
+    _, subs = s.decide_leave(_leave(s, w, "ana").id, approve=True, decided_by="p1")
+    by = _by_slot(subs)
+    dev = by[(w.a10, 1)]
+    assert (dev.substitute_id, dev.status, dev.mode) == ("dev", "proposed", "supervised")
+    assert by[(w.b10, 2)].mode == "substitute", "Chitra teaches Science"
+    [owed] = s.lost_periods_for_year(w.year, "owed")
+    assert (owed.section_id, owed.subject_id, owed.period, owed.source_id) == (w.a10, w.sci10, 1, dev.id)
+    summary = s.cover_summary(w.year, MON, MON)
+    assert (summary["substitutionsRequested"], summary["filled"], summary["supervised"],
+            summary["lost"], summary["owed"]) == (2, 1, 1, 1, 1)
+    assert summary["debt"] == [{"sectionId": w.a10, "subjectId": w.sci10, "owed": 1, "compensated": 0,
+                                "waived": 0}]
+
+
+def test_a_decline_judges_the_next_candidate_the_same_way(s):
+    """Chitra declines 10-B's Science period: it passes to Dev, who only
+    supervises, so it is owed. Dev declines in turn: it goes back to
+    Chitra, a teacher of the subject, and the debt goes."""
+    w = _school(s)
+    _, subs = s.decide_leave(_leave(s, w, "ana").id, approve=True, decided_by="p1")
+    duty = _by_slot(subs)[(w.b10, 2)]
+
+    def owed():
+        return [(l.section_id, l.period) for l in s.lost_periods_for_year(w.year, "owed")]
+
+    after = s.respond_to_substitution(duty.id, teacher_id="chitra", accept=False)
+    assert (after.substitute_id, after.mode) == ("dev", "supervised")
+    assert owed() == [(w.a10, 1), (w.b10, 2)]
+    back = s.respond_to_substitution(duty.id, teacher_id="dev", accept=False)
+    assert (back.substitute_id, back.mode) == ("chitra", "substitute")
+    assert owed() == [(w.a10, 1)]
+
+
+def test_a_leave_withdrawn_takes_back_what_its_supervised_periods_owed(s):
+    w = _school(s)
+    leave = _leave(s, w, "ana")
+    s.decide_leave(leave.id, approve=True, decided_by="p1")
+    assert len(s.lost_periods_for_year(w.year, "owed")) == 1
+    s.cancel_leave(leave.id, today=MON)
+    assert s.lost_periods_for_year(w.year) == []
+    assert s.cover_summary(w.year, MON, MON)["owed"] == 0
+
+
+# ---- v3 audit N-3-16: staff with no class of their own ----
+
+def test_staff_with_no_class_of_their_own_cover_last(s):
+    """Lata the librarian teaches no class. She is offered, but after every
+    teacher of the school: Dev, who also only supervises Science, still
+    comes first although his day is busier."""
+    w = _school(s)
+    s.staff_source = lambda school_id: ["ana", "bala", "chitra", "dev", "lata"]
+    _, subs = s.decide_leave(_leave(s, w, "ana").id, approve=True, decided_by="p1")
+    first = _by_slot(subs)[(w.a10, 1)]
+    cands = s.substitute_candidates(first.id)
+    assert [c.teacher_id for c in cands] == ["dev", "lata"]
+    assert cands[1].score > cands[0].score, "a lighter day does not lift her above a teacher"
+    assert not cands[1].qualified and "no class of their own" in cands[1].reasons[0]
+    assert first.substitute_id == "dev"
+
+
+def test_when_no_teacher_is_free_someone_with_no_class_sits_with_it(s):
+    w = _school(s)
+    for t in ("chitra", "dev", "bala"):
+        s.decide_leave(_leave(s, w, t).id, approve=True, decided_by="p1")
+    s.staff_source = lambda school_id: ["lata"]
+    _, subs = s.decide_leave(_leave(s, w, "ana").id, approve=True, decided_by="p1")
+    got = {(x.section_id, x.period): (x.substitute_id, x.mode) for x in subs}
+    assert got[(w.a10, 1)] == got[(w.b10, 2)] == ("lata", "supervised")
+    owed = {(l.section_id, l.subject_id) for l in s.lost_periods_for_year(w.year, "owed")}
+    assert {(w.a10, w.sci10), (w.b10, w.sci10)} <= owed, "Science was not taught: both periods are owed"
