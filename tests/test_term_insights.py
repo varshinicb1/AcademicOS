@@ -88,7 +88,9 @@ def test_a_term_baseline_replaces_the_default_and_says_where_it_came_from(tmp_pa
     rep = pt.report(tmp_path, school_id="s1", baseline=(90.0, "set by the principal for Term 1"))
     assert rep.baseline_minutes_per_paper == 90.0
     assert rep.baseline_provenance == "set by the principal for Term 1"
-    assert rep.estimated_minutes_saved_per_paper == 89.0
+    # No teacher time measured on this paper: the whole baseline, not the
+    # baseline less the server's 60 s (D49).
+    assert rep.estimated_minutes_saved_per_paper == 90.0
 
 
 def test_exam_coverage_names_what_was_set_and_what_was_not(tmp_path):
@@ -383,3 +385,48 @@ def test_a_paper_keeps_the_baseline_in_force_when_it_was_made(tmp_path, monkeypa
         assert saved["minutesTotal"] == pytest.approx(3 * 60 + 120, abs=1)
         science = client.get("/api/v1/dashboard/term?subject=Science&grade=10", headers=principal).json()
         assert science["timeSaved"]["minutesTotal"] == pytest.approx(3 * 60 + 120, abs=1)
+
+
+def test_time_saved_is_the_baseline_less_the_teachers_time_in_the_builder(tmp_path, monkeypatch, seeded):
+    """D49: what was recorded as "time to produce" was server compute
+    (0.02-0.15 s), so "time saved" was the baseline times the paper count.
+    Each generate request now carries the teacher's own time, measured by the
+    web app from opening the builder or the quick dialog; the paper's saving
+    is the baseline less it, and a paper without it counts the whole
+    baseline, still labelled estimated."""
+    from academicos.assessment.audit_log import get_audit_log
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal, teacher = _users(client)
+        store, year = _school(tmp_path)
+        term = _term(store, year)
+        client.put(BASELINE.format(term.id), json={"minutes": 60}, headers=principal)
+        tid = client.post(BASE, json={
+            "name": "Unit test", "grade": 10, "subject": "Science", "examType": "unit_test",
+            "totalMarks": 8, "durationMinutes": 40,
+            "sections": [{"title": "Section A", "questionCount": 2, "marksEach": 1},
+                         {"title": "Section B", "questionCount": 2, "marksEach": 3}],
+            "scope": {"chapterIds": ["ch1"]}}, headers=teacher).json()["id"]
+        assert client.post(GEN, json={"templateId": tid, "teacherSeconds": -1},
+                           headers=teacher).status_code == 422
+        r = client.post(GEN, json={"templateId": tid, "teacherSeconds": 900}, headers=teacher)
+        assert r.status_code == 200, r.text
+        r = client.post("/api/v1/papers/quick-generate", headers=teacher, json={
+            "subject": "Science", "grade": 10, "chapterIds": ["ch1"], "totalMarks": 20,
+            "teacherSeconds": 300})
+        assert r.status_code == 200, r.text
+        r = client.post("/api/v1/papers/generate-from-ids", headers=teacher, json={
+            "subject": "Science", "grade": 10, "questionIds": ["o0", "o1"]})   # not measured
+        assert r.status_code == 200, r.text
+        audit = get_audit_log(tmp_path)
+        assert audit.for_action("template_paper_generated")[0]["details"]["teacherSeconds"] == 900
+        assert audit.for_action("quick_paper_generated")[0]["details"]["teacherSeconds"] == 300
+        assert audit.for_action("id_curated_paper_generated")[0]["details"]["teacherSeconds"] is None
+
+        body = client.get("/api/v1/paper-timing", headers=principal).json()
+        assert body["papers"] == 3 and body["papersWithTeacherTime"] == 2
+        assert body["medianTeacherMinutes"] == 10.0
+        assert body["estimatedMinutesSavedTotal"] == pytest.approx((60 - 15) + (60 - 5) + 60)
+        assert body["estimated"] is True
+        saved = client.get("/api/v1/dashboard/term", headers=principal).json()["timeSaved"]
+        assert saved["minutesTotal"] == pytest.approx(160)
+        assert saved["papersWithTeacherTime"] == 2 and saved["estimated"] is True

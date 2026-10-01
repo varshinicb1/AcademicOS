@@ -128,6 +128,9 @@ class GenerateFromTemplateRequest(Camel):
     # `stale`). Without it the generator is deterministic and the same
     # template and chapters print the same paper.
     avoid_question_ids: list[str] = Field(default_factory=list, max_length=500)
+    # As QuickPaperRequest.teacher_seconds: the builder session, from opening
+    # the builder to pressing Generate, as the web app measured it.
+    teacher_seconds: Optional[float] = Field(None, ge=0, le=86_400)
 
 
 class TemplatePaperResponse(Camel):
@@ -477,6 +480,7 @@ def generate_from_template(
         user_id=current.id, paper_id=paper.id, assessment_id=asm_id,
         elapsed_seconds=time.perf_counter() - started,
         question_count=len(selected), subject=template.subject, grade=template.grade,
+        teacher_seconds=req.teacher_seconds,
         details={"templateId": template.id, "gaps": len(gaps)},
     )
     return TemplatePaperResponse(paper=paper, assessment_id=asm_id, complete=not gaps,

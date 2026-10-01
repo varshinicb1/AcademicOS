@@ -72,6 +72,28 @@ void main() {
     expect(find.textContaining(_caveat), findsOneWidget);
   });
 
+  // Audit D49: the headline read "<n> minutes saved per paper ..." with
+  // "estimate" only in the caveat below it, and the saving was the baseline
+  // less server compute. It now says estimated where it is quoted, and what
+  // the teachers' measured time was.
+  testWidgets('the headline says estimated, and says how much teacher time was measured', (tester) async {
+    await _pump(tester, InsightsCard(
+        timing: _timing(extra: {'papersWithTeacherTime': 9, 'medianTeacherMinutes': 12.0}),
+        catalog: _catalog()));
+    final headline = tester.widget<Text>(find.byKey(const ValueKey('time-saved-headline'))).data!;
+    expect(headline, startsWith('An estimated 45 minutes saved per paper'));
+    final teacher = tester.widget<Text>(find.byKey(const ValueKey('teacher-time'))).data!;
+    expect(teacher, contains('median of 12 minutes a paper'));
+    expect(teacher, contains('measured on 9 of 12 papers'));
+    expect(teacher, contains('the other 3 papers count the whole baseline'));
+  });
+
+  testWidgets('with no teacher time measured, every paper counts the whole baseline', (tester) async {
+    await _pump(tester, InsightsCard(timing: _timing(), catalog: _catalog()));
+    expect(tester.widget<Text>(find.byKey(const ValueKey('teacher-time'))).data,
+        'No teacher time was measured on these papers, so each counts the whole baseline.');
+  });
+
   testWidgets('no paper yet reads as not measured, not as zero saved', (tester) async {
     await _pump(tester, InsightsCard(timing: _timing(papers: 0), catalog: _catalog()));
     expect(find.textContaining('No paper has been generated'), findsOneWidget);

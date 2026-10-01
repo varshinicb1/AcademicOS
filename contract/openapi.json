@@ -5576,6 +5576,19 @@
             "title": "Subject",
             "type": "string"
           },
+          "teacherSeconds": {
+            "anyOf": [
+              {
+                "maximum": 86400.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherseconds"
+          },
           "templateId": {
             "anyOf": [
               {
@@ -5637,6 +5650,19 @@
             "minimum": 1.0,
             "title": "Setcount",
             "type": "integer"
+          },
+          "teacherSeconds": {
+            "anyOf": [
+              {
+                "maximum": 86400.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherseconds"
           },
           "templateId": {
             "title": "Templateid",
@@ -11270,6 +11296,19 @@
             "title": "Subject",
             "type": "string"
           },
+          "teacherSeconds": {
+            "anyOf": [
+              {
+                "maximum": 86400.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherseconds"
+          },
           "templateId": {
             "anyOf": [
               {
@@ -16102,6 +16141,11 @@
           },
           "papers": {
             "title": "Papers",
+            "type": "integer"
+          },
+          "papersWithTeacherTime": {
+            "default": 0,
+            "title": "Paperswithteachertime",
             "type": "integer"
           }
         },

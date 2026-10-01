@@ -13,14 +13,27 @@ flatters the number:
   * **MEASURED**: how long the machine took to produce the paper. Recorded from
     a monotonic clock around the generation call, so it cannot be inflated and
     cannot be fabricated by the caller.
+  * **MEASURED, by the web app**: how long the teacher spent making the paper
+    with the product -- from opening the builder (or the quick dialog) to
+    asking for the paper (`teacherSeconds` on the generation row). The client
+    sends it with the generate request; a caller that does not measure it
+    sends nothing.
   * **DECLARED**: how long the same paper takes a teacher to set by hand. This
-    is NOT measured here. Nothing in this system watches a teacher work, and no
-    honest implementation of it is possible without a study.
+    is NOT measured here. Nothing in this system watches a teacher set a paper
+    by hand, and no honest implementation of it is possible without a study.
 
-So the output is `estimatedMinutesSaved`, and the report carries the baseline's
-provenance with it. An "estimated" saving built on a declared baseline is a
-perfectly good management figure and a completely unacceptable engineering
-claim, and the difference is only visible if it is written down.
+A paper's saving is the declared baseline less the teacher's measured time,
+never below zero. A paper with no measured time counts the whole baseline. The
+recorded server compute (0.02-0.15 s) is not the teacher's time and no longer
+enters the saving: subtracting it made "time saved" the baseline times the
+paper count (D49).
+
+So the output is `estimatedMinutesSaved` -- every saving rests on the declared
+baseline -- and the report carries the baseline's provenance and how many
+papers had their teacher's time measured. An "estimated" saving built on a
+declared baseline is a perfectly good management figure and a completely
+unacceptable engineering claim, and the difference is only visible if it is
+written down.
 
 What counts as a paper
 ----------------------
@@ -142,6 +155,24 @@ class SavedTimeReport:
     # How many of `papers` carry the baseline in force when they were made
     # (the rest predate rows carrying one and use `baseline_minutes_per_paper`).
     papers_at_recorded_baseline: int = 0
+    # How many of `papers` carry the teacher's measured time; the rest count
+    # the whole baseline. Split by (class, subject) like the savings.
+    papers_with_teacher_time: int = 0
+    teacher_time_by_class_subject: dict[tuple[int, str], int] = field(default_factory=dict)
+    teacher_time_unattributed: int = 0
+    # The median of those measured times, in minutes; None when none was.
+    median_teacher_minutes: Optional[float] = None
+
+    @property
+    def caveat(self) -> str:
+        measured = (f"{self.papers_with_teacher_time} of {self.papers} paper(s) count the baseline "
+                    f"less the time their teacher spent making them, as the web app measured it; "
+                    f"the rest count the whole baseline"
+                    if self.papers else "a paper counts the baseline less the time its teacher "
+                    "spent making it, where the web app measured that, else the whole baseline")
+        return ("the baseline is DECLARED, not measured -- nothing here watches a teacher set "
+                f"a paper by hand. {measured[0].upper()}{measured[1:]}. Treat the saving as a "
+                "management estimate, not an engineering claim.")
 
     def as_dict(self) -> dict:
         return {
@@ -149,6 +180,11 @@ class SavedTimeReport:
             "papersByPath": dict(self.papers_by_path),
             "medianGenerationSeconds": round(self.median_generation_seconds, 2),
             "totalGenerationSeconds": round(self.total_generation_seconds, 2),
+            # The teacher's time with the product, where the web app measured
+            # it (D49): what each paper's saving is the baseline less.
+            "papersWithTeacherTime": self.papers_with_teacher_time,
+            "medianTeacherMinutes": (round(self.median_teacher_minutes, 1)
+                                     if self.median_teacher_minutes is not None else None),
             # The baseline a paper made now is measured against. Each paper
             # already made keeps the one in force when it was made.
             "baselineMinutesPerPaper": self.baseline_minutes_per_paper,
@@ -158,15 +194,13 @@ class SavedTimeReport:
                 self.estimated_minutes_saved_per_paper, 1),
             "estimatedMinutesSavedTotal": round(
                 self.estimated_minutes_saved_total, 1),
+            # Every saving rests on the declared baseline.
+            "estimated": True,
             # Stated on every response rather than only in the docs, because
             # this is the number that will be quoted at somebody.
-            "measured": ["generationSeconds"],
+            "measured": ["generationSeconds", "teacherSeconds"],
             "declared": ["baselineMinutesPerPaper"],
-            "caveat": (
-                "the baseline is DECLARED, not measured -- nothing here watches "
-                "a teacher work. Treat the saving as a management estimate, not "
-                "an engineering claim."
-            ),
+            "caveat": self.caveat,
         }
 
 
@@ -206,6 +240,7 @@ def record_generation(action: str = ACTION, *, data_root, school_id: str, user_i
                       question_count: int = 0,
                       subject: str = "", grade: str | int = "",
                       assessment_id: str | None = None,
+                      teacher_seconds: float | None = None,
                       details: Mapping | None = None) -> str:
     """Append a timestamped generation record to the audit log, under
     `action` (one of GENERATION_ACTIONS). Every generation route writes its
@@ -219,16 +254,20 @@ def record_generation(action: str = ACTION, *, data_root, school_id: str, user_i
     Term 1's baseline from 60 to 120 rewrote the same 13 papers from 780 to
     1,560 minutes).
 
-    `details` adds route-specific fields (template id, set count, ...).
-    Returns the audit entry id.
+    `teacher_seconds` is the teacher's time making the paper, as the web app
+    measured it (from opening the builder or the quick dialog to asking for
+    the paper); None when the caller did not measure it. `details` adds
+    route-specific fields (template id, set count, ...). Returns the audit
+    entry id.
     """
     if action not in GENERATION_ACTIONS:
         raise ValueError(f"{action!r} is not a generation action the report reads")
-    if elapsed_seconds < 0:
-        raise ValueError(
-            f"elapsed_seconds={elapsed_seconds} is negative; a duration cannot "
-            "be. This is a caller bug, not a slow paper."
-        )
+    for name, value in (("elapsed_seconds", elapsed_seconds), ("teacher_seconds", teacher_seconds)):
+        if value is not None and value < 0:
+            raise ValueError(
+                f"{name}={value} is negative; a duration cannot "
+                "be. This is a caller bug, not a slow paper."
+            )
     audit: AuditLog = get_audit_log(data_root)
     baseline, provenance = baseline_in_force(data_root, school_id)
     return audit.append(
@@ -247,6 +286,8 @@ def record_generation(action: str = ACTION, *, data_root, school_id: str, user_i
             "questionCount": question_count,
             # MEASURED.
             "generationSeconds": round(elapsed_seconds, 3),
+            # MEASURED by the web app: the teacher's time (None: not measured).
+            "teacherSeconds": round(teacher_seconds, 1) if teacher_seconds is not None else None,
             # DECLARED, recorded alongside so a later baseline change does not
             # silently rewrite the history of what was reported.
             "baselineMinutesAtRecordTime": baseline,
@@ -263,6 +304,15 @@ def recorded_baseline(details: Mapping) -> Optional[float]:
     if isinstance(value, bool) or not isinstance(value, (int, float)) or value <= 0:
         return None
     return float(value)
+
+
+def teacher_minutes(details: Mapping) -> Optional[float]:
+    """The teacher's measured time on a generation row, in minutes, or None
+    when the row carries none."""
+    value = details.get("teacherSeconds")
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or value < 0:
+        return None
+    return float(value) / 60.0
 
 
 def class_subject(grade, subject) -> Optional[tuple[int, str]]:
@@ -342,6 +392,9 @@ def report(data_root, *, school_id: str | None = None,
     unattributed = 0
     saved_unattributed = 0.0
     at_recorded = 0
+    teacher: list[float] = []
+    timed_by_pair: Counter[tuple[int, str]] = Counter()
+    timed_unattributed = 0
     counted: set[Hashable] = set()
     for path, entry in entries:
         details = entry.get("details") or {}
@@ -364,10 +417,15 @@ def report(data_root, *, school_id: str | None = None,
             # one (D51); a row from before rows did takes today's.
             recorded = recorded_baseline(details)
             at_recorded += recorded is not None
-            # Clamped at zero: a machine slower than a teacher by hand is not
-            # a saving, and reporting a negative one invites the reader to
+            # The baseline less the teacher's measured time (D49), or the
+            # whole baseline where it was not measured. Clamped at zero: a
+            # paper that took longer with the product than by hand is not a
+            # saving, and reporting a negative one invites the reader to
             # distrust the figure that IS real.
-            saved = max(0.0, (recorded if recorded is not None else baseline) - float(value) / 60.0)
+            spent = teacher_minutes(details)
+            if spent is not None:
+                teacher.append(spent)
+            saved = max(0.0, (recorded if recorded is not None else baseline) - (spent or 0.0))
             pair = class_subject(details.get("grade"), details.get("subject"))
             if pair is None and attribute is not None and entry.get("assessment_id"):
                 found = attribute(entry["assessment_id"])
@@ -375,9 +433,11 @@ def report(data_root, *, school_id: str | None = None,
             if pair is None:
                 unattributed += 1
                 saved_unattributed += saved
+                timed_unattributed += spent is not None
             else:
                 by_pair[pair] += 1
                 saved_by_pair[pair] = saved_by_pair.get(pair, 0.0) + saved
+                timed_by_pair[pair] += spent is not None
 
     if not elapsed:
         return SavedTimeReport(
@@ -402,6 +462,10 @@ def report(data_root, *, school_id: str | None = None,
         saved_by_class_subject=saved_by_pair,
         saved_unattributed=saved_unattributed,
         papers_at_recorded_baseline=at_recorded,
+        papers_with_teacher_time=len(teacher),
+        teacher_time_by_class_subject={p: n for p, n in timed_by_pair.items() if n},
+        teacher_time_unattributed=timed_unattributed,
+        median_teacher_minutes=statistics.median(teacher) if teacher else None,
     )
 
 

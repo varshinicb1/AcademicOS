@@ -95,19 +95,62 @@ def test_an_empty_report_is_zero_rather_than_an_error(data_root):
 
 
 def test_the_saving_is_clamped_at_zero(monkeypatch, data_root):
-    """A machine slower than a teacher by hand is not a saving.
+    """A paper that took longer with the product than by hand is not a saving.
 
     Reporting a negative one invites the reader to distrust the figure that IS
     real, so it is clamped -- and the clamp is asserted rather than assumed.
     """
     monkeypatch.setenv(pt._ENV_KEY, "1")             # 1 minute baseline
     pt.record_generation(data_root=data_root, school_id="s1", user_id="u1",
-                         paper_id="p1", elapsed_seconds=600.0)   # 10 minutes
+                         paper_id="p1", elapsed_seconds=0.5,
+                         teacher_seconds=600.0)                  # 10 minutes
     rep = pt.report(data_root, school_id="s1")
     assert rep.estimated_minutes_saved_per_paper == 0.0
     assert rep.estimated_minutes_saved_total == 0.0
     # But the MEASURED number is still reported honestly, unclamped.
-    assert rep.median_generation_seconds == 600.0
+    assert rep.median_teacher_minutes == 10.0
+
+
+# --- the saving is the baseline less the teacher's measured time (D49) -------
+#
+# Audits 2026-09-27 to 2026-10-01: "time saved" was the declared baseline
+# times the paper count. What was subtracted was server compute (0.02-0.15 s
+# per paper, `perPaper = baseline - median/60`); the teacher's time in the
+# builder was timed nowhere.
+
+def test_time_saved_is_the_baseline_less_the_teachers_measured_time(monkeypatch, data_root):
+    monkeypatch.delenv(pt._ENV_KEY, raising=False)                 # 45 minutes
+    pt.record_generation(data_root=data_root, school_id="s1", user_id="u1",
+                         paper_id="p1", elapsed_seconds=0.03, teacher_seconds=600.0)
+    pt.record_generation(data_root=data_root, school_id="s1", user_id="u1",
+                         paper_id="p2", elapsed_seconds=0.05)       # not measured
+    rep = pt.report(data_root, school_id="s1")
+    assert rep.estimated_minutes_saved_total == pytest.approx((45 - 10) + 45)
+    assert rep.estimated_minutes_saved_per_paper == pytest.approx(40.0)
+    assert rep.papers_with_teacher_time == 1
+    assert rep.median_teacher_minutes == 10.0
+    payload = rep.as_dict()
+    assert payload["papersWithTeacherTime"] == 1 and payload["medianTeacherMinutes"] == 10.0
+    assert payload["estimated"] is True
+    assert "1 of 2 paper(s) count the baseline less the time their teacher spent" in payload["caveat"]
+
+
+def test_server_compute_is_not_the_teachers_time(monkeypatch, data_root):
+    """A paper with no measured time counts the whole baseline -- labelled
+    estimated -- not the baseline less how long the server took."""
+    monkeypatch.delenv(pt._ENV_KEY, raising=False)
+    pt.record_generation(data_root=data_root, school_id="s1", user_id="u1",
+                         paper_id="p1", elapsed_seconds=30.0)
+    rep = pt.report(data_root, school_id="s1")
+    assert rep.estimated_minutes_saved_total == 45.0
+    assert rep.papers_with_teacher_time == 0 and rep.median_teacher_minutes is None
+    assert "DECLARED, not measured" in rep.as_dict()["caveat"]
+
+
+def test_a_negative_teacher_time_is_refused(data_root):
+    with pytest.raises(ValueError, match="negative"):
+        pt.record_generation(data_root=data_root, school_id="s1", user_id="u1",
+                             paper_id="p1", elapsed_seconds=1.0, teacher_seconds=-3.0)
 
 
 # --- the payload separates measured from declared -------------------------
@@ -123,7 +166,7 @@ def test_the_payload_names_which_fields_are_measured(monkeypatch, data_root):
                          paper_id="p1", elapsed_seconds=5.0)
     payload = pt.report(data_root, school_id="s1").as_dict()
 
-    assert payload["measured"] == ["generationSeconds"]
+    assert payload["measured"] == ["generationSeconds", "teacherSeconds"]
     assert payload["declared"] == ["baselineMinutesPerPaper"]
     assert "DECLARED, not measured" in payload["caveat"]
     assert "baselineProvenance" in payload

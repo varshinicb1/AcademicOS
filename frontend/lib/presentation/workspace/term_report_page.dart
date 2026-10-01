@@ -213,7 +213,9 @@ class _TermReportPageState extends State<TermReportPage> {
       if ((exams['notYet'] as List).isNotEmpty)
         Padding(padding: const EdgeInsets.symmetric(vertical: 6), child: Text(
             '${tr('No paper yet')}: ${(exams['notYet'] as List).cast<Map>().map((c) => '${c['grade']} ${c['subject']}').join(', ')}')),
-      Text('${tr('Time saved is an estimate')}: ${time['minutesPerPaper']} min × ${time['papers']} · ${time['baselineProvenance']}',
+      Text('${tr('Time saved is an estimate')}: ${time['minutesPerPaper']} min × ${time['papers']} · '
+          '${time['papersWithTeacherTime'] ?? 0} ${tr('of')} ${time['papers']} ${tr('less the teacher\'s measured time')} · '
+          '${time['baselineProvenance']}',
           style: theme.textTheme.bodySmall),
       SectionHeader(title: tr('Homework'), subtitle: tr('Issued this term and handed in')),
       for (final h in (homework['rows'] as List).cast<Map>())

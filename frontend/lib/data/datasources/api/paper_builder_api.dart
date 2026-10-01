@@ -520,6 +520,7 @@ class PaperBuilderApi {
     bool allowGaps = false,
     bool fillFromOutsideScope = false,
     List<String> avoidQuestionIds = const [],
+    double? teacherSeconds,
   }) async {
     final r = await _dio.post('/papers/generate-from-template',
         data: {
@@ -529,6 +530,9 @@ class PaperBuilderApi {
           'allowGaps': allowGaps,
           'fillFromOutsideScope': fillFromOutsideScope,
           if (avoidQuestionIds.isNotEmpty) 'avoidQuestionIds': avoidQuestionIds,
+          // The teacher's time on this paper (time saved is the baseline less
+          // it, server-side; audit D49).
+          if (teacherSeconds != null) 'teacherSeconds': teacherSeconds,
         },
         options: Options(receiveTimeout: const Duration(minutes: 3)));
     return TemplatePaperResult.fromJson(Map<String, dynamic>.from(r.data as Map));

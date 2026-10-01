@@ -81,13 +81,32 @@ class PaperBuilderController extends ChangeNotifier {
   /// preset already chosen, so the teacher lands on the chapters.
   final bool quick;
 
+  /// The time now; tests pass a clock they move.
+  final DateTime Function() clock;
+
   PaperBuilderController({
     required this.api,
     required this.schoolId,
     required this.memory,
     required this.savePdf,
     this.quick = false,
-  });
+    DateTime Function()? clock,
+  }) : clock = clock ?? DateTime.now {
+    _sessionStart = this.clock();
+  }
+
+  /// When the teacher started on the paper being made: the builder opening,
+  /// then each paper generated (the next one starts there). Every generate
+  /// request sends the time since, which the server subtracts from the
+  /// baseline as the teacher's own time on the paper (audit D49: "time
+  /// saved" was the baseline less server compute, 0.02-0.15 s).
+  late DateTime _sessionStart;
+
+  /// Seconds the teacher has spent on the paper being made.
+  double get teacherSeconds => clock().difference(_sessionStart).inMilliseconds / 1000;
+
+  /// Called once a paper is generated: the next paper's time starts now.
+  void restartTeacherClock() => _sessionStart = clock();
 
   BuilderStep step = BuilderStep.classSubject;
   int? grade;
@@ -573,7 +592,9 @@ class PaperBuilderController extends ChangeNotifier {
         allowGaps: !availability!.complete,
         fillFromOutsideScope: fillFromOutsideScope,
         avoidQuestionIds: avoid,
+        teacherSeconds: teacherSeconds,
       );
+      restartTeacherClock();
       _resetPaper();
       result = r;
       paper = r.paper;

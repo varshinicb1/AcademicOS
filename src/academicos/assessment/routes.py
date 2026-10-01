@@ -589,7 +589,7 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
         user_id=current.id, paper_id=paper.id, assessment_id=asm_id,
         elapsed_seconds=time.perf_counter() - _started,
         question_count=sum(len(s.questions) for s in paper.sections),
-        subject=request.subject, grade=request.grade,
+        subject=request.subject, grade=request.grade, teacher_seconds=request.teacher_seconds,
         details={"setCount": request.set_count, "tier": tier},
     )
     # After saving, like the other generate routes: about this request. Kept
@@ -720,6 +720,7 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(r
         user_id=current.id, paper_id=paper.id, assessment_id=asm_id,
         elapsed_seconds=time.perf_counter() - _started_ids,
         question_count=len(found_questions), subject=request.subject, grade=request.grade,
+        teacher_seconds=request.teacher_seconds,
     )
     # After saving: about this request, not the paper.
     paper.warnings, paper.similar_pairs = warnings, pairs

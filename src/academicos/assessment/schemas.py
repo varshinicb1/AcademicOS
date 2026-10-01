@@ -607,6 +607,11 @@ class QuickPaperRequest(Camel):
     exam_type: Optional[str] = None  # "class_test", "weekly_test", "board"
     set_count: int = 1
     template_id: Optional[str] = None
+    # How long the teacher spent making this paper, in seconds: from opening
+    # the builder (or the quick dialog) to asking for the paper, measured by
+    # the web app. Time saved on the paper is the baseline less this
+    # (paper_timing); None from a caller that does not measure it.
+    teacher_seconds: Optional[float] = Field(None, ge=0, le=86_400)
 
 
 class GenerateFromIdsRequest(Camel):
@@ -619,6 +624,8 @@ class GenerateFromIdsRequest(Camel):
     template_id: Optional[str] = None
     # As PaperGenerationRequest.reject_similar.
     reject_similar: bool = False
+    # As QuickPaperRequest.teacher_seconds.
+    teacher_seconds: Optional[float] = Field(None, ge=0, le=86_400)
 
 
 # ---- Assessment ----

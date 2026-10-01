@@ -69,6 +69,20 @@ class InsightsCard extends StatelessWidget {
     return '$total questions across ${rows.length} class-subject pairs$gap.';
   }
 
+  /// What the saving is the baseline less: the teachers' own time making
+  /// the papers, where the web app measured it.
+  String _teacherTimeLine() {
+    final n = timing.papersWithTeacherTime;
+    final median = timing.medianTeacherMinutes;
+    if (n == 0 || median == null) {
+      return 'No teacher time was measured on these papers, so each counts the whole baseline.';
+    }
+    final rest = timing.papers - n;
+    return 'Teachers took a median of ${median.toStringAsFixed(median < 10 ? 1 : 0)} minutes a paper, '
+        'from opening the builder to generating the paper (measured on $n of ${_papers(timing.papers)})'
+        '${rest > 0 ? '; the other ${_papers(rest)} count the whole baseline' : ''}.';
+  }
+
   /// The exam coverage line, read unopened.
   String _coverageSummary() {
     final cov = timing.examCoverage;
@@ -143,18 +157,19 @@ class InsightsCard extends StatelessWidget {
                 style: theme.textTheme.bodyMedium,
               )
             else ...[
+              // "Estimated" in the headline itself, not only in the caveat
+              // below it: this is the sentence that gets quoted (audit D49).
               Text(
-                '${timing.estimatedMinutesSavedPerPaper.toStringAsFixed(0)} minutes '
+                'An estimated ${timing.estimatedMinutesSavedPerPaper.toStringAsFixed(0)} minutes '
                 'saved per paper, ${timing.estimatedMinutesSavedTotal.toStringAsFixed(0)} '
                 'in total, against a baseline of '
                 '${timing.baselineMinutesPerPaper.toStringAsFixed(0)} minutes a paper '
                 '(${timing.baselineProvenance}).',
+                key: const ValueKey('time-saved-headline'),
                 style: theme.textTheme.bodyMedium,
               ),
               const SizedBox(height: 4),
-              Text('Generation itself took a median of '
-                  '${timing.medianGenerationSeconds.toStringAsFixed(2)} seconds.',
-                  style: theme.textTheme.bodySmall),
+              Text(_teacherTimeLine(), key: const ValueKey('teacher-time'), style: theme.textTheme.bodySmall),
               const SizedBox(height: 8),
               Text(timing.caveat,
                   style: theme.textTheme.bodySmall

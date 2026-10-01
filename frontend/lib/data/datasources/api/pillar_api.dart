@@ -290,12 +290,20 @@ class PaperTiming {
   final List<String> measured;
   final List<String> declared;
 
+  /// How many of [papers] count the baseline less the time their teacher
+  /// spent making them, as the web app measured it; the rest count the whole
+  /// baseline (audit D49). Their median time, in minutes, or null.
+  final int papersWithTeacherTime;
+  final double? medianTeacherMinutes;
+
   /// The server's own sentence about what these numbers are worth. Rendered
   /// verbatim rather than paraphrased on the screen.
   final String caveat;
 
   PaperTiming.fromJson(Map<String, dynamic> j)
       : papers = j['papers'] ?? 0,
+        papersWithTeacherTime = j['papersWithTeacherTime'] ?? 0,
+        medianTeacherMinutes = (j['medianTeacherMinutes'] as num?)?.toDouble(),
         medianGenerationSeconds = (j['medianGenerationSeconds'] ?? 0).toDouble(),
         baselineMinutesPerPaper = (j['baselineMinutesPerPaper'] ?? 0).toDouble(),
         baselineProvenance = j['baselineProvenance'] ?? '',
