@@ -501,6 +501,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/auth/password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Change Password
+         * @description The signed-in person's own password. Other sessions end; this one
+         *     stays signed in.
+         */
+        post: operations["change_password_api_v1_auth_password_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/auth/providers": {
         parameters: {
             query?: never;
@@ -614,6 +635,28 @@ export interface paths {
          *     for what stays.
          */
         post: operations["erase_api_v1_auth_users__user_id__erasure_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/auth/users/{user_id}/password-reset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Reset Password
+         * @description Set a one-time password for a school account and sign it out
+         *     everywhere. The response is the only place the password appears; it is
+         *     not stored in the clear or written to the audit log.
+         */
+        post: operations["reset_password_api_v1_auth_users__user_id__password_reset_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -4383,7 +4426,10 @@ export interface paths {
         /**
          * My Reviews
          * @description The papers waiting for the caller's review; the principal sees the
-         *     school's.
+         *     school's. For the principal, "pending" also holds the papers a colleague
+         *     approved for them: until 2026-10-01 those left the list the moment the
+         *     colleague approved, and the principal's Waiting tab read "Nothing to
+         *     review" while the paper waited for them (QA P-12).
          */
         get: operations["my_reviews_api_v1_paper_reviews_get"];
         put?: never;
@@ -9269,6 +9315,11 @@ export interface components {
          *     default, which every PDF without a template falls back to.
          */
         PaperTemplate: {
+            /**
+             * Addressline
+             * @default
+             */
+            addressLine: string;
             /** Basedon */
             basedOn?: string | null;
             /**
@@ -9482,6 +9533,22 @@ export interface components {
             status: string;
             /** Studentid */
             studentId: string;
+        };
+        /** PasswordChangeRequest */
+        PasswordChangeRequest: {
+            /** Currentpassword */
+            currentPassword: string;
+            /** Newpassword */
+            newPassword: string;
+        };
+        /** PasswordResetResponse */
+        PasswordResetResponse: {
+            /** Name */
+            name: string;
+            /** Temporarypassword */
+            temporaryPassword: string;
+            /** Userid */
+            userId: string;
         };
         /** PathQuery */
         PathQuery: {
@@ -10432,6 +10499,11 @@ export interface components {
             assessmentId: string;
             /** Authorid */
             authorId: string;
+            /**
+             * Awaitingprincipal
+             * @default false
+             */
+            awaitingPrincipal: boolean;
             /** Comment */
             comment?: string | null;
             /** Decidedat */
@@ -10761,6 +10833,11 @@ export interface components {
         };
         /** SchoolTemplate */
         SchoolTemplate: {
+            /**
+             * Addressline
+             * @default
+             */
+            addressLine: string;
             /**
              * Brandcolor
              * @default #000000
@@ -13580,6 +13657,41 @@ export interface operations {
             };
         };
     };
+    change_password_api_v1_auth_password_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PasswordChangeRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     providers_api_v1_auth_providers_get: {
         parameters: {
             query?: never;
@@ -13750,6 +13862,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ErasureResult"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reset_password_api_v1_auth_users__user_id__password_reset_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                user_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PasswordResetResponse"];
                 };
             };
             /** @description Validation Error */

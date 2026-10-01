@@ -78,6 +78,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/auth/users"),
     ("POST", "/api/v1/auth/users/{user_id}/close"),
     ("POST", "/api/v1/auth/users/{user_id}/reopen"),
+    ("POST", "/api/v1/auth/users/{user_id}/password-reset"),
+    ("POST", "/api/v1/auth/password"),
     ("GET", "/api/v1/auth/users/{user_id}/erasure"),
     ("POST", "/api/v1/auth/users/{user_id}/erasure"),
     ("POST", "/api/v1/auth/invites"),
@@ -438,6 +440,8 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/auth/users"),
     ("POST", "/api/v1/auth/users/{user_id}/close"),
     ("POST", "/api/v1/auth/users/{user_id}/reopen"),
+    ("POST", "/api/v1/auth/users/{user_id}/password-reset"),
+    ("POST", "/api/v1/auth/password"),
     ("GET", "/api/v1/auth/users/{user_id}/erasure"),
     ("POST", "/api/v1/auth/users/{user_id}/erasure"),
     # Invites are principal-only (require_principal -> get_current_user).
@@ -982,7 +986,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 316: the operator's single-use invite for a new school's first principal.
     # 318: NFR-1 erasing a student's or parent's data on the school's request
     # (preview, erase).
-    assert len(API_ROUTES) == 318
+    # 320: QA S-05 a principal's password reset and a person's own change.
+    assert len(API_ROUTES) == 320
 
 
 def test_docs_routes_present():

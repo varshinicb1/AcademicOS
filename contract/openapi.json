@@ -9057,6 +9057,11 @@
       "PaperTemplate": {
         "description": "A saved (or preset) teacher template.\n\n`kind` is how `TemplateStore` tells these apart from a school's branding\nrows in the same table, so the older `/school-templates` list never shows\na teacher's private paper to the rest of the school. `is_default` is\nalways False: a paper template must never displace the school's branding\ndefault, which every PDF without a template falls back to.",
         "properties": {
+          "addressLine": {
+            "default": "",
+            "title": "Addressline",
+            "type": "string"
+          },
           "basedOn": {
             "anyOf": [
               {
@@ -9449,6 +9454,48 @@
           "recordedAt"
         ],
         "title": "ParentalConsentRecord",
+        "type": "object"
+      },
+      "PasswordChangeRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "currentPassword": {
+            "title": "Currentpassword",
+            "type": "string"
+          },
+          "newPassword": {
+            "title": "Newpassword",
+            "type": "string"
+          }
+        },
+        "required": [
+          "currentPassword",
+          "newPassword"
+        ],
+        "title": "PasswordChangeRequest",
+        "type": "object"
+      },
+      "PasswordResetResponse": {
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "temporaryPassword": {
+            "title": "Temporarypassword",
+            "type": "string"
+          },
+          "userId": {
+            "title": "Userid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId",
+          "name",
+          "temporaryPassword"
+        ],
+        "title": "PasswordResetResponse",
         "type": "object"
       },
       "PathQuery": {
@@ -12149,6 +12196,11 @@
             "title": "Authorid",
             "type": "string"
           },
+          "awaitingPrincipal": {
+            "default": false,
+            "title": "Awaitingprincipal",
+            "type": "boolean"
+          },
           "comment": {
             "anyOf": [
               {
@@ -13038,6 +13090,11 @@
       },
       "SchoolTemplate": {
         "properties": {
+          "addressLine": {
+            "default": "",
+            "title": "Addressline",
+            "type": "string"
+          },
           "brandColor": {
             "default": "#000000",
             "title": "Brandcolor",
@@ -19029,6 +19086,52 @@
         "summary": "Create School Invite"
       }
     },
+    "/api/v1/auth/password": {
+      "post": {
+        "description": "The signed-in person's own password. Other sessions end; this one\nstays signed in.",
+        "operationId": "change_password_api_v1_auth_password_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordChangeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Change Password Api V1 Auth Password Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Change Password"
+      }
+    },
     "/api/v1/auth/providers": {
       "get": {
         "description": "Which ways in this deployment offers, for the sign-in page: Google\n(with the public client id the button needs) and emailed codes.",
@@ -19286,6 +19389,51 @@
           }
         ],
         "summary": "Erase"
+      }
+    },
+    "/api/v1/auth/users/{user_id}/password-reset": {
+      "post": {
+        "description": "Set a one-time password for a school account and sign it out\neverywhere. The response is the only place the password appears; it is\nnot stored in the clear or written to the audit log.",
+        "operationId": "reset_password_api_v1_auth_users__user_id__password_reset_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "title": "User Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordResetResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Reset Password"
       }
     },
     "/api/v1/auth/users/{user_id}/reopen": {
@@ -29306,7 +29454,7 @@
     },
     "/api/v1/paper-reviews": {
       "get": {
-        "description": "The papers waiting for the caller's review; the principal sees the\nschool's.",
+        "description": "The papers waiting for the caller's review; the principal sees the\nschool's. For the principal, \"pending\" also holds the papers a colleague\napproved for them: until 2026-10-01 those left the list the moment the\ncolleague approved, and the principal's Waiting tab read \"Nothing to\nreview\" while the paper waited for them (QA P-12).",
         "operationId": "my_reviews_api_v1_paper_reviews_get",
         "parameters": [
           {
