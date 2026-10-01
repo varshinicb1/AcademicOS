@@ -345,13 +345,10 @@ class SideNav extends StatelessWidget {
           child: Row(
             mainAxisAlignment: compact ? MainAxisAlignment.center : MainAxisAlignment.start,
             children: [
-              Container(
-                width: 28,
-                height: 28,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(color: colors.primary, borderRadius: BorderRadius.circular(8)),
-                child: Text('A', style: theme.textTheme.labelLarge?.copyWith(color: colors.onPrimary, fontWeight: FontWeight.w600)),
-              ),
+              // The AcademicOS mark: the open book with the sun rising from its
+              // spine (brand_logo/, the small variant drawn for 16-48 px).
+              Image.asset('assets/brand/academicos_mark_small.png',
+                  width: 30, height: 30, filterQuality: FilterQuality.medium, semanticLabel: 'AcademicOS'),
               if (!compact) ...[
                 const SizedBox(width: 10),
                 Text('AcademicOS', style: theme.textTheme.titleSmall),

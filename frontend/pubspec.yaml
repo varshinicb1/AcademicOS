@@ -195,6 +195,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/brand/
     - assets/corpus/questions.json
     - assets/images/demo_scan_page_1.jpg
     - assets/images/demo_scan_page_2.jpg
