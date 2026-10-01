@@ -120,7 +120,8 @@ export interface paths {
          * Create Key
          * @description Mint a key for this school. Copy `key` now: it is not shown again.
          *     Scopes are the question-bank API's; any that would reach student data
-         *     are refused outright.
+         *     are refused outright, and any no route checks yet are refused as "not
+         *     available yet". `grades` and `subjects` limit what the key can read.
          */
         post: operations["create_key_api_v1_api_keys_post"];
         delete?: never;
@@ -5463,7 +5464,8 @@ export interface paths {
          *     endpoint reads as the total a buyer would size a purchase on.
          *
          *     Aggregate counts, so it takes `facets:read` rather than `questions:read`:
-         *     no question text or marking scheme crosses this route.
+         *     no question text or marking scheme crosses this route. A key limited to
+         *     some classes or subjects is told the coverage of those.
          */
         get: operations["get_coverage_v1_coverage_get"];
         put?: never;
@@ -5547,10 +5549,11 @@ export interface paths {
         put?: never;
         /**
          * Homework Set
-         * @description A homework set (API-2). With `types`, that many of each type; without,
-         *     `count` questions spread across the chosen chapters. The same request
-         *     with the same `seed` returns the same set; `shortfall` says what the
-         *     bank could not supply.
+         * @description A homework set (API-2): `count` questions, or a mix of types or of
+         *     marks (see `HomeworkSetRequest`), from the chosen chapters, topics and
+         *     subtopics. The same request with the same `seed` returns the same set;
+         *     `shortfall` names each bucket the bank could not fill and by how many
+         *     (`"any"` when no mix was given).
          */
         post: operations["homework_set_v1_homework_sets_post"];
         delete?: never;
@@ -5614,6 +5617,8 @@ export interface paths {
          *
          *     **Answer-keyed by default (rule Q1).** See `_q1_filter` for the two ways
          *     to ask for the rest, and `key_provenance` to narrow to one kind of key.
+         *     A parameter not listed here is a 422, and a class or subject outside the
+         *     key's limits is a 403.
          */
         get: operations["list_questions_v1_questions_get"];
         put?: never;
@@ -5959,6 +5964,8 @@ export interface components {
         };
         /** ApiKeyCreateRequest */
         ApiKeyCreateRequest: {
+            /** Grades */
+            grades?: number[];
             /** Label */
             label: string;
             /**
@@ -5968,6 +5975,8 @@ export interface components {
             quotaPerMinute: number;
             /** Scopes */
             scopes: string[];
+            /** Subjects */
+            subjects?: string[];
         };
         /** ApiKeyCreatedResponse */
         ApiKeyCreatedResponse: {
@@ -5977,6 +5986,8 @@ export interface components {
             createdAt: string;
             /** Createdby */
             createdBy: string;
+            /** Grades */
+            grades?: number[];
             /** Id */
             id: string;
             /** Key */
@@ -5995,6 +6006,8 @@ export interface components {
             scopes: string[];
             /** Scopesavailable */
             scopesAvailable: string[];
+            /** Subjects */
+            subjects?: string[];
         };
         /** ApiKeyResponse */
         ApiKeyResponse: {
@@ -6004,6 +6017,8 @@ export interface components {
             createdAt: string;
             /** Createdby */
             createdBy: string;
+            /** Grades */
+            grades?: number[];
             /** Id */
             id: string;
             /** Label */
@@ -6018,6 +6033,8 @@ export interface components {
             revokedAt?: string | null;
             /** Scopes */
             scopes: string[];
+            /** Subjects */
+            subjects?: string[];
         };
         /**
          * ApproveChapterTopicsResponse
@@ -8229,15 +8246,33 @@ export interface components {
         };
         /**
          * HomeworkSetRequest
-         * @description N answer-keyed questions for a class, from chapters, in a mix of
-         *     types, avoiding questions the caller has already used. The API knows no
-         *     students (API-5), so "already had" is the caller's list of ids.
+         * @description N answer-keyed questions for a class, from chapters, topics or
+         *     subtopics, in a mix of marks or of types, avoiding questions the caller
+         *     has already used. The API knows no students (API-5), so "already had" is
+         *     the caller's list of ids.
+         *
+         *     API-2 asks for "this mix of marks and types"; the audit found neither a
+         *     marks mix nor a topic filter, and `count` silently ignored whenever
+         *     `types` was sent (N-67-11). The three ways to ask:
+         *
+         *       * `count` alone: that many, spread across the chosen chapters.
+         *       * a mix -- `types` as `{"mcq": 5, "short_answer": 3}` or `marks` as
+         *         `{"1": 4, "3": 2}` -- that many of each. `count`, if sent too, must
+         *         agree with the mix's total; it is a 422 rather than one of the two
+         *         quietly winning.
+         *       * `types` as a list, `["mcq", "short_answer"]`: `count` questions of
+         *         those types, spread across them. With a `marks` mix it chooses the
+         *         types inside each mark value.
+         *
+         *     A types mix and a marks mix together are refused: honouring both at once
+         *     is an allocation problem a greedy pick gets wrong without saying so.
          */
         HomeworkSetRequest: {
             /** Chapterids */
             chapterIds?: string[];
             /**
              * Count
+             * @description how many questions, when no mix is given
              * @default 10
              */
             count: number;
@@ -8245,17 +8280,34 @@ export interface components {
             excludeIds?: string[];
             /** Grade */
             grade: number;
+            /**
+             * Marks
+             * @description a mix of marks, {"1": 4, "3": 2}: four 1-mark and two 3-mark questions. Give `types` as a list to choose the types inside it.
+             */
+            marks?: {
+                [key: string]: number;
+            };
             /** Seed */
             seed?: string | null;
             /** Subject */
             subject: string;
             /**
+             * Subtopicids
+             * @description only questions carrying one of these subtopic ids (a record's `subtopicIds`)
+             */
+            subtopicIds?: string[];
+            /**
+             * Topicids
+             * @description only questions carrying one of these topic ids (a record's `topicIds`)
+             */
+            topicIds?: string[];
+            /**
              * Types
-             * @description e.g. {"mcq": 5, "short_answer": 3}
+             * @description a mix, {"mcq": 5, "short_answer": 3}: that many of each type; or a list, ["mcq", "short_answer"]: `count` questions of those types, spread across them
              */
             types?: {
                 [key: string]: number;
-            };
+            } | string[];
         };
         /** HomeworkSummary */
         HomeworkSummary: {
@@ -9301,6 +9353,8 @@ export interface components {
              * @default 8
              */
             count: number;
+            /** Exampaperid */
+            examPaperId?: string | null;
             /** Subject */
             subject?: string | null;
         };
@@ -12153,6 +12207,84 @@ export interface components {
             role: string;
             /** Schoolid */
             schoolId: string;
+        };
+        /**
+         * V1BadRequest
+         * @description A 400: a cursor that does not decode, a `key_provenance` or `trust`
+         *     outside its vocabulary, or two filters no record can satisfy together.
+         */
+        V1BadRequest: {
+            detail: components["schemas"]["V1Problem"];
+        };
+        /**
+         * V1Error
+         * @description The body of a 401, 403, 404, 429 or 503 from `/v1`: one sentence.
+         */
+        V1Error: {
+            /**
+             * Detail
+             * @example this key does not hold the 'questions:read' scope
+             */
+            detail: string;
+        };
+        /** V1InvalidInput */
+        V1InvalidInput: {
+            /** Input */
+            input?: unknown;
+            /**
+             * Loc
+             * @example [
+             *       "query",
+             *       "subjct"
+             *     ]
+             */
+            loc: (string | number)[];
+            /**
+             * Msg
+             * @example unknown query parameter 'subjct'; this route takes ...
+             */
+            msg: string;
+            /**
+             * Type
+             * @example extra_forbidden
+             */
+            type: string;
+        };
+        /**
+         * V1Problem
+         * @description RFC 9457's fields, carried under `detail` by a 400.
+         */
+        V1Problem: {
+            /**
+             * Detail
+             * @example the cursor is not decodable; omit it to start again
+             */
+            detail: string;
+            /**
+             * Status
+             * @example 400
+             */
+            status: number;
+            /**
+             * Title
+             * @example invalid cursor
+             */
+            title: string;
+            /**
+             * Type
+             * @example about:blank
+             */
+            type: string;
+        };
+        /**
+         * V1ValidationError
+         * @description A 422: a query parameter the route does not take (`type`
+         *     `extra_forbidden`), a value of the wrong type or out of range, or a body
+         *     that does not validate. The shape of every FastAPI validation error.
+         */
+        V1ValidationError: {
+            /** Detail */
+            detail: components["schemas"]["V1InvalidInput"][];
         };
         /** ValidationError */
         ValidationError: {
@@ -21708,10 +21840,7 @@ export interface operations {
     get_coverage_v1_coverage_get: {
         parameters: {
             query?: never;
-            header?: {
-                authorization?: string | null;
-                "X-API-Key"?: string | null;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -21726,13 +21855,53 @@ export interface operations {
                     "application/json": unknown;
                 };
             };
-            /** @description Validation Error */
+            /** @description No key, an unknown key, or a revoked one. Send the key as `X-API-Key: acos_qb_...` or `Authorization: Bearer acos_qb_...`. */
+            401: {
+                headers: {
+                    /** @description `Bearer` */
+                    "WWW-Authenticate"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description The key is valid but does not hold this route's scope, or the request (or the record asked for) is outside the classes or subjects the key is limited to. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description A query parameter this route does not take, or a parameter or body that does not validate. `loc` names it. */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
+                    "application/json": components["schemas"]["V1ValidationError"];
+                };
+            };
+            /** @description The key has spent its requests for this minute. Wait `Retry-After` seconds: the time left in the current one-minute window. */
+            429: {
+                headers: {
+                    /** @description seconds until the window reopens */
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description The question bank is not loaded on this server. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
                 };
             };
         };
@@ -21749,10 +21918,7 @@ export interface operations {
                 /** @description count questions with no answer key as well. Rule Q1 excludes them by default; this is the explicit opt-in. */
                 include_unkeyed?: boolean;
             };
-            header?: {
-                authorization?: string | null;
-                "X-API-Key"?: string | null;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -21767,13 +21933,62 @@ export interface operations {
                     "application/json": unknown;
                 };
             };
-            /** @description Validation Error */
+            /** @description A cursor that does not decode, a `key_provenance` or `trust` outside its vocabulary, or two filters no record can satisfy together. RFC 9457's fields, under `detail`. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1BadRequest"];
+                };
+            };
+            /** @description No key, an unknown key, or a revoked one. Send the key as `X-API-Key: acos_qb_...` or `Authorization: Bearer acos_qb_...`. */
+            401: {
+                headers: {
+                    /** @description `Bearer` */
+                    "WWW-Authenticate"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description The key is valid but does not hold this route's scope, or the request (or the record asked for) is outside the classes or subjects the key is limited to. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description A query parameter this route does not take, or a parameter or body that does not validate. `loc` names it. */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
+                    "application/json": components["schemas"]["V1ValidationError"];
+                };
+            };
+            /** @description The key has spent its requests for this minute. Wait `Retry-After` seconds: the time left in the current one-minute window. */
+            429: {
+                headers: {
+                    /** @description seconds until the window reopens */
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description The question bank is not loaded on this server. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
                 };
             };
         };
@@ -21849,10 +22064,7 @@ export interface operations {
     homework_set_v1_homework_sets_post: {
         parameters: {
             query?: never;
-            header?: {
-                authorization?: string | null;
-                "X-API-Key"?: string | null;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -21871,13 +22083,53 @@ export interface operations {
                     "application/json": unknown;
                 };
             };
-            /** @description Validation Error */
+            /** @description No key, an unknown key, or a revoked one. Send the key as `X-API-Key: acos_qb_...` or `Authorization: Bearer acos_qb_...`. */
+            401: {
+                headers: {
+                    /** @description `Bearer` */
+                    "WWW-Authenticate"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description The key is valid but does not hold this route's scope, or the request (or the record asked for) is outside the classes or subjects the key is limited to. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description A query parameter this route does not take, or a parameter or body that does not validate. `loc` names it. */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
+                    "application/json": components["schemas"]["V1ValidationError"];
+                };
+            };
+            /** @description The key has spent its requests for this minute. Wait `Retry-After` seconds: the time left in the current one-minute window. */
+            429: {
+                headers: {
+                    /** @description seconds until the window reopens */
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description The question bank is not loaded on this server. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
                 };
             };
         };
@@ -21963,6 +22215,16 @@ export interface operations {
                 bloom?: string | null;
                 chapter_id?: string | null;
                 subtopic_id?: string | null;
+                /** @description exact topic id, one of a record's `topicIds` (e.g. 'science-10/life-processes/nutrition'). */
+                topic_id?: string | null;
+                /** @description exact competency id, one of a record's `competencyIds`. No record carried one when this filter was added (2026-10-01), so it answers an empty page until the bank is tagged; it exists so a client written now keeps working. */
+                competency?: string | null;
+                /** @description where the question comes from, as the record's `source` names it: 'cbse_board_paper', 'cbse_sample_paper', 'cbse_question_bank', 'ncert_exemplar', ... Case is ignored; the `source` facet lists what the bank holds. */
+                source?: string | null;
+                /** @description narrow to one trust label (QB-5): 'published' for a key CBSE or NCERT published, 'checked' for one checked before it was served (grounded in the textbook, two agreeing solves, or a teacher's approval). The list's `keyTier`. Narrows within the answer-keyed set, so with has_scheme=false it is a 400. */
+                trust?: string | null;
+                /** @description the publication the question was printed in, as its rights attribution names it (e.g. 'NCERT, Exemplar Problems, Class X Science'). Case and spacing are ignored; the `book` facet lists the exact names. */
+                book?: string | null;
                 /** @description true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing. Since the Q1 pass this is the shared answer-key rule (published provenance AND real content), not the CBSE label alone; use key_provenance for the board's own schemes. */
                 has_scheme?: boolean | null;
                 /** @description narrow to ONE kind of key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers, 'ncert_textbook_answer' for a textbook's printed answers; or a checked key: 'textbook_grounded', 'two_model_solved', 'teacher_verified'. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page. */
@@ -21976,10 +22238,7 @@ export interface operations {
                 /** @description serve questions with no answer key as well. Rule Q1 excludes them by default; this is the explicit opt-in. */
                 include_unkeyed?: boolean;
             };
-            header?: {
-                authorization?: string | null;
-                "X-API-Key"?: string | null;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -21994,13 +22253,62 @@ export interface operations {
                     "application/json": unknown;
                 };
             };
-            /** @description Validation Error */
+            /** @description A cursor that does not decode, a `key_provenance` or `trust` outside its vocabulary, or two filters no record can satisfy together. RFC 9457's fields, under `detail`. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1BadRequest"];
+                };
+            };
+            /** @description No key, an unknown key, or a revoked one. Send the key as `X-API-Key: acos_qb_...` or `Authorization: Bearer acos_qb_...`. */
+            401: {
+                headers: {
+                    /** @description `Bearer` */
+                    "WWW-Authenticate"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description The key is valid but does not hold this route's scope, or the request (or the record asked for) is outside the classes or subjects the key is limited to. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description A query parameter this route does not take, or a parameter or body that does not validate. `loc` names it. */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
+                    "application/json": components["schemas"]["V1ValidationError"];
+                };
+            };
+            /** @description The key has spent its requests for this minute. Wait `Retry-After` seconds: the time left in the current one-minute window. */
+            429: {
+                headers: {
+                    /** @description seconds until the window reopens */
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description The question bank is not loaded on this server. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
                 };
             };
         };
@@ -22008,10 +22316,7 @@ export interface operations {
     get_question_v1_questions__question_id__get: {
         parameters: {
             query?: never;
-            header?: {
-                authorization?: string | null;
-                "X-API-Key"?: string | null;
-            };
+            header?: never;
             path: {
                 question_id: string;
             };
@@ -22028,13 +22333,62 @@ export interface operations {
                     "application/json": unknown;
                 };
             };
-            /** @description Validation Error */
+            /** @description No key, an unknown key, or a revoked one. Send the key as `X-API-Key: acos_qb_...` or `Authorization: Bearer acos_qb_...`. */
+            401: {
+                headers: {
+                    /** @description `Bearer` */
+                    "WWW-Authenticate"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description The key is valid but does not hold this route's scope, or the request (or the record asked for) is outside the classes or subjects the key is limited to. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description No question with that id. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description A query parameter this route does not take, or a parameter or body that does not validate. `loc` names it. */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
+                    "application/json": components["schemas"]["V1ValidationError"];
+                };
+            };
+            /** @description The key has spent its requests for this minute. Wait `Retry-After` seconds: the time left in the current one-minute window. */
+            429: {
+                headers: {
+                    /** @description seconds until the window reopens */
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description The question bank is not loaded on this server. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
                 };
             };
         };
@@ -22042,10 +22396,7 @@ export interface operations {
     get_scheme_v1_questions__question_id__scheme_get: {
         parameters: {
             query?: never;
-            header?: {
-                authorization?: string | null;
-                "X-API-Key"?: string | null;
-            };
+            header?: never;
             path: {
                 question_id: string;
             };
@@ -22062,13 +22413,62 @@ export interface operations {
                     "application/json": unknown;
                 };
             };
-            /** @description Validation Error */
+            /** @description No key, an unknown key, or a revoked one. Send the key as `X-API-Key: acos_qb_...` or `Authorization: Bearer acos_qb_...`. */
+            401: {
+                headers: {
+                    /** @description `Bearer` */
+                    "WWW-Authenticate"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description The key is valid but does not hold this route's scope, or the request (or the record asked for) is outside the classes or subjects the key is limited to. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description No question with that id. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description A query parameter this route does not take, or a parameter or body that does not validate. `loc` names it. */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
+                    "application/json": components["schemas"]["V1ValidationError"];
+                };
+            };
+            /** @description The key has spent its requests for this minute. Wait `Retry-After` seconds: the time left in the current one-minute window. */
+            429: {
+                headers: {
+                    /** @description seconds until the window reopens */
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description The question bank is not loaded on this server. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
                 };
             };
         };
@@ -22176,10 +22576,7 @@ export interface operations {
                 key_provenance?: string | null;
                 include_unkeyed?: boolean;
             };
-            header?: {
-                authorization?: string | null;
-                "X-API-Key"?: string | null;
-            };
+            header?: never;
             path: {
                 subtopic_id: string;
             };
@@ -22196,13 +22593,62 @@ export interface operations {
                     "application/json": unknown;
                 };
             };
-            /** @description Validation Error */
+            /** @description A cursor that does not decode, a `key_provenance` or `trust` outside its vocabulary, or two filters no record can satisfy together. RFC 9457's fields, under `detail`. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1BadRequest"];
+                };
+            };
+            /** @description No key, an unknown key, or a revoked one. Send the key as `X-API-Key: acos_qb_...` or `Authorization: Bearer acos_qb_...`. */
+            401: {
+                headers: {
+                    /** @description `Bearer` */
+                    "WWW-Authenticate"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description The key is valid but does not hold this route's scope, or the request (or the record asked for) is outside the classes or subjects the key is limited to. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description A query parameter this route does not take, or a parameter or body that does not validate. `loc` names it. */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
+                    "application/json": components["schemas"]["V1ValidationError"];
+                };
+            };
+            /** @description The key has spent its requests for this minute. Wait `Retry-After` seconds: the time left in the current one-minute window. */
+            429: {
+                headers: {
+                    /** @description seconds until the window reopens */
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
+                };
+            };
+            /** @description The question bank is not loaded on this server. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["V1Error"];
                 };
             };
         };

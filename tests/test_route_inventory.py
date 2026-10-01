@@ -126,7 +126,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/v1/questions"),
     ("GET", "/v1/questions/{question_id}"),
     ("GET", "/v1/questions/{question_id}/scheme"),
-    ("GET", "/v1/subtopics/{subtopic_id}/questions"),
+    ("GET", "/v1/subtopics/{subtopic_id:path}/questions"),
     ("GET", "/v1/facets"),
     # Answer-key coverage per subject x class. The same numbers the MCP
     # server's coverage_report returns, from the same function (rule Q5).
@@ -1074,7 +1074,7 @@ def test_gated_routes_return_503_without_startup():
                 ("GET", "/v1/questions"),
                 ("GET", "/v1/questions/{question_id}"),
                 ("GET", "/v1/questions/{question_id}/scheme"),
-                ("GET", "/v1/subtopics/{subtopic_id}/questions"),
+                ("GET", "/v1/subtopics/{subtopic_id:path}/questions"),
                 ("GET", "/v1/facets"),
                 ("GET", "/v1/coverage"),
                 ("POST", "/v1/homework-sets"),

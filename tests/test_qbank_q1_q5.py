@@ -611,6 +611,20 @@ def test_the_x_api_key_header_works_here_too(transport):
         assert _mcp_post(c, {"X-API-Key": plaintext}).status_code not in (401, 403)
 
 
+@pytest.mark.parametrize("limits", [{"grades": [10]}, {"subjects": ["Science"]}])
+def test_a_key_limited_to_classes_or_subjects_is_refused_here(transport, limits):
+    """The /v1 routes apply a key's classes and subjects to every read; the
+    MCP tools search the whole corpus and take no key. Serving a limited key
+    here would hand it what its principal kept from it, so it is a 403 until
+    the tools can carry the limits."""
+    app, store = transport
+    plaintext, _ = store.create(school_id="s", scopes=["questions:read"], **limits)
+    with TestClient(app) as c:
+        r = _mcp_post(c, {"X-API-Key": plaintext})
+        assert r.status_code == 403
+        assert "limited" in r.json()["error"]
+
+
 def test_the_auth_layer_is_the_http_surfaces_own(tmp_path):
     """Called directly, because this is the seam: one key store, one scope
     vocabulary, one quota counter for both surfaces."""

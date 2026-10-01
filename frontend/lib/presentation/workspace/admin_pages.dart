@@ -264,7 +264,9 @@ class _ImportPageState extends State<ImportPage> {
   }
 }
 
-/// Question-bank API keys (D38): mint (shown once), list, revoke.
+/// Question-bank API keys (D38): mint (shown once), list, revoke. A key can
+/// be limited to some classes and subjects (API-3); the server then serves it
+/// only those, and refuses a request for any other with a 403.
 class ApiKeysPage extends StatefulWidget {
   const ApiKeysPage({super.key});
 
@@ -276,26 +278,45 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
   late Future<List<Map<String, dynamic>>> _future = Ops.list('/api-keys');
   void _reload() => setState(() { _future = Ops.list('/api-keys'); });
 
+  // Only the scopes a route checks. `papers:create` and `curriculum:read`
+  // gated nothing and the server now refuses them as "not available yet"
+  // (N-67-10), so offering them would only produce an error.
+  static const _scopes = ['questions:read', 'facets:read'];
+
   Future<void> _mint() async {
     final label = TextEditingController();
-    final scopes = <String>{'questions:read', 'curriculum:read', 'facets:read'};
+    final subjects = TextEditingController();
+    final scopes = <String>{..._scopes};
+    final grades = <int>{};
     final ok = await showDialog<bool>(context: context, builder: (ctx) => StatefulBuilder(builder: (ctx, set) => AlertDialog(
       title: const Text('New API key'),
-      content: Column(mainAxisSize: MainAxisSize.min, children: [
+      content: SizedBox(width: 460, child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
         TextField(controller: label, decoration: const InputDecoration(labelText: 'Who is it for?')),
-        for (final s in const ['questions:read', 'curriculum:read', 'facets:read', 'papers:create'])
+        for (final s in _scopes)
           CheckboxListTile(dense: true, value: scopes.contains(s), title: Text(s),
               onChanged: (on) => set(() => on == true ? scopes.add(s) : scopes.remove(s))),
-      ]),
+        const SizedBox(height: 8),
+        const Text('Only these classes (none ticked: every class)'),
+        Wrap(spacing: 4, children: [
+          for (var g = 1; g <= 12; g++)
+            FilterChip(label: Text('$g'), selected: grades.contains(g),
+                onSelected: (on) => set(() => on ? grades.add(g) : grades.remove(g))),
+        ]),
+        TextField(controller: subjects, decoration: const InputDecoration(
+            labelText: 'Only these subjects (optional)', hintText: 'e.g. Science, Mathematics')),
+      ])),
       actions: [
         TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Cancel'))),
-        FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Create')),
+        FilledButton(onPressed: scopes.isEmpty ? null : () => Navigator.pop(ctx, true), child: const Text('Create')),
       ],
     )));
     if (ok != true) return;
+    final onlySubjects = subjects.text.split(',').map((s) => s.trim()).where((s) => s.isNotEmpty).toList();
     try {
       final k = await Ops.post('/api-keys', body: {'label': label.text.trim().isEmpty ? 'Unnamed' : label.text.trim(),
-        'scopes': scopes.toList()});
+        'scopes': scopes.toList(),
+        if (grades.isNotEmpty) 'grades': grades.toList()..sort(),
+        if (onlySubjects.isNotEmpty) 'subjects': onlySubjects});
       if (!mounted) return;
       await showDialog(context: context, builder: (_) => AlertDialog(
         title: const Text('Copy the key now'),
@@ -313,6 +334,16 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
     }
+  }
+
+  /// " · classes 9, 10 · Science", or nothing for a key with no limits.
+  static String _limitsText(Map<String, dynamic> k) {
+    final grades = (k['grades'] as List?) ?? const [];
+    final subjects = (k['subjects'] as List?) ?? const [];
+    return [
+      if (grades.isNotEmpty) ' · classes ${grades.join(', ')}',
+      if (subjects.isNotEmpty) ' · ${subjects.join(', ')}',
+    ].join();
   }
 
   @override
@@ -333,7 +364,8 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
             for (final k in snap.data!)
               ListTile(
                 title: Text('${k['label']} · ${k['prefix']}…'),
-                subtitle: Text('${(k['scopes'] as List).join(', ')} · last used ${k['lastUsedAt'] ?? 'never'}'),
+                subtitle: Text('${(k['scopes'] as List).join(', ')}${_limitsText(k)} · '
+                    'last used ${k['lastUsedAt'] ?? 'never'}'),
                 trailing: k['active'] == true
                     ? TextButton(
                         onPressed: () async {
