@@ -136,11 +136,19 @@ class _WorkspacePageState extends State<WorkspacePage> {
     final tiles = _tiles(CurrentSession.role);
     return Scaffold(
       appBar: destinationAppBar(context, title: Text(tr('School')), actions: [
-        // English / हिन्दी for these pages, per device (TA-9).
+        // English / हिन्दी for these pages, per device (TA-9): the same
+        // setting as Settings, Language, which says the same about coverage.
         IconButton(
           tooltip: uiHindi ? 'Switch to English' : 'हिन्दी में देखें',
           icon: const Icon(Icons.translate),
-          onPressed: () => setState(() => setUiLanguage(uiHindi ? 'en' : 'hi')),
+          onPressed: () {
+            setState(() => setUiLanguage(uiHindi ? 'en' : 'hi'));
+            if (uiHindi) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(const SnackBar(content: Text(hindiCoverage)));
+            }
+          },
         ),
         // A shared family phone: switch between the children and parents on it (SA-8).
         if (CurrentSession.role == 'student' || CurrentSession.role == 'parent')
