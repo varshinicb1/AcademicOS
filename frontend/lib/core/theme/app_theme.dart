@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../constants/app_constants.dart';
+import 'emergera.dart';
 
 /// The palette the whole app draws from, taken from the design system
 /// (design/tokens.json), which carries the Emergera brand (2026-10-01): dark
@@ -222,22 +223,39 @@ class AppTheme {
   static ThemeData get lightTheme => _build(_Palette.light, StatusColors.light);
   static ThemeData get darkTheme => _build(_Palette.dark, StatusColors.dark);
 
-  static const double _radius = 8; // tokens radius.lg: controls
-  static const double _cardRadius = 12; // tokens radius.xl: cards and dialogs
+  static const double _radius = 12; // list rows and menus
+  static const double _cardRadius = Em.radiusLg; // --em-radius-lg: cards and dialogs
 
   static ThemeData _build(_Palette p, StatusColors status) {
-    final scheme = p.scheme;
+    final s = EmSurfaces.of(p.brightness);
+    // Every surface a page paints is glass over the aurora, not only Cards.
+    final scheme = p.scheme.copyWith(surface: s.glass, surfaceContainerLowest: s.glass);
     final control = RoundedRectangleBorder(borderRadius: BorderRadius.circular(_radius));
+    final glassShape = EmRimBorder(borderRadius: BorderRadius.circular(_cardRadius), rim: s.rim);
     OutlineInputBorder field(Color c, [double w = 1]) => OutlineInputBorder(
-          borderRadius: BorderRadius.circular(_radius),
+          borderRadius: BorderRadius.circular(Em.radiusField),
           borderSide: BorderSide(color: c, width: w),
         );
-    final buttonText = font(fontSize: 14, fontWeight: FontWeight.w500);
-    // No vertical padding: the minimum height decides, and it follows the
-    // platform's density (40 px on a phone, 32 px at a desktop's compact
-    // density), as Material's own buttons do. A padded button grew on a
-    // laptop wherever a page added a little padding of its own.
-    const buttonPadding = EdgeInsets.symmetric(horizontal: 16);
+    // .em-btn: 17 px semibold, tracking -0.012em, a pill as tall as
+    // --em-control-h (48 px), padded 0.46 of its height. Material's density
+    // still trims it on a desktop's compact density, as before.
+    final buttonText = font(fontSize: 17, fontWeight: FontWeight.w600, letterSpacing: -0.2);
+    const buttonPadding = EdgeInsets.symmetric(horizontal: 22);
+    const pill = StadiumBorder();
+    const noOverlay = WidgetStatePropertyAll<Color>(Colors.transparent);
+    final primary = ButtonStyle(
+      backgroundBuilder: emPrimaryBackground,
+      backgroundColor: const WidgetStatePropertyAll(Colors.transparent),
+      foregroundColor: const WidgetStatePropertyAll(Colors.white),
+      overlayColor: noOverlay,
+      elevation: const WidgetStatePropertyAll(0),
+      shadowColor: noOverlay,
+      minimumSize: const WidgetStatePropertyAll(Size(Em.controlH, Em.controlH)),
+      padding: const WidgetStatePropertyAll(buttonPadding),
+      shape: const WidgetStatePropertyAll(pill),
+      textStyle: WidgetStatePropertyAll(buttonText.copyWith(
+          shadows: const [Shadow(color: Color(0x59781E00), offset: Offset(0, 1), blurRadius: 1)])),
+    );
 
     return ThemeData(
       useMaterial3: true,
@@ -246,7 +264,9 @@ class AppTheme {
       extensions: [status],
       fontFamily: AppConstants.fontFamily,
       textTheme: _textTheme(p),
-      scaffoldBackgroundColor: p.canvas,
+      // Transparent: EmBackdrop (main.dart) paints the brand's aurora behind
+      // every page, and the glass cards sit on it.
+      scaffoldBackgroundColor: Colors.transparent,
       canvasColor: p.canvas,
       dividerColor: p.line,
       splashFactory: InkSparkle.splashFactory,
@@ -254,138 +274,129 @@ class AppTheme {
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: false,
-        backgroundColor: p.card,
+        backgroundColor: s.navBg, // --em-nav-bg
         surfaceTintColor: Colors.transparent,
         foregroundColor: p.text,
-        shape: Border(bottom: BorderSide(color: p.line)),
-        titleTextStyle: font(fontSize: 18, fontWeight: FontWeight.w600, color: p.text),
+        shape: Border(bottom: BorderSide(color: s.navLine)),
+        titleTextStyle: font(fontSize: 18, fontWeight: FontWeight.w600, color: p.text, letterSpacing: -0.3),
         iconTheme: IconThemeData(color: p.textSecondary, size: 22),
       ),
+      // .em-card: glass over the aurora, the lit rim, --em-radius-lg.
       cardTheme: CardThemeData(
-        elevation: 0,
-        color: p.card,
+        elevation: 2,
+        shadowColor: p.brightness == Brightness.dark ? Colors.black : const Color(0x33101220),
+        color: s.glass,
         surfaceTintColor: Colors.transparent,
         margin: const EdgeInsets.all(0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(_cardRadius),
-          side: BorderSide(color: p.line),
-        ),
+        shape: glassShape,
       ),
-      filledButtonTheme: FilledButtonThemeData(
-        style: FilledButton.styleFrom(
-          backgroundColor: p.accent,
-          foregroundColor: p.onAccent,
-          minimumSize: const Size(64, 40),
-          padding: buttonPadding,
-          shape: control,
-          textStyle: buttonText,
-        ),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: p.accent,
-          foregroundColor: p.onAccent,
-          elevation: 0,
-          minimumSize: const Size(64, 40),
-          padding: buttonPadding,
-          shape: control,
-          textStyle: buttonText,
-        ),
-      ),
+      filledButtonTheme: FilledButtonThemeData(style: primary),
+      elevatedButtonTheme: ElevatedButtonThemeData(style: primary),
+      // .em-btn--glass
       outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: p.text,
-          backgroundColor: p.card,
-          side: BorderSide(color: p.lineStrong),
-          minimumSize: const Size(64, 40),
-          padding: buttonPadding,
-          shape: control,
-          textStyle: buttonText,
+        style: ButtonStyle(
+          backgroundBuilder: emGlassBackground,
+          backgroundColor: const WidgetStatePropertyAll(Colors.transparent),
+          foregroundColor: WidgetStatePropertyAll(p.text),
+          overlayColor: noOverlay,
+          side: const WidgetStatePropertyAll(BorderSide.none),
+          minimumSize: const WidgetStatePropertyAll(Size(Em.controlH, Em.controlH)),
+          padding: const WidgetStatePropertyAll(buttonPadding),
+          shape: const WidgetStatePropertyAll(pill),
+          textStyle: WidgetStatePropertyAll(buttonText),
         ),
       ),
+      // .em-link / .em-btn--ghost: link colour, a pill of --em-fill-2 on hover.
       textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: p.accent,
-          minimumSize: const Size(48, 40),
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          shape: control,
-          textStyle: buttonText,
+        style: ButtonStyle(
+          foregroundColor: WidgetStatePropertyAll(s.link),
+          overlayColor: WidgetStateProperty.resolveWith(
+              (st) => st.contains(WidgetState.hovered) || st.contains(WidgetState.pressed) ? s.fill2 : null),
+          minimumSize: const WidgetStatePropertyAll(Size(48, 40)),
+          padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 14)),
+          shape: const WidgetStatePropertyAll(pill),
+          textStyle: WidgetStatePropertyAll(font(fontSize: 15, fontWeight: FontWeight.w500)),
         ),
       ),
       iconButtonTheme: IconButtonThemeData(
-        style: IconButton.styleFrom(foregroundColor: p.textSecondary, shape: control),
+        style: IconButton.styleFrom(foregroundColor: p.textSecondary, hoverColor: s.fill2, shape: const CircleBorder()),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: p.accent,
-        foregroundColor: p.onAccent,
-        elevation: 0,
-        focusElevation: 0,
-        hoverElevation: 0,
-        highlightElevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_cardRadius)),
+        backgroundColor: Em.ember,
+        foregroundColor: Colors.white,
+        elevation: 6,
+        focusElevation: 6,
+        hoverElevation: 10,
+        highlightElevation: 4,
+        shape: pill,
+        extendedTextStyle: buttonText,
       ),
+      // .em-input: 14 px corners, --em-field-bg, the field rim, an ember focus edge.
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: p.card,
-        isDense: true,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-        border: field(p.lineStrong),
-        enabledBorder: field(p.lineStrong),
-        focusedBorder: field(p.accent, 1.5),
+        fillColor: s.fieldBg,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        border: field(s.fieldBorder),
+        enabledBorder: field(s.fieldBorder),
+        focusedBorder: field(Em.ember, 1.5),
         errorBorder: field(p.danger),
         focusedErrorBorder: field(p.danger, 1.5),
-        disabledBorder: field(p.line),
-        labelStyle: font(color: p.textSecondary, fontSize: 14),
-        floatingLabelStyle: font(color: p.accent, fontSize: 14, fontWeight: FontWeight.w500),
-        hintStyle: font(color: p.textMuted, fontSize: 14),
-        helperStyle: font(color: p.textMuted, fontSize: 12),
+        disabledBorder: field(s.rimLine),
+        labelStyle: font(color: p.textSecondary, fontSize: 15),
+        floatingLabelStyle: font(color: p.text, fontSize: 15, fontWeight: FontWeight.w600),
+        hintStyle: font(color: p.textMuted, fontSize: 15),
+        helperStyle: font(color: p.textMuted, fontSize: 13),
       ),
+      // .em-chip: a pill of --em-fill-1 with the rim; pressed is --em-chip-on.
       chipTheme: ChipThemeData(
-        backgroundColor: p.inset,
-        selectedColor: p.accentTint,
-        disabledColor: p.inset,
-        side: BorderSide(color: p.line),
-        checkmarkColor: p.onAccentTint,
-        labelStyle: font(color: p.textSecondary, fontSize: 13, fontWeight: FontWeight.w500),
-        secondaryLabelStyle: font(color: p.onAccentTint, fontSize: 13, fontWeight: FontWeight.w500),
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        backgroundColor: s.fill1,
+        selectedColor: s.chipOnBg,
+        disabledColor: s.fill1,
+        side: BorderSide(color: s.rimLine),
+        checkmarkColor: s.chipOnFg,
+        labelStyle: font(color: p.text, fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: -0.07),
+        secondaryLabelStyle: font(color: s.chipOnFg, fontSize: 14, fontWeight: FontWeight.w500),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
         shape: const StadiumBorder(),
       ),
+      // .em-segmented
       segmentedButtonTheme: SegmentedButtonThemeData(
         style: ButtonStyle(
-          side: WidgetStatePropertyAll(BorderSide(color: p.line)),
-          shape: WidgetStatePropertyAll(control),
+          side: WidgetStatePropertyAll(BorderSide(color: s.rimLine)),
+          shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
           backgroundColor: WidgetStateProperty.resolveWith(
-              (s) => s.contains(WidgetState.selected) ? p.accentTint : p.card),
+              (st) => st.contains(WidgetState.selected) ? s.segOnBg : s.fill1),
           foregroundColor: WidgetStateProperty.resolveWith(
-              (s) => s.contains(WidgetState.selected) ? p.onAccentTint : p.textSecondary),
-          textStyle: WidgetStatePropertyAll(font(fontSize: 13, fontWeight: FontWeight.w500)),
+              (st) => st.contains(WidgetState.selected) ? p.text : p.textMuted),
+          textStyle: WidgetStatePropertyAll(font(fontSize: 14, fontWeight: FontWeight.w500)),
         ),
       ),
+      // .em-tabs: the selected tab's sunrise underline with its glow.
       tabBarTheme: TabBarThemeData(
         labelColor: p.text,
         unselectedLabelColor: p.textMuted,
-        indicatorColor: p.accent,
-        indicatorSize: TabBarIndicatorSize.label,
-        dividerColor: p.line,
-        labelStyle: font(fontSize: 14, fontWeight: FontWeight.w600),
-        unselectedLabelStyle: font(fontSize: 14, fontWeight: FontWeight.w500),
+        indicator: const EmTabIndicator(),
+        indicatorSize: TabBarIndicatorSize.tab,
+        dividerColor: s.navLine,
+        overlayColor: WidgetStatePropertyAll(s.fill1),
+        labelStyle: font(fontSize: 15, fontWeight: FontWeight.w600),
+        unselectedLabelStyle: font(fontSize: 15, fontWeight: FontWeight.w500),
       ),
       navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: p.card,
+        backgroundColor: s.navBg,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         height: 68,
         indicatorColor: p.accentTint,
-        iconTheme: WidgetStateProperty.resolveWith((s) => IconThemeData(
-            color: s.contains(WidgetState.selected) ? p.onAccentTint : p.textMuted, size: 22)),
-        labelTextStyle: WidgetStateProperty.resolveWith((s) => font(
+        iconTheme: WidgetStateProperty.resolveWith((st) => IconThemeData(
+            color: st.contains(WidgetState.selected) ? p.onAccentTint : p.textMuted, size: 22)),
+        labelTextStyle: WidgetStateProperty.resolveWith((st) => font(
             fontSize: 12,
-            fontWeight: s.contains(WidgetState.selected) ? FontWeight.w600 : FontWeight.w500,
-            color: s.contains(WidgetState.selected) ? p.onAccentTint : p.textMuted)),
+            fontWeight: st.contains(WidgetState.selected) ? FontWeight.w600 : FontWeight.w500,
+            color: st.contains(WidgetState.selected) ? p.onAccentTint : p.textMuted)),
       ),
       navigationRailTheme: NavigationRailThemeData(
-        backgroundColor: p.card,
+        backgroundColor: s.navBg,
         indicatorColor: p.accentTint,
         selectedIconTheme: IconThemeData(color: p.onAccentTint),
         unselectedIconTheme: IconThemeData(color: p.textMuted),
@@ -393,16 +404,16 @@ class AppTheme {
         unselectedLabelTextStyle: font(fontSize: 12, fontWeight: FontWeight.w500, color: p.textMuted),
       ),
       navigationDrawerTheme: NavigationDrawerThemeData(
-        backgroundColor: p.card,
+        backgroundColor: s.popoverBg,
         surfaceTintColor: Colors.transparent,
         indicatorColor: p.accentTint,
       ),
       drawerTheme: DrawerThemeData(
-        backgroundColor: p.card,
+        backgroundColor: s.popoverBg,
         surfaceTintColor: Colors.transparent,
         shape: const RoundedRectangleBorder(),
       ),
-      dividerTheme: DividerThemeData(color: p.line, thickness: 1, space: 1),
+      dividerTheme: DividerThemeData(color: s.navLine, thickness: 1, space: 1),
       listTileTheme: ListTileThemeData(
         contentPadding: const EdgeInsets.symmetric(horizontal: AppConstants.defaultPadding, vertical: 2),
         minVerticalPadding: 10,
@@ -410,84 +421,83 @@ class AppTheme {
         selectedColor: p.onAccentTint,
         selectedTileColor: p.accentTint,
         shape: control,
-        titleTextStyle: font(fontSize: 14, fontWeight: FontWeight.w500, color: p.text),
+        titleTextStyle: font(fontSize: 15, fontWeight: FontWeight.w500, color: p.text, letterSpacing: -0.16),
         subtitleTextStyle: font(fontSize: 13, color: p.textMuted),
         leadingAndTrailingTextStyle: font(fontSize: 13, color: p.textSecondary),
       ),
+      // --em-dialog-bg with the lit rim.
       dialogTheme: DialogThemeData(
-        backgroundColor: p.card,
+        backgroundColor: s.dialogBg,
         surfaceTintColor: Colors.transparent,
-        elevation: 8,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_cardRadius)),
-        titleTextStyle: font(fontSize: 18, fontWeight: FontWeight.w600, color: p.text),
-        contentTextStyle: font(fontSize: 14, color: p.textSecondary, height: 1.45),
+        elevation: 12,
+        shape: glassShape,
+        titleTextStyle: font(fontSize: 21, fontWeight: FontWeight.w600, color: p.text, letterSpacing: -0.4),
+        contentTextStyle: font(fontSize: 15, color: p.textSecondary, height: 1.5),
       ),
       bottomSheetTheme: BottomSheetThemeData(
-        backgroundColor: p.card,
+        backgroundColor: s.dialogBg,
         surfaceTintColor: Colors.transparent,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(_cardRadius))),
       ),
       popupMenuTheme: PopupMenuThemeData(
-        color: p.card,
+        color: s.popoverBg,
         surfaceTintColor: Colors.transparent,
-        elevation: 6,
+        elevation: 8,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(_radius), side: BorderSide(color: p.line)),
-        textStyle: font(fontSize: 14, color: p.text),
+            borderRadius: BorderRadius.circular(Em.radiusField), side: BorderSide(color: s.rimLine)),
+        textStyle: font(fontSize: 15, color: p.text),
       ),
       menuTheme: MenuThemeData(
         style: MenuStyle(
-          backgroundColor: WidgetStatePropertyAll(p.card),
+          backgroundColor: WidgetStatePropertyAll(s.popoverBg),
           surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
           shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(_radius), side: BorderSide(color: p.line))),
+              borderRadius: BorderRadius.circular(Em.radiusField), side: BorderSide(color: s.rimLine))),
         ),
       ),
+      // --em-tip-bg / --em-tip-fg: the brand's inverted toast.
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        backgroundColor: p.brightness == Brightness.light ? const Color(0xFF2A1E1F) : p.inset,
-        contentTextStyle: font(fontSize: 14, color: const Color(0xFFFBF7F0)),
-        actionTextColor: const Color(0xFFEDB3BC),
-        shape: control,
+        backgroundColor: s.tipBg,
+        contentTextStyle: font(fontSize: 15, color: s.tipFg),
+        actionTextColor: Em.emberDeep,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Em.radiusField)),
       ),
       tooltipTheme: TooltipThemeData(
-        decoration: BoxDecoration(
-          color: p.brightness == Brightness.light ? const Color(0xFF2A1E1F) : p.inset,
-          borderRadius: BorderRadius.circular(6),
-        ),
-        textStyle: font(fontSize: 12, color: const Color(0xFFFBF7F0)),
+        decoration: BoxDecoration(color: s.tipBg, borderRadius: BorderRadius.circular(8)),
+        textStyle: font(fontSize: 12, color: s.tipFg),
       ),
       dataTableTheme: DataTableThemeData(
         headingTextStyle: font(fontSize: 12, fontWeight: FontWeight.w600, color: p.textMuted),
         dataTextStyle: font(fontSize: 13, color: p.text),
         dividerThickness: 1,
-        headingRowColor: WidgetStatePropertyAll(p.card),
+        headingRowColor: const WidgetStatePropertyAll(Colors.transparent),
         horizontalMargin: 16,
         columnSpacing: 24,
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: p.accent,
-        linearTrackColor: p.inset,
-        circularTrackColor: p.inset,
+        color: Em.ember,
+        linearTrackColor: s.fill2,
+        circularTrackColor: s.fill2,
       ),
       checkboxTheme: CheckboxThemeData(
         fillColor: WidgetStateProperty.resolveWith(
-            (s) => s.contains(WidgetState.selected) ? p.accent : Colors.transparent),
-        side: BorderSide(color: p.lineStrong, width: 1.5),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            (st) => st.contains(WidgetState.selected) ? Em.ember : Colors.transparent),
+        side: BorderSide(color: s.fieldBorder, width: 1.5),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       ),
       radioTheme: RadioThemeData(
         fillColor: WidgetStateProperty.resolveWith(
-            (s) => s.contains(WidgetState.selected) ? p.accent : p.lineStrong),
+            (st) => st.contains(WidgetState.selected) ? Em.ember : s.fieldBorder),
       ),
       switchTheme: SwitchThemeData(
         trackColor: WidgetStateProperty.resolveWith(
-            (s) => s.contains(WidgetState.selected) ? p.accent : p.inset),
+            (st) => st.contains(WidgetState.selected) ? Em.ember : s.fill2),
         thumbColor: WidgetStateProperty.resolveWith(
-            (s) => s.contains(WidgetState.selected) ? p.onAccent : p.card),
+            (st) => st.contains(WidgetState.selected) ? Colors.white : p.textSecondary),
         trackOutlineColor: WidgetStateProperty.resolveWith(
-            (s) => s.contains(WidgetState.selected) ? p.accent : p.lineStrong),
+            (st) => st.contains(WidgetState.selected) ? Em.ember : s.rimLine),
       ),
       expansionTileTheme: ExpansionTileThemeData(
         shape: const Border(),
@@ -507,12 +517,16 @@ class AppTheme {
     );
   }
 
-  /// The type scale of tokens.json `typography.size`: 14/20 body, 16 card
-  /// titles, 20 subheads, 24 page titles. Letter spacing stays 0: Inter is
-  /// drawn for it, and Material's tracked-out defaults read loose.
+  /// The type scale of tokens.json `typography.size`, with the Emergera
+  /// tracking: -0.035em for display sizes, -0.022em for titles, -0.011em for
+  /// body text (tokens.css --em-track-*).
   static TextTheme _textTheme(_Palette p) {
-    TextStyle s(double size, FontWeight w, double lineHeight, [Color? c]) =>
-        font(fontSize: size, fontWeight: w, height: lineHeight / size, color: c ?? p.text, letterSpacing: 0);
+    TextStyle s(double size, FontWeight w, double lineHeight, [Color? c]) => font(
+        fontSize: size,
+        fontWeight: w,
+        height: lineHeight / size,
+        color: c ?? p.text,
+        letterSpacing: size * (size >= 32 ? -0.035 : size >= 20 ? -0.022 : -0.011));
     return TextTheme(
       displayLarge: s(48, FontWeight.w600, 56),
       displayMedium: s(40, FontWeight.w600, 48),
