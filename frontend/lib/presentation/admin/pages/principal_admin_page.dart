@@ -13,6 +13,7 @@ import '../widgets/calendar_rules_card.dart';
 import '../widgets/erasure_card.dart';
 import '../widgets/insights_card.dart';
 import '../widgets/invites_panel.dart';
+import '../widgets/password_reset.dart';
 import '../widgets/pending_topics_card.dart';
 import '../widgets/school_setup_card.dart';
 import '../widgets/sections_card.dart';
@@ -832,6 +833,9 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
             ],
           ),
         ),
+        const Gap(24),
+        // QA S-05: a teacher, student or parent who forgot their password.
+        const PasswordResetCard(),
         const Gap(24),
         // NFR-1: erasure on the school's written request (principal only).
         const ErasureCard(),
