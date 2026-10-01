@@ -1263,7 +1263,9 @@ export interface paths {
          *        What was taught, marked or has passed is kept (`force`).
          *
          *     A section and subject that cannot be planned is named in `notPlanned`
-         *     with the reason, never skipped silently.
+         *     with the reason, never skipped silently, and each plan names the
+         *     chapters it left out for want of subtopics (`chaptersWithoutSubtopics`,
+         *     D119).
          */
         post: operations["build_lesson_plans_api_v1_curriculum_academic_years__academic_year_id__lesson_plans_post"];
         delete?: never;
@@ -1454,6 +1456,34 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/teaching-groups": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Teaching Groups
+         * @description The year's elective groups and combined classes, with their lanes and
+         *     where they are placed.
+         */
+        get: operations["list_teaching_groups_api_v1_curriculum_academic_years__academic_year_id__teaching_groups_get"];
+        put?: never;
+        /**
+         * Create Teaching Group
+         * @description An elective group (students of one or more sections of a class split
+         *     into parallel lanes, taught at the same time by different teachers) or a
+         *     combined class (two or more sections taught together by one teacher in
+         *     one room). Generating the timetable places it as one block.
+         */
+        post: operations["create_teaching_group_api_v1_curriculum_academic_years__academic_year_id__teaching_groups_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/academic-years/{academic_year_id}/terms": {
         parameters: {
             query?: never;
@@ -1516,6 +1546,30 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/previews/{preview_id}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Publish Timetable Preview
+         * @description Publish exactly the week a preview showed -- no second solve, so what
+         *     the principal approved is what the school gets (N-3-6). 404: no such
+         *     preview (a newer one or a publish replaced it). 409: the timetable,
+         *     allocations, bells, rooms or availability changed after the preview was
+         *     made; preview again.
+         */
+        post: operations["publish_timetable_preview_api_v1_curriculum_academic_years__academic_year_id__timetable_previews__preview_id__publish_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve": {
         parameters: {
             query?: never;
@@ -1531,8 +1585,13 @@ export interface paths {
          *     the allocations and bells: no teacher, room or section in two places,
          *     a teacher's maximum a day and in a row, subjects spread across the week,
          *     unavailable periods free, locked periods kept, and -- with keepExisting
-         *     -- the fewest changes to the current week. `apply: false` returns the
-         *     proposal and its diff without writing; `apply: true` publishes it.
+         *     -- the fewest changes to the current week. Every changed period is
+         *     listed in `changes`.
+         *
+         *     `apply: false` writes nothing: it keeps the proposal under `previewId`,
+         *     which `POST .../timetable/previews/{previewId}/publish` writes exactly
+         *     (N-3-6). `apply: true` generates and publishes in one step: the week
+         *     written is the one returned.
          */
         post: operations["solve_timetable_api_v1_curriculum_academic_years__academic_year_id__timetable_solve_post"];
         delete?: never;
@@ -1645,7 +1704,10 @@ export interface paths {
          *     only what is still to be taught. New lessons are placed from
          *     the school's today (or the year's first day, if later): a day that has
          *     passed cannot be taught on, and the shortfall warning counts only the
-         *     periods left.
+         *     periods left. With `fitToPeriodsLeft`, a syllabus that needs more periods
+         *     than are left is fitted to them: each subtopic gets proportionally fewer,
+         *     at least one, and every one given fewer is listed in
+         *     `subtopicsCompressed` (D35).
          */
         post: operations["schedule_book_api_v1_curriculum_books__book_id__schedule_post"];
         delete?: never;
@@ -1697,11 +1759,17 @@ export interface paths {
          *     overwrites an existing estimate (§29 -- an admin who has since
          *     hand-adjusted an estimate must not have it clobbered by a re-run).
          *
+         *     The budget is sized from a section's own week (N-3-8): `sectionId`'s,
+         *     or, when none is named, the largest of the class's sections that have
+         *     the subject in their timetable. Only a class with no section week falls
+         *     back to the school-wide slots.
+         *
          *     `periods_per_week`: an explicit value in the request always wins (a
-         *     one-off override); when omitted, resolves this book's subject's real,
-         *     persisted SubjectPeriodAllocation for the year instead of forcing the
-         *     caller to re-supply it every time -- 400 with a clear message if
-         *     neither exists, never a guessed default.
+         *     one-off override); when omitted, resolves the section's allocation
+         *     (`sectionId`), else this book's subject's persisted
+         *     SubjectPeriodAllocation for the year, else the most any section of the
+         *     class is allocated -- 400 with a clear message if none exists, never a
+         *     guessed default.
          */
         post: operations["compute_teaching_time_estimates_api_v1_curriculum_books__book_id__teaching_time_estimates_post"];
         delete?: never;
@@ -2148,6 +2216,58 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/leave-requests/{leave_id}/document": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Leave Document
+         * @description The request's supporting document, for the teacher on leave and the
+         *     school's leave admin. A read by anyone but the teacher is logged.
+         */
+        get: operations["leave_document_api_v1_curriculum_leave_requests__leave_id__document_get"];
+        put?: never;
+        /**
+         * Upload Leave Document
+         * @description Attach a supporting document to a leave request: a PDF, JPEG or PNG of
+         *     at most 2 MB. The teacher on leave, or whoever applied for them (the
+         *     principal), may; a second upload replaces the first. Only while the
+         *     request stands (pending or approved).
+         */
+        post: operations["upload_leave_document_api_v1_curriculum_leave_requests__leave_id__document_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/leave-requests/{leave_id}/replacement": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Set Leave Replacement
+         * @description Long leave (SCH-8): name a temporary replacement teacher, who takes the
+         *     teacher's periods for the leave's dates -- each one they are free for,
+         *     accepted at once -- and teaches their classes' lessons of those dates.
+         *     Null takes the replacement off, and the engine proposes cover again.
+         *     Returns the leave and its substitutions from today on.
+         */
+        put: operations["set_leave_replacement_api_v1_curriculum_leave_requests__leave_id__replacement_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/lost-periods/{lost_id}/compensate": {
         parameters: {
             query?: never;
@@ -2376,6 +2496,9 @@ export interface paths {
          * Get Coverage Report
          * @description Planned vs. actually-taught coverage, variance, and completion %
          *     aggregated by Subject and Chapter for school management (§17, §32).
+         *     `as_of_date` defaults to the school's today (IST), the same day delayed
+         *     topics read; it was the server's UTC date, so between 00:00 and 05:30
+         *     IST Coverage & Pace showed yesterday beside today's overdue list (D66).
          */
         get: operations["get_coverage_report_api_v1_curriculum_reporting_coverage_get"];
         put?: never;
@@ -2666,6 +2789,53 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/sections/{section_id}/merge": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Merge Section
+         * @description Merge a section into another of its class mid-year (SCH-8): every
+         *     student moves and keeps the other section's week; the emptied section,
+         *     its week and its allocations are removed. 422 while it is in a group
+         *     the other section is not in. Its students and the teachers who lose
+         *     periods are told.
+         */
+        post: operations["merge_section_api_v1_curriculum_sections__section_id__merge_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/sections/{section_id}/split": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Split Section
+         * @description Split a section mid-year (SCH-8): `studentIds` move to a new section
+         *     of the class named `name`, which gets the old section's bell, a copy of
+         *     each of its allocations and its groups. The old section keeps its week;
+         *     generate the new section's next (solve with sectionIds [its id]).
+         */
+        post: operations["split_section_api_v1_curriculum_sections__section_id__split_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/sections/{section_id}/students": {
         parameters: {
             query?: never;
@@ -2704,7 +2874,9 @@ export interface paths {
          * @description Replace a section's whole week. Checked before anything is written: a
          *     teacher or room already busy in another section, a period or day the
          *     bell does not have, a subject with no allocation or more periods than
-         *     allocated. A 409 lists every clash; the old week is kept.
+         *     allocated. A 409 lists every clash; the old week is kept. A subject
+         *     whose weekdays changed has its plan re-laid on the new week from today
+         *     (N-3-14).
          */
         put: operations["replace_section_timetable_api_v1_curriculum_sections__section_id__timetable_put"];
         post?: never;
@@ -3035,6 +3207,32 @@ export interface paths {
         put: operations["mark_teacher_attendance_api_v1_curriculum_teacher_attendance_put"];
         post?: never;
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/teaching-groups/{group_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Update Teaching Group
+         * @description Replace a group's definition. Changing its sections, periods a week
+         *     or a lane's teacher or room takes its placed periods away: generate the
+         *     timetable again to place it.
+         */
+        put: operations["update_teaching_group_api_v1_curriculum_teaching_groups__group_id__put"];
+        post?: never;
+        /**
+         * Delete Teaching Group
+         * @description The group and its periods; its sections' periods then are free.
+         */
+        delete: operations["delete_teaching_group_api_v1_curriculum_teaching_groups__group_id__delete"];
         options?: never;
         head?: never;
         patch?: never;
@@ -4010,7 +4208,8 @@ export interface paths {
         };
         /**
          * My Calendar
-         * @description The caller's dated school events from today: holidays, cover and
+         * @description The caller's dated school events from today: holidays, half days,
+         *     exam windows and compensatory working days (N-3-19), cover and
          *     invigilation duties, exam papers and homework due. The ICS feed carries
          *     the same; the weekly periods are the timetable's, so they are left out.
          */
@@ -6062,6 +6261,8 @@ export interface components {
             date: string;
             /** Enddate */
             endDate?: string | null;
+            /** Grades */
+            grades?: number[] | null;
             /**
              * Kind
              * @default holiday
@@ -6069,11 +6270,15 @@ export interface components {
             kind: string;
             /** Label */
             label: string;
+            /** Lastperiod */
+            lastPeriod?: number | null;
             /**
              * Movelessons
              * @default true
              */
             moveLessons: boolean;
+            /** Timetableweekday */
+            timetableWeekday?: number | null;
         };
         /** AddSubtopicRequest */
         AddSubtopicRequest: {
@@ -6707,6 +6912,11 @@ export interface components {
              */
             uploaderId: string;
         };
+        /** Body_upload_leave_document_api_v1_curriculum_leave_requests__leave_id__document_post */
+        Body_upload_leave_document_api_v1_curriculum_leave_requests__leave_id__document_post: {
+            /** File */
+            file: string;
+        };
         /** Body_upload_photo_api_v1_my_homework__homework_id__photos_post */
         Body_upload_photo_api_v1_my_homework__homework_id__photos_post: {
             /** File */
@@ -6749,6 +6959,11 @@ export interface components {
              * @default false
              */
             approveProposedTopics: boolean;
+            /**
+             * Fittoperiodsleft
+             * @default false
+             */
+            fitToPeriodsLeft: boolean;
         };
         /** BuildPlansResponse */
         BuildPlansResponse: {
@@ -7287,6 +7502,15 @@ export interface components {
                 [key: string]: number;
             };
         };
+        /** CompressedSubtopicResponse */
+        CompressedSubtopicResponse: {
+            /** Periodsneeded */
+            periodsNeeded: number;
+            /** Periodsplanned */
+            periodsPlanned: number;
+            /** Subtopicid */
+            subtopicId: string;
+        };
         /** ComputeTeachingTimeRequest */
         ComputeTeachingTimeRequest: {
             /** Periodsperweek */
@@ -7296,6 +7520,8 @@ export interface components {
              * @default false
              */
             recompute: boolean;
+            /** Sectionid */
+            sectionId?: string | null;
         };
         /** ComputeTeachingTimeResponse */
         ComputeTeachingTimeResponse: {
@@ -7326,6 +7552,8 @@ export interface components {
              * @default 0
              */
             periodsShort: number;
+            /** Sectionid */
+            sectionId?: string | null;
             /** Totalinstructionalminutes */
             totalInstructionalMinutes: number;
             /** Totalsubjectperiods */
@@ -8048,6 +8276,11 @@ export interface components {
         Exams: {
             /** Covered */
             covered: components["schemas"]["ClassSubject"][];
+            /**
+             * Noquestions
+             * @default []
+             */
+            noQuestions: components["schemas"]["ClassSubject"][];
             /** Notyet */
             notYet: components["schemas"]["ClassSubject"][];
             /** Papersset */
@@ -8131,6 +8364,8 @@ export interface components {
             rejectSimilar: boolean;
             /** Subject */
             subject: string;
+            /** Teacherseconds */
+            teacherSeconds?: number | null;
             /** Templateid */
             templateId?: string | null;
             /**
@@ -8159,6 +8394,8 @@ export interface components {
              * @default 1
              */
             setCount: number;
+            /** Teacherseconds */
+            teacherSeconds?: number | null;
             /** Templateid */
             templateId: string;
             /** Title */
@@ -8176,6 +8413,8 @@ export interface components {
             competencyShare?: number | null;
             /** Competencytargetmet */
             competencyTargetMet?: boolean | null;
+            /** Difficultymeasured */
+            difficultyMeasured?: number | null;
             /**
              * Formattedcontent
              * @default
@@ -8188,7 +8427,14 @@ export interface components {
             formattedContentLatex: string;
             /** Id */
             id: string;
+            /** Marksasked */
+            marksAsked?: number | null;
             metadata: components["schemas"]["PaperMetadataSchema"];
+            /**
+             * Preview
+             * @default false
+             */
+            preview: boolean;
             /** Sections */
             sections: components["schemas"]["GeneratedSectionSchema"][];
             /** Setlabel */
@@ -8199,6 +8445,8 @@ export interface components {
             };
             /** Sets */
             sets?: components["schemas"]["GeneratedPaper"][];
+            /** Shortfall */
+            shortfall?: components["schemas"]["SectionShortfall"][];
             /** Similarpairs */
             similarPairs?: string[][];
             /** Tiersavailable */
@@ -8383,6 +8631,95 @@ export interface components {
             /** Questions */
             questions: number;
         };
+        /**
+         * GroupLaneBody
+         * @description One lane: its subject (a subject of the sections' class), teacher,
+         *     room, and for an elective the students who chose it. `id` keeps a lane
+         *     across an edit.
+         */
+        GroupLaneBody: {
+            /** Id */
+            id?: string | null;
+            /** Roomid */
+            roomId?: string | null;
+            /** Studentids */
+            studentIds?: string[];
+            /** Subjectid */
+            subjectId: string;
+            /** Teacherid */
+            teacherId?: string | null;
+        };
+        /**
+         * GroupLaneResponse
+         * @description One lane of a group: an elective's subject choice, or a combined
+         *     class's one subject, with its teacher and room.
+         */
+        GroupLaneResponse: {
+            /** Id */
+            id: string;
+            /** Roomid */
+            roomId?: string | null;
+            /** Roomname */
+            roomName?: string | null;
+            /**
+             * Studentids
+             * @default []
+             */
+            studentIds: string[];
+            /** Subjectid */
+            subjectId: string;
+            /** Subjectname */
+            subjectName?: string | null;
+            /** Teacherid */
+            teacherId?: string | null;
+            /** Teachername */
+            teacherName?: string | null;
+        };
+        /**
+         * GroupPeriodResponse
+         * @description A period a section spends in an elective group or a combined class
+         *     (N-3-20), with every lane taught then.
+         */
+        GroupPeriodResponse: {
+            /** Dayofweek */
+            dayOfWeek: number;
+            /** Endtime */
+            endTime?: string | null;
+            /** Groupid */
+            groupId: string;
+            /** Groupname */
+            groupName: string;
+            /** Kind */
+            kind: string;
+            /**
+             * Lanes
+             * @default []
+             */
+            lanes: components["schemas"]["GroupLaneResponse"][];
+            /** Period */
+            period: number;
+            /** Starttime */
+            startTime?: string | null;
+        };
+        /**
+         * GroupSessionResponse
+         * @description A period of an elective group or a combined class (N-3-20).
+         */
+        GroupSessionResponse: {
+            /** Dayofweek */
+            dayOfWeek: number;
+            /** Groupid */
+            groupId: string;
+            /** Period */
+            period: number;
+        };
+        /** GroupSlotResponse */
+        GroupSlotResponse: {
+            /** Dayofweek */
+            dayOfWeek: number;
+            /** Period */
+            period: number;
+        };
         /** GuardianInviteRequest */
         GuardianInviteRequest: {
             /** Email */
@@ -8440,16 +8777,22 @@ export interface components {
             date: string;
             /** Enddate */
             endDate?: string | null;
+            /** Grades */
+            grades?: number[] | null;
             /** Id */
             id: string;
             /** Kind */
             kind: string;
             /** Label */
             label: string;
+            /** Lastperiod */
+            lastPeriod?: number | null;
             /** Lessonsmoved */
             lessonsMoved?: number | null;
             /** Notmoved */
             notMoved?: string[] | null;
+            /** Timetableweekday */
+            timetableWeekday?: number | null;
         };
         /** Homework */
         Homework: {
@@ -8841,6 +9184,17 @@ export interface components {
             /** Substitutions */
             substitutions: components["schemas"]["SubstitutionResponse"][];
         };
+        /** LeaveDocumentResponse */
+        LeaveDocumentResponse: {
+            /** Contenttype */
+            contentType: string;
+            /** Name */
+            name: string;
+            /** Size */
+            size: number;
+            /** Uploadedat */
+            uploadedAt: string;
+        };
         /** LeaveResponse */
         LeaveResponse: {
             /** Academicyearid */
@@ -8849,6 +9203,7 @@ export interface components {
             createdBy: string;
             /** Decidedby */
             decidedBy?: string | null;
+            document?: components["schemas"]["LeaveDocumentResponse"] | null;
             /** Enddate */
             endDate: string;
             /** Handovernote */
@@ -8861,6 +9216,8 @@ export interface components {
             periods: number[];
             /** Reason */
             reason: string;
+            /** Replacementid */
+            replacementId?: string | null;
             /** Startdate */
             startDate: string;
             /** Status */
@@ -9706,6 +10063,24 @@ export interface components {
             /** Target */
             target: string;
         };
+        /**
+         * PeriodChangeResponse
+         * @description One period of one section the generated week changes (N-3-6):
+         *     `before` -> `after`. No `before` is a period added; no `after`, one
+         *     that becomes free.
+         */
+        PeriodChangeResponse: {
+            after?: components["schemas"]["PeriodResponse"] | null;
+            before?: components["schemas"]["PeriodResponse"] | null;
+            /** Dayofweek */
+            dayOfWeek: number;
+            /** Period */
+            period: number;
+            /** Sectionid */
+            sectionId: string;
+            /** Sectionname */
+            sectionName?: string | null;
+        };
         /** PeriodConfigurationResponse */
         PeriodConfigurationResponse: {
             /** Academicyearid */
@@ -9716,6 +10091,31 @@ export interface components {
             periodMinutes: number;
             /** Schoolid */
             schoolId: string;
+        };
+        /**
+         * PeriodResponse
+         * @description What one period holds, with names to read it by. A group's period
+         *     (N-3-20) carries the group; its subject is the group's first lane's.
+         */
+        PeriodResponse: {
+            /** Coteacherid */
+            coTeacherId?: string | null;
+            /** Groupid */
+            groupId?: string | null;
+            /** Groupname */
+            groupName?: string | null;
+            /** Roomid */
+            roomId?: string | null;
+            /** Roomname */
+            roomName?: string | null;
+            /** Subjectid */
+            subjectId: string;
+            /** Subjectname */
+            subjectName?: string | null;
+            /** Teacherid */
+            teacherId?: string | null;
+            /** Teachername */
+            teacherName?: string | null;
         };
         /** PhotoResponse */
         PhotoResponse: {
@@ -9735,6 +10135,13 @@ export interface components {
         };
         /** PlanBuiltResponse */
         PlanBuiltResponse: {
+            /**
+             * Chapterswithoutsubtopics
+             * @default []
+             */
+            chaptersWithoutSubtopics: string[];
+            /** Fitnote */
+            fitNote?: string | null;
             /** Lastscheduleddate */
             lastScheduledDate?: string | null;
             /** Lessonscreated */
@@ -9745,6 +10152,11 @@ export interface components {
             sectionName: string;
             /** Subjectname */
             subjectName: string;
+            /**
+             * Subtopicscompressed
+             * @default 0
+             */
+            subtopicsCompressed: number;
             /**
              * Subtopicswithoutestimate
              * @default 0
@@ -10380,12 +10792,19 @@ export interface components {
             /** Grade */
             grade: number;
             /**
+             * Preview
+             * @default false
+             */
+            preview: boolean;
+            /**
              * Setcount
              * @default 1
              */
             setCount: number;
             /** Subject */
             subject: string;
+            /** Teacherseconds */
+            teacherSeconds?: number | null;
             /** Templateid */
             templateId?: string | null;
             /**
@@ -10448,6 +10867,11 @@ export interface components {
         RenameRequest: {
             /** Name */
             name: string;
+        };
+        /** ReplacementRequest */
+        ReplacementRequest: {
+            /** Teacherid */
+            teacherId?: string | null;
         };
         /** ReportCardResponse */
         ReportCardResponse: {
@@ -10828,6 +11252,11 @@ export interface components {
         /** ScheduleBookRequest */
         ScheduleBookRequest: {
             /**
+             * Fittoperiodsleft
+             * @default false
+             */
+            fitToPeriodsLeft: boolean;
+            /**
              * Force
              * @default false
              */
@@ -10848,8 +11277,15 @@ export interface components {
             allSubtopicsScheduled: boolean;
             /** Bookid */
             bookId: string;
+            /**
+             * Chapterswithoutsubtopics
+             * @default []
+             */
+            chaptersWithoutSubtopics: string[];
             /** Firstscheduleddate */
             firstScheduledDate?: string | null;
+            /** Fitnote */
+            fitNote?: string | null;
             /** Lastscheduleddate */
             lastScheduledDate?: string | null;
             /** Lessonscreated */
@@ -10868,6 +11304,11 @@ export interface components {
             periodsPerWeek: number;
             /** Sectionid */
             sectionId?: string | null;
+            /**
+             * Subtopicscompressed
+             * @default []
+             */
+            subtopicsCompressed: components["schemas"]["CompressedSubtopicResponse"][];
             /** Subtopicspartiallyscheduled */
             subtopicsPartiallyScheduled: string[];
             /** Subtopicsscheduled */
@@ -11085,6 +11526,8 @@ export interface components {
             name: string;
             /** Note */
             note?: string | null;
+            /** Notelink */
+            noteLink?: string | null;
             /** Startdate */
             startDate: string;
             /** Termid */
@@ -11241,6 +11684,21 @@ export interface components {
             /** Questiontypes */
             questionTypes?: ("mcq" | "very_short_answer" | "short_answer" | "long_answer" | "very_long_answer" | "case_study" | "assertion_reason" | "map_based" | "diagram_based" | "graph_based" | "table_based" | "competency_based")[] | null;
         };
+        /** SectionMergeRequest */
+        SectionMergeRequest: {
+            /** Intosectionid */
+            intoSectionId: string;
+        };
+        /** SectionMergeResponse */
+        SectionMergeResponse: {
+            /** Allocationsremoved */
+            allocationsRemoved: number;
+            into: components["schemas"]["SectionResponse"];
+            /** Movedstudents */
+            movedStudents: number;
+            /** Periodsremoved */
+            periodsRemoved: number;
+        };
         /**
          * SectionResponse
          * @description One class of a grade ("10-B", M1.1). studentCount is how many
@@ -11264,6 +11722,53 @@ export interface components {
              * @default 0
              */
             studentCount: number;
+        };
+        /**
+         * SectionShortfall
+         * @description One section a quick paper prints short because the bank cannot fill
+         *     it: what it asked for, what it prints, and how many questions the bank
+         *     holds for it where the paper draws from.
+         */
+        SectionShortfall: {
+            /** Asked */
+            asked: number;
+            /** Available */
+            available: number;
+            /** Label */
+            label: string;
+            /** Markseach */
+            marksEach: number;
+            /** Missingmarks */
+            missingMarks: number;
+            /** Name */
+            name: string;
+            /** Printed */
+            printed: number;
+            /** Reason */
+            reason: string;
+            /** Sectionid */
+            sectionId: string;
+        };
+        /** SectionSplitRequest */
+        SectionSplitRequest: {
+            /** Name */
+            name: string;
+            /** Studentids */
+            studentIds: string[];
+        };
+        /**
+         * SectionSplitResponse
+         * @description The new section, and what it took from the old one. Its week is
+         *     generated next: POST .../timetable/solve with sectionIds [its id].
+         */
+        SectionSplitResponse: {
+            /** Allocationscopied */
+            allocationsCopied: number;
+            /** Groupsjoined */
+            groupsJoined: number;
+            /** Movedstudents */
+            movedStudents: number;
+            section: components["schemas"]["SectionResponse"];
         };
         /**
          * SectionStudentResponse
@@ -11291,6 +11796,11 @@ export interface components {
             entries: components["schemas"]["TimetableEntryResponse"][];
             /** Gaps */
             gaps: components["schemas"]["TimetableGapResponse"][];
+            /**
+             * Groupperiods
+             * @default []
+             */
+            groupPeriods: components["schemas"]["GroupPeriodResponse"][];
             /** Sectionid */
             sectionId: string;
         };
@@ -11570,12 +12080,24 @@ export interface components {
         SolveResponse: {
             /** Applied */
             applied: boolean;
+            /**
+             * Changes
+             * @default []
+             */
+            changes: components["schemas"]["PeriodChangeResponse"][];
             /** Entries */
             entries: components["schemas"]["ProposedEntryResponse"][];
+            /**
+             * Groupsessions
+             * @default []
+             */
+            groupSessions: components["schemas"]["GroupSessionResponse"][];
             /** Kept */
             kept: number;
             /** Movedoradded */
             movedOrAdded: number;
+            /** Previewid */
+            previewId?: string | null;
             /** Problems */
             problems: string[];
             /** Removed */
@@ -12170,6 +12692,47 @@ export interface components {
             /** Teacherid */
             teacherId: string;
         };
+        /**
+         * TeachingGroupRequest
+         * @description kind: "elective" (two or more parallel lanes, each its own subject
+         *     and teacher) or "combined" (one lane: the sections taught together).
+         */
+        TeachingGroupRequest: {
+            /** Kind */
+            kind: string;
+            /** Lanes */
+            lanes: components["schemas"]["GroupLaneBody"][];
+            /** Name */
+            name: string;
+            /** Periodsperweek */
+            periodsPerWeek: number;
+            /** Sectionids */
+            sectionIds: string[];
+        };
+        /** TeachingGroupResponse */
+        TeachingGroupResponse: {
+            /** Academicyearid */
+            academicYearId: string;
+            /** Id */
+            id: string;
+            /** Kind */
+            kind: string;
+            /** Lanes */
+            lanes: components["schemas"]["GroupLaneResponse"][];
+            /** Name */
+            name: string;
+            /**
+             * Periods
+             * @default []
+             */
+            periods: components["schemas"]["GroupSlotResponse"][];
+            /** Periodsperweek */
+            periodsPerWeek: number;
+            /** Sectionids */
+            sectionIds: string[];
+            /** Sectionnames */
+            sectionNames: string[];
+        };
         /** TeachingTimeEstimateResponse */
         TeachingTimeEstimateResponse: {
             /** Academicyearid */
@@ -12386,6 +12949,11 @@ export interface components {
             minutesTotal: number;
             /** Papers */
             papers: number;
+            /**
+             * Paperswithteachertime
+             * @default 0
+             */
+            papersWithTeacherTime: number;
         };
         /** TimetableEntryBody */
         TimetableEntryBody: {
@@ -12413,6 +12981,12 @@ export interface components {
             coTeacherName?: string | null;
             /** Dayofweek */
             dayOfWeek: number;
+            /** Endtime */
+            endTime?: string | null;
+            /** Groupid */
+            groupId?: string | null;
+            /** Groupname */
+            groupName?: string | null;
             /** Id */
             id: string;
             /**
@@ -12430,6 +13004,8 @@ export interface components {
             sectionId: string;
             /** Sectionname */
             sectionName?: string | null;
+            /** Starttime */
+            startTime?: string | null;
             /** Subjectid */
             subjectId: string;
             /** Subjectname */
@@ -12900,6 +13476,11 @@ export interface components {
             academicYearId: string;
             /** Alternatesaturdayoffcount */
             alternateSaturdayOffCount: number;
+            /**
+             * Compensatorycount
+             * @default 0
+             */
+            compensatoryCount: number;
             /** Dates */
             dates: string[];
             /** Holidaycount */
@@ -15591,6 +16172,72 @@ export interface operations {
             };
         };
     };
+    list_teaching_groups_api_v1_curriculum_academic_years__academic_year_id__teaching_groups_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeachingGroupResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_teaching_group_api_v1_curriculum_academic_years__academic_year_id__teaching_groups_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TeachingGroupRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeachingGroupResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_terms_api_v1_curriculum_academic_years__academic_year_id__terms_get: {
         parameters: {
             query?: never;
@@ -15746,6 +16393,38 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["TimetableSlotResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    publish_timetable_preview_api_v1_curriculum_academic_years__academic_year_id__timetable_previews__preview_id__publish_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+                preview_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SolveResponse"];
                 };
             };
             /** @description Validation Error */
@@ -16737,6 +17416,107 @@ export interface operations {
             };
         };
     };
+    leave_document_api_v1_curriculum_leave_requests__leave_id__document_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                leave_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    upload_leave_document_api_v1_curriculum_leave_requests__leave_id__document_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                leave_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["Body_upload_leave_document_api_v1_curriculum_leave_requests__leave_id__document_post"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeaveResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    set_leave_replacement_api_v1_curriculum_leave_requests__leave_id__replacement_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                leave_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReplacementRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeaveDecisionResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     compensate_api_v1_curriculum_lost_periods__lost_id__compensate_post: {
         parameters: {
             query?: never;
@@ -17654,6 +18434,76 @@ export interface operations {
             };
         };
     };
+    merge_section_api_v1_curriculum_sections__section_id__merge_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                section_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SectionMergeRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SectionMergeResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    split_section_api_v1_curriculum_sections__section_id__split_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                section_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SectionSplitRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SectionSplitResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_section_students_api_v1_curriculum_sections__section_id__students_get: {
         parameters: {
             query?: never;
@@ -18339,6 +19189,74 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AttendanceResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_teaching_group_api_v1_curriculum_teaching_groups__group_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                group_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TeachingGroupRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeachingGroupResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_teaching_group_api_v1_curriculum_teaching_groups__group_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                group_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
             /** @description Validation Error */
