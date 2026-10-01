@@ -355,7 +355,7 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
       rows = await Ops.list('/api-keys/${k['id']}/usage');
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
       return;
     }
     if (!mounted) return;
@@ -398,14 +398,22 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
                 title: Text('${k['label']} · ${k['prefix']}…'),
                 subtitle: Text('${(k['scopes'] as List).join(', ')}${_limitsText(k)} · '
                     'last used ${k['lastUsedAt'] ?? 'never'} · tap for usage'),
-                trailing: k['active'] == true
-                    ? TextButton(
+                trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                  // API-6: the partner's webhooks for this key, and their delivery log.
+                  TextButton(
+                      onPressed: () => context.push('/school/api-keys/${k['id']}/webhooks'
+                          '?label=${Uri.encodeQueryComponent('${k['label']}')}'),
+                      child: const Text('Webhooks')),
+                  if (k['active'] == true)
+                    TextButton(
                         onPressed: () async {
                           await Ops.delete('/api-keys/${k['id']}');
                           _reload();
                         },
                         child: const Text('Revoke'))
-                    : const ChipTag(label: 'Revoked'),
+                  else
+                    const ChipTag(label: 'Revoked'),
+                ]),
               ),
           ]);
         },

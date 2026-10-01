@@ -320,6 +320,7 @@ gets flagged to the user, not silently shipped.
       | **Composio**, `backend.composio.dev`, which relays through the school's Gmail/Outlook | The same as SMTP for mail. For calendar sync, an assessment's title and date | **Only if `COMPOSIO_API_KEY` is set.** The GCP deploy does not set it, so Composio is not reachable in that release |
       | **Supabase** | Scan photos/PDFs and the curriculum snapshot (Supabase Storage) | **Not in the GCP release once Task 501 (`eaa30f8`, `feat/product-gcp`) is merged.** On this branch before that merge, `deploy-gcp.yml` still injects the Supabase credentials |
       | **Render** | Everything, as host | The Render release only. It is not the GCP release |
+      | **A partner's webhook receiver** (API-6, 2026-10-01): an HTTPS URL a school's principal registers for one of the school's question-bank API keys (`assessment/webhooks.py`) | `questions.added` events: question ids with their class, subject and chapter, and why they were added. No question text and no student, teacher or school record: the event's fields are a closed list, and only questions the key may read are named | Only once a principal has registered a webhook, when the questions that key may read grow. Public HTTPS addresses only (private, loopback, link-local and metadata addresses are refused at registration and at every send), signed with HMAC-SHA256, and revoked with the webhook or the key |
 
       Two findings from reading the code. (1) `vision.py` and `llm_evaluate.py`
       read `SARVAM_API_KEY`, and the GCP deploy injects only

@@ -274,6 +274,11 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/api-keys"),
     ("DELETE", "/api/v1/api-keys/{key_id}"),
     ("GET", "/api/v1/api-keys/{key_id}/usage"),
+    # API-6 a key's webhooks (api_key_routes.py).
+    ("POST", "/api/v1/api-keys/{key_id}/webhooks"),
+    ("GET", "/api/v1/api-keys/{key_id}/webhooks"),
+    ("DELETE", "/api/v1/api-keys/{key_id}/webhooks/{webhook_id}"),
+    ("GET", "/api/v1/api-keys/{key_id}/webhooks/{webhook_id}/deliveries"),
     # ROLE-4 multi-campus owners (owner_routes.py).
     ("POST", "/api/v1/owner-links"),
     ("GET", "/api/v1/owner-links"),
@@ -607,6 +612,11 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/api-keys"),
     ("DELETE", "/api/v1/api-keys/{key_id}"),
     ("GET", "/api/v1/api-keys/{key_id}/usage"),
+    # API-6 a key's webhooks (api_key_routes.py).
+    ("POST", "/api/v1/api-keys/{key_id}/webhooks"),
+    ("GET", "/api/v1/api-keys/{key_id}/webhooks"),
+    ("DELETE", "/api/v1/api-keys/{key_id}/webhooks/{webhook_id}"),
+    ("GET", "/api/v1/api-keys/{key_id}/webhooks/{webhook_id}/deliveries"),
     # ROLE-4 multi-campus owners (owner_routes.py).
     ("POST", "/api/v1/owner-links"),
     ("GET", "/api/v1/owner-links"),
@@ -931,6 +941,8 @@ def _valid_body_for(method: str, path: str) -> dict:
                 "password": "correct horse battery", "code": "own_x"}
     if path == "/api/v1/owner/links/redeem":
         return {"code": "own_x"}
+    if path == "/api/v1/api-keys/{key_id}/webhooks":
+        return {"url": "https://partner.example/hook"}
     if path == "/api/v1/owner/active-school":
         return {"schoolId": "school_1"}
     if path == "/api/v1/auth/login":
@@ -1002,7 +1014,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 315: N-67-5 every section's lesson plan in one action.
     # 324: ROLE-4 owners over several schools: owner links (3), owner
     # registration, redeem, schools, choose and leave a school, overview.
-    assert len(API_ROUTES) == 324
+    # 328: API-6 a key's webhooks (register, list, revoke, delivery log).
+    assert len(API_ROUTES) == 328
 
 
 def test_docs_routes_present():

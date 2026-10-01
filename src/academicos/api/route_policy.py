@@ -353,6 +353,11 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/api-keys"): _p(PRINCIPAL, "own school keys only"),
     ("DELETE", "/api/v1/api-keys/{key_id}"): _p(PRINCIPAL, "own school keys only"),
     ("GET", "/api/v1/api-keys/{key_id}/usage"): _p(PRINCIPAL, "own school keys only"),
+    # API-6: a key's webhooks (assessment/api_key_routes.py, webhooks.py).
+    ("POST", "/api/v1/api-keys/{key_id}/webhooks"): _p(PRINCIPAL, "own school keys only; public HTTPS only; secret shown once"),
+    ("GET", "/api/v1/api-keys/{key_id}/webhooks"): _p(PRINCIPAL, "own school keys only; never the secret"),
+    ("DELETE", "/api/v1/api-keys/{key_id}/webhooks/{webhook_id}"): _p(PRINCIPAL, "own school keys only"),
+    ("GET", "/api/v1/api-keys/{key_id}/webhooks/{webhook_id}/deliveries"): _p(PRINCIPAL, "own school keys only; ids and counts, no question text"),
     # EX-6 paper review (assessment/paper_review_routes.py).
     ("POST", "/api/v1/assessments/{assessment_id}/review-request"): _p(STAFF, "the author or the principal"),
     ("POST", "/api/v1/assessments/{assessment_id}/review-decision"): _p(STAFF, "the named reviewer or the principal"),

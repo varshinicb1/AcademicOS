@@ -199,6 +199,10 @@ def _maybe_run_automations() -> None:
         run_automations()
     except Exception:  # noqa: BLE001
         logger.warning("automations run failed", exc_info=True)
+    # API-6: partners' webhook retries that have come due, off this request.
+    from ..assessment import webhooks
+    if webhooks.service() is not None:
+        webhooks.service().kick()
 
 
 @router.post("/automations/run")
@@ -215,7 +219,10 @@ def automations_run(x_cron_key: Optional[str] = Header(default=None, alias="X-Cr
         raise HTTPException(404, "Not Found")
     if not x_cron_key or not hmac.compare_digest(x_cron_key, expected):
         raise HTTPException(401, "a valid X-Cron-Key is required")
-    return {"jobs": run_automations()}
+    from ..assessment import webhooks
+    jobs = run_automations()
+    # API-6: partners' webhook deliveries that are due, retries included.
+    return {"jobs": jobs, "webhookDeliveries": webhooks.deliver_due_safely()}
 
 
 class AutomationRun(Camel):

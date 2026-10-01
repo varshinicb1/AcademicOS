@@ -279,7 +279,8 @@ Updated 2026-09-17 with measured results. "exists" now means tested.
 | Rate limiting / quota | **done** -- per-key, counted in the database so N instances cannot each allow the full limit | — |
 | QTI export | **done** -- QTI 2.1 package (manifest + items + test), value points carried in `rubricBlock` | QTI 1.2 for legacy LMS deployments |
 | Grade by question | **done** -- `GET` one question across all students, `POST` one award to many | the Flutter review UI |
-| SDKs, portal, changelog | **sandbox done** (`scripts/export_qbank_sandbox.py`, 60 fabricated questions); spec and reference docs generate already; copy-paste Python, JavaScript and curl snippets in section 9 | published Python and Dart SDKs, portal, changelog, webhooks |
+| SDKs, portal, changelog | **sandbox done** (`scripts/export_qbank_sandbox.py`, 60 fabricated questions); spec and reference docs generate already; copy-paste Python, JavaScript and curl snippets in section 9 | published Python and Dart SDKs, portal, changelog |
+| Webhooks | **done** (API-6, 2026-10-01) -- `questions.added` per chapter, HMAC-signed, retried with backoff, public HTTPS only, scoped to the key; registered and logged on the web's API keys page (section 9, "Webhooks") | more event types |
 | Multilingual | **absent** | Hindi-first. `language` exists on 100% of records but is `en` throughout |
 | Calibration | **absent** | `calibration.measured` is `false` everywhere; difficulty is derived from marks and Bloom, and the payload says so |
 
@@ -431,7 +432,7 @@ Known gaps, from the audit and not fixed here:
 * Error responses carry no `RateLimit-*` headers (D65).
 * A few malformed cursors (`%%%`, `....`) decode to something and restart at
   page one rather than answering `400` (D64).
-* There are no webhooks (API-6).
+* Webhooks (API-6) carry one event, `questions.added`; see "Webhooks" below.
 
 ### Snippets
 
@@ -554,3 +555,126 @@ const homework = await call("/v1/homework-sets", {
 });
 console.log(homework.count, homework.shortfall);
 ```
+
+### Webhooks: `questions.added` (API-6)
+
+Instead of polling `/v1/questions`, a partner can be told when there is
+something new to fetch. A webhook belongs to one API key: the school's
+principal registers the partner's URL for that key on the web console's
+**API keys** page (or `POST /api/v1/api-keys/{key_id}/webhooks` with
+`{"url": "https://...", "events": ["questions.added"]}`), copies the secret it
+shows once, and hands both to the partner. The same page lists each webhook's
+deliveries: status, attempts, and the receiver's last answer or the error.
+
+**When an event is sent.** Whenever the questions the key may read grow: a
+bank load or reload that serves new answer-keyed questions, or the school's
+reviewer taking back a rejection in the review queue. Each chapter of new
+questions is one event (at most 500 ids; more are split). A webhook hears only
+of changes after it was registered.
+
+**What it carries.** Question ids and where they sit, nothing else: no
+question text (fetch it with `GET /v1/questions/{id}` and the same key, which
+re-checks the key's scope), and no student, teacher or school record of any
+kind. Only questions the key may read are announced: its classes and subjects,
+the `questions:read` scope (a webhook cannot be registered on a key without
+it), and not a question the school's reviewer rejected.
+
+A worked example you can check your verifier against: with the secret
+`whsec_test_only`, this request verifies (its body is one line; the server
+sends compact JSON with sorted keys, and you must verify the bytes as sent):
+
+```http
+POST /your/endpoint HTTP/1.1
+Content-Type: application/json
+X-AcademicOS-Event: questions.added
+X-AcademicOS-Delivery: whd_0123456789abcdef
+X-AcademicOS-Signature: t=1790848800,v1=e190c4313f69d011767b929235732045438a3b8c3701910229272cfb3975fd8d
+
+{"createdAt":"2026-10-01T10:00:00+00:00","data":{"chapterId":"life-processes","count":2,"grade":10,"questionIds":["q-101","q-107"],"reason":"bank_updated","subject":"Science"},"id":"evt_0123456789abcdef0123","type":"questions.added"}
+```
+
+(`t` there is in the past, so a five-minute tolerance refuses it; check the
+HMAC with the tolerance switched off.)
+
+`reason` is `bank_updated` (a bank load served new questions) or
+`review_approved` (the school's reviewer took back a rejection).
+
+**Answer quickly with any 2xx.** Anything else, a timeout (5 s to connect,
+10 s to answer) or a refused connection is retried after 1 minute, 5 minutes,
+30 minutes, 2 hours and 6 hours, six attempts in all, then the delivery is
+marked `failed`. A retry sends the same body with the same
+`X-AcademicOS-Delivery`, so de-duplicate on that header (or on `id`).
+Redirects are not followed.
+
+**Where it may point.** `https://` only, with no user name or password in the
+URL, and only to a public address. A host that is, or resolves to, a private,
+loopback, link-local, carrier-grade NAT, multicast, reserved or cloud-metadata
+address is refused when the webhook is registered (422) and again before every
+send; the send connects to the address it has just checked, with TLS verified
+against your host name.
+
+**Stopping it.** Revoking the webhook or its API key stops it at once, and
+anything not yet delivered is cancelled: nothing is sent for a revoked key.
+
+#### Verifying the signature
+
+`X-AcademicOS-Signature` is `t=<unix seconds>,v1=<hex>`, where `<hex>` is
+HMAC-SHA256 under the webhook's secret over `<t>.` followed by the raw request
+body, byte for byte. Compute it over the body exactly as received (before any
+JSON parsing), compare in constant time, and refuse a `t` more than five
+minutes from your clock, which stops a captured request being replayed.
+
+**Python**
+
+```python
+import hashlib
+import hmac
+import time
+
+
+def verify(secret: str, header: str, body: bytes, tolerance: int = 300) -> bool:
+    fields = dict(p.split("=", 1) for p in header.split(",") if "=" in p)
+    try:
+        t = int(fields["t"])
+    except (KeyError, ValueError):
+        return False
+    if abs(time.time() - t) > tolerance:
+        return False
+    expected = hmac.new(secret.encode(), f"{t}.".encode() + body, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(expected, fields.get("v1", ""))
+
+
+# Flask, for example:
+# if not verify(SECRET, request.headers["X-AcademicOS-Signature"], request.get_data()):
+#     abort(400)
+```
+
+**JavaScript (Node.js)**
+
+```javascript
+const crypto = require("node:crypto");
+
+function verify(secret, header, rawBody, toleranceSeconds = 300) {
+  const fields = Object.fromEntries(
+    header.split(",").map((p) => p.split("=")).filter((kv) => kv.length === 2));
+  const t = Number.parseInt(fields.t, 10);
+  if (!Number.isFinite(t) || Math.abs(Date.now() / 1000 - t) > toleranceSeconds) return false;
+  const expected = crypto.createHmac("sha256", secret)
+    .update(`${t}.`).update(rawBody).digest("hex");
+  const given = Buffer.from(fields.v1 || "", "utf8");
+  const want = Buffer.from(expected, "utf8");
+  return given.length === want.length && crypto.timingSafeEqual(given, want);
+}
+
+// Express: keep the raw body, e.g. app.post("/hook", express.raw({ type: "application/json" }), ...)
+// and call verify(SECRET, req.get("X-AcademicOS-Signature"), req.body).
+```
+
+The routes, all for the key's own school's principal:
+
+| Route | Does |
+|---|---|
+| `POST /api/v1/api-keys/{key_id}/webhooks` | register a URL; the answer carries `secret`, shown once |
+| `GET /api/v1/api-keys/{key_id}/webhooks` | the key's webhooks (the secret is never listed) |
+| `DELETE /api/v1/api-keys/{key_id}/webhooks/{webhook_id}` | revoke; undelivered events are cancelled |
+| `GET /api/v1/api-keys/{key_id}/webhooks/{webhook_id}/deliveries` | the last 50 deliveries: status, attempts, last answer |
