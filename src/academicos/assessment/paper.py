@@ -79,9 +79,12 @@ def _key_note(scheme, marks: int) -> str:
     if meta.get("objective"):
         return ""
     if len(points) == 1 and (marks or 0) > 1:
-        return ("\n(The source prints no split for this answer: it is all or nothing "
-                "unless you set your own value points.)")
+        return "\n" + ALL_OR_NOTHING_NOTE
     return ""
+
+
+ALL_OR_NOTHING_NOTE = ("(The source prints no split for this answer: it is all or nothing "
+                       "unless you set your own value points.)")
 
 
 def generate_paper(*, paper_id: str, assessment_id: str, assessment_title: str,
