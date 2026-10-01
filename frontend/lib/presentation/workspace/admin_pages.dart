@@ -17,7 +17,10 @@ import 'package:academicos/core/theme/app_theme.dart';
 import '../shared/widgets/shell.dart';
 
 /// Papers waiting for review (EX-6): the reviewer approves one for the
-/// principal or sends it back with what to change.
+/// principal or sends it back with what to change. The principal's "Waiting"
+/// also holds the papers a colleague approved for them (the server marks
+/// those rows `awaitingPrincipal`), each with the "Approve & lock" that is
+/// the last step.
 class ReviewsPage extends StatefulWidget {
   const ReviewsPage({super.key});
 
@@ -25,38 +28,71 @@ class ReviewsPage extends StatefulWidget {
   State<ReviewsPage> createState() => _ReviewsPageState();
 }
 
+/// The words a review's state is shown in on its chip, never the wire value.
+String reviewStateLabel(Map<String, dynamic> r) => switch (r['state']) {
+      'pending' => 'Waiting',
+      'approved' when r['awaitingPrincipal'] == true => 'Approved by reviewer',
+      'approved' => 'Approved',
+      'changes_requested' => 'Changes asked',
+      'withdrawn' => 'Withdrawn',
+      final s => '$s',
+    };
+
 class _ReviewsPageState extends State<ReviewsPage> {
   String _state = 'pending';
   late Future<List<Map<String, dynamic>>> _future = _fetch();
+  final Set<String> _busy = {};
 
   Future<List<Map<String, dynamic>>> _fetch() => Ops.list('/paper-reviews', query: {'state': _state});
+
+  void _reload() => setState(() {
+        _future = _fetch();
+      });
 
   Future<void> _decide(Map<String, dynamic> r, String decision) async {
     String? comment;
     if (decision == 'changes') {
-      final c = TextEditingController();
-      final ok = await showDialog<bool>(context: context, builder: (_) => AlertDialog(
-        title: const Text('What should change?'),
-        content: TextField(controller: c, minLines: 3, maxLines: 6, autofocus: true),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: Text(tr('Cancel'))),
-          FilledButton(onPressed: () => Navigator.pop(context, true), child: const Text('Send back')),
-        ],
-      ));
-      if (ok != true) return;
-      comment = c.text.trim();
+      comment = await showDialog<String>(context: context, builder: (_) => const _ChangesDialog());
+      if (comment == null || !mounted) return;
     }
-    try {
+    await _run(r, () async {
       await Ops.post('/assessments/${r['assessmentId']}/review-decision',
           body: {'decision': decision, if (comment != null) 'comment': comment});
-      setState(() { _future = _fetch(); });
+      return decision == 'changes'
+          ? 'Sent back to the author with your comments'
+          : CurrentSession.role == 'principal'
+              ? 'Approved and locked: ${r['title']}'
+              : 'Approved; the principal has been told';
+    });
+  }
+
+  /// The principal's approval of a paper a colleague approved for them:
+  /// it locks the paper (PATCH /assessments/{id}/approve).
+  Future<void> _approveAndLock(Map<String, dynamic> r) => _run(r, () async {
+        await Ops.patch('/assessments/${r['assessmentId']}/approve');
+        return 'Approved and locked: ${r['title']}';
+      });
+
+  /// Runs one decision on [r], says what happened and reloads the list, or
+  /// shows the server's reason when it refused.
+  Future<void> _run(Map<String, dynamic> r, Future<String> Function() action) async {
+    final id = '${r['id']}';
+    setState(() => _busy.add(id));
+    try {
+      final done = await action();
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(done)));
+      _reload();
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
+    } finally {
+      if (mounted) setState(() => _busy.remove(id));
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final principal = CurrentSession.role == 'principal';
     return Scaffold(
       appBar: destinationAppBar(context, title: Text(tr('Paper reviews')), actions: [
         SegmentedButton<String>(
@@ -74,41 +110,124 @@ class _ReviewsPageState extends State<ReviewsPage> {
         future: _future,
         builder: (context, snap) {
           if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
-          if (snap.hasError) return ErrorDisplay(message: snap.error.toString());
+          if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!), onRetry: _reload);
           if (snap.data!.isEmpty) {
-            return const EmptyState(icon: Icons.rate_review_outlined, title: 'Nothing to review',
-                message: 'Papers a colleague sends you for review appear here.');
+            return EmptyState(icon: Icons.rate_review_outlined, title: 'Nothing to review',
+                message: principal
+                    ? 'Papers sent to you for review, and papers a colleague approved for you, appear here.'
+                    : 'Papers a colleague sends you for review appear here.');
           }
           return ListView(padding: const EdgeInsets.all(16), children: [
-            for (final r in snap.data!)
-              AppCard(
-                margin: const EdgeInsets.only(bottom: 10),
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Row(children: [
-                    Expanded(child: Text(r['title'], style: Theme.of(context).textTheme.titleSmall)),
-                    ChipTag(label: r['state']),
-                  ]),
-                  if (r['requestNote'] != null) Text('Note: ${r['requestNote']}'),
-                  if (r['comment'] != null) Text('Review: ${r['comment']}'),
-                  Text('Reviewer: ${r['reviewerName']} · asked ${(r['requestedAt'] as String).substring(0, 10)}',
-                      style: Theme.of(context).textTheme.bodySmall),
-                  if (r['state'] == 'pending')
-                    Wrap(spacing: 8, children: [
-                      TextButton(onPressed: () => context.push('/assessment/${r['assessmentId']}'),
-                          child: const Text('Open paper')),
-                      if (r['reviewerId'] == CurrentSession.userId || CurrentSession.role == 'principal') ...[
-                        OutlinedButton(onPressed: () => _decide(r, 'changes'), child: const Text('Ask for changes')),
-                        FilledButton(onPressed: () => _decide(r, 'approve'),
-                            // The principal's approval is the final one: it locks the paper.
-                            child: Text(CurrentSession.role == 'principal'
-                                ? 'Approve and lock' : 'Approve for principal')),
-                      ],
-                    ]),
-                ]),
-              ),
+            for (final r in snap.data!) _row(context, r, principal),
           ]);
         },
       ),
+    );
+  }
+
+  Widget _row(BuildContext context, Map<String, dynamic> r, bool principal) {
+    final theme = Theme.of(context);
+    final busy = _busy.contains('${r['id']}');
+    final pending = r['state'] == 'pending';
+    // A colleague approved it for the principal; the paper is not locked yet.
+    final awaitingPrincipal = r['state'] == 'approved' && r['awaitingPrincipal'] == true;
+    final decides = r['reviewerId'] == CurrentSession.userId || principal;
+    final asked = '${r['requestedAt'] ?? ''}';
+    return AppCard(
+      key: ValueKey('review-${r['id']}'),
+      margin: const EdgeInsets.only(bottom: 10),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          Expanded(child: Text('${r['title']}', style: theme.textTheme.titleSmall)),
+          ChipTag(label: reviewStateLabel(r)),
+        ]),
+        if (r['requestNote'] != null) Text('Note: ${r['requestNote']}'),
+        if (r['comment'] != null) Text('Review: ${r['comment']}'),
+        Text('Reviewer: ${r['reviewerName']} · asked ${asked.length >= 10 ? asked.substring(0, 10) : asked}',
+            style: theme.textTheme.bodySmall),
+        if (awaitingPrincipal && principal)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text('${r['reviewerName']} approved it for you. Approving locks the paper.',
+                style: theme.textTheme.bodySmall),
+          ),
+        if (pending || awaitingPrincipal)
+          Wrap(spacing: 8, crossAxisAlignment: WrapCrossAlignment.center, children: [
+            TextButton(
+                // The paper page can approve or lock it too: the list is
+                // read again on the way back.
+                onPressed: () => context.push('/assessment/${r['assessmentId']}').then((_) {
+                      if (mounted) _reload();
+                    }),
+                child: const Text('Open paper')),
+            if (pending && decides) ...[
+              OutlinedButton(onPressed: busy ? null : () => _decide(r, 'changes'),
+                  child: const Text('Ask for changes')),
+              FilledButton(onPressed: busy ? null : () => _decide(r, 'approve'),
+                  // The principal's approval is the final one: it locks the paper.
+                  child: Text(principal ? 'Approve & lock' : 'Approve for principal')),
+            ],
+            if (awaitingPrincipal && principal)
+              FilledButton.icon(
+                key: ValueKey('approve-lock-${r['id']}'),
+                onPressed: busy ? null : () => _approveAndLock(r),
+                icon: const Icon(Icons.verified),
+                label: const Text('Approve & lock'),
+              ),
+            if (busy) const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)),
+          ]),
+      ]),
+    );
+  }
+}
+
+/// Asks the reviewer what should change, and pops with the comment. It pops
+/// with its own context: popping with the reviews page's closed the page
+/// behind it and left this open, so nothing was ever sent (QA P-08).
+class _ChangesDialog extends StatefulWidget {
+  const _ChangesDialog();
+
+  @override
+  State<_ChangesDialog> createState() => _ChangesDialogState();
+}
+
+class _ChangesDialogState extends State<_ChangesDialog> {
+  final _comment = TextEditingController();
+
+  @override
+  void dispose() {
+    _comment.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final text = _comment.text.trim();
+    return AlertDialog(
+      title: const Text('What should change?'),
+      content: SizedBox(
+        width: 420,
+        child: TextField(
+          key: const ValueKey('review-comment'),
+          controller: _comment,
+          minLines: 3,
+          maxLines: 6,
+          autofocus: true,
+          decoration: const InputDecoration(
+            labelText: 'What should change?',
+            hintText: 'What the author should fix before it is approved',
+          ),
+          onChanged: (_) => setState(() {}),
+        ),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context), child: Text(tr('Cancel'))),
+        // The server refuses an empty comment ("say what to change").
+        FilledButton(
+          onPressed: text.isEmpty ? null : () => Navigator.pop(context, text),
+          child: const Text('Send back'),
+        ),
+      ],
     );
   }
 }
