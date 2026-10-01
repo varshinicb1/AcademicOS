@@ -419,6 +419,10 @@ class _MySchedulePageState extends State<MySchedulePage> {
   Future<void> _openMarkSheet(BuildContext context, MyScheduleEntry lesson) async {
     final noteController = TextEditingController(text: lesson.note ?? '');
     var saving = false;
+    // A lesson whose day has not come cannot have been taught or missed
+    // (audit D67): the sheet says when it can be marked instead of offering
+    // Yes / No. The server refuses it too.
+    final notYet = lesson.date.compareTo(_iso(DateTime.now())) > 0;
 
     await showModalBottomSheet<void>(
       context: context,
@@ -458,55 +462,61 @@ class _MySchedulePageState extends State<MySchedulePage> {
                 children: [
                   Text(lesson.subtopicName, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
                   const Gap(4),
-                  Text('Did you teach this?', style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-                  const Gap(16),
-                  TextField(
-                    controller: noteController,
-                    decoration: const InputDecoration(
-                      labelText: 'Note (optional)',
+                  if (notYet && lesson.status == 'scheduled')
+                    Text(key: const ValueKey('mark-not-yet'),
+                        'Planned for ${lesson.date}. It can be marked from that day on.',
+                        style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant))
+                  else ...[
+                    Text('Did you teach this?', style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                    const Gap(16),
+                    TextField(
+                      controller: noteController,
+                      decoration: const InputDecoration(
+                        labelText: 'Note (optional)',
+                      ),
+                      maxLines: 2,
+                      enabled: !saving,
                     ),
-                    maxLines: 2,
-                    enabled: !saving,
-                  ),
-                  const Gap(16),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          onPressed: saving ? null : () => mark('skipped'),
-                          // Marking a lesson taught is the one thing a
-                          // teacher does on this sheet, so both answers are
-                          // phone-sized.
-                          //
-                          // sheetContext, not the `context` this method was
-                          // handed: that one belongs to the lesson card, and
-                          // the card is deactivated by the reload this sheet
-                          // triggers on success. The sheet still rebuilds
-                          // once while it animates out, and reading
-                          // MediaQuery off a deactivated element throws
-                          // ("Looking up a deactivated widget's ancestor is
-                          // unsafe") -- which the responsive test for
-                          // marking a lesson caught the moment the style
-                          // started reading the width.
-                          style: phoneTapTarget(sheetContext),
-                          icon: const Icon(Icons.close),
-                          label: const Text('No'),
+                    const Gap(16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: saving ? null : () => mark('skipped'),
+                            // Marking a lesson taught is the one thing a
+                            // teacher does on this sheet, so both answers are
+                            // phone-sized.
+                            //
+                            // sheetContext, not the `context` this method was
+                            // handed: that one belongs to the lesson card, and
+                            // the card is deactivated by the reload this sheet
+                            // triggers on success. The sheet still rebuilds
+                            // once while it animates out, and reading
+                            // MediaQuery off a deactivated element throws
+                            // ("Looking up a deactivated widget's ancestor is
+                            // unsafe") -- which the responsive test for
+                            // marking a lesson caught the moment the style
+                            // started reading the width.
+                            style: phoneTapTarget(sheetContext),
+                            icon: const Icon(Icons.close),
+                            label: const Text('No'),
+                          ),
                         ),
-                      ),
-                      const Gap(12),
-                      Expanded(
-                        child: FilledButton.icon(
-                          onPressed: saving ? null : () => mark('completed'),
-                          style: phoneTapTarget(sheetContext),
-                          icon: saving
-                              ? const SizedBox(width: 16, height: 16,
-                                  child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                              : const Icon(Icons.check),
-                          label: const Text('Yes'),
+                        const Gap(12),
+                        Expanded(
+                          child: FilledButton.icon(
+                            onPressed: saving ? null : () => mark('completed'),
+                            style: phoneTapTarget(sheetContext),
+                            icon: saving
+                                ? const SizedBox(width: 16, height: 16,
+                                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                                : const Icon(Icons.check),
+                            label: const Text('Yes'),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  ],
                   if (lesson.status != 'scheduled') ...[
                     const Gap(8),
                     Center(

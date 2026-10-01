@@ -2075,6 +2075,16 @@ def mark_lesson(lesson_id: str, req: MarkLessonRequest,
         raise HTTPException(
             409, "this lesson has no day in the plan (it no longer fit before the year ends) -- "
                  "ADJUST it onto a working day first")
+    # 409 again: a lesson's day that has not come yet cannot have been taught
+    # (or missed). A future lesson marked completed counted toward the
+    # principal's coverage before its day (audit D67). Undoing a mark
+    # ('scheduled') is always allowed.
+    today = _school_today()
+    if req.status != "scheduled" and date.fromisoformat(lesson.date) > today:
+        raise HTTPException(
+            409, f"this lesson is planned for {lesson.date}, after today ({today.isoformat()}); it can be "
+                 "marked taught, partly taught or not taught from its own day on -- if it was taught "
+                 "early, ask the principal to move it to the day it was taught")
     status, note = req.status, req.note
     if status == "partly":
         status, note = "completed", "Partly taught" + (f": {req.note}" if req.note else "")
