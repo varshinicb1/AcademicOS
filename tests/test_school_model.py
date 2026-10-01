@@ -196,6 +196,47 @@ def test_a_room_in_two_places_is_refused(w):
     assert r.json()["detail"]["clashes"] == ["Wednesday period 3: the room is already used by 10-A then"]
 
 
+# A junior wing's day: eight 30-minute periods from 08:05, so its period
+# numbers drift away from Main's 40-minute ones.
+JUNIOR = {"name": "Junior", "slots": [
+    {"start": f"{(485 + 30 * i) // 60:02d}:{(485 + 30 * i) % 60:02d}",
+     "end": f"{(515 + 30 * i) // 60:02d}:{(515 + 30 * i) % 60:02d}"} for i in range(8)]}
+
+
+def test_a_hand_made_week_is_checked_by_the_clock_across_bells(w):
+    """N-3-4: a hand-made week was checked by (day, period NUMBER), so a
+    teacher or room on another bell at the same clock time passed, and the
+    same number at a different time was refused."""
+    _bell(w)
+    junior = w.c.post(f"{BASE}/academic-years/{w.year}/bell-schedules", json=JUNIOR, headers=w.p1).json()
+    assert w.c.put(f"{BASE}/sections/{w.sec['6-A']}/bell-schedule", json={"bellScheduleId": junior["id"]},
+                   headers=w.p1).status_code == 200
+    lab = w.c.post(f"{BASE}/rooms", json={"name": "Lab", "kind": "lab"}, headers=w.p1).json()["id"]
+    sci10, sci6, maths10 = w.sub10["Science"], w.sub6["Science"], w.sub10["Mathematics"]
+    _alloc(w, "10-A", sci10, w.t1_id, 6)
+    _alloc(w, "10-B", maths10, w.t2_id, 6)
+    _alloc(w, "6-A", sci6, w.t1_id, 6)
+    # Ana: 10-A Tuesday Main P4 (10:05-10:45). Bala: 10-B Tuesday Main P3
+    # (09:25-10:05), and in the lab Wednesday P3 (09:25-10:05) and Thursday P5 (11:05-11:45).
+    assert _week(w, "10-A", [_e(1, 4, sci10)]).status_code == 200
+    assert _week(w, "10-B", [_e(1, 3, maths10), _e(2, 3, maths10, roomId=lab),
+                             _e(3, 5, maths10, roomId=lab)]).status_code == 200
+    # Junior P5 is 10:05-10:35, Junior P4 09:35-10:05: other numbers, the same clock time.
+    r = _week(w, "6-A", [_e(1, 5, sci6), _e(2, 4, sci6, roomId=lab)])
+    assert r.status_code == 409
+    assert r.json()["detail"]["clashes"] == ["Tuesday period 5: the teacher already teaches 10-A then",
+                                             "Wednesday period 4: the room is already used by 10-B then"]
+    # The same numbers at other times: Junior P4 ends as Main P4 starts, and
+    # Junior P5 is over long before Main P5. Both used to be refused.
+    assert _week(w, "6-A", [_e(1, 4, sci6), _e(3, 5, sci6, roomId=lab)]).status_code == 200
+    # A new co-teacher is checked by the clock as well: Bala's Tuesday Main
+    # P3 overlaps 6-A's Junior P4; his Thursday Main P5 does not touch Junior P5.
+    r = w.c.put(f"{BASE}/sections/{w.sec['6-A']}/allocations/{sci6}",
+                json={"teacherId": w.t1_id, "periodsPerWeek": 6, "coTeacherId": w.t2_id}, headers=w.p1)
+    assert r.status_code == 422
+    assert r.json()["detail"] == "Tuesday period 4: the co-teacher already teaches 10-B then"
+
+
 def test_every_other_kind_of_bad_week_is_named(w):
     _bell(w)
     sci, maths = w.sub10["Science"], w.sub10["Mathematics"]

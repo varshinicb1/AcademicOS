@@ -260,6 +260,52 @@ def adjacent_pairs(bell: "BellSchedule") -> list[tuple[int, int]]:
     return pairs
 
 
+def _clock_minutes(hhmm: str) -> int:
+    h, m = hhmm.split(":")
+    return int(h) * 60 + int(m)
+
+
+class _Clock:
+    """Each section's periods as clock time, from the section's own bell, so
+    two sections on different bells are compared by when they actually
+    teach (N-3-4). A span is (start, end, period); a section with no bell
+    has no times and is compared by period number, as it always was."""
+
+    def __init__(self, store, sections: dict):
+        self._store, self._sections = store, sections
+        self._times: dict[str, dict[int, tuple[int, int]]] = {}
+
+    def span(self, section_id: str, period: int) -> tuple:
+        if section_id not in self._times:
+            section = self._sections.get(section_id) or self._store.get_section(section_id)
+            bell = self._store.bell_for_section(section) if section is not None else None
+            self._times[section_id] = {s.period: (_clock_minutes(s.start), _clock_minutes(s.end))
+                                       for s in bell.slots if s.kind == "teaching"} if bell else {}
+        start, end = self._times[section_id].get(period, (None, None))
+        return start, end, period
+
+
+def _overlap(a: tuple, b: tuple) -> bool:
+    if a[0] is None or b[0] is None:
+        return a[2] == b[2]
+    return a[0] < b[1] and b[0] < a[1]
+
+
+class _Busy:
+    """When a teacher or a room is already taken, per day, by clock time."""
+
+    def __init__(self, clock: _Clock):
+        self._clock = clock
+        self._at: dict[tuple[str, int], list] = defaultdict(list)
+
+    def add(self, who: str, entry) -> None:
+        self._at[(who, entry.day_of_week)].append((self._clock.span(entry.section_id, entry.period), entry))
+
+    def find(self, who: str, day: int, span: tuple):
+        """An entry of `who`'s that overlaps `span` on `day`, or None."""
+        return next((e for other, e in self._at.get((who, day), ()) if _overlap(span, other)), None)
+
+
 _UNCHANGED: Any = object()
 
 
@@ -365,14 +411,18 @@ class SchoolModelMixin:
 
     def _check_co_teacher_free(self, co_teacher_id: str, section, subject_id: str) -> None:
         """TimetableClash (the route's 422) naming every placed period of the
-        cell in which the new co-teacher already teaches elsewhere."""
+        cell in which the new co-teacher already teaches elsewhere -- by
+        clock time, so a period on another bell counts when it overlaps."""
         mine = self._entries_where("section_id=? AND subject_id=?", (section.id, subject_id))
-        busy = {(e.day_of_week, e.period): e for e in self.timetable_for_teacher(co_teacher_id, section.academic_year_id)
-                if e.section_id != section.id}
         sections = {s.id: s for s in self.sections_for_year(section.academic_year_id)}
+        clock = _Clock(self, sections)
+        busy = _Busy(clock)
+        for e in self.timetable_for_teacher(co_teacher_id, section.academic_year_id):
+            if e.section_id != section.id:
+                busy.add(co_teacher_id, e)
         clashes = []
         for e in mine:
-            other = busy.get((e.day_of_week, e.period))
+            other = busy.find(co_teacher_id, e.day_of_week, clock.span(section.id, e.period))
             if other is not None:
                 where = sections.get(other.section_id)
                 clashes.append(f"{WEEKDAY_NAMES[e.day_of_week]} period {e.period}: the co-teacher already teaches "
@@ -686,16 +736,20 @@ class SchoolModelMixin:
                       if a.section_id == section_id}
             # Everyone else's week this year, to check teachers and rooms against.
             # A co-teacher is busy in a period just as its teacher is (SCH-8).
-            others = [e for e in self.timetable_for_year(section.academic_year_id)
-                      if e.section_id != section_id]
-            teacher_busy = {}
-            for e in others:
+            # By clock time (N-3-4): another section on another bell clashes
+            # when its period overlaps this one, whatever the two numbers.
+            sections_by_id = {s.id: s for s in self.sections_for_year(section.academic_year_id)}
+            clock = _Clock(self, sections_by_id)
+            teacher_busy, room_busy = _Busy(clock), _Busy(clock)
+            for e in self.timetable_for_year(section.academic_year_id):
+                if e.section_id == section_id:
+                    continue
                 for t in (e.teacher_id, e.co_teacher_id):
                     if t:
-                        teacher_busy[(t, e.day_of_week, e.period)] = e
-            room_busy = {(e.room_id, e.day_of_week, e.period): e for e in others if e.room_id}
+                        teacher_busy.add(t, e)
+                if e.room_id:
+                    room_busy.add(e.room_id, e)
             room_closed = self.room_unavailability_for_year(section.academic_year_id)
-            sections_by_id = {s.id: s for s in self.sections_for_year(section.academic_year_id)}
             for i, raw in enumerate(entries, start=1):
                 day, period = int(raw["day_of_week"]), int(raw["period"])
                 subject_id = raw["subject_id"]
@@ -731,13 +785,16 @@ class SchoolModelMixin:
                         problems.append(f"{where}: {room.name} is not available then")
                 elif alloc.room_kind:
                     problems.append(f"{where}: this subject needs a {alloc.room_kind}; choose one")
+                span = clock.span(section_id, period)
                 for who, t in (("teacher", teacher_id), ("co-teacher", co_teacher_id)):
-                    if t and (t, day, period) in teacher_busy:
-                        other = sections_by_id.get(teacher_busy[(t, day, period)].section_id)
+                    clash = teacher_busy.find(t, day, span) if t else None
+                    if clash is not None:
+                        other = sections_by_id.get(clash.section_id)
                         problems.append(f"{where}: the {who} already teaches "
                                         f"{self._section_label(other) if other else 'another section'} then")
-                if room_id and (room_id, day, period) in room_busy:
-                    other = sections_by_id.get(room_busy[(room_id, day, period)].section_id)
+                clash = room_busy.find(room_id, day, span) if room_id else None
+                if clash is not None:
+                    other = sections_by_id.get(clash.section_id)
                     problems.append(f"{where}: the room is already used by "
                                     f"{self._section_label(other) if other else 'another section'} then")
                 per_subject[subject_id] += 1
