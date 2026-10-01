@@ -806,6 +806,66 @@ def test_generate_from_ids_warns_about_ids_that_repeat_each_other(tmp_path, monk
         assert ok.json()["warnings"] == []
 
 
+def test_generate_from_ids_names_every_id_it_cannot_use(tmp_path, monkeypatch):
+    """Audit D57: an id the bank does not hold, or one of another class or
+    subject, was dropped from a hand-picked paper without a word (200,
+    `warnings []`). Each is now named with why; with nothing usable left the
+    request is refused (422) naming them all, not answered 404."""
+    maths = _rec("m10", 1, "ch1", 3, subject="Mathematics",
+                 stem="Find the HCF of 96 and 404 by prime factorisation.")
+    nine = _rec("s9", 1, "ch1", 4, stem="State the law of conservation of mass with an example.")
+    nine_pool = _pool([nine])
+    for pq in nine_pool.questions:
+        pq.grade = "IX"
+    monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), _pool(FIXTURE))
+    monkeypatch.setitem(pool_mod._CACHE, ("Mathematics", "X"), _pool([maths]))
+    monkeypatch.setitem(pool_mod._CACHE, ("Science", "IX"), nine_pool)
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+
+        def post(ids):
+            return client.post("/api/v1/papers/generate-from-ids", headers=t1,
+                               json={"subject": "Science", "grade": 10, "questionIds": ids})
+
+        r = post(["o0", "m10", "o1", "s9", "no-such-id"])
+        assert r.status_code == 200, r.text
+        assert _on_paper(r.json()) == {"o0", "o1"}
+        warnings = r.json()["warnings"]
+        named = {qid: [w for w in warnings if w.startswith(f"{qid} is not on this paper")]
+                 for qid in ("m10", "s9", "no-such-id")}
+        assert all(len(v) == 1 for v in named.values()), warnings
+        assert "Class 10 Mathematics question, not Science" in named["m10"][0]
+        assert "Class 9 Science question, not Class 10" in named["s9"][0]
+        assert "not in the question bank" in named["no-such-id"][0]
+
+        none = post(["m10", "s9", "no-such-id", "no-such-id"])
+        assert none.status_code == 422, none.text
+        detail = none.json()["detail"]
+        for qid in ("m10", "s9", "no-such-id"):
+            assert qid in detail, detail
+        assert detail.count("no-such-id") == 1, detail
+
+
+def test_an_id_no_pool_holds_is_placed_from_the_bank_file(tmp_path, monkeypatch):
+    """A record a pool's gates refused (no verified key, say) is in no pool,
+    but it is in the bank: it is named as held back, not as unknown."""
+    import json
+    from types import SimpleNamespace
+    from academicos.assessment import routes as routes_mod
+    bank = tmp_path / "questions.json"
+    bank.write_text(json.dumps({"questions": [{"id": "e6", "subject": "English", "grade": 6},
+                                              {"id": "gated", "subject": "Science", "grade": "X"}]}),
+                    encoding="utf-8")
+    monkeypatch.setattr(pool_mod, "_baked_bank_paths", lambda cfg: [bank])
+    cfg = SimpleNamespace(_load_baked_questions=True)
+    assert pool_mod.where_held(cfg, ["e6", "gated", "nope"]) == {
+        "e6": ("English", 6), "gated": ("Science", 10)}
+    why = dict(routes_mod._unusable_ids(cfg, "Science", 10, ["e6", "gated", "nope"]))
+    assert why["e6"] == "it is a Class 6 English question, not Science"
+    assert why["gated"].startswith("the bank holds it for Class 10 Science but does not print it")
+    assert why["nope"] == "it is not in the question bank"
+
+
 # ------------------------------------------------------------------ recent papers
 
 def test_swap_avoids_the_teachers_recent_papers_while_the_bank_has_alternatives(

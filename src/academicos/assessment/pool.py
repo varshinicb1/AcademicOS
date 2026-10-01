@@ -920,3 +920,44 @@ def get_pool(cfg: Config, *, subject: str = "Science", grade: str) -> QuestionPo
         if key not in _CACHE:
             _CACHE[key] = build_pool(cfg, subject=subject, grade=grade)
         return _CACHE[key]
+
+
+def where_held(cfg: Config, question_ids) -> dict[str, tuple[str, int]]:
+    """(subject, class) of each of `question_ids` the bank holds; an id in
+    neither place below is not in the bank at all.
+
+    Read from the pools already built (the boot warm-up builds every served
+    one), then from the served bank file, which also holds the records a
+    pool's gates refused. For saying why a hand-picked id cannot go on a
+    paper of another class or subject (audit D57): read on that answer only,
+    never on the path that builds a paper. The bank file is parsed once per
+    version (`_baked_records`), and not in tests unless asked, as build_pool."""
+    wanted = set(question_ids)
+    found: dict[str, tuple[str, int]] = {}
+    for pool in list(_CACHE.values()):
+        for q in pool.questions:
+            number = grades.to_int(q.grade)
+            if q.id in wanted and q.id not in found and number is not None:
+                found[q.id] = (q.subject, number)
+    missing = wanted - found.keys()
+    if not missing or ("PYTEST_CURRENT_TEST" in os.environ
+                       and not getattr(cfg, "_load_baked_questions", False)):
+        return found
+    for path in _baked_bank_paths(cfg):
+        if not missing:
+            break
+        if not path.exists():
+            continue
+        try:
+            records = _baked_records(path)
+        except (OSError, ValueError) as err:
+            log.warning("cannot read the question bank at %s to place %d id(s): %s",
+                        path, len(missing), err)
+            continue
+        for rec in records:
+            rid = rec.get("id")
+            number = grades.to_int(rec.get("grade"))
+            if rid in missing and number is not None:
+                found[rid] = (str(rec.get("subject") or ""), number)
+                missing.discard(rid)
+    return found

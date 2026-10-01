@@ -30,7 +30,7 @@ from .users import User, get_user_store
 from .mapping import grade_to_int, to_question_schema
 from .paper import generate_paper as build_generated_paper, generate_paper_sets, \
     report_competency
-from .pool import get_pool, near_duplicate
+from .pool import get_pool, near_duplicate, where_held
 from .schemas import (
     Assessment,
     AssessmentStatus,
@@ -606,6 +606,30 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
     return paper
 
 
+def _unusable_ids(cfg: Config, subject: str, grade: int, ids: list[str]) -> list[tuple[str, str]]:
+    """(id, why) for each id a hand-picked Class `grade` `subject` paper
+    cannot print, in the order chosen and each once: not in the bank,
+    another subject, another class, or held back by the bank's own gates."""
+    ids = list(dict.fromkeys(ids))
+    held = where_held(cfg, ids) if ids else {}
+    out = []
+    for qid in ids:
+        where = held.get(qid)
+        if where is None:
+            out.append((qid, "it is not in the question bank"))
+            continue
+        their_subject, their_grade = where
+        if their_subject.casefold() != subject.casefold():
+            out.append((qid, f"it is a Class {their_grade} {their_subject} question, not {subject}"))
+        elif their_grade != grade:
+            out.append((qid, f"it is a Class {their_grade} {their_subject} question, "
+                             f"not Class {grade}"))
+        else:
+            out.append((qid, f"the bank holds it for Class {grade} {subject} but does not print "
+                             "it (no verified answer key, or a record its checks refuse)"))
+    return out
+
+
 @router.post("/papers/generate-from-ids", response_model=GeneratedPaper)
 def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(require_staff)) -> GeneratedPaper:
     _started_ids = time.perf_counter()
@@ -626,14 +650,24 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(r
         raise HTTPException(422, "your school's reviewers rejected the answer to "
                                  + ", ".join(refused[:5]) + "; choose another question")
     found_questions: list[QuestionSchema] = [by_id[qid] for qid in request.question_ids if qid in by_id]
-
+    # Every id the paper cannot use, named with why (audit D57). One of
+    # another class or subject, or one the bank does not hold, was dropped
+    # without a word: 200 with `warnings []`, so a teacher who chose 20
+    # questions got a paper of 17 and no way to tell. With nothing usable
+    # left it is a 422 naming them all (it was a bare 404); otherwise the
+    # paper prints and each id left off is a warning of its own.
+    left_off = _unusable_ids(cfg, request.subject, request.grade,
+                             [qid for qid in request.question_ids if qid not in by_id])
     if not found_questions:
-        raise HTTPException(404, "None of the specified question_ids were found in the question bank")
+        raise HTTPException(
+            422, f"none of these questions can go on a Class {request.grade} {request.subject} "
+                 "paper: " + "; ".join(f"{qid}: {why}" for qid, why in left_off))
     # The Flutter client's curated path builds the paper straight from these
     # ids and never runs optimize, so the near-duplicate guard has to run here
     # too -- warned (or refused on rejectSimilar), exactly like /papers/generate.
     warnings, pairs = _similar_question_warnings(found_questions,
                                                  reject_similar=request.reject_similar)
+    warnings = [f"{qid} is not on this paper: {why}." for qid, why in left_off] + warnings
 
     by_marks: dict[int, list[QuestionSchema]] = {}
     for q in found_questions:
