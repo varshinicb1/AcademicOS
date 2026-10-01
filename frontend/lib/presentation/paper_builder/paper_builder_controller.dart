@@ -151,6 +151,14 @@ class PaperBuilderController extends ChangeNotifier {
   TemplatePaperResult? result;
   GeneratedPaper? paper;
 
+  /// "Pick the questions yourself": the paper is made from exactly the
+  /// questions in [picked] (POST /papers/generate-from-ids), not from a
+  /// template. The scope step shows the bank to pick from instead of the
+  /// template's chapters. The web had no way to do this at all (audit D57:
+  /// the live bundle called generate-from-ids 0 times).
+  bool handPicked = false;
+  final List<BankItem> picked = [];
+
   /// The sections the paper was generated from: what "short" is measured
   /// against after a question is removed.
   List<TemplateSectionView> _paperSections = const [];
@@ -273,6 +281,8 @@ class PaperBuilderController extends ChangeNotifier {
     templatesError = null;
     templatesRetryable = false;
     template = null;
+    handPicked = false;
+    picked.clear();
     _resetFromScope();
   }
 
@@ -360,7 +370,8 @@ class PaperBuilderController extends ChangeNotifier {
   /// "Use": the template for this paper. The chapters start from the
   /// template's own saved scope, if it has one.
   Future<void> useTemplate(PaperTemplateView t) async {
-    final sameTemplate = template?.id == t.id && availability != null;
+    final sameTemplate = template?.id == t.id && availability != null && !handPicked;
+    handPicked = false;
     template = t;
     memory.remember(grade: grade!, subject: subject!, templateId: t.id);
     if (!sameTemplate) {
@@ -626,6 +637,82 @@ class PaperBuilderController extends ChangeNotifier {
     step = BuilderStep.scope;
     _changed();
     await generate(avoid: previous);
+  }
+
+  // ------------------------------------------------------------ hand-picked
+
+  /// "Pick the questions yourself": the bank instead of a template, for the
+  /// class and subject already chosen.
+  Future<void> startHandPicked() async {
+    if (grade == null || subject == null) return;
+    handPicked = true;
+    template = null;
+    availability = null;
+    generateError = null;
+    step = BuilderStep.scope;
+    _changed();
+    if (chapters.isEmpty) await loadChapters();
+  }
+
+  bool isPicked(String id) => picked.any((q) => q.id == id);
+
+  /// Adds [q] to the paper; a question without a verified answer key cannot
+  /// be printed (rule Q1), and one already picked is not added twice.
+  void addPick(BankItem q) {
+    if (!q.hasAnswerKey || isPicked(q.id)) return;
+    picked.add(q);
+    generateError = null;
+    _changed();
+  }
+
+  void removePick(String id) {
+    picked.removeWhere((q) => q.id == id);
+    generateError = null;
+    _changed();
+  }
+
+  int get pickedMarks => picked.fold(0, (s, q) => s + q.marks);
+
+  bool get canGenerateFromPicked => handPicked && picked.isNotEmpty && !generating;
+
+  /// The paper of exactly [picked], saved like any other. The server groups
+  /// the questions into sections by marks; nothing is added or dropped, and
+  /// an id it cannot print is refused by name (shown on this step).
+  Future<void> generateFromPicked() async {
+    if (!canGenerateFromPicked) return;
+    generating = true;
+    generateError = null;
+    _changed();
+    try {
+      final p = await api.generateFromIds(
+        subject: subject!,
+        grade: grade!,
+        questionIds: [for (final q in picked) q.id],
+        title: 'Class $grade $subject test',
+        teacherSeconds: teacherSeconds,
+      );
+      restartTeacherClock();
+      _resetPaper();
+      result = TemplatePaperResult.ofPaper(p);
+      paper = p;
+      // What "short" is measured against after a removal: the paper as made.
+      _paperSections = [
+        for (final s in p.sections)
+          TemplateSectionView(
+            id: s.sectionId,
+            title: 'Section ${s.label} · ${s.name}',
+            questionCount: s.questions.length,
+            marksEach: s.questions.isEmpty ? 0 : s.questions.first.marks,
+          ),
+      ];
+      setIds = {(p.setLabel ?? 'A'): p.id};
+      step = BuilderStep.paper;
+    } catch (e) {
+      generateError = serverErrorMessage(e);
+    } finally {
+      generating = false;
+      _changed();
+    }
   }
 
   GeneratedPaper? get shownPaper => viewingSet == 'A' ? paper : _setPapers[viewingSet];

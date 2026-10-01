@@ -617,10 +617,18 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(r
     if refused:
         raise HTTPException(422, "your school's reviewers rejected the answer to "
                                  + ", ".join(refused[:5]) + "; choose another question")
-    found_questions: list[QuestionSchema] = [by_id[qid] for qid in request.question_ids if qid in by_id]
-
-    if not found_questions:
-        raise HTTPException(404, "None of the specified question_ids were found in the question bank")
+    # The paper prints exactly the questions chosen, or is refused naming the
+    # ones it cannot print. An id that is unknown, or of another class or
+    # subject, was dropped without a word and the paper printed short with
+    # `warnings []` (D57) -- the pick route refuses the same id with 404.
+    unknown = [qid for qid in request.question_ids if qid not in known]
+    if unknown:
+        more = f" and {len(unknown) - 5} more" if len(unknown) > 5 else ""
+        raise HTTPException(
+            404, f"not in the Class {request.grade} {request.subject} question bank: "
+                 + ", ".join(unknown[:5]) + more
+                 + "; a paper prints exactly the questions chosen -- remove these and generate again")
+    found_questions: list[QuestionSchema] = [by_id[qid] for qid in request.question_ids]
     # The Flutter client's curated path builds the paper straight from these
     # ids and never runs optimize, so the near-duplicate guard has to run here
     # too -- warned (or refused on rejectSimilar), exactly like /papers/generate.

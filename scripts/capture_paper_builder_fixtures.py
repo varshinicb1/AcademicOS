@@ -113,6 +113,22 @@ def main(argv: list[str] | None = None) -> int:
         post("availability_6_science_annual_all",
              f"/api/v1/schools/{school}/teacher-templates/{annual6['id']}/availability",
              {"scope": {"chapterIds": []}})
+
+        # ---- Hand-picked (audit D57): a paper of exactly the questions the
+        # teacher adds from the bank. The hand-pick step opens on the whole
+        # bank (any marks, every chapter); the widget test adds the first two
+        # keyed questions it lists, so those are the ids sent here; and one
+        # the class's bank does not hold is refused.
+        searched = post("search_10_science_any", "/api/v1/questions/search",
+                        {"subject": "Science", "grade": 10, "limit": 60})
+        two_keyed = [q["id"] for q in searched
+                     if ((q.get("answerScheme") or {}).get("modelAnswer") or "").strip()][:2]
+        post("generate_from_ids_10_science", "/api/v1/papers/generate-from-ids",
+             {"subject": "Science", "grade": 10, "questionIds": two_keyed,
+              "title": "Class 10 Science test", "teacherSeconds": 600.0})
+        post("generate_from_ids_10_science_unknown", "/api/v1/papers/generate-from-ids",
+             {"subject": "Science", "grade": 10, "questionIds": [*two_keyed, "no-such-id-xyz"],
+              "title": "Class 10 Science test", "teacherSeconds": 600.0})
         if only and not only - {e["file"][:-5] for e in manifest if e.get("file")}:
             _merge_manifest(manifest)
             return 0

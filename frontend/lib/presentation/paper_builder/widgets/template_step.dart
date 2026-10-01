@@ -20,15 +20,23 @@ class TemplateStep extends StatelessWidget {
       children: [
         ClassSubjectBanner(c: c),
         const SizedBox(height: 4),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: OutlinedButton.icon(
+        Wrap(spacing: 8, runSpacing: 8, children: [
+          OutlinedButton.icon(
             onPressed: lists == null ? null : () => openNewTemplate(context, c),
             icon: const Icon(Icons.add),
             label: const Text('New template'),
             style: OutlinedButton.styleFrom(minimumSize: const Size(0, 44)),
           ),
-        ),
+          // No template: the paper is exactly the questions the teacher
+          // picks from the bank (audit D57).
+          OutlinedButton.icon(
+            key: const ValueKey('hand-pick'),
+            onPressed: c.startHandPicked,
+            icon: const Icon(Icons.checklist),
+            label: const Text('Pick the questions yourself'),
+            style: OutlinedButton.styleFrom(minimumSize: const Size(0, 44)),
+          ),
+        ]),
         const SizedBox(height: 8),
         if (c.loadingTemplates)
           const Padding(padding: EdgeInsets.all(32), child: Center(child: CircularProgressIndicator()))

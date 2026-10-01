@@ -9,6 +9,7 @@ import '../builder_memory.dart';
 import '../paper_builder_controller.dart';
 import '../widgets/class_subject_step.dart';
 import '../widgets/finish_step.dart';
+import '../widgets/hand_pick_step.dart';
 import '../widgets/paper_step.dart';
 import '../widgets/scope_step.dart';
 import '../widgets/template_step.dart';
@@ -93,7 +94,9 @@ class _PaperBuilderPageState extends State<PaperBuilderPage> {
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
                   child: Row(children: [
                     Expanded(
-                      child: Text('Step ${c.step.index + 1} of 5 · ${_titles[c.step]}',
+                      child: Text(
+                          'Step ${c.step.index + 1} of 5 · '
+                          '${c.handPicked && c.step == BuilderStep.scope ? 'Questions' : _titles[c.step]}',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: theme.textTheme.labelLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
@@ -119,7 +122,7 @@ class _PaperBuilderPageState extends State<PaperBuilderPage> {
                   child: switch (c.step) {
                     BuilderStep.classSubject => ClassSubjectStep(c: c),
                     BuilderStep.template => TemplateStep(c: c),
-                    BuilderStep.scope => ScopeStep(c: c),
+                    BuilderStep.scope => c.handPicked ? HandPickStep(c: c) : ScopeStep(c: c),
                     BuilderStep.paper => PaperStep(c: c),
                     BuilderStep.finish => FinishStep(c: c),
                   },
@@ -154,6 +157,17 @@ class _PrimaryBar extends StatelessWidget {
           Icons.arrow_forward,
           c.template == null ? null : () => c.useTemplate(c.template!),
           false,
+        ),
+      BuilderStep.scope when c.handPicked => (
+          c.generating
+              ? 'Generating…'
+              : c.picked.isEmpty
+                  ? 'Pick questions to make the paper'
+                  : 'Generate paper (${c.picked.length} question${c.picked.length == 1 ? '' : 's'}, '
+                      '${c.pickedMarks} marks)',
+          Icons.auto_awesome,
+          c.canGenerateFromPicked ? c.generateFromPicked : null,
+          c.generating,
         ),
       BuilderStep.scope => (
           _generateLabel(c),

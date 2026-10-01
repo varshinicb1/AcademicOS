@@ -392,6 +392,14 @@ class TemplatePaperResult {
   final List<SectionAvailabilityView> gaps;
   final List<String> notes;
 
+  /// A paper made another way than from a template (hand-picked, quick):
+  /// whole by construction, so no gaps.
+  TemplatePaperResult.ofPaper(this.paper)
+      : assessmentId = paper.assessmentId,
+        complete = true,
+        gaps = const [],
+        notes = const [];
+
   TemplatePaperResult.fromJson(Map<String, dynamic> j)
       : paper = parsePaper(Map<String, dynamic>.from(j['paper'] as Map)),
         assessmentId = j['assessmentId'] as String? ?? '',
@@ -538,6 +546,29 @@ class PaperBuilderApi {
     return TemplatePaperResult.fromJson(Map<String, dynamic>.from(r.data as Map));
   }
 
+  /// A paper of exactly [questionIds], in that order within each marks
+  /// section (POST /papers/generate-from-ids): the hand-picked paper. The
+  /// server refuses (404) an id its bank for the class does not hold rather
+  /// than print the paper without it (audit D57).
+  Future<GeneratedPaper> generateFromIds({
+    required String subject,
+    required int grade,
+    required List<String> questionIds,
+    String? title,
+    double? teacherSeconds,
+  }) async {
+    final r = await _dio.post('/papers/generate-from-ids',
+        data: {
+          'subject': subject,
+          'grade': grade,
+          'questionIds': questionIds,
+          if (title != null) 'title': title,
+          if (teacherSeconds != null) 'teacherSeconds': teacherSeconds,
+        },
+        options: Options(receiveTimeout: const Duration(minutes: 3)));
+    return parsePaper(Map<String, dynamic>.from(r.data as Map));
+  }
+
   Future<GeneratedPaper> getPaper(String paperId) async {
     final r = await _dio.get('/papers/${Uri.encodeComponent(paperId)}');
     return parsePaper(Map<String, dynamic>.from(r.data as Map));
@@ -564,10 +595,11 @@ class PaperBuilderApi {
     return PaperRemoveResult.fromJson(Map<String, dynamic>.from(r.data as Map));
   }
 
+  /// Bank questions for a class; [marks] null is any marks.
   Future<List<BankItem>> searchBank({
     required String subject,
     required int grade,
-    required int marks,
+    required int? marks,
     List<String> chapterIds = const [],
     String? keyword,
     int limit = 60,
@@ -575,8 +607,8 @@ class PaperBuilderApi {
     final r = await _dio.post('/questions/search', data: {
       'subject': subject,
       'grade': grade,
-      'minMarks': marks,
-      'maxMarks': marks,
+      if (marks != null) 'minMarks': marks,
+      if (marks != null) 'maxMarks': marks,
       if (chapterIds.isNotEmpty) 'chapterIds': chapterIds,
       if (keyword != null && keyword.trim().isNotEmpty) 'keyword': keyword.trim(),
       'limit': limit,
