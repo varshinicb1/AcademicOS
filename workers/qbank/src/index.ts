@@ -179,10 +179,20 @@ function jaccard(a: Set<string>, b: Set<string>): number {
 async function spent(env: Env): Promise<number> {
 	const day = new Date().toISOString().slice(0, 10);
 	if ((await env.STATE.get("day")) !== day) return 0;
-	return Number((await env.STATE.get("neurons")) || 0);
+	return amount(await env.STATE.get("neurons"));
+}
+
+/** A ledger value, or 0 for one that is missing or not a number. generate() once
+ *  recorded `undefined` dollars, which made the day's total NaN; a NaN total
+ *  compares false against any cap, so the cap never fired. */
+function amount(value: unknown): number {
+	const n = Number(value);
+	return Number.isFinite(n) ? n : 0;
 }
 
 async function addSpent(env: Env, neurons: number, usd: number): Promise<void> {
+	neurons = amount(neurons);
+	usd = amount(usd);
 	const day = new Date().toISOString().slice(0, 10);
 	if ((await env.STATE.get("day")) !== day) {
 		await env.STATE.put("day", day);
@@ -193,14 +203,14 @@ async function addSpent(env: Env, neurons: number, usd: number): Promise<void> {
 	// Two ledgers, because the two providers charge in different units and adding a
 	// neuron to a dollar would be a number that means nothing.
 	await env.STATE.put("neurons",
-		String(Number((await env.STATE.get("neurons")) || 0) + neurons));
+		String(amount(await env.STATE.get("neurons")) + neurons));
 	await env.STATE.put("usd",
-		String(Number((await env.STATE.get("usd")) || 0) + usd));
+		String(amount(await env.STATE.get("usd")) + usd));
 }
 
 async function spentUsd(env: Env): Promise<number> {
 	if ((await env.STATE.get("day")) !== new Date().toISOString().slice(0, 10)) return 0;
-	return Number((await env.STATE.get("usd")) || 0);
+	return amount(await env.STATE.get("usd"));
 }
 
 // --------------------------------------------------------------------------- //
@@ -887,7 +897,7 @@ async function generate(env: Env, request: Request): Promise<Response> {
 		}
 	}
 
-	await addSpent(env, neurons);
+	await addSpent(env, neurons, usd);
 	const paperId = `${code}-${chapter}-${Date.now()}`;
 	await putJson(env.BANK, `papers/${paperId}.json`, {
 		id: paperId, code, chapter, chapterName, subject: meta.book.subject, grade,
