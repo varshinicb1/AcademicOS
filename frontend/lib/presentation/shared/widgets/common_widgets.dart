@@ -227,7 +227,7 @@ class ChipTag extends StatelessWidget {
     final bgColor = color ?? em.chipEmberBg;
     final textColor = color != null ? Colors.white : em.chipEmberFg;
 
-    return Chip(
+    final chip = Chip(
       label: Text(label,
           softWrap: false,
           overflow: TextOverflow.visible,
@@ -243,6 +243,10 @@ class ChipTag extends StatelessWidget {
       visualDensity: VisualDensity.compact,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     );
+    if (onDeleted != null) return chip;
+    // A tag is read, not pressed: Chip reports a selected state, which the
+    // web build announced as a checkbox ("Ready", "1m", "CBQ"; QA P-28).
+    return Semantics(container: true, label: label, excludeSemantics: true, child: chip);
   }
 }
 

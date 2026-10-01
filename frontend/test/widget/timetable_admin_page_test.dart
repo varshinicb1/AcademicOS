@@ -21,6 +21,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../responsive/responsive_harness.dart';
+import '../support/semantics_labels.dart';
 
 const _phone = Size(375, 812);
 
@@ -243,6 +244,17 @@ void main() {
     expect((method, path), ('PUT', '/curriculum/sections/sec_a/allocations/sci'));
     expect(body, {'teacherId': 't_ana', 'periodsPerWeek': 6, 'coTeacherId': 't_dev', 'roomKind': 'lab', 'doublePeriods': 1});
     expect(find.text('Saved'), findsOneWidget);
+  });
+
+  testWidgets('a screen reader hears each allocation field by name (QA S-22)', (tester) async {
+    final semantics = tester.ensureSemantics();
+    await pump(tester);
+    await choose(tester, 'alloc-section', '10-A');
+    expect(textFieldLabels(tester), containsAll(['Periods a week', 'Double periods']));
+    for (final label in ['Teacher', 'Co-teacher', 'Needs a room']) {
+      expect(find.bySemanticsLabel(RegExp('^$label')), findsWidgets, reason: label);
+    }
+    semantics.dispose();
   });
 
   testWidgets('more double periods than the week holds is caught before sending', (tester) async {

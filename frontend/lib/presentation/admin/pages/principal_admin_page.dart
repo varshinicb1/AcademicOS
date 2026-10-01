@@ -760,7 +760,8 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
               ),
               const Gap(12),
               _dropdown<GradeSummary>(
-                label: 'Grade',
+                // Distinct from the book card's picker above (QA S-22).
+                label: 'Class',
                 value: data.grades.where((g) => g.id == _assignGradeId).firstOrNull,
                 items: data.grades,
                 itemLabel: (g) => g.label,
