@@ -495,7 +495,8 @@ def report(data_root, *, school_id: str | None = None,
 
 
 def exam_coverage(rep: SavedTimeReport,
-                  universe: Iterable[tuple[int, str]] | None) -> dict:
+                  universe: Iterable[tuple[int, str]] | None,
+                  questions: Callable[[int, str], int] | None = None) -> dict:
     """PRD 12.6 (a): which classes and subjects have had a paper set, and which
     have not.
 
@@ -505,6 +506,12 @@ def exam_coverage(rep: SavedTimeReport,
     showing an empty "not yet" list that reads as "nothing is missing".
     Subjects compare without case, because the curriculum and the papers are
     written by different screens.
+
+    `questions(class, subject)` is the bank's question count for a pair (the
+    catalog's). A pair with no paper and no question is `noQuestions`, not
+    `notYet`: "no paper yet" said of Hindi 6-10, Social Science 6-9 and
+    English 7-8, which the bank cannot serve at all, read as the teachers'
+    gap when it is the bank's (D117).
     """
     declared = sorted({(g, s.strip()) for g, s in universe or () if s and s.strip()},
                       key=lambda p: (p[0], p[1].casefold()))
@@ -518,11 +525,13 @@ def exam_coverage(rep: SavedTimeReport,
     covered = {key: (school_spelling.get(key) or names.most_common(1)[0][0],
                      sum(names.values()))
                for key, names in spellings.items()}
+    missing = [(g, s) for g, s in declared if (g, s.casefold()) not in covered]
+    servable = {(g, s): questions is None or questions(g, s) > 0 for g, s in missing}
     return {
         "covered": [{"grade": g, "subject": name, "papers": n}
                     for (g, _), (name, n) in sorted(covered.items())],
-        "notYet": [{"grade": g, "subject": s} for g, s in declared
-                   if (g, s.casefold()) not in covered],
+        "notYet": [{"grade": g, "subject": s} for g, s in missing if servable[(g, s)]],
+        "noQuestions": [{"grade": g, "subject": s} for g, s in missing if not servable[(g, s)]],
         "unattributed": rep.unattributed,
         "classesDeclared": bool(declared),
     }

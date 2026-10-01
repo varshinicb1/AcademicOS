@@ -103,9 +103,18 @@ class InsightsCard extends StatelessWidget {
       return '$set This year has no classes set up yet, so the classes still without a paper '
           'cannot be listed.';
     }
+    // Pairs the bank cannot serve are counted apart: "no paper yet" of a
+    // class the bank has no question for puts the bank's gap on the
+    // teachers (audit D117).
     final pairs = cov.covered.length + cov.notYet.length;
-    if (cov.notYet.isEmpty) return '$set Every class-subject pair has at least one.';
-    return '$set ${cov.notYet.length} of $pairs class-subject pairs have no paper yet.';
+    final bank = cov.noQuestions.isEmpty
+        ? ''
+        : ' The question bank has no questions yet for ${cov.noQuestions.length} more '
+            'class-subject pair${cov.noQuestions.length == 1 ? '' : 's'}.';
+    if (cov.notYet.isEmpty) {
+      return pairs == 0 ? '$set$bank' : '$set Every class-subject pair the bank can serve has at least one.$bank';
+    }
+    return '$set ${cov.notYet.length} of $pairs class-subject pairs have no paper yet.$bank';
   }
 
   @override
@@ -162,6 +171,9 @@ class InsightsCard extends StatelessWidget {
                   _line(theme, 'Class ${c.grade} ${c.subject}: ${_papers(c.papers)}'),
                 for (final c in cov.notYet)
                   _line(theme, 'Class ${c.grade} ${c.subject}: no paper yet'),
+                for (final c in cov.noQuestions)
+                  _line(theme, 'Class ${c.grade} ${c.subject}: the question bank has no questions '
+                      'for this class yet'),
               ],
             ),
             if (cov.unattributed > 0)

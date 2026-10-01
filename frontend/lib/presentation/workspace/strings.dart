@@ -194,6 +194,7 @@ const _hi = <String, String>{
   'No paper yet': 'अभी प्रश्नपत्र नहीं',
   'Time saved is an estimate': 'बचाया गया समय अनुमान है',
   'Declare terms': 'सत्र घोषित करें',
+  'The question bank has no questions for these classes yet': 'प्रश्न बैंक में इन कक्षाओं के प्रश्न अभी नहीं हैं',
   'Issued this term and handed in': 'इस सत्र में दिया गया और जमा हुआ',
   'Substitutions and lost periods': 'स्थानापन्न और छूटे कालांश',
   'Question bank gaps': 'प्रश्न बैंक की कमियाँ',

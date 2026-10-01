@@ -383,13 +383,20 @@ class TimingTerm {
 /// does NOT mean nothing is missing.
 class ExamCoverage {
   final List<CoveredClass> covered;
+
+  /// No paper yet, for a class the question bank can serve.
   final List<CoveredClass> notYet;
+
+  /// No paper yet because the question bank has no questions for the class
+  /// yet: the bank's gap, not the teachers' (audit D117).
+  final List<CoveredClass> noQuestions;
   final int unattributed;
   final bool classesDeclared;
 
   ExamCoverage.fromJson(Map<String, dynamic> j)
       : covered = _pairs(j['covered']),
         notYet = _pairs(j['notYet']),
+        noQuestions = _pairs(j['noQuestions']),
         unattributed = j['unattributed'] ?? 0,
         classesDeclared = j['classesDeclared'] ?? false;
 

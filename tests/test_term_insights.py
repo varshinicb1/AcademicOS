@@ -27,11 +27,21 @@ from datetime import datetime, timedelta, timezone
 import pytest
 
 from academicos.assessment import paper_timing as pt
+from academicos.operations.homework_routes import _bank_question_count as _REAL_BANK_COUNT
 from test_paper_swap_pick import GEN, seeded  # noqa: F401
 from test_paper_templates import BASE, _boot_client, _register
 
 IST = timezone(timedelta(hours=5, minutes=30))
 BOOTSTRAP = "test-bootstrap-key"
+
+
+@pytest.fixture(autouse=True)
+def _every_pair_has_questions(monkeypatch):
+    """The fixture bank (`seeded`) holds only Science 10; these tests are
+    about papers, so every declared pair counts as one the bank can serve
+    unless a test says otherwise (D117's own test below)."""
+    from academicos.operations import homework_routes as hr
+    monkeypatch.setattr(hr, "_bank_question_count", lambda subject, grade: 10)
 
 
 def _today():
@@ -102,6 +112,46 @@ def test_exam_coverage_names_what_was_set_and_what_was_not(tmp_path):
     assert cov["notYet"] == [{"grade": 9, "subject": "Science"},
                              {"grade": 10, "subject": "Mathematics"}]
     assert cov["classesDeclared"] is True
+
+
+def test_a_pair_the_bank_cannot_serve_is_not_no_paper_yet(tmp_path):
+    """D117: 11 of 25 declared pairs (Hindi 6-10, Social Science 6-9,
+    English 7-8) have 0 questions, yet the card read "Class 6 Hindi: no paper
+    yet". With the bank's count, such a pair is `noQuestions` instead."""
+    _append(tmp_path, "template_paper_generated", subject="Science", grade=10)
+    rep = pt.report(tmp_path, school_id="s1")
+    counts = {(10, "Science"): 400, (10, "Mathematics"): 600, (6, "Hindi"): 0}
+    cov = pt.exam_coverage(rep, universe=[(10, "Science"), (10, "Mathematics"), (6, "Hindi")],
+                           questions=lambda g, s: counts[(g, s)])
+    assert cov["covered"] == [{"grade": 10, "subject": "Science", "papers": 1}]
+    assert cov["notYet"] == [{"grade": 10, "subject": "Mathematics"}]
+    assert cov["noQuestions"] == [{"grade": 6, "subject": "Hindi"}]
+
+
+def test_paper_timing_names_the_pairs_the_bank_cannot_serve(tmp_path, monkeypatch, seeded):
+    from academicos.operations import homework_routes as hr
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal, teacher = _users(client)
+        store, year = _school(tmp_path, grades=((10, ("Science", "Mathematics")), (6, ("Hindi",))))
+        _term(store, year)
+        monkeypatch.setattr(hr, "_bank_question_count",
+                            lambda subject, grade: 0 if subject == "Hindi" else 50)
+        _set_papers(client, teacher)
+        cov = client.get("/api/v1/paper-timing", headers=principal).json()["examCoverage"]
+        assert cov["notYet"] == [{"grade": 10, "subject": "Mathematics"}]
+        assert cov["noQuestions"] == [{"grade": 6, "subject": "Hindi"}]
+
+
+def test_the_bank_count_is_the_catalogs(tmp_path, monkeypatch, seeded):
+    """The count is GET /catalog's, read through the same pool: the seeded
+    bank has Science 10 only."""
+    real = _REAL_BANK_COUNT
+    with _boot_client(tmp_path, monkeypatch) as client:
+        _users(client)
+        listed = {(e["grade"], e["subject"]): e["questionCount"]
+                  for e in client.get("/api/v1/catalog").json()["entries"]}
+        assert real("Science", 10) == listed[(10, "Science")] > 0
+        assert real("Maths", 10) == listed.get((10, "Mathematics"), 0) == 0
 
 
 def test_exam_coverage_without_declared_classes_cannot_list_what_is_missing(tmp_path):

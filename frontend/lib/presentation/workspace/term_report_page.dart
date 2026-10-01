@@ -225,6 +225,12 @@ class _TermReportPageState extends State<TermReportPage> {
       if ((exams['notYet'] as List).isNotEmpty)
         Padding(padding: const EdgeInsets.symmetric(vertical: 6), child: Text(
             '${tr('No paper yet')}: ${(exams['notYet'] as List).cast<Map>().map((c) => '${c['grade']} ${c['subject']}').join(', ')}')),
+      // The bank's gap, apart from the teachers' (audit D117).
+      if ((exams['noQuestions'] as List? ?? const []).isNotEmpty)
+        Padding(padding: const EdgeInsets.symmetric(vertical: 6), child: Text(
+            key: const Key('term-report-no-questions'),
+            '${tr('The question bank has no questions for these classes yet')}: '
+            '${(exams['noQuestions'] as List).cast<Map>().map((c) => '${c['grade']} ${c['subject']}').join(', ')}')),
       Text('${tr('Time saved is an estimate')}: ${time['minutesPerPaper']} min × ${time['papers']} · '
           '${time['papersWithTeacherTime'] ?? 0} ${tr('of')} ${time['papers']} ${tr('less the teacher\'s measured time')} · '
           '${time['baselineProvenance']}',

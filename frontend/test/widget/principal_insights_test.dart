@@ -170,6 +170,25 @@ void main() {
     expect(find.textContaining('This year has no classes set up yet'), findsOneWidget);
   });
 
+  // Audit D117: "not yet" listed pairs the bank has no question for (Hindi
+  // 6-10, Social Science 6-9, English 7-8), so the card read "Class 6 Hindi:
+  // no paper yet". The server now names those apart, and so does the card.
+  testWidgets('a class the bank cannot serve is not "no paper yet"', (tester) async {
+    final t = _term();
+    final extra = {...t, 'examCoverage': {
+      ...(t['examCoverage'] as Map<String, dynamic>),
+      'notYet': [{'grade': 10, 'subject': 'Mathematics'}],
+      'noQuestions': [{'grade': 6, 'subject': 'Hindi'}, {'grade': 7, 'subject': 'English'}]}};
+    await _pump(tester, InsightsCard(timing: _timing(extra: extra), catalog: _catalog()));
+    expect(find.textContaining('1 of 2 class-subject pairs have no paper yet. '
+        'The question bank has no questions yet for 2 more class-subject pairs.'), findsOneWidget);
+    await tester.tap(find.text('Exam coverage'));
+    await tester.pumpAndSettle();
+    expect(find.text('Class 10 Mathematics: no paper yet'), findsOneWidget);
+    expect(find.text('Class 6 Hindi: no paper yet'), findsNothing);
+    expect(find.text('Class 6 Hindi: the question bank has no questions for this class yet'), findsOneWidget);
+  });
+
   // Audit D43: with classes set up and no term, /paper-timing said
   // `classesDeclared false` and the card printed "Set up your classes and
   // subjects for this year in calendar setup" -- false, and naming a screen

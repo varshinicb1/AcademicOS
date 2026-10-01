@@ -795,7 +795,10 @@ def get_paper_timing(term_id: Optional[str] = Query(None, alias="termId"),
         # The papers that still exist, each once -- not every press (D42).
         kept=paper_timing.kept_papers(store.list_by_school(current.school_id)))
     body = rep.as_dict()
-    body["examCoverage"] = paper_timing.exam_coverage(rep, universe)
+    from ..operations import homework_routes
+    # A pair the bank holds no question for is not "no paper yet" (D117).
+    body["examCoverage"] = paper_timing.exam_coverage(
+        rep, universe, questions=lambda g, s: homework_routes._bank_question_count(s, g))
     # What the school must set up first, with the web page that does it.
     body["setup"] = paper_timing.setup_step(
         classes_declared=body["examCoverage"]["classesDeclared"], term_declared=term is not None)

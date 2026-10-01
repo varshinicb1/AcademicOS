@@ -55,6 +55,23 @@ def test_the_term_report_counts_and_filters(w):
     assert w.c.get("/api/v1/dashboard/term", params={"termId": term.id}, headers=w.p2).status_code == 403
 
 
+def test_a_class_the_bank_cannot_serve_is_not_no_paper_yet(w, monkeypatch):
+    """D117: "not yet" listed class-subject pairs the bank has no question for
+    (Hindi 6-10, Social Science 6-9, English 7-8), so the report read "Class 6
+    Hindi: no paper yet" -- a gap of the bank's, put on the teachers. The
+    catalog's count now separates the two."""
+    from academicos.operations import homework_routes as hr
+    _term(w)
+    monkeypatch.setattr(hr, "_bank_question_count", lambda subject, grade: 0 if grade == 9 else 4)
+    d = w.c.get("/api/v1/dashboard/term", headers=w.p).json()
+    assert [(c["grade"], c["subject"]) for c in d["exams"]["notYet"]] == [(10, "Science")]
+    assert [(c["grade"], c["subject"]) for c in d["exams"]["noQuestions"]] == [(9, "Science")]
+    x = w.c.get("/api/v1/dashboard/term/export", params={"format": "xlsx"}, headers=w.p)
+    assert x.status_code == 200, x.text
+    exams_sheet = zipfile.ZipFile(io.BytesIO(x.content)).read("xl/worksheets/sheet3.xml").decode()
+    assert "the question bank has no questions for this class yet" in exams_sheet
+
+
 def test_with_no_term_it_is_the_year_so_far_and_says_so(w):
     """D43: the note named "calendar setup", which is no page of the web
     app; it now names the console tab that declares terms, and links it."""

@@ -84,8 +84,12 @@ class Exams(Camel):
     scheduled: list[ExamRow]
     papers_set: int
     covered: list[ClassSubject]
+    # No paper yet, and the question bank can serve the class.
     not_yet: list[ClassSubject]
     unattributed: int
+    # No paper yet because the question bank has no question for the class
+    # yet: the bank's gap, not the teachers' (D117).
+    no_questions: list[ClassSubject] = []
 
 
 class TimeSaved(Camel):
@@ -266,10 +270,12 @@ def _exams_and_time(current: User, year_id: str, scope: Scope, school: _School,
     # The same classes /paper-timing measures "not yet" against, so the two
     # screens cannot disagree about one term.
     universe = [(g, name) for g, name in school.subjects.values() if 1 <= g <= 10 and f.keep(g, name)]
-    cov = paper_timing.exam_coverage(rep, universe)
+    from . import homework_routes as hr
+    cov = paper_timing.exam_coverage(rep, universe, questions=lambda g, s: hr._bank_question_count(s, g))
     covered = [ClassSubject(grade=c["grade"], subject=c["subject"], papers=c["papers"])
                for c in cov["covered"] if f.keep(c["grade"], c["subject"])]
     not_yet = [ClassSubject(grade=c["grade"], subject=c["subject"]) for c in cov["notYet"]]
+    no_questions = [ClassSubject(grade=c["grade"], subject=c["subject"]) for c in cov["noQuestions"]]
     papers = sum(c.papers for c in covered)
     filtered = f.grade is not None or f.subject is not None
     # Each paper's own saving, against the baseline it was made under (D51),
@@ -281,7 +287,7 @@ def _exams_and_time(current: User, year_id: str, scope: Scope, school: _School,
         saved += rep.saved_unattributed
         timed += rep.teacher_time_unattributed
     exams = Exams(scheduled=scheduled, papers_set=papers, covered=covered, not_yet=not_yet,
-                  unattributed=0 if filtered else cov["unattributed"])
+                  unattributed=0 if filtered else cov["unattributed"], no_questions=no_questions)
     per = saved / papers if papers else 0.0
     time = TimeSaved(papers=papers, minutes_per_paper=round(per, 1), minutes_total=round(saved, 1),
                      baseline_minutes_per_paper=rep.baseline_minutes_per_paper,
@@ -433,6 +439,7 @@ def _tables(r: TermReport) -> list[tuple[str, list[list[Any]]]]:
         ["Class-subjects behind plan", r.syllabus.behind],
         ["Papers set", r.exams.papers_set],
         ["Class-subjects with no paper yet", len(r.exams.not_yet)],
+        ["Class-subjects the question bank has no questions for yet", len(r.exams.no_questions)],
         ["Time saved, minutes (estimated)", t.minutes_total],
         ["Homework issued", r.homework.issued],
         ["Homework handed in / expected", f"{r.homework.handed_in} / {r.homework.expected}"],
@@ -449,6 +456,8 @@ def _tables(r: TermReport) -> list[tuple[str, list[list[Any]]]]:
              + [[""], ["Class", "Subject", "Papers set"]]
              + [[c.grade, c.subject, c.papers] for c in r.exams.covered]
              + [[c.grade, c.subject, 0] for c in r.exams.not_yet]
+             + [[c.grade, c.subject, "0 -- the question bank has no questions for this class yet"]
+                for c in r.exams.no_questions]
              + [[""], ["Time saved is an estimate", f"{t.minutes_per_paper} min per paper",
                        f"baseline {t.baseline_minutes_per_paper} min: {t.baseline_provenance}",
                        f"{t.papers_with_teacher_time} of {t.papers} paper(s) less their teacher's "

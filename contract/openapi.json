@@ -5317,6 +5317,14 @@
             "title": "Covered",
             "type": "array"
           },
+          "noQuestions": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/ClassSubject"
+            },
+            "title": "Noquestions",
+            "type": "array"
+          },
           "notYet": {
             "items": {
               "$ref": "#/components/schemas/ClassSubject"
