@@ -49,8 +49,47 @@ class SolveOptions:
     max_per_day: int = 7
     max_consecutive: int = 4
     keep_existing: bool = True
+    # The whole solve -- reading the school, building the model, searching --
+    # returns within this (N-3-18), with the best week found by then.
     time_limit_seconds: float = 30.0
     section_ids: Optional[set[str]] = None   # solve only these; the rest are fixed
+    num_workers: Optional[int] = None        # None: the CPUs this process may use (solver_workers)
+    # Once a week is in hand, stop improving it when no better one has come
+    # for this long: the objective left is fewer moves and fairer first and
+    # last periods, and a principal should not wait a minute for a tie-break.
+    stall_seconds: float = 10.0
+
+
+def _read_text(path: str) -> str:
+    with open(path, encoding="ascii") as f:
+        return f.read()
+
+
+def solver_workers() -> int:
+    """CP-SAT search workers for this process: ACOS_SOLVER_WORKERS when set,
+    else the CPUs the container may actually use -- its cgroup CPU quota
+    (Cloud Run's --cpu=1 is a quota of one CPU on a many-core host, which
+    os.cpu_count() does not see), else the CPUs it may run on -- at most 8."""
+    env = os.environ.get("ACOS_SOLVER_WORKERS", "").strip()
+    if env.isdigit() and int(env) > 0:
+        return min(8, int(env))
+    cpus: Optional[float] = None
+    try:                                              # cgroup v2: "max 100000" or "100000 100000"
+        quota, period = _read_text("/sys/fs/cgroup/cpu.max").split()[:2]
+        if quota != "max":
+            cpus = int(quota) / int(period)
+    except (OSError, ValueError):
+        try:                                          # cgroup v1
+            quota = int(_read_text("/sys/fs/cgroup/cpu/cpu.cfs_quota_us"))
+            period = int(_read_text("/sys/fs/cgroup/cpu/cpu.cfs_period_us"))
+            if quota > 0 and period > 0:
+                cpus = quota / period
+        except (OSError, ValueError):
+            pass
+    if cpus is None:
+        affinity = getattr(os, "sched_getaffinity", None)
+        cpus = len(affinity(0)) if affinity else (os.cpu_count() or 1)
+    return max(1, min(8, int(cpus)))
 
 
 @dataclass
@@ -130,6 +169,7 @@ def check_feasibility(store, academic_year_id: str, options: SolveOptions) -> li
     sections = {s.id: s for s in store.sections_for_year(academic_year_id)}
     allocs = [a for a in store.allocations_for_year(academic_year_id) if a.section_id in sections]
     unavailable = store.teacher_unavailability_for_year(academic_year_id)
+    grids = {sid: _section_grid(store, s) for sid, s in sections.items()}   # each bell read once
     need_by_section: dict[str, int] = defaultdict(int)
     need_by_teacher: dict[str, int] = defaultdict(int)
     for a in allocs:
@@ -138,7 +178,7 @@ def check_feasibility(store, academic_year_id: str, options: SolveOptions) -> li
             need_by_teacher[t] += a.periods_per_week
     week_slots = 0
     for sid, need in need_by_section.items():
-        grid = _section_grid(store, sections[sid])
+        grid = grids[sid]
         label = store._section_label(sections[sid])
         if grid is None:
             problems.append(f"{label} has no bell schedule: set up the year's bell first")
@@ -151,7 +191,7 @@ def check_feasibility(store, academic_year_id: str, options: SolveOptions) -> li
     # Spread: a subject gets at most ceil(periods / days) a day, so it needs
     # its teacher free on enough of the section's days.
     for a in allocs:
-        grid = _section_grid(store, sections[a.section_id])
+        grid = grids[a.section_id]
         if grid is None or not _teachers_of(a):
             continue
         days, periods = grid
@@ -168,7 +208,7 @@ def check_feasibility(store, academic_year_id: str, options: SolveOptions) -> li
     closed = store.room_unavailability_for_year(academic_year_id)
     need_by_kind: dict[str, int] = defaultdict(int)
     for a in allocs:
-        grid = _section_grid(store, sections[a.section_id])
+        grid = grids[a.section_id]
         if a.room_kind:
             need_by_kind[a.room_kind] += a.periods_per_week
             of_kind = [r for r in rooms if r.kind == a.room_kind]
@@ -193,14 +233,12 @@ def check_feasibility(store, academic_year_id: str, options: SolveOptions) -> li
         of_kind = [r for r in rooms if r.kind == kind]
         if not of_kind:
             continue
-        slots_a_week = max((len(g[0]) * len(g[1]) for g in (_section_grid(store, sec) for sec in sections.values())
-                            if g), default=0)
+        slots_a_week = max((len(g[0]) * len(g[1]) for g in grids.values() if g), default=0)
         have = sum(slots_a_week - len(closed.get(r.id, ())) for r in of_kind)
         if need > have:
             problems.append(f"{need} periods a week need a {kind}; the school's {len(of_kind)} {kind}(s) "
                             f"are open for {have}")
-    days_in_week = max((len(_section_grid(store, s)[0]) for s in sections.values()
-                        if _section_grid(store, s)), default=6)
+    days_in_week = max((len(g[0]) for g in grids.values() if g), default=6)
     for tid, need in need_by_teacher.items():
         cap = options.max_per_day * days_in_week - len(unavailable.get(tid, ()))
         if need > cap:
@@ -259,6 +297,10 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
     x: dict[tuple[str, int, int], cp_model.IntVar] = {}       # (alloc id, day, period)
     y: dict[tuple[str, int, int, str], cp_model.IntVar] = {}  # (alloc id, day, period, room id)
     alloc_by_id = {a.id: a for a in allocs if a.section_id in solving}
+    # Indexes, so building the model is linear in its size (N-3-18): each
+    # allocation's periods, and what each section's period could hold.
+    x_of: dict[str, list[tuple[int, int, object]]] = defaultdict(list)
+    by_section_slot: dict[tuple[str, int, int], list[tuple[str, object]]] = defaultdict(list)
     for a in alloc_by_id.values():
         days, periods = grids[a.section_id]
         blocked = set().union(*(unavailable.get(t, set()) for t in _teachers_of(a)))
@@ -272,6 +314,8 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
                     continue
                 v = model.NewBoolVar(f"x_{a.id}_{d}_{p}")
                 x[(a.id, d, p)] = v
+                x_of[a.id].append((d, p, v))
+                by_section_slot[(a.section_id, d, p)].append((a.id, v))
                 if a.room_kind:
                     ys = []
                     for r in open_rooms:
@@ -281,12 +325,15 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
 
     # Every allocation gets exactly its periods, spread across the week.
     for a in alloc_by_id.values():
-        days, periods = grids[a.section_id]
-        mine = [v for (aid, _, _), v in x.items() if aid == a.id]
-        model.Add(sum(mine) == a.periods_per_week)
+        days, _ = grids[a.section_id]
+        model.Add(sum(v for _, _, v in x_of[a.id]) == a.periods_per_week)
         cap = _day_cap(a, days)
-        for d in days:
-            model.Add(sum(v for (aid, dd, _), v in x.items() if aid == a.id and dd == d) <= cap)
+        on_day: dict[int, list] = defaultdict(list)
+        for d, _, v in x_of[a.id]:
+            on_day[d].append(v)
+        for vs in on_day.values():
+            if len(vs) > cap:
+                model.Add(sum(vs) <= cap)
 
     # Double periods (SCH-2): `double_periods` pairs of adjacent periods, no
     # period in two pairs, both halves in the same room.
@@ -325,26 +372,20 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
                     model.Add(sum(touching) <= 1)
 
     # A section holds one subject per period (fixed sections are not solved).
-    by_section_slot: dict[tuple[str, int, int], list] = defaultdict(list)
-    for (aid, d, p), v in x.items():
-        by_section_slot[(alloc_by_id[aid].section_id, d, p)].append(v)
-    for key, vs in by_section_slot.items():
-        if key in locked:
+    for key, held in by_section_slot.items():
+        if key in locked or len(held) < 2:
             continue
-        model.Add(sum(vs) <= 1)
+        model.Add(sum(v for _, v in held) <= 1)
 
     # Locked entries stay (and their slot holds nothing else).
-    for (sid, d, p), e in locked.items():
-        match = [v for (aid, dd, pp), v in x.items()
-                 if dd == d and pp == p and alloc_by_id[aid].section_id == sid
-                 and alloc_by_id[aid].subject_id == e.subject_id]
-        others = [v for (aid, dd, pp), v in x.items()
-                  if dd == d and pp == p and alloc_by_id[aid].section_id == sid
-                  and alloc_by_id[aid].subject_id != e.subject_id]
+    for key, e in locked.items():
+        held = by_section_slot.get(key, [])
+        match = [v for aid, v in held if alloc_by_id[aid].subject_id == e.subject_id]
         if match:
             model.Add(match[0] == 1)
-        for v in others:
-            model.Add(v == 0)
+        for aid, v in held:
+            if alloc_by_id[aid].subject_id != e.subject_id:
+                model.Add(v == 0)
 
     # A teacher is in one place at a time, by clock time. Interval-graph
     # cliques: at every period's start instant, at most one of the teacher's
@@ -409,18 +450,18 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
 
     # Objective: keep what is there; then share first/last periods fairly.
     objective = []
+    alloc_of = {(a.section_id, a.subject_id): a for a in alloc_by_id.values()}
     if options.keep_existing:
         for e in current:
-            if e.section_id not in solving:
+            a = alloc_of.get((e.section_id, e.subject_id)) if e.section_id in solving else None
+            if a is None:
                 continue
-            for a in alloc_by_id.values():
-                if a.section_id == e.section_id and a.subject_id == e.subject_id:
-                    v = x.get((a.id, e.day_of_week, e.period))
-                    if v is not None:
-                        objective.append(10 * (1 - v))
-                    yv = y.get((a.id, e.day_of_week, e.period, e.room_id)) if e.room_id else None
-                    if yv is not None:
-                        objective.append(1 - yv)       # and keep its lab, all else equal
+            v = x.get((a.id, e.day_of_week, e.period))
+            if v is not None:
+                objective.append(10 * (1 - v))
+            yv = y.get((a.id, e.day_of_week, e.period, e.room_id)) if e.room_id else None
+            if yv is not None:
+                objective.append(1 - yv)       # and keep its lab, all else equal
     edge_load: dict[str, list] = defaultdict(list)
     for (aid, d, p), v in x.items():
         a = alloc_by_id[aid]
@@ -437,10 +478,32 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
     if objective:
         model.Minimize(sum(objective))
 
+    # Start from the current week (N-3-18): a re-solve after a small change
+    # begins from a week that is nearly right, not from nothing.
+    placed = {(e.section_id, e.day_of_week, e.period, e.subject_id): e.room_id for e in current
+              if e.section_id in solving}
+    if placed:
+        for (aid, d, p), v in x.items():
+            a = alloc_by_id[aid]
+            model.AddHint(v, (a.section_id, d, p, a.subject_id) in placed)
+        for (aid, d, p, rid), yv in y.items():
+            a = alloc_by_id[aid]
+            model.AddHint(yv, placed.get((a.section_id, d, p, a.subject_id), "") == rid)
+
     solver = cp_model.CpSolver()
-    solver.parameters.max_time_in_seconds = float(options.time_limit_seconds)
-    solver.parameters.num_search_workers = max(1, min(8, os.cpu_count() or 1))
-    status = solver.Solve(model)
+    workers = options.num_workers or solver_workers()
+    solver.parameters.num_workers = workers
+    if workers == 1:
+        # One CPU, as Cloud Run's --cpu=1 gives (N-3-18). CP-SAT's default
+        # single search found no week for a 40-section school in 60 s;
+        # interleaved, its whole portfolio -- feasibility jump, local
+        # search, the LP search -- takes turns on the one thread and a first
+        # week comes in seconds. The result is deterministic, too.
+        solver.parameters.interleave_search = True
+    # The limit is for the whole solve: reading the school and building the
+    # model have already used part of it.
+    solver.parameters.max_time_in_seconds = max(1.0, options.time_limit_seconds - (time.monotonic() - started))
+    status = _search(solver, model, options.stall_seconds)
     seconds = time.monotonic() - started
     if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
         if status == cp_model.INFEASIBLE:
@@ -473,6 +536,36 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
              if e.section_id in solving}
     return SolveResult(status="solved", entries=entries, kept=len(before & after),
                        moved_or_added=len(after - before), removed=len(before - after), seconds=seconds)
+
+
+def _search(solver, model, stall_seconds: float) -> int:
+    """solver.Solve, stopped once a week is in hand and no better one has
+    come for `stall_seconds` (N-3-18): what is left to gain then is a period
+    or two kept in place, or first and last periods shared more evenly."""
+    import threading
+
+    from ortools.sat.python import cp_model
+
+    class Progress(cp_model.CpSolverSolutionCallback):
+        last: Optional[float] = None
+
+        def on_solution_callback(self) -> None:
+            self.last = time.monotonic()
+
+    progress, done = Progress(), threading.Event()
+
+    def watch() -> None:
+        while not done.wait(0.2):
+            if progress.last is not None and time.monotonic() - progress.last > stall_seconds:
+                solver.stop_search()
+                return
+    watcher = threading.Thread(target=watch, name="timetable-stall", daemon=True)
+    watcher.start()
+    try:
+        return solver.Solve(model, progress)
+    finally:
+        done.set()
+        watcher.join()
 
 
 def describe(entry: ProposedEntry) -> str:

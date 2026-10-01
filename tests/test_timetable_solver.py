@@ -240,6 +240,98 @@ def test_a_teacher_on_two_bells_keeps_every_rule_by_the_clock(store):
     assert _violations(store, year, max_per_day=6, max_consecutive=3) == []
 
 
+def _connected_school(store, subjects):
+    """Forty sections (6-A..10-H) whose teachers each take four sections in
+    a row, a different four per subject, so teachers cross grades and every
+    section is tied to every other: no part of the school can be solved
+    alone, as in a real staff room."""
+    year = store.create_academic_year(school_id="s1", label="2026-27", start_date="2026-04-01",
+                                      end_date="2027-03-31")
+    store.create_bell_schedule(academic_year_id=year.id, name="Main", slots=EIGHT)
+    secs = []
+    for g in (6, 7, 8, 9, 10):
+        grade = store.create_grade(academic_year_id=year.id, number=g)
+        own = store.sections_for_grade(grade.id) + [store.create_section(grade_id=grade.id, name=n)
+                                                    for n in "BCDEFGH"]
+        subj = {n: store.create_subject(grade_id=grade.id, name=n) for n, _ in subjects}
+        secs += [(sec, subj) for sec in own]
+    for k, (name, ppw) in enumerate(subjects):
+        for i, (sec, subj) in enumerate(secs):
+            store.set_allocation(section_id=sec.id, subject_id=subj[name].id,
+                                 teacher_id=f"t_{name}_{(i + 2 * k) % 40 // 4}", periods_per_week=ppw)
+    return year.id
+
+
+def test_forty_sections_are_solved_inside_a_minute_on_one_worker(store):
+    """N-3-18: Cloud Run gives the API one CPU (--cpu=1). With one worker,
+    CP-SAT's default search found no week for 40 sections in 20 s, and took
+    61-64 s at a 60 s limit; for a school whose teachers cross grades it
+    found none in 60 s. Now the search interleaves CP-SAT's portfolio on the
+    one thread, the limit covers the whole solve, and the search stops once
+    no better week has come for `stall_seconds`. Measured pinned to one core
+    on the dev machine: about 20 s, the first week after about 3 s."""
+    year = _connected_school(store, (("Maths", 8), ("Science", 7), ("English", 6), ("Hindi", 6),
+                                     ("Social", 6), ("Sanskrit", 3), ("Computer", 2), ("Art", 2)))
+    assert len(store.sections_for_year(year)) == 40
+    started = time.monotonic()
+    result = solve(store, year, SolveOptions(time_limit_seconds=60, num_workers=1))
+    elapsed = time.monotonic() - started
+    print(f"40 sections, one worker: {result.status} in {elapsed:.1f} s")
+    assert result.status == "solved", result.problems
+    assert elapsed < 60
+    store.apply_solved_timetable(year, result.entries, {s.id for s in store.sections_for_year(year)})
+    assert _violations(store, year) == []
+    # A re-solve after one change starts from the published week.
+    a = store.allocations_for_year(year)[0]
+    store.set_allocation(section_id=a.section_id, subject_id=a.subject_id, teacher_id=a.teacher_id,
+                         periods_per_week=a.periods_per_week + 1)
+    started = time.monotonic()
+    again = solve(store, year, SolveOptions(time_limit_seconds=60, num_workers=1))
+    assert again.status == "solved" and time.monotonic() - started < 15
+    assert (again.moved_or_added, again.removed) == (1, 0)
+
+
+def test_the_limit_covers_the_whole_solve(store, monkeypatch):
+    """N-3-18: the search was given the full limit after the model was
+    built, so a 60 s request answered in 61-64 s."""
+    from academicos.curriculum import timetable_solver as ts
+    year, _, _ = _school(store, grades=(10,), sections=("A",), subjects=(("Science", 6),))
+    seen = {}
+    real = ts._search
+
+    def slow_build_then_search(solver, model, stall):
+        seen["limit"] = solver.parameters.max_time_in_seconds
+        return real(solver, model, stall)
+    monkeypatch.setattr(ts, "_search", slow_build_then_search)
+    real_check = ts.check_feasibility
+    monkeypatch.setattr(ts, "check_feasibility", lambda *a: (time.sleep(2), real_check(*a))[1])
+    assert solve(store, year, SolveOptions(time_limit_seconds=10, num_workers=1)).status == "solved"
+    assert seen["limit"] <= 8.5
+
+
+def test_solver_workers_follow_the_cpu_quota(monkeypatch):
+    """N-3-18: workers came from os.cpu_count(), which sees the host's
+    cores, not the container's one-CPU quota."""
+    from academicos.curriculum import timetable_solver as ts
+    monkeypatch.setenv("ACOS_SOLVER_WORKERS", "1")
+    assert ts.solver_workers() == 1
+    monkeypatch.setenv("ACOS_SOLVER_WORKERS", "32")
+    assert ts.solver_workers() == 8
+    monkeypatch.delenv("ACOS_SOLVER_WORKERS")
+    quota = {"/sys/fs/cgroup/cpu.max": "100000 100000\n"}       # one CPU, as --cpu=1 sets
+
+    def cgroup(path):
+        if path not in quota:
+            raise OSError(path)
+        return quota[path]
+    monkeypatch.setattr(ts, "_read_text", cgroup)
+    monkeypatch.setattr(ts.os, "cpu_count", lambda: 16)
+    assert ts.solver_workers() == 1
+    quota["/sys/fs/cgroup/cpu.max"] = "max 100000\n"            # no quota: the CPUs it may run on
+    monkeypatch.setattr(ts.os, "sched_getaffinity", lambda pid: {0, 1}, raising=False)
+    assert ts.solver_workers() == 2
+
+
 def test_forty_sections_are_solved_inside_a_minute(store):
     """NFR-3: timetable generation for a 40-section school < 60 s."""
     year, _, allocs = _school(store, grades=(6, 7, 8, 9, 10),
