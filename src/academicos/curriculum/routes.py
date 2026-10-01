@@ -2343,12 +2343,15 @@ def get_my_progress(academic_year_id: str,
 def get_coverage_report(academic_year_id: str, as_of_date: Optional[str] = None,
                         principal: User = Depends(require_admin("reports"))) -> CoverageReportResponse:
     """Planned vs. actually-taught coverage, variance, and completion %
-    aggregated by Subject and Chapter for school management (§17, §32)."""
+    aggregated by Subject and Chapter for school management (§17, §32).
+    `as_of_date` defaults to the school's today (IST), the same day delayed
+    topics read; it was the server's UTC date, so between 00:00 and 05:30
+    IST Coverage & Pace showed yesterday beside today's overdue list (D66)."""
     store = _require()
     _require_school_owns_academic_year(academic_year_id, principal)
     data = store.get_coverage_report(school_id=principal.school_id,
                                      academic_year_id=academic_year_id,
-                                     as_of_date=as_of_date)
+                                     as_of_date=as_of_date or _school_today().isoformat())
     users_store = _require_users()
     for s in data["subjects"]:
         if s.get("teacher_id"):

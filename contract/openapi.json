@@ -23504,7 +23504,7 @@
     },
     "/api/v1/curriculum/reporting/coverage": {
       "get": {
-        "description": "Planned vs. actually-taught coverage, variance, and completion %\naggregated by Subject and Chapter for school management (§17, §32).",
+        "description": "Planned vs. actually-taught coverage, variance, and completion %\naggregated by Subject and Chapter for school management (§17, §32).\n`as_of_date` defaults to the school's today (IST), the same day delayed\ntopics read; it was the server's UTC date, so between 00:00 and 05:30\nIST Coverage & Pace showed yesterday beside today's overdue list (D66).",
         "operationId": "get_coverage_report_api_v1_curriculum_reporting_coverage_get",
         "parameters": [
           {

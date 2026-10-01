@@ -98,6 +98,17 @@ from .models import (
 
 logger = logging.getLogger(__name__)
 
+
+def _school_today_iso() -> str:
+    """Today on the schools' own calendar (IST, a fixed +05:30 with no
+    daylight saving), as routes._school_today: the server clock is UTC, and
+    between 00:00 and 05:30 IST the UTC date is still yesterday (audit D66).
+    The routes pass their own today; this is the default for a caller that
+    does not."""
+    from datetime import datetime, timedelta, timezone
+    return datetime.now(timezone(timedelta(hours=5, minutes=30))).date().isoformat()
+
+
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS boards (
   id           TEXT PRIMARY KEY,
@@ -2129,10 +2140,12 @@ class CurriculumStore(SchoolModelMixin, CoverMixin, SchoolProfileMixin):
         work attributed to the chosen book on the principal's own Coverage &
         Pace screen. A subject with no recorded choice keeps every book
         (that is the seeded single-book case), and the per-subject key below
-        carries the book so two editions can never merge into one row."""
-        from datetime import datetime, timezone
+        carries the book so two editions can never merge into one row.
+
+        `as_of_date` defaults to the school's today (IST), the date delayed
+        topics use; it was the UTC date until audit D66."""
         if not as_of_date:
-            as_of_date = datetime.now(timezone.utc).date().isoformat()
+            as_of_date = _school_today_iso()
 
         rows = self._fetchall(
             """
@@ -2289,10 +2302,11 @@ class CurriculumStore(SchoolModelMixin, CoverMixin, SchoolProfileMixin):
         lesson (a PUSH found it no period before the year ends), whatever
         its stale date: a lesson that lost its day is the worst delay, and
         until the review of 2026-09-22 the `status = 'scheduled'` filter
-        kept it off this report entirely."""
-        from datetime import date, datetime, timezone
+        kept it off this report entirely. `as_of_date` defaults to the
+        school's today (IST), as coverage does (audit D66)."""
+        from datetime import date
         if not as_of_date:
-            as_of_date = datetime.now(timezone.utc).date().isoformat()
+            as_of_date = _school_today_iso()
         as_of = date.fromisoformat(as_of_date)
 
         select = """
