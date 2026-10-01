@@ -9,8 +9,9 @@ teacher is away or a day is lost (REQUIREMENTS SCH-5, SCH-6, SCH-7, SCH-8).
   free at that time by clock time, not on leave then, and under the day's
   maximum. Candidates are ranked: the same subject and grade first, then the
   same subject, then someone who teaches that section, then the fewest
-  substitutions this week, then the lightest day. The principal confirms or
-  picks another; the substitute accepts or declines.
+  substitutions this week, then the lightest day; staff with no class of
+  their own come last. The principal confirms or picks another; the
+  substitute accepts or declines.
 - A period is LOST when nobody who teaches the subject takes it: nobody is
   free, the principal runs it as supervised study or combines sections, or a
   closure (a short-notice holiday, an event, an exam day) cancels the day. A
@@ -29,7 +30,7 @@ import json
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta, timezone
-from typing import Any, Optional
+from typing import Any, Callable, Optional
 
 COVER_SCHEMA = """
 CREATE TABLE IF NOT EXISTS leave_requests (
@@ -212,6 +213,12 @@ class CoverError(ValueError):
 
 
 class CoverMixin:
+
+    # The school's teachers (user ids, from the user store, which this store
+    # cannot read): curriculum.routes.init hands it over at boot. A bare
+    # store -- the CLI, the store-level tests -- covers from the teaching
+    # allocations alone.
+    staff_source: Optional[Callable[[str], list[str]]] = None
 
     # ---------------- helpers ----------------
 
@@ -565,8 +572,15 @@ class CoverMixin:
         this_week = Counter(s.substitute_id for s in self._subs_where(
             "academic_year_id=? AND date>=? AND date<=? AND status IN ('proposed','accepted')",
             (sub.academic_year_id, week_start, week_end)) if s.id != sub.id)
+        # Staff with no class of their own (a librarian, a PT teacher, a new
+        # joiner) are the school's usual cover pool, and were never offered
+        # (v3 audit N-3-16). They can only supervise, so they come last: after
+        # every teacher of the school, whatever the scores.
+        no_class = [t for t in dict.fromkeys(self.staff_source(sub.school_id) if self.staff_source else [])
+                    if t not in teaches]
+        last_resort = set(no_class)
         out: list[Candidate] = []
-        for t in teaches:
+        for t in [*teaches, *no_class]:
             if t == sub.absent_teacher_id:
                 continue
             if self._on_leave(t, sub.date, section, sub.period):
@@ -577,9 +591,12 @@ class CoverMixin:
             if len(spans) >= MAX_PER_DAY:
                 continue
             name = subject.name if subject else ""
-            same_subject_grade = (name, section.grade_id) in teaches[t]
-            same_subject = any(n == name for n, _ in teaches[t])
+            taught = teaches.get(t, set())
+            same_subject_grade = (name, section.grade_id) in taught
+            same_subject = any(n == name for n, _ in taught)
             score, reasons = 0, []
+            if t in last_resort:
+                reasons.append("has no class of their own: only when no teacher is free")
             if same_subject_grade:
                 score += 40
                 reasons.append(f"teaches {name} to this class")
@@ -594,7 +611,7 @@ class CoverMixin:
             score -= len(spans)
             reasons.append(f"{len(spans)} period(s) that day")
             out.append(Candidate(teacher_id=t, score=score, qualified=same_subject, reasons=reasons))
-        out.sort(key=lambda c: (-c.score, c.teacher_id))
+        out.sort(key=lambda c: (c.teacher_id in last_resort, -c.score, c.teacher_id))
         return out
 
     def assign_substitute(self, sub_id: str, *, substitute_id: Optional[str], mode: str = "substitute",

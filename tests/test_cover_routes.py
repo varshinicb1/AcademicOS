@@ -95,6 +95,21 @@ def test_leave_to_accepted_substitution_end_to_end(w):
     assert [(r["period"], r["kind"]) for r in student] == [(1, "regular"), (2, "substitute")]
 
 
+def test_a_teacher_with_no_class_is_offered_for_cover_last(w):
+    """v3 audit N-3-16: the librarian, registered as a teacher with no
+    allocation, was in no candidate list."""
+    lata = _register(w.c, "school_1", "lata@example.com", "Lata")["user"]["id"]
+    leave = _apply(w, "ana").json()
+    subs = w.c.post(f"{BASE}/leave-requests/{leave['id']}/decision", json={"approve": True},
+                    headers=w.p).json()["substitutions"]
+    s = next(x for x in subs if x["sectionId"] == w.a10)
+    cands = w.c.get(f"{BASE}/substitutions/{s['id']}/candidates", headers=w.p).json()
+    assert [c["teacherId"] for c in cands] == [w.uid["dev"], lata]
+    r = w.c.post(f"{BASE}/substitutions/{s['id']}/assign", json={"substituteId": lata}, headers=w.p)
+    assert r.status_code == 200, r.text
+    assert r.json()["substitution"]["mode"] == "supervised" and r.json()["lostPeriod"]["status"] == "owed"
+
+
 def test_only_the_principal_applies_for_someone_else(w):
     assert _apply(w, "bala", teacherId=w.uid["ana"]).status_code == 403
     r = _apply(w, w.p, teacherId=w.uid["ana"], reason="called in sick at 7am")

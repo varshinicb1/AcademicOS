@@ -248,3 +248,32 @@ def test_a_leave_withdrawn_takes_back_what_its_supervised_periods_owed(s):
     s.cancel_leave(leave.id, today=MON)
     assert s.lost_periods_for_year(w.year) == []
     assert s.cover_summary(w.year, MON, MON)["owed"] == 0
+
+
+# ---- v3 audit N-3-16: staff with no class of their own ----
+
+def test_staff_with_no_class_of_their_own_cover_last(s):
+    """Lata the librarian teaches no class. She is offered, but after every
+    teacher of the school: Dev, who also only supervises Science, still
+    comes first although his day is busier."""
+    w = _school(s)
+    s.staff_source = lambda school_id: ["ana", "bala", "chitra", "dev", "lata"]
+    _, subs = s.decide_leave(_leave(s, w, "ana").id, approve=True, decided_by="p1")
+    first = _by_slot(subs)[(w.a10, 1)]
+    cands = s.substitute_candidates(first.id)
+    assert [c.teacher_id for c in cands] == ["dev", "lata"]
+    assert cands[1].score > cands[0].score, "a lighter day does not lift her above a teacher"
+    assert not cands[1].qualified and "no class of their own" in cands[1].reasons[0]
+    assert first.substitute_id == "dev"
+
+
+def test_when_no_teacher_is_free_someone_with_no_class_sits_with_it(s):
+    w = _school(s)
+    for t in ("chitra", "dev", "bala"):
+        s.decide_leave(_leave(s, w, t).id, approve=True, decided_by="p1")
+    s.staff_source = lambda school_id: ["lata"]
+    _, subs = s.decide_leave(_leave(s, w, "ana").id, approve=True, decided_by="p1")
+    got = {(x.section_id, x.period): (x.substitute_id, x.mode) for x in subs}
+    assert got[(w.a10, 1)] == got[(w.b10, 2)] == ("lata", "supervised")
+    owed = {(l.section_id, l.subject_id) for l in s.lost_periods_for_year(w.year, "owed")}
+    assert {(w.a10, w.sci10), (w.b10, w.sci10)} <= owed, "Science was not taught: both periods are owed"

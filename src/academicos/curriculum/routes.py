@@ -151,6 +151,15 @@ def init(config: Config) -> None:
     global _store, _cfg
     _cfg = config
     _store = get_curriculum_store(config.data_root)
+    _store.staff_source = _staff_for_cover
+
+
+def _staff_for_cover(school_id: str) -> list[str]:
+    """The school's teachers, for the cover engine (cover.py): a teacher with
+    no class of their own -- a librarian, a PT teacher, a new joiner -- can
+    still sit with one (v3 audit N-3-16). The curriculum store cannot read
+    the user store, so it is handed this at boot."""
+    return [u.id for u in _require_users().users_for_school(school_id, role="teacher")]
 
 
 def _require() -> CurriculumStore:
