@@ -2626,6 +2626,28 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/school-setup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * School Setup
+         * @description Sets up the caller's school to start: academic year, classes and
+         *     sections with their CBSE subjects and chapters, calendar, terms and bell
+         *     schedule. Safe to call again; it adds only what is missing.
+         */
+        post: operations["school_setup_api_v1_curriculum_school_setup_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/sections/{section_id}": {
         parameters: {
             query?: never;
@@ -10843,6 +10865,54 @@ export interface components {
             /** Updatedat */
             updatedAt?: string | null;
         };
+        /**
+         * SchoolSetupRequest
+         * @description Every field has a default: an empty body sets up the Indian year
+         *     containing today, classes 6-10 with section A, Sunday off, two terms and
+         *     an 8-period bell.
+         */
+        SchoolSetupRequest: {
+            bell?: components["schemas"]["SetupBellBody"];
+            /** Classes */
+            classes?: components["schemas"]["SetupClassBody"][];
+            /** Enddate */
+            endDate?: string | null;
+            /**
+             * Secondandfourthsaturdaysoff
+             * @default false
+             */
+            secondAndFourthSaturdaysOff: boolean;
+            /** Startdate */
+            startDate?: string | null;
+            /** Terms */
+            terms?: components["schemas"]["SetupTermBody"][] | null;
+            /** Weeklyoffdays */
+            weeklyOffDays?: string[];
+            /** Yearlabel */
+            yearLabel?: string | null;
+        };
+        /**
+         * SchoolSetupResponse
+         * @description `created` and `alreadyExisted` are sentences for the person who
+         *     pressed the button; `skipped` names what could not be made and why.
+         */
+        SchoolSetupResponse: {
+            academicYear: components["schemas"]["AcademicYearResponse"];
+            /** Alreadyexisted */
+            alreadyExisted: string[];
+            /** Bellscheduleid */
+            bellScheduleId: string;
+            /** Calendarid */
+            calendarId: string;
+            /** Classes */
+            classes: components["schemas"]["SetupClassResponse"][];
+            /** Created */
+            created: string[];
+            /** Skipped */
+            skipped: string[];
+            /** Termids */
+            termIds: string[];
+        };
         /** SchoolTemplate */
         SchoolTemplate: {
             /**
@@ -11326,6 +11396,72 @@ export interface components {
             periodsPerWeek: number;
             /** Subject */
             subject: string;
+        };
+        /**
+         * SetupBellBody
+         * @description The default bell: `periods` periods of `periodMinutes` from `startsAt`,
+         *     and one break of `breakMinutes` after period `breakAfterPeriod` (0: none).
+         */
+        SetupBellBody: {
+            /**
+             * Breakafterperiod
+             * @default 4
+             */
+            breakAfterPeriod: number;
+            /**
+             * Breakminutes
+             * @default 20
+             */
+            breakMinutes: number;
+            /**
+             * Periodminutes
+             * @default 40
+             */
+            periodMinutes: number;
+            /**
+             * Periods
+             * @default 8
+             */
+            periods: number;
+            /**
+             * Startsat
+             * @default 08:00
+             */
+            startsAt: string;
+        };
+        /**
+         * SetupClassBody
+         * @description One class and its sections. Classes 6-10 can be set up here.
+         */
+        SetupClassBody: {
+            /** Grade */
+            grade: number;
+            /** Sections */
+            sections?: string[];
+        };
+        /** SetupClassResponse */
+        SetupClassResponse: {
+            /** Chaptersadded */
+            chaptersAdded: number;
+            /** Created */
+            created: boolean;
+            /** Grade */
+            grade: number;
+            /** Gradeid */
+            gradeId: string;
+            /** Sections */
+            sections: string[];
+            /** Subjects */
+            subjects: number;
+        };
+        /** SetupTermBody */
+        SetupTermBody: {
+            /** Enddate */
+            endDate: string;
+            /** Name */
+            name: string;
+            /** Startdate */
+            startDate: string;
         };
         /** ShareRequest */
         ShareRequest: {
@@ -17295,6 +17431,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SchoolProfileResponse"];
+                };
+            };
+        };
+    };
+    school_setup_api_v1_curriculum_school_setup_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SchoolSetupRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SchoolSetupResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

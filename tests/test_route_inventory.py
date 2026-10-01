@@ -304,6 +304,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/books/{book_id}/toc/ingest"),
     ("POST", "/api/v1/curriculum/seed/cbse10"),
     ("POST", "/api/v1/curriculum/seed/cbse"),
+    ("POST", "/api/v1/curriculum/school-setup"),
     ("GET", "/api/v1/curriculum/chapters/{chapter_id}/topics"),
     # The same read keyed by the SYLLABUS slug the Assessment Designer holds
     # (/catalog's chapterId), which is the only chapter id that screen has.
@@ -636,6 +637,7 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/books/{book_id}/toc/ingest"),
     ("POST", "/api/v1/curriculum/seed/cbse10"),
     ("POST", "/api/v1/curriculum/seed/cbse"),
+    ("POST", "/api/v1/curriculum/school-setup"),
     ("POST", "/api/v1/curriculum/chapters/{chapter_id}/extract"),
     ("GET", "/api/v1/curriculum/extraction-runs/{run_id}"),
     ("POST", "/api/v1/curriculum/extraction-runs/{run_id}/approve"),
@@ -990,7 +992,8 @@ def test_canonical_route_inventory_matches_live_app():
     # (preview, erase).
     # 320: QA S-05 a principal's password reset and a person's own change.
     # 321: QA S-12 a teacher's own row of today's register.
-    assert len(API_ROUTES) == 321
+    # 322: the setup wizard's one-call school setup (year, classes, calendar, terms, bell).
+    assert len(API_ROUTES) == 322
 
 
 def test_docs_routes_present():
