@@ -27,6 +27,9 @@ class DashboardCard extends StatelessWidget {
         final h = Map<String, dynamic>.from(d['homework'] as Map);
         final exams = (d['exams'] as List).cast<Map>();
         final concerns = (d['studentsNeedingHelp'] as List).cast<Map>();
+        // Staff counts the principal: 1 is a school no teacher has joined yet,
+        // where "1 Attendance not marked" was the principal herself (QA S-09).
+        final noTeachers = (c['staff'] as num? ?? 0) <= 1;
         Widget stat(String label, String value, IconData icon, Color color, String path) => SizedBox(
               width: 220,
               child: InkWell(onTap: () => context.push(path),
@@ -38,12 +41,16 @@ class DashboardCard extends StatelessWidget {
             Text('Today · ${d['date']}', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
             const SizedBox(height: 10),
             Wrap(spacing: 12, runSpacing: 12, children: [
-              stat('Absent / on leave', '${c['absent']} / ${c['onLeave']}', Icons.person_off_outlined,
-                  theme.colorScheme.primary, '/school/cover'),
-              stat('Attendance not marked', '${c['unmarked']}', Icons.how_to_reg_outlined,
-                  c['unmarked'] > 0 ? AppColors.warning : AppColors.success, '/school/cover'),
-              stat('Periods needing cover', '${c['uncovered']} of ${c['periodsToCover']}', Icons.swap_horiz,
-                  c['uncovered'] > 0 ? theme.colorScheme.error : AppColors.success, '/school/cover'),
+              if (noTeachers)
+                stat('Teachers who have joined', '0', Icons.person_add_alt_1_outlined, AppColors.warning, '/admin')
+              else ...[
+                stat('Absent / on leave', '${c['absent']} / ${c['onLeave']}', Icons.person_off_outlined,
+                    theme.colorScheme.primary, '/school/cover'),
+                stat('Attendance not marked', '${c['unmarked']}', Icons.how_to_reg_outlined,
+                    c['unmarked'] > 0 ? AppColors.warning : AppColors.success, '/school/cover'),
+                stat('Periods needing cover', '${c['uncovered']} of ${c['periodsToCover']}', Icons.swap_horiz,
+                    c['uncovered'] > 0 ? theme.colorScheme.error : AppColors.success, '/school/cover'),
+              ],
               stat('Homework this week', '${h['submitted']}/${h['submissionsExpected']} in · ${h['set']} set',
                   Icons.assignment_outlined, theme.colorScheme.primary, '/school/homework'),
               stat('Waiting to be marked', '${h['waitingToMark']}', Icons.rule, AppColors.warning, '/school/homework'),
