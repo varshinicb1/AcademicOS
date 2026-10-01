@@ -182,6 +182,30 @@ windows. `printed_page_numbers` also gives the page the book prints rather than 
 page's position in the file, which is the difference between citing page 7 and citing
 something no marker can find.
 
+## Who may call the Workers, and what they may spend
+
+Both Workers sit on public `workers.dev` hostnames, so every route that calls a model
+or hands out generated questions needs `Authorization: Bearer <token>`:
+
+- `qbank`: `/api/topics`, `/api/generate` and `/api/papers` need `QBANK_TOKEN`.
+- `academicos-qgen`: `/run` and `/probe` need `RUN_TOKEN`. The 02:17 cron needs none.
+
+With no token secret set those routes answer 503, so a fresh deploy is closed, not open.
+Set the tokens once per Worker, then pass the same value to `scripts/finalize_bank.py`
+as `QBANK_TOKEN` in the environment:
+
+```bash
+openssl rand -hex 24 | npx wrangler secret put QBANK_TOKEN --name qbank
+openssl rand -hex 24 | npx wrangler secret put RUN_TOKEN --name academicos-qgen
+```
+
+Spend stops hard on both paths:
+
+- Without a Gemini key, at the 9,000-neuron daily allowance.
+- With `GEMINI_API_KEY`, at `DAILY_USD_CAP` dollars a day (default $2), reset at 00:00 UTC.
+
+One request asks for at most 20 questions.
+
 ## What is still needed, in priority order
 
 1. **Independent answer verification.** Generate with one model, verify with another,

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from collections import Counter
@@ -44,8 +45,15 @@ def pull_papers() -> list[dict]:
 
         # Cloudflare answers a bare urllib request with 403: the default user agent
         # reads as a bot. The endpoint was never the problem.
+        # /api/papers needs the Worker's QBANK_TOKEN (the same secret, from the
+        # environment); without it the Worker answers 401.
+        token = os.environ.get("QBANK_TOKEN", "")
+        if not token:
+            print("set QBANK_TOKEN to read papers from the worker")
+            return []
         request = urllib.request.Request(f"{base}/api/papers",
-                                         headers={"User-Agent": "academicos-finalise/1"})
+                                         headers={"User-Agent": "academicos-finalise/1",
+                                                  "Authorization": f"Bearer {token}"})
         with urllib.request.urlopen(request, timeout=240) as response:
             payload = json.loads(response.read().decode("utf-8"))
     except Exception as exc:                        # noqa: BLE001

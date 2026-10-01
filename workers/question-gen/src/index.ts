@@ -29,6 +29,38 @@ export interface Env {
 	AI: Ai;
 	BANK: R2Bucket;
 	STATE: KVNamespace;
+	/** Bearer token for /run and /probe (`wrangler secret put RUN_TOKEN`).
+	 *  Unset means those routes refuse; the 02:17 cron needs no token. */
+	RUN_TOKEN?: string;
+}
+
+/**
+ * Every route that calls a model, or hands out what was generated, needs
+ * `Authorization: Bearer <token>`, the token being a `wrangler secret`. The
+ * Worker sits on a public workers.dev hostname, so without this anyone who
+ * found the URL could spend the account's model budget. No token configured
+ * means those routes are off (503), never open.
+ */
+function sameToken(given: string, expected: string): boolean {
+	// Constant time: the comparison must not say how many leading bytes matched.
+	const a = new TextEncoder().encode(given);
+	const b = new TextEncoder().encode(expected);
+	let diff = a.length ^ b.length;
+	for (let i = 0; i < Math.max(a.length, b.length); i++) diff |= (a[i] ?? 0) ^ (b[i] ?? 0);
+	return diff === 0;
+}
+
+function refuseUnlessAuthorised(request: Request, expected: string | undefined): Response | null {
+	if (!expected) {
+		return Response.json({ error: "this route is off until its token secret is set" },
+			{ status: 503 });
+	}
+	const header = request.headers.get("Authorization") || "";
+	const given = header.startsWith("Bearer ") ? header.slice("Bearer ".length).trim() : "";
+	if (!given || !sameToken(given, expected)) {
+		return Response.json({ error: "unauthorised" }, { status: 401 });
+	}
+	return null;
 }
 
 /** Under the 10,000/day free allowance, with headroom for a second call. */
@@ -277,6 +309,8 @@ export default {
 			});
 		}
 		if (url.pathname === "/run" && request.method === "POST") {
+			const refused = refuseUnlessAuthorised(request, env.RUN_TOKEN);
+			if (refused) return refused;
 			const result = await runBatch(env);
 			return Response.json(result);
 		}
@@ -295,6 +329,12 @@ export default {
 		 * reading off a doc page.
 		 */
 		if (url.pathname === "/probe" && request.method === "POST") {
+			const refused = refuseUnlessAuthorised(request, env.RUN_TOKEN);
+			if (refused) return refused;
+			if (await spent(env) >= NEURON_BUDGET) {
+				return Response.json({ error: "today's budget is spent; it resets at 00:00 UTC" },
+					{ status: 429 });
+			}
 			let body: {
 				model?: string;
 				system?: string;

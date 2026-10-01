@@ -33,12 +33,79 @@ export interface Env {
 	/** A Google AI Studio key. Present means Gemini is used; absent falls back to
 	 *  the free Workers AI binding, so the Worker still answers with no key. */
 	GEMINI_API_KEY?: string;
+	/** Bearer token for the model routes and /api/papers (`wrangler secret put
+	 *  QBANK_TOKEN`). Unset means those routes refuse. */
+	QBANK_TOKEN?: string;
+	/** Hard daily ceiling on paid (Gemini) spend, in US dollars. Default 2. */
+	DAILY_USD_CAP?: string;
 }
 
 const JSON_HEADERS = { "Content-Type": "application/json" };
 
 /** Daily ceiling. Over this, requests are refused with a reason rather than billed. */
 const NEURON_BUDGET = 9000;
+
+/** The most questions one request may ask for: one request is one bounded spend. */
+const MAX_COUNT = 20;
+
+/** The paid path's daily stop when DAILY_USD_CAP is not set. */
+const DEFAULT_USD_CAP = 2;
+
+function usdCap(env: Env): number {
+	const cap = Number(env.DAILY_USD_CAP);
+	return Number.isFinite(cap) && cap > 0 ? cap : DEFAULT_USD_CAP;
+}
+
+/** Over today's allowance: the free one without a key, the dollar cap with one. */
+async function overBudget(env: Env): Promise<Response | null> {
+	if (env.GEMINI_API_KEY) {
+		const usd = await spentUsd(env);
+		if (usd >= usdCap(env)) {
+			return Response.json({
+				error: `today's spending cap of $${usdCap(env)} is reached; it resets at 00:00 UTC`,
+				spentUsd: usd, capUsd: usdCap(env),
+			}, { status: 429, ...JSON_HEADERS });
+		}
+		return null;
+	}
+	const already = await spent(env);
+	if (already >= NEURON_BUDGET) {
+		return Response.json({
+			error: "today's free allowance is spent; it resets at 00:00 UTC",
+			spent: already, budget: NEURON_BUDGET,
+		}, { status: 429, ...JSON_HEADERS });
+	}
+	return null;
+}
+
+/**
+ * Every route that calls a model, or hands out what was generated, needs
+ * `Authorization: Bearer <token>`, the token being a `wrangler secret`. The
+ * Worker sits on a public workers.dev hostname, so without this anyone who
+ * found the URL could spend the account's model budget. No token configured
+ * means those routes are off (503), never open.
+ */
+function sameToken(given: string, expected: string): boolean {
+	// Constant time: the comparison must not say how many leading bytes matched.
+	const a = new TextEncoder().encode(given);
+	const b = new TextEncoder().encode(expected);
+	let diff = a.length ^ b.length;
+	for (let i = 0; i < Math.max(a.length, b.length); i++) diff |= (a[i] ?? 0) ^ (b[i] ?? 0);
+	return diff === 0;
+}
+
+function refuseUnlessAuthorised(request: Request, expected: string | undefined): Response | null {
+	if (!expected) {
+		return Response.json({ error: "this route is off until its token secret is set" },
+			{ status: 503 });
+	}
+	const header = request.headers.get("Authorization") || "";
+	const given = header.startsWith("Bearer ") ? header.slice("Bearer ".length).trim() : "";
+	if (!given || !sameToken(given, expected)) {
+		return Response.json({ error: "unauthorised" }, { status: 401 });
+	}
+	return null;
+}
 
 const STOPWORDS = new Set([
 	"the", "a", "an", "and", "or", "of", "to", "in", "is", "are", "was", "were",
@@ -723,7 +790,8 @@ async function generate(env: Env, request: Request): Promise<Response> {
 	const code = String(body.code || "");
 	const chapter = String(body.chapter || "");
 	const topics = Array.isArray(body.topics) ? (body.topics as string[]) : [];
-	const wanted = Number(body.count) || topics.length || 5;
+	const asked = Math.floor(Number(body.count)) || topics.length || 5;
+	const wanted = Math.min(Math.max(1, asked), MAX_COUNT);
 
 	const meta = await getJson<BookMeta>(env.BANK, `meta/${code}.json`);
 	if (!meta) return Response.json({ error: "unknown book" },
@@ -740,17 +808,10 @@ async function generate(env: Env, request: Request): Promise<Response> {
 			{ status: 404, ...JSON_HEADERS });
 	}
 
-	const already = await spent(env);
-	// The daily ceiling is the free tier''s allowance. With a paid key configured
-	// the ceiling is a budget, not a hard stop, so it is reported rather than
-	// enforced -- refusing a teacher''s request because a daily free quota ran out
-	// is correct on the free path and wrong on the paid one.
-	if (!env.GEMINI_API_KEY && already >= NEURON_BUDGET) {
-		return Response.json({
-			error: "today's free allowance is spent; it resets at 00:00 UTC",
-			spent: already, budget: NEURON_BUDGET,
-		}, { status: 429, ...JSON_HEADERS });
-	}
+	// Both paths stop hard: the free one at its neuron allowance, the paid one at
+	// DAILY_USD_CAP. A cap that is only reported is no cap on a public URL.
+	const over = await overBudget(env);
+	if (over) return over;
 
 	const corpus = await getJson<Record<string, string>>(env.BANK, `text/${code}.json`);
 	const chapterText = corpus?.[chapter];
@@ -957,6 +1018,9 @@ export default {
 
 			// -- topics, read out of the chapter on request ----------------------
 			if (route === "/api/topics" && request.method === "POST") {
+				const refused = refuseUnlessAuthorised(request, env.QBANK_TOKEN)
+					|| await overBudget(env);
+				if (refused) return refused;
 				const body = await readBody(request);
 				if (!body.code || !body.chapter) {
 					return Response.json({ error: "code and chapter are required" },
@@ -974,11 +1038,15 @@ export default {
 
 			// -- the paper, generated because somebody asked for it --------------
 			if (route === "/api/generate" && request.method === "POST") {
+				const refused = refuseUnlessAuthorised(request, env.QBANK_TOKEN);
+				if (refused) return refused;
 				return await generate(env, request);
 			}
 
 			// -- what has been generated, so a finaliser can collect it ----------
 			if (route === "/api/papers") {
+				const refused = refuseUnlessAuthorised(request, env.QBANK_TOKEN);
+				if (refused) return refused;
 				// `wrangler r2 object list` does not exist, so an offline finaliser
 				// cannot enumerate the bucket itself. It could also fetch each key
 				// with `wrangler r2 object get`, which is one subprocess per paper
@@ -1000,7 +1068,7 @@ export default {
 				return Response.json({ ok: true,
 					provider: env.GEMINI_API_KEY ? "gemini" : "workers-ai",
 					neuronsToday: await spent(env), usdToday: await spentUsd(env),
-					freeBudget: NEURON_BUDGET,
+					freeBudget: NEURON_BUDGET, capUsd: usdCap(env),
 					day: new Date().toISOString().slice(0, 10) }, JSON_HEADERS);
 			}
 		} catch (error) {
