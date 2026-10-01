@@ -243,7 +243,10 @@ String _signedInRole() => Hive.isBoxOpen('academicos_cache') ? CurrentSession.ro
 /// page that offers an admin's action -- the exams admin's changes to a
 /// colleague's paper -- reads them here instead of asking the server again.
 ValueListenable<Set<String>> myGrants() {
-  _Grants.ensureLoaded(_signedInRole());
+  // The offline build has no accounts and asks no server.
+  if (!const bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false)) {
+    _Grants.ensureLoaded(_signedInRole());
+  }
   return _Grants.caps;
 }
 
