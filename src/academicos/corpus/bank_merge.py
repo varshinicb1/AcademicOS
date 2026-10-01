@@ -1403,6 +1403,8 @@ _KNOWN_REPAIRS: dict[str, tuple[tuple[str, str], ...]] = {
     "cbe:q:Maths10AR1": (("x2+x-12", "x²+x-12"),),
     "cbe:q:Maths10RK3": (("x2-mx-5/4=0", "x²-mx-5/4=0"),),
     "cbe:q:Maths10SS3": (("sec2θ", "sec²θ"),),
+    # Discriminant 9 - 44 < 0: the key's "no real roots". The minus is U+2212.
+    "cbe:q:Maths10PS3": (("x2 −3x + 11 = 0", "x² −3x + 11 = 0"),),
     # (A + B) ≤ 90°: cos (A + B) = ½ gives A + B = 60°.
     "cbe:q:Maths10AS5": (("≤ 900", "≤ 90°"),),
     # 11323/250 = 45.292: three decimal places, the key's option C.
