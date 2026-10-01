@@ -9,11 +9,13 @@ import 'package:academicos/core/theme/app_theme.dart';
 
 /// Starts a practice set on the student's weakest chapters -- or the one
 /// named -- and opens it (SA-4).
-Future<void> startPractice(BuildContext context, {String? subject, String? chapterId}) async {
+Future<void> startPractice(BuildContext context, {String? subject, String? chapterId, String? examPaperId}) async {
   try {
     final p = await Ops.post('/my-practice', body: {
       if (subject != null) 'subject': subject,
       if (chapterId != null) 'chapterIds': [chapterId],
+      // SA-4: prepare for a scheduled paper -- its subject, what has been taught by then.
+      if (examPaperId != null) 'examPaperId': examPaperId,
     });
     if (context.mounted) context.push('/school/practice/${p['id']}');
   } catch (e) {

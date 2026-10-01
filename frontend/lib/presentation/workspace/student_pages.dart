@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/session/current_session.dart';
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
@@ -417,7 +418,15 @@ class MyExamsPage extends StatelessWidget {
               SectionHeader(title: e['name'], subtitle: '${e['startDate']} to ${e['endDate']}'),
               for (final p in (e['papers'] as List).cast<Map>().where((_) => (e['duties'] as List).isEmpty))
                 ListTile(leading: const Icon(Icons.description_outlined), title: Text(p['subjectName']),
-                    subtitle: Text('${p['date']} · ${p['startTime']}-${p['endTime']}')),
+                    subtitle: Text('${p['date']} · ${p['startTime']}-${p['endTime']}'),
+                    // SA-4: exam preparation, for a paper still to come and only for the student.
+                    trailing: CurrentSession.role == 'student' &&
+                            (p['date'] as String).compareTo(isoDate(DateTime.now())) >= 0
+                        ? TextButton(
+                            key: ValueKey('prepare-${p['id']}'),
+                            onPressed: () => startPractice(context, examPaperId: p['id'] as String),
+                            child: Text(tr('Prepare')))
+                        : null),
               for (final d in (e['duties'] as List).cast<Map>())
                 ListTile(leading: const Icon(Icons.visibility_outlined),
                     title: Text('${d['sectionName']} · ${d['subjectName']}'),

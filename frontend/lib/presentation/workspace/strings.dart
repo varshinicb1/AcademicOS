@@ -120,6 +120,7 @@ const _hi = <String, String>{
   'changed': 'बदले',
   'Next': 'अगला',
   'Coming up': 'आने वाला',
+  'Prepare': 'तैयारी करें',
   'This term': 'यह सत्र',
   'Easy': 'आसान',
   'Medium': 'मध्यम',
