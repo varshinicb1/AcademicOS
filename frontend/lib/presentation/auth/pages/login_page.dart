@@ -265,15 +265,8 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   const SizedBox(height: 24),
                   Center(
-                    child: Container(
-                      width: 56,
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: colors.primaryContainer,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Icon(Icons.school_outlined, size: 28, color: colors.onPrimaryContainer),
-                    ),
+                    child: Image.asset('assets/brand/academicos_mark.png',
+                        width: 72, height: 72, filterQuality: FilterQuality.medium, semanticLabel: 'AcademicOS'),
                   ),
                   const SizedBox(height: 16),
                   Text(
