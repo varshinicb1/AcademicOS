@@ -1,6 +1,6 @@
 {
- "id": "paper_97e9bdd11348",
- "assessmentId": "asm_quick_04e1aa30",
+ "id": "paper_438bffee7cb5",
+ "assessmentId": "asm_quick_632d5cfc",
  "sections": [
   {
    "sectionId": "section-a",
@@ -332,7 +332,7 @@
   "grade": 10,
   "totalMarks": 40,
   "durationMinutes": 120,
-  "generatedAt": "2026-10-01T15:30:48.283904Z",
+  "generatedAt": "2026-10-01T15:43:23.750441Z",
   "generatedBy": "AcademicOS",
   "version": "1.0",
   "setLabel": null,
@@ -347,7 +347,8 @@
  "setLabel": null,
  "sets": [],
  "warnings": [
-  "To make the 40 marks asked for, this paper's sections were rebalanced: the bank holds too few 2-mark and 4-mark questions for the pattern asked. It prints A 12 × 1, B 1 × 2, C 2 × 3, D 4 × 5 (asked: A 10 × 1, B 5 × 2, C 2 × 3, D 2 × 5, E 1 × 4)."
+  "To make the 40 marks asked for, this paper's sections were rebalanced: the bank holds too few 2-mark and 4-mark questions for the pattern asked. It prints A 12 × 1, B 1 × 2, C 2 × 3, D 4 × 5 (asked: A 10 × 1, B 5 × 2, C 2 × 3, D 2 × 5, E 1 × 4).",
+  "Standard version: none of its 19 questions has a difficulty measured from marks teachers entered (at least 20 answers); every difficulty is inferred."
  ],
  "similarPairs": [],
  "setOverlap": {},
@@ -356,5 +357,6 @@
  "tiersAvailable": false,
  "marksAsked": 40,
  "shortfall": [],
- "preview": false
+ "preview": false,
+ "difficultyMeasured": 0
 }

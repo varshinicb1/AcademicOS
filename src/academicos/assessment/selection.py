@@ -39,6 +39,7 @@ from .competency import (  # noqa: F401
     is_competency_question,
     share_summary,
 )
+from .facility import measured_difficulty
 from .pool import near_duplicate
 from .schemas import Blueprint, QuestionOptimizationResult, QuestionSchema, SectionBlueprint
 from .templates import default_sections
@@ -69,7 +70,12 @@ _PLACEHOLDER_DIFFICULTY_SOURCES = frozenset({"cbse_sample_paper"})
 
 def difficulty_signal(q: QuestionSchema) -> str | None:
     """The question's difficulty, or None where the record's value was supplied
-    rather than judged (so a tier must not act on it)."""
+    rather than judged (so a tier must not act on it). A difficulty measured
+    from the marks teachers entered (`facility.annotate`) comes first: it is
+    the one judgement every source can have (EX-3)."""
+    measured = measured_difficulty(q)
+    if measured:
+        return measured
     if (q.metadata.get("difficultyInferred") or q.source in _PLACEHOLDER_DIFFICULTY_SOURCES
             or from_cbe_item_bank(q)):
         return None

@@ -440,11 +440,26 @@ class QuickPaperResult {
   final bool preview;
   final List<SectionShortfallView> shortfall;
 
+  /// How many of the questions this version (level) prints have a
+  /// difficulty measured from the marks teachers entered, which the level
+  /// ranked on (EX-3); null from a server that does not count them.
+  final int? difficultyMeasured;
+
+  /// Whether a level can change this paper at all, and the server's
+  /// sentence about this version's difficulty.
+  final bool? tiersAvailable;
+  final String? difficultySentence;
+
   QuickPaperResult.fromJson(Map<String, dynamic> j)
       : paper = parsePaper(j),
         marksAsked = j['marksAsked'] as int? ?? 0,
         preview = j['preview'] as bool? ?? false,
-        shortfall = _maps(j['shortfall']).map(SectionShortfallView.fromJson).toList();
+        shortfall = _maps(j['shortfall']).map(SectionShortfallView.fromJson).toList(),
+        difficultyMeasured = j['difficultyMeasured'] as int?,
+        tiersAvailable = j['tiersAvailable'] as bool?,
+        difficultySentence = List<String>.from(j['warnings'] ?? const [])
+            .where((w) => RegExp(r'^(Foundation|Standard|Advanced) version: ').hasMatch(w))
+            .firstOrNull;
 
   int get marksHeld => paper.metadata.totalMarks;
   bool get holdsAll => marksHeld >= marksAsked;

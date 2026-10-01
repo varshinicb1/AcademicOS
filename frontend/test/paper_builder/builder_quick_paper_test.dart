@@ -109,6 +109,11 @@ void main() {
     ].join(', ');
     expect(text(tester, 'quick-preview-total'), 'Holds all 40 marks: 19 questions, $layout.');
     expect(find.textContaining('To make the 40 marks asked for'), findsOneWidget);
+    // EX-3: the level, and how many of its questions had a measured
+    // difficulty -- none yet on the served bank, and the server says so.
+    expect(adapter.quick.single['tier'], 'standard');
+    expect(text(tester, 'quick-difficulty'),
+        startsWith('Standard version: none of its 19 questions has a difficulty measured'));
     expect(find.text('Save this paper'), findsOneWidget);
     expect(c.paper, isNull, reason: 'nothing saved by a preview');
 

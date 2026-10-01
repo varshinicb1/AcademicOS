@@ -202,6 +202,13 @@ class _PreviewSummary extends StatelessWidget {
           key: const ValueKey('quick-preview-total'),
           style: theme.textTheme.titleSmall,
         ),
+        // The level's basis (EX-3): how many questions had a difficulty
+        // measured from marks teachers entered.
+        if (r.difficultySentence case final s?)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text(s, key: const ValueKey('quick-difficulty'), style: theme.textTheme.bodySmall),
+          ),
         if (r.shortfall.isNotEmpty) ...[
           const SizedBox(height: 6),
           Text('Sections the bank cannot fill:', style: theme.textTheme.bodyMedium),
@@ -216,7 +223,8 @@ class _PreviewSummary extends StatelessWidget {
             ),
         ],
         for (final w in r.paper.warnings)
-          Padding(padding: const EdgeInsets.only(top: 4), child: Text('⚠ $w', style: theme.textTheme.bodySmall)),
+          if (w != r.difficultySentence)
+            Padding(padding: const EdgeInsets.only(top: 4), child: Text('⚠ $w', style: theme.textTheme.bodySmall)),
         const SizedBox(height: 4),
         Text('Nothing is saved until you save it.',
             style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),

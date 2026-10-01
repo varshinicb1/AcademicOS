@@ -607,6 +607,10 @@ class GeneratedPaper(Camel):
     shortfall: list[SectionShortfall] = Field(default_factory=list)
     # True: a preview -- nothing was saved, and `id` names no stored paper.
     preview: bool = False
+    # Quick paper (EX-3): how many of the questions this version prints have
+    # a difficulty measured from the marks teachers entered (facility.py),
+    # which its tier ranked on; the rest are inferred. None where not counted.
+    difficulty_measured: Optional[int] = None
 
 
 class QuickPaperRequest(Camel):

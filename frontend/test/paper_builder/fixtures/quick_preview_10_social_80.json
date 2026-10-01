@@ -1,6 +1,6 @@
 {
- "id": "paper_d7b599d1d7ed",
- "assessmentId": "asm_quick_be0fe0ac",
+ "id": "paper_7e073099786c",
+ "assessmentId": "asm_quick_b2c99a0c",
  "sections": [
   {
    "sectionId": "section-a",
@@ -239,7 +239,7 @@
   "grade": 10,
   "totalMarks": 18,
   "durationMinutes": 180,
-  "generatedAt": "2026-10-01T15:30:47.932092Z",
+  "generatedAt": "2026-10-01T15:43:23.097172Z",
   "generatedBy": "AcademicOS",
   "version": "1.0",
   "setLabel": null,
@@ -258,6 +258,7 @@
   "Selected paper totals 18 marks, blueprint target is 80.",
   "Competency-based: 1 of 14 questions (7%). Below CBSE's 50%.",
   "The bank holds too few questions to make the 80 marks asked for, so this paper holds as many as it can: it prints A 12 × 1, B 2 × 3 (asked: A 20 × 1, B 5 × 2, C 6 × 3, D 4 × 5, E 3 × 4).",
+  "Standard version: none of its 14 questions has a difficulty measured from marks teachers entered (at least 20 answers); every difficulty is inferred.",
   "This paper holds 18 of the 80 marks asked for: the bank cannot make them up. Its header prints Maximum Marks: 18.",
   "Section A (MCQ) as asked prints short: only 12 of 20 1-mark questions; the bank holds 12 question(s) of 1 mark(s) for this class; no other marks it holds could make up the difference.",
   "Section B (Very Short Answer) as asked prints short: only 0 of 5 2-mark questions; the bank holds 0 question(s) of 2 mark(s) for this class; no other marks it holds could make up the difference.",
@@ -328,5 +329,6 @@
    "reason": "the bank holds 0 question(s) of 4 mark(s) for this class; no other marks it holds could make up the difference"
   }
  ],
- "preview": true
+ "preview": true,
+ "difficultyMeasured": 0
 }

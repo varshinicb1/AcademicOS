@@ -19,7 +19,7 @@ from typing import get_args
 from ..config import Config
 from ..integrations.composio_calendar import sync_to_google_calendar
 from . import pdf as pdf_export
-from . import grades, paper_timing, selection
+from . import facility, grades, paper_timing, selection
 from .audit_log import get_audit_log
 from .authz import (
     require_own_school, require_own_subtopics, require_school_owns_assessment,
@@ -553,6 +553,11 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
     all_pool_questions = [to_question_schema(c) for c in usable(pool.questions, current.school_id)]
     candidates = chapter_candidates if chapter_candidates else all_pool_questions
     fallback = all_pool_questions if chapter_candidates else None
+    # EX-3: a question's difficulty measured from the marks teachers entered,
+    # where it has one -- what the tier ranks on in preference to the
+    # inferred one. These are this request's own copies of the bank's records.
+    facility.annotate([*chapter_candidates, *all_pool_questions])
+    measured_ids = {q.id for q in all_pool_questions if facility.measured_difficulty(q)}
 
     # The marks asked whenever the bank can make them (D57): a section the
     # bank cannot fill moves its marks to sections it can, within the chosen
@@ -605,6 +610,12 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
             f"Tiers unavailable for this subject: the {tier} tier chose the same questions "
             f"as the standard tier -- too few questions of the marks this paper asks for "
             f"differ in difficulty or Bloom level.")
+    # Each version says how many of its questions had a measured difficulty.
+    for version in [paper, *paper.sets]:
+        printed = [q.question_id for s in version.sections for q in s.questions]
+        version.difficulty_measured = sum(1 for qid in printed if qid in measured_ids)
+    paper.warnings.append(facility.sentence(
+        paper.difficulty_measured, sum(len(s.questions) for s in paper.sections), tier))
 
     paper.marks_asked = total_marks
     shortfall = _section_shortfall(paper, asked_bp, candidates + list(fallback or []), "the bank")

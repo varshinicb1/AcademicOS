@@ -5727,6 +5727,17 @@
             ],
             "title": "Competencytargetmet"
           },
+          "difficultyMeasured": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Difficultymeasured"
+          },
           "formattedContent": {
             "default": "",
             "title": "Formattedcontent",
