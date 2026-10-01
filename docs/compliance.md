@@ -792,6 +792,45 @@ and practice pages show the 409 sentence itself (`apiErrorMessage` in
 - Tests record consent in their setup (`grant_consent` in
   `tests/_auth_helpers.py`); nothing bypasses the rule.
 
+## Owners over several schools (ROLE-4, 2026-10-01)
+
+One owner account (a trust or management) may be linked to several schools.
+This is a change to tenancy, so what holds is written down here.
+
+- **Who grants it.** Only a school's own principal account issues an owner
+  link (`POST /api/v1/owner-links`): a single-use code, shown once, kept only
+  as its SHA-256, expiring in 14 days by default. The owner redeems it, and the
+  link then is the membership. The principal can end it at any time
+  (`DELETE /api/v1/owner-links/{id}`), and it ends on the owner's next request:
+  the link is re-checked on every request, not cached in the session. An
+  owner acting as the school's principal cannot issue or withdraw owner links,
+  so a revoked owner cannot have left a second account linked behind it.
+- **What it grants.** Principal-level rights in ONE school at a time. The
+  owner's session chooses a linked school (`POST /api/v1/owner/active-school`),
+  and every route then sees that school's principal and scopes by that school
+  alone, so the existing `school_id` checks are what keep the schools apart.
+  With no school chosen, an owner reaches only its own routes and `/auth/me`.
+  No route returns two schools' records in one response; the one exception is
+  `GET /api/v1/owner/overview`, which gives per-school counts (papers this
+  term, syllabus taught against plan, cover filled) and names no student,
+  teacher or record. `tests/test_owner_multi_campus.py` sweeps every
+  parameterless GET as an owner acting in one school for the other school's
+  records, and checks an unlinked school, switching, and a revoke.
+- **Logged.** `owner_link_created`, `owner_registered`, `owner_link_redeemed`,
+  `owner_link_revoked` and every `owner_school_switched` are audit entries.
+  What an owner does inside a school is logged as that school's principal's
+  actions are, with the owner as `actor`; a principal-level change
+  (`admin_action`) also carries `viaOwner` and the `schoolId` it was made in,
+  and a read of student data is a `pii_read` with the owner as `actor`.
+- **Storage.** The links live in the operations store (SQLite, snapshotted to
+  the blob store with the admin grants). They hold account and school ids,
+  not student data.
+- **Not settled by code.** Each school remains the data fiduciary for its own
+  students. A school linking an owner is giving that owner access to its
+  student data, so the school's DPA (`docs/dpa-template.md`) should name the
+  owner before a link is issued. The web says what the link grants when the
+  principal creates one; it cannot check the paperwork.
+
 ## Six-dimension audit (2026-08-19) — fixed bugs and open decisions
 
 A six-subagent audit (D1 stale caches, D2 docs/behavior contradictions,

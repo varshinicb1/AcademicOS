@@ -4323,6 +4323,165 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/owner-links": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Owner Links
+         * @description This school's owner links, newest first: open codes, linked owners
+         *     (who they are), and withdrawn or expired ones.
+         */
+        get: operations["list_owner_links_api_v1_owner_links_get"];
+        put?: never;
+        /**
+         * Create Owner Link
+         * @description A single-use code that links one owner account to THIS school. Copy
+         *     `code` now: only its hash is kept. Whoever redeems it acts in this school
+         *     with a principal's rights until you revoke the link.
+         */
+        post: operations["create_owner_link_api_v1_owner_links_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/owner-links/{link_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Revoke Owner Link
+         * @description Withdraw a code, or end a linked owner's access to this school. It
+         *     takes effect on the owner's next request. Another school's link is a 404.
+         */
+        delete: operations["revoke_owner_link_api_v1_owner_links__link_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/owner/active-school": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Choose School
+         * @description Act in one linked school: from now on this session is that school's
+         *     principal on every route, and sees that school's data only. Answers the
+         *     session's new identity (as /auth/me will).
+         */
+        post: operations["choose_school_api_v1_owner_active_school_post"];
+        /**
+         * Leave School
+         * @description Stop acting in a school: back to the owner's own pages.
+         */
+        delete: operations["leave_school_api_v1_owner_active_school_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/owner/links/redeem": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Redeem Owner Link
+         * @description Link one more school to this owner account with its principal's code.
+         */
+        post: operations["redeem_owner_link_api_v1_owner_links_redeem_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/owner/overview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Owner Overview
+         * @description Each linked school's term at a glance: papers set this term, syllabus
+         *     taught against plan, and cover filled. Aggregates per school, side by
+         *     side; open a school to see anything behind a number.
+         */
+        get: operations["owner_overview_api_v1_owner_overview_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/owner/register": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Register Owner
+         * @description Create an owner account with the first school's owner link code. More
+         *     schools are linked later with POST /owner/links/redeem. 403 for a code
+         *     that is unknown, used, withdrawn or expired; 409 for a taken email.
+         */
+        post: operations["register_owner_api_v1_owner_register_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/owner/schools": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Owner Schools
+         * @description Exactly the schools linked to this account, and which one this
+         *     session acts in. A revoked link is gone from the list at once.
+         */
+        get: operations["owner_schools_api_v1_owner_schools_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/paper-reviews": {
         parameters: {
             query?: never;
@@ -5813,6 +5972,11 @@ export interface components {
             startDate: string;
             /** Status */
             status: string;
+        };
+        /** ActiveSchoolRequest */
+        ActiveSchoolRequest: {
+            /** Schoolid */
+            schoolId: string;
         };
         /** AddBookRequest */
         AddBookRequest: {
@@ -8991,6 +9155,99 @@ export interface components {
             /** Title */
             title: string;
         };
+        /** OwnerLinkCreateRequest */
+        OwnerLinkCreateRequest: {
+            /** Expiresindays */
+            expiresInDays?: number | null;
+            /**
+             * Label
+             * @default
+             */
+            label: string;
+        };
+        /** OwnerLinkCreatedResponse */
+        OwnerLinkCreatedResponse: {
+            /** Code */
+            code: string;
+            /** Codehint */
+            codeHint: string;
+            /** Createdat */
+            createdAt: string;
+            /** Createdby */
+            createdBy: string;
+            /** Expiresat */
+            expiresAt: string;
+            /** Id */
+            id: string;
+            /** Label */
+            label: string;
+            /** Owneremail */
+            ownerEmail?: string | null;
+            /** Ownerid */
+            ownerId?: string | null;
+            /** Ownername */
+            ownerName?: string | null;
+            /** Redeemedat */
+            redeemedAt?: string | null;
+            /** Revokedat */
+            revokedAt?: string | null;
+            /** Status */
+            status: string;
+        };
+        /** OwnerLinkResponse */
+        OwnerLinkResponse: {
+            /** Codehint */
+            codeHint: string;
+            /** Createdat */
+            createdAt: string;
+            /** Createdby */
+            createdBy: string;
+            /** Expiresat */
+            expiresAt: string;
+            /** Id */
+            id: string;
+            /** Label */
+            label: string;
+            /** Owneremail */
+            ownerEmail?: string | null;
+            /** Ownerid */
+            ownerId?: string | null;
+            /** Ownername */
+            ownerName?: string | null;
+            /** Redeemedat */
+            redeemedAt?: string | null;
+            /** Revokedat */
+            revokedAt?: string | null;
+            /** Status */
+            status: string;
+        };
+        /** OwnerOverview */
+        OwnerOverview: {
+            /** Schools */
+            schools: components["schemas"]["SchoolSummary"][];
+        };
+        /** OwnerRegisterRequest */
+        OwnerRegisterRequest: {
+            /** Code */
+            code: string;
+            /** Email */
+            email: string;
+            /** Name */
+            name: string;
+            /** Password */
+            password: string;
+        };
+        /** OwnerSchool */
+        OwnerSchool: {
+            /** Active */
+            active: boolean;
+            /** Linkedat */
+            linkedAt: string;
+            /** Name */
+            name?: string | null;
+            /** Schoolid */
+            schoolId: string;
+        };
         /** PaperAnalysis */
         PaperAnalysis: {
             /** Chapters */
@@ -10096,6 +10353,11 @@ export interface components {
             /** Studentid */
             studentId: string;
         };
+        /** RedeemRequest */
+        RedeemRequest: {
+            /** Code */
+            code: string;
+        };
         /** RegisterRequest */
         RegisterRequest: {
             /** Email */
@@ -10625,6 +10887,41 @@ export interface components {
             name?: string | null;
             /** Updatedat */
             updatedAt?: string | null;
+        };
+        /**
+         * SchoolSummary
+         * @description One school's numbers. Counts only: nothing here names a student, a
+         *     teacher, a paper or a section.
+         */
+        SchoolSummary: {
+            /** Coverfilled */
+            coverFilled?: number | null;
+            /** Coverfilledpct */
+            coverFilledPct?: number | null;
+            /** Coverrequested */
+            coverRequested?: number | null;
+            /** Name */
+            name?: string | null;
+            /** Note */
+            note?: string | null;
+            /** Papersthisterm */
+            papersThisTerm?: number | null;
+            /** Period */
+            period?: string | null;
+            /** Periodend */
+            periodEnd?: string | null;
+            /** Periodstart */
+            periodStart?: string | null;
+            /** Rowsbehind */
+            rowsBehind?: number | null;
+            /** Schoolid */
+            schoolId: string;
+            /** Syllabuspacepct */
+            syllabusPacePct?: number | null;
+            /** Syllabusplanned */
+            syllabusPlanned?: number | null;
+            /** Syllabustaught */
+            syllabusTaught?: number | null;
         };
         /** SchoolTemplate */
         SchoolTemplate: {
@@ -12312,6 +12609,11 @@ export interface components {
             email: string;
             /** Id */
             id: string;
+            /**
+             * Isowner
+             * @default false
+             */
+            isOwner: boolean;
             /** Name */
             name: string;
             /** Role */
@@ -19971,6 +20273,249 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_owner_links_api_v1_owner_links_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OwnerLinkResponse"][];
+                };
+            };
+        };
+    };
+    create_owner_link_api_v1_owner_links_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OwnerLinkCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OwnerLinkCreatedResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    revoke_owner_link_api_v1_owner_links__link_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                link_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OwnerLinkResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    choose_school_api_v1_owner_active_school_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ActiveSchoolRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    leave_school_api_v1_owner_active_school_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserResponse"];
+                };
+            };
+        };
+    };
+    redeem_owner_link_api_v1_owner_links_redeem_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RedeemRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OwnerSchool"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    owner_overview_api_v1_owner_overview_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OwnerOverview"];
+                };
+            };
+        };
+    };
+    register_owner_api_v1_owner_register_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OwnerRegisterRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    owner_schools_api_v1_owner_schools_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OwnerSchool"][];
                 };
             };
         };

@@ -30,6 +30,9 @@ Levels, loosest to strictest:
   (authz.require_school_owns_student); staff for any student of their school.
 - `staff`: teacher or principal (auth_routes.require_staff).
 - `principal`: principal only (auth_routes.require_principal).
+- `owner`: an owner account only (auth_routes.require_owner, ROLE-4): its
+  schools, switching between them, and the per-school overview. Acting in a
+  school, an owner passes every other level as that school's principal.
 
 When unsure, a route is `staff`: denying a student a teacher screen costs a
 support message, letting them in costs another child's marks.
@@ -44,11 +47,12 @@ ANY_USER = "any_user"
 SELF_OR_STAFF = "self_or_staff"
 STAFF = "staff"
 PRINCIPAL = "principal"
+OWNER = "owner"
 # Delegable principal actions (M1.4): the principal, or a teacher granted
 # that capability (auth_routes.require_admin). ADMIN["leave"] == "admin:leave".
 ADMIN = {c: f"admin:{c}" for c in ("users", "calendar", "timetable", "leave", "exams", "qbank_review", "reports")}
 
-LEVELS = (PUBLIC, API_KEY, ANY_USER, SELF_OR_STAFF, STAFF, PRINCIPAL, *ADMIN.values())
+LEVELS = (PUBLIC, API_KEY, ANY_USER, SELF_OR_STAFF, STAFF, PRINCIPAL, OWNER, *ADMIN.values())
 
 
 class Policy(NamedTuple):
@@ -452,6 +456,20 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("PUT", "/api/v1/curriculum/terms/{term_id}/baseline"): _p(
         PRINCIPAL, "the term's manual paper baseline, which time saved is measured "
         "against; Depends(require_principal)"),
+
+    # ---- ROLE-4 multi-campus (operations/owner_routes.py) ----
+    # A school's own principal links an owner. An owner acting as the school's
+    # principal is refused here in the handler: it must not mint or withdraw
+    # owner access, or a revoked owner could keep a second account linked.
+    ("POST", "/api/v1/owner-links"): _p(PRINCIPAL, "own school only; the school's own principal account; code shown once"),
+    ("GET", "/api/v1/owner-links"): _p(PRINCIPAL, "own school only; who holds owner access"),
+    ("DELETE", "/api/v1/owner-links/{link_id}"): _p(PRINCIPAL, "own school only; ends the owner's access at once"),
+    ("POST", "/api/v1/owner/register"): _p(PUBLIC, "needs an owner link code a principal issued; rate-limited"),
+    ("POST", "/api/v1/owner/links/redeem"): _p(OWNER, "links one more school with its principal's code"),
+    ("GET", "/api/v1/owner/schools"): _p(OWNER, "the owner's linked schools, names only"),
+    ("POST", "/api/v1/owner/active-school"): _p(OWNER, "a linked school only; the session then acts as its principal"),
+    ("DELETE", "/api/v1/owner/active-school"): _p(OWNER, "back to no school"),
+    ("GET", "/api/v1/owner/overview"): _p(OWNER, "per-school aggregates only: no student, teacher or record named"),
 }
 
 
@@ -500,4 +518,13 @@ PARENT_PATHS = frozenset({
     "/api/v1/children/{student_id}/homework/{homework_id}/submit",
     "/api/v1/children/{student_id}/learning",
     "/api/v1/children/{student_id}/consent",
+})
+
+
+# The only get_current_user routes an owner account may call before it has
+# chosen one of its schools (auth_routes.get_current_user refuses every other
+# with 403). Its own routes take auth_routes.require_owner instead and need no
+# entry here. Once a school is chosen the owner is that school's principal.
+OWNER_PATHS = frozenset({
+    "/api/v1/auth/me",
 })

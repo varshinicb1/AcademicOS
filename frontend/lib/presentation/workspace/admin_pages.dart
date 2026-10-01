@@ -12,6 +12,7 @@ import '../../data/datasources/api/api_error.dart';
 import '../../core/session/current_session.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
+import 'owner_pages.dart';
 import 'strings.dart';
 import 'package:academicos/core/theme/app_theme.dart';
 import '../shared/widgets/shell.dart';
@@ -525,11 +526,17 @@ class _GrantsPageState extends State<GrantsPage> {
           if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
           if (snap.hasError) return ErrorDisplay(message: snap.error.toString(), onRetry: _reload);
           final (teachers, grants, caps) = snap.data!;
+          // ROLE-4: the school's own principal links an owner here. An owner
+          // acting in the school does not: the server refuses it.
+          final ownerAccess = CurrentSession.role == 'principal' && !CurrentSession.isOwner;
           if (teachers.isEmpty) {
-            return const EmptyState(icon: Icons.people_outline, title: 'No teachers yet',
+            const none = EmptyState(icon: Icons.people_outline, title: 'No teachers yet',
                 message: 'Invite teachers first; then you can make any of them an admin for one area.');
+            if (!ownerAccess) return none;
+            return ListView(padding: const EdgeInsets.all(16), children: const [OwnerLinksCard(), none]);
           }
           return ListView(padding: const EdgeInsets.all(16), children: [
+            if (ownerAccess) const OwnerLinksCard(),
             for (final t in teachers)
               AppCard(
                 margin: const EdgeInsets.only(bottom: 10),

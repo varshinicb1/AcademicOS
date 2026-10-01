@@ -46,6 +46,9 @@ def init(cfg: Config) -> None:
     # Delegated admin (M1.4): a teacher's grants open require_admin routes.
     auth_routes.set_grant_checker(lambda user_id, cap, **target: store().holds(user_id, cap, **target),
                                   scopes=lambda user_id, cap: store().grant_scopes(user_id, cap))
+    # ROLE-4: which linked school an owner's session acts in, re-checked on
+    # every request so a revoked link ends the owner's access at once.
+    auth_routes.set_owner_scope(lambda owner, token: store().owner_session_school(token, owner.id))
 
 
 def _record_learning(student_id: str, results: list, source: Optional[str]) -> None:

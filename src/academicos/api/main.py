@@ -49,6 +49,7 @@ from ..operations import google_sign_in, sign_in_codes
 from ..operations import question_reviews
 from ..operations import exam_routes
 from ..operations import grant_routes
+from ..operations import owner_routes
 from ..operations import guardian_routes
 from ..operations import homework_routes
 from ..operations import import_routes
@@ -227,11 +228,15 @@ def _audit_admin_action(scope: Any) -> None:
         return
     if auth_routes._cfg is None:
         return
+    details = {"method": scope["method"], "route": path, "level": policy.level,
+               "params": {k: str(v) for k, v in (scope.get("path_params") or {}).items()}}
+    if scope.get("acos_owner_school"):
+        # ROLE-4: an owner acting as one of its schools' principal. The row
+        # says which school, since the owner's account has none of its own.
+        details.update(viaOwner=True, schoolId=scope["acos_owner_school"])
     try:
         get_audit_log(auth_routes._cfg.data_root).append(
-            "admin_action", actor=scope.get("acos_actor"),
-            details={"method": scope["method"], "route": path, "level": policy.level,
-                     "params": {k: str(v) for k, v in (scope.get("path_params") or {}).items()}})
+            "admin_action", actor=scope.get("acos_actor"), details=details)
     except Exception:  # noqa: BLE001 - the change is made; a lost row is logged, not raised
         logger.warning("could not audit %s %s", scope["method"], path, exc_info=True)
 
@@ -270,6 +275,7 @@ app.include_router(homework_routes.router)
 app.include_router(learning_routes.router)
 app.include_router(guardian_routes.router)
 app.include_router(grant_routes.router)
+app.include_router(owner_routes.router)
 app.include_router(import_routes.router)
 app.include_router(exam_routes.router)
 app.include_router(dashboard_routes.router)

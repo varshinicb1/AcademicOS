@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/session/current_session.dart';
+import '../../core/session/owner_session.dart';
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'dashboard_card.dart';
@@ -32,6 +33,29 @@ class _WorkspacePageState extends State<WorkspacePage> {
   @override
   void initState() {
     super.initState();
+    // An owner switching schools (ROLE-4) lands here, and when it was here
+    // already the router keeps this page: reload it for the new school.
+    OwnerSession.switched.addListener(_onSwitch);
+    _load();
+  }
+
+  @override
+  void dispose() {
+    OwnerSession.switched.removeListener(_onSwitch);
+    super.dispose();
+  }
+
+  void _onSwitch() {
+    if (!mounted) return;
+    setState(() {
+      _unread = 0;
+      _caps = {};
+      _young = false;
+    });
+    _load();
+  }
+
+  void _load() {
     _loadUnread();
     if (CurrentSession.role == 'student') {
       Ops.map('/curriculum/my-timetable').then((t) {
@@ -150,7 +174,8 @@ class _WorkspacePageState extends State<WorkspacePage> {
           IconButton(tooltip: 'Copy my calendar link', icon: const Icon(Icons.event_available),
               onPressed: () => copyCalendarLink(context)),
       ]),
-      body: Column(children: [
+      // Keyed by school, so the dashboard reloads after an owner's switch.
+      body: Column(key: ValueKey('school:${CurrentSession.schoolId}'), children: [
         const OfflineBanner(),
         // The principal and reports admins see today at a glance (ADM-2).
         if (CurrentSession.role == 'principal' || _caps.contains('reports')) const DashboardCard(),

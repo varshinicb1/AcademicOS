@@ -274,6 +274,16 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/api-keys"),
     ("DELETE", "/api/v1/api-keys/{key_id}"),
     ("GET", "/api/v1/api-keys/{key_id}/usage"),
+    # ROLE-4 multi-campus owners (owner_routes.py).
+    ("POST", "/api/v1/owner-links"),
+    ("GET", "/api/v1/owner-links"),
+    ("DELETE", "/api/v1/owner-links/{link_id}"),
+    ("POST", "/api/v1/owner/links/redeem"),
+    ("GET", "/api/v1/owner/schools"),
+    ("POST", "/api/v1/owner/active-school"),
+    ("DELETE", "/api/v1/owner/active-school"),
+    ("GET", "/api/v1/owner/overview"),
+    ("POST", "/api/v1/owner/register"),
     ("POST", "/api/v1/assessments/{assessment_id}/review-request"),
     ("POST", "/api/v1/assessments/{assessment_id}/review-decision"),
     ("GET", "/api/v1/assessments/{assessment_id}/reviews"),
@@ -597,6 +607,15 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/api-keys"),
     ("DELETE", "/api/v1/api-keys/{key_id}"),
     ("GET", "/api/v1/api-keys/{key_id}/usage"),
+    # ROLE-4 multi-campus owners (owner_routes.py).
+    ("POST", "/api/v1/owner-links"),
+    ("GET", "/api/v1/owner-links"),
+    ("DELETE", "/api/v1/owner-links/{link_id}"),
+    ("POST", "/api/v1/owner/links/redeem"),
+    ("GET", "/api/v1/owner/schools"),
+    ("POST", "/api/v1/owner/active-school"),
+    ("DELETE", "/api/v1/owner/active-school"),
+    ("GET", "/api/v1/owner/overview"),
     ("POST", "/api/v1/assessments/{assessment_id}/review-request"),
     ("POST", "/api/v1/assessments/{assessment_id}/review-decision"),
     ("GET", "/api/v1/assessments/{assessment_id}/reviews"),
@@ -907,6 +926,13 @@ def _valid_body_for(method: str, path: str) -> dict:
                 "email": "teacher1@example.com", "password": "correct horse battery"}
     if path == "/api/v1/auth/invites":
         return {"role": "teacher"}
+    if path == "/api/v1/owner/register":
+        return {"name": "Owner One", "email": "owner1@example.com",
+                "password": "correct horse battery", "code": "own_x"}
+    if path == "/api/v1/owner/links/redeem":
+        return {"code": "own_x"}
+    if path == "/api/v1/owner/active-school":
+        return {"schoolId": "school_1"}
     if path == "/api/v1/auth/login":
         return {"email": "teacher1@example.com", "password": "correct horse battery"}
     if path == "/v1/question/solve":
@@ -974,7 +1000,9 @@ def test_canonical_route_inventory_matches_live_app():
     # 311: TA-2 the caller's own calendar and teaching load in the apps.
     # 314: EX-8 report cards (a student's, as JSON and PDF; a section's PDF).
     # 315: N-67-5 every section's lesson plan in one action.
-    assert len(API_ROUTES) == 315
+    # 324: ROLE-4 owners over several schools: owner links (3), owner
+    # registration, redeem, schools, choose and leave a school, overview.
+    assert len(API_ROUTES) == 324
 
 
 def test_docs_routes_present():

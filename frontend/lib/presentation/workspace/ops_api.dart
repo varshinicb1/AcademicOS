@@ -46,8 +46,16 @@ class Ops {
 
   static String _cacheKey(String path, Map<String, dynamic>? query) {
     final q = (query ?? const {}).entries.map((e) => '${e.key}=${e.value}').toList()..sort();
-    return 'ops_cache:${CurrentSession.userId}:$path?${q.join('&')}';
+    return 'ops_cache:$_who:$path?${q.join('&')}';
   }
+
+  /// Whose saved copies and waiting changes these are: the signed-in user,
+  /// and for an owner (ROLE-4) the school it is acting in too. An owner is
+  /// one user id across several schools, so keyed by the id alone one
+  /// school's saved page would be shown, offline, inside another, and a
+  /// change made in one would be sent to the other after a switch.
+  static String get _who =>
+      CurrentSession.isOwner ? '${CurrentSession.userId}@${CurrentSession.schoolId}' : CurrentSession.userId;
 
   static void _save(String key, dynamic data) {
     if (data is! Map && data is! List) return;   // text (CSV, calendars) is not worth keeping offline
@@ -142,8 +150,8 @@ class Ops {
     }
   }
 
-  static String get _queueKey => 'ops_queue:${CurrentSession.userId}';
-  static String get _refusedKey => 'ops_refused:${CurrentSession.userId}';
+  static String get _queueKey => 'ops_queue:$_who';
+  static String get _refusedKey => 'ops_refused:$_who';
 
   static List<Map<String, dynamic>> _read(String key) {
     final raw = LocalStore.instance.box.get(key);

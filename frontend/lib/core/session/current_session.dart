@@ -45,4 +45,9 @@ class CurrentSession {
 
   /// The signed-in person's name as the school knows it (empty offline).
   static String get name => _onDevice ? '' : _field('name');
+
+  /// An owner account over several schools (ROLE-4): role "owner" until it
+  /// chooses one of them, then that school's "principal". Never offline.
+  static bool get isOwner =>
+      !_onDevice && (LocalStore.instance.authUser?['isOwner'] == true || _field('role') == 'owner');
 }

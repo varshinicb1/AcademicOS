@@ -15,17 +15,23 @@ class AuthUser {
   final String schoolId;
   final String name;
   final String email;
-  final String role; // "teacher" | "principal" | "student"
+  final String role; // "teacher" | "principal" | "student" | "parent" | "owner"
+
+  /// ROLE-4: an owner account over several schools. Its role is "owner"
+  /// until it chooses a school, then "principal" of that school; this stays
+  /// true either way. Optional on the wire (`isOwner` defaults to false).
+  final bool isOwner;
 
   AuthUser.fromJson(Map<String, dynamic> j)
       : id = j['id'] as String,
         schoolId = j['schoolId'] as String,
         name = j['name'] as String,
         email = j['email'] as String,
-        role = j['role'] as String;
+        role = j['role'] as String,
+        isOwner = j['isOwner'] as bool? ?? false;
 
   Map<String, dynamic> toJson() =>
-      {'id': id, 'schoolId': schoolId, 'name': name, 'email': email, 'role': role};
+      {'id': id, 'schoolId': schoolId, 'name': name, 'email': email, 'role': role, 'isOwner': isOwner};
 
   bool get isPrincipal => role == 'principal';
   bool get isStudent => role == 'student';
@@ -113,9 +119,19 @@ class AuthApi {
         'name': name, 'email': email, 'password': password,
       });
 
-  Future<AuthResult> _register(Map<String, dynamic> body) async {
+  /// An owner account over several schools (ROLE-4), created with the first
+  /// school's owner link code (`own_...`) that school's principal issued.
+  Future<AuthResult> registerOwner({
+    required String code,
+    required String name,
+    required String email,
+    required String password,
+  }) =>
+      _register({'code': code, 'name': name, 'email': email, 'password': password}, path: '/owner/register');
+
+  Future<AuthResult> _register(Map<String, dynamic> body, {String path = '/auth/register'}) async {
     try {
-      final r = await _dio.post('/auth/register', data: body);
+      final r = await _dio.post(path, data: body);
       return AuthResult.fromJson(Map<String, dynamic>.from(r.data));
     } on DioException catch (e) {
       throw _asAuthException(e);
