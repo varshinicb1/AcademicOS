@@ -3855,7 +3855,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Mail Status */
+        /**
+         * Mail Status
+         * @description Which mail backends are set up -- for the paper delivery sheet, which
+         *     only a signed-in user opens. Not public (NFR-2): it describes the
+         *     deployment to anyone who asks.
+         */
         get: operations["mail_status_api_v1_mail_status_get"];
         put?: never;
         post?: never;
@@ -3884,6 +3889,28 @@ export interface paths {
          *     number: its last two digits only).
          */
         put: operations["set_my_contact_api_v1_me_contact_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/my-calendar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * My Calendar
+         * @description The caller's dated school events from today: holidays, cover and
+         *     invigilation duties, exam papers and homework due. The ICS feed carries
+         *     the same; the weekly periods are the timetable's, so they are left out.
+         */
+        get: operations["my_calendar_api_v1_my_calendar_get"];
+        put?: never;
         post?: never;
         delete?: never;
         options?: never;
@@ -4070,6 +4097,29 @@ export interface paths {
          *     revise next, and the term week by week. Students only.
          */
         get: operations["my_learning_api_v1_my_learning_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/my-load": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * My Load
+         * @description A teacher's own load (TA-2): timetabled periods a week by class and
+         *     subject, the busiest day, cover duties this week and exam duties ahead.
+         *     Only the caller's own numbers; the whole staff's load stays the
+         *     principal's (ADM-5).
+         */
+        get: operations["my_load_api_v1_my_load_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6387,6 +6437,21 @@ export interface components {
              */
             updated: number;
         };
+        /** CalendarItem */
+        CalendarItem: {
+            /** Date */
+            date: string;
+            /** Enddate */
+            endDate?: string | null;
+            /** Endtime */
+            endTime?: string | null;
+            /** Kind */
+            kind: string;
+            /** Starttime */
+            startTime?: string | null;
+            /** Title */
+            title: string;
+        };
         /** CalendarResponse */
         CalendarResponse: {
             /** Academicyearid */
@@ -8386,6 +8451,15 @@ export interface components {
             /** Studentid */
             studentId: string;
         };
+        /** LoadRow */
+        LoadRow: {
+            /** Periodsperweek */
+            periodsPerWeek: number;
+            /** Sectionname */
+            sectionName: string;
+            /** Subjectname */
+            subjectName: string;
+        };
         /** LoginRequest */
         LoginRequest: {
             /** Email */
@@ -8578,6 +8652,41 @@ export interface components {
             title: string;
             /** Totalmarks */
             totalMarks: number;
+        };
+        /** MyLoadResponse */
+        MyLoadResponse: {
+            /**
+             * Classes
+             * @default []
+             */
+            classes: components["schemas"]["LoadRow"][];
+            /**
+             * Coversthisweek
+             * @default 0
+             */
+            coversThisWeek: number;
+            /**
+             * Daystaught
+             * @default {}
+             */
+            daysTaught: {
+                [key: string]: number;
+            };
+            /**
+             * Invigilationsahead
+             * @default 0
+             */
+            invigilationsAhead: number;
+            /**
+             * Maxinoneday
+             * @default 0
+             */
+            maxInOneDay: number;
+            /**
+             * Periodsperweek
+             * @default 0
+             */
+            periodsPerWeek: number;
         };
         /** MyProgressResponse */
         MyProgressResponse: {
@@ -18827,6 +18936,37 @@ export interface operations {
             };
         };
     };
+    my_calendar_api_v1_my_calendar_get: {
+        parameters: {
+            query?: {
+                days?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CalendarItem"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     my_children_api_v1_my_children_get: {
         parameters: {
             query?: never;
@@ -19121,6 +19261,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["LearningProgressResponse"];
+                };
+            };
+        };
+    };
+    my_load_api_v1_my_load_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyLoadResponse"];
                 };
             };
         };

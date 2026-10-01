@@ -146,16 +146,32 @@ def test_school_templates_and_mail_status_without_startup():
     2026-09-15 -- previously served to anyone, no auth at all); auth is
     checked before any module-init state, so this 401s with no token even
     before startup, same convention as every other auth-gated route.
-    /mail/status carries no school-specific data and stays open."""
+    /mail/status describes the deployment, so it 401s without a token too
+    (NFR-2, 2026-10-01)."""
     client = TestClient(app)
     templates = client.get("/api/v1/schools/school_1/templates")
     assert templates.status_code == 401
 
-    mail = client.get("/api/v1/mail/status")
-    assert mail.status_code == 200
-    body = mail.json()
-    assert "backends" in body
-    assert "anyConfigured" in body
+    assert client.get("/api/v1/mail/status").status_code == 401
+
+
+def test_docs_are_off_in_production(monkeypatch):
+    """NFR-2: /docs, /redoc and /openapi.json would hand anyone the whole
+    route map on the live release. Off there; on everywhere else."""
+    from academicos.api import main
+
+    monkeypatch.delenv("ACOS_ENV", raising=False)
+    monkeypatch.delenv("ACOS_POSTGRES_HOST", raising=False)
+    assert main._doc_urls() == {}
+    monkeypatch.setenv("ACOS_ENV", "production")
+    assert main._doc_urls() == {"docs_url": None, "redoc_url": None, "openapi_url": None}
+    from fastapi import FastAPI
+    from fastapi.testclient import TestClient
+
+    live = FastAPI(**main._doc_urls())
+    with TestClient(live) as c:
+        assert [c.get(p).status_code for p in ("/docs", "/redoc", "/openapi.json")] == [404, 404, 404]
+    assert live.openapi()["info"], "the contract export still works with the routes off"
 
 
 def test_runtime_gated_routes_return_503_before_startup():

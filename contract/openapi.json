@@ -1978,6 +1978,62 @@
         "title": "BulkAwardResponse",
         "type": "object"
       },
+      "CalendarItem": {
+        "properties": {
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "endDate": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Enddate"
+          },
+          "endTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Endtime"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "startTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starttime"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "title",
+          "date"
+        ],
+        "title": "CalendarItem",
+        "type": "object"
+      },
       "CalendarResponse": {
         "properties": {
           "academicYearId": {
@@ -7352,6 +7408,29 @@
         "title": "LinkRequest",
         "type": "object"
       },
+      "LoadRow": {
+        "properties": {
+          "periodsPerWeek": {
+            "title": "Periodsperweek",
+            "type": "integer"
+          },
+          "sectionName": {
+            "title": "Sectionname",
+            "type": "string"
+          },
+          "subjectName": {
+            "title": "Subjectname",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sectionName",
+          "subjectName",
+          "periodsPerWeek"
+        ],
+        "title": "LoadRow",
+        "type": "object"
+      },
       "LoginRequest": {
         "properties": {
           "email": {
@@ -7890,6 +7969,48 @@
           "totalMarks"
         ],
         "title": "MyHomeworkItem",
+        "type": "object"
+      },
+      "MyLoadResponse": {
+        "properties": {
+          "classes": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/LoadRow"
+            },
+            "title": "Classes",
+            "type": "array"
+          },
+          "coversThisWeek": {
+            "default": 0,
+            "title": "Coversthisweek",
+            "type": "integer"
+          },
+          "daysTaught": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "default": {},
+            "title": "Daystaught",
+            "type": "object"
+          },
+          "invigilationsAhead": {
+            "default": 0,
+            "title": "Invigilationsahead",
+            "type": "integer"
+          },
+          "maxInOneDay": {
+            "default": 0,
+            "title": "Maxinoneday",
+            "type": "integer"
+          },
+          "periodsPerWeek": {
+            "default": 0,
+            "title": "Periodsperweek",
+            "type": "integer"
+          }
+        },
+        "title": "MyLoadResponse",
         "type": "object"
       },
       "MyProgressResponse": {
@@ -27175,6 +27296,7 @@
     },
     "/api/v1/mail/status": {
       "get": {
+        "description": "Which mail backends are set up -- for the paper delivery sheet, which\nonly a signed-in user opens. Not public (NFR-2): it describes the\ndeployment to anyone who asks.",
         "operationId": "mail_status_api_v1_mail_status_get",
         "responses": {
           "200": {
@@ -27188,6 +27310,11 @@
             "description": "Successful Response"
           }
         },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "summary": "Mail Status"
       }
     },
@@ -27255,6 +27382,58 @@
           }
         ],
         "summary": "Set My Contact"
+      }
+    },
+    "/api/v1/my-calendar": {
+      "get": {
+        "description": "The caller's dated school events from today: holidays, cover and\ninvigilation duties, exam papers and homework due. The ICS feed carries\nthe same; the weekly periods are the timetable's, so they are left out.",
+        "operationId": "my_calendar_api_v1_my_calendar_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "days",
+            "required": false,
+            "schema": {
+              "default": 42,
+              "maximum": 60,
+              "minimum": 1,
+              "title": "Days",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CalendarItem"
+                  },
+                  "title": "Response My Calendar Api V1 My Calendar Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Calendar"
       }
     },
     "/api/v1/my-children": {
@@ -27688,6 +27867,30 @@
           }
         ],
         "summary": "My Learning"
+      }
+    },
+    "/api/v1/my-load": {
+      "get": {
+        "description": "A teacher's own load (TA-2): timetabled periods a week by class and\nsubject, the busiest day, cover duties this week and exam duties ahead.\nOnly the caller's own numbers; the whole staff's load stays the\nprincipal's (ADM-5).",
+        "operationId": "my_load_api_v1_my_load_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyLoadResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Load"
       }
     },
     "/api/v1/my-practice": {
