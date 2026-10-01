@@ -9395,6 +9395,14 @@
       },
       "PlanBuiltResponse": {
         "properties": {
+          "chaptersWithoutSubtopics": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Chapterswithoutsubtopics",
+            "type": "array"
+          },
           "lastScheduledDate": {
             "anyOf": [
               {
@@ -12483,6 +12491,14 @@
           "bookId": {
             "title": "Bookid",
             "type": "string"
+          },
+          "chaptersWithoutSubtopics": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Chapterswithoutsubtopics",
+            "type": "array"
           },
           "firstScheduledDate": {
             "anyOf": [
@@ -20593,7 +20609,7 @@
     },
     "/api/v1/curriculum/academic-years/{academic_year_id}/lesson-plans": {
       "post": {
-        "description": "Every section's dated plan in one action (N-67-5). A school set up on\nthe web had none: seeding proposes topics but approving them was a\nchapter-at-a-time step on another tab, and each section and subject was\nthen planned on its own. This does the same steps the Lesson plans page\ndoes for one section, for all of them:\n\n1. With `approveProposedTopics`, the principal approves the topic\n   proposals still pending on the year's chosen books. The principal's\n   own click is the approval; nothing is approved without it.\n2. Each book's subtopics are timed against the year (idempotent), at the\n   most periods a week any section has for it.\n3. Each section's plan is laid on its own week from its allocation.\n   What was taught, marked or has passed is kept (`force`).\n\nA section and subject that cannot be planned is named in `notPlanned`\nwith the reason, never skipped silently.",
+        "description": "Every section's dated plan in one action (N-67-5). A school set up on\nthe web had none: seeding proposes topics but approving them was a\nchapter-at-a-time step on another tab, and each section and subject was\nthen planned on its own. This does the same steps the Lesson plans page\ndoes for one section, for all of them:\n\n1. With `approveProposedTopics`, the principal approves the topic\n   proposals still pending on the year's chosen books. The principal's\n   own click is the approval; nothing is approved without it.\n2. Each book's subtopics are timed against the year (idempotent), at the\n   most periods a week any section has for it.\n3. Each section's plan is laid on its own week from its allocation.\n   What was taught, marked or has passed is kept (`force`).\n\nA section and subject that cannot be planned is named in `notPlanned`\nwith the reason, never skipped silently, and each plan names the\nchapters it left out for want of subtopics (`chaptersWithoutSubtopics`,\nD119).",
         "operationId": "build_lesson_plans_api_v1_curriculum_academic_years__academic_year_id__lesson_plans_post",
         "parameters": [
           {

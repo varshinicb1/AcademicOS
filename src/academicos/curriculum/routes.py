@@ -1833,7 +1833,8 @@ def schedule_book(book_id: str, academic_year_id: str, req: ScheduleBookRequest,
         teaching_periods_available=result.teaching_periods_available,
         lessons_kept=result.lessons_kept, past_lessons_kept=result.past_lessons_kept,
         all_subtopics_scheduled=result.all_subtopics_scheduled,
-        warning=result.warning, section_id=result.section_id)
+        warning=result.warning, section_id=result.section_id,
+        chapters_without_subtopics=list(result.chapters_without_subtopics))
 
 
 def _minutes(hhmm: str) -> int:
@@ -1859,7 +1860,9 @@ def build_lesson_plans(academic_year_id: str, req: BuildPlansRequest,
        What was taught, marked or has passed is kept (`force`).
 
     A section and subject that cannot be planned is named in `notPlanned`
-    with the reason, never skipped silently."""
+    with the reason, never skipped silently, and each plan names the
+    chapters it left out for want of subtopics (`chaptersWithoutSubtopics`,
+    D119)."""
     store = _require()
     _require_school_owns_academic_year(academic_year_id, principal)
     out = BuildPlansResponse()
@@ -1929,7 +1932,8 @@ def build_lesson_plans(academic_year_id: str, req: BuildPlansRequest,
             section_id=a.section_id, section_name=store._section_label(section),
             subject_name=subject.name if subject else "", lessons_created=r.lessons_created,
             subtopics_without_estimate=len(r.subtopics_without_estimate),
-            last_scheduled_date=r.last_scheduled_date, warning=r.warning))
+            last_scheduled_date=r.last_scheduled_date, warning=r.warning,
+            chapters_without_subtopics=list(r.chapters_without_subtopics)))
     return out
 
 

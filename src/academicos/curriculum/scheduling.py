@@ -114,20 +114,34 @@ class ScheduleResult:
     past_lessons_kept: int = 0            # unmarked lessons dated before from_date a regenerate kept
     warning: Optional[str] = None         # set whenever a subtopic has no (or too few) dated lessons
     section_id: Optional[str] = None      # the section this plan is for; None: the school-wide plan
+    # Chapters with no approved subtopic, in delivery order: nothing of them
+    # can be timed or dated, so the plan leaves them out (audit D119).
+    chapters_without_subtopics: tuple[str, ...] = ()
+    total_chapters: int = 0
 
     @property
     def all_subtopics_scheduled(self) -> bool:
         return self.warning is None
 
 
+def _named(names: list[str] | tuple[str, ...], limit: int = 6) -> str:
+    shown = ", ".join(names[:limit])
+    return shown + (f" and {len(names) - limit} more" if len(names) > limit else "")
+
+
 def _shortfall_warning(*, total: int, unscheduled: int, partial: int, without_estimate: int,
                        periods_available: int, periods_needed: int,
-                       from_date: Optional[str]) -> Optional[str]:
+                       from_date: Optional[str], chapters_left_out: tuple[str, ...] = (),
+                       total_chapters: int = 0) -> Optional[str]:
     """One sentence a principal cannot miss. The audit found 49 of 404 real
     subtopics with no date behind a plain 200 and a list of ids. The
     periods-left figure counts from the day the plan starts, so a mid-year
-    regenerate reports what is really left."""
+    regenerate reports what is really left. A chapter with no approved
+    subtopic is named too: it is not in the plan at all (audit D119)."""
     parts = []
+    if chapters_left_out:
+        parts.append(f"{len(chapters_left_out)} of {total_chapters} chapters have no approved subtopics, "
+                     f"so they are not in the plan: {_named(chapters_left_out)}")
     if unscheduled:
         parts.append(f"{unscheduled} of {total} subtopics have no date")
     if partial:
@@ -160,7 +174,10 @@ def schedule_book(
 
     Anything short of every subtopic fully dated sets `warning` (and so
     all_subtopics_scheduled=False): the unscheduled/partial lists alone went
-    unnoticed behind a 200 when Social Science left 35 of 193 undated.
+    unnoticed behind a 200 when Social Science left 35 of 193 undated. So
+    does a chapter with no approved subtopic (`chapters_without_subtopics`):
+    it is not in the plan at all, and a Science 6 plan that dated 5 of 12
+    chapters still reported every subtopic scheduled (audit D119).
 
     Not idempotent by default: re-scheduling an already-scheduled book
     raises unless `force=True`. A regenerate replans only what is still to
@@ -237,8 +254,12 @@ def schedule_book(
     without_estimate: list[str] = []
     total_subtopics = 0
     already_covered = 0
+    total_chapters = 0
+    chapters_left_out: list[str] = []
     for unit in store.units_for_book(book_id):
         for chapter in store.chapters_for_unit(unit.id):
+            total_chapters += 1
+            chapter_subtopics = total_subtopics
             for topic in store.topics_for_chapter(chapter.id):
                 for subtopic in store.subtopics_for_topic(topic.id):
                     total_subtopics += 1
@@ -251,6 +272,8 @@ def schedule_book(
                         already_covered += 1
                         continue
                     ordered.append((subtopic.id, needed))
+            if total_subtopics == chapter_subtopics:
+                chapters_left_out.append(chapter.name)
 
     lessons_created = 0
     fully_scheduled = already_covered
@@ -296,8 +319,10 @@ def schedule_book(
         warning=_shortfall_warning(
             total=total_subtopics, unscheduled=len(unscheduled), partial=len(partially_scheduled),
             without_estimate=len(without_estimate), periods_available=len(slots),
-            periods_needed=sum(n for _, n in ordered), from_date=from_date),
-        section_id=section_id,
+            periods_needed=sum(n for _, n in ordered), from_date=from_date,
+            chapters_left_out=tuple(chapters_left_out), total_chapters=total_chapters),
+        section_id=section_id, chapters_without_subtopics=tuple(chapters_left_out),
+        total_chapters=total_chapters,
     )
 
 

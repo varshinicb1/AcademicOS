@@ -411,6 +411,7 @@ class _PlanResult extends StatelessWidget {
     final unscheduled = _named('subtopicsUnscheduled');
     final partly = _named('subtopicsPartiallyScheduled');
     final noEstimate = _named('subtopicsWithoutEstimate');
+    final leftOut = [for (final c in (plan['chaptersWithoutSubtopics'] as List? ?? const [])) '$c'];
     final skippedUnits = [for (final u in (estimates?['unitsSkippedNoSubtopics'] as List? ?? const [])) '$u'];
     final short = estimates?['periodsShort'] as int? ?? 0;
     return Column(key: const ValueKey('plan-result'), crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -425,6 +426,13 @@ class _PlanResult extends StatelessWidget {
           if (plan['warning'] != null) plan['warning'] as String,
         ],
       ),
+      // D119: a chapter with no approved subtopic is not in the plan at all.
+      if (leftOut.isNotEmpty) ...[
+        const Gap(8),
+        Notice(key: const ValueKey('plan-chapters-left-out'), kind: NoticeKind.warning,
+            title: '${leftOut.length} ${tr('chapters are not in the plan: they have no approved subtopics.')}',
+            lines: firstFew(leftOut)),
+      ],
       if (unscheduled.isNotEmpty) ...[
         const Gap(8),
         Notice(kind: NoticeKind.warning,
@@ -531,6 +539,14 @@ class _PlanAllState extends State<_PlanAll> {
               '${plans.length} ${tr('plans made')}, $lessons ${tr('lessons dated')}'
               '${(r['subtopicsCreated'] as int? ?? 0) > 0 ? ' · ${r['subtopicsCreated']} ${tr('subtopics approved')}' : ''}'),
           for (final m in missed) Text('• $m', style: theme.textTheme.bodySmall),
+          // D119: each plan names the chapters it left out (no approved subtopics).
+          for (final p in plans)
+            if ((p['chaptersWithoutSubtopics'] as List? ?? const []).isNotEmpty)
+              Text(key: ValueKey('plan-all-left-out-${p['sectionId']}-${p['subjectName']}'),
+                  '• ${p['sectionName']} ${p['subjectName']}: '
+                  '${(p['chaptersWithoutSubtopics'] as List).length} ${tr('chapters not in the plan (no approved subtopics)')}: '
+                  '${firstFew([for (final c in p['chaptersWithoutSubtopics'] as List) '$c']).join(', ')}',
+                  style: theme.textTheme.bodySmall),
         ],
       ]),
     );

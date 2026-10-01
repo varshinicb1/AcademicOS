@@ -535,6 +535,8 @@ class PlanBuiltResponse(Camel):
     subtopics_without_estimate: int = 0
     last_scheduled_date: Optional[str] = None
     warning: Optional[str] = None
+    # Chapters with no approved subtopic: not in the plan at all (D119).
+    chapters_without_subtopics: list[str] = []
 
 
 class BuildPlansResponse(Camel):
@@ -571,6 +573,9 @@ class ScheduleBookResponse(Camel):
     all_subtopics_scheduled: bool = True
     warning: Optional[str] = None
     section_id: Optional[str] = None
+    # Chapters with no approved subtopic, in delivery order: the plan leaves
+    # them out, and allSubtopicsScheduled is false while there are any (D119).
+    chapters_without_subtopics: list[str] = []
 
 
 class ScheduledLessonResponse(Camel):

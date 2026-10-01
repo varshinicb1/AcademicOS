@@ -101,7 +101,8 @@ class _Backend implements HttpClientAdapter {
         return _ok({
           'runsApproved': 13, 'topicsCreated': 39, 'subtopicsCreated': 117,
           'plans': [
-            {'sectionId': 'sec_a', 'sectionName': '10-A', 'subjectName': 'Science', 'lessonsCreated': 140},
+            {'sectionId': 'sec_a', 'sectionName': '10-A', 'subjectName': 'Science', 'lessonsCreated': 140,
+              'chaptersWithoutSubtopics': ['Light - Reflection and Refraction']},
             {'sectionId': 'sec_b', 'sectionName': '10-B', 'subjectName': 'Science', 'lessonsCreated': 138},
           ],
           'notPlanned': ['10-A English: no book is chosen for the subject'],
@@ -115,7 +116,7 @@ class _Backend implements HttpClientAdapter {
           'firstScheduledDate': '2026-10-01', 'lastScheduledDate': '2026-10-12', 'teachingPeriodsAvailable': 12,
           'lessonsKept': 0, 'pastLessonsKept': 0, 'allSubtopicsScheduled': false,
           'warning': '1 of 2 subtopics have no date: the year has 12 Science periods left and the estimates need 14.',
-          'sectionId': 'sec_a',
+          'sectionId': 'sec_a', 'chaptersWithoutSubtopics': ['Light - Reflection and Refraction'],
         });
     }
     rejected.add('${o.method} $path');
@@ -192,6 +193,11 @@ void main() {
     expect(find.text('2 plans made, 278 lessons dated · 117 subtopics approved'), findsOneWidget);
     expect(find.text('• 10-A English: no book is chosen for the subject'), findsOneWidget,
         reason: 'what was not planned is named, with why');
+    // D119: a chapter with no approved subtopic is not in the plan, and the plan says so.
+    expect(find.byKey(const ValueKey('plan-all-left-out-sec_a-Science')), findsOneWidget);
+    expect(find.textContaining('10-A Science: 1 chapters not in the plan (no approved subtopics): '
+        'Light - Reflection and Refraction'), findsOneWidget);
+    expect(find.byKey(const ValueKey('plan-all-left-out-sec_b-Science')), findsNothing);
   });
 
   testWidgets('the book, its chapters and which of them can be planned are shown', (tester) async {
@@ -229,6 +235,10 @@ void main() {
     expect(find.textContaining('1 subtopics have no date'), findsOneWidget);
     expect(find.text('• Chemical Reactions and Equations: Types of chemical reactions'), findsOneWidget);
     expect(find.text('• Unit 3: Natural Phenomena'), findsOneWidget);
+    // D119: the chapter the plan left out, named from the server's answer.
+    expect(find.byKey(const ValueKey('plan-chapters-left-out')), findsOneWidget);
+    expect(find.text('1 chapters are not in the plan: they have no approved subtopics.'), findsOneWidget);
+    expect(find.text('• Light - Reflection and Refraction'), findsOneWidget);
     expect(find.text('The subtopics need 14 periods; the year has 12.'), findsOneWidget);
     // The plan on the page is re-read: the section now has one.
     expect(find.textContaining('10-A: 12 lessons, 2026-10-01 to 2026-10-12'), findsOneWidget);
