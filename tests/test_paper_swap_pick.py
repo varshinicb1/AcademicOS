@@ -927,3 +927,44 @@ def test_one_inserted_sign_mid_stem_is_a_different_question():
     assert not pool.near_duplicate(b, a)
     c = a.replace("= 11 and", "= 11 not and")
     assert not pool.near_duplicate(a, c)
+
+
+# ------------------------------------------------------------------ a new paper is new (QA P-03)
+
+def test_a_second_paper_for_the_class_draws_other_questions_where_the_bank_has_them(
+        tmp_path, monkeypatch, seeded):
+    """Every paper for a class started with the same questions: a class test
+    shared 15 of its 16 with the half-yearly. A teacher's recent papers for
+    the class and subject now rank last, as "Make another like this" always
+    did, and the check before generating says when one must repeat."""
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        first = _generate(client, t1)
+        second = _generate(client, t1)
+        ones = lambda p: {q["questionId"] for s in p["sections"] for q in s["questions"]  # noqa: E731
+                          if q["marks"] == 1}
+        assert ones(first).isdisjoint(ones(second)), (ones(first), ones(second))
+
+        # Bob's papers are his own: Ana's do not change what he is given.
+        bob = _register(client, "school_1", "bob@example.com")
+        assert ones(_generate(client, bob)) == ones(first)
+
+        # A third paper of Ana's runs out of fresh 3-mark questions and says so,
+        # in the check before generating and on the paper alike.
+        tid = client.get(BASE, headers=t1).json()["mine"][0]["id"]
+        check = client.post(f"{BASE}/{tid}/availability", json={}, headers=t1).json()
+        notes = [n for s in check["sections"] for n in s["notes"]]
+        assert any("repeat your recent papers" in n or "repeats your recent papers" in n
+                   for n in notes), notes
+        assert not any("cbe:q" in n or "t0" in n.split() for n in notes), "no bank ids in notes"
+
+
+def test_the_paper_carries_its_exam_type_for_the_report_card(tmp_path, monkeypatch, seeded):
+    """QA P-21: a Half-yearly printed on the report card as "Test" because
+    the paper's metadata never held the template's exam type."""
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        paper = _generate(client, t1)
+        assert paper["metadata"]["examType"] == "unit_test"
+        stored = client.get(f"/api/v1/papers/{paper['id']}", headers=t1).json()
+        assert stored["metadata"]["examType"] == "unit_test"

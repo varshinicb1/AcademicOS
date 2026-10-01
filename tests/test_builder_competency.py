@@ -348,20 +348,27 @@ def test_the_served_bank_reads_as_the_builder_will_show_it(tmp_path, monkeypatch
         # Measured on the rebuilt bank (2026-09-28), which no longer serves the
         # CBE items that point at a figure they do not carry.
         assert half["competency"]["summary"] == "Competency-based: 10 of 30 questions (33%)"
+        # 22 of 31 (71%) until 2026-10-01, when a whole-syllabus paper began
+        # to rank the questions filed under no current chapter last (QA P-04):
+        # many of the bank's competency-based items are among them.
         assert half["competency"]["detail"] == (
-            "Below CBSE's 50%. The whole syllabus would give 22 of 31 (71%).")
+            "Below CBSE's 50%. The whole syllabus would give 17 of 31 (55%).")
         assert half["tiers"]["available"] is False
 
         six = availability("preset:cbse:6:science:annual", [])
         assert six["competency"]["status"] == "below_bank"
-        assert six["competency"]["summary"] == "Competency-based: 10 of 36 questions (28%)"
+        # 10 of 36 (28%) before the same change: the template's per-section
+        # competency target is still met, the extra competency items the
+        # unmatched questions brought in by rank are not taken first now.
+        assert six["competency"]["summary"] == "Competency-based: 7 of 36 questions (19%)"
         assert six["competency"]["detail"] == (
             "Below CBSE's 50%. The Class 6 Science bank cannot reach it with this template: "
             "12 of the 243 questions it can use (5%) are competency-based.")
 
         maths = availability("preset:cbse:10:mathematics:annual", [])
         assert maths["competency"]["status"] == "meets"
-        assert maths["competency"]["summary"] == "Competency-based: 36 of 38 questions (95%)"
+        # 36 of 38 (95%) before the same change; still well over CBSE's 50%.
+        assert maths["competency"]["summary"] == "Competency-based: 34 of 38 questions (89%)"
         e = next(s for s in maths["sections"] if s["title"].startswith("Section E"))
         assert (e["filled"], e["needed"]) == (3, 3), e
 

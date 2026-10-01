@@ -304,10 +304,10 @@ def choose_swap(slot: Slot, rule: SlotRule, bank: Bank, printed: list[Printed],
         -iq[1].quality_score, iq[1].id))
     notes = []
     if best.id in other_sets:
-        notes.append(f"{slot.label}: {best.id} is also printed on another set of this paper -- "
-                     "no other question in the paper's chapters fits this slot.")
+        notes.append(f"{slot.label}: the new question is also printed on another set of this "
+                     "paper -- no other question in the paper's chapters fits this slot.")
     if best.id in recent:
-        notes.append(f"{slot.label}: {best.id} is on one of your recent papers (your last "
+        notes.append(f"{slot.label}: the new question is on one of your recent papers (your last "
                      f"{RECENT_PAPERS} for this class and subject) -- no other question "
                      "in the paper's chapters fits this slot.")
     if not inside:
@@ -366,12 +366,13 @@ def check_pick(slot: Slot, rule: SlotRule, bank: Bank, question_id: str,
         notes.append(f"{slot.label}: {question_id} is not competency-based, which this "
                      "section asks for.")
     if not rule.scope.in_scope(q):
-        notes.append(f"{slot.label}: {question_id} is from outside the paper's chapters.")
+        notes.append(f"{slot.label}: the question you picked is from outside the paper's chapters.")
     if question_id in recent:
-        notes.append(f"{slot.label}: {question_id} is on one of your recent papers (your "
-                     f"last {RECENT_PAPERS} for this class and subject).")
+        notes.append(f"{slot.label}: the question you picked is on one of your recent papers "
+                     f"(your last {RECENT_PAPERS} for this class and subject).")
     if question_id in other_sets:
-        notes.append(f"{slot.label}: {question_id} is also printed on another set of this paper.")
+        notes.append(f"{slot.label}: the question you picked is also printed on another set "
+                     "of this paper.")
     return Choice(q, notes)
 
 

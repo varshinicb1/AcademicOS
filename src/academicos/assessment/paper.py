@@ -156,6 +156,9 @@ def generate_paper(*, paper_id: str, assessment_id: str, assessment_title: str,
             total_marks=total_marks,
             duration_minutes=blueprint.duration_minutes,
             generated_at=datetime.now(timezone.utc),
+            # The report card names a paper by it; it stayed None, so a
+            # Half-yearly printed as "Test" (QA P-21).
+            exam_type=blueprint.exam_type,
         ),
         set_label=set_label,
     )

@@ -279,6 +279,10 @@ class ScopeFilter:
     """`in_scope(q)` plus the notes explaining what the filter could not do."""
     in_scope: Callable[[QuestionSchema], bool]
     notes: list[str] = field(default_factory=list)
+    # In scope, but printed only where nothing else fits (`plan` ranks them
+    # with the stale ones): on a whole-syllabus paper, the questions not
+    # filed under a chapter of the class's current syllabus.
+    last_resort: frozenset[str] = frozenset()
 
 
 def build_scope_filter(scope: TemplateScope, candidates: list[QuestionSchema],
@@ -312,6 +316,7 @@ def build_scope_filter(scope: TemplateScope, candidates: list[QuestionSchema],
                           "chosen subtopics yet, so the paper uses the chosen chapters.")
 
     in_chapters = _chapter_selector(chapters, candidates) if chapters else None
+    last_resort = frozenset() if chapters else _off_syllabus(candidates)
 
     def in_scope(q: QuestionSchema) -> bool:
         if in_chapters is not None and not in_chapters(q):
@@ -322,7 +327,30 @@ def build_scope_filter(scope: TemplateScope, candidates: list[QuestionSchema],
             return False
         return True
 
-    return ScopeFilter(in_scope=in_scope, notes=notes)
+    return ScopeFilter(in_scope=in_scope, notes=notes, last_resort=last_resort)
+
+
+def _off_syllabus(candidates: list[QuestionSchema]) -> frozenset[str]:
+    """The questions a whole-syllabus paper prints only where nothing else
+    fits: those not filed under a chapter of the class's current syllabus
+    (chapter_filing) -- the bank's unmatched ones, among them NCERT Exemplar
+    questions from chapters CBSE dropped. They ranked with every other
+    question, so a Class 10 Science annual printed three on Sources of
+    Energy (QA P-04). Ranked last rather than left out: Class 7 Mathematics
+    and Science have case-based questions only among the unmatched, and
+    leaving them out made every annual paper short. A class whose syllabus
+    is not known has none."""
+    from .chapter_filing import UNMAPPED, ChapterFiling
+    filings: dict[tuple[str, int], ChapterFiling] = {}
+    out = set()
+    for q in candidates:
+        key = (q.subject, q.grade)
+        if key not in filings:
+            filings[key] = ChapterFiling.for_class(*key)
+        filing = filings[key]
+        if filing.known and filing.chapter_of(q.taxonomy_chapter_id, q.chapter_ids) == UNMAPPED:
+            out.add(q.id)
+    return frozenset(out)
 
 
 def _chapter_selector(chosen: set[str], candidates: list[QuestionSchema],
@@ -596,6 +624,7 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
     keyed = [q for q in candidates
              if (q.id in keyed_ids if keyed_ids is not None else has_verified_key(q))]
     keyed_ids = {q.id for q in keyed}
+    recent, stale = stale, stale | scope.last_resort
     claimed: set[str] = set()
     # Every question printed so far, compulsory or OR: a later pick must not
     # repeat one of them in other words (`pool.near_duplicate`).
@@ -665,12 +694,22 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
                                                    printed_later=printed_later)
         notes.extend(choice_notes)
         notes.extend(_content_notes(section))
-        reused = [q.id for q in [*picked, *borrowed, *alternatives.values()] if q.id in stale]
-        if reused:
+        used = [*picked, *borrowed, *alternatives.values()]
+        reused = [q.id for q in used if q.id in recent]
+        off = [q.id for q in used if q.id in scope.last_resort and q.id not in recent]
+        if off:
+            many = len(off) != 1
             notes.append(
-                f"{section.title}: {len(reused)} question(s) repeat your last paper "
-                f"({', '.join(reused)}) -- the bank has no other question in these "
-                "chapters that fits the section's marks, kind and difficulty mix.")
+                f"{section.title}: {len(off)} question{'s are' if many else ' is'} not matched to "
+                "a chapter of this class's current syllabus -- the bank has nothing else that "
+                "fits. Check before printing that it is in your syllabus.")
+        if reused:
+            many = len(reused) != 1
+            notes.append(
+                f"{section.title}: {len(reused)} question{'s' if many else ''} "
+                f"{'repeat' if many else 'repeats'} your recent papers for this class -- the "
+                "bank has no other question in these chapters that fits the section's marks, "
+                "kind and difficulty mix.")
 
         filled = len(picked) + len(borrowed)
         needed = section.question_count

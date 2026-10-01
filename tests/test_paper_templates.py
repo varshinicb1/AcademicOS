@@ -1356,9 +1356,14 @@ def _choice_bank(threes: int):
 
 
 def _plan_draft(t, bank):
+    import dataclasses
+
     from academicos.assessment.paper_templates import build_scope_filter, plan
     from academicos.assessment.schemas import TemplateScope
-    return plan(t, "tpl", bank, build_scope_filter(TemplateScope(), bank))
+    # These fixtures carry no chapter, so the whole-syllabus rule would rank
+    # every one of them last and say so; it has tests of its own below.
+    scope = dataclasses.replace(build_scope_filter(TemplateScope(), bank), last_resort=frozenset())
+    return plan(t, "tpl", bank, scope)
 
 
 def test_a_section_with_internal_choice_pairs_an_or_alternative_per_choice():
@@ -1747,3 +1752,42 @@ def test_instructions_the_teacher_rewrites_on_a_copy_print_as_written(tmp_path, 
         assert r.status_code == 200, r.text
         assert r.json()["paper"]["metadata"]["instructions"] == (
             "Answer in your own words.\nMaps are attached.")
+
+
+# ---- "Whole syllabus" is the class's current syllabus first (QA P-04) --------
+
+def test_a_whole_syllabus_paper_prints_off_syllabus_questions_only_to_fill():
+    """A Class 10 Science annual printed three Exemplar questions on Sources
+    of Energy, a chapter CBSE dropped, and the bank's unmatched ones ranked
+    with the rest. They rank last now, and a section that needs one says so."""
+    from academicos.assessment.chapter_filing import ChapterFiling
+
+    known = sorted(ChapterFiling.for_class("Science", 10).known)
+    if not known:
+        pytest.skip("no Class 10 Science syllabus in this checkout")
+    on = [_q(f"on{i}", 3, f"Syllabus item number {i} about {w}?", "short_answer")
+          for i, w in enumerate(("acids", "lenses", "nephrons"))]
+    off = [_q(f"off{i}", 3, f"Dropped item number {i} about {w}?", "short_answer")
+           for i, w in enumerate(("tidal energy", "biogas plants", "solar cookers"))]
+    for q in on:
+        q.chapter_ids = [known[0]]
+    for q in on + off:
+        q.subject, q.quality_score = "Science", 0.5
+    for q in off:                    # the best-rated questions, as the Exemplar's were
+        q.quality_score = 0.99
+    from academicos.assessment.paper_templates import build_scope_filter, plan
+    from academicos.assessment.schemas import TemplateScope
+
+    def section_of(n: int):
+        t = PaperTemplateDraft.model_validate(_draft(
+            totalMarks=3 * n, scope={}, sections=[_section("Section B", n, 3)]))
+        bank = on + off
+        report, plans = plan(t, "tpl", bank, build_scope_filter(TemplateScope(), bank))
+        return {q.id for q in plans[0].picked}, report.sections[0].notes
+
+    picked, notes = section_of(3)
+    assert picked == {"on0", "on1", "on2"}
+    assert not any("not matched to a chapter" in n for n in notes), notes
+    picked, notes = section_of(4)
+    assert {"on0", "on1", "on2"} <= picked and len(picked & {"off0", "off1", "off2"}) == 1
+    assert any("1 question is not matched to a chapter" in n for n in notes), notes
