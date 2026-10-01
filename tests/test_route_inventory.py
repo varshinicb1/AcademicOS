@@ -183,6 +183,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/leave-requests"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/decision"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/cancel"),
+    ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/document"),
+    ("GET", "/api/v1/curriculum/leave-requests/{leave_id}/document"),
     ("GET", "/api/v1/curriculum/substitutions"),
     ("GET", "/api/v1/curriculum/substitutions/{sub_id}/candidates"),
     ("POST", "/api/v1/curriculum/substitutions/{sub_id}/assign"),
@@ -513,6 +515,8 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/leave-requests"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/decision"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/cancel"),
+    ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/document"),
+    ("GET", "/api/v1/curriculum/leave-requests/{leave_id}/document"),
     ("GET", "/api/v1/curriculum/substitutions"),
     ("GET", "/api/v1/curriculum/substitutions/{sub_id}/candidates"),
     ("POST", "/api/v1/curriculum/substitutions/{sub_id}/assign"),
@@ -974,7 +978,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 311: TA-2 the caller's own calendar and teaching load in the apps.
     # 314: EX-8 report cards (a student's, as JSON and PDF; a section's PDF).
     # 315: N-67-5 every section's lesson plan in one action.
-    assert len(API_ROUTES) == 315
+    # 317: N-3-17 a leave request's supporting document (attach, read).
+    assert len(API_ROUTES) == 317
 
 
 def test_docs_routes_present():

@@ -483,6 +483,12 @@ class CurriculumStore(SchoolModelMixin, CoverMixin, SchoolProfileMixin):
             self._exec("ALTER TABLE scheduled_lessons ADD COLUMN section_id TEXT")
         self._exec("CREATE INDEX IF NOT EXISTS idx_sl_plan "
                    "ON scheduled_lessons(academic_year_id, book_id, section_id)")
+        # N-3-17: a leave request's supporting document.
+        leave_cols = {r["name"] for r in self._fetchall("PRAGMA table_info(leave_requests)")}
+        for col, ddl in (("document_type", "TEXT"), ("document_name", "TEXT"), ("document_size", "INTEGER"),
+                         ("document_blob_key", "TEXT"), ("document_at", "TEXT")):
+            if col not in leave_cols:
+                self._exec(f"ALTER TABLE leave_requests ADD COLUMN {col} {ddl}")
         # SCH-3: a locked period is kept by the timetable solver.
         entry_cols = {r["name"] for r in self._fetchall("PRAGMA table_info(timetable_entries)")}
         if "locked" not in entry_cols:

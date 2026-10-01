@@ -139,6 +139,55 @@ void main() {
     expect((sent.single.data as Map)['endDate'], today);
   });
 
+  // v3 audit N-3-17: the web offered only a full day and the two halves,
+  // though the API took named periods.
+  testWidgets('Leave for named periods: the teacher picks them from their day', (tester) async {
+    await pump(tester, const MyDayPage());
+    final apply = find.text('Apply for leave');
+    await tester.scrollUntilVisible(apply, 200);
+    await tester.tap(apply);
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 300)));
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.byKey(const Key('leave-attach')), findsOneWidget, reason: 'a document can go with it');
+    await tester.tap(find.byKey(const Key('leave-kind-periods')));
+    await tester.pump(const Duration(milliseconds: 100));
+    final applyButton = tester.widget<FilledButton>(find.byKey(const Key('leave-apply')));
+    expect(applyButton.onPressed, isNull, reason: 'no period chosen yet');
+    await tester.tap(find.byKey(const Key('leave-period-1')));
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.tap(find.byKey(const Key('leave-apply')));
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 300)));
+    await tester.pump(const Duration(milliseconds: 50));
+    final sent = server.posted.where((o) => o.path == '/curriculum/leave-requests').toList();
+    expect(sent, hasLength(1));
+    expect((sent.single.data as Map)['kind'], 'periods');
+    expect((sent.single.data as Map)['periods'], [1]);
+  });
+
+  testWidgets('The principal sees named periods and the document on a request', (tester) async {
+    LocalStore.instance.authUser = {'id': 'p1', 'schoolId': 'school_1', 'role': 'principal', 'name': 'Priya'};
+    server.answers['/curriculum/academic-years'] = '[{"id":"y1","startDate":"2026-04-01","endDate":"2027-03-31"}]';
+    server.answers['/curriculum/teacher-attendance'] =
+        '{"date":"2026-10-01","rows":[{"teacherId":"u2","name":"Ana","status":"unmarked"}],"substitutions":[]}';
+    server.answers['/curriculum/leave-requests'] = '[{"id":"l1","teacherId":"u2","startDate":"2026-10-02",'
+        '"endDate":"2026-10-02","kind":"periods","periods":[3,5],"reason":"doctor","status":"pending",'
+        '"document":{"contentType":"application/pdf","name":"certificate.pdf","size":2048,"uploadedAt":"x"}}]';
+    await pump(tester, const CoverPage());
+    expect(tester.takeException(), isNull);
+    expect(find.textContaining('(periods 3, 5)'), findsOneWidget);
+    expect(find.byKey(const Key('leave-document-l1')), findsOneWidget);
+    expect(find.byTooltip('Open certificate.pdf'), findsOneWidget);
+  });
+
+  test('a leave reads as its kind', () {
+    expect(leaveKindLabel({'kind': 'periods', 'periods': [3, 5]}), 'periods 3, 5');
+    expect(leaveKindLabel({'kind': 'first_half'}), '1st half');
+    expect(leaveKindLabel({'kind': 'full_day'}), 'full day');
+    expect(leaveDocumentType('Scan.JPG'), 'image/jpeg');
+    expect(leaveDocumentType('certificate.pdf'), 'application/pdf');
+    expect(leaveDocumentType('note.docx'), isNull);
+  });
+
   testWidgets('Today: the student sees times, the room and a changed period', (tester) async {
     LocalStore.instance.authUser = {'id': 's1', 'schoolId': 'school_1', 'role': 'student', 'name': 'Asha'};
     await pump(tester, const StudentTodayPage());

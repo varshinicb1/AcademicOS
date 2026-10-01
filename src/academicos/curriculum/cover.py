@@ -167,6 +167,13 @@ class LeaveRequest:
     created_at: str
     decided_by: Optional[str] = None
     decided_at: Optional[str] = None
+    # A supporting document (a medical certificate; SCH-5, v3 audit N-3-17),
+    # kept on disk and in the blob store by cover_routes; one per request.
+    document_type: Optional[str] = None
+    document_name: Optional[str] = None
+    document_size: Optional[int] = None
+    document_blob_key: Optional[str] = None
+    document_at: Optional[str] = None
 
 
 @dataclass
@@ -377,6 +384,16 @@ class CoverMixin:
     def get_leave(self, leave_id: str) -> Optional[LeaveRequest]:
         r = self._fetchone("SELECT * FROM leave_requests WHERE id=?", (leave_id,))
         return self._leave_from_row(r) if r else None
+
+    def set_leave_document(self, leave_id: str, *, content_type: str, name: str, size: int,
+                           blob_key: Optional[str]) -> LeaveRequest:
+        """Record the request's supporting document (replacing any earlier one)."""
+        with self._conn_lock:
+            self._exec("UPDATE leave_requests SET document_type=?, document_name=?, document_size=?, "
+                       "document_blob_key=?, document_at=? WHERE id=?",
+                       (content_type, name, size, blob_key, _now(), leave_id))
+        self._commit()
+        return self.get_leave(leave_id)
 
     def leave_for_teacher(self, teacher_id: str) -> list[LeaveRequest]:
         return [self._leave_from_row(r) for r in self._fetchall(
