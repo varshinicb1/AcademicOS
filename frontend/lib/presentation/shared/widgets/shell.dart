@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -236,6 +237,15 @@ int navIndexFor(List<NavItem> items, String location) {
 /// The signed-in role, or '' when there is no local store to read it from
 /// (a widget test that mounts the shell alone).
 String _signedInRole() => Hive.isBoxOpen('academicos_cache') ? CurrentSession.role : '';
+
+/// The signed-in teacher's admin capabilities (`/my-grants`), loaded once per
+/// session; empty until they arrive, offline, and for every other role. A
+/// page that offers an admin's action -- the exams admin's changes to a
+/// colleague's paper -- reads them here instead of asking the server again.
+ValueListenable<Set<String>> myGrants() {
+  _Grants.ensureLoaded(_signedInRole());
+  return _Grants.caps;
+}
 
 /// A teacher's admin capabilities (`/my-grants`), fetched once per session
 /// and shared by every shell build; empty until they arrive, or offline.

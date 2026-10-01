@@ -97,7 +97,7 @@ void main() {
       }
     });
 
-    testWidgets('a reopened paper: Export Answer Key then Download Answer Key fit and download at $name',
+    testWidgets('a reopened paper: one press on Download answer key fits and downloads at $name',
         (tester) async {
       final (assessment, paper) = _reviewedPaper();
       // ApiClient asks for /export/answerKey (ExportFormat.name); the server
@@ -121,21 +121,19 @@ void main() {
 
       Finder button(String label) =>
           find.ancestor(of: find.text(label), matching: find.byWidgetPredicate((w) => w is ButtonStyleButton));
-      // The Export card is below all 39 questions: a long way down on a phone.
-      await tester.scrollUntilVisible(find.text('Export PDF'), 800,
+      // The download card is below all 39 questions: a long way down on a
+      // phone. The paper has sets A and B; Set A is on screen.
+      await tester.scrollUntilVisible(find.text('Download Set A paper (PDF)'), 800,
           maxScrolls: 200, scrollable: find.byType(Scrollable).first);
-      await scrollToAndExpectReady(tester, button('Export PDF'), size, label: 'Export PDF');
-      final exportKey = button('Export Answer Key & Marking Scheme');
-      await scrollToAndExpectReady(tester, exportKey, size, label: 'Export Answer Key');
+      await scrollToAndExpectReady(tester, button('Download Set A paper (PDF)'), size, label: 'Download paper');
+      final key = button('Download Set A answer key (PDF)');
+      await scrollToAndExpectReady(tester, key, size, label: 'Download answer key');
 
-      await tester.tap(exportKey);
+      // One press exports and downloads (QA P-24), under a name a teacher
+      // can find again.
+      await tester.tap(key);
       await tester.pumpAndSettle();
-      expectNoOverflow(tester, where: ' after exporting the answer key');
-      final download = button('Download Answer Key');
-      await scrollToAndExpectReady(tester, download, size, label: 'Download Answer Key');
-      await tester.tap(download);
-      await tester.pumpAndSettle();
-      expect(saver.saved, ['${paper.id}_answer_key.pdf']);
+      expect(saver.saved, ['class_10_science_half_yearly_examination_set_a_answer_key.pdf']);
       expect(server.requests, ['POST /papers/${paper.id}/export/answerKey', 'GET /papers/${paper.id}/file']);
       expectNoOverflow(tester, where: ' after downloading');
     });
