@@ -324,6 +324,11 @@ def run(paths: Paths, *, check: bool, allow_no_board: bool = False,
 
 
 def main() -> int:
+    # Chapter labels carry the source's own text. On a Windows console the
+    # default cp1252 codec cannot encode all of it, and the report died
+    # mid-table with UnicodeEncodeError on the first non-Latin label.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="backslashreplace")
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--check", action="store_true", help="report only; write nothing")
     ap.add_argument("--allow-no-board", action="store_true",

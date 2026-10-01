@@ -130,3 +130,15 @@ academicos-data/corpus/cbse-sqp/*/*.pdf
 
 # Firebase CLI deploy cache, written by `firebase deploy` (docs/deploy-by-hand.md).
 .firebase/
+
+# Wrangler local state: account cache, build output and dev artefacts written by
+# `wrangler deploy` / `wrangler dev`. The wrangler.toml files are committed
+# because the bindings have to be, but nothing wrangler writes at runtime is.
+.wrangler/
+
+# Test copies of corpora that live in the data directory. These were made in the
+# worktree so the merge and tag runs had something to read; the originals are not
+# in the repository and neither should the copies be.
+academicos-data/corpus/cbse-board/
+academicos-data/corpus/cbse-sqpt/
+academicos-data/corpus/ncert-textbook/

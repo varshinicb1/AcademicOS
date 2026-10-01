@@ -1,0 +1,135 @@
+{
+  "subject": "EVS",
+  "grade": 4,
+  "book": "Our Wonderous World",
+  "source_files": [
+    "chapters_text/deev1/01.txt",
+    "chapters_text/deev1/02.txt",
+    "chapters_text/deev1/04.txt"
+  ],
+  "chapters": [
+    {
+      "id": "evs-4/living-together",
+      "name": "Living Together",
+      "number": 1,
+      "book": "Our Wonderous World",
+      "source_file": "chapters_text/deev1/01.txt",
+      "pages": [
+        1,
+        16
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "evs-4/living-together/a-tour-around-my-village",
+          "name": "A Tour Around My Village",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "evs-4/living-together/van-mahotsav-a-festival-for-planting-trees",
+          "name": "Van Mahotsav: A Festival for Planting Trees",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "evs-4/living-together/helping-hands-in-the-community",
+          "name": "Helping Hands in the Community",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "evs-4/living-together/celebrating-van-mahotsav",
+          "name": "Celebrating Van Mahotsav",
+          "page": 8,
+          "subtopics": []
+        },
+        {
+          "id": "evs-4/living-together/community-bridge-across-a-river",
+          "name": "Community Bridge Across a River",
+          "page": 8,
+          "subtopics": []
+        },
+        {
+          "id": "evs-4/living-together/sharing-a-meal",
+          "name": "Sharing a Meal",
+          "page": 10,
+          "subtopics": []
+        },
+        {
+          "id": "evs-4/living-together/our-school-our-team",
+          "name": "Our School, Our Team!",
+          "page": 12,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "evs-4/exploring-our-neighbourhood",
+      "name": "Exploring Our Neighbourhood",
+      "number": 2,
+      "book": "Our Wonderous World",
+      "source_file": "chapters_text/deev1/02.txt",
+      "pages": [
+        1,
+        16
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "evs-4/exploring-our-neighbourhood/on-our-way-back-home",
+          "name": "On Our Way Back Home",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "evs-4/exploring-our-neighbourhood/savings-for-the-future",
+          "name": "Savings for the Future",
+          "page": 7,
+          "subtopics": []
+        },
+        {
+          "id": "evs-4/exploring-our-neighbourhood/looking-around-the-neighbourhood",
+          "name": "Looking Around the Neighbourhood",
+          "page": 10,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "evs-4/growing-up-with-nature",
+      "name": "Growing up with Nature",
+      "number": 4,
+      "book": "Our Wonderous World",
+      "source_file": "chapters_text/deev1/04.txt",
+      "pages": [
+        1,
+        12
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "evs-4/growing-up-with-nature/a-journey-through-a-forest",
+          "name": "A Journey Through a Forest",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "evs-4/growing-up-with-nature/welcome-to-the-village",
+          "name": "Welcome to the Village!",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "evs-4/growing-up-with-nature/sparkling-light-happy-life",
+          "name": "Sparkling Light, Happy Life",
+          "page": 7,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}

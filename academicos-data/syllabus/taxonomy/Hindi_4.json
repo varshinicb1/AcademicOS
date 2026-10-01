@@ -1,0 +1,105 @@
+{
+  "subject": "Hindi",
+  "grade": 4,
+  "book": "Veena",
+  "source_files": [
+    "chapters_text/dhve1/01.txt",
+    "chapters_text/dhve1/02.txt",
+    "chapters_text/dhve1/04.txt"
+  ],
+  "chapters": [
+    {
+      "id": "hindi-4/चिड़िया-का-गीत",
+      "name": "चिड़िया का गीत",
+      "number": 1,
+      "book": "Veena",
+      "source_file": "chapters_text/dhve1/01.txt",
+      "pages": [
+        1,
+        16
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "hindi-4/चिड़िया-का-गीत/ऐसा-वर-दो",
+          "name": "ऐसा वर दो",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-4/चिड़िया-का-गीत/चिड़िया-का-गीत",
+          "name": "चिड़िया का गीत",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-4/चिड़िया-का-गीत/मति-की-उड़ान",
+          "name": "मति की उड़ान",
+          "page": 10,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "hindi-4/बगीचे-का-घोंघा",
+      "name": "बगीचे का घोंघा",
+      "number": 2,
+      "book": "Veena",
+      "source_file": "chapters_text/dhve1/02.txt",
+      "pages": [
+        1,
+        10
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "hindi-4/बगीचे-का-घोंघा/बगीचा-और-बाहर-जाने-का-निर्णय",
+          "name": "बगीचा और बाहर जाने का निर्णय",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-4/बगीचे-का-घोंघा/बाहर-का-मैदान-और-सूखा-पत्ता",
+          "name": "बाहर का मैदान और सूखा पत्ता",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-4/बगीचे-का-घोंघा/चींटे-गिलहरी-और-कुत्ता",
+          "name": "चींटे, गिलहरी और कुत्ता",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "hindi-4/बगीचे-का-घोंघा/खजूर-और-बड़-का-पेड़",
+          "name": "खजूर और बड़ का पेड़",
+          "page": 3,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "hindi-4/हमारा-आहार",
+      "name": "हमारा आहार",
+      "number": 4,
+      "book": "Veena",
+      "source_file": "chapters_text/dhve1/04.txt",
+      "pages": [
+        1,
+        11
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "hindi-4/हमारा-आहार/हमारा-आहार",
+          "name": "हमारा आहार",
+          "page": 1,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}

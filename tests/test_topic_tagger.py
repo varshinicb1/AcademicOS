@@ -349,6 +349,29 @@ def test_script_writes_only_tag_fields_and_the_review_queue(tmp_path):
     assert len(json.loads(queue.read_text(encoding="utf-8"))["items"]) == len(queued)
 
 
+def test_a_builder_filed_chapter_does_not_crash_the_report(tmp_path):
+    # build_textbook_bank writes taxonomyChapterId + tagMethod ("source_chapter")
+    # + tagConfidence and no topicIds. Where the tree has no entry for the
+    # record, apply_tags returns it unchanged, so the report must not read
+    # topicIds off it -- that raised KeyError on every ncert-textbook bank.
+    mod = _script()
+    filed = {
+        "id": "ncert:tb:aejm1:01:Page-6", "grade": 1, "subject": "Mathematics",
+        "stem": "Which is the furry cat?", "type": "short_answer",
+        "taxonomyChapterId": "mathematics-1/finding-the-furry-cat",
+        "tagMethod": "source_chapter", "tagConfidence": 1.0,
+    }
+    bank = tmp_path / "bank.json"
+    bank.write_text(json.dumps({"questions": [filed]}, ensure_ascii=False),
+                    encoding="utf-8")
+    queue = tmp_path / "review_queue.json"
+    assert mod.main(["--topics", str(bank), "--check", "--review-queue", str(queue)]) == 0
+    assert mod.main(["--topics", str(bank), "--review-queue", str(queue)]) == 0
+    # the builder's own fields survive: this tagger did not touch the record
+    out = json.loads(bank.read_text(encoding="utf-8"))["questions"][0]
+    assert out == filed
+
+
 def _script():
     spec = importlib.util.spec_from_file_location(
         "tag_question_bank", ROOT / "scripts" / "tag_question_bank.py")
