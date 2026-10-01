@@ -304,40 +304,76 @@ class _MyDayPageState extends State<MyDayPage> {
     }
   }
 
+  /// Leave in three taps (TA-3): Apply for leave, Today or Tomorrow, Apply.
+  /// Today is chosen when the dialog opens; other days are one more tap.
   Future<void> _applyForLeave() async {
-    DateTimeRange? range;
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final tomorrow = today.add(const Duration(days: 1));
+    DateTimeRange? range = DateTimeRange(start: today, end: today);
+    var pick = 'today';
     var kind = 'full_day';
     final reason = TextEditingController();
     final handover = TextEditingController();
     final ok = await showDialog<bool>(context: context, builder: (ctx) => StatefulBuilder(builder: (ctx, set) => AlertDialog(
       title: Text(tr('Apply for leave')),
       content: SizedBox(width: 440, child: Column(mainAxisSize: MainAxisSize.min, children: [
-        ListTile(
-          contentPadding: EdgeInsets.zero,
-          title: Text(range == null ? 'Choose the days' : '${isoDate(range!.start)} to ${isoDate(range!.end)}'),
-          trailing: const Icon(Icons.date_range),
-          onTap: () async {
-            final r = await showDateRangePicker(context: ctx, firstDate: DateTime.now().subtract(const Duration(days: 1)),
-                lastDate: DateTime.now().add(const Duration(days: 180)));
-            if (r != null) set(() => range = r);
-          },
-        ),
+        Wrap(spacing: 8, runSpacing: 8, children: [
+          ChoiceChip(
+            key: const Key('leave-today'),
+            label: Text(tr('Today')),
+            selected: pick == 'today',
+            onSelected: (_) => set(() {
+              pick = 'today';
+              range = DateTimeRange(start: today, end: today);
+            }),
+          ),
+          ChoiceChip(
+            key: const Key('leave-tomorrow'),
+            label: Text(tr('Tomorrow')),
+            selected: pick == 'tomorrow',
+            onSelected: (_) => set(() {
+              pick = 'tomorrow';
+              range = DateTimeRange(start: tomorrow, end: tomorrow);
+            }),
+          ),
+          ChoiceChip(
+            key: const Key('leave-other'),
+            avatar: const Icon(Icons.date_range, size: 18),
+            label: Text(pick == 'other' && range != null
+                ? '${isoDate(range!.start)} – ${isoDate(range!.end)}'
+                : tr('Other days')),
+            selected: pick == 'other',
+            onSelected: (_) async {
+              final r = await showDateRangePicker(context: ctx, firstDate: today.subtract(const Duration(days: 1)),
+                  lastDate: today.add(const Duration(days: 180)));
+              if (r != null) {
+                set(() {
+                  pick = 'other';
+                  range = r;
+                });
+              }
+            },
+          ),
+        ]),
+        const SizedBox(height: 12),
         SegmentedButton<String>(
-          segments: const [
-            ButtonSegment(value: 'full_day', label: Text('Full day')),
-            ButtonSegment(value: 'first_half', label: Text('1st half')),
-            ButtonSegment(value: 'second_half', label: Text('2nd half')),
+          segments: [
+            ButtonSegment(value: 'full_day', label: Text(tr('Full day'))),
+            ButtonSegment(value: 'first_half', label: Text(tr('1st half'))),
+            ButtonSegment(value: 'second_half', label: Text(tr('2nd half'))),
           ],
           selected: {kind},
           onSelectionChanged: (v) => set(() => kind = v.first),
         ),
-        TextField(controller: reason, decoration: const InputDecoration(labelText: 'Reason')),
+        TextField(controller: reason, decoration: InputDecoration(labelText: tr('Reason (optional)'))),
         TextField(controller: handover, minLines: 2, maxLines: 4,
-            decoration: const InputDecoration(labelText: 'Note for whoever covers (optional)')),
+            decoration: InputDecoration(labelText: tr('Note for whoever covers (optional)'))),
       ])),
       actions: [
         TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Cancel'))),
-        FilledButton(onPressed: range == null ? null : () => Navigator.pop(ctx, true), child: const Text('Apply')),
+        FilledButton(key: const Key('leave-apply'), onPressed: range == null ? null : () => Navigator.pop(ctx, true),
+            child: Text(tr('Apply'))),
       ],
     )));
     if (ok != true || range == null) return;
@@ -347,7 +383,10 @@ class _MyDayPageState extends State<MyDayPage> {
         'reason': reason.text.trim().isEmpty ? 'Leave' : reason.text.trim(),
         if (handover.text.trim().isNotEmpty) 'handoverNote': handover.text.trim(),
       });
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Leave applied; the principal has been asked')));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(tr('Leave applied; the principal has been asked'))));
+      }
       _load();
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
