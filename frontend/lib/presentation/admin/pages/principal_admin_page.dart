@@ -395,6 +395,22 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     }
   }
 
+  /// PUSH's date comes from a calendar, never free text (audit D116): the
+  /// server compared a typed date as text, so "2026-10-5" pushed from
+  /// November and "2026-13-05" pushed every 2027 lesson.
+  Future<void> _pickPushDate() async {
+    final current = DateTime.tryParse(_pushDateController.text) ?? DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: current,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2035),
+    );
+    if (picked != null && mounted) {
+      setState(() => _pushDateController.text = picked.toString().substring(0, 10));
+    }
+  }
+
   Future<void> _submitAdjustLesson() async {
     final lessonId = _adjustLessonIdController.text.trim();
     final targetDate = _adjustDateController.text.trim();
@@ -1190,10 +1206,14 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
               ),
               const Gap(12),
               TextFormField(
+                key: const ValueKey('push-from-date'),
                 controller: _pushDateController,
+                readOnly: true,
+                onTap: _pickPushDate,
                 decoration: const InputDecoration(
-                  labelText: 'Disruption Date (YYYY-MM-DD)',
+                  labelText: 'Disruption Date',
                   hintText: 'Lessons on or after this date will shift',
+                  suffixIcon: Icon(Icons.calendar_today),
                 ),
               ),
               const Gap(12),

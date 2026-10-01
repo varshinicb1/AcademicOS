@@ -25,6 +25,22 @@ from .models import RECORDED_STATUSES
 from .store import CurriculumStore
 
 
+def iso_day(value: str, field_name: str = "fromDate") -> date:
+    """`value` as a date, or ValueError when it is not a real YYYY-MM-DD day.
+    PUSH took fromDate as text and compared it as text (audit D116):
+    "2026-13-05" was accepted and moved every 2027 lesson, and "2026-10-5"
+    sorts after every October date, so it pushed from November. Python 3.11+
+    fromisoformat also reads '20261005' and '2026-W41-1', so the canonical
+    form is required too."""
+    try:
+        day = date.fromisoformat(value)
+    except (TypeError, ValueError):
+        raise ValueError(f"{field_name} {value!r} is not a YYYY-MM-DD date") from None
+    if day.isoformat() != value:
+        raise ValueError(f"{field_name} {value!r} is not a YYYY-MM-DD date")
+    return day
+
+
 def _resolve_cadence(store: CurriculumStore, academic_year_id: str, book_id: str,
                      periods_per_week: Optional[int], section_id: Optional[str] = None) -> int:
     """The periods a week this book's lessons are laid out at, for PUSH --
@@ -411,18 +427,22 @@ def _reflow(store: CurriculumStore, audit_log: AuditLog, *, academic_year_id: st
     'scheduled' on its old date while the lesson before it was moved onto
     that same date -- a double-booked day. Losing its day is logged like a
     move (mode 'unscheduled', no new date), so the lesson's history says
-    why it has none."""
+    why it has none.
+
+    `from_date` must be a YYYY-MM-DD day (iso_day), and every comparison
+    is between dates, not strings (audit D116)."""
+    from_day = iso_day(from_date)
     on_or_after = [l for l in store.scheduled_lessons_for_book(academic_year_id, book_id, section_id)
-                   if l.date >= from_date]
+                   if date.fromisoformat(l.date) >= from_day]
     affected = [l for l in on_or_after if l.status == "scheduled"]   # date, then delivery order
     if not affected:
         return [], []
     held = Counter(l.date for l in on_or_after if l.status in RECORDED_STATUSES)
 
-    slots = [d.isoformat() for d in
-             calendar_mod.teaching_slots_for_book(store, academic_year_id, book_id, periods_per_week,
-                                                  section_id)]
-    start = next((i for i, d in enumerate(slots) if d >= from_date), None)
+    days = calendar_mod.teaching_slots_for_book(store, academic_year_id, book_id, periods_per_week,
+                                                section_id)
+    slots = [d.isoformat() for d in days]
+    start = next((i for i, d in enumerate(days) if d >= from_day), None)
     if start is None:
         raise ValueError(
             f"{from_date} is at or after the end of this academic year's real teaching days")
@@ -514,7 +534,11 @@ def push_lessons_after(
 
     Lessons that run past the real academic year's last teaching day are
     reported in `lessons_dropped` and marked 'unscheduled', never placed
-    past the calendar's real end date or left holding a day."""
+    past the calendar's real end date or left holding a day.
+
+    `from_date` that is not a YYYY-MM-DD day is a ValueError (the route's
+    422) before anything moves (audit D116)."""
+    iso_day(from_date)
     cadence = _resolve_cadence(store, academic_year_id, book_id, periods_per_week, section_id)
     moves, dropped = _reflow(store, audit_log, academic_year_id=academic_year_id, book_id=book_id,
                              periods_per_week=cadence, from_date=from_date, skip_disruption_day=True,
