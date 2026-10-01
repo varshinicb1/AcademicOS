@@ -400,6 +400,7 @@ def new_id(prefix: str) -> str:
 from .cover import COVER_SCHEMA, CoverMixin
 from .school_model import SCHOOL_MODEL_SCHEMA, SchoolModelMixin
 from .school_profile import SCHOOL_PROFILE_SCHEMA, SchoolProfileMixin
+from .teaching_groups import TEACHING_GROUPS_SCHEMA, TeachingGroupsMixin
 
 
 class SectionInUse(Exception):
@@ -407,7 +408,7 @@ class SectionInUse(Exception):
     its grade's last. The route's 409."""
 
 
-class CurriculumStore(SchoolModelMixin, CoverMixin, SchoolProfileMixin):
+class CurriculumStore(SchoolModelMixin, TeachingGroupsMixin, CoverMixin, SchoolProfileMixin):
     _SNAPSHOT_KEY = "curriculum.sqlite"
     _SNAPSHOT_DEBOUNCE_SECONDS = 30.0
 
@@ -442,7 +443,8 @@ class CurriculumStore(SchoolModelMixin, CoverMixin, SchoolProfileMixin):
         on start, and after a snapshot conflict reloads one an older release
         wrote. Executes only; the caller commits."""
         with self._conn_lock:
-            self.conn.executescript(SCHEMA + SCHOOL_MODEL_SCHEMA + COVER_SCHEMA + SCHOOL_PROFILE_SCHEMA)
+            self.conn.executescript(SCHEMA + SCHOOL_MODEL_SCHEMA + TEACHING_GROUPS_SCHEMA + COVER_SCHEMA
+                                    + SCHOOL_PROFILE_SCHEMA)
             self._migrate()
 
     def _migrate(self) -> None:
@@ -901,6 +903,10 @@ class CurriculumStore(SchoolModelMixin, CoverMixin, SchoolProfileMixin):
                 raise SectionInUse(
                     f"{len(enrolled)} student(s) are enrolled in this section; "
                     "enroll them in another section first")
+            # Its groups (N-3-20) go on with their other sections.
+            for g in self.groups_for_section(section_id):
+                g.section_ids = [s for s in g.section_ids if s != section_id]
+                self._write_group(g)
             self._exec("DELETE FROM sections WHERE id=?", (section_id,))
         self._commit()
         return sec
