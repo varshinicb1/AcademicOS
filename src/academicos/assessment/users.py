@@ -802,9 +802,15 @@ class UserStore:
         caller supplied the exact match. Constant-time compare so a wrong
         guess can't be timed to learn the real key; empty/`None` on either
         side always fails closed (never grants principal by default)."""
-        if not self._principal_key or not supplied:
+        # Whitespace around a key is never part of it. The live secret was
+        # stored with a trailing newline (`echo key | gcloud secrets create`),
+        # and the web trims what is typed, so every principal registration on
+        # live was refused with 403 until 2026-10-01.
+        configured = (self._principal_key or "").strip()
+        supplied = (supplied or "").strip()
+        if not configured or not supplied:
             return False
-        return secrets.compare_digest(supplied, self._principal_key)
+        return secrets.compare_digest(supplied, configured)
 
 
 def _is_unique_violation(exc: BaseException) -> bool:
