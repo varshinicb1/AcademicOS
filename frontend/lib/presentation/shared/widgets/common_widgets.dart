@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/theme/emergera.dart';
 
 import '../../../core/constants/app_constants.dart';
 import 'package:academicos/core/theme/app_theme.dart';
@@ -221,17 +222,20 @@ class ChipTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bgColor = color ?? Theme.of(context).colorScheme.primaryContainer;
-    final textColor = color != null ? Colors.white : Theme.of(context).colorScheme.onPrimaryContainer;
+    // With no colour: the brand's ember chip (.em-chip--ember).
+    final em = EmSurfaces.of(Theme.of(context).brightness);
+    final bgColor = color ?? em.chipEmberBg;
+    final textColor = color != null ? Colors.white : em.chipEmberFg;
 
     return Chip(
       label: Text(label,
           softWrap: false,
           overflow: TextOverflow.visible,
-          style: TextStyle(color: textColor, fontSize: 11, fontWeight: FontWeight.w500)),
+          style: TextStyle(color: textColor, fontSize: 12, fontWeight: FontWeight.w500)),
       avatar: icon != null ? Icon(icon, size: 14, color: textColor) : null,
       backgroundColor: bgColor,
-      side: BorderSide.none,
+      side: color == null ? BorderSide(color: em.chipEmberRim) : BorderSide.none,
+      shape: const StadiumBorder(),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
       labelPadding: const EdgeInsets.symmetric(horizontal: 4),
       deleteIcon: onDeleted != null ? Icon(Icons.close, size: 14, color: textColor) : null,

@@ -12,6 +12,7 @@ import 'core/local_engine/app_lock.dart';
 import 'core/local_engine/secure_box.dart';
 import 'core/local_server/local_server_manager.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/emergera.dart';
 import 'core/theme/theme_controller.dart';
 import 'core/routing/app_router.dart';
 import 'presentation/blocs/assessment_bloc.dart';
@@ -99,7 +100,7 @@ class AcademicOSApp extends ConsumerWidget {
                     .clamp(AppConstants.minTextScale, AppConstants.maxTextScale),
               ),
             ),
-            child: AppLockGate(child: child!),
+            child: EmBackdrop(child: AppLockGate(child: child!)),
           );
         },
         ),
