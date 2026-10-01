@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/constants/wording.dart';
 import '../../../core/session/current_session.dart';
 import '../../../data/datasources/api/api_client.dart';
 import '../../../data/datasources/api/api_error.dart';
@@ -12,8 +14,12 @@ import '../../blocs/assessment_bloc.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 import '../../paper_builder/pages/paper_builder_page.dart' show newPaperLocation;
+import '../widgets/paper_actions.dart';
 import 'package:academicos/core/theme/app_theme.dart';
 
+/// The teacher's papers (the principal's: the school's), newest first as
+/// the server sends them, each with its class, printed marks, author and
+/// date.
 class AssessmentListPage extends StatefulWidget {
   const AssessmentListPage({super.key});
 
@@ -22,10 +28,56 @@ class AssessmentListPage extends StatefulWidget {
 }
 
 class _AssessmentListPageState extends State<AssessmentListPage> {
+  GoRouter? _router;
+
+  /// Whether this list was the page on screen at the last route change.
+  bool _shown = true;
+
+  late final ValueListenable<Set<String>> _grants = myGrants();
+
   @override
   void initState() {
     super.initState();
-    context.read<AssessmentBloc>().add(AssessmentEvent.loadAssessmentsBySchool(CurrentSession.schoolId));
+    _grants.addListener(_grantsChanged);
+    _reload();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final router = GoRouter.maybeOf(context);
+    if (router != _router) {
+      _router?.routerDelegate.removeListener(_routeChanged);
+      _router = router;
+      _router?.routerDelegate.addListener(_routeChanged);
+    }
+  }
+
+  @override
+  void dispose() {
+    _router?.routerDelegate.removeListener(_routeChanged);
+    _grants.removeListener(_grantsChanged);
+    super.dispose();
+  }
+
+  void _grantsChanged() {
+    if (mounted) setState(() {});
+  }
+
+  void _reload() =>
+      context.read<AssessmentBloc>().add(AssessmentEvent.loadAssessmentsBySchool(CurrentSession.schoolId));
+
+  /// The builder and a paper open above this page, which stays alive under
+  /// them: it loaded once, so a paper saved in the builder was missing until
+  /// a browser reload (QA P-06). It is read again whenever it is the page on
+  /// screen once more -- back from the builder or a paper, or the sidebar.
+  void _routeChanged() {
+    // The top route, not the configuration's uri: a push (the builder, a
+    // paper) leaves the uri at the page it was pushed from.
+    final routes = _router?.routerDelegate.currentConfiguration;
+    final shown = routes != null && routes.isNotEmpty && routes.last.matchedLocation == '/assessment';
+    if (shown && !_shown && mounted) _reload();
+    _shown = shown;
   }
 
   @override
@@ -36,51 +88,53 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
         title: const Text('Papers'),
         actions: [
           IconButton(
-            tooltip: 'Quick paper (CBSE pattern)',
-            icon: const Icon(Icons.flash_on),
-            // On a phone these two icons are the only way from this screen to
-            // a paper; Material's default leaves them 40 px square, under the
-            // 44 px a thumb reliably hits (Task 801). An IconButton needs no
-            // visualDensity with it -- _IconButtonDefaultsM3 already pins
-            // `standard` (icon_button.dart:1152), so a desktop browser's
-            // `compact` theme density never reaches this minimum, which the
-            // desktop-density test in
-            // test/responsive/assessment_list_responsive_test.dart holds.
+            tooltip: 'Refresh',
+            icon: const Icon(Icons.refresh),
+            // On a phone these actions are thumb-sized (Task 801); an
+            // IconButton keeps the minimum on a desktop density too (see
+            // test/responsive/assessment_list_responsive_test.dart).
             style: IconButton.styleFrom(minimumSize: const Size(48, 48)),
-            // Online, the quick paper is the builder with the CBSE preset
-            // already chosen (Task 902); the offline build keeps its dialog.
-            onPressed: () => newPaperLocation(quick: true) == '/assessment/create'
-                ? _showQuickPaperDialog(context)
-                : context.push(newPaperLocation(quick: true)),
+            onPressed: _reload,
           ),
-          IconButton(
-            tooltip: 'Create assessment',
-            icon: const Icon(Icons.add),
-            style: IconButton.styleFrom(minimumSize: const Size(48, 48)),
-            onPressed: () => context.push(newPaperLocation()),
+          // A word, not a bare icon: two icons with only tooltips sat beside
+          // "New paper", and one of them was the same thing (QA P-14).
+          Tooltip(
+            message: 'Quick paper (CBSE pattern)',
+            child: TextButton.icon(
+              key: const ValueKey('quick-paper'),
+              // A TextButton, unlike an IconButton, takes the theme's
+              // density: a desktop browser's `compact` drew it 40 px tall.
+              style: TextButton.styleFrom(minimumSize: const Size(48, 48), visualDensity: VisualDensity.standard),
+              icon: const Icon(Icons.flash_on),
+              label: const Text('Quick paper'),
+              // Online, the quick paper is the builder on the class's CBSE
+              // annual pattern (Task 902); the offline build keeps its dialog.
+              onPressed: () => newPaperLocation(quick: true) == '/assessment/create'
+                  ? _showQuickPaperDialog(context)
+                  : context.push(newPaperLocation(quick: true)),
+            ),
           ),
+          const SizedBox(width: 8),
         ],
       ),
       body: BlocBuilder<AssessmentBloc, AssessmentState>(
         builder: (context, state) {
           return state.maybeWhen(
             loading: () => const Center(child: CircularProgressIndicator()),
-            assessmentsLoaded: (assessments) => _buildList(context, assessments),
-            error: (message) => ErrorDisplay(
-              message: message,
-              onRetry: () => context
-                  .read<AssessmentBloc>()
-                  .add(AssessmentEvent.loadAssessmentsBySchool(CurrentSession.schoolId)),
+            assessmentsLoaded: (assessments) => RefreshIndicator(
+              onRefresh: () async {
+                final bloc = context.read<AssessmentBloc>();
+                _reload();
+                await bloc.stream.firstWhere((s) => s.maybeMap(loading: (_) => false, orElse: () => true));
+              },
+              child: _buildList(context, assessments),
             ),
+            error: (message) => ErrorDisplay(message: message, onRetry: _reload),
             // Any other state (e.g. left over from the create flow) isn't a
             // list result — re-fetch rather than rendering a misleading empty list.
             orElse: () {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (mounted) {
-                  context
-                      .read<AssessmentBloc>()
-                      .add(AssessmentEvent.loadAssessmentsBySchool(CurrentSession.schoolId));
-                }
+                if (mounted) _reload();
               });
               return const Center(child: CircularProgressIndicator());
             },
@@ -97,22 +151,26 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
 
   Widget _buildList(BuildContext context, List<Assessment> assessments) {
     if (assessments.isEmpty) {
-      return const Center(
-        child: Padding(
-          padding: EdgeInsets.all(24),
-          child: Text(
-            'No assessments yet.\nTap "New Assessment" to build one with the AI Assessment Designer.',
-            textAlign: TextAlign.center,
+      // Scrollable, so pulling down to refresh works on an empty list too.
+      return ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: const [
+          Padding(
+            padding: EdgeInsets.fromLTRB(24, 120, 24, 24),
+            child: Text('No papers yet. Start one with New paper.', textAlign: TextAlign.center),
           ),
-        ),
+        ],
       );
     }
+    final theme = Theme.of(context);
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
       itemCount: assessments.length,
       itemBuilder: (context, index) {
         final a = assessments[index];
         return AppCard(
+          key: ValueKey('paper-${a.id}'),
           onTap: () => context.push('/assessment/${a.id}', extra: {'assessment': a}),
           child: Row(
             children: [
@@ -120,17 +178,41 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(a.title, style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+                    Text(a.title, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
                     const SizedBox(height: 4),
-                    Text('${a.subject} · Grade ${a.grade} · ${a.blueprint.totalMarks} marks',
-                        style: Theme.of(context).textTheme.bodySmall),
+                    // The printed total: 79 once a question is removed, not
+                    // the template's 80 (QA P-16).
+                    Text('${a.subject} · Class ${a.grade} · ${marksText(paperMarksOf(a))}',
+                        style: theme.textTheme.bodySmall),
+                    Text(paperByline(a),
+                        style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
                   ],
                 ),
               ),
               ChipTag(label: a.status.label),
+              _rowMenu(context, a),
             ],
           ),
         );
+      },
+    );
+  }
+
+  /// Rename and Delete on the row, for whoever may (QA P-07, P-09); the
+  /// list is read again after either.
+  Widget _rowMenu(BuildContext context, Assessment a) {
+    final can = PaperPermissions.of(a, grants: _grants.value);
+    final items = <PopupMenuEntry<String>>[
+      if (paperIsEditable(a) && can.mayChange) const PopupMenuItem(value: 'rename', child: Text('Rename')),
+      if (can.mayDelete) const PopupMenuItem(value: 'delete', child: Text('Delete')),
+    ];
+    if (items.isEmpty) return const SizedBox(width: 8);
+    return PopupMenuButton<String>(
+      tooltip: 'Actions for ${a.title}',
+      itemBuilder: (_) => items,
+      onSelected: (v) async {
+        final changed = v == 'rename' ? await renamePaper(context, a) != null : await deletePaper(context, a);
+        if (changed && mounted) _reload();
       },
     );
   }
@@ -195,15 +277,15 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                     const SizedBox(height: 16),
                     DropdownButtonFormField<int>(
                       value: selectedGrade,
-                      decoration: const InputDecoration(labelText: 'Grade'),
+                      decoration: const InputDecoration(labelText: 'Class'),
                       items: const [
-                        DropdownMenuItem(value: 12, child: Text('Grade 12')),
-                        DropdownMenuItem(value: 11, child: Text('Grade 11')),
-                        DropdownMenuItem(value: 10, child: Text('Grade 10')),
-                        DropdownMenuItem(value: 9, child: Text('Grade 9')),
-                        DropdownMenuItem(value: 8, child: Text('Grade 8')),
-                        DropdownMenuItem(value: 7, child: Text('Grade 7')),
-                        DropdownMenuItem(value: 6, child: Text('Grade 6')),
+                        DropdownMenuItem(value: 12, child: Text('Class 12')),
+                        DropdownMenuItem(value: 11, child: Text('Class 11')),
+                        DropdownMenuItem(value: 10, child: Text('Class 10')),
+                        DropdownMenuItem(value: 9, child: Text('Class 9')),
+                        DropdownMenuItem(value: 8, child: Text('Class 8')),
+                        DropdownMenuItem(value: 7, child: Text('Class 7')),
+                        DropdownMenuItem(value: 6, child: Text('Class 6')),
                       ],
                       onChanged: (v) => setDialogState(() {
                         selectedGrade = v!;
