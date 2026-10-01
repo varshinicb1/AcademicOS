@@ -291,7 +291,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(path: 'practice/:id',
                   builder: (context, state) => PracticePage(practiceId: state.pathParameters['id']!)),
               GoRoute(path: 'marks/:paperId',
-                  builder: (context, state) => MarksPage(paperId: state.pathParameters['paperId']!)),
+                  builder: (context, state) => MarksPage(
+                      paperId: state.pathParameters['paperId']!,
+                      grade: (state.extra as Map<String, dynamic>?)?['grade'] as int?)),
             ],
           ),
           GoRoute(
