@@ -8,7 +8,9 @@ Hard rules
 - a teacher is in one place at a time -- compared by CLOCK TIME, not by
   period number, so a junior wing on its own bell cannot hide a clash;
 - a teacher teaches at most `max_per_day` periods a day and at most
-  `max_consecutive` in a row;
+  `max_consecutive` in a row -- also by clock time: periods that touch, or
+  whose gap is shorter than a break, are in a row, whichever bell each one
+  is on;
 - a subject gets at most ceil(periods / days) periods in a section's day
   (spread across the week);
 - a teacher's unavailable periods stay free;
@@ -76,6 +78,40 @@ class SolveResult:
 def _minutes(hhmm: str) -> int:
     h, m = hhmm.split(":")
     return int(h) * 60 + int(m)
+
+
+# Two of a teacher's periods closer than a break on the clock are in a row.
+# A school whose bells declare no break: a gap this long is one.
+DEFAULT_BREAK_MINUTES = 10
+
+
+def break_minutes(bells) -> int:
+    """The shortest break any of the year's bells declares (SCH-3): a gap
+    between two periods shorter than this is no rest, so the periods count
+    as in a row whichever bells they come from."""
+    breaks = [_minutes(s.end) - _minutes(s.start) for b in bells for s in b.slots if s.kind == "break"]
+    return min(breaks) if breaks else DEFAULT_BREAK_MINUTES
+
+
+def runs_over(spans, longest: int, gap: int) -> list[tuple]:
+    """Every chain of `longest + 1` spans (start, end) that follow each other
+    on the clock, each starting at or after the last one ends and less than
+    `gap` minutes later. Teaching all of one chain is more than `longest` in
+    a row. Spans from two bells interleave, so a teacher's periods are
+    compared by time, never by position in a list of start times (N-3-3)."""
+    spans = sorted(set(spans))
+    nxt = {a: [b for b in spans if 0 <= b[0] - a[1] < gap] for a in spans}
+    chains: list[tuple] = []
+
+    def extend(chain):
+        if len(chain) == longest + 1:
+            chains.append(tuple(chain))
+            return
+        for b in nxt[chain[-1]]:
+            extend(chain + [b])
+    for a in spans:
+        extend([a])
+    return chains
 
 
 def _section_grid(store, section):
@@ -345,6 +381,7 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
                 overlapping = [v for s_, e_, v in day_items if s_ <= s0 < e_]
                 if len(overlapping) > 1:
                     model.Add(sum(overlapping) <= 1)
+    gap = break_minutes(store.bell_schedules_for_year(academic_year_id))
     for tid, items in by_teacher.items():
         by_day: dict[int, list] = defaultdict(list)
         for d, s, e_, v in items:
@@ -355,14 +392,20 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
                 if len(overlapping) > 1:
                     model.Add(sum(overlapping) <= 1)
             model.Add(sum(v for _, _, v in day_items) <= options.max_per_day)
-            # At most `max_consecutive` in a row: in any run of max+1 periods
-            # that follow each other on the clock, not all are taught.
-            starts = sorted({s for s, _, _ in day_items})
-            for i in range(len(starts) - options.max_consecutive):
-                window = starts[i:i + options.max_consecutive + 1]
-                in_window = [v for s, _, v in day_items if s in window]
-                if len(in_window) > options.max_consecutive:
-                    model.Add(sum(in_window) <= options.max_consecutive)
+            # At most `max_consecutive` in a row, by the clock: of any
+            # max+1 periods that each start before a break's length has
+            # passed since the last ended, not all are taught (N-3-3).
+            at: dict[tuple[int, int], list] = defaultdict(list)
+            for s, e_, v in day_items:
+                at[(s, e_)].append(v)
+            for chain in runs_over(at, options.max_consecutive, gap):
+                in_chain = [v for span in chain for v in at[span]]
+                free = [v for v in in_chain if not isinstance(v, int)]
+                if free:
+                    # A fixed section's periods already in the chain leave
+                    # less room; a run they make alone is not this solve's.
+                    fixed_here = len(in_chain) - len(free)
+                    model.Add(sum(free) <= max(0, options.max_consecutive - fixed_here))
 
     # Objective: keep what is there; then share first/last periods fairly.
     objective = []
