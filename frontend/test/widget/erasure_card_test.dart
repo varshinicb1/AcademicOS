@@ -29,6 +29,8 @@ final _preview = {
   'parts': [
     {'part': 'consent', 'label': 'Parental consent record', 'count': 1},
     {'part': 'scans', 'label': 'Scanned answer sheets', 'count': 2},
+    {'part': 'learner_events', 'label': 'Learning event log', 'count': 0},
+    {'part': 'report_files', 'label': 'Progress report PDFs', 'count': 0},
     {'part': 'account', 'label': 'The account', 'count': 1},
   ],
   'kept': [
@@ -89,6 +91,9 @@ void main() {
     }));
     await _pickAsha(tester);
     expect(find.text('Scanned answer sheets'), findsOneWidget);
+    // Only what is held is listed; the empty places are counted in one line.
+    expect(find.text('Learning event log'), findsNothing);
+    expect(find.text('Nothing is held in the other 2 places checked.'), findsOneWidget);
     expect(find.textContaining('Audit log: append-only'), findsOneWidget);
 
     await tester.tap(find.text("Erase Asha Kumar's data"));

@@ -29,6 +29,10 @@ class ErasureCard extends StatefulWidget {
 
 const _roles = {'student': 'Student', 'parent': 'Parent', 'left:student': 'Closed student', 'left:parent': 'Closed parent'};
 
+String _nothingHeld(int places) => places == 1
+    ? 'Nothing is held in the one other place checked.'
+    : 'Nothing is held in the other $places places checked.';
+
 class _ErasureCardState extends State<ErasureCard> {
   late final AuthApi _api = widget.api ?? GetIt.I<AuthApi>();
   List<AuthUser>? _people;
@@ -140,7 +144,8 @@ class _ErasureCardState extends State<ErasureCard> {
               decoration: const InputDecoration(labelText: 'Student or parent'),
               items: [
                 for (final u in people)
-                  DropdownMenuItem(value: u.id, child: Text('${u.name} (${u.email}) · ${_roles[u.role]}',
+                  // Name and role first: on a phone the email is what gets cut.
+                  DropdownMenuItem(value: u.id, child: Text('${u.name} · ${_roles[u.role]} (${u.email})',
                       overflow: TextOverflow.ellipsis)),
               ],
               onChanged: _busy
@@ -166,7 +171,9 @@ class _ErasureCardState extends State<ErasureCard> {
             const Gap(16),
             Text('What would be deleted', style: theme.textTheme.labelLarge),
             const Gap(4),
-            for (final p in preview.parts)
+            // Only what is held: most people have nothing in most places, and
+            // a column of zeros hides the rows that matter.
+            for (final p in preview.parts.where((p) => p.count > 0))
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 2),
                 child: Row(children: [
@@ -174,6 +181,8 @@ class _ErasureCardState extends State<ErasureCard> {
                   Text('${p.count}', style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
                 ]),
               ),
+            if (preview.parts.any((p) => p.count == 0))
+              Text(_nothingHeld(preview.parts.where((p) => p.count == 0).length), style: muted),
             const Gap(12),
             Text('What stays', style: theme.textTheme.labelLarge),
             const Gap(4),
