@@ -201,6 +201,8 @@ class _PlanPanel extends StatefulWidget {
 class _PlanPanelState extends State<_PlanPanel> {
   late Future<_BookView> _future = _loadBook();
   bool _busy = false;
+  // D35: fit what is left to teach into the periods left.
+  bool _fit = false;
   String? _step;
   String? _error;
   Map<String, dynamic>? _estimates;
@@ -245,7 +247,7 @@ class _PlanPanelState extends State<_PlanPanel> {
         _step = tr('Placing the lessons on the section\'s week...');
       });
       final plan = await Ops.post('$_base/books/$bookId/schedule', query: query,
-          body: {'sectionId': widget.sectionId, 'force': view.lessons.isNotEmpty});
+          body: {'sectionId': widget.sectionId, 'force': view.lessons.isNotEmpty, if (_fit) 'fitToPeriodsLeft': true});
       if (!mounted) return;
       setState(() {
         _plan = Map<String, dynamic>.from(plan as Map);
@@ -334,6 +336,15 @@ class _PlanPanelState extends State<_PlanPanel> {
                 'only what is still to be taught is placed again.'), style: theme.textTheme.bodySmall),
             const Gap(8),
           ],
+          CheckboxListTile(
+            key: const ValueKey('plan-fit'),
+            contentPadding: EdgeInsets.zero,
+            value: _fit,
+            onChanged: _busy ? null : (v) => setState(() => _fit = v ?? false),
+            title: Text(tr('Fit the syllabus into the periods left')),
+            subtitle: Text(tr('If the year has fewer periods left than the subtopics need, each gets proportionally '
+                "fewer (at least one), so every subtopic is dated. The book's estimates are not changed.")),
+          ),
           Align(
             alignment: Alignment.centerLeft,
             child: FilledButton(
@@ -414,6 +425,10 @@ class _PlanResult extends StatelessWidget {
     final leftOut = [for (final c in (plan['chaptersWithoutSubtopics'] as List? ?? const [])) '$c'];
     final skippedUnits = [for (final u in (estimates?['unitsSkippedNoSubtopics'] as List? ?? const [])) '$u'];
     final short = estimates?['periodsShort'] as int? ?? 0;
+    final compressed = [
+      for (final c in (plan['subtopicsCompressed'] as List? ?? const []).cast<Map>())
+        '${names[c['subtopicId']] ?? c['subtopicId']}: ${c['periodsNeeded']} → ${c['periodsPlanned']} ${tr('periods')}',
+    ];
     return Column(key: const ValueKey('plan-result'), crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Notice(
         kind: all ? NoticeKind.success : NoticeKind.warning,
@@ -457,6 +472,13 @@ class _PlanResult extends StatelessWidget {
             title: tr('Units with no approved subtopics were left out of the plan:'),
             lines: firstFew(skippedUnits)),
       ],
+      // D35: what fitting the plan into the periods left took away.
+      if (plan['fitNote'] != null) ...[
+        const Gap(8),
+        Notice(key: const ValueKey('plan-fitted'), kind: NoticeKind.info,
+            title: '${tr('Fitted to the periods left')}: ${plan['fitNote']}.',
+            lines: firstFew(compressed)),
+      ],
       if (short > 0) ...[
         const Gap(8),
         Notice(kind: NoticeKind.info,
@@ -481,6 +503,7 @@ class _PlanAll extends StatefulWidget {
 
 class _PlanAllState extends State<_PlanAll> {
   bool _approve = true;
+  bool _fit = false;      // D35
   bool _busy = false;
   Map<String, dynamic>? _result;
   String? _error;
@@ -493,7 +516,7 @@ class _PlanAllState extends State<_PlanAll> {
     });
     try {
       final r = await Ops.post('$_base/academic-years/${widget.yearId}/lesson-plans',
-          body: {'approveProposedTopics': _approve});
+          body: {'approveProposedTopics': _approve, if (_fit) 'fitToPeriodsLeft': true});
       if (mounted) setState(() => _result = Map<String, dynamic>.from(r as Map));
     } catch (e) {
       if (mounted) setState(() => _error = serverErrorMessage(e));
@@ -522,6 +545,13 @@ class _PlanAllState extends State<_PlanAll> {
           onChanged: _busy ? null : (v) => setState(() => _approve = v ?? false),
           title: Text(tr("Approve the topics proposed for each chapter (from the NCERT book's own headings)")),
         ),
+        CheckboxListTile(
+          key: const ValueKey('plan-all-fit'),
+          contentPadding: EdgeInsets.zero,
+          value: _fit,
+          onChanged: _busy ? null : (v) => setState(() => _fit = v ?? false),
+          title: Text(tr('Fit each syllabus into the periods left (fewer periods per subtopic, at least one)')),
+        ),
         FilledButton(
           key: const ValueKey('plan-all-run'),
           onPressed: _busy ? null : _run,
@@ -546,6 +576,12 @@ class _PlanAllState extends State<_PlanAll> {
                   '• ${p['sectionName']} ${p['subjectName']}: '
                   '${(p['chaptersWithoutSubtopics'] as List).length} ${tr('chapters not in the plan (no approved subtopics)')}: '
                   '${firstFew([for (final c in p['chaptersWithoutSubtopics'] as List) '$c']).join(', ')}',
+                  style: theme.textTheme.bodySmall),
+          // D35: each fitted plan says what fitting it took away.
+          for (final p in plans)
+            if (p['fitNote'] != null)
+              Text(key: ValueKey('plan-all-fitted-${p['sectionId']}-${p['subjectName']}'),
+                  '• ${p['sectionName']} ${p['subjectName']}: ${p['fitNote']}',
                   style: theme.textTheme.bodySmall),
         ],
       ]),

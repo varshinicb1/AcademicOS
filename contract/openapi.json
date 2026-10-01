@@ -1949,6 +1949,11 @@
             "default": false,
             "title": "Approveproposedtopics",
             "type": "boolean"
+          },
+          "fitToPeriodsLeft": {
+            "default": false,
+            "title": "Fittoperiodsleft",
+            "type": "boolean"
           }
         },
         "title": "BuildPlansRequest",
@@ -3334,6 +3339,29 @@
           }
         },
         "title": "CompetencyWeights",
+        "type": "object"
+      },
+      "CompressedSubtopicResponse": {
+        "properties": {
+          "periodsNeeded": {
+            "title": "Periodsneeded",
+            "type": "integer"
+          },
+          "periodsPlanned": {
+            "title": "Periodsplanned",
+            "type": "integer"
+          },
+          "subtopicId": {
+            "title": "Subtopicid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subtopicId",
+          "periodsNeeded",
+          "periodsPlanned"
+        ],
+        "title": "CompressedSubtopicResponse",
         "type": "object"
       },
       "ComputeTeachingTimeRequest": {
@@ -9403,6 +9431,17 @@
             "title": "Chapterswithoutsubtopics",
             "type": "array"
           },
+          "fitNote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fitnote"
+          },
           "lastScheduledDate": {
             "anyOf": [
               {
@@ -9429,6 +9468,11 @@
           "subjectName": {
             "title": "Subjectname",
             "type": "string"
+          },
+          "subtopicsCompressed": {
+            "default": 0,
+            "title": "Subtopicscompressed",
+            "type": "integer"
           },
           "subtopicsWithoutEstimate": {
             "default": 0,
@@ -12445,6 +12489,11 @@
       },
       "ScheduleBookRequest": {
         "properties": {
+          "fitToPeriodsLeft": {
+            "default": false,
+            "title": "Fittoperiodsleft",
+            "type": "boolean"
+          },
           "force": {
             "default": false,
             "title": "Force",
@@ -12511,6 +12560,17 @@
             ],
             "title": "Firstscheduleddate"
           },
+          "fitNote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fitnote"
+          },
           "lastScheduledDate": {
             "anyOf": [
               {
@@ -12550,6 +12610,14 @@
               }
             ],
             "title": "Sectionid"
+          },
+          "subtopicsCompressed": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/CompressedSubtopicResponse"
+            },
+            "title": "Subtopicscompressed",
+            "type": "array"
           },
           "subtopicsPartiallyScheduled": {
             "items": {
@@ -21843,7 +21911,7 @@
         "summary": "Get Book Schedule"
       },
       "post": {
-        "description": "Generates the real, dated schedule for this book -- see\nscheduling.py's module docstring for the full method and its honestly-\ndocumented weekday-assignment simplification. Requires\ncompute_teaching_time_estimates() to have already run for this\n(book, academic_year); a Subtopic without a real estimate is skipped\nand reported, never given a guessed period count. `allSubtopicsScheduled`\nis false, with a `warning` sentence, whenever any subtopic ends up\nwithout its full dated periods. `force` keeps completed/skipped lessons,\nand every lesson dated before today (taught or overdue), and replans\nonly what is still to be taught. New lessons are placed from\nthe school's today (or the year's first day, if later): a day that has\npassed cannot be taught on, and the shortfall warning counts only the\nperiods left.",
+        "description": "Generates the real, dated schedule for this book -- see\nscheduling.py's module docstring for the full method and its honestly-\ndocumented weekday-assignment simplification. Requires\ncompute_teaching_time_estimates() to have already run for this\n(book, academic_year); a Subtopic without a real estimate is skipped\nand reported, never given a guessed period count. `allSubtopicsScheduled`\nis false, with a `warning` sentence, whenever any subtopic ends up\nwithout its full dated periods. `force` keeps completed/skipped lessons,\nand every lesson dated before today (taught or overdue), and replans\nonly what is still to be taught. New lessons are placed from\nthe school's today (or the year's first day, if later): a day that has\npassed cannot be taught on, and the shortfall warning counts only the\nperiods left. With `fitToPeriodsLeft`, a syllabus that needs more periods\nthan are left is fitted to them: each subtopic gets proportionally fewer,\nat least one, and every one given fewer is listed in\n`subtopicsCompressed` (D35).",
         "operationId": "schedule_book_api_v1_curriculum_books__book_id__schedule_post",
         "parameters": [
           {

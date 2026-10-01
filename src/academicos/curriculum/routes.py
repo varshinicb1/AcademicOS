@@ -45,6 +45,7 @@ from .schemas import (
     CalendarResponse,
     ChapterCoverageResponse,
     ChapterResponse,
+    CompressedSubtopicResponse,
     CoverageReportResponse,
     DelayedLessonResponse,
     DelayedTopicsReportResponse,
@@ -1793,7 +1794,10 @@ def schedule_book(book_id: str, academic_year_id: str, req: ScheduleBookRequest,
     only what is still to be taught. New lessons are placed from
     the school's today (or the year's first day, if later): a day that has
     passed cannot be taught on, and the shortfall warning counts only the
-    periods left."""
+    periods left. With `fitToPeriodsLeft`, a syllabus that needs more periods
+    than are left is fitted to them: each subtopic gets proportionally fewer,
+    at least one, and every one given fewer is listed in
+    `subtopicsCompressed` (D35)."""
     store = _require()
     _require_school_owns_book(book_id, principal)
     _require_school_owns_academic_year(academic_year_id, principal)
@@ -1818,7 +1822,8 @@ def schedule_book(book_id: str, academic_year_id: str, req: ScheduleBookRequest,
         result = scheduling_mod.schedule_book(
             store, school_id=principal.school_id, academic_year_id=academic_year_id,
             book_id=book_id, periods_per_week=periods, force=req.force,
-            from_date=_school_today().isoformat(), section_id=req.section_id)
+            from_date=_school_today().isoformat(), section_id=req.section_id,
+            fit_to_periods_left=req.fit_to_periods_left)
     except ValueError as e:
         raise HTTPException(409, str(e))
     return ScheduleBookResponse(
@@ -1834,7 +1839,12 @@ def schedule_book(book_id: str, academic_year_id: str, req: ScheduleBookRequest,
         lessons_kept=result.lessons_kept, past_lessons_kept=result.past_lessons_kept,
         all_subtopics_scheduled=result.all_subtopics_scheduled,
         warning=result.warning, section_id=result.section_id,
-        chapters_without_subtopics=list(result.chapters_without_subtopics))
+        chapters_without_subtopics=list(result.chapters_without_subtopics),
+        subtopics_compressed=[CompressedSubtopicResponse(subtopic_id=c.subtopic_id,
+                                                         periods_needed=c.periods_needed,
+                                                         periods_planned=c.periods_planned)
+                              for c in result.subtopics_compressed],
+        fit_note=result.fit_note)
 
 
 def _minutes(hhmm: str) -> int:
@@ -1924,7 +1934,8 @@ def build_lesson_plans(academic_year_id: str, req: BuildPlansRequest,
         try:
             r = scheduling_mod.schedule_book(store, school_id=principal.school_id, academic_year_id=academic_year_id,
                                              book_id=book.id, periods_per_week=per_week, force=True,
-                                             from_date=today, section_id=a.section_id)
+                                             from_date=today, section_id=a.section_id,
+                                             fit_to_periods_left=req.fit_to_periods_left)
         except ValueError as e:
             out.not_planned.append(f"{label}: {e}")
             continue
@@ -1933,7 +1944,8 @@ def build_lesson_plans(academic_year_id: str, req: BuildPlansRequest,
             subject_name=subject.name if subject else "", lessons_created=r.lessons_created,
             subtopics_without_estimate=len(r.subtopics_without_estimate),
             last_scheduled_date=r.last_scheduled_date, warning=r.warning,
-            chapters_without_subtopics=list(r.chapters_without_subtopics)))
+            chapters_without_subtopics=list(r.chapters_without_subtopics),
+            subtopics_compressed=len(r.subtopics_compressed), fit_note=r.fit_note))
     return out
 
 

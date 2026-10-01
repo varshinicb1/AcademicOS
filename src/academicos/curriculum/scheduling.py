@@ -118,10 +118,36 @@ class ScheduleResult:
     # can be timed or dated, so the plan leaves them out (audit D119).
     chapters_without_subtopics: tuple[str, ...] = ()
     total_chapters: int = 0
+    # fit_to_periods_left (audit D35): the subtopics given fewer periods than
+    # their estimate so the syllabus fits the periods left, and the sentence
+    # that says so. Empty when the plan was not fitted or did not need to be.
+    subtopics_compressed: tuple["CompressedSubtopic", ...] = ()
+    fit_note: Optional[str] = None
 
     @property
     def all_subtopics_scheduled(self) -> bool:
         return self.warning is None
+
+
+@dataclass(frozen=True)
+class CompressedSubtopic:
+    subtopic_id: str
+    periods_needed: int     # what its estimate still asked for
+    periods_planned: int    # what the fitted plan gives it (at least one)
+
+
+def fit_periods(needs: list[int], available: int) -> list[int]:
+    """Each subtopic's periods scaled to `available` in proportion, at least
+    one each, by largest remainder on the periods above that one -- so they
+    sum to `available` exactly and none gets more than it needed. Unchanged
+    when they already fit; one each when there are fewer periods than
+    subtopics (the tail then stays undated, and the plan says so)."""
+    if available >= sum(needs):
+        return list(needs)
+    if available <= len(needs):
+        return [1] * len(needs)
+    extras = calendar_mod._largest_remainder(available - len(needs), [float(n - 1) for n in needs])
+    return [1 + e for e in extras]
 
 
 def _named(names: list[str] | tuple[str, ...], limit: int = 6) -> str:
@@ -159,7 +185,7 @@ def _shortfall_warning(*, total: int, unscheduled: int, partial: int, without_es
 def schedule_book(
     store: CurriculumStore, *, school_id: str, academic_year_id: str, book_id: str,
     periods_per_week: int, force: bool = False, from_date: Optional[str] = None,
-    section_id: Optional[str] = None,
+    section_id: Optional[str] = None, fit_to_periods_left: bool = False,
 ) -> ScheduleResult:
     """Schedules every real, approved Subtopic in a book's real delivery
     order (Unit.seq -> Chapter.seq -> Topic.seq -> Subtopic.seq -- §13's
@@ -208,6 +234,16 @@ def schedule_book(
 
     Records the cadence the lessons were laid out at, so PUSH moves them at
     the same cadence (Task 102 review).
+
+    `fit_to_periods_left` (audit D35): when what is still to be taught needs
+    more periods than are left, each subtopic's periods are scaled to the
+    periods left in proportion, at least one each (fit_periods), so the
+    whole syllabus gets a date instead of the second half none. Planned
+    mid-year, a Science plan dated 160 lessons and left 60 of 117 subtopics
+    undated, and nothing could fit it. The stored estimates are not changed
+    -- they are the book's, shared by every section, and a plan made at
+    the start of next year needs them whole -- and every subtopic given
+    fewer periods is reported (`subtopics_compressed`, `fit_note`).
 
     With `section_id` (SCH-4) this is that section's plan: its own lessons,
     its own week from the timetable (TimetableEntry) and its own cadence.
@@ -275,6 +311,19 @@ def schedule_book(
             if total_subtopics == chapter_subtopics:
                 chapters_left_out.append(chapter.name)
 
+    periods_needed = sum(n for _, n in ordered)
+    compressed: list[CompressedSubtopic] = []
+    fit_note = None
+    if fit_to_periods_left and periods_needed > len(slots):
+        targets = fit_periods([n for _, n in ordered], len(slots))
+        compressed = [CompressedSubtopic(subtopic_id=sid, periods_needed=n, periods_planned=t)
+                      for (sid, n), t in zip(ordered, targets) if t < n]
+        ordered = [(sid, t) for (sid, _), t in zip(ordered, targets)]
+        since = f" from {from_date}" if from_date else ""
+        fit_note = (f"fitted to the {len(slots)} teaching periods left{since}: the estimates need "
+                    f"{periods_needed}, so {len(compressed)} of {len(targets)} subtopics still to teach "
+                    f"get fewer periods, at least one each")
+
     lessons_created = 0
     fully_scheduled = already_covered
     partially_scheduled: list[str] = []
@@ -319,10 +368,10 @@ def schedule_book(
         warning=_shortfall_warning(
             total=total_subtopics, unscheduled=len(unscheduled), partial=len(partially_scheduled),
             without_estimate=len(without_estimate), periods_available=len(slots),
-            periods_needed=sum(n for _, n in ordered), from_date=from_date,
+            periods_needed=periods_needed, from_date=from_date,
             chapters_left_out=tuple(chapters_left_out), total_chapters=total_chapters),
         section_id=section_id, chapters_without_subtopics=tuple(chapters_left_out),
-        total_chapters=total_chapters,
+        total_chapters=total_chapters, subtopics_compressed=tuple(compressed), fit_note=fit_note,
     )
 
 

@@ -518,6 +518,9 @@ class ScheduleBookRequest(Camel):
     periods_per_week: Optional[int] = Field(default=None, gt=0)
     force: bool = False
     section_id: Optional[str] = None
+    # D35: when what is left to teach needs more periods than are left, give
+    # each subtopic proportionally fewer (at least one) so all of it is dated.
+    fit_to_periods_left: bool = False
 
 
 class BuildPlansRequest(Camel):
@@ -525,6 +528,8 @@ class BuildPlansRequest(Camel):
     # seeded (decomposition templates). Never assumed: false plans only what
     # already has approved subtopics.
     approve_proposed_topics: bool = False
+    # D35: fit each plan to the periods left (see ScheduleBookRequest).
+    fit_to_periods_left: bool = False
 
 
 class PlanBuiltResponse(Camel):
@@ -537,6 +542,9 @@ class PlanBuiltResponse(Camel):
     warning: Optional[str] = None
     # Chapters with no approved subtopic: not in the plan at all (D119).
     chapters_without_subtopics: list[str] = []
+    # D35: subtopics given fewer periods to fit the periods left, and why.
+    subtopics_compressed: int = 0
+    fit_note: Optional[str] = None
 
 
 class BuildPlansResponse(Camel):
@@ -546,6 +554,12 @@ class BuildPlansResponse(Camel):
     plans: list[PlanBuiltResponse] = []
     # One sentence per section and subject that got no plan, and why.
     not_planned: list[str] = []
+
+
+class CompressedSubtopicResponse(Camel):
+    subtopic_id: str
+    periods_needed: int
+    periods_planned: int
 
 
 class ScheduleBookResponse(Camel):
@@ -576,6 +590,11 @@ class ScheduleBookResponse(Camel):
     # Chapters with no approved subtopic, in delivery order: the plan leaves
     # them out, and allSubtopicsScheduled is false while there are any (D119).
     chapters_without_subtopics: list[str] = []
+    # fitToPeriodsLeft (D35): each subtopic given fewer periods than its
+    # estimate so the syllabus fits the periods left, and the sentence saying
+    # so. Empty when the plan was not fitted or already fitted.
+    subtopics_compressed: list[CompressedSubtopicResponse] = []
+    fit_note: Optional[str] = None
 
 
 class ScheduledLessonResponse(Camel):
