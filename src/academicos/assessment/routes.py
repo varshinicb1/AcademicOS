@@ -8,6 +8,7 @@ import logging
 import re
 import time
 import uuid
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
@@ -51,6 +52,7 @@ from .schemas import (
     QuickPaperRequest,
     SchoolTemplate,
     SectionBlueprint,
+    SectionShortfall,
 )
 from ..operations.question_reviews import usable
 from .paper_store import PaperStore
@@ -379,6 +381,50 @@ def _shortfall_warnings(paper: GeneratedPaper, blueprint: Blueprint) -> list[str
     return out
 
 
+def _section_shortfall(paper: GeneratedPaper, asked: Blueprint,
+                       pool: list[QuestionSchema], where: str) -> list[SectionShortfall]:
+    """Each section of the layout asked for that a paper holding fewer marks
+    than asked prints short, with what it asked for, what the paper prints of
+    its marks, and how many questions of those marks `where` (`pool`) holds
+    -- the shortfall by section a screen shows before the paper is saved
+    (D57). Empty when the paper holds its marks: `selection.fill_to_marks`
+    has then moved any section's marks where the bank could take them, and
+    only the bank truly lacking them leaves a paper short."""
+    if paper.metadata.total_marks >= asked.total_marks:
+        return []
+    left = Counter(q.marks for s in paper.sections for q in s.questions)
+    out = []
+    for section in asked.sections or []:
+        m = section.marks_per_question
+        got = min(section.question_count, left[m])
+        left[m] -= got
+        if got >= section.question_count:
+            continue
+        available = len({q.id for q in pool if q.marks == m})
+        out.append(SectionShortfall(
+            section_id=section.id, label=section.label, name=section.name,
+            marks_each=m, asked=section.question_count, printed=got,
+            missing_marks=(section.question_count - got) * m, available=available,
+            reason=(f"{where} holds {available} question(s) of {m} mark(s) for this class"
+                    + (", and the others repeat a question already on the paper" if available > got else "")
+                    + "; no other marks it holds could make up the difference")))
+    return out
+
+
+def _shortfall_sentences(paper: GeneratedPaper, shortfall: list[SectionShortfall]) -> list[str]:
+    """`_shortfall_warnings` for a quick paper, from its shortfall by section:
+    the paper may print another layout than the one asked (the marks moved
+    to sections the bank could fill), so sections are matched by their marks,
+    not their letter."""
+    held, asked = paper.metadata.total_marks, paper.marks_asked
+    if asked is None or held >= asked:
+        return []
+    return [f"This paper holds {held} of the {asked} marks asked for: the bank cannot make "
+            f"them up. Its header prints Maximum Marks: {held}.",
+            *(f"Section {s.label} ({s.name}) as asked prints short: only {s.printed} of "
+              f"{s.asked} {s.marks_each}-mark questions; {s.reason}." for s in shortfall)]
+
+
 def _overlap_warnings(paper: GeneratedPaper) -> list[str]:
     return [f"Set {label} repeats {n} question(s) from an earlier set: the question bank "
             f"has no unused question of the same marks and type left in the chapters "
@@ -508,7 +554,13 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
     candidates = chapter_candidates if chapter_candidates else all_pool_questions
     fallback = all_pool_questions if chapter_candidates else None
 
-    opt_result = selection.optimize(candidates, bp, fallback_candidates=fallback)
+    # The marks asked whenever the bank can make them (D57): a section the
+    # bank cannot fill moves its marks to sections it can, within the chosen
+    # chapters first. `bp` becomes the layout the paper is made from.
+    asked_bp = bp
+    bp, opt_result, fill_notes = selection.fill_to_marks(
+        candidates, bp, fallback,
+        scope="the chosen chapters" if chapter_candidates else "the bank")
     if not opt_result.selected_questions:
         raise HTTPException(
             400,
@@ -541,7 +593,7 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
     # questions on Science 10, 40 marks, three chapters -- merge of
     # 2026-09-23). A unit test carrying untaught chapters is exactly the wrong
     # answer a teacher would not catch until the exam.
-    paper.warnings = [*opt_result.warnings, *_borrowing_warnings(opt_result),
+    paper.warnings = [*opt_result.warnings, *fill_notes, *_borrowing_warnings(opt_result),
                       *_overlap_warnings(paper),
                       # Selection has written the paper's own line.
                       *report_competency(paper, bp.competency_percentage, stated=True)]
@@ -553,6 +605,15 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
             f"Tiers unavailable for this subject: the {tier} tier chose the same questions "
             f"as the standard tier -- too few questions of the marks this paper asks for "
             f"differ in difficulty or Bloom level.")
+
+    paper.marks_asked = total_marks
+    shortfall = _section_shortfall(paper, asked_bp, candidates + list(fallback or []), "the bank")
+    if request.preview:
+        # Nothing saved, nothing counted: what the paper would hold, shown
+        # before the teacher saves it.
+        paper.warnings = [*paper.warnings, *_shortfall_sentences(paper, shortfall)]
+        paper.shortfall, paper.preview = shortfall, True
+        return paper
 
     template = None
     if request.template_id:
@@ -574,6 +635,10 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
         grade=grade,
         chapter_ids=target_chapters,
         blueprint=bp,
+        # What the teacher asked for, where the paper was rebalanced to make
+        # its marks (the blueprint above is what it was made from).
+        metadata={"askedSections": [s.model_dump(by_alias=True, mode="json")
+                                    for s in asked_bp.sections]} if bp is not asked_bp else {},
         status="paperGenerated",
         created_at=_now(),
         updated_at=_now(),
@@ -594,7 +659,8 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
     )
     # After saving, like the other generate routes: about this request. Kept
     # alongside the optimizer/overlap/competency warnings set before the save.
-    paper.warnings = [*paper.warnings, *_shortfall_warnings(paper, bp)]
+    paper.warnings = [*paper.warnings, *_shortfall_sentences(paper, shortfall)]
+    paper.shortfall = shortfall
     return paper
 
 

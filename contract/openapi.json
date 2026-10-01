@@ -5741,8 +5741,24 @@
             "title": "Id",
             "type": "string"
           },
+          "marksAsked": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Marksasked"
+          },
           "metadata": {
             "$ref": "#/components/schemas/PaperMetadataSchema"
+          },
+          "preview": {
+            "default": false,
+            "title": "Preview",
+            "type": "boolean"
           },
           "sections": {
             "items": {
@@ -5774,6 +5790,13 @@
               "$ref": "#/components/schemas/GeneratedPaper"
             },
             "title": "Sets",
+            "type": "array"
+          },
+          "shortfall": {
+            "items": {
+              "$ref": "#/components/schemas/SectionShortfall"
+            },
+            "title": "Shortfall",
             "type": "array"
           },
           "similarPairs": {
@@ -11295,6 +11318,11 @@
             "title": "Grade",
             "type": "integer"
           },
+          "preview": {
+            "default": false,
+            "title": "Preview",
+            "type": "boolean"
+          },
           "setCount": {
             "default": 1,
             "title": "Setcount",
@@ -13389,6 +13417,60 @@
           "name"
         ],
         "title": "SectionResponse",
+        "type": "object"
+      },
+      "SectionShortfall": {
+        "description": "One section a quick paper prints short because the bank cannot fill\nit: what it asked for, what it prints, and how many questions the bank\nholds for it where the paper draws from.",
+        "properties": {
+          "asked": {
+            "title": "Asked",
+            "type": "integer"
+          },
+          "available": {
+            "title": "Available",
+            "type": "integer"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "marksEach": {
+            "title": "Markseach",
+            "type": "integer"
+          },
+          "missingMarks": {
+            "title": "Missingmarks",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "printed": {
+            "title": "Printed",
+            "type": "integer"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sectionId",
+          "label",
+          "name",
+          "marksEach",
+          "asked",
+          "printed",
+          "missingMarks",
+          "available",
+          "reason"
+        ],
+        "title": "SectionShortfall",
         "type": "object"
       },
       "SectionStudentResponse": {

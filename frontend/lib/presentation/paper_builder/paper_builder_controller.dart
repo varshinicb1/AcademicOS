@@ -159,6 +159,14 @@ class PaperBuilderController extends ChangeNotifier {
   bool handPicked = false;
   final List<BankItem> picked = [];
 
+  /// The marks a quick paper (by total marks and level) was asked for; null
+  /// for a paper made another way.
+  int? quickMarksAsked;
+
+  /// Whether this paper came from a template ("Make another like this"
+  /// needs one).
+  bool get fromTemplate => !handPicked && quickMarksAsked == null;
+
   /// The sections the paper was generated from: what "short" is measured
   /// against after a question is removed.
   List<TemplateSectionView> _paperSections = const [];
@@ -301,6 +309,7 @@ class PaperBuilderController extends ChangeNotifier {
   void _resetPaper() {
     result = null;
     paper = null;
+    quickMarksAsked = null;
     generateError = null;
     setIds = const {};
     viewingSet = 'A';
@@ -709,6 +718,79 @@ class PaperBuilderController extends ChangeNotifier {
       step = BuilderStep.paper;
     } catch (e) {
       generateError = serverErrorMessage(e);
+    } finally {
+      generating = false;
+      _changed();
+    }
+  }
+
+  // ------------------------------------------------------------ quick paper
+
+  /// What a quick paper of [totalMarks] at [tier] would hold, from the
+  /// server, without saving anything: the marks it makes and, where the bank
+  /// cannot make them, the shortfall by section -- shown before the teacher
+  /// saves it (audit D57).
+  Future<QuickPaperResult> previewQuick({
+    required int totalMarks,
+    required String tier,
+    List<String> chapterIds = const [],
+    int setCount = 1,
+  }) =>
+      api.quickGenerate(
+        subject: subject!,
+        grade: grade!,
+        totalMarks: totalMarks,
+        tier: tier,
+        chapterIds: chapterIds,
+        setCount: setCount,
+        preview: true,
+      );
+
+  /// Saves the quick paper the preview showed and opens it for review.
+  /// Throws (for the dialog to say) when the server refuses.
+  Future<void> generateQuick({
+    required int totalMarks,
+    required String tier,
+    List<String> chapterIds = const [],
+    int setCount = 1,
+  }) async {
+    generating = true;
+    generateError = null;
+    _changed();
+    try {
+      final r = await api.quickGenerate(
+        subject: subject!,
+        grade: grade!,
+        totalMarks: totalMarks,
+        tier: tier,
+        chapterIds: chapterIds,
+        setCount: setCount,
+        teacherSeconds: teacherSeconds,
+      );
+      restartTeacherClock();
+      _resetPaper();
+      handPicked = false;
+      template = null;
+      quickMarksAsked = totalMarks;
+      result = TemplatePaperResult.ofPaper(r.paper);
+      paper = r.paper;
+      _paperSections = [
+        for (final s in r.paper.sections)
+          TemplateSectionView(
+            id: s.sectionId,
+            title: 'Section ${s.label} · ${s.name}',
+            questionCount: s.questions.length,
+            marksEach: s.questions.isEmpty ? 0 : s.questions.first.marks,
+          ),
+      ];
+      setIds = {
+        (r.paper.setLabel ?? 'A'): r.paper.id,
+        for (final s in r.paper.sets) (s.setLabel ?? s.metadata.setLabel ?? '?'): s.id,
+      };
+      for (final s in r.paper.sets) {
+        _setPapers[s.setLabel ?? '?'] = s;
+      }
+      step = BuilderStep.paper;
     } finally {
       generating = false;
       _changed();

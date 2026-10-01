@@ -408,6 +408,54 @@ class TemplatePaperResult {
         notes = List<String>.from(j['notes'] ?? const []);
 }
 
+/// One section of the layout asked for that a quick paper prints short
+/// because the bank cannot fill it (the server's SectionShortfall, D57).
+class SectionShortfallView {
+  final String label;
+  final String name;
+  final int marksEach;
+  final int asked;
+  final int printed;
+  final int missingMarks;
+  final int available;
+  final String reason;
+
+  SectionShortfallView.fromJson(Map<String, dynamic> j)
+      : label = j['label'] as String? ?? '',
+        name = j['name'] as String? ?? '',
+        marksEach = j['marksEach'] as int? ?? 0,
+        asked = j['asked'] as int? ?? 0,
+        printed = j['printed'] as int? ?? 0,
+        missingMarks = j['missingMarks'] as int? ?? 0,
+        available = j['available'] as int? ?? 0,
+        reason = j['reason'] as String? ?? '';
+}
+
+/// POST /papers/quick-generate's answer: the paper, the marks asked for and,
+/// when the bank cannot make them, each section that prints short. A
+/// [preview] was not saved.
+class QuickPaperResult {
+  final GeneratedPaper paper;
+  final int marksAsked;
+  final bool preview;
+  final List<SectionShortfallView> shortfall;
+
+  QuickPaperResult.fromJson(Map<String, dynamic> j)
+      : paper = parsePaper(j),
+        marksAsked = j['marksAsked'] as int? ?? 0,
+        preview = j['preview'] as bool? ?? false,
+        shortfall = _maps(j['shortfall']).map(SectionShortfallView.fromJson).toList();
+
+  int get marksHeld => paper.metadata.totalMarks;
+  bool get holdsAll => marksHeld >= marksAsked;
+
+  /// "A 12 × 1, B 1 × 2, ..." -- the layout the paper prints.
+  String get layout => [
+        for (final s in paper.sections)
+          if (s.questions.isNotEmpty) '${s.label} ${s.questions.length} × ${s.questions.first.marks}',
+      ].join(', ');
+}
+
 class PaperEditResult {
   final GeneratedPaper paper;
   final String slot;
@@ -567,6 +615,36 @@ class PaperBuilderApi {
         },
         options: Options(receiveTimeout: const Duration(minutes: 3)));
     return parsePaper(Map<String, dynamic>.from(r.data as Map));
+  }
+
+  /// A quick paper of [totalMarks] (POST /papers/quick-generate): the server
+  /// rebalances a section the bank cannot fill so the paper holds the marks
+  /// whenever the bank can, and otherwise names the shortfall by section.
+  /// [preview] saves nothing -- the builder shows the answer before the
+  /// teacher saves it (audit D57).
+  Future<QuickPaperResult> quickGenerate({
+    required String subject,
+    required int grade,
+    required int totalMarks,
+    String tier = 'standard',
+    List<String> chapterIds = const [],
+    int setCount = 1,
+    bool preview = false,
+    double? teacherSeconds,
+  }) async {
+    final r = await _dio.post('/papers/quick-generate',
+        data: {
+          'subject': subject,
+          'grade': grade,
+          'totalMarks': totalMarks,
+          'tier': tier,
+          'chapterIds': chapterIds,
+          'setCount': setCount,
+          'preview': preview,
+          if (teacherSeconds != null) 'teacherSeconds': teacherSeconds,
+        },
+        options: Options(receiveTimeout: const Duration(minutes: 3)));
+    return QuickPaperResult.fromJson(Map<String, dynamic>.from(r.data as Map));
   }
 
   Future<GeneratedPaper> getPaper(String paperId) async {

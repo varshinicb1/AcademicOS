@@ -129,6 +129,19 @@ def main(argv: list[str] | None = None) -> int:
         post("generate_from_ids_10_science_unknown", "/api/v1/papers/generate-from-ids",
              {"subject": "Science", "grade": 10, "questionIds": [*two_keyed, "no-such-id-xyz"],
               "title": "Class 10 Science test", "teacherSeconds": 600.0})
+
+        # ---- Quick paper by total marks (audit D57): the preview the dialog
+        # shows before saving -- Science 10 at 40 marks, rebalanced to hold
+        # all 40, and Social Science 10 at 80, which the bank cannot make,
+        # with its shortfall by section -- and the save.
+        quick = {"tier": "standard", "chapterIds": [], "setCount": 1}
+        post("quick_preview_10_science_40", "/api/v1/papers/quick-generate",
+             {"subject": "Science", "grade": 10, "totalMarks": 40, **quick, "preview": True})
+        post("quick_preview_10_social_80", "/api/v1/papers/quick-generate",
+             {"subject": "Social Science", "grade": 10, "totalMarks": 80, **quick, "preview": True})
+        post("quick_10_science_40", "/api/v1/papers/quick-generate",
+             {"subject": "Science", "grade": 10, "totalMarks": 40, **quick, "preview": False,
+              "teacherSeconds": 300.0})
         if only and not only - {e["file"][:-5] for e in manifest if e.get("file")}:
             _merge_manifest(manifest)
             return 0

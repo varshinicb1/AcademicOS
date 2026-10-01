@@ -461,6 +461,52 @@
     "title": "Class 10 Science test",
     "teacherSeconds": 600.0
    }
+  },
+  {
+   "file": "quick_preview_10_science_40.json",
+   "method": "POST",
+   "path": "/api/v1/papers/quick-generate",
+   "status": 200,
+   "body": {
+    "subject": "Science",
+    "grade": 10,
+    "totalMarks": 40,
+    "tier": "standard",
+    "chapterIds": [],
+    "setCount": 1,
+    "preview": true
+   }
+  },
+  {
+   "file": "quick_preview_10_social_80.json",
+   "method": "POST",
+   "path": "/api/v1/papers/quick-generate",
+   "status": 200,
+   "body": {
+    "subject": "Social Science",
+    "grade": 10,
+    "totalMarks": 80,
+    "tier": "standard",
+    "chapterIds": [],
+    "setCount": 1,
+    "preview": true
+   }
+  },
+  {
+   "file": "quick_10_science_40.json",
+   "method": "POST",
+   "path": "/api/v1/papers/quick-generate",
+   "status": 200,
+   "body": {
+    "subject": "Science",
+    "grade": 10,
+    "totalMarks": 40,
+    "tier": "standard",
+    "chapterIds": [],
+    "setCount": 1,
+    "preview": false,
+    "teacherSeconds": 300.0
+   }
   }
  ]
 }

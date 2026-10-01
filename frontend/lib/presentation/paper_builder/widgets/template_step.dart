@@ -4,6 +4,7 @@ import '../../../data/datasources/api/api_error.dart';
 import '../../../data/datasources/api/paper_builder_api.dart';
 import '../paper_builder_controller.dart';
 import 'class_subject_step.dart';
+import 'quick_paper_dialog.dart';
 import 'section_editor.dart';
 
 /// Step 2: the paper's pattern. The teacher's own templates first (what they
@@ -34,6 +35,15 @@ class TemplateStep extends StatelessWidget {
             onPressed: c.startHandPicked,
             icon: const Icon(Icons.checklist),
             label: const Text('Pick the questions yourself'),
+            style: OutlinedButton.styleFrom(minimumSize: const Size(0, 44)),
+          ),
+          // Any total and a level, without a template; what the paper would
+          // hold is shown before it is saved (audit D57).
+          OutlinedButton.icon(
+            key: const ValueKey('quick-paper'),
+            onPressed: () => showQuickPaperDialog(context, c),
+            icon: const Icon(Icons.flash_on),
+            label: const Text('Quick paper by total marks'),
             style: OutlinedButton.styleFrom(minimumSize: const Size(0, 44)),
           ),
         ]),
