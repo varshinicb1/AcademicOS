@@ -30,10 +30,10 @@ from ..config import Config
 from . import paper_edit
 from .audit_log import get_audit_log
 from .auth_routes import require_staff
-from .authz import require_own_school, require_school_owns_paper
+from .authz import require_may_change_paper, require_own_school, require_school_owns_paper
 from .paper import generate_paper_sets, lettered, report_competency, set_repeat_warnings
 from .paper_edit import Bank, SwapCounts, bank_for
-from .paper_store import PaperStore, paper_question_ids
+from .paper_store import PaperStore, paper_question_ids, printed_marks
 from .paper_templates import AvailabilityReport, SectionAvailability, SectionPlan, \
     build_scope_filter, check_scope_ids, clashes, competency_check, plan, tier_check
 from .school_templates import TemplateStore
@@ -470,7 +470,8 @@ def generate_from_template(
                           "id": s.id or f"s{i + 1}"}
                          for i, s in enumerate(template.sections)],
             "scope": template.scope.model_dump(by_alias=True, mode="json"),
-            "fillFromOutsideScope": req.fill_from_outside_scope}},
+            "fillFromOutsideScope": req.fill_from_outside_scope},
+            "paperMarks": printed_marks(paper)},
     ))
     get_audit_log(cfg.data_root).append(
         "template_paper_generated", assessment_id=asm_id,
@@ -795,6 +796,7 @@ def remove_paper_question(paper_id: str, slot: str,
         raise HTTPException(503, "paper template module not initialized")
     paper = require_school_owns_paper(_papers, _assessments, paper_id, current)
     asm = _assessments.get(paper.assessment_id)
+    require_may_change_paper(asm, current)
     _require_editable(asm)
     try:
         slot = paper_edit.find_slot(paper, slot)
@@ -856,6 +858,7 @@ def _edit_question(paper_id: str, slot_key: str, current: User, *,
         raise HTTPException(503, "paper template module not initialized")
     paper = require_school_owns_paper(_papers, _assessments, paper_id, current)
     asm = _assessments.get(paper.assessment_id)
+    require_may_change_paper(asm, current)
     _require_editable(asm)
     try:
         bank = bank_usable(bank_for(cfg, paper.metadata.subject, paper.metadata.grade), current.school_id)
@@ -926,7 +929,7 @@ def _edited_metadata(metadata: dict, edits: dict, edited: GeneratedPaper) -> dic
     """The assessment's metadata after an edit: the edit log, and the
     instructions it records for the paper as the paper now prints them when
     they are generated (the teacher's own words do not change)."""
-    out = {**metadata, "paperEdits": edits}
+    out = {**metadata, "paperEdits": edits, "paperMarks": printed_marks(edited)}
     tpl = metadata.get("paperTemplate")
     if isinstance(tpl, dict) and edited.metadata.instructions_generated:
         out["paperTemplate"] = {**tpl, "instructions": edited.metadata.instructions or ""}

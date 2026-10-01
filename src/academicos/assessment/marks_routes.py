@@ -270,14 +270,20 @@ def may_enter_marks(current: User, assessment) -> bool:
         return False
     if holds(current, "exams", grade=grade):
         return True
+    return (grade, str(assessment.subject).casefold()) in teaching_cells(current)
+
+
+def teaching_cells(current: User) -> set[tuple[int, str]]:
+    """(class number, subject name casefolded) for every subject the teacher
+    teaches in some section, co-taught cells included."""
     store = cr._require()
-    cells = store.allocations_for_teacher(current.id) + store.co_taught_allocations(current.id)
-    for cell in cells:
+    out: set[tuple[int, str]] = set()
+    for cell in store.allocations_for_teacher(current.id) + store.co_taught_allocations(current.id):
         subject = store.get_subject(cell.subject_id)
         g = store.get_grade(subject.grade_id) if subject else None
-        if subject and g and g.number == grade and subject.name.casefold() == str(assessment.subject).casefold():
-            return True
-    return False
+        if subject and g:
+            out.add((g.number, subject.name.casefold()))
+    return out
 
 
 def chapters_by_student_from_marks(school_id: str) -> dict[str, dict[str, set[str]]]:
