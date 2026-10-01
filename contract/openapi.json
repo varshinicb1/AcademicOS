@@ -3955,6 +3955,11 @@
       },
       "DayRowResponse": {
         "properties": {
+          "changed": {
+            "default": false,
+            "title": "Changed",
+            "type": "boolean"
+          },
           "coTeacherId": {
             "anyOf": [
               {
@@ -3976,6 +3981,17 @@
               }
             ],
             "title": "Coteachername"
+          },
+          "endTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Endtime"
           },
           "kind": {
             "title": "Kind",
@@ -4018,6 +4034,17 @@
             ],
             "title": "Roomid"
           },
+          "roomName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomname"
+          },
           "sectionId": {
             "title": "Sectionid",
             "type": "string"
@@ -4032,6 +4059,17 @@
               }
             ],
             "title": "Sectionname"
+          },
+          "startTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starttime"
           },
           "subjectId": {
             "title": "Subjectid",
@@ -7458,7 +7496,7 @@
             "title": "Note"
           },
           "status": {
-            "pattern": "^(scheduled|completed|skipped)$",
+            "pattern": "^(scheduled|completed|skipped|partly)$",
             "title": "Status",
             "type": "string"
           }
@@ -7543,6 +7581,14 @@
           "totalMarks": {
             "title": "Totalmarks",
             "type": "integer"
+          },
+          "withoutConsent": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Withoutconsent",
+            "type": "array"
           }
         },
         "required": [
@@ -14356,6 +14402,17 @@
           "date": {
             "title": "Date",
             "type": "string"
+          },
+          "handoverNote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Handovernote"
           },
           "id": {
             "title": "Id",

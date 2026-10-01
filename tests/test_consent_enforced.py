@@ -104,9 +104,13 @@ def world(tmp_path, monkeypatch):
 
 
 def _assert_consent_refusal(r, student_id: str):
+    """The refusal names the student -- by name when they have an account
+    (v3 audit N-4-5: an internal id told the teacher nothing), else by id."""
+    from academicos.assessment import auth_routes
     assert r.status_code == 409, r.text
     detail = r.json()["detail"]
-    assert f"no recorded parental consent for student {student_id}" in detail
+    user = auth_routes._users.get(student_id) if auth_routes._users is not None else None
+    assert f"no recorded parental consent for student {user.name if user else student_id}" in detail
     assert "Classes" in detail
 
 

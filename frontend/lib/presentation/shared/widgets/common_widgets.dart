@@ -296,9 +296,13 @@ class SectionHeader extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(title, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
-              const Spacer(),
-              if (action != null) action!,
+              // The title wraps rather than pushing the action off a phone's
+              // screen (a long or Hindi title overflowed at 390 px).
+              Expanded(
+                child: Text(title,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
+              ),
+              if (action != null) ...[const SizedBox(width: 8), action!],
             ],
           ),
           if (subtitle != null) ...[
