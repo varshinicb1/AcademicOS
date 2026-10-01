@@ -2,7 +2,8 @@
 
 **Status:** architecture proposal, 2026-09-17, with an implementation update
 below. Sections 1-5 are the design; section 7 records what now exists and
-section 8 what does not.
+section 8 what does not. **Section 9 is how to call `/v1` as it is built**:
+authentication, every filter, every error, and copy-paste snippets.
 Companion to [`api.md`](api.md) and [`gcp-deployment.md`](gcp-deployment.md).
 
 > ## Implementation update — 2026-09-17, later the same day
@@ -274,11 +275,11 @@ Updated 2026-09-17 with measured results. "exists" now means tested.
 | Rights metadata | **done as a field** -- `rights` on every record, defaulting to `redistribution: "unknown"` so an unsettled position fails closed | **the counsel opinion itself, which still blocks distribution** |
 | Item review states | **done** -- draft / in_review / published / superseded, with illegal transitions refused | editorial UI |
 | Item-level audit trail | **done** -- every write appends a row with actor, note and both ends of a transition | an audit reader in the admin console |
-| Auth for third parties | **done** -- `ApiKeyStore`, SHA-256 at rest, scoped, revocable, per-key quota in SQLite | key issuance UI |
+| Auth for third parties | **done** -- `ApiKeyStore`, SHA-256 at rest, scoped, revocable, per-key quota in SQLite; issued from the web console's API keys page; limited to classes and subjects when minted (2026-10-01, section 9) | usage shown on the web page |
 | Rate limiting / quota | **done** -- per-key, counted in the database so N instances cannot each allow the full limit | — |
 | QTI export | **done** -- QTI 2.1 package (manifest + items + test), value points carried in `rubricBlock` | QTI 1.2 for legacy LMS deployments |
 | Grade by question | **done** -- `GET` one question across all students, `POST` one award to many | the Flutter review UI |
-| SDKs, portal, changelog | **sandbox done** (`scripts/export_qbank_sandbox.py`, 60 fabricated questions); spec and reference docs generate already | published Python and Dart SDKs, portal, changelog |
+| SDKs, portal, changelog | **sandbox done** (`scripts/export_qbank_sandbox.py`, 60 fabricated questions); spec and reference docs generate already; copy-paste Python, JavaScript and curl snippets in section 9 | published Python and Dart SDKs, portal, changelog, webhooks |
 | Multilingual | **absent** | Hindi-first. `language` exists on 100% of records but is `en` throughout |
 | Calibration | **absent** | `calibration.measured` is `false` everywhere; difficulty is derived from marks and Bloom, and the payload says so |
 
@@ -303,3 +304,253 @@ problem.
 Phases 1 and 2 are worth doing **even if the public API never ships**, because
 they make the internal bank better: versioned, properly attributed, and behind a
 stable interface the two client sub-products can share.
+
+---
+
+## 9. Calling `/v1` (as built, 2026-10-01)
+
+Everything here is what the code does, and `contract/openapi.json` declares
+the same: the two key schemes, every parameter, and every error response with
+its body. The rights position in section 2 still gates distribution to third
+parties; this section is for the partner who has it.
+
+### Base URL and the key
+
+* **Base URL:** `https://academicos-backend-2eskom55ta-el.a.run.app`. The
+  question-bank routes are at the root (`/v1/...`), not under `/api/v1`.
+* **Getting a key:** a principal mints one on the web console's **API keys**
+  page (or `POST /api/v1/api-keys`). The key (`acos_qb_...`) is shown **once**;
+  only its SHA-256 is stored.
+* **Sending it:** either header works.
+  * `X-API-Key: acos_qb_...`
+  * `Authorization: Bearer acos_qb_...`. This is the API key, not a user's
+    session token; a session token is refused here.
+* **Scopes:**
+  * `questions:read` opens the question, scheme, subtopic and homework-set
+    routes.
+  * `facets:read` opens `/v1/facets` and `/v1/coverage`.
+  * `papers:create` and `curriculum:read` are refused at mint, `422 ... not
+    available yet`, because no route checks them.
+  * Any scope that would reach student data is refused permanently.
+* **Classes and subjects:** a key may be limited when it is minted (`"grades":
+  [9, 10]`, `"subjects": ["Science"]`). Then:
+  * Every route serves only records inside the limits, and `/v1/facets` and
+    `/v1/coverage` count only those.
+  * A request that names a class or subject outside them is a `403`, and so is
+    asking for a question outside them by id.
+  * A subject the bank does not carry is refused at mint, `422`, with the
+    bank's subjects listed.
+  * The MCP server's network transports refuse a limited key, `403`. Its tools
+    cannot apply the limits yet, and serving the whole bank would undo them.
+* **Quota:** per key, per minute, counted in the database.
+  * Every `200` carries `RateLimit-Limit` and `RateLimit-Policy`.
+  * A spent key gets `429` with `Retry-After`: the seconds left in the current
+    one-minute window, not a fixed 60.
+
+### The routes
+
+| Route | Scope | What it returns |
+|---|---|---|
+| `GET /v1/questions` | `questions:read` | A page of questions matching the filters below, `{items, count, totalMatching, nextCursor}`; `facets=true` adds the counts |
+| `GET /v1/questions/{id}` | `questions:read` | One record, with provenance, rights and scheme |
+| `GET /v1/questions/{id}/scheme` | `questions:read` | Just the marking scheme: value points, model answer, provenance, `hasAnswerKey` |
+| `GET /v1/subtopics/{id}/questions` | `questions:read` | The same page as `?subtopic_id={id}`. Subtopic ids contain `/` (`science-10/life-processes/nutrition/nutrition-in-human-beings`); send them as they are or percent-encoded, both work |
+| `GET /v1/facets` | `facets:read` | Counts per subject, grade, marks, type, difficulty, Bloom level, review state, source, book and key tier |
+| `GET /v1/coverage` | `facets:read` | Answer-key coverage per subject and class |
+| `POST /v1/homework-sets` | `questions:read` | A homework set, below |
+
+Question ids can contain spaces and colons (`cbse:sqp:ClassX_2022_23:Carnatic
+Music (Percussion):1`): percent-encode them in a path, as the snippets do.
+
+### Filters on `GET /v1/questions`
+
+Every filter narrows; they combine with AND. **A query parameter a route does
+not take is a `422` naming it**: `?subjct=Science` used to answer with the
+whole bank (audit D7). An unknown *value* of an open filter (`?book=zzz`) is an
+empty page, because that is the true answer.
+
+| Parameter | Matches |
+|---|---|
+| `subject`, `grade` | the record's subject (case ignored) and class |
+| `marks`, `type`, `difficulty`, `bloom`, `review_state` | the record's field, exactly |
+| `chapter_id` | the chapter the paper builder files the question under (a pre-2024 slug still works) |
+| `subtopic_id`, `topic_id` | one of the record's `subtopicIds` / `topicIds`, exactly |
+| `competency` | one of the record's `competencyIds`, exactly. **No record in the served bank carries one yet** (0 of 5,319 at this commit), so this answers an empty page until the bank is tagged |
+| `source` | the record's `source` (case ignored): `cbse_board_paper`, `cbse_sample_paper`, `cbse_question_bank`, `ncert_exemplar`, ... The `source` facet lists what the bank holds |
+| `book` | the publication the question was printed in, as its `rights.attribution` names it (`NCERT, Exemplar Problems, Class X Science`). Case and spacing are ignored; the `book` facet lists the exact names. To select the textbook chapter a question is filed under, use `chapter_id` |
+| `trust` | the key's trust label, the list's `keyTier`: `published` (CBSE's or NCERT's own key) or `checked` (grounded in the textbook, two agreeing solves, or a teacher's approval). Anything else is a `400` |
+| `key_provenance` | one kind of key, e.g. `cbse_marking_scheme` for the board's own schemes |
+| `has_scheme`, `include_unkeyed` | rule Q1's two opt-ins (section 4): `has_scheme=false` for only the unanswerable set, `include_unkeyed=true` for everything |
+| `keyword` | a substring of the stem or tags |
+| `limit` (1-200, default 25), `cursor`, `facets` | paging and inline counts. `Link: <...>; rel="next"` repeats the whole query with the next cursor |
+
+### Homework sets
+
+`POST /v1/homework-sets` with a JSON body. Every question in a set has an
+answer key, and the same body with the same `seed` returns the same set.
+
+| Field | Meaning |
+|---|---|
+| `subject`, `grade` | required |
+| `chapterIds`, `topicIds`, `subtopicIds` | optional; a question must carry one of each list given |
+| `count` (1-50, default 10) | how many, when no mix is given |
+| `marks` | a mix of marks: `{"1": 4, "3": 2}` is four 1-mark and two 3-mark questions |
+| `types` | a mix of types, `{"mcq": 5, "short_answer": 3}`; or a list, `["mcq", "short_answer"]`, meaning `count` questions of those types, spread across them. A list also chooses the types inside a `marks` mix |
+| `excludeIds` | ids the class has already had; the API keeps no class history (API-5) |
+| `seed` | any string; the default is fixed per subject, class and chapters |
+
+The rules:
+
+* A `marks` mix and a `types` mix together are a `422`. Satisfying both at once
+  is an allocation problem a greedy pick gets wrong without saying so. To
+  combine them, send `types` as a list.
+* `count` sent beside a mix must equal the mix's total, or it is a `422`. It
+  used to be ignored.
+* The response is `{items, count, requested, available, shortfall}`.
+  `shortfall` names every bucket the bank could not fill, and by how many:
+  `{"4": 2}` (marks), `{"mcq": 3}` (types), or `{"any": 8}` with no mix.
+
+### Errors
+
+Every error body is JSON with a `detail`. The bodies are served as
+`application/json`, not yet `application/problem+json`; a `400` carries RFC
+9457's fields **under** `detail`.
+
+| Status | When | Body |
+|---|---|---|
+| `400` | A cursor that does not decode; a `key_provenance` or `trust` outside its vocabulary; `has_scheme=false` with `key_provenance` or `trust` (no record can satisfy both) | `{"detail": {"type": "about:blank", "title": "unknown trust label", "status": 400, "detail": "trust must be one of checked, published"}}` |
+| `401` | No key, an unknown key, or a revoked one. Carries `WWW-Authenticate: Bearer` | `{"detail": "a valid API key is required"}` |
+| `403` | The key lacks the route's scope; or the request, or the question asked for, is outside the key's classes or subjects | `{"detail": "this key does not hold the 'questions:read' scope"}`, `{"detail": "this key is limited to classes [10]; class 9 is outside it"}` |
+| `404` | No question with that id (and any path that is not a route) | `{"detail": "no question 'cbse:q:x:1'"}` |
+| `422` | A query parameter the route does not take; a value of the wrong type or out of range (`limit=500`); a homework-set body that does not validate | `{"detail": [{"type": "extra_forbidden", "loc": ["query", "subjct"], "msg": "unknown query parameter 'subjct'; this route takes ...", "input": "Science"}]}` |
+| `429` | The key spent its requests for this minute. Carries `Retry-After` | `{"detail": "quota exceeded for Partner LMS: 120/min"}` |
+| `503` | The question bank is not loaded on this server | `{"detail": "question-bank API not initialised"}` |
+
+Known gaps, from the audit and not fixed here:
+
+* Error responses carry no `RateLimit-*` headers (D65).
+* A few malformed cursors (`%%%`, `....`) decode to something and restart at
+  page one rather than answering `400` (D64).
+* There are no webhooks (API-6).
+
+### Snippets
+
+Set the key once: `export ACOS_QB_KEY=acos_qb_...`.
+
+**curl**
+
+```bash
+BASE=https://academicos-backend-2eskom55ta-el.a.run.app
+
+# List: 3-mark Science 10 questions from the NCERT Exemplar, with counts.
+curl -s -G "$BASE/v1/questions" -H "X-API-Key: $ACOS_QB_KEY" \
+  --data-urlencode subject=Science --data-urlencode grade=10 \
+  --data-urlencode marks=3 --data-urlencode source=ncert_exemplar \
+  --data-urlencode limit=50 --data-urlencode facets=true
+
+# Next page: pass nextCursor back as cursor (or follow the Link header).
+curl -s -G "$BASE/v1/questions" -H "X-API-Key: $ACOS_QB_KEY" \
+  --data-urlencode subject=Science --data-urlencode grade=10 \
+  --data-urlencode cursor="<nextCursor>"
+
+# One question's marking scheme. Percent-encode the id: ids hold spaces.
+QID=$(python3 -c 'import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1], safe=""))' "exemplar:q:10:science:6:-:1")
+curl -s "$BASE/v1/questions/$QID/scheme" -H "Authorization: Bearer $ACOS_QB_KEY"
+
+# A homework set: four 1-mark and two 3-mark questions from one chapter.
+curl -s "$BASE/v1/homework-sets" -H "X-API-Key: $ACOS_QB_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"subject": "Science", "grade": 10, "chapterIds": ["life-processes"],
+       "marks": {"1": 4, "3": 2}, "excludeIds": [], "seed": "10A-week-14"}'
+```
+
+**Python (`requests`)**
+
+```python
+import os
+import time
+from urllib.parse import quote
+
+import requests
+
+BASE = "https://academicos-backend-2eskom55ta-el.a.run.app"
+session = requests.Session()
+session.headers["X-API-Key"] = os.environ["ACOS_QB_KEY"]
+
+
+def call(method: str, path: str, **kwargs) -> dict:
+    """One request; waits out a 429 and raises on any other error."""
+    while True:
+        r = session.request(method, BASE + path, timeout=30, **kwargs)
+        if r.status_code == 429:
+            time.sleep(int(r.headers["Retry-After"]))
+            continue
+        if not r.ok:
+            raise RuntimeError(f"{r.status_code}: {r.json()['detail']}")
+        return r.json()
+
+
+# List: every 3-mark Science 10 Exemplar question, all pages.
+params = {"subject": "Science", "grade": 10, "marks": 3,
+          "source": "ncert_exemplar", "limit": 200}
+questions = []
+while True:
+    page = call("GET", "/v1/questions", params=params)
+    questions += page["items"]
+    if not page["nextCursor"]:
+        break
+    params["cursor"] = page["nextCursor"]
+
+# One question's marking scheme.
+scheme = call("GET", f"/v1/questions/{quote(questions[0]['id'], safe='')}/scheme")
+for point in scheme["markingPoints"]:
+    print(point["marks"], point["description"])
+
+# A homework set: two MCQs and one short answer, avoiding last week's set.
+homework = call("POST", "/v1/homework-sets", json={
+    "subject": "Science", "grade": 10, "chapterIds": ["life-processes"],
+    "types": {"mcq": 2, "short_answer": 1},
+    "excludeIds": [q["id"] for q in questions[:5]],
+})
+print(homework["count"], "of", homework["requested"], "shortfall:", homework["shortfall"])
+```
+
+**JavaScript (`fetch`)**
+
+```js
+const BASE = "https://academicos-backend-2eskom55ta-el.a.run.app";
+const KEY = process.env.ACOS_QB_KEY;
+
+async function call(path, init = {}) {
+  for (;;) {
+    const r = await fetch(BASE + path, {
+      ...init,
+      headers: { "X-API-Key": KEY, "Content-Type": "application/json", ...init.headers },
+    });
+    if (r.status === 429) {
+      await new Promise((ok) => setTimeout(ok, Number(r.headers.get("Retry-After")) * 1000));
+      continue;
+    }
+    const body = await r.json();
+    if (!r.ok) throw new Error(`${r.status}: ${JSON.stringify(body.detail)}`);
+    return body;
+  }
+}
+
+// List: Science 10 questions whose key CBSE or NCERT published.
+const params = new URLSearchParams({ subject: "Science", grade: "10", trust: "published", limit: "50" });
+const page = await call(`/v1/questions?${params}`);
+
+// One question's marking scheme.
+const scheme = await call(`/v1/questions/${encodeURIComponent(page.items[0].id)}/scheme`);
+
+// A homework set: 6 questions, MCQs and short answers, from one topic.
+const homework = await call("/v1/homework-sets", {
+  method: "POST",
+  body: JSON.stringify({
+    subject: "Science", grade: 10, count: 6, types: ["mcq", "short_answer"],
+    topicIds: ["science-10/life-processes/nutrition"],
+  }),
+});
+console.log(homework.count, homework.shortfall);
+```
