@@ -47,7 +47,9 @@ def test_a_teacher_exports_and_downloads_the_word_file(tmp_path, monkeypatch, se
         pid = _generate(client, t1)["id"]
         r = client.post(f"/api/v1/papers/{pid}/export/docx", headers=t1)
         assert r.status_code == 200, r.text
-        assert r.json()["url"] == f"/api/v1/papers/{pid}/file?format=docx"
+        # The URL names this export, so it fetches exactly this export's file
+        # (tests/test_concurrency_fixes.py); the plain path still serves the latest.
+        assert r.json()["url"] == f"/api/v1/papers/{pid}/file?format=docx&export={r.json()['watermarkId']}"
         f = client.get(f"/api/v1/papers/{pid}/file", params={"format": "docx"}, headers=t1)
         assert f.status_code == 200
         assert f.headers["content-type"].startswith("application/vnd.openxmlformats-officedocument.wordprocessingml")

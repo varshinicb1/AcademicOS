@@ -28492,6 +28492,7 @@
     },
     "/api/v1/papers/{paper_id}/file": {
       "get": {
+        "description": "The exported file: with `export` (the id an export returned), exactly\nthat export's file; without, the paper's latest export.",
         "operationId": "get_paper_file_api_v1_papers__paper_id__file_get",
         "parameters": [
           {
@@ -28511,6 +28512,22 @@
               "default": "pdf",
               "title": "Format",
               "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "export",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Export"
             }
           }
         ],
