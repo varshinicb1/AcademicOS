@@ -1,0 +1,31 @@
+{
+  "subject": "English",
+  "grade": 2,
+  "book": "Mridang",
+  "source_files": [
+    "chapters_text/bemr1/01.txt"
+  ],
+  "chapters": [
+    {
+      "id": "english-2/my-bicycle",
+      "name": "My Bicycle",
+      "number": 1,
+      "book": "Mridang",
+      "source_file": "chapters_text/bemr1/01.txt",
+      "pages": [
+        1,
+        7
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "english-2/my-bicycle/my-bicycle",
+          "name": "My Bicycle",
+          "page": 1,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "subject": "Mathematics",
+  "grade": 2,
+  "book": "Joyful-Mathematics (English)",
+  "source_files": [
+    "chapters_text/bejm1/01.txt",
+    "chapters_text/bejm1/02.txt"
+  ],
+  "chapters": [
+    {
+      "id": "mathematics-2/a-day-at-the-beach",
+      "name": "A Day at the Beach",
+      "number": 1,
+      "book": "Joyful-Mathematics (English)",
+      "source_file": "chapters_text/bejm1/01.txt",
+      "pages": [
+        1,
+        15
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "mathematics-2/a-day-at-the-beach/a-day-at-the-beach",
+          "name": "A Day at the Beach",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-2/a-day-at-the-beach/tasty-chikoos",
+          "name": "Tasty Chikoos!",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-2/a-day-at-the-beach/fun-with-blocks-and-strips",
+          "name": "Fun with Blocks and Strips",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-2/a-day-at-the-beach/let-us-make-100",
+          "name": "Let us Make 100!",
+          "page": 5,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-2/a-day-at-the-beach/counting-through-cards",
+          "name": "Counting through Cards",
+          "page": 7,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-2/a-day-at-the-beach/make-numbers",
+          "name": "Make Numbers",
+          "page": 8,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-2/a-day-at-the-beach/trays-of-oranges",
+          "name": "Trays of Oranges",
+          "page": 9,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-2/a-day-at-the-beach/flash-card-game",
+          "name": "Flash Card Game",
+          "page": 11,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-2/a-day-at-the-beach/play-with-numbers",
+          "name": "Play with Numbers",
+          "page": 12,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-2/a-day-at-the-beach/vallam-kali",
+          "name": "Vallam kali",
+          "page": 13,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-2/a-day-at-the-beach/jersey-number-17",
+          "name": "Jersey Number 17",
+          "page": 15,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "mathematics-2/shapes-around-us",
+      "name": "Shapes Around us",
+      "number": 2,
+      "book": "Joyful-Mathematics (English)",
+      "source_file": "chapters_text/bejm1/02.txt",
+      "pages": [
+        1,
+        7
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "mathematics-2/shapes-around-us/shapes-of-musical-instruments",
+          "name": "Shapes of Musical Instruments",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-2/shapes-around-us/faces-edges-and-corners",
+          "name": "Faces, Edges and Corners",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-2/shapes-around-us/objects-and-their-corners",
+          "name": "Objects and their Corners",
+          "page": 6,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}

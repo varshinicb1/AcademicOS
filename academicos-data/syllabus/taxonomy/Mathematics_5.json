@@ -1,0 +1,207 @@
+{
+  "subject": "Mathematics",
+  "grade": 5,
+  "book": "Math-Mela",
+  "source_files": [
+    "chapters_text/eemm1/01.txt",
+    "chapters_text/eemm1/02.txt",
+    "chapters_text/eemm1/04.txt"
+  ],
+  "chapters": [
+    {
+      "id": "mathematics-5/we-the-travellers-i",
+      "name": "We the Travellers — I",
+      "number": 1,
+      "book": "Math-Mela",
+      "source_file": "chapters_text/eemm1/01.txt",
+      "pages": [
+        1,
+        16
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "mathematics-5/we-the-travellers-i/reading-and-writing-large-numbers",
+          "name": "Reading and writing large numbers",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/we-the-travellers-i/nearest-tens-10s-hundreds-100s-and-thousands-1-000s",
+          "name": "Nearest Tens (10s), Hundreds (100s), and Thousands (1,000s)",
+          "page": 7,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/we-the-travellers-i/travelling-now-and-then",
+          "name": "Travelling, Now and Then",
+          "page": 8,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/we-the-travellers-i/finding-large-numbers-around-us",
+          "name": "Finding Large Numbers Around Us",
+          "page": 10,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/we-the-travellers-i/pastime-mathematics",
+          "name": "Pastime Mathematics",
+          "page": 10,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/we-the-travellers-i/king-s-horses",
+          "name": "King’s Horses",
+          "page": 14,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "mathematics-5/fractions",
+      "name": "Fractions",
+      "number": 2,
+      "book": "Math-Mela",
+      "source_file": "chapters_text/eemm1/02.txt",
+      "pages": [
+        1,
+        15
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "mathematics-5/fractions/fractions",
+          "name": "Fractions",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/fractions/fun-with-fraction-kit",
+          "name": "Fun with Fraction Kit",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/fractions/making-equivalent-fractions",
+          "name": "Making Equivalent Fractions",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/fractions/comparing-fractions-same-denominator",
+          "name": "Comparing Fractions — Same Denominator",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/fractions/comparing-fractions-same-numerator",
+          "name": "Comparing Fractions — Same Numerator",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/fractions/fractions-greater-than-1",
+          "name": "Fractions Greater Than 1",
+          "page": 7,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/fractions/comparing-fractions-with-reference-to-1-a-whole",
+          "name": "Comparing Fractions With Reference to 1 (a whole)",
+          "page": 11,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/fractions/comparing-fractions-with-reference-to-1-2",
+          "name": "Comparing Fractions with Reference to 1/2",
+          "page": 12,
+          "subtopics": []
+        }
+      ]
+    },
+    {
+      "id": "mathematics-5/we-the-travellers-ii",
+      "name": "We the Travellers — II",
+      "number": 4,
+      "book": "Math-Mela",
+      "source_file": "chapters_text/eemm1/04.txt",
+      "pages": [
+        1,
+        15
+      ],
+      "nameSource": "transcription-chapter-title",
+      "headingKind": "transcribed-heading-anchor",
+      "topics": [
+        {
+          "id": "mathematics-5/we-the-travellers-ii/making-sums-equal",
+          "name": "Making Sums Equal",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/we-the-travellers-ii/fuel-arithmetic",
+          "name": "Fuel Arithmetic",
+          "page": 1,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/we-the-travellers-ii/relationship-between-addition-and-subtraction",
+          "name": "Relationship Between Addition and Subtraction",
+          "page": 2,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/we-the-travellers-ii/more-fuel-arithmetic",
+          "name": "More Fuel Arithmetic",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/we-the-travellers-ii/sums-of-consecutive-numbers",
+          "name": "Sums of Consecutive Numbers",
+          "page": 3,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/we-the-travellers-ii/the-longest-land-route-adding-large-numbers",
+          "name": "The Longest Land Route — Adding Large Numbers",
+          "page": 4,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/we-the-travellers-ii/subtracting-large-numbers",
+          "name": "Subtracting Large Numbers",
+          "page": 6,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/we-the-travellers-ii/quick-sums-and-differences",
+          "name": "Quick Sums and Differences",
+          "page": 9,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/we-the-travellers-ii/let-us-think-and-solve",
+          "name": "Let Us Think and Solve",
+          "page": 11,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/we-the-travellers-ii/even-and-odd-numbers",
+          "name": "Even and Odd Numbers",
+          "page": 12,
+          "subtopics": []
+        },
+        {
+          "id": "mathematics-5/we-the-travellers-ii/math-metric-mela",
+          "name": "Math Metric Mela",
+          "page": 13,
+          "subtopics": []
+        }
+      ]
+    }
+  ]
+}
