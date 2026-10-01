@@ -69,12 +69,23 @@ def read_whole(path: Path) -> bytes:
     return path.read_bytes()
 
 
+_LAST_SWEEP: dict[str, float] = {}
+SWEEP_EVERY = 60.0
+
+
 def sweep(papers_dir: Path, now: float | None = None) -> None:
-    """Drop exports older than KEEP_SECONDS (each export leaves a directory)."""
+    """Drop exports older than KEEP_SECONDS (each export leaves a directory),
+    at most once a minute: listing every export directory on every export
+    grows with the exports kept, and a busy hour keeps hundreds."""
+    now = now or time.time()
+    last = _LAST_SWEEP.get(str(papers_dir))
+    if last is not None and now - last < SWEEP_EVERY:
+        return
+    _LAST_SWEEP[str(papers_dir)] = now
     root = papers_dir / "exports"
     if not root.is_dir():
         return
-    cutoff = (now or time.time()) - KEEP_SECONDS
+    cutoff = now - KEEP_SECONDS
     for d in root.iterdir():
         try:
             expired = d.is_dir() and d.stat().st_mtime < cutoff
