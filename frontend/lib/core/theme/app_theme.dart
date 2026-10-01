@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import '../constants/app_constants.dart';
 
 /// The palette the whole app draws from, taken from the design system
-/// (design/tokens.json): slate neutrals, one indigo accent, and white cards
-/// on a cool off-white canvas. The canvas is deliberately not #FFFFFF --
+/// (design/tokens.json), which carries the Emergera brand (2026-10-01): dark
+/// by default -- ink page, night cards, ember accent -- and a light theme of
+/// white cards on an off-white canvas. The canvas is deliberately not #FFFFFF --
 /// tokens.json's `surface` note explains why a data-dense screen needs a
 /// resting surface between its white cards.
 ///
@@ -40,44 +41,48 @@ class _Palette {
   final Color accent, accentHover, onAccent, accentTint, onAccentTint;
   final Color danger, dangerTint, onDangerTint;
 
+  // Emergera brand (design/tokens.json, from the brand's tokens.css v2.3):
+  // light is white cards on a #F6F6F8 page with graphite text; the accent is
+  // ember-deep, the brand's "ember text on light" (4.9:1 under white text).
   static const light = _Palette(
     brightness: Brightness.light,
-    canvas: Color(0xFFFBF7F0), // neutral 50
+    canvas: Color(0xFFF6F6F8), // neutral 50, the brand's bg-alt
     card: Color(0xFFFFFFFF),
-    inset: Color(0xFFF4EEE4), // neutral 100
-    line: Color(0xFFE9E0D3), // neutral 200
-    lineStrong: Color(0xFFD9CDBB), // neutral 300
-    text: Color(0xFF2A1E1F), // neutral 900
-    textSecondary: Color(0xFF6A5A5B), // neutral 600
-    textMuted: Color(0xFF776862), // neutral 500
-    accent: Color(0xFF7A1F2B), // brand 600
-    accentHover: Color(0xFF641822), // brand 700
+    inset: Color(0xFFF0F0F3), // neutral 100
+    line: Color(0xFFE8E8EC), // neutral 200, black at 9% on white
+    lineStrong: Color(0xFFD2D2D8), // neutral 300
+    text: Color(0xFF1D1D1F), // graphite
+    textSecondary: Color(0xFF6E6E78), // slate-deep, 5.0:1 on fog
+    textMuted: Color(0xFF6E6E78),
+    accent: Color(0xFFC2410C), // ember-deep
+    accentHover: Color(0xFF9A3412),
     onAccent: Color(0xFFFFFFFF),
-    accentTint: Color(0xFFF5E6E8), // brand 50
-    onAccentTint: Color(0xFF5A1520),
+    accentTint: Color(0xFFFFF1EA), // ember at 8% on white
+    onAccentTint: Color(0xFF9A3412),
     danger: Color(0xFFB91C1C),
     dangerTint: Color(0xFFFEF2F2),
     onDangerTint: Color(0xFF7F1D1D),
   );
 
+  // Dark is the brand's default: ink page, night cards, fog text, ember buttons.
   static const dark = _Palette(
     brightness: Brightness.dark,
-    canvas: Color(0xFF17110F),
-    card: Color(0xFF1F1816),
-    inset: Color(0xFF2A211E),
-    line: Color(0xFF332925),
-    lineStrong: Color(0xFF4A3D3C),
-    text: Color(0xFFF4EEE4),
-    textSecondary: Color(0xFFD9CDBB),
-    textMuted: Color(0xFFA99B8C),
-    accent: Color(0xFFE39AA5),
-    accentHover: Color(0xFFEDB3BC),
-    onAccent: Color(0xFF2A1E1F),
-    accentTint: Color(0xFF3A1A1F),
-    onAccentTint: Color(0xFFF5D5DA),
-    danger: Color(0xFFF87171),
-    dangerTint: Color(0xFF450A0A),
-    onDangerTint: Color(0xFFFECACA),
+    canvas: Color(0xFF07080F), // ink
+    card: Color(0xFF0E1120), // night
+    inset: Color(0xFF0B0D18), // bg-alt
+    line: Color(0xFF1A1E33), // dusk, hairlines on dark
+    lineStrong: Color(0xFF2A2E45),
+    text: Color(0xFFF5F5F7), // fog
+    textSecondary: Color(0xFFA1A3B3), // slate, 8.1:1 on ink
+    textMuted: Color(0xFFA1A3B3),
+    accent: Color(0xFFFF5A1F), // ember, THE accent
+    accentHover: Color(0xFFFF7A45), // ember lifted for small text on ink
+    onAccent: Color(0xFFFFFFFF),
+    accentTint: Color(0xFF2A1406), // the brand's banner ember on ink
+    onAccentTint: Color(0xFFFFB08A), // chip ember text
+    danger: Color(0xFFFF6B6B),
+    dangerTint: Color(0xFF2A0F12),
+    onDangerTint: Color(0xFFFFC9C9),
   );
 
   ColorScheme get scheme => ColorScheme(
@@ -95,7 +100,7 @@ class _Palette {
         tertiaryContainer: accentTint,
         onTertiaryContainer: onAccentTint,
         error: danger,
-        onError: brightness == Brightness.light ? Colors.white : const Color(0xFF2A1E1F),
+        onError: brightness == Brightness.light ? Colors.white : const Color(0xFF07080F),
         errorContainer: dangerTint,
         onErrorContainer: onDangerTint,
         surface: card,
@@ -112,7 +117,7 @@ class _Palette {
         scrim: Colors.black,
         inverseSurface: text,
         onInverseSurface: canvas,
-        inversePrimary: brightness == Brightness.light ? const Color(0xFFEDB3BC) : const Color(0xFF7A1F2B),
+        inversePrimary: brightness == Brightness.light ? const Color(0xFFFF7A45) : const Color(0xFFC2410C),
         surfaceTint: Colors.transparent,
       );
 }
@@ -123,12 +128,12 @@ class _Palette {
 /// white as text or an icon, and soft enough behind 10% alpha as a fill.
 /// Prefer [StatusColors.of] where a context exists, which follows dark mode.
 abstract final class AppColors {
-  static const Color success = Color(0xFF047857);
+  static const Color success = Color(0xFF0B7A5A); // mint-deep
   static const Color warning = Color(0xFFB45309);
   static const Color danger = Color(0xFFB91C1C);
   static const Color info = Color(0xFF1D4ED8);
-  static const Color accent = Color(0xFF7A1F2B);
-  static const Color neutral = Color(0xFF6A5A5B);
+  static const Color accent = Color(0xFFC2410C); // ember-deep
+  static const Color neutral = Color(0xFF6E6E78);
 }
 
 /// Status colours for chips, banners and progress (tokens.json
@@ -157,17 +162,18 @@ class StatusColors extends ThemeExtension<StatusColors> {
   final Color info, infoBg, infoBorder;
 
   static const light = StatusColors(
-    success: Color(0xFF047857), successBg: Color(0xFFECFDF5), successBorder: Color(0xFFA7F3D0),
+    success: Color(0xFF0B7A5A), successBg: Color(0xFFE8F7F1), successBorder: Color(0xFFA9E5CF),
     warning: Color(0xFFB45309), warningBg: Color(0xFFFFFBEB), warningBorder: Color(0xFFFDE68A),
     danger: Color(0xFFB91C1C), dangerBg: Color(0xFFFEF2F2), dangerBorder: Color(0xFFFECACA),
     info: Color(0xFF1D4ED8), infoBg: Color(0xFFEFF6FF), infoBorder: Color(0xFFBFDBFE),
   );
 
+  // The brand's text-safe status colours on ink, with their 12% fills.
   static const dark = StatusColors(
-    success: Color(0xFF6EE7B7), successBg: Color(0xFF022C22), successBorder: Color(0xFF065F46),
-    warning: Color(0xFFFCD34D), warningBg: Color(0xFF2A1A03), warningBorder: Color(0xFF78350F),
-    danger: Color(0xFFFCA5A5), dangerBg: Color(0xFF2A0A0A), dangerBorder: Color(0xFF7F1D1D),
-    info: Color(0xFF93C5FD), infoBg: Color(0xFF0B1B3A), infoBorder: Color(0xFF1E3A8A),
+    success: Color(0xFF30D5A0), successBg: Color(0xFF0A1F1C), successBorder: Color(0xFF0B7A5A),
+    warning: Color(0xFFFFC24A), warningBg: Color(0xFF211B0E), warningBorder: Color(0xFF7A5A12),
+    danger: Color(0xFFFF6B6B), dangerBg: Color(0xFF24100F), dangerBorder: Color(0xFF7F1D1D),
+    info: Color(0xFF8AB4FF), infoBg: Color(0xFF141B2D), infoBorder: Color(0xFF2B4A85),
   );
 
   static StatusColors of(BuildContext context) =>
