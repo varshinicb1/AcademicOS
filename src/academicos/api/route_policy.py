@@ -236,6 +236,15 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("PUT", "/api/v1/curriculum/sections/{section_id}/timetable"): _p(ADMIN["timetable"]),
     ("GET", "/api/v1/curriculum/my-timetable"): _p(ANY_USER, "the week of the caller"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve"): _p(ADMIN["timetable"]),
+    # N-3-6: publishing exactly the previewed week; N-3-20: elective groups,
+    # combined classes, and splitting or merging a section.
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/previews/{preview_id}/publish"): _p(ADMIN["timetable"]),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teaching-groups"): _p(STAFF, "names teachers"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/teaching-groups"): _p(ADMIN["timetable"]),
+    ("PUT", "/api/v1/curriculum/teaching-groups/{group_id}"): _p(ADMIN["timetable"]),
+    ("DELETE", "/api/v1/curriculum/teaching-groups/{group_id}"): _p(ADMIN["timetable"]),
+    ("POST", "/api/v1/curriculum/sections/{section_id}/split"): _p(ADMIN["timetable"], "scoped to the admin's classes"),
+    ("POST", "/api/v1/curriculum/sections/{section_id}/merge"): _p(ADMIN["timetable"], "scoped to the admin's classes"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability"): _p(ADMIN["timetable"], "teacher-level data is for the principal (ADM-5)"),
     ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}"): _p(ADMIN["timetable"]),
     # SCH-8: a room out of use (a lab's maintenance slot). Rooms are no one's
