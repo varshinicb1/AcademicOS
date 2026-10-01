@@ -24525,7 +24525,7 @@
         "summary": "Section Timetable"
       },
       "put": {
-        "description": "Replace a section's whole week. Checked before anything is written: a\nteacher or room already busy in another section, a period or day the\nbell does not have, a subject with no allocation or more periods than\nallocated. A 409 lists every clash; the old week is kept.",
+        "description": "Replace a section's whole week. Checked before anything is written: a\nteacher or room already busy in another section, a period or day the\nbell does not have, a subject with no allocation or more periods than\nallocated. A 409 lists every clash; the old week is kept. A subject\nwhose weekdays changed has its plan re-laid on the new week from today\n(N-3-14).",
         "operationId": "replace_section_timetable_api_v1_curriculum_sections__section_id__timetable_put",
         "parameters": [
           {
