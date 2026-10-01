@@ -166,6 +166,8 @@ const _hi = <String, String>{
   'Week': 'सप्ताह',
   'Students who need help': 'जिन विद्यार्थियों को मदद चाहिए',
   'By chapter': 'अध्याय के अनुसार',
+  'By topic': 'विषय के अनुसार',
+  'Incomplete': 'अधूरा',
   // the term report (ADM-2)
   'Term report': 'सत्र रिपोर्ट',
   'The term by class, section and subject; Excel or PDF': 'कक्षा, वर्ग और विषय के अनुसार सत्र; Excel या PDF',

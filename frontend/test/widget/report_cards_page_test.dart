@@ -31,6 +31,9 @@ final _card = {
         'obtained': null, 'maximum': 20, 'absent': true},
       {'paperId': 'p2', 'title': 'Maths PT', 'examType': 'periodic', 'examTypeLabel': 'Periodic test', 'setOn': '2026-07-01',
         'obtained': 18, 'maximum': 20, 'absent': false},
+      // Marks entered for some of its questions only: no total (v3 audit N-2-10).
+      {'paperId': 'p3', 'title': 'Maths CT', 'examType': 'class_test', 'examTypeLabel': 'Class test', 'setOn': '2026-07-10',
+        'obtained': null, 'maximum': 10, 'absent': false, 'incomplete': true},
     ]},
   ],
 };
@@ -119,11 +122,13 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets("a student's card shows each subject, an absence, the overall, and downloads", (tester) async {
+  testWidgets("a student's card shows each subject, an absence, an incomplete paper, the overall, and downloads",
+      (tester) async {
     await pump(tester, const StudentReportCardPage(studentId: 'stu_1', name: 'Asha'));
     expect(find.text('Term 1, 2026-27 · Class 10-A'), findsOneWidget);
     expect(find.text('18/20  90%  A2'), findsOneWidget);
     expect(find.text('Unit test: absent/20'), findsOneWidget);
+    expect(find.text('Class test: incomplete/10'), findsOneWidget);
     expect(find.text('Overall: 56/70  80%  B1'), findsOneWidget);
     expect(tester.takeException(), isNull, reason: 'fits a phone');
     await tester.tap(find.byKey(const ValueKey('card-pdf')));

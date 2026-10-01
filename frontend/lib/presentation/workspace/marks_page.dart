@@ -8,7 +8,7 @@ import 'strings.dart';
 
 /// Marks entry for a paper sat on paper (EX-8): one section's students by
 /// the paper's questions, typed cell by cell, then the analysis by question,
-/// chapter and class.
+/// chapter, topic and class.
 class MarksPage extends StatefulWidget {
   final String paperId;
   const MarksPage({super.key, required this.paperId});
@@ -182,12 +182,21 @@ class _MarksPageState extends State<MarksPage> {
                       onChanged: (_) => setState(() => _dirty.add(r['studentId'])),
                     ),
                   )),
-                DataCell(Text(r['total'] == null ? '-' : '${r['total']} (${r['band']})')),
+                DataCell(Text(_totalText(r), key: ValueKey('total-${r['studentId']}'))),
               ]),
           ],
         ),
       ),
     );
+  }
+
+  /// A row is graded only once every question has a mark. A partly entered
+  /// row has no total and reads "Incomplete", not a grade (v3 audit N-2-10:
+  /// 5 of 38 cells read 5.0 and band E).
+  static String _totalText(Map r) {
+    if (r['total'] != null) return '${r['total']} (${r['band']})';
+    final marks = (r['marks'] as Map?) ?? const {};
+    return r['absent'] != true && marks.isNotEmpty ? tr('Incomplete') : '-';
   }
 
   Widget _analysisView() {
@@ -201,6 +210,10 @@ class _MarksPageState extends State<MarksPage> {
         StatCard(label: 'Median', value: s['medianPercent'] == null ? '-' : '${s['medianPercent']}%', icon: Icons.align_vertical_center, color: theme.colorScheme.primary),
         StatCard(label: 'Absent', value: '${s['absent']} of ${s['students']}', icon: Icons.person_off_outlined, color: theme.colorScheme.outline),
       ]),
+      if (((s['incomplete'] as num?) ?? 0) > 0)
+        Padding(padding: const EdgeInsets.only(top: 8),
+            child: Text('${tr('Incomplete')}: ${s['incomplete']}, left out of the average and the grade bands '
+                'until every question has a mark', key: const ValueKey('incomplete-note'))),
       const SizedBox(height: 12),
       Text('Grade bands', style: theme.textTheme.titleSmall),
       Wrap(spacing: 6, children: [
@@ -217,14 +230,20 @@ class _MarksPageState extends State<MarksPage> {
           subtitle: Text('${q['attempted']} marked · mean ${q['mean'] ?? '-'} of ${q['maxMarks']}'),
           trailing: SizedBox(width: 120, child: LinearProgressIndicator(value: (q['facility'] as num?)?.toDouble() ?? 0)),
         ),
-      if ((a['chapters'] as List).isNotEmpty) ...[
-        SectionHeader(title: tr('By chapter')),
-        for (final c in (a['chapters'] as List).cast<Map>())
-          ListTile(dense: true, title: Text(c['name']), subtitle: Text('${c['questions']} questions'),
-              trailing: Text(c['facility'] == null ? '-' : '${((c['facility'] as num) * 100).round()}%')),
-      ],
+      ..._groups(tr('By chapter'), a['chapters'] as List?),
+      ..._groups(tr('By topic'), a['topics'] as List?),
     ]);
   }
+
+  /// Chapters or topics, weakest first as the server sorts them.
+  static List<Widget> _groups(String title, List? groups) => [
+        if (groups != null && groups.isNotEmpty) ...[
+          SectionHeader(title: title),
+          for (final c in groups.cast<Map>())
+            ListTile(dense: true, title: Text(c['name']), subtitle: Text('${c['questions']} questions'),
+                trailing: Text(c['facility'] == null ? '-' : '${((c['facility'] as num) * 100).round()}%')),
+        ],
+      ];
 }
 
 /// Asks a colleague to review a paper (EX-6), from the paper's own page.
