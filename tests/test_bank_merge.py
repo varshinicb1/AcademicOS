@@ -2571,3 +2571,52 @@ def test_every_served_key_accounts_for_its_questions_marks():
     for served in bm.compose([lump, split, any_of], [], []).questions:
         assert marking_split.awardable_marks(served["answerScheme"]) == served["marks"], \
             served["id"]
+
+
+# --------------------------------------------------------------------------- #
+# extraction repairs (29e63db re-measure: a class 10 Maths paper printed four
+# damaged stems in its first five questions)
+# --------------------------------------------------------------------------- #
+
+import json  # noqa: E402
+
+from academicos.corpus.bank_merge import _VALUE_MISSING, repair_extraction  # noqa: E402
+
+
+def test_repair_strips_the_leaked_marks_column_and_part_marks():
+    stem, fixed = repair_extraction("cbe:q:X1", "1 The distance between the points (12,1) and (4, -5) is", "mcq")
+    assert stem == "The distance between the points (12,1) and (4, -5) is" and fixed == ["leaked-marks-stripped"]
+    stem, _ = repair_extraction("cbe:q:X2", "Joan has a card. 1 (a) What boxes can Joan make?  1 (b) What is the volume?",
+                                "long_answer")
+    assert stem == "Joan has a card. (a) What boxes can Joan make?  (b) What is the volume?"
+    stem, _ = repair_extraction("cbe:q:X3", "(C) 38.4 cm2 (D) 76.8 cm2 (1 mark)", "mcq")
+    assert stem == "(C) 38.4 cm² (D) 76.8 cm²"
+
+
+def test_repair_leaves_content_digits_alone():
+    # An Exemplar digit before a part label is content: helium's atomic number.
+    text = "(d) An inert gas with atomic number 2 (e) An element whose oxide protects it"
+    assert repair_extraction("exemplar:q:10:science:5:-:41", text, "short_answer") == (text, [])
+    # An MCQ's last stem number before its options is not a marks column.
+    text = "The sum of 2 and 3 (a) Five (b) Six"
+    assert repair_extraction("cbe:q:X4", text, "mcq") == (text, [])
+
+
+def test_known_repairs_and_unit_powers():
+    stem, _ = repair_extraction("cbe:q:Maths10AD2", "the rational number 11323 250 will terminate", "mcq")
+    assert "11323/250" in stem
+    assert repair_extraction("cbe:q:X5", "Rs 5 per m2 and 88 cm3", "short_answer")[0] == "Rs 5 per m² and 88 cm³"
+
+
+def test_served_bank_carries_no_known_extraction_damage():
+    data = json.loads((Path(__file__).resolve().parents[1] / "academicos-data" / "syllabus" / "questions.json")
+                      .read_text(encoding="utf-8"))
+    for q in data["questions"]:
+        stem = q.get("stem") or ""
+        assert not _VALUE_MISSING.search(stem), q["id"]
+        if "extractionRepairs" not in (q.get("metadata") or {}):
+            assert repair_extraction(q["id"], stem, q.get("type") or "") == (stem, []), q["id"]
+    # Applied twice, a repaired stem keeps the equation's own digit.
+    once, _ = repair_extraction("cbe:q:Maths10RK5", "2x = y + 2 1 (a) Draw the graph.", "long_answer")
+    assert once == "2x = y + 2 (a) Draw the graph."
+    assert repair_extraction("cbe:q:Maths10RK5", once, "long_answer") == (once, [])
