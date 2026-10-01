@@ -93,6 +93,8 @@ const _hi = <String, String>{
   'due': 'जमा',
   'No classes': 'कोई कक्षा नहीं',
   'A holiday, a weekly off, or no timetable yet.': 'छुट्टी, साप्ताहिक अवकाश, या अभी समय-सारणी नहीं।',
+  'A holiday.': 'छुट्टी।',
+  'Exam': 'परीक्षा',
   // common actions and headings
   'Submit': 'जमा करें',
   'Send again': 'फिर से भेजें',

@@ -5,6 +5,7 @@ import '../../core/session/current_session.dart';
 
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
+import 'calendar_day_notice.dart';
 import 'ops_api.dart';
 import 'teacher_homework.dart' show TeachingContext;
 import 'strings.dart';
@@ -267,6 +268,8 @@ class _MyDayPageState extends State<MyDayPage> {
   List<Map<String, dynamic>> _duties = [];
   List<Map<String, dynamic>> _leave = [];
   List<Map<String, dynamic>> _lessons = [];
+  // The calendar's word on today: a holiday, a half day, an exam window.
+  List<Map<String, dynamic>> _calendarDay = [];
   TeachingContext? _ctx;
   String? _error;
   // The school's class and subject labels failing to load no longer blanks
@@ -292,8 +295,10 @@ class _MyDayPageState extends State<MyDayPage> {
         'to': isoDate(DateTime.now().add(const Duration(days: 7)))});
       final leave = await Ops.list('$_base/leave-requests');
       final lessons = await Ops.list('$_base/my-schedule', query: {'start_date': _today, 'end_date': _today});
+      final calendar = await Ops.list('/my-calendar', query: {'days': 1});
       setState(() {
         _rows = rows;
+        _calendarDay = calendarDayItems(calendar, _today);
         _duties = duties;
         _lessons = lessons;
         _leave = leave.where((l) => l['teacherId'] == CurrentSession.userId &&
@@ -452,6 +457,7 @@ class _MyDayPageState extends State<MyDayPage> {
     const kinds = {
       'regular': 'Your period', 'substitute': 'Covering', 'supervised': 'Supervising', 'combined': 'Combined class',
       'away': 'On leave', 'makeup': 'Make-up period', 'lost': 'Cancelled', 'uncovered': 'Needs cover',
+      'exam': 'Exam', 'co_teacher': 'Co-teacher away',
     };
     final pending = _duties.where((d) => d['status'] == 'proposed').toList();
     return Scaffold(
@@ -468,6 +474,7 @@ class _MyDayPageState extends State<MyDayPage> {
           : _rows == null
               ? const LoadingIndicator()
               : ListView(padding: const EdgeInsets.all(16), children: [
+                  CalendarDayNotice(_calendarDay),
                   if (_ctxError != null)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8),

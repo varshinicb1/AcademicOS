@@ -162,6 +162,51 @@ void main() {
     expect(find.text('P1'), findsOneWidget, reason: 'the grid is still there');
   });
 
+  // v3 audit N-3-19: the apps never said a day was a holiday, a half day or
+  // in an exam window; only the calendar feed carried holidays.
+  String iso(DateTime d) =>
+      '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+
+  void calendarCovering(_Server server, DateTime from) {
+    final first = iso(from), last = iso(from.add(const Duration(days: 1)));
+    server.answers['/my-calendar'] = '[{"kind":"half_day","title":"Half day: PTM (periods 1-4)","date":"$first",'
+        '"endDate":"$last"},{"kind":"exam_window","title":"Exam window: Unit test 1 (class 10)","date":"$first",'
+        '"endDate":"$last"},{"kind":"homework","title":"Homework due: Light","date":"$first"}]';
+  }
+
+  testWidgets('Today: the student is told the day is a half day in an exam window', (tester) async {
+    LocalStore.instance.authUser = {'id': 's1', 'schoolId': 'school_1', 'role': 'student', 'name': 'Asha'};
+    calendarCovering(server, DateTime.now());
+    await pump(tester, const StudentTodayPage());
+    expect(tester.takeException(), isNull);
+    expect(find.byKey(const ValueKey('calendar-day-notice')), findsOneWidget);
+    expect(find.text('Half day: PTM (periods 1-4)'), findsOneWidget);
+    expect(find.text('Exam window: Unit test 1 (class 10)'), findsOneWidget);
+    expect(find.text('Homework due: Light'), findsNothing, reason: 'the notice says how the day runs, nothing else');
+  });
+
+  testWidgets('My day: the teacher is told today is a half day', (tester) async {
+    calendarCovering(server, DateTime.now());
+    await pump(tester, const MyDayPage());
+    expect(tester.takeException(), isNull);
+    expect(find.text('Half day: PTM (periods 1-4)'), findsOneWidget);
+  });
+
+  testWidgets('Week: half days, exam windows and working days are coming up', (tester) async {
+    server.answers['/my-calendar'] = '[{"kind":"half_day","title":"Half day: PTM (periods 1-4)","date":"2026-10-12"},'
+        '{"kind":"exam_window","title":"Exam window: Half-yearly (class 10)","date":"2026-10-20",'
+        '"endDate":"2026-10-24"},{"kind":"working_day","title":"Working day: Rain day (Monday\'s timetable)",'
+        '"date":"2026-10-31"}]';
+    await pump(tester, const WeekPage());
+    expect(tester.takeException(), isNull);
+    expect(find.text('Half day: PTM (periods 1-4)'), findsOneWidget);
+    expect(find.text('Exam window: Half-yearly (class 10)'), findsOneWidget);
+    expect(find.text("Working day: Rain day (Monday's timetable)"), findsOneWidget);
+    expect(find.byIcon(Icons.timelapse), findsOneWidget);
+    expect(find.byIcon(Icons.edit_calendar), findsOneWidget);
+    expect(find.byIcon(Icons.event_available), findsOneWidget);
+  });
+
   testWidgets('Week: a student gets no load section', (tester) async {
     LocalStore.instance.authUser = {'id': 's1', 'schoolId': 'school_1', 'role': 'student', 'name': 'Asha'};
     await pump(tester, const WeekPage());

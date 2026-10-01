@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/session/current_session.dart';
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
+import 'calendar_day_notice.dart';
 import 'ops_api.dart';
 import 'strings.dart';
 import '../shared/widgets/shell.dart';
@@ -10,8 +11,9 @@ import '../shared/widgets/shell.dart';
 const _dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const _months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-/// The week (TA-2, SA-1): what is coming up (holidays, exams, duties and
-/// homework due -- the same events as the calendar link), a teacher's own
+/// The week (TA-2, SA-1): what is coming up (holidays, half days, exam
+/// windows and working days, exams, duties and homework due -- the same
+/// events as the calendar link), a teacher's own
 /// load, and the timetable as a grid of days by periods with the bell's
 /// times. Each part loads on its own, so one failing does not blank the page.
 class WeekPage extends StatefulWidget {
@@ -109,14 +111,6 @@ String calendarWhen(Map item, DateTime today) {
   return when;
 }
 
-const _kindIcons = <String, IconData>{
-  'holiday': Icons.beach_access_outlined,
-  'exam': Icons.edit_note,
-  'invigilation': Icons.visibility_outlined,
-  'cover': Icons.swap_horiz,
-  'homework': Icons.assignment_outlined,
-};
-
 class _ComingTile extends StatelessWidget {
   final Map<String, dynamic> item;
   const _ComingTile(this.item);
@@ -125,7 +119,7 @@ class _ComingTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       dense: true,
-      leading: Icon(_kindIcons[item['kind']] ?? Icons.event_outlined),
+      leading: Icon(calendarKindIcons[item['kind']] ?? Icons.event_outlined),
       title: Text(item['title'] as String? ?? ''),
       subtitle: Text(calendarWhen(item, DateTime.now())),
     );
