@@ -1,0 +1,5634 @@
+[
+ {
+  "chapter": "aejm1-ch13",
+  "language": "en-IN",
+  "page_count": 11,
+  "pages_scored": 7,
+  "pages_skipped": 4,
+  "worst_page_score": 0.7935,
+  "mean_page_score": 0.8809,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 352,
+    "source": "raw",
+    "score": 0.8812,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 638,
+    "source": "raw",
+    "score": 0.8964,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 333,
+    "source": "raw",
+    "score": 0.9296,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 4,
+    "score": null,
+    "chars": 296,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 5,
+    "score": null,
+    "chars": 413,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 6,
+    "chars": 379,
+    "source": "raw",
+    "score": 0.9501,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 341,
+    "source": "raw",
+    "score": 0.8562,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 209,
+    "source": "raw",
+    "score": 0.7935,
+    "missing_numbers": [
+     "11",
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 313,
+    "source": "raw",
+    "score": 0.8594,
+    "missing_numbers": [
+     "128",
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 10,
+    "score": null,
+    "chars": 19,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 11,
+    "score": null,
+    "chars": 19,
+    "note": "skipped-short",
+    "source": "raw"
+   }
+  ]
+ },
+ {
+  "chapter": "fegp1-ch10",
+  "language": "en-IN",
+  "page_count": 56,
+  "pages_scored": 27,
+  "pages_skipped": 29,
+  "worst_page_score": 0.788,
+  "mean_page_score": 0.9096,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 1075,
+    "source": "raw",
+    "score": 0.9617,
+    "missing_numbers": []
+   },
+   {
+    "page": 2,
+    "chars": 1017,
+    "source": "raw",
+    "score": 0.9518,
+    "missing_numbers": []
+   },
+   {
+    "page": 3,
+    "chars": 1316,
+    "source": "raw",
+    "score": 0.9502,
+    "missing_numbers": []
+   },
+   {
+    "page": 4,
+    "chars": 1244,
+    "source": "raw",
+    "score": 0.9564,
+    "missing_numbers": []
+   },
+   {
+    "page": 5,
+    "chars": 1033,
+    "source": "raw",
+    "score": 0.8881,
+    "missing_numbers": []
+   },
+   {
+    "page": 6,
+    "score": null,
+    "chars": 1028,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 7,
+    "chars": 1318,
+    "source": "raw",
+    "score": 0.956,
+    "missing_numbers": []
+   },
+   {
+    "page": 8,
+    "chars": 1113,
+    "source": "raw",
+    "score": 0.8817,
+    "missing_numbers": []
+   },
+   {
+    "page": 9,
+    "chars": 1121,
+    "source": "raw",
+    "score": 0.8416,
+    "missing_numbers": []
+   },
+   {
+    "page": 10,
+    "chars": 1220,
+    "source": "raw",
+    "score": 0.8863,
+    "missing_numbers": []
+   },
+   {
+    "page": 11,
+    "chars": 1218,
+    "source": "raw",
+    "score": 0.8963,
+    "missing_numbers": []
+   },
+   {
+    "page": 12,
+    "score": null,
+    "chars": 865,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 13,
+    "chars": 975,
+    "source": "raw",
+    "score": 0.8814,
+    "missing_numbers": []
+   },
+   {
+    "page": 14,
+    "chars": 1076,
+    "source": "raw",
+    "score": 0.8333,
+    "missing_numbers": []
+   },
+   {
+    "page": 15,
+    "chars": 996,
+    "source": "raw",
+    "score": 0.9599,
+    "missing_numbers": []
+   },
+   {
+    "page": 16,
+    "chars": 778,
+    "source": "raw",
+    "score": 0.8801,
+    "missing_numbers": []
+   },
+   {
+    "page": 17,
+    "score": null,
+    "chars": 803,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 18,
+    "chars": 1022,
+    "source": "raw",
+    "score": 0.8945,
+    "missing_numbers": []
+   },
+   {
+    "page": 19,
+    "chars": 1123,
+    "source": "raw",
+    "score": 0.9346,
+    "missing_numbers": []
+   },
+   {
+    "page": 20,
+    "chars": 795,
+    "source": "raw",
+    "score": 0.918,
+    "missing_numbers": []
+   },
+   {
+    "page": 21,
+    "chars": 1006,
+    "source": "raw",
+    "score": 0.8721,
+    "missing_numbers": [
+     "70"
+    ]
+   },
+   {
+    "page": 22,
+    "chars": 927,
+    "source": "raw",
+    "score": 0.8482,
+    "missing_numbers": []
+   },
+   {
+    "page": 23,
+    "score": null,
+    "chars": 764,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 24,
+    "chars": 1025,
+    "source": "raw",
+    "score": 0.788,
+    "missing_numbers": []
+   },
+   {
+    "page": 25,
+    "chars": 1382,
+    "source": "raw",
+    "score": 0.9505,
+    "missing_numbers": []
+   },
+   {
+    "page": 26,
+    "chars": 1605,
+    "source": "raw",
+    "score": 0.9572,
+    "missing_numbers": []
+   },
+   {
+    "page": 27,
+    "chars": 1320,
+    "source": "raw",
+    "score": 0.9356,
+    "missing_numbers": []
+   },
+   {
+    "page": 28,
+    "chars": 1389,
+    "source": "raw",
+    "score": 0.9623,
+    "missing_numbers": []
+   },
+   {
+    "page": 29,
+    "chars": 1259,
+    "source": "raw",
+    "score": 0.942,
+    "missing_numbers": []
+   },
+   {
+    "page": 30,
+    "chars": 481,
+    "source": "raw",
+    "score": 0.9359,
+    "missing_numbers": []
+   },
+   {
+    "page": 31,
+    "score": null,
+    "chars": 36,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 32,
+    "score": null,
+    "chars": 14,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 33,
+    "score": null,
+    "chars": 14,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 34,
+    "score": null,
+    "chars": 14,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 35,
+    "score": null,
+    "chars": 14,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 36,
+    "score": null,
+    "chars": 65,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 37,
+    "score": null,
+    "chars": 14,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 38,
+    "score": null,
+    "chars": 187,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 39,
+    "score": null,
+    "chars": 14,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 40,
+    "score": null,
+    "chars": 50,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 41,
+    "score": null,
+    "chars": 14,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 42,
+    "score": null,
+    "chars": 19,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 43,
+    "score": null,
+    "chars": 19,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 44,
+    "score": null,
+    "chars": 680,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 45,
+    "score": null,
+    "chars": 781,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 46,
+    "score": null,
+    "chars": 618,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 47,
+    "score": null,
+    "chars": 849,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 48,
+    "score": null,
+    "chars": 923,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 49,
+    "score": null,
+    "chars": 658,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 50,
+    "score": null,
+    "chars": 526,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 51,
+    "score": null,
+    "chars": 457,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 52,
+    "chars": 703,
+    "source": "raw",
+    "score": 0.8949,
+    "missing_numbers": []
+   },
+   {
+    "page": 53,
+    "score": null,
+    "chars": 854,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 54,
+    "score": null,
+    "chars": 558,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 55,
+    "score": null,
+    "chars": 637,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 56,
+    "score": null,
+    "chars": 1190,
+    "note": "unreadable-layer",
+    "source": "raw"
+   }
+  ]
+ },
+ {
+  "chapter": "fepr1-ch05",
+  "language": "en-IN",
+  "page_count": 34,
+  "pages_scored": 33,
+  "pages_skipped": 1,
+  "worst_page_score": 0.8166,
+  "mean_page_score": 0.9378,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 536,
+    "source": "raw",
+    "score": 0.9562,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 2,
+    "score": null,
+    "chars": 728,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 3,
+    "chars": 852,
+    "source": "raw",
+    "score": 0.9573,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 878,
+    "source": "raw",
+    "score": 0.9634,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 1131,
+    "source": "raw",
+    "score": 0.9712,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 721,
+    "source": "raw",
+    "score": 0.9089,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 1101,
+    "source": "raw",
+    "score": 0.8908,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 1068,
+    "source": "raw",
+    "score": 0.9614,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 575,
+    "source": "raw",
+    "score": 0.9617,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 10,
+    "chars": 652,
+    "source": "raw",
+    "score": 0.9653,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 11,
+    "chars": 997,
+    "source": "raw",
+    "score": 0.9645,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 12,
+    "chars": 377,
+    "source": "raw",
+    "score": 0.9351,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 13,
+    "chars": 825,
+    "source": "raw",
+    "score": 0.9093,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 14,
+    "chars": 990,
+    "source": "raw",
+    "score": 0.9443,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 15,
+    "chars": 491,
+    "source": "raw",
+    "score": 0.9437,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 16,
+    "chars": 501,
+    "source": "raw",
+    "score": 0.9097,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 17,
+    "chars": 747,
+    "source": "raw",
+    "score": 0.9078,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 18,
+    "chars": 983,
+    "source": "raw",
+    "score": 0.9601,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 19,
+    "chars": 941,
+    "source": "raw",
+    "score": 0.9724,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 20,
+    "chars": 245,
+    "source": "raw",
+    "score": 0.8166,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 21,
+    "chars": 787,
+    "source": "raw",
+    "score": 0.9582,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 22,
+    "chars": 1026,
+    "source": "raw",
+    "score": 0.9707,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 23,
+    "chars": 1005,
+    "source": "raw",
+    "score": 0.978,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 24,
+    "chars": 741,
+    "source": "raw",
+    "score": 0.9583,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 25,
+    "chars": 455,
+    "source": "raw",
+    "score": 0.8297,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 26,
+    "chars": 1217,
+    "source": "raw",
+    "score": 0.9768,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 27,
+    "chars": 905,
+    "source": "raw",
+    "score": 0.91,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 28,
+    "chars": 883,
+    "source": "raw",
+    "score": 0.8948,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 29,
+    "chars": 1100,
+    "source": "raw",
+    "score": 0.9765,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 30,
+    "chars": 711,
+    "source": "raw",
+    "score": 0.9011,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 31,
+    "chars": 293,
+    "source": "raw",
+    "score": 0.9268,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 32,
+    "chars": 644,
+    "source": "raw",
+    "score": 0.9586,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 33,
+    "chars": 1044,
+    "source": "raw",
+    "score": 0.9637,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   },
+   {
+    "page": 34,
+    "chars": 732,
+    "source": "raw",
+    "score": 0.943,
+    "missing_numbers": [
+     "2026",
+     "27"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "gecu1-ch12",
+  "language": "en-IN",
+  "page_count": 20,
+  "pages_scored": 19,
+  "pages_skipped": 1,
+  "worst_page_score": 0.8959,
+  "mean_page_score": 0.9436,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 649,
+    "source": "raw",
+    "score": 0.9636,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 1597,
+    "source": "raw",
+    "score": 0.9596,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 1544,
+    "source": "raw",
+    "score": 0.9252,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 1299,
+    "source": "raw",
+    "score": 0.9349,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 1789,
+    "source": "raw",
+    "score": 0.96,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 1749,
+    "source": "raw",
+    "score": 0.9155,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 1257,
+    "source": "raw",
+    "score": 0.9017,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 1278,
+    "source": "raw",
+    "score": 0.9472,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 1336,
+    "source": "raw",
+    "score": 0.9537,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 10,
+    "chars": 1429,
+    "source": "raw",
+    "score": 0.8959,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 11,
+    "chars": 1951,
+    "source": "raw",
+    "score": 0.9724,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 12,
+    "chars": 2205,
+    "source": "raw",
+    "score": 0.962,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 13,
+    "chars": 1506,
+    "source": "raw",
+    "score": 0.9454,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 14,
+    "chars": 2210,
+    "source": "raw",
+    "score": 0.9734,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 15,
+    "chars": 1207,
+    "source": "raw",
+    "score": 0.9496,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 16,
+    "chars": 1329,
+    "source": "raw",
+    "score": 0.9403,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 17,
+    "chars": 1274,
+    "source": "raw",
+    "score": 0.903,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 18,
+    "chars": 1787,
+    "source": "raw",
+    "score": 0.9381,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 19,
+    "chars": 1522,
+    "source": "raw",
+    "score": 0.9862,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 20,
+    "score": null,
+    "chars": 19,
+    "note": "skipped-short",
+    "source": "raw"
+   }
+  ]
+ },
+ {
+  "chapter": "gegp1-ch04",
+  "language": "en-IN",
+  "page_count": 41,
+  "pages_scored": 30,
+  "pages_skipped": 11,
+  "worst_page_score": 0.83,
+  "mean_page_score": 0.9376,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 1098,
+    "source": "raw",
+    "score": 0.9436,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 1486,
+    "source": "raw",
+    "score": 0.9622,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 1294,
+    "source": "raw",
+    "score": 0.9455,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 1118,
+    "source": "raw",
+    "score": 0.9634,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 1214,
+    "source": "raw",
+    "score": 0.8808,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 1185,
+    "source": "raw",
+    "score": 0.9066,
+    "missing_numbers": [
+     "130",
+     "2026",
+     "70"
+    ]
+   },
+   {
+    "page": 7,
+    "score": null,
+    "chars": 1050,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 8,
+    "chars": 1445,
+    "source": "raw",
+    "score": 0.9488,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 1403,
+    "source": "raw",
+    "score": 0.9554,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 10,
+    "chars": 1211,
+    "source": "raw",
+    "score": 0.9075,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 11,
+    "chars": 1364,
+    "source": "raw",
+    "score": 0.8684,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 12,
+    "chars": 856,
+    "source": "raw",
+    "score": 0.8926,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 13,
+    "score": null,
+    "chars": 998,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 14,
+    "score": null,
+    "chars": 749,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 15,
+    "chars": 1300,
+    "source": "raw",
+    "score": 0.9258,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 16,
+    "chars": 705,
+    "source": "raw",
+    "score": 0.8776,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 17,
+    "chars": 1246,
+    "source": "raw",
+    "score": 0.9365,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 18,
+    "chars": 608,
+    "source": "raw",
+    "score": 0.9439,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 19,
+    "chars": 1286,
+    "source": "raw",
+    "score": 0.9416,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 20,
+    "chars": 1070,
+    "source": "raw",
+    "score": 0.9138,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 21,
+    "chars": 1252,
+    "source": "raw",
+    "score": 0.9649,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 22,
+    "chars": 1455,
+    "source": "raw",
+    "score": 0.9501,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 23,
+    "chars": 1126,
+    "source": "raw",
+    "score": 0.83,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 24,
+    "chars": 711,
+    "source": "raw",
+    "score": 0.9584,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 25,
+    "chars": 942,
+    "source": "raw",
+    "score": 0.9261,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 26,
+    "chars": 794,
+    "source": "raw",
+    "score": 0.9927,
+    "missing_numbers": []
+   },
+   {
+    "page": 27,
+    "score": null,
+    "chars": 795,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 28,
+    "chars": 730,
+    "source": "raw",
+    "score": 0.9873,
+    "missing_numbers": []
+   },
+   {
+    "page": 29,
+    "chars": 323,
+    "source": "raw",
+    "score": 0.9851,
+    "missing_numbers": []
+   },
+   {
+    "page": 30,
+    "score": null,
+    "chars": 711,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 31,
+    "score": null,
+    "chars": 739,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 32,
+    "score": null,
+    "chars": 689,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 33,
+    "score": null,
+    "chars": 461,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 34,
+    "score": null,
+    "chars": 1132,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 35,
+    "chars": 977,
+    "source": "raw",
+    "score": 0.9837,
+    "missing_numbers": []
+   },
+   {
+    "page": 36,
+    "score": null,
+    "chars": 682,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 37,
+    "chars": 890,
+    "source": "raw",
+    "score": 0.9001,
+    "missing_numbers": []
+   },
+   {
+    "page": 38,
+    "chars": 764,
+    "source": "raw",
+    "score": 0.9696,
+    "missing_numbers": [
+     "𝟏𝟗𝟎",
+     "𝟑𝟒𝟑",
+     "𝟗𝟎"
+    ]
+   },
+   {
+    "page": 39,
+    "chars": 507,
+    "source": "raw",
+    "score": 0.9793,
+    "missing_numbers": []
+   },
+   {
+    "page": 40,
+    "score": null,
+    "chars": 654,
+    "note": "unreadable-layer",
+    "source": "raw"
+   },
+   {
+    "page": 41,
+    "chars": 192,
+    "source": "raw",
+    "score": 0.9856,
+    "missing_numbers": []
+   }
+  ]
+ },
+ {
+  "chapter": "gepr1-ch02",
+  "language": "en-IN",
+  "page_count": 48,
+  "pages_scored": 48,
+  "pages_skipped": 0,
+  "worst_page_score": 0.8712,
+  "mean_page_score": 0.9558,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 688,
+    "source": "raw",
+    "score": 0.9528,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 1077,
+    "source": "raw",
+    "score": 0.9769,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 1434,
+    "source": "raw",
+    "score": 0.9634,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 1384,
+    "source": "raw",
+    "score": 0.9732,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 1052,
+    "source": "raw",
+    "score": 0.982,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 991,
+    "source": "raw",
+    "score": 0.9713,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 966,
+    "source": "raw",
+    "score": 0.9634,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 1394,
+    "source": "raw",
+    "score": 0.9642,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 1626,
+    "source": "raw",
+    "score": 0.9786,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 10,
+    "chars": 951,
+    "source": "raw",
+    "score": 0.9612,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 11,
+    "chars": 1283,
+    "source": "raw",
+    "score": 0.9442,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 12,
+    "chars": 1282,
+    "source": "raw",
+    "score": 0.9703,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 13,
+    "chars": 1384,
+    "source": "raw",
+    "score": 0.9803,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 14,
+    "chars": 648,
+    "source": "raw",
+    "score": 0.9188,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 15,
+    "chars": 1108,
+    "source": "raw",
+    "score": 0.9477,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 16,
+    "chars": 729,
+    "source": "raw",
+    "score": 0.967,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 17,
+    "chars": 226,
+    "source": "raw",
+    "score": 0.9206,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 18,
+    "chars": 596,
+    "source": "raw",
+    "score": 0.9425,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 19,
+    "chars": 1239,
+    "source": "raw",
+    "score": 0.9718,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 20,
+    "chars": 937,
+    "source": "raw",
+    "score": 0.9328,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 21,
+    "chars": 1119,
+    "source": "raw",
+    "score": 0.9395,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 22,
+    "chars": 1015,
+    "source": "raw",
+    "score": 0.9314,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 23,
+    "chars": 443,
+    "source": "raw",
+    "score": 0.8712,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 24,
+    "chars": 1058,
+    "source": "raw",
+    "score": 0.9695,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 25,
+    "chars": 1160,
+    "source": "raw",
+    "score": 0.9552,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 26,
+    "chars": 637,
+    "source": "raw",
+    "score": 0.9561,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 27,
+    "chars": 411,
+    "source": "raw",
+    "score": 0.9525,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 28,
+    "chars": 621,
+    "source": "raw",
+    "score": 0.9313,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 29,
+    "chars": 593,
+    "source": "raw",
+    "score": 0.9466,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 30,
+    "chars": 1221,
+    "source": "raw",
+    "score": 0.9492,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 31,
+    "chars": 1277,
+    "source": "raw",
+    "score": 0.9763,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 32,
+    "chars": 548,
+    "source": "raw",
+    "score": 0.93,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 33,
+    "chars": 1257,
+    "source": "raw",
+    "score": 0.9604,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 34,
+    "chars": 1013,
+    "source": "raw",
+    "score": 0.9623,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 35,
+    "chars": 1345,
+    "source": "raw",
+    "score": 0.9752,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 36,
+    "chars": 1194,
+    "source": "raw",
+    "score": 0.9759,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 37,
+    "chars": 1463,
+    "source": "raw",
+    "score": 0.9855,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 38,
+    "chars": 951,
+    "source": "raw",
+    "score": 0.8736,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 39,
+    "chars": 1473,
+    "source": "raw",
+    "score": 0.9806,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 40,
+    "chars": 1352,
+    "source": "raw",
+    "score": 0.9753,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 41,
+    "chars": 1380,
+    "source": "raw",
+    "score": 0.9476,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 42,
+    "chars": 1354,
+    "source": "raw",
+    "score": 0.9844,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 43,
+    "chars": 1174,
+    "source": "raw",
+    "score": 0.9735,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 44,
+    "chars": 1294,
+    "source": "raw",
+    "score": 0.9736,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 45,
+    "chars": 916,
+    "source": "raw",
+    "score": 0.9274,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 46,
+    "chars": 1111,
+    "source": "raw",
+    "score": 0.9751,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 47,
+    "chars": 1255,
+    "source": "raw",
+    "score": 0.9609,
+    "missing_numbers": [
+     "2026"
+    ]
+   },
+   {
+    "page": 48,
+    "chars": 1153,
+    "source": "raw",
+    "score": 0.9533,
+    "missing_numbers": [
+     "2026"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhkr1-ch01",
+  "language": "hi-IN",
+  "page_count": 9,
+  "pages_scored": 8,
+  "pages_skipped": 1,
+  "worst_page_score": 0.6866,
+  "mean_page_score": 0.7962,
+  "below_threshold": 0,
+  "warn_pages": 1,
+  "verdict": "review",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 654,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7774,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "score": null,
+    "chars": 19,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 3,
+    "chars": 1006,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8293,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 1037,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8029,
+    "missing_numbers": [
+     "१०",
+     "११",
+     "१२",
+     "१३",
+     "१४",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 919,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8187,
+    "missing_numbers": [
+     "१५",
+     "१६",
+     "१७",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 953,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7888,
+    "missing_numbers": [
+     "१८",
+     "१९",
+     "२०",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 506,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8235,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 957,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8423,
+    "missing_numbers": [
+     "२०२६",
+     "२१",
+     "२२",
+     "२७"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 213,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6866,
+    "missing_numbers": [
+     "१०",
+     "११",
+     "१२",
+     "२०२६",
+     "२७"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhkr1-ch02",
+  "language": "hi-IN",
+  "page_count": 14,
+  "pages_scored": 14,
+  "pages_skipped": 0,
+  "worst_page_score": 0.7106,
+  "mean_page_score": 0.7999,
+  "below_threshold": 0,
+  "warn_pages": 2,
+  "verdict": "review",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 640,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7993,
+    "missing_numbers": [
+     "१०",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 1021,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8157,
+    "missing_numbers": [
+     "११",
+     "१४९",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 500,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8109,
+    "missing_numbers": [
+     "१२",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 1071,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.828,
+    "missing_numbers": [
+     "१०",
+     "११",
+     "१३",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 1074,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7672,
+    "missing_numbers": [
+     "१२",
+     "१३",
+     "१४",
+     "१५",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 536,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8611,
+    "missing_numbers": [
+     "१५",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 917,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7982,
+    "missing_numbers": [
+     "१६",
+     "१७",
+     "१८",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 1067,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8564,
+    "missing_numbers": [
+     "१७",
+     "१९",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 1156,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8042,
+    "missing_numbers": [
+     "१४०००",
+     "१८",
+     "२०",
+     "२०२६",
+     "२१",
+     "२२",
+     "२३",
+     "२४",
+     "२७",
+     "५००"
+    ]
+   },
+   {
+    "page": 10,
+    "chars": 1068,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7841,
+    "missing_numbers": [
+     "१९",
+     "२०२६",
+     "२५",
+     "२७"
+    ]
+   },
+   {
+    "page": 11,
+    "chars": 1044,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7852,
+    "missing_numbers": [
+     "१५",
+     "२०",
+     "२०२६",
+     "२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 12,
+    "chars": 1017,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.832,
+    "missing_numbers": [
+     "२०२६",
+     "२१",
+     "२७"
+    ]
+   },
+   {
+    "page": 13,
+    "chars": 907,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7451,
+    "missing_numbers": [
+     "२०२६",
+     "२२",
+     "२७"
+    ]
+   },
+   {
+    "page": 14,
+    "chars": 630,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7106,
+    "missing_numbers": [
+     "१०",
+     "११",
+     "१२",
+     "१३",
+     "१४",
+     "१५",
+     "१६",
+     "२०२६",
+     "२३",
+     "२७"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhkr1-ch03",
+  "language": "hi-IN",
+  "page_count": 5,
+  "pages_scored": 5,
+  "pages_skipped": 0,
+  "worst_page_score": 0.6785,
+  "mean_page_score": 0.7497,
+  "below_threshold": 0,
+  "warn_pages": 3,
+  "verdict": "review",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 673,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7311,
+    "missing_numbers": [
+     "२०२६",
+     "२४",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 1129,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8,
+    "missing_numbers": [
+     "२०२६",
+     "२५",
+     "२७"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 326,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6785,
+    "missing_numbers": [
+     "२०२६",
+     "२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 831,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7294,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 382,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8094,
+    "missing_numbers": [
+     "१९५९",
+     "२०२६",
+     "२७",
+     "२८"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch01",
+  "language": "hi-IN",
+  "page_count": 9,
+  "pages_scored": 8,
+  "pages_skipped": 1,
+  "worst_page_score": 0.4614,
+  "mean_page_score": 0.6985,
+  "below_threshold": 2,
+  "warn_pages": 3,
+  "verdict": "page-failure",
+  "pages": [
+   {
+    "page": 1,
+    "score": null,
+    "chars": 79,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 2,
+    "chars": 342,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8359,
+    "missing_numbers": [
+     "१८५७",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 499,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7978,
+    "missing_numbers": [
+     "१४७८",
+     "१५८३",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 516,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8873,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 154,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6107,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 458,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7095,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 871,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6899,
+    "missing_numbers": [
+     "१०",
+     "११",
+     "१२",
+     "१३",
+     "१४",
+     "१५",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 435,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.4614,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 267,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.5954,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch02",
+  "language": "hi-IN",
+  "page_count": 7,
+  "pages_scored": 7,
+  "pages_skipped": 0,
+  "worst_page_score": 0.6912,
+  "mean_page_score": 0.774,
+  "below_threshold": 0,
+  "warn_pages": 1,
+  "verdict": "review",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 673,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7671,
+    "missing_numbers": [
+     "१०",
+     "१५३२",
+     "१६२३",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 310,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8392,
+    "missing_numbers": [
+     "११",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 299,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7877,
+    "missing_numbers": [
+     "१२",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 544,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7981,
+    "missing_numbers": [
+     "१३",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 695,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7547,
+    "missing_numbers": [
+     "१०",
+     "१४",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 698,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6912,
+    "missing_numbers": [
+     "११",
+     "१२",
+     "१३",
+     "१४",
+     "१५",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 712,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7798,
+    "missing_numbers": [
+     "११",
+     "१३",
+     "१६",
+     "२०२६",
+     "२७"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch03",
+  "language": "hi-IN",
+  "page_count": 5,
+  "pages_scored": 5,
+  "pages_skipped": 0,
+  "worst_page_score": 0.5976,
+  "mean_page_score": 0.7154,
+  "below_threshold": 1,
+  "warn_pages": 2,
+  "verdict": "page-failure",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 533,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6912,
+    "missing_numbers": [
+     "१८८९",
+     "१९३७",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 433,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7969,
+    "missing_numbers": [
+     "१८",
+     "१९३२",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 522,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8176,
+    "missing_numbers": [
+     "१९",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 708,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6738,
+    "missing_numbers": [
+     "१०",
+     "२०",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 527,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.5976,
+    "missing_numbers": [
+     "१६४१",
+     "१९३०",
+     "१९३६",
+     "१९८६",
+     "२०२६",
+     "२१",
+     "२७"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch04",
+  "language": "hi-IN",
+  "page_count": 6,
+  "pages_scored": 6,
+  "pages_skipped": 0,
+  "worst_page_score": 0.5952,
+  "mean_page_score": 0.685,
+  "below_threshold": 1,
+  "warn_pages": 4,
+  "verdict": "page-failure",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 657,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7391,
+    "missing_numbers": [
+     "१८९९",
+     "१९६१",
+     "२०२६",
+     "२२",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 412,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.76,
+    "missing_numbers": [
+     "२०२६",
+     "२३",
+     "२७"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 185,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.5952,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 154,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.694,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 638,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6995,
+    "missing_numbers": [
+     "२०२६",
+     "२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 369,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6222,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch05",
+  "language": "hi-IN",
+  "page_count": 7,
+  "pages_scored": 7,
+  "pages_skipped": 0,
+  "worst_page_score": 0.5965,
+  "mean_page_score": 0.7292,
+  "below_threshold": 1,
+  "warn_pages": 4,
+  "verdict": "page-failure",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 713,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7303,
+    "missing_numbers": [
+     "१९११",
+     "१९३६",
+     "१९३८",
+     "१९९८",
+     "२०२६",
+     "२७",
+     "२८"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 560,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8918,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "२९"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 128,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7807,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३०"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 338,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7348,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३१"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 470,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7179,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३२"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 647,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6525,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३३"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 233,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.5965,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३४"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch06",
+  "language": "hi-IN",
+  "page_count": 8,
+  "pages_scored": 7,
+  "pages_skipped": 1,
+  "worst_page_score": 0.6601,
+  "mean_page_score": 0.7799,
+  "below_threshold": 0,
+  "warn_pages": 2,
+  "verdict": "review",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 616,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7835,
+    "missing_numbers": [
+     "१९४८",
+     "१९८३",
+     "२०२०",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 305,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7751,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३६"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 411,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9289,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 528,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8065,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३८"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 632,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.747,
+    "missing_numbers": [
+     "१०",
+     "२०२६",
+     "२७",
+     "३९"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 289,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6601,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४०"
+    ]
+   },
+   {
+    "page": 7,
+    "score": null,
+    "chars": 28,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 8,
+    "chars": 499,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7581,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch07",
+  "language": "hi-IN",
+  "page_count": 9,
+  "pages_scored": 9,
+  "pages_skipped": 0,
+  "worst_page_score": 0.7034,
+  "mean_page_score": 0.7835,
+  "below_threshold": 0,
+  "warn_pages": 2,
+  "verdict": "review",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 718,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8096,
+    "missing_numbers": [
+     "१९४७",
+     "२०१९",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 879,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8186,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४४"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 1066,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8177,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४५"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 1159,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8105,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४६"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 605,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8183,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४७"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 758,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.745,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४८"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 933,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7719,
+    "missing_numbers": [
+     "१०",
+     "११",
+     "१२",
+     "२०२६",
+     "२७",
+     "४९"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 703,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7034,
+    "missing_numbers": [
+     "१३",
+     "१४",
+     "२०२६",
+     "२७",
+     "५०"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 971,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7563,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५१"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch08",
+  "language": "hi-IN",
+  "page_count": 9,
+  "pages_scored": 9,
+  "pages_skipped": 0,
+  "worst_page_score": 0.6489,
+  "mean_page_score": 0.7629,
+  "below_threshold": 0,
+  "warn_pages": 3,
+  "verdict": "review",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 587,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6883,
+    "missing_numbers": [
+     "१५",
+     "१८९९",
+     "१९२०",
+     "१९६८",
+     "२०२६",
+     "२७",
+     "५२"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 249,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.815,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५३"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 890,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7938,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५४"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 748,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7791,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५५"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 1215,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8348,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५६"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 1028,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7885,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५७"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 805,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.73,
+    "missing_numbers": [
+     "१०",
+     "११",
+     "१२",
+     "१३",
+     "१४",
+     "२०२६",
+     "२७",
+     "५८"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 619,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6489,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५९"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 197,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7876,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "६०"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch09",
+  "language": "hi-IN",
+  "page_count": 6,
+  "pages_scored": 6,
+  "pages_skipped": 0,
+  "worst_page_score": 0.4669,
+  "mean_page_score": 0.7376,
+  "below_threshold": 1,
+  "warn_pages": 0,
+  "verdict": "page-failure",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 587,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.784,
+    "missing_numbers": [
+     "१९०३",
+     "१९७६",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 858,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8033,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "६२"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 710,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8175,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "६३"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 798,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7725,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "६४"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 859,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7811,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "६५"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 279,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.4669,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "६६"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch10",
+  "language": "hi-IN",
+  "page_count": 12,
+  "pages_scored": 12,
+  "pages_skipped": 0,
+  "worst_page_score": 0.7625,
+  "mean_page_score": 0.8136,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 528,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7832,
+    "missing_numbers": [
+     "१०",
+     "१९३१",
+     "२०२१",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 411,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.799,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४६",
+     "४७",
+     "६८"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 938,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8176,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "६९"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 1177,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8751,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "७०"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 1192,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8411,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४४",
+     "७१"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 1208,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7827,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४२",
+     "४५",
+     "४६",
+     "४७",
+     "७२"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 1200,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8176,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "७३"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 583,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7625,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "७४"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 426,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8726,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "७५"
+    ]
+   },
+   {
+    "page": 10,
+    "chars": 780,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7951,
+    "missing_numbers": [
+     "१५",
+     "१९४७",
+     "२०२६",
+     "२७",
+     "४७",
+     "७६"
+    ]
+   },
+   {
+    "page": 11,
+    "chars": 732,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7942,
+    "missing_numbers": [
+     "१०",
+     "२०२६",
+     "२७",
+     "७७"
+    ]
+   },
+   {
+    "page": 12,
+    "chars": 701,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8226,
+    "missing_numbers": [
+     "२००१",
+     "२०२६",
+     "२७",
+     "३०",
+     "७८"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch11",
+  "language": "hi-IN",
+  "page_count": 12,
+  "pages_scored": 11,
+  "pages_skipped": 1,
+  "worst_page_score": 0.5142,
+  "mean_page_score": 0.7491,
+  "below_threshold": 1,
+  "warn_pages": 4,
+  "verdict": "page-failure",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 536,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6775,
+    "missing_numbers": [
+     "११",
+     "१९७७",
+     "१९९९",
+     "२०००",
+     "२००१",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 429,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7038,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "८०"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 882,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8319,
+    "missing_numbers": [
+     "१९१६",
+     "१९२२",
+     "२०२६",
+     "२७",
+     "८१"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 1145,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7917,
+    "missing_numbers": [
+     "१४",
+     "२०२६",
+     "२७",
+     "८२"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 745,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8779,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "८३"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 1124,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8558,
+    "missing_numbers": [
+     "१५",
+     "२०",
+     "२०२६",
+     "२७",
+     "८४"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 1223,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7696,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "८५"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 891,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.813,
+    "missing_numbers": [
+     "२०००",
+     "२००६",
+     "२०२६",
+     "२१",
+     "२७",
+     "८६"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 693,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7243,
+    "missing_numbers": [
+     "१०",
+     "११",
+     "२०२६",
+     "२७",
+     "८७"
+    ]
+   },
+   {
+    "page": 10,
+    "chars": 695,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6804,
+    "missing_numbers": [
+     "१२",
+     "२०२६",
+     "२७",
+     "८८"
+    ]
+   },
+   {
+    "page": 11,
+    "chars": 487,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.5142,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "८९"
+    ]
+   },
+   {
+    "page": 12,
+    "score": null,
+    "chars": 110,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   }
+  ]
+ },
+ {
+  "chapter": "jhks1-ch12",
+  "language": "hi-IN",
+  "page_count": 8,
+  "pages_scored": 7,
+  "pages_skipped": 1,
+  "worst_page_score": 0.528,
+  "mean_page_score": 0.7311,
+  "below_threshold": 1,
+  "warn_pages": 2,
+  "verdict": "page-failure",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 585,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6906,
+    "missing_numbers": [
+     "१२",
+     "१९०५",
+     "१९८८",
+     "२०",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 267,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8163,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "९२"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 639,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8523,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "९३"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 1150,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8014,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "९४"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 955,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7784,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "९५"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 738,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6504,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "९६"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 165,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.528,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "९७"
+    ]
+   },
+   {
+    "page": 8,
+    "score": null,
+    "chars": 18,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch01",
+  "language": "hi-IN",
+  "page_count": 7,
+  "pages_scored": 5,
+  "pages_skipped": 2,
+  "worst_page_score": 0.5652,
+  "mean_page_score": 0.6606,
+  "below_threshold": 2,
+  "warn_pages": 3,
+  "verdict": "page-failure",
+  "pages": [
+   {
+    "page": 1,
+    "score": null,
+    "chars": 101,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 2,
+    "score": null,
+    "chars": 14,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 3,
+    "chars": 418,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7303,
+    "missing_numbers": [
+     "१२०",
+     "१३९८",
+     "१५१८",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 419,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6834,
+    "missing_numbers": [
+     "११",
+     "१३",
+     "२०२६",
+     "२४",
+     "२७"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 352,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.5652,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 734,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.5899,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 133,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7344,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch02",
+  "language": "hi-IN",
+  "page_count": 5,
+  "pages_scored": 5,
+  "pages_skipped": 0,
+  "worst_page_score": 0.6181,
+  "mean_page_score": 0.7379,
+  "below_threshold": 0,
+  "warn_pages": 3,
+  "verdict": "review",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 507,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7925,
+    "missing_numbers": [
+     "१३",
+     "१५०३",
+     "१५४६",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 315,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8459,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 397,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7186,
+    "missing_numbers": [
+     "१०",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 785,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6181,
+    "missing_numbers": [
+     "११",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 355,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7143,
+    "missing_numbers": [
+     "१२",
+     "२०२६",
+     "२७"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch03",
+  "language": "hi-IN",
+  "page_count": 7,
+  "pages_scored": 6,
+  "pages_skipped": 1,
+  "worst_page_score": 0.5736,
+  "mean_page_score": 0.7112,
+  "below_threshold": 1,
+  "warn_pages": 3,
+  "verdict": "page-failure",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 389,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8361,
+    "missing_numbers": [
+     "१८८६",
+     "१९६४",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 412,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8474,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 390,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6873,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 548,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.69,
+    "missing_numbers": [
+     "१६",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 676,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6327,
+    "missing_numbers": [
+     "१७",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 531,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.5736,
+    "missing_numbers": [
+     "१८",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 7,
+    "score": null,
+    "chars": 88,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch04",
+  "language": "hi-IN",
+  "page_count": 6,
+  "pages_scored": 6,
+  "pages_skipped": 0,
+  "worst_page_score": 0.5899,
+  "mean_page_score": 0.714,
+  "below_threshold": 1,
+  "warn_pages": 3,
+  "verdict": "page-failure",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 533,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6961,
+    "missing_numbers": [
+     "१९००",
+     "१९१५",
+     "१९६०",
+     "१९६१",
+     "१९६९",
+     "१९७७",
+     "२०",
+     "२०२६",
+     "२७",
+     "२८"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 441,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8541,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 281,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6934,
+    "missing_numbers": [
+     "२०२६",
+     "२२",
+     "२७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 537,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6799,
+    "missing_numbers": [
+     "२०२६",
+     "२३",
+     "२७"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 600,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.5899,
+    "missing_numbers": [
+     "२०२६",
+     "२४",
+     "२७"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 187,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7709,
+    "missing_numbers": [
+     "२०२६",
+     "२५",
+     "२७"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch05",
+  "language": "hi-IN",
+  "page_count": 5,
+  "pages_scored": 5,
+  "pages_skipped": 0,
+  "worst_page_score": 0.6804,
+  "mean_page_score": 0.794,
+  "below_threshold": 0,
+  "warn_pages": 2,
+  "verdict": "review",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 439,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.818,
+    "missing_numbers": [
+     "१९४७",
+     "२०१५",
+     "२०२६",
+     "२६",
+     "२७",
+     "२८"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 511,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8913,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 285,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8551,
+    "missing_numbers": [
+     "१८५७",
+     "२०२६",
+     "२७",
+     "२८"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 670,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6804,
+    "missing_numbers": [
+     "१८५७",
+     "२०२६",
+     "२७",
+     "२९"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 197,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7254,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३०"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch06",
+  "language": "hi-IN",
+  "page_count": 5,
+  "pages_scored": 5,
+  "pages_skipped": 0,
+  "worst_page_score": 0.5622,
+  "mean_page_score": 0.705,
+  "below_threshold": 1,
+  "warn_pages": 2,
+  "verdict": "page-failure",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 450,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6893,
+    "missing_numbers": [
+     "१०",
+     "१९",
+     "१९१९",
+     "२००२",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 535,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8091,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३२"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 339,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.797,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३३"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 589,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6673,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३४"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 633,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.5622,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३५"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch07",
+  "language": "hi-IN",
+  "page_count": 5,
+  "pages_scored": 5,
+  "pages_skipped": 0,
+  "worst_page_score": 0.6018,
+  "mean_page_score": 0.7199,
+  "below_threshold": 0,
+  "warn_pages": 3,
+  "verdict": "review",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 496,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8,
+    "missing_numbers": [
+     "१८६१",
+     "१९४१",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 514,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7718,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 374,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7224,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३८"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 687,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7035,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३९"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 493,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6018,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४०"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch08",
+  "language": "hi-IN",
+  "page_count": 17,
+  "pages_scored": 16,
+  "pages_skipped": 1,
+  "worst_page_score": 0.4915,
+  "mean_page_score": 0.7539,
+  "below_threshold": 2,
+  "warn_pages": 4,
+  "verdict": "page-failure",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 218,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.799,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "score": null,
+    "chars": 14,
+    "note": "skipped-short",
+    "source": "raw"
+   },
+   {
+    "page": 3,
+    "chars": 581,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7044,
+    "missing_numbers": [
+     "१८८०",
+     "१९३६",
+     "२०२६",
+     "२७",
+     "३१"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 400,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8632,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४४"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 685,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8203,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४५"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 1345,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8172,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४६"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 1228,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7927,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४७"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 1289,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8216,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४८"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 1245,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7989,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४९"
+    ]
+   },
+   {
+    "page": 10,
+    "chars": 1236,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8545,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५०"
+    ]
+   },
+   {
+    "page": 11,
+    "chars": 1287,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8193,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५१"
+    ]
+   },
+   {
+    "page": 12,
+    "chars": 208,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7463,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५२"
+    ]
+   },
+   {
+    "page": 13,
+    "chars": 738,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.744,
+    "missing_numbers": [
+     "२०२६",
+     "२५",
+     "२७",
+     "३०",
+     "५०",
+     "५३",
+     "६०"
+    ]
+   },
+   {
+    "page": 14,
+    "chars": 900,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7799,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५४"
+    ]
+   },
+   {
+    "page": 15,
+    "chars": 1000,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.5842,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५५"
+    ]
+   },
+   {
+    "page": 16,
+    "chars": 560,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6255,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५६"
+    ]
+   },
+   {
+    "page": 17,
+    "chars": 303,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.4915,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५७"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch09",
+  "language": "hi-IN",
+  "page_count": 9,
+  "pages_scored": 9,
+  "pages_skipped": 0,
+  "worst_page_score": 0.5905,
+  "mean_page_score": 0.7402,
+  "below_threshold": 1,
+  "warn_pages": 3,
+  "verdict": "page-failure",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 396,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6712,
+    "missing_numbers": [
+     "१८९२",
+     "१९६२",
+     "१९८२",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 574,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7582,
+    "missing_numbers": [
+     "१९३०",
+     "१९३१",
+     "१९५०",
+     "२०२६",
+     "२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 661,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8039,
+    "missing_numbers": [
+     "१९३१",
+     "२०२६",
+     "२६",
+     "२७",
+     "६०"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 1255,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8593,
+    "missing_numbers": [
+     "११",
+     "२०२६",
+     "२७",
+     "६१"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 1151,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8501,
+    "missing_numbers": [
+     "१०३",
+     "१०५",
+     "१६०",
+     "२०२६",
+     "२७",
+     "५०",
+     "६०",
+     "६२",
+     "६७"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 807,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.669,
+    "missing_numbers": [
+     "१९३१",
+     "२०२६",
+     "२५",
+     "२६",
+     "२७",
+     "३०",
+     "५०",
+     "६०",
+     "६३"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 923,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7621,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "६४"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 1165,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.5905,
+    "missing_numbers": [
+     "१९२९",
+     "१९३०",
+     "१९९३",
+     "१९९६",
+     "१९९८",
+     "१९९९",
+     "२००१",
+     "२०२६",
+     "२६",
+     "२७",
+     "६५"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 638,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6978,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "६६"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch10",
+  "language": "hi-IN",
+  "page_count": 12,
+  "pages_scored": 12,
+  "pages_skipped": 0,
+  "worst_page_score": 0.5457,
+  "mean_page_score": 0.7636,
+  "below_threshold": 1,
+  "warn_pages": 3,
+  "verdict": "page-failure",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 428,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7239,
+    "missing_numbers": [
+     "१९५४",
+     "१९८७",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 499,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7851,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "६८"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 1069,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8658,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "६९",
+     "९६"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 1088,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8606,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "७०"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 1288,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8927,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "७१"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 1278,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9024,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "७२"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 835,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8087,
+    "missing_numbers": [
+     "२०२६",
+     "२५",
+     "२७",
+     "३०",
+     "७३",
+     "९६"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 876,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.753,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५०",
+     "६०",
+     "७४"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 1053,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6634,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "७५"
+    ]
+   },
+   {
+    "page": 10,
+    "chars": 491,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6105,
+    "missing_numbers": [
+     "१०",
+     "११",
+     "१२",
+     "२०२६",
+     "२७",
+     "७६"
+    ]
+   },
+   {
+    "page": 11,
+    "chars": 753,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7515,
+    "missing_numbers": [
+     "२००४",
+     "२०२६",
+     "२७",
+     "७७"
+    ]
+   },
+   {
+    "page": 12,
+    "chars": 321,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.5457,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "७८"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch11",
+  "language": "hi-IN",
+  "page_count": 10,
+  "pages_scored": 10,
+  "pages_skipped": 0,
+  "worst_page_score": 0.4669,
+  "mean_page_score": 0.6636,
+  "below_threshold": 2,
+  "warn_pages": 5,
+  "verdict": "page-failure",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 420,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.665,
+    "missing_numbers": [
+     "१९४७",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 644,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7819,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "८०"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 1015,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6578,
+    "missing_numbers": [
+     "१९६५",
+     "१९६६",
+     "२०२६",
+     "२७",
+     "८१"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 1258,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7565,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "४२०",
+     "८२"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 1198,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7654,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "८३"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 761,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6482,
+    "missing_numbers": [
+     "२०२६",
+     "२५",
+     "२७",
+     "३०",
+     "४२०",
+     "८४"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 986,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.696,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५०",
+     "६०",
+     "८५"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 922,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6122,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "८६"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 737,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.5861,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "८७"
+    ]
+   },
+   {
+    "page": 10,
+    "chars": 342,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.4669,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "८८"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch12",
+  "language": "hi-IN",
+  "page_count": 8,
+  "pages_scored": 8,
+  "pages_skipped": 0,
+  "worst_page_score": 0.6883,
+  "mean_page_score": 0.7806,
+  "below_threshold": 0,
+  "warn_pages": 2,
+  "verdict": "review",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 406,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7018,
+    "missing_numbers": [
+     "१२",
+     "१९३८",
+     "१९९९",
+     "२०१६",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 464,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.9093,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 357,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7811,
+    "missing_numbers": [
+     "१०२५",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 1127,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7552,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "९२"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 1217,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8802,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "९३"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 761,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7696,
+    "missing_numbers": [
+     "२०२६",
+     "२५",
+     "२७",
+     "३०",
+     "९४"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 1010,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6883,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "५०",
+     "६०",
+     "९५"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 818,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7593,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "९६"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch13",
+  "language": "hi-IN",
+  "page_count": 10,
+  "pages_scored": 9,
+  "pages_skipped": 1,
+  "worst_page_score": 0.6327,
+  "mean_page_score": 0.7535,
+  "below_threshold": 0,
+  "warn_pages": 5,
+  "verdict": "review",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 438,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7184,
+    "missing_numbers": [
+     "१९२५",
+     "२०१०",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 465,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8489,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 594,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8418,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 993,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8194,
+    "missing_numbers": [
+     "१००",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 541,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8752,
+    "missing_numbers": [
+     "१०१",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 774,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6327,
+    "missing_numbers": [
+     "१०२",
+     "२०२६",
+     "२५",
+     "२७",
+     "३०",
+     "५०",
+     "६०"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 1055,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6924,
+    "missing_numbers": [
+     "१०३",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 680,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6351,
+    "missing_numbers": [
+     "१०४",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 628,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7174,
+    "missing_numbers": [
+     "१०५",
+     "२०२६",
+     "२२",
+     "२४",
+     "२७"
+    ]
+   },
+   {
+    "page": 10,
+    "score": null,
+    "chars": 108,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   }
+  ]
+ },
+ {
+  "chapter": "jhsp1-ch14",
+  "language": "hi-IN",
+  "page_count": 10,
+  "pages_scored": 10,
+  "pages_skipped": 0,
+  "worst_page_score": 0.4182,
+  "mean_page_score": 0.6814,
+  "below_threshold": 1,
+  "warn_pages": 6,
+  "verdict": "page-failure",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 347,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6483,
+    "missing_numbers": [
+     "१९२३",
+     "१९४४",
+     "२००९",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 351,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8214,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 590,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.737,
+    "missing_numbers": [
+     "१७९९",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 906,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7962,
+    "missing_numbers": [
+     "११०",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 890,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7723,
+    "missing_numbers": [
+     "१११",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 228,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6138,
+    "missing_numbers": [
+     "११२",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 680,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6158,
+    "missing_numbers": [
+     "११३",
+     "२०२६",
+     "२५",
+     "२७",
+     "३०",
+     "५०",
+     "६०"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 791,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7014,
+    "missing_numbers": [
+     "११४",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 612,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.6897,
+    "missing_numbers": [
+     "११५",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 10,
+    "chars": 168,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.4182,
+    "missing_numbers": [
+     "११६",
+     "२०२६",
+     "२७"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsy1-ch01",
+  "language": "hi-IN",
+  "page_count": 19,
+  "pages_scored": 18,
+  "pages_skipped": 1,
+  "worst_page_score": 0.7643,
+  "mean_page_score": 0.8484,
+  "below_threshold": 0,
+  "warn_pages": 0,
+  "verdict": "verified",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 944,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8472,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 1155,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8722,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 1158,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8234,
+    "missing_numbers": [
+     "१०",
+     "११",
+     "१२",
+     "१३",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 1170,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8464,
+    "missing_numbers": [
+     "१४",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 1262,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.839,
+    "missing_numbers": [
+     "१५",
+     "१६",
+     "१७",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 1183,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8836,
+    "missing_numbers": [
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 1103,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8569,
+    "missing_numbers": [
+     "१८",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 1173,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8429,
+    "missing_numbers": [
+     "१९",
+     "२०",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 1070,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8701,
+    "missing_numbers": [
+     "२०२६",
+     "२१",
+     "२७"
+    ]
+   },
+   {
+    "page": 10,
+    "chars": 1189,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8894,
+    "missing_numbers": [
+     "१०",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 11,
+    "chars": 1039,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.807,
+    "missing_numbers": [
+     "११",
+     "२०२६",
+     "२२",
+     "२३",
+     "२७"
+    ]
+   },
+   {
+    "page": 12,
+    "chars": 275,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7838,
+    "missing_numbers": [
+     "१२",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 13,
+    "chars": 1134,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8751,
+    "missing_numbers": [
+     "१३",
+     "२०२६",
+     "२४",
+     "२७"
+    ]
+   },
+   {
+    "page": 14,
+    "chars": 1180,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.833,
+    "missing_numbers": [
+     "१४",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 15,
+    "score": null,
+    "chars": 22,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 16,
+    "chars": 1139,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.894,
+    "missing_numbers": [
+     "१६",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 17,
+    "chars": 1137,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8543,
+    "missing_numbers": [
+     "१७",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 18,
+    "chars": 1064,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.889,
+    "missing_numbers": [
+     "१८",
+     "२०२६",
+     "२५",
+     "२७"
+    ]
+   },
+   {
+    "page": 19,
+    "chars": 590,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7643,
+    "missing_numbers": [
+     "१०",
+     "१९",
+     "२०२६",
+     "२७"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsy1-ch02",
+  "language": "hi-IN",
+  "page_count": 12,
+  "pages_scored": 11,
+  "pages_skipped": 1,
+  "worst_page_score": 0.7438,
+  "mean_page_score": 0.8136,
+  "below_threshold": 0,
+  "warn_pages": 2,
+  "verdict": "review",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 896,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8664,
+    "missing_numbers": [
+     "२०",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 2,
+    "score": null,
+    "chars": 24,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 3,
+    "chars": 1216,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8213,
+    "missing_numbers": [
+     "२०२६",
+     "२२",
+     "२७"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 1220,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8617,
+    "missing_numbers": [
+     "२०२६",
+     "२३",
+     "२७"
+    ]
+   },
+   {
+    "page": 5,
+    "chars": 517,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8074,
+    "missing_numbers": [
+     "२०२६",
+     "२४",
+     "२७"
+    ]
+   },
+   {
+    "page": 6,
+    "chars": 529,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8529,
+    "missing_numbers": [
+     "२०२६",
+     "२५",
+     "२७"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 1113,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.824,
+    "missing_numbers": [
+     "२०२६",
+     "२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 925,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7438,
+    "missing_numbers": [
+     "१०",
+     "११",
+     "१२",
+     "१९२३",
+     "२०२६",
+     "२७"
+    ]
+   },
+   {
+    "page": 9,
+    "chars": 1008,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8774,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "२८"
+    ]
+   },
+   {
+    "page": 10,
+    "chars": 527,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7668,
+    "missing_numbers": [
+     "१३",
+     "१४",
+     "२०२६",
+     "२७",
+     "२९"
+    ]
+   },
+   {
+    "page": 11,
+    "chars": 997,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.784,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३०"
+    ]
+   },
+   {
+    "page": 12,
+    "chars": 276,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7444,
+    "missing_numbers": [
+     "१०",
+     "११",
+     "२०२६",
+     "२७",
+     "३१"
+    ]
+   }
+  ]
+ },
+ {
+  "chapter": "jhsy1-ch03",
+  "language": "hi-IN",
+  "page_count": 13,
+  "pages_scored": 11,
+  "pages_skipped": 2,
+  "worst_page_score": 0.7193,
+  "mean_page_score": 0.798,
+  "below_threshold": 0,
+  "warn_pages": 2,
+  "verdict": "review",
+  "pages": [
+   {
+    "page": 1,
+    "chars": 809,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7701,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३२"
+    ]
+   },
+   {
+    "page": 2,
+    "chars": 1238,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7273,
+    "missing_numbers": [
+     "१०",
+     "११",
+     "१२",
+     "२०२६",
+     "२७",
+     "३३"
+    ]
+   },
+   {
+    "page": 3,
+    "chars": 1177,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7949,
+    "missing_numbers": [
+     "१३",
+     "१४",
+     "१५",
+     "१६",
+     "१७",
+     "१८",
+     "१९",
+     "२०२६",
+     "२७",
+     "३४"
+    ]
+   },
+   {
+    "page": 4,
+    "chars": 957,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8172,
+    "missing_numbers": [
+     "२०",
+     "२०२६",
+     "२१",
+     "२२",
+     "२३",
+     "२७",
+     "३५"
+    ]
+   },
+   {
+    "page": 5,
+    "score": null,
+    "chars": 20,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 6,
+    "chars": 779,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7694,
+    "missing_numbers": [
+     "२०२६",
+     "२४",
+     "२५",
+     "२६",
+     "२७",
+     "३७"
+    ]
+   },
+   {
+    "page": 7,
+    "chars": 997,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8404,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३८"
+    ]
+   },
+   {
+    "page": 8,
+    "chars": 904,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8229,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "२८",
+     "२९",
+     "३०",
+     "३९"
+    ]
+   },
+   {
+    "page": 9,
+    "score": null,
+    "chars": 20,
+    "note": "skipped-short",
+    "source": "decoded:walkman_chanakya"
+   },
+   {
+    "page": 10,
+    "chars": 964,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8355,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३१",
+     "३२",
+     "४१"
+    ]
+   },
+   {
+    "page": 11,
+    "chars": 954,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.817,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३३",
+     "३४",
+     "३५",
+     "३६",
+     "४२"
+    ]
+   },
+   {
+    "page": 12,
+    "chars": 882,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.8639,
+    "missing_numbers": [
+     "२०२६",
+     "२७",
+     "३७",
+     "३८",
+     "४३"
+    ]
+   },
+   {
+    "page": 13,
+    "chars": 538,
+    "source": "decoded:walkman_chanakya",
+    "score": 0.7193,
+    "missing_numbers": [
+     "१०",
+     "११",
+     "२०२६",
+     "२७",
+     "४४"
+    ]
+   }
+  ]
+ }
+]

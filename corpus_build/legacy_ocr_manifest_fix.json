@@ -1,0 +1,22 @@
+[
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\fepr1\\fepr105.pdf",
+    "label": "fepr1-ch05",
+    "language": "hi-IN",
+    "subject": "English",
+    "class": 6,
+    "pages": 34,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\English\\c06\\fepr1-ch05.md"
+  },
+  {
+    "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\gecu1\\gecu112.pdf",
+    "label": "gecu1-ch12",
+    "language": "hi-IN",
+    "subject": "Science",
+    "class": 7,
+    "pages": 20,
+    "current_quality": "decoded-legacy-font",
+    "corpus_out": "D:\\AcademicOS-academicos-data\\corpus\\ncert_chapters\\Science\\c07\\gecu1-ch12.md"
+  }
+]

@@ -1,0 +1,2965 @@
+## EXPRESSIONS
+USING LETTER-
+NUMBERS
+
+This image contains a QR code, not any human-readable text to transcribe.
+
+## 4.1 The Notion of Letter-Numbers
+
+In this chapter we shall look at a concise way of expressing mathematical
+relations and patterns. We shall see how this helps us in thinking about
+these relationships and patterns, and in explaining why they may hold
+true.
+
+Example 1: Shabnam is 3 years older than Aftab. When Aftab's age
+10 years, Shabnam's age will be 13 years. Now Aftab's age is 18 years,
+what will Shabnam's age be? ___
+
+Given Aftab's age, how will you find out Shabnam's age?
+
+Easy: We add 3 to Aftab’s age to get Shabnam’s age.
+
+Can we write this as an expression?
+
+Shabnam’s age is 3 years more than Aftab’s. In short, this can be written as:
+
+Shabnam's age = Aftab's age + 3.
+
+Such mathematical relations are
+generally represented in a shorthand
+form. In the relation above, instead
+of writing the phrase ‘Aftab’s Age’,
+the convention is to use a convenient
+symbol. Usually, letters or short phrases
+are used for this purpose.
+
+Let us say we use the letter a to
+denote Aftab's age (we could have
+used any other letter), and s to denote
+Shabnam's age. Then the expression to
+
+<table>
+<thead>
+<tr>
+<th>Aftab's<br/>age</th>
+<th>Expression for<br/>Shabnam's age</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4</td>
+<td>4 + 3</td>
+</tr>
+<tr>
+<td>10</td>
+<td>10 + 3</td>
+</tr>
+<tr>
+<td>23</td>
+<td>23 + 3</td>
+</tr>
+<tr>
+<td>?</td>
+<td>? + 3</td>
+</tr>
+<tr>
+<td>9</td>
+<td>a + 3</td>
+</tr>
+</tbody>
+</table>
+
+*Fig. 4.1*
+
+find Shabnam’s age will be a + 3, which can be written as
+
+s = a + 3.
+
+If a is 23 (Aftab’s age in years), then what is Shabnam’s age?
+
+[^1]: 0774CH04
+
+Chapter-4.indd 81
+
+Reprint 2026-27
+
+4/11/2025 7:30:05 PM
+
+---
+
+Ganita Prakash | Grade 7
+
+Replacing a by 23 in the expression a + 3, we get, s = 23 + 3 = 26 years.
+Letters such as a and s that are used to represent numbers are called
+letter-numbers. Mathematical expressions containing letter-numbers,
+such as the expression a + 3, are called algebraic expressions.
+
+Given the age of Shabnam, write an expression to find Aftab's age.
+
+We know that Aftab is 3 years younger than Shabnam. So, Aftab's age will be 3 less than Shabnam's. This can be described as
+
+Aftab's age = Shabnam's age – 3.
+
+If we again use the letter a to denote Aftab's age and the letter s
+to denote Shabnam's age, then the algebraic expression would be:
+a = s - 3, meaning 3 less than s.
+
+Use this expression to find Aftab's age if Shabnam's age is 20.
+
+Example 2: Parthiv is making matchstick patterns. He repeatedly places Ls next to each other. Each L has two matchsticks as shown in Figure 4.2.
+
+*Fig. 4.2*
+
+How many matchsticks are needed to make 5 Ls? It will be 5 ×2.
+How many matchsticks are needed to make 7 Ls? It will be 7 ×2.
+
+How many matchsticks are needed to make 45 Ls? It will be 45 ×2.
+Now, what is the relation between the number of Ls and the number
+of sticks?
+
+First, let us describe the relationship or the pattern here. Every L needs 2 matchsticks. So **the number of matchsticks needed will be 2 times the number of L's**. This can be written as:
+
+Number of matchsticks = 2 × Number of L's
+
+Now, we can use any letter to denote the number of L's. Let's use n.
+The algebraic expression for the number of matchsticks will be:
+
+2 × n.
+
+This expression tells us how many matchsticks are needed to make
+n L's. To find the number of matchsticks, we just replace n by the
+number of L.
+
+Example 3: Ketaki prepares and supplies coconut-jaggery laddus. The price of a coconut is ₹35 and the price of 1 kg jaggery is ₹60.
+
+Chapter-4.indd 82
+
+Reprint 2026-27
+
+4/11/2025 7:30:05 PM
+
+---
+
+Expressions Using Letter-Numbers
+
+How much should she pay if she buys 10 coconuts and 5 kg jaggery?
+
+Cost of 10 coconuts = 10 × ₹35
+
+Cost of 5 kg jaggery = 5 × ₹60
+
+Total cost = 10 × ₹35 + 5 × ₹60 = ₹350 + ₹300 = ₹650.
+
+How much should she pay if she buys 8 coconuts and 9 kg jaggery?
+
+Write an algebraic expression to find the total amount to be paid for a given number of coconuts and quantity of jaggery.
+
+Let us identify the relationships and then write the expressions.
+
+<table>
+<thead>
+<tr>
+<th>Quantity needed</th>
+<th>Relationship</th>
+<th>Expression</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cost of coconuts</td>
+<td>Number of<br/>coconuts × 35</td>
+<td>c × 35</td>
+</tr>
+<tr>
+<td>Cost of jaggery</td>
+<td>Number of kgs of<br/>jaggery × 60</td>
+<td>j × 60</td>
+</tr>
+</tbody>
+</table>
+
+Here, ‘c’ represents the number of coconuts and ‘j’ represents the
+number of kgs of jaggery. The total amount to be paid will be:
+
+Cost of coconuts + Cost of jaggery.
+
+The corresponding algebraic expression can be written as:
+
+c × 35 + j × 60
+
+Use this expression (or formula) to find the total amount to be paid for 7 coconuts and 4 kg jaggery.
+
+Notice that for different values of ‘c’ and ‘j’, the value of the expression also changes.
+
+Writing this expression as a sum of terms we get:
+
+$c \times 35 + j \times 60$
+
+Example 4: We are familiar with calculating the perimeters of simple shapes. Write expressions for perimeters.
+
+The perimeter of a square is 4 times the length of its side. This can
+be written as the expression: 4 ×q, where q stands for the sidelength.
+
+What is the perimeter of a square with sidelength 7 cm? Use the expression to find out.
+
+You must have realised how the use of letter-numbers and algebraic
+expressions allows us to express general mathematical relations in
+
+Reprint 2026-27
+
+83
+
+Chapter-4.indd 83
+
+4/11/2025 7:30:05 PM
+
+---
+
+Ganita Prakash | Grade 7
+
+a concise way. Mathematical relations expressed this way are often called formulas.
+
+## Figure it Out
+
+(a) triangle with all sides equal.
+
+1. Write formulas for the perimeter of:
+
+(b) a regular pentagon (as we have learnt last year, we use the word ‘regular’ to say that all sidelengths and angle measures are equal)
+
+(c) a regular hexagon
+
+2. Munirathna has a 20 m long pipe. However, he wants a longer watering pipe for his garden. He joins another pipe of some length to this one. Give the expression for the combined length of the pipe. Use the letter-number ‘k’ to denote the length in meters of the other pipe.
+
+3. What is the total amount Krithika has, if she has the following numbers of notes of ₹100, ₹20 and ₹5? Complete the following table:
+
+<table>
+<thead>
+<tr>
+<th>No. of<br/>₹100 notes</th>
+<th>No. of<br/>₹20 notes</th>
+<th>No. of<br/>₹5 notes</th>
+<th>Expression and total<br/>amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>5</td>
+<td>6</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>6 × 100 + 4 × 20 + 3 × 5<br/>= 695</td>
+</tr>
+<tr>
+<td>8</td>
+<td>4</td>
+<td>z</td>
+<td></td>
+</tr>
+<tr>
+<td>x</td>
+<td>y</td>
+<td>z</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+4. Venkatalakshmi owns a flour mill. It takes 10 seconds for the roller
+mill to start running. Once it is running, each kg of grain takes
+8 seconds to grind into powder. Which of the expressions below
+describes the time taken to complete grind ‘y’ kg of grain, assuming
+the machine is off initially?
+
+(a) 10 + 8 + y
+
+(b) (10 + 8) × y
+
+(c) 10 × 8 × y
+
+(d) 10 + 8 × y
+
+(e) 10 × y + 8
+
+5. Write algebraic expressions using letters of your choice.
+
+(a) 5 more than a number
+
+(b) 4 less than a number
+
+84
+
+Chapter-4.indd 84
+
+Reprint 2026-27
+
+4/11/2025 7:30:06 PM
+
+---
+
+Expressions Using Letter-Numbers
+
+(c) 2 less than 13 times a number
+
+(d) 13 less than 2 times a number
+
+6. Describe situations corresponding to the following algebraic expressions:
+
+(a) 8 × x + 3 × y
+
+15 × j − 2 × k
+
+7. In a calendar month, if any 2 ×3 grid full of dates is chosen as
+shown in the picture, write expressions for the dates in the blank
+cells if the bottom middle cell has date ‘w’.
+
+*November 2024*
+
+<table>
+<thead>
+<tr>
+<th>Mon</th>
+<th>Tue</th>
+<th>Wed</th>
+<th>Thu</th>
+<th>Fri</th>
+<th>Sat</th>
+<th>Sun</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+</tr>
+<tr>
+<td>10</td>
+<td>11</td>
+<td>12</td>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+<td>16</td>
+</tr>
+<tr>
+<td>17</td>
+<td>18</td>
+<td>19</td>
+<td>20</td>
+<td>21</td>
+<td>22</td>
+<td>23</td>
+</tr>
+<tr>
+<td>24</td>
+<td>25</td>
+<td>26</td>
+<td>27</td>
+<td>28</td>
+<td>29</td>
+<td>30</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>w - 1</td>
+<td>w</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+## 4.2 Revisiting Arithmetic Expressions
+
+We learnt to write expressions as sums of terms and it became easy
+for us to read arithmetic expressions. Many times they could have
+been read in multiple ways and it was confusing. We used **swapping**
+(adding two numbers in any order) and **grouping** (adding numbers
+by grouping them conveniently) to find easy ways of evaluating
+expressions. Swapping and grouping terms does not change the value of
+the expression. We also learnt to use brackets in expressions, including
+brackets with a negative sign outside. We learnt the **distributive**
+**property** (multiple of a sum is the same as sum of multiples).
+
+Let us revise these concepts and find the values of the following expressions:
+
+1.    $23 - 10 \times 2$                  2.    $83 + 28 - 13 + 32$
+3.    $34 - 14 + 20$                     4.    $42 + 15 - (8 - 7)$
+5.    $68 - (18 + 13)$                   6.    $7 \times 4 + 9 \times 6$
+7.    $20 + 8 \times (16 - 6)$
+
+Let us evaluate the first expression, 23 - 10 ×2. First we shall write
+the terms of the expression. Notice that one of the terms is a number,
+while the other one has to be converted to a number before adding the
+two terms.
+
+23 - 10 \times 2 = 23 + -10 \times 2 = 23 + -20 = 3
+
+85
+
+Chapter-4.indd 85
+
+Reprint 2026-27
+
+4/11/2025 7:30:06 PM
+
+---
+
+Ganita Prakash | Grade 7
+
+Let us now evaluate the second one. All the terms of this expression
+are numbers. If we notice the terms, we find that it will be easier to
+evaluate if we swap and group the terms.
+
+83 + 28 - 13 + 32 =
+
+*यह चित्र एक गणितीय जोड़ की समस्या का दृश्य निरूपण है। इसमें पाँच आयताकार बक्से हैं जिनमें संख्याएँ हैं, जो एक क्षैतिज पंक्ति में व्यवस्थित हैं। ऊपर की पंक्ति में, बाएं से दाएं, '83', '28', '-13', और '32' संख्याएँ हैं। इन संख्याओं के नीचे, दो वक्र तीर हैं जो उन्हें जोड़ते हैं, जो जोड़ की प्रक्रिया को दर्शाते हैं। नीचे की पंक्ति में, एक बराबर का चिह्न ('=') है जिसके बाद दो जोड़ के व्यंजक हैं: '70 + 60' और '130'। यह दृश्य जोड़ की प्रक्रिया को दर्शाता है जहाँ 83, 28, और -13 को जोड़कर 32 प्राप्त किया जाता है, और फिर 70 और 60 को जोड़कर 130 प्राप्त किया जाता है।*
+
+Let us now look at the fifth expression. It has brackets with a negative
+sign outside. This can be evaluated in two ways — by solving the bracket
+first (like the solution on the left side) or by removing the brackets
+appropriately (as on the right side).
+
+*This image contains a mathematical equation written in a box format. It shows the equation "= 68 + -(18 + 13)" and then an alternative equation "= 68 + -18 + -13". The result of both equations is "= 37".*
+
+Now, find the values of the other arithmetic expressions.
+
+Algebraic expressions also take number values when the letter-
+numbers they contain are replaced by numbers. In Example 1, for
+finding Shabnam’s age when Aftab is 23 years old, we replaced the
+letter-number a in the expression a + 3 by 23, and it took the value 26.
+
+## 4.3 Omission of the Multiplication Symbol in Algebraic Expressions
+
+Look at this number sequence:
+
+4, 8, 12, 16, 20, 24, 28,...
+
+How can we describe this sequence or pattern? Easy: These are the
+numbers appearing in the multiplication table of 4 (multiples of 4 in
+an increasing order).
+
+What is the third term of this sequence? It is 4 ×3.
+
+What is the 29th term of this sequence? It is 4 ×29.
+
+Find an algebraic expression to get the nth term of this sequence.
+
+Note that here ‘n’ is a letter-number that denotes a position in the sequence.
+
+86
+43
+
+Chapter-4.indd 86
+
+Reprint 2026-27
+
+4/11/2025 7:30:06 PM
+
+---
+
+Expressions Using Letter-Numbers
+
+As it is the sequence of multiples of 4, it can be seen that the nth term
+will be 4 times n:
+
+4 × n
+
+As a standard practice, we shorten 4 ×n to 4n by skipping the
+multiplication sign. We write the number first, followed by the letter(s).
+Find the value of the expression 7k when k = 4. The value is 7 ×4 = 28.
+
+Find the value that the expression 5m + 3 takes when m = 2.
+
+As 5m stands for 5 ×m, the value of the expression when m = 2 is
+5 ×2 + 3 = 13.
+
+## Mind the Mistake, Mend the Mistake
+
+Some simplifications are shown below where the letter-numbers are replaced by numbers and the value of the expression is obtained.
+
+1. Observe each of them and identify if there is a mistake.
+
+2. If you think there is a mistake, try to explain what might have gone wrong.
+
+3. Then, correct it and give the value of the expression.
+
+*This image contains nine numbered boxes, each containing a mathematical equation or statement. The text is in English.*
+
+## 4.4 Simplification of Algebraic Expressions
+
+Earlier we found expressions to find perimeters of different regular
+figures in terms of their sides. Let us now find an expression to find the
+perimeter of a rectangle.
+
+*यह एक खाली आयताकार फ्रेम है। इसमें कोई चार्ट, ग्राफ, टेक्स्ट या डेटा नहीं है।*
+
+87
+
+Chapter-4.indd 87
+
+Reprint 2026-27
+
+4/11/2025 7:30:06 PM
+
+---
+
+Ganita Prakash | Grade 7
+
+As in the previous cases, we will first describe how to get the perimeter when the length and the breadth of the rectangle are known:
+
+Find the sum of length + breadth + length + breadth.
+
+Let us use the letter-numbers l and b in place of length and breadth
+respectively. Let p denote the perimeter of the rectangle. Then we have
+
+p = l + b + l + b
+
+As we know, these represent numbers, and so the terms of an
+expression can be added in any order. Hence the above expression can
+be written as:
+
+= l + l + b + b
+
+As l + l = 2 ×l = 2l, and b + b = 2 ×b = 2b, we have
+
+p = 2l + 2b.
+
+Notice that the initial expression (l + b + l + b) and the final expression
+(2l + 2b) that we got for the perimeter look different. However, they
+are equal since the expression was obtained from the initial one by
+applying the same rules and operations we do for numbers; they are
+equal in the sense that they both take the same values when letter-
+numbers are replaced by numbers.
+
+For example, if we assign l = 3, b = 4, we get
+
+$l + b + l + b = 3 + 4 + 3 + 4 = 14$, and
+
+$2l + 2b = 2 \times 3 + 2 \times 4 = 14.$
+
+We call the expression 2l + 2b the simplified form of l + b + l + b. Let us see some more examples of simplification.
+
+Example 5: Here is a table showing the number of pencils and erasers sold in a shop. The price per pencil is c, and the price per eraser is d. Find the total money earned by the shopkeeper during these three days.
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Day 1</th>
+<th>Day 2</th>
+<th>Day 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pencils<br/>(Price ‘c’)</td>
+<td>5</td>
+<td>3</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Erasers<br/>(Price ‘d’)</td>
+<td>4</td>
+<td>6</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+Let us first find the money earned by the sale of pencils.
+
+The money earned by selling pencils on Day 1 is 5c. Similarly, the
+money earned by selling pencils on Day 2 is ______, and Day 3 is ______.
+
+The total money earned by the sale of pencils is 5c + 3c + 10c. Can we simplify this expression further and reduce the number of terms?
+
+88
+
+Reprint 2026-27
+
+Chapter-4.indd 88
+
+4/11/2025 7:30:06 PM
+
+---
+
+Expressions Using Letter-Numbers
+
+The expression means 5 times c is added to 3 times c is added to 10
+times c. So in total, the letter-number c is added (5 + 3 + 10) times. This
+is what we have seen as the distributive property of numbers. Thus,
+
+5 \times c + 3 \times c + 10 \times c = (5 + 3 + 10) \times c
+
+(5 + 3 + 10) ×c can be simplified to 18 ×c = 18c.
+
+If c = ₹50, find the total amount earned by the scale of pencils.
+
+Write the expression for the total money earned by selling erasers. Then, simplify the expression.
+
+The expression for the total money earned by selling pencils and
+erasers during these three days is 18c + 11d.
+
+Can the expression 18c + 11d be simplified further?
+
+There is no way of further simplifying this expression as it contains
+different letter-numbers. It is in its simplest form.
+
+In this problem, we saw the expression 5c + 3c + 10c getting simplified
+to the expression 18c.
+
+Check that both expressions take the same value when c is replaced by different numbers.
+
+Example 6: A big rectangle is split into two smaller rectangles as shown. Write an expression describing the area of the bigger rectangle.
+
+*यह चित्र एक गणितीय आरेख है जो वितरणात्मक गुण (distributive property) को दर्शाता है। बाईं ओर एक टेक्स्ट बॉक्स है जिसमें लिखा है 'Another way of seeing the distributive property.' दाईं ओर एक बड़ा आयत है जिसे एक ऊर्ध्वाधर रेखा द्वारा दो छोटे आयतों में विभाजित किया गया है। इस बड़े आयत की ऊँचाई को 'v' से दर्शाया गया है। इस आयत की कुल चौड़ाई को दो भागों में विभाजित किया गया है: बाएँ भाग की चौड़ाई '4' और दाएँ भाग की चौड़ाई '3' है। यह दृश्य निरूपण दर्शाता है कि किसी आयत के क्षेत्रफल को उसकी ऊँचाई और कुल चौड़ाई के गुणनफल के रूप में कैसे व्यक्त किया जा सकता है।*
+
+The areas of the smaller rectangles are 4v sq. units and 3v sq. units.
+
+The area of the bigger rectangle can be found in two ways: (i) by
+directly using its side lengths v and (4 + 3), or (ii) by adding the areas
+of the smaller rectangles.
+
+The first way gives 7v, and the second way gives 4v + 3v. We know
+that they are equal: 4v + 3v = 7v, and this is the required expression for
+the area of the bigger rectangle.
+
+As earlier, a big rectangle is split into two smaller rectangles as shown below. Write an expression to find the area of the rectangle AEFD.
+
+Reprint 2026-27
+
+89
+
+Chapter-4.indd 89
+
+4/11/2025 7:30:06 PM
+
+---
+
+Ganita Prakash | Grade 7
+
+Even in this case, the area of rectangle AEFD can be found in two
+ways: (i) by directly using the side lengths n and (12 - 4), or (ii)
+subtracting the area of the rectangle EBCF from that of ABCD.
+
+*| Dimension | Label/Value | Description |
+| :--- | :--- | :--- |
+| Height (Vertical) | n | Variable height of the rectangle, measured from A to D or B to C in units 'n' |
+| Width 1 (Horizontal Left Segment) | - | Distance between points E and F; labeled as **4** with an arrow indicating direction left-to-right towards point G on AB line but not explicitly named "G" here based on visual context only provided by image data labels for segments EF=4 is present above it at top right corner near label c which seems like typo should be interpreted relative position rather than absolute value given other values are specific numbers while others remain variables so we can say its length equals variable x where X = distance AF + FE etc.. however since no explicit numeric name exists just use letter e.g., if you want total width then add all these together: Total_width(AB)=AF+FE+(distance BE). So answer will depend upon what exactly they mean when asking about solving such problems usually one would solve using equation form shown below... |
+| Width 2 (Bottom Horizontal Line segment AE)|  12   | Fixed horizontal measurement along bottom edge connecting vertices A & E representing side b of shape being described thus far |*
+
+The first method gives us 8n, and the second method gives us
+12n - 4n, and they are equal, since 12n - 4n = 8n. This is the expression
+for the area of the rectangle AEFD.
+
+Sets of terms such as (5c, c, 10c), (12n, -4n) that involve the same
+letter-numbers are called **like terms**. Sets of terms such as {18c, 11d}
+are called **unlike terms** as they have different letter-numbers.
+
+As we have seen, like terms can be added together and simplified
+into a single term.
+
+Example 7: A shop rents out chairs and tables for a day's use. To rent them, one has to first pay the following amount per piece.
+
+When the furniture is returned, the shopkeeper pays back some amount as follows.
+
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chair</td>
+<td>₹40</td>
+</tr>
+<tr>
+<td>Table</td>
+<td>₹75</td>
+</tr>
+</tbody>
+</table>
+
+Write an expression for the total number of rupees paid if x chairs and y tables are rented.
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Amount<br/>returned</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chair</td>
+<td>₹6</td>
+</tr>
+<tr>
+<td>Table</td>
+<td>₹10</td>
+</tr>
+</tbody>
+</table>
+
+For x chairs and y tables, let us find the total amount paid at the beginning and the amount one gets back after returning the furniture.
+
+Describe the procedure to get these amounts.
+
+The total amount in rupees paid at the beginning is 40x + 75y, and
+the total amount returned is 6x + 10y.
+
+So, the total amount paid = (40x + 75y) – (6x + 10y).
+
+Can we simplify this expression? If yes, how? If not, why not?
+
+90
+
+Math
+Talk
+
+Chapter-4.indd 90
+
+Reprint 2026-27
+
+4/11/2025 7:30:06 PM
+
+Expressions Using Letter-Numbers
+
+Recalling how we open brackets in an arithmetic expression, we get
+
+(40x + 75y) - (6x + 10y) = (40x + 75y) - 6x - 10y
+
+Since the terms can be added in any order, the remaining bracket
+can be opened and the expression becomes 40x + 75y + - 6x + - 10y
+
+We can group the like terms together, This results in
+
+40x + - 6x + 75y + - 10y$$
+
+$$= (40 - 6)x + (75 - 10)y$$
+
+$$= 34x + 65y.
+
+= 34x + 65y.
+
+The expression (40x + 75y) - (6x + 10y) is simplified to 34x + 65y,
+which is the total amount paid in rupees.
+
+Could we have written the initial expression as (40x + 75y) + (-6x - 10y)?
+
+*Math
+Talk*
+
+Example 8: Charu has been through three rounds of a quiz. Her scores
+in the three rounds are 7p - 3q, 8p - 4q, and 6p - 2q. Here, p represents
+the score for a correct answer and q represents the penalty for an
+incorrect answer.
+
+What do each of the expressions mean?
+
+If the score for a correct answer is 4 (p = 4) and the penalty for a wrong
+answer is 1 (q = 1), find Charu's score in the first round.
+
+Charu's score is 7 ×4 - 3 ×1. We can evaluate this expression by writing it as a sum of terms.
+
+7 \times 4 - 3 \times 1 = 7 \times 4 + - 3 \times 1 = 28 + - 3 = 25
+
+What are her scores in the second and third rounds?
+
+What if there is no penalty? What will be the value of q in that situation?
+
+What is her final score after the three rounds?
+
+Her final score will be the sum of the three scores:
+(7p - 3q) + (8p - 4q) + (6p - 2q).
+
+Since the terms can be added in any order, we can remove the brackets and write
+
+7p + -3q + 8p + -4q + 6p + -2q
+= 7p + 8p + 6p + -(3q) + -(4q) + -(2q)   (by swapping and grouping)
+= (7 + 8 + 6)p + -(3 + 4 + 2)q
+= 21p + -9q
+= 21p - 9q.
+
+= 21p - 9q.
+
+Charu’s total score after three rounds is 21p - 9q. Her friend Krishita’s
+score after three rounds is 23p - 7q.
+
+91
+13
+
+Reprint 2026-27
+
+Chapter-4.indd 91
+
+4/11/2025 7:30:06 PM
+
+---
+
+Ganita Prakash | Grade 7
+
+Give some possible scores for Krishita in the three rounds so that they add up to give 23p - 7q.
+
+Can we say who scored more? Can you explain why?
+
+How much more has Krishita scored than Charu? This can be found by
+finding the difference between the two scores.
+23p - 7q - (21p - 9q)
+
+Simplify this expression further.
+
+Example 9: Simplify the expression 4(x + y) - y
+Using the distributive property, this expression can be simplified to
+
+4(x + y) - y = 4x + 4y - y $$
+
+$$ = 4x + 4y + -y $$
+
+$$ = 4x + (4 - 1)y $$
+
+$$ = 4x + 3y.
+
+Example 10: Are the expressions 5u and 5 + u equal to each other?
+
+The expression 5u means 5 times the number u, and the expression
+5 + u means 5 more than the number u. These two being different
+operations, they should give different values for most values of u.
+
+Let us check this.
+
+Fill the blanks below by replacing the letter-numbers by numbers; an example is shown. Then compare the values that 5u and 5 + u take.
+
+*यह चित्र एक गणितीय आरेख (diagram) है जो एक केंद्रीय नोड (node) '5u' को चार अन्य नोड्स से जोड़ता है। प्रत्येक कनेक्शन को एक चर (variable) 'u' के मान के साथ लेबल किया गया है। ऊपर-बाएँ नोड 'u = 11' से जुड़ा है, ऊपर-दाएँ नोड 'u = 2' से जुड़ा है, नीचे-बाएँ नोड 'u = 8' से जुड़ा है, और नीचे-दाएँ नोड 'u = 5' से जुड़ा है। केंद्रीय नोड '5u' के अंदर '5' गुणा 'u' लिखा है।*
+
+*यह चित्र एक गणितीय आरेख (diagram) को दर्शाता है जो एक केंद्रीय बीजगणितीय व्यंजक (algebraic expression) को चार अलग-अलग अंतिम व्यंजकों (terminal expressions) से जोड़ता है। केंद्रीय व्यंजक "5 + u" है। इस केंद्र से चार तीर निकलते हैं, जिनमें से प्रत्येक एक अलग अंतिम व्यंजक की ओर इशारा करता है। इन तीरों पर नीले रंग में 'u' के लिए विशिष्ट संख्यात्मक मान लिखे गए हैं: ऊपर-बाएं तीर पर "u = 11", ऊपर-दाएं तीर पर "u = 2", नीचे-बाएं तीर पर "u = 8", और नीचे-दाएं तीर पर "u = 5"। यह दृश्य रूप से दर्शाता है कि कैसे एक ही चर 'u' के विभिन्न मानों को एक सामान्य व्यंजक में प्रतिस्थापित किया जाता है।*
+
+If the expressions 5u and 5 + u are equal, then they should take the
+
+92
+
+Chapter-4.indd 92
+
+Reprint 2026-27
+
+04-Sep-25 3:02:20 PM
+
+---
+
+Expressions Using Letter-Numbers
+
+same values for any given value of u. But we can see that they do not.
+So, these two expressions are not equal.
+
+Are the expressions 10y – 3 and 10(y – 3) equal?
+
+*This image contains a logo with the text "Math Talk". There are no charts, graphs, or numerical data present in the image.*
+
+10y - 3, short for 10 ×y - 3, means 3 less than 10 times y,
+10(y - 3), short for 10 ×(y - 3), means 10 times (3 less than y).
+
+Let us compare the values that these expressions take for different
+values of y.
+
+*यह चित्र एक गणितीय आरेख (diagram) को दर्शाता है जो एक केंद्रीय वर्ग को चार अन्य वर्गों से जोड़ता है, जो एक केंद्रीय वर्ग के चारों ओर एक सममित (symmetrical) पैटर्न में व्यवस्थित हैं। केंद्रीय वर्ग में बीजगणितीय व्यंजक (algebraic expression) "10y - 3" लिखा है। इस केंद्रीय वर्ग से चार तीर निकलते हैं, जिनमें से प्रत्येक एक अलग वर्ग की ओर इंगित करता है। इन तीरों को नीले रंग में एक चर (variable) 'y' के साथ लेबल किया गया है, जो प्रत्येक तीर के लिए एक विशिष्ट मान दर्शाता है:
+
+1. ऊपर-बाएँ तीर "y = 2" की ओर इंगित करता है।
+2. ऊपर-दाएँ तीर "y = 0" की ओर इंगित करता है।
+3. नीचे-बाएँ तीर "y = 10" की ओर इंगित करता है।
+4. नीचे-दाएँ तीर "y = 7" की ओर इंगित करता है।
+
+आरेख के प्रत्येक वर्ग में एक संख्यात्मक मान है: ऊपर-बाएँ वर्ग में "17" है, और नीचे-बाएँ वर्ग में "10" है। ऊपर-दाएँ और नीचे-दाएँ वर्गों में कोई संख्या नहीं लिखी है।*
+
+*यह चित्र एक गणितीय आरेख (diagram) दिखाता है जिसमें एक केंद्रीय वर्ग है जिस पर "10 (y - 3)" लिखा है। इस केंद्रीय वर्ग से चार तीर निकलते हैं जो बाहर की ओर इशारा करते हैं, जिनमें से प्रत्येक एक अलग संख्या या व्यंजक की ओर जाता है। इन तीरों को नीले रंग में लिखा गया है और वे इस प्रकार हैं:
+
+1. ऊपर-बाएं: एक तीर "-10" की ओर इशारा करता है, जिस पर "y = 2" लिखा है।
+2. ऊपर-दाएं: एक तीर एक खाली वर्ग की ओर इशारा करता है।
+3. नीचे-बाएं: एक तीर एक खाली वर्ग की ओर इशारा करता है।
+4. नीचे-दाएं: एक तीर "y = 7" की ओर इशारा करता है, जिस पर "y = 10" लिखा है।
+
+यह आरेख एक गणितीय व्यंजक को दर्शाता है जहाँ केंद्रीय मान "10 (y - 3)" को चार अलग-अलग मानों में विभाजित किया गया है, जो संभवतः "y" के विभिन्न मानों के अनुरूप हैं।*
+
+After filling in the two diagrams, do you think the two expressions are equal?
+
+Example 11: What is the sum of the numbers in the picture (unknown values are denoted by letter-numbers)?
+
+There are many ways to go about it. Here, we show some of them.
+
+*चित्र में चार वर्गों और चार वृत्तों का एक सेट दिखाया गया है जो दो पंक्तियों में व्यवस्थित हैं। ऊपर की पंक्ति में चार समान हल्के हरे रंग के वर्ग हैं, जिनमें से प्रत्येक में संख्या "3" है। नीचे की पंक्ति में भी चार समान हल्के हरे रंग के वर्ग हैं, जिनमें से प्रत्येक में संख्या "3" है। इन वर्गों के बीच दो वृत्त हैं: एक पीला वृत्त जिस पर "r" लिखा है और एक बैंगनी वृत्त जिस पर "s" लिखा है। ये वृत्त वर्गों के बीच स्थित हैं।*
+
+1. Adding row wise gives:
+
+$(4 \times 3) + (r + s) + (r + s) + (4 \times 3)$
+
+2. Adding like terms together gives:
+
+$(8 \times 3) + (r + r) + (s + s)$
+
+3. Adding the upper half and doubling gives:
+
+2 × (4 × 3 + r + s)
+
+The three expressions might seem different. We can simplify each
+one and see that they all are the same: 2r + 2s + 24.
+
+## Figure it Out
+
+1. Add the numbers in each picture below. Write their
+corresponding expressions and simplify them. Try adding the
+numbers in each picture in a couple different ways and see
+
+*This image contains a logo with the text "Math Talk".*
+
+Reprint 2026-27
+
+Chapter-4.indd 93
+
+04-Sep-25 3:02:20 PM
+
+---
+
+Ganita Prakash | Grade 7
+
+that you get the same thing.
+
+*This image contains two pairs of algebraic expressions. The top pair is 5y and -6, and the bottom pair is x and 5y.*
+
+*यह चित्र एक गणितीय ग्रिड को दर्शाता है जिसमें दो पंक्तियों और चार स्तंभों में व्यवस्थित आठ सेल हैं। प्रत्येक सेल में एक बीजगणितीय व्यंजक (algebraic expression) है। ऊपर-बाएँ सेल में '2p' है, और ऊपर-दाएँ सेल में '-2' है। नीचे-बाएँ सेल में '3q' है, और नीचे-दाएँ सेल में '3' है। मध्य-बाएँ सेल में '3q' है, और मध्य-दाएँ सेल में '2p' है। नीचे की पंक्ति में, पहले सेल में '2p' है, और दूसरे सेल में '3q' है। नीचे-दाएँ सेल में '3q' है, और नीचे-बाएँ सेल में '2p' है।*
+
+*यह चित्र 4x4 के ग्रिड को दर्शाता है जिसमें प्रत्येक सेल में एक वृत्त है। वृत्त दो अलग-अलग रंगों में हैं: हल्के पीले और गहरे भूरे रंग के। ग्रिड में प्रत्येक सेल में एक गणितीय व्यंजक है। हल्के पीले वृत्तों में व्यंजक '-5g' और '5k' हैं, जबकि गहरे भूरे वृत्तों में व्यंजक '5k' है। यह पैटर्न चार पंक्तियों और चार स्तंभों में दोहराया गया है।*
+
+## 2. Simplify each of the following expressions:
+
+(a) p + p + p + p, p + p + p + q, (b) p + q + p - q,
+
+(c) p - q + p - q, (d) p + q - p + q,
+
+(e)  p + q - (p + q),                                     (f)  p - q - p - q
+
+(g) 2d - d - d - d, (h) 2d - d - d - c,
+
+(i) 2d - d - (d - c),          (j) 2d - (d - d) - c,
+
+(k) 2d – d – c – c
+
+## Mind the Mistake, Mend the Mistake
+
+Some simplifications of algebraic expressions are done below. The expression on the right-hand side should be in its simplest form.
+
+• Observe each of them and see if there is a mistake.
+
+• If you think there is a mistake, try to explain what might have gone wrong.
+
+• Then, simplify it correctly.
+
+<table>
+<thead>
+<tr>
+<th>Expression</th>
+<th>Simplest Form</th>
+<th>Correct Simplest<br/>Form</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. 3a + 2b</td>
+<td>5</td>
+<td></td>
+</tr>
+<tr>
+<td>2. 3b - 2b - b</td>
+<td>0</td>
+<td></td>
+</tr>
+<tr>
+<td>3. 6 (p + 2)</td>
+<td>6p + 8</td>
+<td></td>
+</tr>
+<tr>
+<td>4. (4x + 3y) - (3x + 4y)</td>
+<td>x + y</td>
+<td></td>
+</tr>
+<tr>
+<td>5. 5 - (2 - 6z)</td>
+<td>3 - 6z</td>
+<td></td>
+</tr>
+<tr>
+<td>6. 2 + (x + 3)</td>
+<td>2x - 6</td>
+<td></td>
+</tr>
+<tr>
+<td>7. 2y + (3y - 6)</td>
+<td>- y + 6</td>
+<td></td>
+</tr>
+<tr>
+<td>8. 7p - p + 5q - 2q</td>
+<td>7p + 3q</td>
+<td></td>
+</tr>
+<tr>
+<td>9. 5 (2w + 3x + 4w)</td>
+<td>10w + 15x + 20w</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+94
+
+Chapter-4.indd 94
+
+Reprint 2026-27
+
+04-Sep-25 3:02:21 PM
+
+---
+
+Expressions Using Letter-Numbers
+
+10.  $3j + 6k + 9h + 12$      $3 (j + 2k + 3h + 4)$
+
+11.  $4(2r + 3s + 5)$          $- 20 - 8r - 12s$
+
+Take a look at all the corrected simplest forms (i.e. brackets are removed, like terms are added, and terms with only numbers are also added). Is there any relation between the number of terms and the number of letter-numbers these expressions have?
+
+## 4.5 Pick Patterns and Reveal Relationships
+
+In the first section we got a glimpse of algebraic expressions and
+how to use them to describe simple patterns and relationships in a
+concise and elegant manner. Here, we continue to look for general
+relationships between quantities in different scenarios, find patterns
+and, interestingly, even explain why these patterns occur.
+
+Remember the importance of describing in simple language, or
+visualising mathematical relationships, before trying to write them as
+expressions.
+
+## Formula Detective
+
+Look at the picture given. In each case, the number machine takes in
+the 2 numbers at the top of the ‘Y’ as inputs, performs some operations
+and produces the result at the bottom. The machine performs the same
+operations on its inputs in each case.
+
+Find out the formula of this number machine.
+
+*यह छवि एक साधारण आरेख (diagram) है जिसमें एक केंद्रीय काले रंग का गियर (gear) है जो एक धूसर (grey) वर्ग के भीतर स्थित है। इस गियर से दो हरी रेखाएं निकलती हैं, जो ऊपर की ओर 'Y' आकार बनाती हैं। इन हरी रेखाओं के सिरों पर क्रमशः '5' और '2' संख्याएं अंकित हैं। गियर के नीचे एक गुलाबी रंग का वर्ग है जिसमें '8' संख्या है।*
+
+*यह छवि एक साधारण आरेख (diagram) को दर्शाती है जो एक केंद्रीय गियर (gear) आइकन के चारों ओर केंद्रित है। गियर के ऊपर, दो हरी विकर्ण रेखाएं (diagonal lines) बाहर की ओर फैली हुई हैं, जिनमें से प्रत्येक के ऊपर '10' नंबर लिखा है। गियर के नीचे, एक गुलाबी वर्ग (square) है जिसमें '10' नंबर भी है। यह दृश्य रूप से एक ऐसे संबंध को दर्शाता है जहां दो इनपुट (10) एक केंद्रीय प्रक्रिया (गियर) में फीड होते हैं, जिसके परिणामस्वरूप एक आउटपुट (10) प्राप्त होता है।*
+
+*यह छवि एक ऊर्ध्वाधर आरेख है जो एक ऊर्ध्वाधर अक्ष के साथ व्यवस्थित तीन अलग-अलग प्रतीकों को प्रदर्शित करती है। शीर्ष पर, संख्या '6' एक हरे, V-आकार के आकार के बगल में स्थित है। इसके नीचे, एक केंद्रीय प्रतीक एक काले गियर को प्रदर्शित करता है जो एक ग्रे वर्ग सीमा के भीतर संलग्न है। इस गियर के नीचे, एक और हरा V-आकार का आकार दिखाई देता है। अंत में, आरेख के नीचे, एक ठोस गुलाबी वर्ग है। यह व्यवस्था एक पदानुक्रमित या अनुक्रमिक संबंध का सुझाव देती है, जो संभवतः एक प्रक्रिया या एक प्रणाली के भीतर एक चरण का प्रतिनिधित्व करती है।*
+
+The formula for the number machine above is “two times the first
+number minus the second number”. When written as an algebraic
+expression, the formula is 2a - b. The expression for the first set of
+inputs is 2 ×5 - 2 = 8. Check that the formula holds true for each set
+of inputs.
+
+95
+
+[^1]: expression:
+
+[^2]: expression:
+
+[^3]: expression:
+
+[^4]: expression:
+
+[^5]: expression:
+
+Reprint 2026-27
+
+Chapter-4.indd 95
+
+4/11/2025 7:30:06 PM
+
+---
+
+Ganita Prakash | Grade 7
+
+Find the formulas of the number machines below and write the expression for each set of inputs.
+
+*यह चित्र एक साधारण आरेख (diagram) है जो एक यांत्रिक या तकनीकी संयोजन को दर्शाता है। इसमें एक केंद्रीय काले रंग का गियर (gear) है जो एक हल्के नीले रंग के शाफ्ट (shaft) से जुड़ा है। इस शाफ्ट के ऊपर दो हल्के नीले रंग के त्रिकोणीय टुकड़े हैं, जो संभवतः ब्रैकेट या सपोर्ट हैं, और जिन पर क्रमशः '5' और '2' संख्याएँ अंकित हैं। गियर के नीचे एक गुलाबी रंग का वर्ग है जिस पर '5' संख्या अंकित है। यह आरेख संभवतः एक तकनीकी आरेख है जो एक गियर तंत्र के घटकों और उनके संख्यात्मक मानों को दर्शाता है।*
+
+*यह छवि एक ऊर्ध्वाधर आरेख (vertical diagram) है जो एक यांत्रिक या तकनीकी प्रणाली को दर्शाती है। इसमें एक केंद्रीय काला गियर (gear) है जो एक हल्के नीले रंग की ऊर्ध्वाधर छड़ (rod) से जुड़ा है। इस छड़ के ऊपर, दो हल्के नीले रंग की V-आकार की पट्टियाँ (ribbons) बाहर की ओर फैली हुई हैं, जिनमें से प्रत्येक पर एक संख्या अंकित है: बाईं ओर '8' और दाईं ओर '1'। केंद्रीय गियर के नीचे, एक ठोस गुलाबी रंग का वर्ग है जिसमें संख्या '7' है। यह व्यवस्था एक यांत्रिक लिंकेज (mechanical linkage) या एक नियंत्रण तंत्र (control mechanism) का सुझाव देती है।*
+
+*यह चित्र एक साधारण आरेख (diagram) को दर्शाता है जिसमें एक केंद्रीय काले रंग का गियर (gear) है जो एक हल्के नीले रंग के आयताकार बॉक्स के भीतर घिरा हुआ है। इस गियर के ऊपर, दो हल्के नीले रंग के तीर नीचे की ओर इशारा करते हैं, जिन्हें क्रमशः ऊपर बाईं ओर '9' और ऊपर दाईं ओर '11' संख्याएँ दी गई हैं। गियर के नीचे, एक गुलाबी रंग का वर्ग है जिसमें संख्या '18' है। यह आरेख एक वैचारिक प्रवाह या संबंध को दर्शाता है, जो संभवतः एक प्रक्रिया या प्रणाली के भीतर एक चरण या घटक का प्रतिनिधित्व करता है।*
+
+*यह चित्र एक साधारण आरेख या फ्लोचार्ट को दर्शाता है। इसमें एक केंद्रीय काले रंग का गियर आइकन है जो एक हल्के नीले रंग के आयताकार बॉक्स के भीतर स्थित है। इस बॉक्स के ऊपर, दो हल्के नीले रंग के तीर नीचे की ओर इशारा करते हैं, जो गियर की ओर इशारा करते हैं। गियर के नीचे, एक गुलाबी रंग का वर्ग है जिसमें संख्या "18" है। गियर के ऊपर, दो संख्याएँ "10" दिखाई देती हैं, जो संभवतः इन तत्वों से संबंधित मानों या लेबल को दर्शाती हैं।*
+
+*यह छवि एक आरेख है जो एक यांत्रिक या तकनीकी संयोजन को दर्शाती है। इसमें एक केंद्रीय काले रंग का गियर है जो एक हल्के नीले रंग की ऊर्ध्वाधर छड़ के भीतर स्थित है। इस छड़ के ऊपर 'a' और नीचे 'b' लेबल वाले दो हल्के नीले रंग के, V-आकार के ब्रैकेट हैं। गियर के नीचे एक गुलाबी रंग का वर्ग है। यह आरेख संभवतः एक तकनीकी आरेख या एक योजनाबद्ध चित्र है।*
+
+*यह छवि एक तकनीकी आरेख (technical diagram) है जो एक यांत्रिक संयोजन (mechanical assembly) को दर्शाता है। इसमें एक केंद्रीय काला गियर है जो एक धूसर (grey) बॉर्डर वाले वर्ग के भीतर स्थित है। यह वर्ग दो बैंगनी रंग की, V-आकार की पट्टियों (ribbons) द्वारा ऊपर से जुड़ा हुआ है। ये पट्टियाँ गियर के ऊपर से निकलती हैं और ऊपर की ओर फैली हुई हैं। गियर के नीचे, एक बैंगनी रंग की पट्टी लंबवत (vertically) नीचे की ओर जाती है। यह पट्टी एक बड़े, ठोस गुलाबी रंग के वर्ग से जुड़ती है, जिसके केंद्र में '5' संख्या अंकित है। आरेख के ऊपर बाईं ओर '4' और ऊपर दाईं ओर '1' संख्याएँ स्थित हैं।*
+
+*यह छवि एक Y-आकार के आरेख (diagram) को दर्शाती है जो आमतौर पर मशीन लर्निंग में उपयोग किए जाने वाले एक न्यूरल नेटवर्क आर्किटेक्चर का प्रतिनिधित्व करता है। इसमें एक केंद्रीय काला गियर आइकन है जो एक धूसर वर्ग (gray square) के भीतर बंद है। इस केंद्रीय इकाई से दो बैंगनी रंग की शाखाएँ नीचे की ओर फैली हुई हैं। ये शाखाएँ एक गुलाबी वर्ग में समाप्त होती हैं जिसमें संख्या '1' है। आरेख के शीर्ष पर, दो संख्यात्मक लेबल '6' और '0' हैं, जो संभवतः इनपुट या आउटपुट नोड्स की संख्या दर्शाते हैं।*
+
+*The image is a schematic diagram or icon, not a data chart. It features a central gear symbol enclosed in a square. Two purple lines, labeled 'a' and 'b', extend from the top of the gear, resembling a Y-shape or a V-shape. Below the gear, a vertical purple line connects to a pink square. There are no axes, numerical values, or legends present.*
+
+Now, make a formula on your own. Write a few number machines as examples using that formula. Challenge your classmates to figure it out!
+
+Note to the Teacher: Not just solving problems but creating new questions is also very much a part of learning and doing mathematics!
+
+## Algebraic Expressions to Describe Patterns
+
+Example 12: Somjit noticed a repeating pattern along the border of a saree.
+
+*This image contains a black and white decorative floral or geometric pattern. There is no text present.*
+
+*A*
+
+*B*
+
+*This image contains a black and white illustration of a flower or a floral design.*
+
+*C*
+
+*This image contains a decorative black and white floral or geometric pattern. There is no text present.*
+
+*D*
+
+*This image contains a black and white illustration of a symmetrical floral or geometric pattern. It does not contain any text.*
+
+*E*
+
+*This image contains a black and white floral or mandala design. There is no text in the image.*
+
+*F*
+
+Somjit wonders if there is a way to describe all the positions where the (i) Design A occurs, (ii) Design B occurs, and (iii) Design C occurs.
+
+96
+
+[^1]: expression:
+
+[^2]: expression:
+
+[^3]: expression:
+
+[^4]: expression:
+
+[^5]: expression:
+
+[^6]: expression:
+
+[^7]: expression:
+
+[^8]: expression:
+
+[^9]: expression:
+
+[^10]: expression:
+
+Chapter-4.indd 96
+
+Reprint 2026-27
+
+4/11/2025 7:30:07 PM
+
+---
+
+Expressions Using Letter-Numbers
+
+Let us start with design C. It appears for the first time at position 3,
+the second time at position 6.
+
+Where would design C appear for the nᵗʰ time?
+
+We can see that this design appears in positions that are multiples of
+3. So the nᵗʰ occurrence of Design C will be at position 3n.
+
+Similarly, find the formula that gives the position where the other Designs appear for the nᵗʰ time.
+
+The positions where B occurs are 2, 5, 8, 11, 14, and so on.
+
+We can see that the position of the nth appearance of Design B is one
+less than the position at which Design C appears for the nᵗʰ time. Thus,
+the nth occurrence of Design B is at position:
+
+3n - 1
+
+Similarly, the expression describing the position at which the design
+A appears for the nth time is: 3n - 2.
+
+Given a position number can we find out the design that appears there? Which Design appears at Position 122?
+
+If the position is a multiple of 3, then clearly we have Design C. As
+seen earlier, if the position is one less than a multiple of 3, it has Design
+B, and if it is 2 less than a multiple of 3, then it has Design A.
+
+Can the remainder obtained by dividing the position number by 3 be used for this? Observe the table below.
+
+<table>
+<thead>
+<tr>
+<th>Position no.</th>
+<th>Quotient on division by 3</th>
+<th>Remainder</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>99</td>
+<td>33</td>
+<td>0</td>
+</tr>
+<tr>
+<td>122</td>
+<td>40</td>
+<td>2</td>
+</tr>
+<tr>
+<td>148</td>
+<td>49</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+Use this to find what design appears at positions 99, 122, and 148.
+
+## Patterns in a Calendar
+
+Here is the calendar of November 2024. Consider 2 ×2 squares,
+as marked in the calendar. The numbers in this square show an
+interesting property.
+
+97
+
+Reprint 2026-27
+
+Chapter-4.indd 97
+
+4/11/2025 7:30:07 PM
+
+---
+
+Ganita Prakash | Grade 7
+
+*November 2024*
+
+<table>
+<thead>
+<tr>
+<th>Mon</th>
+<th>Tue</th>
+<th>Wed</th>
+<th>Thu</th>
+<th>Fri</th>
+<th>Sat</th>
+<th>Sun</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+</tr>
+<tr>
+<td>10</td>
+<td>11</td>
+<td>12</td>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+<td>16</td>
+</tr>
+<tr>
+<td>17</td>
+<td>18</td>
+<td>19</td>
+<td>20</td>
+<td>21</td>
+<td>22</td>
+<td>23</td>
+</tr>
+<tr>
+<td>24</td>
+<td>25</td>
+<td>26</td>
+<td>27</td>
+<td>28</td>
+<td>29</td>
+<td>30</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>12</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td>20</td>
+    </tr>
+  </tbody>
+</table>
+
+Let us take the marked 2 ×2 square, and consider the numbers lying on the diagonals; 12 and 20; 13 and 19. Find their sums; 12 + 20, 13 + 19. What do you observe?
+
+They are equal.
+
+Let us extend the numbers in the calendar beyond 30, creating endless rows.
+
+*November 2024*
+
+<table>
+<thead>
+<tr>
+<th>Mon</th>
+<th>Tue</th>
+<th>Wed</th>
+<th>Thu</th>
+<th>Fri</th>
+<th>Sat</th>
+<th>Sun</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+</tr>
+<tr>
+<td>10</td>
+<td>11</td>
+<td>12</td>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+<td>16</td>
+</tr>
+<tr>
+<td>17</td>
+<td>18</td>
+<td>19</td>
+<td>20</td>
+<td>21</td>
+<td>22</td>
+<td>23</td>
+</tr>
+<tr>
+<td>24</td>
+<td>25</td>
+<td>26</td>
+<td>27</td>
+<td>28</td>
+<td>29</td>
+<td>30</td>
+</tr>
+<tr>
+<td>31</td>
+<td>32</td>
+<td>33</td>
+<td>34</td>
+<td>35</td>
+<td>36</td>
+<td>37</td>
+</tr>
+<tr>
+<td>38</td>
+<td>39</td>
+<td>40</td>
+<td>41</td>
+<td>42</td>
+<td>43</td>
+<td>44</td>
+</tr>
+</tbody>
+</table>
+
+Will the diagonal sums be equal in every 2 ×2 square in this endless grid? How can we be sure?
+
+To be sure of this we cannot check with all 2 ×2 squares as there are an unlimited number of them.
+
+Let us consider a 2 ×2 square. Its top left number can be any number. Let us call it ‘a’.
+
+Given that we know the top left number, how do we find the other numbers in this 2 ×2 square?
+
+As we have been doing, first let us describe the other numbers in words.
+
+<table>
+<tbody>
+<tr>
+<td>a</td>
+<td>?</td>
+</tr>
+<tr>
+<td>?</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+
+98
+
+Chapter-4.indd 98
+
+Reprint 2026-27
+
+04-Sep-25 3:24:41 PM
+
+---
+
+Expressions Using Letter-Numbers
+
+• the number to the right of 'a' will be 1 more than it.
+
+• the number below 'a' will be 7 more than it.
+
+• the number diagonal to ‘a’ will be 8 more than it.
+
+So the other numbers in the 2 ×2 square can be
+represented as shown in the grid. Let us find the
+diagonal sums; a + (a + 8), and (a + 1) + (a + 7).
+
+<table>
+<tbody>
+<tr>
+<td>a</td>
+<td>a + 1</td>
+</tr>
+<tr>
+<td>a + 7</td>
+<td>a + 8</td>
+</tr>
+</tbody>
+</table>
+
+Let us simplify them.
+
+Since the terms can be added in any order, the brackets can be opened.
+
+a + (a + 8) = a + a + 8 = 2a + 8
+
+(a + 1) + (a + 7) = a + 1 + a + 7 = a + a + 1 + 7 = 2a + 8
+
+We see that both diagonal sums are equal to 2a + 8 (8 more than
+2 times a).
+
+Verify this expression for diagonal sums by considering any 2 ×2 square and taking its top left number to be 'a'.
+
+Thus, we have shown that diagonal sums are equal for any value of
+a, i.e., for any 2 ×2 square!
+
+This problem is an example that shows the power of algebraic modelling
+in verifying whether a pattern will always hold.
+
+Consider a set of numbers from the calendar (having endless rows)
+forming under the following shape:
+
+*यह छवि एक कॉपीराइट प्रतीक (©) दिखाती है।*
+
+<table>
+<tbody>
+<tr>
+<td></td>
+<td>8</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>15</td>
+<td>16</td>
+</tr>
+<tr>
+<td></td>
+<td>22</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+Find the sum of all the numbers. Compare it with the number in the centre: 15. Repeat this for another set of numbers that forms this shape. What do you observe?
+
+We see that the total sum is always 5 times the number in the centre.
+
+Will this always happen? How do you show this?
+
+[Hint: Consider a general set of numbers that forms this shape.
+Take the number at the centre to be ‘a’. Express the other numbers in
+terms of ‘a’.]
+
+*This image contains a logo with the text "Math Talk". There are no charts or graphs present in the image.*
+
+Find other shapes for which the sum of the numbers within the figure is always a multiple of one of the numbers.
+
+*Math
+Talk*
+
+Reprint 2026-27
+
+99
+11
+
+Chapter-4.indd 99
+
+4/11/2025 7:30:07 PM
+
+---
+
+Ganita Prakash | Grade 7
+
+## Matchstick Patterns
+
+Look at the picture below. It is a pattern using matchsticks. Can you identify what the pattern is?
+
+*This image contains a triangle made of matches.*
+
+*1*
+
+*2*
+
+*This image contains a geometric figure made up of matchsticks.*
+
+*This image contains a geometric shape made up of matchsticks. There is no text present.*
+
+*3*
+
+We can see that Step 1 has 1 triangle, Step 2 has 2 triangles, Step 3
+has 3 triangles, and so on.
+
+*4*
+
+Can you tell how many matchsticks there will be in the next step,
+Step 5? It is 11. You can also draw this and see.
+
+How many matchsticks will there be in Step 33, Step 84, and Step 108? Of course, we can draw and count, but is there a quicker way to find the answers using the pattern present here?
+
+What is the general rule to find the number of matchsticks in the
+next step? We can see that at each step 2 matchsticks are placed to get
+the next one, i.e., the number of matchsticks increases by 2 every time.
+
+<table>
+<thead>
+<tr>
+<th>Step Number</th>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>No. of<br/>Matchsticks</th>
+<td>3</td>
+<td>5</td>
+<td>7</td>
+<td>9</td>
+<td>11</td>
+<td>13</td>
+</tr>
+</tbody>
+</table>
+
+Think of a way to use this to find out the number of matchsticks in
+Step 33 (without continuing to write the numbers).
+
+As each time 2 matchsticks are being added, finding out how many
+2s will be added in Step 33 will help. Look at the table below and try to
+find out.
+
+<table>
+<thead>
+<tr>
+<th>Step Number</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No. of<br/>Matchsticks</td>
+<td>3</td>
+<td>5</td>
+<td>7</td>
+<td>9</td>
+<td>11</td>
+<td>13</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>3 + 2</td>
+<td>3 + 2 + 2</td>
+<td>3 + 2 + 2 + 2</td>
+<td>3 + 2 + 2 + 2 + 2</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+The number of matchsticks needed to make 33 triangles (Step 33) is _______. Similarly, find the number of matchsticks needed for Step 84 and Step 108.
+
+100
+
+Chapter-4.indd 100
+
+Reprint 2026-27
+
+4/11/2025 7:30:08 PM
+
+Expressions Using Letter-Numbers
+
+What could be an expression describing the rule/formula to find out
+the number of matchsticks at any step?
+
+The pattern is such that in Step 10, nine 2s and an added 3 (3 + 2 ×
+9) gives the number of matchsticks; in Step 11, ten 2s and an added
+3 (3 + 2 ×10) gives the number of matchsticks. For step y, what is
+the expression?
+
+It is: one less than y (i.e. y - 1) 2s and a 3.
+
+Therefore, the expression is
+
+$3 + 2 \times (y - 1).$
+
+This expression gives the number of matchsticks in Step y. Now we can find the number of matchsticks at any step quickly.
+
+You might have already noticed that there is a 2 in the first step also, 3 = 1 + 2. Using this, the expression we get is
+
+2y + 1.
+
+Does the above expression also give the number of matchsticks at each step correctly? Are these expressions the same?
+
+We can check by simplifying the expression 3 + 2 ×(y - 1).
+
+3 + 2 \times (y - 1) = 3 + 2y - 2
+
+= 2y + 1.
+
+Both expressions are the same.
+
+There is a different way to count, or see the pattern. Let us take a look at the picture again.
+
+Matchsticks are placed in two orientations—(a) horizontal ones at
+the top and bottom, and (b) the ones placed diagonally in the middle.
+For example, in step 2 there are 2 matchsticks placed horizontally and
+3 matchsticks placed diagonally.
+
+What are these numbers in Step 3 and Step 4?
+
+How does the number of matchsticks change in each orientation as the steps increase? Write an expression for the number of matchsticks at Step ‘y’ in each orientation. Do the two expressions add up to 2y + 1?
+
+101
+
+Reprint 2026-27
+
+Chapter-4.indd 101
+
+4/11/2025 7:30:08 PM
+
+---
+
+Ganita Prakash | Grade 7
+
+## Figure it Out
+
+For the problems asking you to find suitable expression(s), first try to
+understand the relationship between the different quantities in the
+situation described. If required, assume some values for the unknowns
+and try to find the relationship.
+
+1. One plate of Jowar roti costs ₹30 and one plate of Pulao costs ₹20.
+If x plates of Jowar roti and y plates of pulao were ordered in a day,
+which expression(s) describe the total amount in rupees earned
+that day?
+
+(a) 30x + 20y
+(c) 20x + 30y
+(e) 30x - 20y
+
+(b) (30 + 20) ×(x + y)
+
+(d) (30 + 20) × x + y
+
+2. Pushpita sells two types of flowers on Independence day: champak
+and marigold. ‘p’ customers only bought champak, ‘q’ customers
+only bought marigold, and ‘r’ customers bought both. On the same
+day, she gave away a tiny national flag to every customer. How
+many flags did she give away that day?
+
+(a)
+
+p + q + r
+
+(c)
+
+p + q + 2r
+
+2 × (p + q + r)
+
+p + q + r + 2
+
+p + q + r + 1
+
+2 × (p + q)
+
+3. A snail is trying to climb along the wall of a deep well. During the
+day it climbs up ‘u’ cm and during the night it slowly slips down
+‘d’ cm. This happens for 10 days and 10 nights.
+
+(a) Write an expression describing how far away the snail is
+from its starting position.
+
+(b) What can we say about the snail's movement if d > u?
+
+4. Radha is preparing for a cycling race and practices daily. The first week she cycles 5 km every day. Every week she increases the daily distance cycled by ‘z’ km. How many kilometers would Radha have cycled after 3 weeks?
+
+5. In the following figure, observe how the expression w + 2 becomes
+4w + 20 along one path. Fill in the missing blanks on the remaining
+paths. The ovals contain expressions and the boxes contain
+operations.
+
+*यह चित्र एक गणितीय व्यंजक को दर्शाने वाला एक फ्लोचार्ट है। इसमें दो मुख्य शाखाएँ हैं जो एक केंद्रीय नोड 'w + 2' से निकलती हैं। ऊपरी शाखा में दो पथ हैं: एक 'w - 3' से होकर गुजरता है और फिर '-5' से, और दूसरा '+3' से होकर गुजरता है, जिसके बाद 'w + 5' और फिर '×4' होता है, जिसके परिणामस्वरूप अंतिम व्यंजक '4w + 20' प्राप्त होता है। निचली शाखा में दो पथ हैं: एक '-4' से होकर गुजरता है और फिर '-8' से, और दूसरा '-4' से होकर गुजरता है, जिसके बाद '×3' होता है, जिसके परिणामस्वरूप अंतिम व्यंजक '3w - 6' प्राप्त होता है।*
+
+*The image contains the text "Try This" written inside a speech bubble. There is an orange arrow pointing upwards to the right of the speech bubble.*
+
+Reprint 2026-27
+
+Chapter-4.indd 102
+
+08-09-2025 10:31:31
+
+---
+
+Expressions Using Letter-Numbers
+
+6. A local train from Yahapur to Vahapur stops at three stations at equal distances along the way. The time taken in minutes to travel from one station to the next station is the same and is denoted by t. The train stops for 2 minutes at each of the three stations.
+
+(a) If t = 4, what is the time taken to travel from Yahapur to Vahapur?
+
+(b) What is the algebraic expression for the time taken to travel
+from Yahapur to Vahapur? [Hint: Draw a rough diagram to
+visualise the situation]
+
+7. Simplify the following expressions:
+
+(a) 3a + 9b - 6 + 8a - 4b - 7a + 16
+
+(b) 3 (3a - 3b) - 8a - 4b - 16
+
+(c) 2 (2x - 3) + 8x + 12
+
+(d) 8x - (2x - 3) + 12
+
+(e) 8h - (5 + 7h) + 9
+
+(f) 23 + 4(6m - 3n) - 8n - 3m - 18
+
+8. Add the expressions given below:
+
+(a) 4d - 7c + 9 and 8c - 11 + 9d
+
+(b) - 6f + 19 - 8s and - 23 + 13f + 12s
+
+(c) 8d - 14c + 9 and 16c - (11 + 9d)
+
+(d) 6f - 20 + 8s and 23 - 13f - 12s
+
+(e) 13m – 12n and 12n – 13m
+
+(f) - 26m + 24n and 26m - 24n
+
+9. Subtract the expressions given below:
+
+(a) 9a - 6b + 14 from 6a + 9b - 18
+
+(b) - 15x + 13 - 9y from 7y - 10 + 3x
+
+(c) 17g + 9 - 7h from 11 - 10g + 3h
+
+(d) 9a - 6b + 14 from 6a - (9b + 18)
+
+(e) 10x + 2 + 10y from -3y + 8 - 3x
+
+(f) 8g + 4h - 10 from 7h - 8g + 20
+
+10. Describe situations corresponding to the following algebraic
+expressions:
+
+(a) 8x + 3y
+
+(b) 15x - 2x
+
+11. Imagine a straight rope. If it is cut once as shown in the picture, we get 2 pieces. If the rope is folded once and then cut as shown, we
+
+Chapter-4.indd 103
+
+Reprint 2026-27
+
+103
+
+4/11/2025 7:30:08 PM
+
+---
+
+Ganita Prakash | Grade 7
+
+get 3 pieces. Observe the pattern and find the number of pieces if
+the rope is folded 10 times and cut. What is the expression for the
+number of pieces when the rope is folded r times and cut?
+
+*यह चित्र तीन अलग-अलग प्रकार के गाँठों (knots) को दर्शाता है, जिनमें से प्रत्येक को एक लाल डैश वाली रेखा द्वारा काट दिया गया है। ये गाँठें आमतौर पर रस्सियों या डोरियों से बंधी जाती हैं।*
+
+12. Look at the matchstick pattern below. Observe and identify the
+pattern. How many matchsticks are required to make 10 such
+squares. How many are required to make w squares?
+
+*This image contains four squares.*
+
+13. Have you noticed how the colours change in a traffic signal? The
+sequence of colour changes is shown below.
+Find the colour at positions 90, 190, and 343. Write expressions to
+describe the positions for each colour.
+
+*This image contains five colored circles arranged horizontally with numbers below them. The colors are red, yellow, green, yellow, and red.*
+
+14. Observe the pattern below. How many squares will be there in Step
+4, Step 10, Step 50? Write a general formula. How would the formula
+change if we want to count the number of vertices of all the squares?
+
+*यह चित्र तीन अलग-अलग पैटर्न दिखाता है जो नारंगी रंग के वर्गों से बने हैं। प्रत्येक पैटर्न में वर्गों की अलग-अलग संख्या है और वे एक विशेष आकार में व्यवस्थित हैं:
+
+1. बाईं ओर के पैटर्न में 5 वर्ग हैं जो एक क्रॉस आकार में व्यवस्थित हैं।
+2. बीच के पैटर्न में 9 वर्ग हैं जो एक बड़े 'X' आकार में व्यवस्थित हैं।
+3. दाईं ओर के पैटर्न में 13 वर्ग हैं जो एक बड़े 'X' आकार में व्यवस्थित हैं।
+
+सभी पैटर्न में वर्ग समान आकार के हैं और एक समान नारंगी रंग के हैं।*
+
+104
+
+Reprint 2026-27
+
+Chapter-4.indd 104
+
+4/11/2025 7:30:09 PM
+
+---
+
+Expressions Using Letter-Numbers
+
+15. Numbers are written in a particular sequence in this endless 4-column grid.
+
+(a) Give expressions to generate all the numbers in a given column (1, 2, 3, 4).
+
+(b) In which row and column will the following numbers appear:
+
+(i) 124
+
+(ii) 147
+
+(iii) 201
+
+(c) What number appears in row r and column c?
+
+(d) Observe the positions of multiples of 3.
+
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+</tr>
+<tr>
+<td>9</td>
+<td>10</td>
+<td>11</td>
+<td>12</td>
+</tr>
+<tr>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+<td>16</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+Do you see any pattern in it? List other patterns that you see.
+
+*The image contains a logo with the text "Math Talk".*
+
+## SUMMARY
+
+• Algebraic expressions are used in formulas to model patterns and mathematical relationships between quantities, and to make predictions.
+
+• Algebraic expressions use not only numbers but also letter-numbers.
+The rules for manipulating arithmetic expressions also apply to
+algebraic expressions. These rules can be used to reduce algebraic
+expressions to their simplest forms.
+
+• Algebraic expressions can be described in ordinary language, and vice versa. Patterns or relationships that are easily written using algebra can often be long and complex in ordinary language. This is one of the advantages of algebra.
+
+105
+
+Reprint 2026-27
+
+Chapter-4.indd 105
+
+4/11/2025 7:30:09 PM
+
+---
+
+## Chapter – 4
+Expressions Using Letter–Numbers
+
+## Page No. 83
+
+How much should she pay if she buys 8 coconuts and 9 kg jaggery?
+
+Ans: Total cost: ₹ 820
+
+## Page No. 84
+
+Figure it Out
+
+1. Write formulas for the perimeter of: (a) triangle with all sides equal.
+(b) a regular pentagon (as we have learnt last year, we use the word
+'regular' to say that all sidelengths and angle measures are equal)
+(c) a regular hexagon
+
+Ans:
+
+(a) Let length of each side of the triangle = a units
+Perimeter of Triangle = 3a units
+
+(b) Let length of each side of pentagon = a units
+Perimeter of Regular Pentagon = 5a units
+
+(c) Let length of each side of regular hexagon = a units
+Perimeter of Regular Hexagon = 6a units
+
+2. Munirathna has a 20 m long pipe. However, he wants a longer watering pipe for his garden. He joins another pipe of some length to this one. Give the expression for the combined length of the pipe. Use the letter–number ‘k’ to denote the length in meters of the other pipe.
+
+Ans: (20 + k) meters
+
+1
+
+---
+
+3. What is the total amount Krithika has, if she has the following numbers of notes of ₹100, ₹20 and ₹5? Complete the following table:
+
+*Ans:*
+
+<table>
+<thead>
+<tr>
+<th>No. of ₹100<br/>Notes</th>
+<th>No. of ₹20<br/>notes</th>
+<th>No. of ₹5<br/>notes</th>
+<th>Expression and total amount<br/>(in ₹)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>5</td>
+<td>6</td>
+<td>3 × 100 + 5 × 20 + 6 × 5<br/>= 430</td>
+</tr>
+<tr>
+<td>6</td>
+<td>4</td>
+<td>3</td>
+<td>6 × 100 + 4 × 20 + 3 × 5<br/>= 695</td>
+</tr>
+<tr>
+<td>8</td>
+<td>4</td>
+<td>z</td>
+<td>8 × 100 + 4 × 20 + z × 5<br/>= 880 + 5z</td>
+</tr>
+<tr>
+<td>x</td>
+<td>y</td>
+<td>z</td>
+<td>x × 100 + y × 20 + z × 5<br/>= 100x + 20y + 5z</td>
+</tr>
+</tbody>
+</table>
+
+4. Venkatalakshmi owns a flour mill. It takes 10 seconds for the roller
+mill to start running. Once it is running, each kg of grain takes 8
+seconds to grind into powder. Which of the expressions below
+describes the time taken to complete grind ‘y’ kg of grain, assuming
+the machine is off initially?
+
+(a) 10 + 8 + y      (b) (10 + 8) ×y      (c) 10 ×8 ×y
+
+(d) 10 + 8 ×y      (e) 10 ×y + 8
+
+Ans: (d) 10 + 8 × y
+
+5. Write algebraic expressions using letters of your choice. (a) 5 more
+than a number (b) 4 less than a number (c) 2 less than 13 times a
+number (d) 13 less than 2 times a number
+
+Ans:
+
+Let letter ‘d’ represent the number, then
+(a) d + 5
+(b) d - 4
+(c) 13 ×d - 2
+(d) 2 ×d - 13
+
+2
+
+---
+
+Page No. 85
+
+6. Describe situations corresponding to the following algebraic
+expressions:
+
+(a) 8 × x + 3 × y
+
+Ans:
+
+A shopkeeper sells a pen for ₹x and a notebook for ₹y. Abha buys 8 pens
+and 3 notebooks. What will be the total cost of her purchase?
+
+(b) 15 × j - 2 × k
+
+Ans:
+
+A factory makes 15 chairs every day. If the factory works for j days, it will
+make 15 ×j chairs. But 2 chairs break daily for k days. How many good
+chairs remain after j days and k days breakages?
+Try for more situations
+
+7. In a calendar month, if any 2 ×3 grid full of dates is chosen as shown
+in the picture, write expressions for the dates in the blank cells if
+the bottom middle cell has date ‘w’.
+
+Ans:
+
+<table>
+<tbody>
+<tr>
+<td>w-8</td>
+<td>w-7</td>
+<td>w-6</td>
+</tr>
+<tr>
+<td>w-1</td>
+<td>w</td>
+<td>w+1</td>
+</tr>
+</tbody>
+</table>
+
+Page No. 89
+
+If c = ₹50, find the total amount earned by the sale of pencils.
+
+Ans: 18c = ₹900.
+
+Page No. 92
+
+Fill the blanks below by replacing the letter–numbers by numbers; an example is shown.
+
+Then compare the values that 5u and 5 + u take.
+
+3
+
+---
+
+Ans:
+
+*यह छवि एक गणितीय आरेख (mathematical diagram) है जो एक केंद्रीय नोड (node) को चार परिधीय नोड्स (peripheral nodes) से जोड़ने वाले रैखिक संबंधों (linear relationships) को दर्शाती है। केंद्रीय नोड को "5u" लेबल किया गया है, जो एक गणितीय व्यंजक का प्रतिनिधित्व करता है जहाँ 'u' एक चर (variable) है। इस केंद्रीय नोड से चार तीर निकलते हैं, जिनमें से प्रत्येक एक अलग परिधीय नोड की ओर इंगित करता है। इन तीरों को 'u' के विशिष्ट संख्यात्मक मानों के साथ लेबल किया गया है: एक तीर ऊपर-बाएँ नोड की ओर इंगित करता है जिसका लेबल "u = 11" है; एक तीर ऊपर-दाएँ नोड की ओर इंगित करता है जिसका लेबल "u = 2" है; एक तीर नीचे-बाएँ नोड की ओर इंगित करता है जिसका लेबल "u = 8" है; और एक तीर नीचे-दाएँ नोड की ओर इंगित करता है जिसका लेबल "u = 5" है। परिधीय नोड्स में संख्यात्मक मान हैं: ऊपर-बाएँ नोड में "55", ऊपर-दाएँ नोड में "10", नीचे-बाएँ नोड में "40", और नीचे-दाएँ नोड में "25"। यह आरेख एक आनुपातिक संबंध (proportional relationship) को दर्शाता है जहाँ केंद्रीय नोड का मान 'u' के मान के आधार पर परिधीय नोड्स के मानों का एक रैखिक फलन (linear function) है।*
+
+*यह चित्र एक गणितीय आरेख (diagram) को दर्शाता है जो एक नेटवर्क या ग्राफ का प्रतिनिधित्व करता है। इसमें एक केंद्रीय नोड है जिस पर "5 + u" लिखा है। इस केंद्रीय नोड से चार तीर निकलते हैं, जिनमें से प्रत्येक एक अलग नोड की ओर इंगित करता है। इन तीरों पर "u" के विशिष्ट मान लिखे गए हैं: ऊपर-बाएं तीर पर "u = 11", ऊपर-दाएं तीर पर "u = 2", नीचे-बाएं तीर पर "u = 8", और नीचे-दाएं तीर पर "u = 5"। केंद्रीय नोड के चारों ओर चार बाहरी नोड हैं, जिनमें से प्रत्येक में एक संख्या है: ऊपर-बाएं में "16", ऊपर-दाएं में "7", नीचे-बाएं में "13", और नीचे-दाएं में "10"। यह आरेख संभवतः एक गणितीय संक्रिया या एक ग्राफ सिद्धांत समस्या को दर्शाता है जिसमें एक चर 'u' का मान केंद्रीय नोड के मान में जोड़ा जाता है।*
+
+After filling in the two diagrams, do you think the two expressions are equal?
+
+Ans:
+
+*यह चित्र एक गणितीय आरेख (diagram) को दर्शाता है जो एक चर (variable) 'y' के विभिन्न मानों के आधार पर एक व्यंजक (expression) के मूल्यांकन को दर्शाता है। आरेख के केंद्र में एक वर्ग है जिसमें बीजगणितीय व्यंजक '10y - 3' लिखा है। इस केंद्रीय वर्ग से चार तीर निकलते हैं, जिनमें से प्रत्येक एक अलग संख्यात्मक परिणाम की ओर इशारा करता है।
+
+1. **ऊपर बायां तीर**: 'y = 2' लेबल के साथ, यह तीर '17' मान की ओर इशारा करता है।
+2. **ऊपर दायां तीर**: 'y = 0' लेबल के साथ, यह तीर '-3' मान की ओर इशारा करता है।
+3. **नीचे बायां तीर**: 'y = 10' लेबल के साथ, यह तीर '97' मान की ओर इशारा करता है।
+4. **नीचे दायां तीर**: 'y = 7' लेबल के साथ, यह तीर '67' मान की ओर इशारा करता है।
+
+यह आरेख दर्शाता है कि कैसे एक ही बीजगणितीय व्यंजक '10y - 3' का मूल्यांकन अलग-अलग पूर्णांक मानों (y = 2, y = 0, y = 10, y = 7) के लिए अलग-अलग संख्यात्मक परिणामों में बदल जाता है।*
+
+*यह चित्र एक गणितीय निर्णय वृक्ष (decision tree) या शाखाओं वाला आरेख (branching diagram) दर्शाता है, जो संभवतः एक रैखिक प्रोग्रामिंग समस्या (linear programming problem) या अनुकूलन (optimization) समस्या का प्रतिनिधित्व करता है। इसमें एक केंद्रीय वर्ग है जिसमें बीजगणितीय व्यंजक (algebraic expression) "10 (y - 3)" है। इस केंद्रीय नोड से, चार तीर बाहर की ओर निकलते हैं, जिनमें से प्रत्येक एक अलग टर्मिनल नोड (terminal node) की ओर जाता है। प्रत्येक तीर को एक चर (variable) 'y' के मान के साथ लेबल किया गया है। ऊपर-बाएँ टर्मिनल नोड में "-10" का मान है, जो 'y = 2' से जुड़ा है। ऊपर-दाएँ टर्मिनल नोड में "-30" का मान है, जो 'y = 0' से जुड़ा है। नीचे-बाएँ टर्मिनल नोड में "70" का मान है, जो 'y = 10' से जुड़ा है। नीचे-दाएँ टर्मिनल नोड में "40" का मान है, जो 'y = 7' से जुड़ा है।*
+
+The expressions 10y – 3 and 10(y – 3) are not equal.
+
+Page No. 93-94
+
+Figure it Out
+
+Add the numbers in each picture below. Write their corresponding expressions and simplify them. Try adding the numbers in each picture in a couple different ways and see that you get the same thing.
+
+*The image contains two pairs of algebraic expressions. The first pair is "5y" and "-6", and the second pair is "x" and "2".*
+
+*यह छवि 2x2 ग्रिड में व्यवस्थित आठ ज्यामितीय आकृतियों का एक संग्रह प्रस्तुत करती है। आकृतियाँ वृत्त और आयत हैं, जो दो अलग-अलग रंगों में प्रस्तुत की गई हैं: हल्के बेज (beige) और हल्के हरे-नीले (light green-blue)।
+
+ऊपरी पंक्ति में, बाएँ से दाएँ, दो हल्के बेज रंग के वृत्त हैं जिन पर क्रमशः "2p" और "3q" लिखा है। उनके दाईं ओर दो हल्के हरे-नीले रंग के आयत हैं, जिनमें से पहले पर "-2" और दूसरे पर "3" लिखा है।
+
+निचली पंक्ति में, बाएँ से दाएँ, दो हल्के बेज रंग के वृत्त हैं जिन पर "3q" और "2p" लिखा है। उनके ऊपर दो हल्के हरे-नीले रंग के आयत हैं, जिनमें से पहले पर "3" और दूसरे पर "-2" लिखा है।
+
+कुल मिलाकर, यह व्यवस्था बीजगणितीय व्यंजकों (algebraic expressions) के एक सेट का प्रतिनिधित्व करती प्रतीत होती है, जो संभवतः चर 'p' और 'q' से संबंधित है।*
+
+4
+
+[^1]: Ans:
+Some of the ways are
+
+---
+
+(i) Method 1: Group by Like Terms
+5y + x + x + 5y + (-6) + 2
+= (5y + 5y) + (x + x) + (-6 + 2)
+= 10y + 2x - 4
+
+Method 2: Group by Rows
+Top row: 5y + (-6) + x
+Bottom row: x + 2 + 5y
+Combine: (5y + 5y) + (x + x) + (-6 + 2)
+= 10y + 2x - 4
+Final Number: 10y + 2x - 4
+Try some other ways!
+
+(ii) Method 1: Group by Term Type
+2p appears 4 times: 8p
+3q appears 4 times: 12q
+Final number: 3 + (-2) + (-2) + 3 = 2
+Total: 8p + 12q + 2
+
+Method 2: Group by Columns
+Column 1: 2p + 3q
+Column 2: 3q + 2p
+Column 3: (-2) + 3 + 2p + 3q = 1 + 2p + 3q
+Column 4: 3 + (-2) + 3q + 2p = 1 + 3q + 2p
+Final Number: 8p + 12q + 2
+Try some other ways!
+
+(iii) Method 1: Group by Term Type
+-5g appears 4 times: -20g
+5k appears 12 times: 60k
+Total: -20g + 60k
+
+Method 2: Group by Columns
+
+First column: -5g + 5k + 5k + (-5g) = -10g + 10k
+Middle columns 2 and 3 all 5k = 8 ×5k = 40k
+Last column: -5g + 5k + 5k + (-5g) = -10g + 10k
+**Total of all:** = -10g + 10k + 40k -10g + 10k
+= -20g + 60k
+Try some other ways!
+
+5
+
+Simplify each of the following expressions:
+
+(a) p + p + p + p, p + p + p + q, p + q + p - q
+(b) p - q + p - q, p + q - p + q
+(c) p + q - (p + q), p - q - p - q
+(d) 2d - d - d - d, 2d - d - d - c
+(e) 2d - d - (d - c), 2d - (d - d) - c
+(f) 2d - d - c - c
+
+Ans:
+
+Ans:
+
+(a) 4p, 3p + q, 2p		(b) 2p – 2q, 2q		(c) 0, -2q
+(d) - d, - c			(e) c, 2d – c		(f) d – 2c
+
+Some simplifications of algebraic expressions are done below. The expression on the right–hand side should be in its simplest form.
+
+• Observe each of them and see if there is a mistake.
+
+- If you think there is a mistake, try to explain what might have gone wrong.
+
+• Then, simplify it correctly.
+
+Ans:
+
+<table>
+<thead>
+<tr>
+<th>Sr. No.</th>
+<th>Expression</th>
+<th>Simplest Form</th>
+<th>Correct Simplest<br/>form</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>3a + 2b</td>
+<td>5</td>
+<td>3a + 2b</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3b – 2b –b</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>6 (p + 2)</td>
+<td>6p + 8</td>
+<td>6p + 12</td>
+</tr>
+<tr>
+<td>4</td>
+<td>(4x + 3y) – (3x + 4y)</td>
+<td>x +5</td>
+<td>x – y</td>
+</tr>
+<tr>
+<td>5</td>
+<td>5 – (2 – 6z)</td>
+<td>3 – 6z</td>
+<td>3 + 6z</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2 + (x + 3)</td>
+<td>2x – 6</td>
+<td>x + 5</td>
+</tr>
+<tr>
+<td>7</td>
+<td>2y + (3y – 6)</td>
+<td>–y + 6</td>
+<td>5y – 6</td>
+</tr>
+<tr>
+<td>8</td>
+<td>7p – p + 5q – 2q</td>
+<td>7p + 3q</td>
+<td>6p + 3q</td>
+</tr>
+<tr>
+<td>9</td>
+<td>5 (2w + 3x + 4w)</td>
+<td>10w + 15x + 20w</td>
+<td>30w + 15x</td>
+</tr>
+<tr>
+<td>10</td>
+<td>3j + 6k + 9h + 12</td>
+<td>3 (j + 2k + 3h + 4)</td>
+<td>3j + 6k + 9h + 12</td>
+</tr>
+<tr>
+<td>11</td>
+<td>4 (2r + 3s + 5)</td>
+<td>– 20 – 8r – 12s</td>
+<td>8r + 12s + 20</td>
+</tr>
+</tbody>
+</table>
+
+6
+
+---
+
+Page No. 95
+
+Take a look at all the corrected simplest forms (i.e. brackets are removed, like terms are added, and terms with only numbers are also added). Is there any relation between the number of terms and the number of letter–numbers these expressions have?
+
+<table>
+<thead>
+<tr>
+<th>Sr.<br/>No.</th>
+<th>(A)<br/>Expression</th>
+<th>(B)<br/>Correct Simplest<br/>form</th>
+<th>(C)<br/>Number of<br/>terms in (B)</th>
+<th>(D)<br/>Number of<br/>letters in (B)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>3a + 2b</td>
+<td>3a + 2b</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3b – 2b –b</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>6 (p + 2)</td>
+<td>6p +12</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>(4x + 3y) – (3x + 4y)</td>
+<td>x – y</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>5</td>
+<td>5 – (2 – 6z)</td>
+<td>3 + 6z</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2 + (x + 3)</td>
+<td>x + 5</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>2y + (3y – 6)</td>
+<td>5y – 6</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>8</td>
+<td>7p – p + 5q – 2q</td>
+<td>6p + 3q</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>9</td>
+<td>5 (2w + 3x + 4w)</td>
+<td>30w + 15x</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>10</td>
+<td>3j + 6k + 9h + 12</td>
+<td>3j + 6k + 9h + 12</td>
+<td>4</td>
+<td>3</td>
+</tr>
+<tr>
+<td>11</td>
+<td>4 (2r + 3s + 5)</td>
+<td>8r + 12s + 20</td>
+<td>3</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+
+No. of letters ⎕ no of terms
+
+## Page No. 96
+
+Find the formulas of the number machines below and write the expression for each set of inputs.
+
+**Ans:** (i) Formula: Two is subtracted from the sum of the two numbers.
+Algebraic expression = a + b – 2
+
+7
+
+---
+
+*यह छवि एक न्यूनतम आरेख (minimalist diagram) प्रस्तुत करती है जिसमें एक केंद्रीय काले रंग का गियर आइकन है जो एक पतली नीली ऊर्ध्वाधर रेखा के ऊपर स्थित है। यह रेखा ऊपर की ओर दो हल्के नीले, V-आकार के तीरों में विभाजित होती है। इन तीरों के सिरों पर क्रमशः '5' और '2' संख्याएँ अंकित हैं। गियर के नीचे, एक गुलाबी वर्ग है जिसमें संख्या '5' है। यह आरेख एक वैचारिक संबंध को दर्शाता है, जो संभवतः एक प्रक्रिया में चरणों या घटकों का प्रतिनिधित्व करता है, जिसमें '5' और '2' संख्याएँ गियर से जुड़ी प्रक्रिया के इनपुट और आउटपुट को दर्शाती हैं।*
+
+*यह छवि एक तकनीकी आरेख (technical diagram) है जो एक यांत्रिक संयोजन (mechanical assembly) को दर्शाती है, जो संभवतः एक गियर तंत्र या नियंत्रण प्रणाली का हिस्सा है। इसमें एक केंद्रीय काला गियर है जो एक हल्के भूरे रंग के चौकोर बॉर्डर के भीतर घिरा हुआ है। गियर के ऊपर, दो हल्के नीले रंग के तीर (arrows) ऊपर की ओर इशारा कर रहे हैं, जो संख्या '9' और '11' के साथ लेबल किए गए हैं। गियर के नीचे, एक हल्का नीला आयताकार शाफ्ट (shaft) नीचे की ओर फैला हुआ है। इस शाफ्ट के अंत में एक गुलाबी रंग का वर्ग है जिसमें संख्या '18' है। यह आरेख एक बड़े सिस्टम के भीतर घटकों के बीच एक कनेक्शन या इंटरफेस का सुझाव देता है।*
+
+*यह छवि एक योजनाबद्ध आरेख (schematic diagram) है जो एक यांत्रिक या प्रक्रियात्मक संबंध को दर्शाती है। इसमें एक केंद्रीय काले रंग का गियर (gear) है जो एक हल्के नीले रंग की ऊर्ध्वाधर ट्यूब के माध्यम से एक गुलाबी वर्ग से जुड़ा है। गियर के ऊपर, दो हल्के नीले रंग के V-आकार के तत्व बाहर की ओर फैले हुए हैं, जिनमें से प्रत्येक के शीर्ष पर '10' नंबर अंकित है। गुलाबी वर्ग के भीतर '18' नंबर प्रदर्शित है। यह आरेख संभवतः एक तकनीकी आरेख, एक प्रक्रिया प्रवाह, या एक यांत्रिक प्रणाली के लिए एक प्रतीकात्मक प्रतिनिधित्व है।*
+
+*यह चित्र एक योजनाबद्ध आरेख (schematic diagram) को दर्शाता है जो एक गणितीय संक्रिया को दर्शाता है। इसमें एक केंद्रीय काले रंग का गियर आइकन है जो एक हल्के भूरे रंग के वर्ग के भीतर स्थित है। इस गियर से दो हल्के नीले रंग के तीर निकलते हैं, जो ऊपर की ओर 'a' और 'b' लेबल वाले दो इनपुट नोड्स की ओर इशारा करते हैं। ये तीर गियर के नीचे एक ऊर्ध्वाधर नीली रेखा से जुड़ते हैं। इस रेखा के नीचे एक गुलाबी आयताकार बॉक्स है जिसमें 'a+b-2' लिखा है, जो गियर द्वारा दर्शाई गई संक्रिया का परिणाम दर्शाता है।*
+
+i) Formula: One is added to the multiplication of two numbers.
+Algebraic expression= (a ×b) + 1 = ab + 1
+4th expression: 10 ×3 + 1 = 30 + 1 = 31
+5th expression: a ×b + 1
+
+*यह छवि एक आरेख (diagram) है जो एक Y-आकार के कनेक्टर को दर्शाती है, जो आमतौर पर इलेक्ट्रॉनिक या यांत्रिक असेंबली में उपयोग किया जाता है। इसमें तीन मुख्य घटक हैं:
+
+1.  **Y-आकार का कनेक्टर:** ऊपर की ओर, दो बैंगनी रंग की पट्टियाँ (ribbons) नीचे की ओर जाती हैं और एक केंद्रीय वर्ग के चारों ओर 'Y' आकार बनाती हैं।
+2.  **केंद्रीय घटक:** Y-आकार के कनेक्टर के केंद्र में एक काला गियर (cogwheel) है जिसके चारों ओर एक धूसर (grey) बॉर्डर है।
+3.  **निचला घटक:** गियर के नीचे एक गुलाबी रंग का वर्ग है।
+
+आरेख के ऊपर, संख्यात्मक लेबल '4' और '1' हैं, जो संभवतः पिन नंबर या कनेक्शन पॉइंट को दर्शाते हैं। नीचे, संख्या '5' है। यह आरेख एक विशिष्ट पिनआउट कॉन्फ़िगरेशन को दर्शाता है जहाँ पिन 4 और 1 Y-आकार के कनेक्टर के शीर्ष पर स्थित हैं, पिन 5 नीचे है, और केंद्रीय गियर पिन 1 और 4 के बीच स्थित है।*
+
+*यह चित्र एक आरेख (diagram) को दर्शाता है जो एक केंद्रीय गियर (gear) आइकन के चारों ओर केंद्रित है। गियर के चारों ओर दो बैंगनी रंग के तीर (arrows) हैं जो ऊपर की ओर इशारा कर रहे हैं। गियर के ऊपर, दो संख्याएँ, '6' और '0', क्रमशः बाईं और दाईं ओर स्थित हैं। गियर के नीचे, एक गुलाबी रंग का वर्ग है जिसमें संख्या '1' है। यह आरेख संभवतः एक नियंत्रण प्रणाली (control system) या एक प्रक्रिया प्रवाह (process flow) का प्रतिनिधित्व करता है, जिसमें '6' और '0' इनपुट या स्थिति (states) का प्रतिनिधित्व करते हैं, और '1' एक परिणाम या आउटपुट का प्रतिनिधित्व करता है।*
+
+*यह छवि एक तकनीकी आरेख (technical diagram) है जो एक यांत्रिक या विद्युत संयोजन (assembly) को दर्शाती है। इसमें एक केंद्रीय काला गियर (gear) है जो एक भूरे रंग के चौकोर बॉर्डर में बंद है। गियर के ऊपर दो बैंगनी रंग की पट्टियाँ (ribbons) हैं जिन पर '3' और '2' संख्याएँ अंकित हैं। गियर के नीचे एक बैंगनी रंग की ऊर्ध्वाधर पट्टी (vertical strip) है जो एक बड़े गुलाबी रंग के चौकोर बॉक्स की ओर जाती है जिस पर '7' संख्या अंकित है। यह आरेख संभवतः एक नियंत्रण तंत्र (control mechanism) या एक संयोजन का प्रतिनिधित्व करता है जहाँ गियर और पट्टियाँ क्रमांकित घटकों के साथ परस्पर क्रिया करती हैं।*
+
+*चित्र में एक Y-आकार का आरेख है जिसमें तीन तत्व हैं। शीर्ष पर, दो बैंगनी रंग की रेखाएँ एक केंद्रीय गियर आइकन की ओर मिलती हैं, जो एक धूसर वर्ग के भीतर है। गियर के ऊपर, संख्या "10" बाईं ओर और "3" दाईं ओर स्थित है। गियर के नीचे, एक बैंगनी रंग की रेखा नीचे की ओर फैली हुई है और एक गुलाबी वर्ग से जुड़ती है जिसमें संख्या "31" है।*
+
+*यह चित्र एक गणितीय आरेख (diagram) है जो एक सूत्र (formula) को दर्शाता है। इसमें दो बैंगनी रंग की रेखाएँ हैं जो एक केंद्रीय काले गियर (gear) के आकार के प्रतीक पर मिलती हैं, जिसे एक धूसर (grey) बॉर्डर से घेरा गया है। गियर के ऊपर, अक्षर 'a' बाईं ओर और 'b' दाईं ओर स्थित हैं। गियर के नीचे, एक गुलाबी आयताकार बॉक्स है जिसमें गणितीय व्यंजक "a × b + 1" लिखा है। यह आरेख आमतौर पर 'a' और 'b' चरों से जुड़े एक गणितीय संक्रिया (operation) को दर्शाता है।*
+
+## Page No. 97
+
+Use this to find what design appears at positions 99, 122, and 148.
+
+Ans:
+
+1. Design C appears at position 99.
+
+2. Design B appears at position 122.
+
+3. Design A appears at position 148.
+
+## Page No. 99
+
+Will this always happen? How do you show this?
+
+Ans: Let’s build a similar 3×3 grid with a Centre number a.
+
+<table>
+<tbody>
+<tr>
+<td></td>
+<td>a - 7</td>
+<td></td>
+</tr>
+<tr>
+<td>a - 1</td>
+<td>a</td>
+<td>a + 1</td>
+</tr>
+<tr>
+<td></td>
+<td>a + 7</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+Here, the sum is
+
+a - 7 + a - 1 + a + a + 1 + a + 7 = 5a (5times the number in the Centre.)
+
+8
+
+[^1]: expression:
+
+[^2]: expression:
+
+[^3]: expression:
+
+[^4]: expression:
+
+[^5]: expression:
+
+[^6]: expression:
+
+[^7]: expression:
+
+[^8]: expression:
+
+[^9]: expression:
+
+[^10]: expression:
+
+---
+
+## Page No. 101.
+
+## What are these numbers in Step 3 and Step 4?
+
+Ans:
+
+Step 3: No. of matchsticks placed horizontally-3
+No. of matchsticks placed diagonally-4
+
+Step 4: No. of matchsticks placed horizontally-4
+No. of matchsticks placed diagonally-5
+
+How does the number of matchsticks change in each orientation as
+the steps increase? Write an expression for the number of
+matchsticks at Step 'y' in each orientation. Do the two expressions
+add up to 2y + 1?
+
+## Ans:
+
+For horizontal placement: 1, 2, 3, 4,...
+
+At the yth step, the number of horizontal matchsticks = y.
+
+For diagonal placement: 2, 3, 4, 5,...
+
+At the yth step, the number of diagonal matchsticks = y + 1.
+Yes.
+
+## Page No. 102.
+
+Figure it Out
+
+1. One plate of Jowar roti costs ₹30 and one plate of Pulao costs ₹20. If x
+plates of Jowar roti and y plates of pulao were ordered in a day, which
+expression(s) describe the total amount in rupees earned that day?
+(a) 30x + 20y          (b) (30 + 20) ×(x + y)          (c) 20x + 30y
+(d) (30 + 20) ×x + y          (e) 30x - 20y
+
+Ans: (a) 30x + 20y.
+
+2. Pushpita sells two types of flowers on Independence Day: champak and
+marigold. 'p' customers only bought champak, 'q' customers only
+bought marigold, and 'r' customers bought both. On the same day, she
+gave away a tiny national flag to every customer. How many flags did
+she give away that day?
+(a) p + q + r          (b) p + q + 2r          (c) 2 ×(p + q + r)
+
+(d) p + q + r + 2        (e) p + q + r + 1        (f) 2 ×(p + q)
+
+Ans: (a) p + q + r
+
+9
+
+---
+
+3. A snail is trying to climb along the wall of a deep well. During the day it climbs up ‘u’ cm and during the night it slowly slips down ‘d’ cm. This happens for 10 days and 10 nights.
+
+(a) Write an expression describing how far away the snail is from its starting position.
+
+(b) What can we say about the snail's movement if d > u?
+Ans:
+
+(a) 10 (u - d) cm
+
+(b) If d > u, the snail slips down more than it climbs.
+This means the snail will never reach the top.
+
+4. Radha is preparing for a cycling race and practices daily. The first week she cycles 5 km every day. Every week she increases the daily distance cycled by 'z' km. How many kilometers would Radha have cycled after 3 weeks?
+
+Ans: 105 + 21z km
+
+5. In the following figure, observe how the expression w + 2 becomes 4w +
+20 along one path. Fill in the missing blanks on the remaining paths.
+The ovals contain expressions and the boxes contain operations.
+
+## Ans:
+
+*यह चित्र एक बीजगणितीय व्यंजक के लिए एक फ्लोचार्ट या गणना वृक्ष (calculation tree) को दर्शाता है, जो संभवतः एक गणितीय सॉफ्टवेयर या शैक्षिक उपकरण से लिया गया है। यह व्यंजक 3w - 9 है। फ्लोचार्ट में चार मुख्य शाखाएँ हैं जो एक केंद्रीय नोड w + 2 से निकलती हैं।
+
+1. **ऊपर बायां पथ:** w + 2 से, यह पथ -4 (पीला बॉक्स), w - 6 (ओवल), -8 (पीला बॉक्स), और अंत में 3w - 9 (ओवल) तक जाता है।
+2. **ऊपर दायां पथ:** w + 2 से, यह पथ +3 (पीला बॉक्स), w + 5 (ओवल), और अंत में 4w + 20 (ओवल) तक जाता है।
+3. **नीचे बायां पथ:** w + 2 से, यह पथ -4 (पीला बॉक्स), w - 6 (ओवल), और अंत में w - 10 (ओवल) तक जाता है।
+4. **नीचे दायां पथ:** w + 2 से, यह पथ -4 (पीला बॉक्स), w - 2 (ओवल), और अंत में 3w - 6 (ओवल) तक जाता है।
+
+सभी नोड्स (नोड्स) के लिए रंग कोडिंग का उपयोग किया गया है: पीले रंग के बॉक्स गुणा (multiplication) ऑपरेशनों को दर्शाते हैं, और ग्रे रंग के ओवल जोड़ (addition) ऑपरेशनों को दर्शाते हैं।*
+
+## Page No. 103
+
+6. A local train from Yahapur to Vahapur stops at three stations at equal distances along the way. The time taken in minutes to travel from one station to the next station is the same and is denoted by t. The train stops for 2 minutes at each of the three stations. (a) If t = 4, what is the
+
+10
+
+---
+
+time taken to travel from Yahapur to Vahapur? (b) What is the algebraic expression for the time taken to travel from Yahapur to Vahapur? [Hint: Draw a rough diagram to visualise the situation]
+
+## Ans:
+
+(a) 22 minutes
+
+(b) The algebraic expression for the time taken to travel from Yahapur to
+Vahapur = 4t + 6 minutes.
+
+7. Simplify the following expressions:
+(a) 3a + 9b - 6 + 8a - 4b - 7a + 16
+(b) 3 (3a - 3b) - 8a - 4b - 16
+(c) 2 (2x - 3) + 8x + 12
+(d) 8x - (2x - 3) + 12
+(e) 8h - (5 + 7h) + 9
+(f) 23 + 4 (6m - 3n) - 8n - 3m - 18
+Ans:
+(a) 4a + 5b + 10
+(b) a - 13b - 16
+(c) 12x + 6
+(d) 6x + 15
+(e) h + 4
+(f) 5 + 21m - 20n
+
+8. Add the expressions given below:
+(a) 4d - 7c + 9 and 8c - 11 + 9d
+(b) - 6f + 19 - 8s and - 23 + 13f + 12s
+(c) 8d - 14c + 9 and 16c - (11 + 9d)
+(d) 6f - 20 + 8s and 23 - 13f - 12s
+(e) 13m - 12n and 12n - 13m
+(f) - 26m + 24n and 26m - 24n
+Ans:
+(a) 13d + c - 2
+(b) 7f + 4s - 4
+(c) 2c - d - 2
+(d) - 7f - 4s + 3
+(e) 0
+(f) 0
+
+11
+
+---
+
+9. Subtract the expressions given below:
+
+(a) 9a - 6b + 14 from 6a + 9b - 18
+
+(b) – 15x + 13 – 9y from 7y – 10 + 3x
+
+(c) 17g + 9 - 7h from 11 - 10g + 3h
+
+(d) 9a - 6b + 14 from 6a - (9b + 18)
+
+(e) 10x + 2 + 10y from -3y + 8 - 3x
+
+(f) 8g + 4h - 10 from 7h - 8g + 20
+
+## Ans:
+
+(a) - 3a + 15b - 32
+
+(b) 16y + 18x - 23
+
+(c) 10h - 27g + 2
+
+(d) – (3a + 3b + 32)
+
+(e) - 13y - 13x + 6
+
+(f) 3h - 16g + 30
+
+10.Describe situations corresponding to the following algebraic
+expressions:
+
+## Ans:
+
+(a) 8x + 3y
+
+One of the examples is–Situation: A fruit seller sells mangoes at ₹8 each
+and bananas at ₹3 each. If a customer buys x mangoes and y bananas.
+The total cost would be 8x + 3y.
+
+(b) 15x - 2x
+
+Situation: A shopkeeper has 15 pencils in a packet. The cost of one pencil
+is ₹x. Two pencils in the packet are not sold. Find the amount received for
+this packet.
+
+11. Imagine a straight rope. If it is cut once as shown in the picture, we get 2 pieces. If the rope is folded once and then cut as shown, we get 3 pieces. Observe the pattern and find the number of pieces if the rope is folded 10 times and cut. What is the expression for the number of pieces when the rope is folded r times and cut?
+
+*यह छवि तीन अलग-अलग प्रकार की गाँठों को दर्शाती है, जिनमें से प्रत्येक को एक सफेद पृष्ठभूमि पर रस्सी के चित्रण द्वारा दर्शाया गया है। प्रत्येक गाँठ के ऊपर एक लाल डैश वाली रेखा है, जो संभवतः एक गाइड या संदर्भ रेखा के रूप में कार्य करती है।
+
+1.  **बाएँ गाँठ:** यह एक साधारण 'X' आकार की गाँठ है। दो रस्सी के धागे एक दूसरे को काटते हुए 'X' बनाते हैं।
+2.  **मध्य गाँठ:** यह एक 'X' आकार की गाँठ है, लेकिन यह एक अधिक जटिल संरचना प्रतीत होती है। दो रस्सी के धागे एक दूसरे को काटते हैं, जिससे एक अधिक जटिल 'X' आकार बनता है।
+3.  **दाएँ गाँठ:** यह एक '8' आकार की गाँठ है, जिसे आमतौर पर 'आठ' गाँठ के रूप में जाना जाता है। दो रस्सी के धागे एक दूसरे के चारों ओर लूप करते हैं, जिससे एक आठ-आकार का पैटर्न बनता है।
+
+प्रत्येक गाँठ के ऊपर लाल डैश वाली रेखा एक गाइड के रूप में कार्य करती है, जो संभवतः यह दर्शाती है कि गाँठ को कैसे बांधा या जांचा जाना चाहिए।*
+
+12
+
+---
+
+**Ans:** If the rope is folded 10 times and cut, we get 10 + 2 = 12 pieces.
+    In the same way, when the rope is folded r times and cut, we get r + 2 pieces.
+
+Page No. 104
+
+12.Look at the matchstick pattern below. Observe and identify the pattern.
+How many matchsticks are required to make 10 such squares? How
+many are required to make w squares?
+
+*यह चित्र एक आयताकार फ्रेम को दर्शाता है जो पीले रंग की लकड़ी की छड़ियों से बना है और जिनके सिरों पर लाल रंग के कैप लगे हैं। यह फ्रेम चार समान आयताकार डिब्बों में विभाजित है।*
+
+Ans: To make 10 squares, we need
+
+4 + 3 × 9 = 31 matchsticks
+
+To make w squares the number of matchsticks required is = 4 + 3 (w - 1)
+
+13.Have you noticed how the colours change in a traffic signal? The
+sequence of colour changes is shown below. Find the colour at positions
+90, 190, and 343. Write expressions to describe the positions for each
+colour.
+
+*This image contains a series of circles with numbers 1 to 5 and a series of dots.*
+
+Ans: For Position 90: 90/4
+The colour is Yellow.
+
+For Position 190: 190/4
+
+The colour is Yellow
+
+For Position 343: 343/4
+
+The colour is Green
+
+Expressions:
+
+In general, 4n - 3 positions for red light, 4n - 1 position for green light
+and 2n position for yellow light.
+
+13
+
+---
+
+14. Observe the pattern below. How many squares will be there in Step 4,
+Step 10, Step 50? Write a general formula. How would the formula
+change if we want to count the number of vertices of all the squares?
+
+*यह छवि तीन अलग-अलग पैटर्न दिखाती है जो नारंगी रंग के वर्गों से बने हैं और एक सफेद पृष्ठभूमि पर व्यवस्थित हैं। बाएं से दाएं, पैटर्न की जटिलता बढ़ती है:
+
+1.  **पहला पैटर्न (सबसे बाईं ओर):** इसमें 5 वर्ग हैं जो 'X' आकार में व्यवस्थित हैं।
+2.  **दूसरा पैटर्न (बीच में):** इसमें 9 वर्ग हैं जो 'X' आकार में व्यवस्थित हैं।
+3.  **तीसरा पैटर्न (सबसे दाईं ओर):** इसमें 13 वर्ग हैं जो 'X' आकार में व्यवस्थित हैं।
+
+सभी पैटर्न में एक ही रंग और आकार का उपयोग किया गया है, लेकिन वर्गों की संख्या और व्यवस्था में वृद्धि के साथ घनत्व बढ़ता है।*
+
+Ans: No. of Squares in Step 4 = 17
+
+No. of Squares in Step 10 = 41
+
+No. of Squares in Step 50 = 201
+
+So, general formula = 5 + (n – 1) × 4 = 4n + 1
+
+No. of vertices = 16n + 4.
+
+Page No. 105
+
+15.Numbers are written in a particular sequence in this endless 4 – column grid.
+
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+</tr>
+<tr>
+<td>9</td>
+<td>10</td>
+<td>11</td>
+<td>12</td>
+</tr>
+<tr>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+<td>16</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+Ans:
+
+(a) Give expressions to generate all the numbers in a given column (1, 2, 3, 4).
+
+Let r be the row number.
+
+Column 1:
+
+So, number in the rth row of column 1 = 4 × (r - 1) + 1
+
+14
+
+---
+
+Column 2: 4 ×(r - 1) + 2
+Column 3: 4 ×(r - 1) + 3
+Column 4: 4 ×(r - 1) + 4
+If c is the column number,
+then the general formula to generate all numbers is= 4 ×(r - 1) + c
+
+(b) In which row and column will the following numbers appear:
+
+(i) 124 (ii) 147 (iii) 201
+
+(i) We divide each number by 4 to find its row and column
+
+124 ÷4 So, Quotient = 31 and remainder is 0
+∴124 = 4 ×31 + 0 or 4 ×30 + 4
+Comparing it with 4 ×(r - 1) + c, we get
+r - 1 = 30, c = 4
+So, r = 31 and c = 4
+
+(ii) 147 will appear at row 37 and column 3
+(iii) 201 will appear at row 51 and column 1.
+
+(c) What number appears in row r and column c?
+
+The number that appears in row r and column c is 4(r - 1) + c.
+
+## (d) Observe the positions of multiples of 3.
+
+The pattern in the columns in which multiples of 3 appear, follow a
+repeating sequence of column number: 3, 2, 1, 4, 3, 2, 1,... as shown.
+
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+</tr>
+<tr>
+<td>9</td>
+<td>10</td>
+<td>11</td>
+<td>12</td>
+</tr>
+<tr>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+<td>16</td>
+</tr>
+</tbody>
+</table>
+
+15
+
+## Do you see any pattern in it? List other patterns that you see.
+
+1. All numbers in Column 4 are multiples of 4.
+
+2. Even numbers always appear in column 2 and column 4.
+
+3. Odd numbers always appear in column 1 and column 3.
+Find some more!
+
+16

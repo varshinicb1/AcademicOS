@@ -1,0 +1,54 @@
+[
+ {
+  "code": "aemr1",
+  "chapter": 1,
+  "class": 1,
+  "subject": "English",
+  "language": "en",
+  "pdf": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks\\chapters\\aemr1\\aemr101.pdf",
+  "pymupdf": {
+   "chars": 5711,
+   "heading_recall": 1.0,
+   "n_titles": 9,
+   "anchor_recall": 1.0,
+   "anchor_ng5": 1.0,
+   "n_anchors": 9,
+   "dup_line_rate": 0.1969,
+   "devanagari_out": 0,
+   "devanagari_in_truth": 0,
+   "replacement_chars": 0,
+   "s_per_page": 0.0348,
+   "tables": null,
+   "headings_found": 66,
+   "body_size": 16.0
+  },
+  "pdfplumber": {
+   "chars": 6317,
+   "heading_recall": 1.0,
+   "n_titles": 9,
+   "anchor_recall": 0.8889,
+   "anchor_ng5": 1.0,
+   "n_anchors": 9,
+   "dup_line_rate": 0.1454,
+   "devanagari_out": 0,
+   "devanagari_in_truth": 0,
+   "replacement_chars": 0,
+   "s_per_page": 0.0405,
+   "tables": 0
+  },
+  "opendataloader": {
+   "chars": 10624,
+   "heading_recall": 1.0,
+   "n_titles": 9,
+   "anchor_recall": 1.0,
+   "anchor_ng5": 1.0,
+   "n_anchors": 9,
+   "dup_line_rate": 0.0399,
+   "devanagari_out": 0,
+   "devanagari_in_truth": 0,
+   "replacement_chars": 0,
+   "s_per_page": 1.6813,
+   "tables": null
+  }
+ }
+]
