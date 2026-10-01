@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import '../../../core/local_engine/local_store.dart';
 import '../../../data/datasources/api/curriculum_api.dart';
 import '../../shared/widgets/common_widgets.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// Dedicated Parent Portal (§18-19, §A8):
 /// Provides parents with visibility into:
@@ -98,7 +99,7 @@ class _ParentPortalPageState extends State<ParentPortalPage> {
       appBar: AppBar(
         title: const Text('Parent Portal'),
         actions: [
-          IconButton(
+          IconButton(tooltip: 'Reload', 
             icon: const Icon(Icons.refresh),
             onPressed: _reload,
           ),
@@ -157,7 +158,7 @@ class _ParentPortalPageState extends State<ParentPortalPage> {
               ],
             ),
           ),
-          ChipTag(label: 'Active', color: Colors.green.shade600),
+          const ChipTag(label: 'Active', color: AppColors.success),
         ],
       ),
     );
@@ -185,7 +186,7 @@ class _ParentPortalPageState extends State<ParentPortalPage> {
           description:
               'When reviewing recent assignments, ask: "Which problem made you think the hardest?" rather than focusing solely on whether every answer was right.',
           icon: Icons.lightbulb_outline,
-          color: Colors.amber.shade700,
+          color: AppColors.warning,
         ),
         const Gap(8),
         _guidanceCard(
@@ -298,18 +299,18 @@ class _ParentPortalPageState extends State<ParentPortalPage> {
               child: ListTile(
                 leading: CircleAvatar(
                   backgroundColor: l.status == 'completed'
-                      ? Colors.green.withValues(alpha: 0.15)
+                      ? AppColors.success.withValues(alpha: 0.15)
                       : theme.colorScheme.primaryContainer,
                   child: Icon(
                     l.status == 'completed' ? Icons.check_circle_outline : Icons.menu_book_outlined,
-                    color: l.status == 'completed' ? Colors.green : theme.colorScheme.primary,
+                    color: l.status == 'completed' ? AppColors.success : theme.colorScheme.primary,
                   ),
                 ),
                 title: Text(l.subtopicName.isNotEmpty ? l.subtopicName : l.topicName),
                 subtitle: Text('${l.subjectName} • ${l.chapterName}'),
                 trailing: ChipTag(
                   label: l.status,
-                  color: l.status == 'completed' ? Colors.green : null,
+                  color: l.status == 'completed' ? AppColors.success : null,
                 ),
               ),
             );

@@ -25,7 +25,7 @@ from academicos.api.main import app
 from academicos.assessment import pool as pool_mod
 from academicos.assessment.schemas import PaperTemplate, PaperTemplateDraft
 from academicos.assessment.templates import default_sections
-from academicos.assessment.template_presets import MAIN_SUBJECTS, PRESET_EXAM_TYPES, presets
+from academicos.assessment.template_presets import MAIN_SUBJECTS, PRESET_EXAM_TYPES, PRIMARY_SUBJECTS, presets
 from academicos.models.academic import Question
 
 
@@ -110,10 +110,13 @@ def test_default_sections_sum_exactly(total):
 def test_every_class_subject_exam_type_has_an_exact_preset():
     all_presets = presets()
     keys = {(p.grade, p.subject, p.exam_type) for p in all_presets}
-    for grade in range(6, 11):
-        for subject in MAIN_SUBJECTS:
+    for grade in range(1, 11):
+        subjects = MAIN_SUBJECTS if grade >= 6 else PRIMARY_SUBJECTS[grade]
+        for subject in subjects:
             for exam_type in PRESET_EXAM_TYPES:
                 assert (grade, subject, exam_type) in keys, (grade, subject, exam_type)
+    # EVS is a class 3-5 subject: no class 1-2 preset offers it.
+    assert not any(p.subject == "EVS" and p.grade < 3 for p in all_presets)
     for p in all_presets:
         assert p.is_preset
         assert sum(s.marks for s in p.sections) == p.total_marks, p.id
@@ -539,12 +542,22 @@ def test_topic_ids_accepted_unchecked_without_taxonomy_and_saying_so(tmp_path, m
 # from template_presets, so a preset whose rows drift from its intended total
 # fails -- `sum(s.marks) == total_marks` alone is true by construction.
 INTENDED_TOTAL = {"unit_test": 20, "periodic": 40, "half_yearly": 80, "annual": 80}
+# Classes 1-5: shorter papers (a suggested school pattern -- CBSE sets none).
+PRIMARY_INTENDED_TOTAL = {"unit_test": 20, "periodic": 25, "half_yearly": 50, "annual": 50}
 
 
 def test_every_preset_carries_its_exam_types_intended_total():
     for p in presets():
-        assert p.total_marks == INTENDED_TOTAL[p.exam_type], (p.id, p.total_marks)
-        assert sum(s.marks for s in p.sections) == INTENDED_TOTAL[p.exam_type], p.id
+        intended = (PRIMARY_INTENDED_TOTAL if p.grade <= 5 else INTENDED_TOTAL)[p.exam_type]
+        assert p.total_marks == intended, (p.id, p.total_marks)
+        assert sum(s.marks for s in p.sections) == intended, p.id
+
+
+def test_primary_presets_are_suggested_and_have_no_long_answers():
+    for p in presets():
+        if p.grade <= 5:
+            assert p.pattern_status == "suggested", p.id
+            assert max(s.marks_each for s in p.sections) <= 5, p.id
 
 
 # Read (Task 904, PyMuPDF) from the CBSE Class X 2024-25 SQPs in
@@ -671,6 +684,58 @@ def test_every_set_keeps_each_sections_questions_in_that_section(tmp_path, monke
             assert sorted(q["questionId"] for q in ar["questions"]) == ["b0", "b1", "b2"]
             orders.append([q["questionId"] for q in mcq["questions"]])
         assert orders[0] != orders[1], "a later set is a reordering, not a copy"
+
+
+def test_builder_sets_print_questions_of_their_own_and_count_every_repeat(
+        tmp_path, monkeypatch):
+    """v3 audit N-2-5: sets B and C were set A rotated (100% of A's questions
+    on 110/110 builder papers) though the bank allowed distinct sets. Each
+    set is now planned by the sections' own rules from what earlier sets left
+    -- verified keys and the paper's chapters only -- and made set A's shape;
+    a slot repeats an earlier set's question only when nothing else fits,
+    and the paper counts and names every repeat."""
+    from test_paper_swap_pick import FIXTURE, _template
+    monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), _fixture_pool_records(FIXTURE))
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        tid = client.post(BASE, json=_template(), headers=t1).json()["id"]
+        r = client.post(GEN, json={"templateId": tid, "setCount": 3}, headers=t1)
+        assert r.status_code == 200, r.text
+        paper = r.json()["paper"]
+
+    def printed(p):
+        return [(q["questionId"], q.get("internalChoiceQuestionId"))
+                for s in p["sections"] for q in s["questions"]]
+
+    a, b, c = paper["sets"]
+    assert printed(a) == [("o0", None), ("o1", None), ("t0", None), ("t1", "t2")]
+    # Set B: its own 1-mark and 3-mark questions; the bank has no 3-mark
+    # question left for its OR, so it offers set A's OR alternative there.
+    assert printed(b) == [("o2", None), ("o3", None), ("t3", None), ("t4", "t2")]
+    # Set C: its own 1-mark questions; no 3-mark question is left at all, so
+    # it prints set A's, not in set A's order.
+    assert printed(c) == [("o4", None), ("o5", None), ("t1", None), ("t0", "t2")]
+    assert paper["setOverlap"] == {"A": 0, "B": 1, "C": 3}
+    assert [w for w in paper["warnings"] if " repeats " in w] == [
+        "Set B repeats 1 question(s) from an earlier set (Q4 (OR)): no other question in the "
+        "bank fits that slot under the section's rules and the paper's chapters.",
+        "Set C repeats 3 question(s) from an earlier set (Q3, Q4, Q4 (OR)): no other question "
+        "in the bank fits those slots under the section's rules and the paper's chapters."]
+    for s in (a, b, c):
+        # The same paper in shape: sections, marks and choices.
+        assert [(len(x["questions"]), x["totalMarks"]) for x in s["sections"]] == [(2, 2), (2, 6)]
+        assert s["metadata"]["totalMarks"] == 8
+        ids = {i for pair in printed(s) for i in pair if i}
+        assert not ids & {"o6", "o7"}, "outside the chapters, or no verified key"
+        for n, (qid, alt) in enumerate(printed(s), start=1):
+            assert s["answerKey"][str(n)].startswith(f"model answer for {qid}")
+            if alt:
+                assert s["answerKey"][f"{n}_OR"] == f"model answer for {alt}"
+
+
+def _fixture_pool_records(records: list[dict]):
+    from test_paper_swap_pick import _pool
+    return _pool(records)
 
 
 def test_attempt_any_sections_print_attempted_marks_that_add_up(tmp_path, monkeypatch, seeded):
@@ -1032,6 +1097,82 @@ def test_availability_equals_generation_for_every_class_10_preset_on_the_real_ba
             assert [g["sectionId"] for g in body["gaps"]] == \
                 [s["sectionId"] for s in report["sections"] if s["shortfall"]], p.id
             assert body["complete"] == report["complete"], p.id
+
+
+def test_bank_shaped_presets_are_suggested_keep_their_totals_and_say_why():
+    """D85/D18: presets asking for shapes a class's bank does not hold, where
+    CBSE requires none, are written for what the bank holds -- labelled a
+    suggestion, with the reason in the source line. The class 9-10 term
+    papers keep the board design whatever the bank holds."""
+    by_key = {(p.grade, p.subject, p.exam_type): p for p in presets()}
+    shaped = [(g, "Mathematics", e) for g in (6, 7, 8) for e in PRESET_EXAM_TYPES] + \
+             [(g, "Science", e) for g in (9, 10) for e in ("unit_test", "periodic")] + \
+             [(6, "Science", e) for e in ("half_yearly", "annual")]
+    for key in shaped:
+        p = by_key[key]
+        assert p.pattern_status == "suggested", key
+        assert "not a CBSE rule" in p.source and f"Class {key[0]} {key[1]}" in p.source, key
+        assert p.total_marks == INTENDED_TOTAL[p.exam_type], key
+    for g in (6, 7, 8):
+        marks = {s.marks_each for e in PRESET_EXAM_TYPES
+                 for s in by_key[(g, "Mathematics", e)].sections}
+        assert not marks & {2, 5}, (g, marks)
+    for g in (9, 10):
+        for e in ("unit_test", "periodic"):
+            assert 2 not in {s.marks_each for s in by_key[(g, "Science", e)].sections}, (g, e)
+        for e in ("half_yearly", "annual"):
+            assert [(s.question_count, s.marks_each) for s in by_key[(g, "Science", e)].sections] \
+                == [(r[0], r[1]) for r in SQP_2024_25["Science"]], (g, e)
+    case = by_key[(6, "Science", "annual")].sections[-1]
+    assert (case.marks_each, case.competency_share, case.question_types) == (6, 1.0, ["case_study"])
+    # Classes and subjects the change does not concern keep their patterns.
+    assert [(s.question_count, s.marks_each) for s in by_key[(7, "Science", "annual")].sections] \
+        == [(16, 1), (8, 2), (8, 3), (4, 5), (1, 4)]
+    assert [(s.question_count, s.marks_each) for s in by_key[(9, "Mathematics", "unit_test")].sections] \
+        == [(6, 1), (4, 2), (2, 3)]
+
+
+@pytest.fixture(scope="module")
+def real_6_to_10_pools(tmp_path_factory):
+    from academicos.assessment import grades
+    from academicos.config import Config
+    cfg = Config(data_root=tmp_path_factory.mktemp("bank610"))
+    cfg._load_baked_questions = True
+    return {(s, grades.to_roman(g)): pool_mod.build_pool(cfg, subject=s, grade=grades.to_roman(g))
+            for s in ("Mathematics", "Science") for g in range(6, 11)}
+
+
+@needs_real_bank
+def test_mathematics_and_science_presets_reach_their_marks_on_the_real_bank(
+        tmp_path, monkeypatch, real_6_to_10_pools):
+    """D85/D18, through the builder's own calls (whole syllabus, three sets):
+    18 of these 40 presets reached their marks before; 36 do now. The four
+    that do not are class 9-10 Science half-yearly and annual, which keep the
+    board design: the bank has 2 and 1 keyed 2-mark questions for Section B's
+    six, and no 4-mark case-based question for Section E -- a bank gap, which
+    the paper names, never filled with anything else."""
+    for key, pool in real_6_to_10_pools.items():
+        monkeypatch.setitem(pool_mod._CACHE, key, pool)
+    short = {}
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        for subject in ("Mathematics", "Science"):
+            for grade in range(6, 11):
+                for p in presets(grade=grade, subject=subject):
+                    avail = client.post(f"{BASE}/{p.id}/availability", json={}, headers=t1).json()
+                    r = client.post(GEN, json={"templateId": p.id, "setCount": 3,
+                                               "allowGaps": not avail["complete"]}, headers=t1)
+                    assert r.status_code == 200, (p.id, r.text)
+                    body = r.json()
+                    got = body["paper"]["metadata"]["totalMarks"]
+                    assert body["complete"] == (got == p.total_marks), p.id
+                    assert {s["metadata"]["totalMarks"] for s in body["paper"]["sets"]} == {got}
+                    if got != p.total_marks:
+                        short[p.id] = sorted(g["title"] for g in body["gaps"])
+    assert short == {
+        f"preset:cbse:{g}:science:{e}": ["Section B - Very short answer",
+                                         "Section E - Source / case based"]
+        for g in (9, 10) for e in ("half_yearly", "annual")}
 
 
 @needs_real_bank
@@ -1467,6 +1608,35 @@ def test_the_real_banks_map_and_case_sections_are_never_offered_the_other_kind(
 
 
 @needs_real_bank
+@needs_real_bank
+def test_the_real_banks_class_10_sets_are_distinct_papers(tmp_path, monkeypatch, real_class10_pools):
+    """N-2-5 on the served bank: before, B and C held 100% of set A's
+    questions. Measured on this bank (2026-09-30): Maths 10 half-yearly
+    repeats none of set A's questions in B or C; Science 10 annual repeats
+    one in each (2.9% of the set: the only keyed 2-mark question the bank
+    has, which Section B needs in every set)."""
+    for subject, pool in real_class10_pools.items():
+        monkeypatch.setitem(pool_mod._CACHE, (subject, "X"), pool)
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        for preset, most in (("preset:cbse:10:mathematics:half_yearly", 0),
+                             ("preset:cbse:10:science:annual", 2)):
+            r = client.post(GEN, json={"templateId": preset, "setCount": 3, "allowGaps": True},
+                            headers=t1)
+            assert r.status_code == 200, r.text
+            paper = r.json()["paper"]
+            ids = [{i for s in p["sections"] for q in s["questions"]
+                    for i in (q["questionId"], q.get("internalChoiceQuestionId")) if i}
+                   for p in paper["sets"]]
+            shapes = [[(len(s["questions"]), s["totalMarks"]) for s in p["sections"]]
+                      for p in paper["sets"]]
+            assert shapes[0] == shapes[1] == shapes[2], preset
+            earlier: set[str] = set()
+            for p, mine in zip(paper["sets"], ids):
+                assert paper["setOverlap"][p["setLabel"]] == len(mine & earlier) <= most, preset
+                earlier |= mine
+
+
 def test_the_real_papers_instructions_match_the_ors_it_prints(
         tmp_path, monkeypatch, real_class10_pools):
     """Social Science Section C pairs 0 of its 1 OR on the merged bank -- the
@@ -1489,7 +1659,7 @@ def test_the_real_papers_instructions_match_the_ors_it_prints(
         printed = [s for s in report["sections"] if s["filled"]]
         assert lines[0] == f"This question paper has {len(printed)} sections."
         for s in report["sections"]:
-            line = next((x for x in lines if x.startswith(s["title"] + ":")), None)
+            line = next((x for x in lines if x.startswith(_printed_title(s, report) + ":")), None)
             if not s["filled"]:
                 assert line is None, line
                 continue
@@ -1500,13 +1670,25 @@ def test_the_real_papers_instructions_match_the_ors_it_prints(
                 assert "OR" not in line, line
 
 
+def _printed_title(section: dict, report: dict) -> str:
+    """The name a report section prints under: the paper letters the
+    sections it prints in order, and the title's own "Section X" says that
+    letter (audit D44). A section that prints nothing keeps its title."""
+    from academicos.assessment.paper import lettered
+    filled = [s["sectionId"] for s in report["sections"] if s["filled"]]
+    if section["sectionId"] not in filled:
+        return section["title"]
+    return lettered(section["title"], chr(ord("A") + filled.index(section["sectionId"])))
+
+
 # ---- review of 9b2f64c: a copied preset's instructions after the teacher edits it
 
 def _assert_instructions_describe(lines: list[str], sections: list[dict]) -> None:
     printed = [s for s in sections if s["filled"]]
     assert lines[0] == f"This question paper has {len(printed)} sections.", lines
     for s in sections:
-        line = next((x for x in lines if x.startswith(s["title"] + ":")), None)
+        title = _printed_title(s, {"sections": sections})
+        line = next((x for x in lines if x.startswith(title + ":")), None)
         if not s["filled"]:
             assert line is None, line
             continue

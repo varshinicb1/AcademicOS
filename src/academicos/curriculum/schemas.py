@@ -284,11 +284,11 @@ class SeedCbse10Request(Camel):
 
 
 class SeedGradeRequest(SeedCbse10Request):
-    """PRD section 0 decision 4 is all grades 6-12. The bound is pydantic's so
-    the answer to grade 5 or 13 is a 422 naming the range, before any row is
+    """Requirements v3: grades 1-12 (PRD section 0 decision 4 said 6-12). The bound is pydantic's so
+    the answer to grade 0 or 13 is a 422 naming the range, before any row is
     created -- there is no syllabus data outside it (seed_cbse10.MIN_GRADE /
     MAX_GRADE, which raises the same bound for the CLI and library callers)."""
-    grade: int = Field(ge=6, le=12)
+    grade: int = Field(ge=1, le=12)
 
 
 class SubjectTemplateReportResponse(Camel):
@@ -562,7 +562,9 @@ class ScheduledLessonResponse(Camel):
 # ---------------- completion tracking (§15) ----------------
 
 class MarkLessonRequest(Camel):
-    status: str = Field(pattern="^(scheduled|completed|skipped)$")
+    # "partly": taught, but not all of it -- recorded as completed with the
+    # note "Partly taught", and the rest is planned for the next period.
+    status: str = Field(pattern="^(scheduled|completed|skipped|partly)$")
     note: Optional[str] = None
 
 

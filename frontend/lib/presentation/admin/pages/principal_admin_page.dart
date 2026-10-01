@@ -16,6 +16,7 @@ import '../widgets/pending_topics_card.dart';
 import '../widgets/school_setup_card.dart';
 import '../widgets/sections_card.dart';
 import '../widgets/terms_card.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// The console's tabs, in display order. The TabBar, the TabBarView and every
 /// jump between tabs are all derived from this list, so reordering or adding
@@ -97,6 +98,10 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   String? _pushGradeId;
   String? _pushSubjectId;
   List<SubjectSummary> _pushSubjects = [];
+  // null: the school-wide plan. A section's own plan (the kind the School
+  // workspace's Lesson plans page makes) moves only when its id is sent.
+  String? _pushSectionId;
+  List<SectionSummary> _pushSections = [];
   bool _loadingPushSubjects = false;
   final _pushDateController = TextEditingController(
     text: DateTime.now().toString().substring(0, 10),
@@ -286,6 +291,8 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       _loadingPushSubjects = true;
       _pushSubjects = [];
       _pushSubjectId = null;
+      _pushSections = [];
+      _pushSectionId = null;
     });
     try {
       final subjects = await GetIt.I<CurriculumApi>().subjects(gradeId);
@@ -297,6 +304,18 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     } catch (e) {
       if (mounted) setState(() => _loadingPushSubjects = false);
       _showMessage('Could not load subjects: ${serverErrorMessage(e)}');
+      return;
+    }
+    // The sections come separately: without them the school-wide plan can
+    // still be pushed, so a failed or slow sections call must not hold the
+    // subject list back.
+    if (_academicYearId == null) return;
+    try {
+      final sections =
+          (await GetIt.I<CurriculumApi>().sections(_academicYearId!)).where((s) => s.gradeId == gradeId).toList();
+      if (mounted) setState(() => _pushSections = sections);
+    } catch (e) {
+      _showMessage('Could not load sections: ${serverErrorMessage(e)}');
     }
   }
 
@@ -365,6 +384,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         fromDate: _pushDateController.text.trim(),
         reason: _pushReasonController.text.trim(),
         periodsPerWeek: periodsPerWeek,
+        sectionId: _pushSectionId,
       );
       _showMessage(res.summary);
       _loadReporting();
@@ -882,7 +902,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
               const Gap(8),
               ChipTag(
                 label: '${del.delayedCount} overdue',
-                color: del.delayedCount > 0 ? theme.colorScheme.error : Colors.green,
+                color: del.delayedCount > 0 ? theme.colorScheme.error : AppColors.success,
               ),
             ],
           ),
@@ -955,7 +975,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                         fontWeight: FontWeight.bold,
                         color: pace == null
                             ? theme.colorScheme.onSurfaceVariant
-                            : (pace >= 90 ? Colors.green : Colors.orange))),
+                            : (pace >= 90 ? AppColors.success : AppColors.warning))),
                 const Gap(4),
                 Text('Overall Pace', style: theme.textTheme.bodySmall),
                 Text(
@@ -975,7 +995,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 Text('${del.delayedCount}',
                     style: theme.textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: del.delayedCount > 0 ? theme.colorScheme.error : Colors.green)),
+                        color: del.delayedCount > 0 ? theme.colorScheme.error : AppColors.success)),
                 const Gap(4),
                 Text('Overdue Topics', style: theme.textTheme.bodySmall),
               ],
@@ -991,7 +1011,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   static String _paceText(double? pace) => pace == null ? '—' : '${pace.toStringAsFixed(1)}%';
 
   Widget _buildSubjectCoverageCard(ThemeData theme, SubjectCoverage sub) {
-    final varianceColor = sub.variance >= 0 ? Colors.green : Colors.red;
+    final varianceColor = sub.variance >= 0 ? AppColors.success : AppColors.danger;
     final pace = sub.pace;
     final paceClause = pace == null
         ? 'no lessons due yet'
@@ -1154,12 +1174,26 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                   onChanged: (s) => setState(() => _pushSubjectId = s?.id),
                 ),
               const Gap(12),
+              DropdownButtonFormField<String?>(
+                key: ValueKey('push-section-$_pushGradeId-${_pushSections.length}'),
+                initialValue: _pushSectionId,
+                isExpanded: true,
+                decoration: const InputDecoration(
+                  labelText: 'Section',
+                  helperText: "A section's own plan, or the school-wide plan",
+                ),
+                items: [
+                  const DropdownMenuItem<String?>(value: null, child: Text('Every section (the school-wide plan)')),
+                  for (final s in _pushSections) DropdownMenuItem<String?>(value: s.id, child: Text(s.label)),
+                ],
+                onChanged: (id) => setState(() => _pushSectionId = id),
+              ),
+              const Gap(12),
               TextFormField(
                 controller: _pushDateController,
                 decoration: const InputDecoration(
                   labelText: 'Disruption Date (YYYY-MM-DD)',
                   hintText: 'Lessons on or after this date will shift',
-                  border: OutlineInputBorder(),
                 ),
               ),
               const Gap(12),
@@ -1167,7 +1201,6 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 controller: _pushReasonController,
                 decoration: const InputDecoration(
                   labelText: 'Reason for Disruption',
-                  border: OutlineInputBorder(),
                 ),
               ),
               const Gap(12),
@@ -1177,7 +1210,6 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 decoration: const InputDecoration(
                   labelText: 'Periods per week (optional)',
                   hintText: "Leave blank to use the subject's stored allocation",
-                  border: OutlineInputBorder(),
                 ),
               ),
               const Gap(16),
@@ -1207,7 +1239,6 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 decoration: const InputDecoration(
                   labelText: 'Lesson ID',
                   hintText: 'Select Reschedule from Delayed Topics or paste ID',
-                  border: OutlineInputBorder(),
                 ),
               ),
               const Gap(12),
@@ -1215,7 +1246,6 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 controller: _adjustDateController,
                 decoration: const InputDecoration(
                   labelText: 'New Target Date (YYYY-MM-DD)',
-                  border: OutlineInputBorder(),
                 ),
               ),
               const Gap(12),
@@ -1223,7 +1253,6 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 controller: _adjustReasonController,
                 decoration: const InputDecoration(
                   labelText: 'Reason for Adjustment',
-                  border: OutlineInputBorder(),
                 ),
               ),
               const Gap(16),
@@ -1278,7 +1307,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         AppCard(
           child: Row(
             children: [
-              IconButton(
+              IconButton(tooltip: 'Previous day', 
                 icon: const Icon(Icons.chevron_left),
                 onPressed: () {
                   setState(() => _masterCalendarDate = _masterCalendarDate.subtract(const Duration(days: 1)));
@@ -1313,7 +1342,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                   ),
                 ),
               ),
-              IconButton(
+              IconButton(tooltip: 'Next day', 
                 icon: const Icon(Icons.chevron_right),
                 onPressed: () {
                   setState(() => _masterCalendarDate = _masterCalendarDate.add(const Duration(days: 1)));
@@ -1380,7 +1409,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
             Color statusColor;
             IconData statusIcon;
             if (l.status == 'completed') {
-              statusColor = Colors.green;
+              statusColor = AppColors.success;
               statusIcon = Icons.check_circle_outline;
             } else if (l.status == 'skipped') {
               statusColor = theme.colorScheme.error;
@@ -1573,7 +1602,6 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 decoration: const InputDecoration(
                   labelText: 'Period Duration (minutes)',
                   helperText: 'Standard teaching period duration in minutes (e.g. 45).',
-                  border: OutlineInputBorder(),
                 ),
               ),
               const Gap(12),
@@ -1597,12 +1625,12 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
               const Gap(8),
               TextField(
                 controller: _holidayDateController,
-                decoration: const InputDecoration(labelText: 'Date (YYYY-MM-DD)', border: OutlineInputBorder()),
+                decoration: const InputDecoration(labelText: 'Date (YYYY-MM-DD)'),
               ),
               const Gap(12),
               TextField(
                 controller: _holidayLabelController,
-                decoration: const InputDecoration(labelText: 'Holiday Label (e.g. Diwali Vacation)', border: OutlineInputBorder()),
+                decoration: const InputDecoration(labelText: 'Holiday Label (e.g. Diwali Vacation)'),
               ),
               const Gap(12),
               DropdownButtonFormField<String>(
@@ -1611,7 +1639,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 // field sizes itself to its widest entry, 'School Event (still
                 // a working day)', and runs off a 375 px phone (Task 801).
                 isExpanded: true,
-                decoration: const InputDecoration(labelText: 'Holiday Kind', border: OutlineInputBorder()),
+                decoration: const InputDecoration(labelText: 'Holiday Kind'),
                 items: const [
                   DropdownMenuItem(value: 'public', child: Text('Public Holiday', overflow: TextOverflow.ellipsis)),
                   DropdownMenuItem(value: 'school', child: Text('School Holiday', overflow: TextOverflow.ellipsis)),
@@ -1625,7 +1653,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
               const Gap(12),
               TextField(
                 controller: _holidayEndDateController,
-                decoration: const InputDecoration(labelText: 'End Date (Optional, for range)', border: OutlineInputBorder()),
+                decoration: const InputDecoration(labelText: 'End Date (Optional, for range)'),
               ),
               const Gap(12),
               FilledButton.icon(
@@ -1650,7 +1678,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                     child: Text('Teaching Days Computation (§10)',
                         style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
                   ),
-                  IconButton(
+                  IconButton(tooltip: 'Reload', 
                     icon: const Icon(Icons.refresh),
                     onPressed: _loadingWorkingDays ? null : _loadCalendarSetup,
                   ),
@@ -1718,7 +1746,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     return DropdownButtonFormField<T>(
       key: key,
       initialValue: value,
-      decoration: InputDecoration(labelText: label, border: const OutlineInputBorder()),
+      decoration: InputDecoration(labelText: label),
       isExpanded: true,
       items: items
           .map((item) => DropdownMenuItem<T>(value: item, child: Text(itemLabel(item), overflow: TextOverflow.ellipsis)))

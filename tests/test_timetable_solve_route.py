@@ -32,6 +32,22 @@ def test_a_proposal_writes_nothing_and_apply_publishes_it(w):
     assert len(slots) == len(set(slots))
 
 
+def test_publishing_a_solved_week_tells_the_students_too(w):
+    """N-8-5: the solver's publish told teachers only; the section's students
+    never heard their timetable had changed."""
+    from test_school_model import _timetable_notices
+    w.c.post(f"{BASE}/student-enrollments", json={"studentId": w.stu_id, "sectionId": w.sec["10-A"]},
+             headers=w.p1)
+    _bell(w)
+    for sec, teacher in (("10-A", w.t1_id), ("10-B", w.t2_id)):
+        _alloc(w, sec, w.sub10["Science"], teacher, 6)
+        _alloc(w, sec, w.sub10["Mathematics"], teacher, 6)
+    assert _solve(w).json()["applied"] is False
+    assert [_timetable_notices(u) for u in (w.stu_id, w.t1_id, w.t2_id)] == [0, 0, 0], "a proposal tells no one"
+    assert _solve(w, apply=True).json()["applied"] is True
+    assert [_timetable_notices(u) for u in (w.stu_id, w.t1_id, w.t2_id)] == [1, 1, 1]
+
+
 def test_an_impossible_allocation_is_explained(w):
     _bell(w)
     _alloc(w, "10-A", w.sub10["Science"], w.t1_id, 30)

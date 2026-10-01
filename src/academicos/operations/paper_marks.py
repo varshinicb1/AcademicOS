@@ -47,6 +47,11 @@ class MarksMixin:
             out.setdefault(r["student_id"], {})[r["question_id"]] = r["marks"]
         return out
 
+    def papers_with_marks(self) -> list[str]:
+        """Every paper id with at least one typed mark (school insights start
+        from these rather than reading every paper a school has)."""
+        return [r["paper_id"] for r in self._fetchall("SELECT DISTINCT paper_id FROM paper_marks")]
+
     def absent_for(self, paper_id: str) -> set[str]:
         return {r["student_id"] for r in self._fetchall("SELECT student_id FROM paper_absent WHERE paper_id=?",
                                                         (paper_id,))}

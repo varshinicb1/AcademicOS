@@ -9,6 +9,7 @@ import 'young_home.dart';
 import 'ops_api.dart';
 import 'profiles.dart';
 import 'strings.dart';
+import '../shared/widgets/shell.dart';
 
 /// The school workspace: every day-to-day tool for the signed-in role on one
 /// page -- homework, progress, cover, exams, parents, notifications and the
@@ -79,11 +80,14 @@ class _WorkspacePageState extends State<WorkspacePage> {
         ];
       case 'principal':
         return [
+          (icon: Icons.library_books_outlined, title: tr('Question bank'), subtitle: tr('Coverage by chapter and topic; review answers'), path: '/school/question-bank'),
           (icon: Icons.assessment_outlined, title: tr('Term report'), subtitle: tr('The term by class, section and subject; Excel or PDF'), path: '/school/term-report'),
           (icon: Icons.how_to_reg_outlined, title: tr('Attendance & cover'), subtitle: tr('Mark absences, leave and substitutions'), path: '/school/cover'),
+          (icon: Icons.restore_outlined, title: tr('Periods owed'), subtitle: tr('Make up or waive lost periods; close a day at short notice'), path: '/school/periods-owed'),
           (icon: Icons.assignment_outlined, title: tr('Homework'), subtitle: tr('Set, mark and follow up'), path: '/school/homework'),
           (icon: Icons.insights_outlined, title: tr('Class progress'), subtitle: tr('Mastery by section and chapter'), path: '/school/class-progress'),
           (icon: Icons.table_chart_outlined, title: tr('Timetable'), subtitle: tr('Allocations, rooms, the bell; generate and publish'), path: '/school/timetable'),
+          (icon: Icons.menu_book_outlined, title: tr('Lesson plans'), subtitle: tr("Date each section's lessons from its book and timetable"), path: '/school/lesson-plans'),
           (icon: Icons.badge_outlined, title: tr('School profile'), subtitle: tr('The name and logo printed on papers'), path: '/school/school-profile'),
           (icon: Icons.grading_outlined, title: tr('Report cards'), subtitle: tr('A term\'s marks for a section, as a PDF'), path: '/school/report-cards'),
           (icon: Icons.event_note_outlined, title: tr('Exams'), subtitle: tr('Datesheets and invigilation'), path: '/school/exams'),
@@ -98,12 +102,20 @@ class _WorkspacePageState extends State<WorkspacePage> {
         return [
           if (_caps.contains('leave'))
             (icon: Icons.how_to_reg_outlined, title: tr('Attendance & cover'), subtitle: tr('You manage leave and cover'), path: '/school/cover'),
+          if (_caps.contains('leave'))
+            (icon: Icons.restore_outlined, title: tr('Periods owed'), subtitle: tr('Make up or waive lost periods'), path: '/school/periods-owed'),
           if (_caps.contains('exams'))
             (icon: Icons.event_note_outlined, title: tr('Exams'), subtitle: tr('You manage exam planning'), path: '/school/exams'),
           if (_caps.contains('timetable'))
             (icon: Icons.table_chart_outlined, title: tr('Timetable'), subtitle: tr('You manage the timetable'), path: '/school/timetable'),
+          if (_caps.contains('timetable'))
+            (icon: Icons.menu_book_outlined, title: tr('Lesson plans'), subtitle: tr("Date each section's lessons from its book and timetable"), path: '/school/lesson-plans'),
           if (_caps.contains('users'))
             (icon: Icons.upload_file_outlined, title: tr('Import & export'), subtitle: tr('You manage people'), path: '/school/import'),
+          if (_caps.contains('qbank_review'))
+            (icon: Icons.library_books_outlined, title: tr('Question bank'), subtitle: tr('You review its answers'), path: '/school/question-bank?review=1')
+          else
+            (icon: Icons.library_books_outlined, title: tr('Question bank'), subtitle: tr('Coverage by chapter and topic'), path: '/school/question-bank'),
           if (_caps.contains('reports'))
             (icon: Icons.assessment_outlined, title: tr('Term report'), subtitle: tr('You manage reports'), path: '/school/term-report'),
           (icon: Icons.today_outlined, title: tr('My day'), subtitle: tr('Periods, duties and check-in'), path: '/school/my-day'),
@@ -123,7 +135,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
     final theme = Theme.of(context);
     final tiles = _tiles(CurrentSession.role);
     return Scaffold(
-      appBar: AppBar(title: Text(tr('School')), actions: [
+      appBar: destinationAppBar(context, title: Text(tr('School')), actions: [
         // English / हिन्दी for these pages, per device (TA-9).
         IconButton(
           tooltip: uiHindi ? 'Switch to English' : 'हिन्दी में देखें',

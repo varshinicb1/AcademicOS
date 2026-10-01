@@ -13,6 +13,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:academicos/core/constants/release_scope.dart';
 import 'package:academicos/data/datasources/api/curriculum_api.dart';
 import 'package:academicos/presentation/admin/widgets/school_setup_card.dart';
 import 'package:academicos/presentation/admin/widgets/terms_card.dart';
@@ -261,12 +262,13 @@ void main() {
     return (() => done, backend);
   }
 
-  testWidgets('a new school sets up classes 6 to 10 in this session', (tester) async {
+  // Every class the release serves (1-10 since requirements v3), in order.
+  testWidgets('a new school sets up classes 1 to 10 in this session', (tester) async {
     final (done, backend) = await pumpSetup(tester);
-    expect(find.text('Set up classes 6 to 10'), findsOneWidget);
+    expect(find.text('Set up classes 1 to 10'), findsOneWidget);
     expect(tester.takeException(), isNull);
     await tapKey(tester, 'setup-run');
-    expect([for (final s in backend.seeds) s['grade']], [6, 7, 8, 9, 10]);
+    expect([for (final s in backend.seeds) s['grade']], releaseGrades);
     expect(backend.seeds.map((s) => (s['academicYearLabel'], s['startDate'], s['endDate'])).toSet(),
         {('2026-27', '2026-04-01', '2027-03-31')});
     expect(done(), isTrue);
@@ -279,10 +281,11 @@ void main() {
     await tester.enterText(find.byKey(const ValueKey('setup-sections')), '3');
     await tapKey(tester, 'setup-run');
     expect(done(), isTrue);
-    for (final g in [6, 7, 8, 9, 10]) {
+    for (final g in releaseGrades) {
       expect([for (final (grade, name) in backend.sections) if (grade == 'g_$g') name], ['A', 'B', 'C']);
     }
-    expect(backend.sectionsAdded, hasLength(10), reason: 'B and C for five classes; A comes with the seed');
+    expect(backend.sectionsAdded, hasLength(2 * releaseGrades.length),
+        reason: 'B and C for every class; A comes with the seed');
   });
 
   testWidgets('a section count that is not 1 to 10 is caught before anything is sent', (tester) async {
@@ -300,11 +303,13 @@ void main() {
     final (done, backend) = await pumpSetup(tester, failAt: 8);
     await tester.enterText(find.byKey(const ValueKey('setup-sections')), '2');
     await tapKey(tester, 'setup-run');
-    expect(backend.sectionsAdded, [('g_6', 'B'), ('g_7', 'B')]);
+    // Class 8 fails: the classes before it got their B.
+    final before = [for (final g in releaseGrades) if (g < 8) ('g_$g', 'B')];
+    expect(backend.sectionsAdded, before);
     backend.failSeedAt = null;
     await tapKey(tester, 'setup-run');
     expect(done(), isTrue);
-    expect(backend.sectionsAdded, [('g_6', 'B'), ('g_7', 'B'), ('g_8', 'B'), ('g_9', 'B'), ('g_10', 'B')]);
+    expect(backend.sectionsAdded, [for (final g in releaseGrades) ('g_$g', 'B')]);
   });
 
   testWidgets("the school's name is saved first, so its first papers print it", (tester) async {
@@ -332,15 +337,16 @@ void main() {
   testWidgets('a class that fails is named, and pressing again continues', (tester) async {
     final (done, backend) = await pumpSetup(tester, failAt: 8);
     await tapKey(tester, 'setup-run');
-    expect([for (final s in backend.seeds) s['grade']], [6, 7]);
+    final before = [for (final g in releaseGrades) if (g < 8) g];
+    expect([for (final s in backend.seeds) s['grade']], before);
     expect(find.textContaining('Class 8 was not set up'), findsOneWidget);
     expect(find.textContaining('Press the button again to continue.'), findsOneWidget);
     expect(done(), isFalse);
 
     backend.failSeedAt = null;
     await tapKey(tester, 'setup-run');
-    // The seed is idempotent, so 6 and 7 again reuse what is there.
-    expect([for (final s in backend.seeds) s['grade']], [6, 7, 6, 7, 8, 9, 10]);
+    // The seed is idempotent, so the classes before 8 again reuse what is there.
+    expect([for (final s in backend.seeds) s['grade']], [...before, ...releaseGrades]);
     expect(done(), isTrue);
   });
 }

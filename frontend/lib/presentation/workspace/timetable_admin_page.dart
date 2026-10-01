@@ -4,8 +4,10 @@ import 'package:gap/gap.dart';
 import '../../core/session/current_session.dart';
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
+import 'notice.dart';
 import 'ops_api.dart';
 import 'strings.dart';
+import '../shared/widgets/shell.dart';
 
 const _base = '/curriculum';
 const _dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -43,9 +45,11 @@ String bellSlotsText(List<dynamic> slots) => [
 /// The school's timetable, set up in one place (REQUIREMENTS SCH-2/3,
 /// ADM-1): who teaches what to which section (with a co-teacher, a lab and
 /// double periods, SCH-8), the rooms and when a room is out of use, the
-/// bell, the generated week with its changes shown before publishing, and
-/// each section's week. For the principal, and a teacher given the timetable
-/// admin permission (M1.4).
+/// bell, the periods each teacher cannot teach, the generated week with its
+/// changes shown before publishing, and each section's week -- edited by
+/// hand, with periods locked against the next generation and every clash
+/// the server finds listed (audit N-3-5). For the principal, and a teacher
+/// given the timetable admin permission (M1.4).
 class TimetableAdminPage extends StatefulWidget {
   const TimetableAdminPage({super.key});
 
@@ -84,14 +88,15 @@ class _TimetableAdminPageState extends State<TimetableAdminPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 6,
       child: Scaffold(
-        appBar: AppBar(
+        appBar: destinationAppBar(context,
           title: Text(tr('Timetable')),
           bottom: TabBar(isScrollable: true, tabs: [
             Tab(text: tr('Allocations')),
             Tab(text: tr('Rooms')),
             Tab(text: tr('Bell')),
+            Tab(text: tr('Availability')),
             Tab(text: tr('Generate')),
             Tab(text: tr('Week')),
           ]),
@@ -115,6 +120,7 @@ class _TimetableAdminPageState extends State<TimetableAdminPage> {
               _AllocationsTab(data: data),
               _RoomsTab(data: data),
               _BellTab(data: data),
+              _AvailabilityTab(data: data),
               _GenerateTab(data: data),
               _WeekTab(data: data),
             ]);
@@ -167,7 +173,7 @@ class _AllocationsTabState extends State<_AllocationsTab> {
         key: const ValueKey('alloc-section'),
         initialValue: _sectionId,
         isExpanded: true,
-        decoration: InputDecoration(labelText: tr('Section'), border: const OutlineInputBorder()),
+        decoration: InputDecoration(labelText: tr('Section')),
         items: [
           for (final s in widget.data.sections)
             DropdownMenuItem(value: s['id'] as String, child: Text(widget.data.sectionLabel(s['id'] as String))),
@@ -298,7 +304,7 @@ class _AllocationRowState extends State<_AllocationRow> {
       key: key,
       initialValue: staff.any((s) => s['id'] == value) ? value : null,
       isExpanded: true,
-      decoration: InputDecoration(labelText: label, border: const OutlineInputBorder()),
+      decoration: InputDecoration(labelText: label),
       items: [
         DropdownMenuItem<String?>(value: null, child: Text(tr('No one'))),
         for (final s in staff)
@@ -327,7 +333,7 @@ class _AllocationRowState extends State<_AllocationRow> {
                 key: ValueKey('alloc-periods-$id'),
                 controller: _periods,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: tr('Periods a week'), border: const OutlineInputBorder()),
+                decoration: InputDecoration(labelText: tr('Periods a week')),
               ),
             ),
             SizedBox(
@@ -336,7 +342,7 @@ class _AllocationRowState extends State<_AllocationRow> {
                 key: ValueKey('alloc-room-$id'),
                 initialValue: _roomKind,
                 isExpanded: true,
-                decoration: InputDecoration(labelText: tr('Needs a room'), border: const OutlineInputBorder()),
+                decoration: InputDecoration(labelText: tr('Needs a room')),
                 items: [
                   DropdownMenuItem<String?>(value: null, child: Text(tr('Its own classroom'))),
                   for (final k in roomKinds) DropdownMenuItem<String?>(value: k, child: Text(tr(k))),
@@ -350,7 +356,7 @@ class _AllocationRowState extends State<_AllocationRow> {
                 key: ValueKey('alloc-doubles-$id'),
                 controller: _doubles,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: tr('Double periods'), border: const OutlineInputBorder()),
+                decoration: InputDecoration(labelText: tr('Double periods')),
               ),
             ),
           ]),
@@ -659,7 +665,7 @@ class _BellTabState extends State<_BellTab> {
           Text(_editingId == null ? tr('Add a bell') : tr('Edit the bell'), style: theme.textTheme.titleSmall),
           const Gap(8),
           TextField(key: const ValueKey('bell-name'), controller: _name,
-              decoration: InputDecoration(labelText: tr('Name'), border: const OutlineInputBorder())),
+              decoration: InputDecoration(labelText: tr('Name'))),
           const Gap(8),
           Wrap(spacing: 8, children: [
             for (var d = 0; d < 7; d++)
@@ -678,7 +684,6 @@ class _BellTabState extends State<_BellTab> {
             decoration: InputDecoration(
               labelText: tr('Slots, one a line'),
               hintText: '08:00-08:45\n08:45-09:30\n09:30-09:50 break',
-              border: const OutlineInputBorder(),
             ),
           ),
           if (_error != null) ...[const Gap(8), _errorText(context, _error!)],
@@ -758,10 +763,10 @@ class _GenerateTabState extends State<_GenerateTab> {
       Wrap(spacing: 12, runSpacing: 12, children: [
         SizedBox(width: 180, child: TextField(key: const ValueKey('solve-max-day'), controller: _maxDay,
             keyboardType: TextInputType.number,
-            decoration: InputDecoration(labelText: tr('Most a day per teacher'), border: const OutlineInputBorder()))),
+            decoration: InputDecoration(labelText: tr('Most a day per teacher')))),
         SizedBox(width: 180, child: TextField(key: const ValueKey('solve-max-row'), controller: _maxRow,
             keyboardType: TextInputType.number,
-            decoration: InputDecoration(labelText: tr('Most in a row'), border: const OutlineInputBorder()))),
+            decoration: InputDecoration(labelText: tr('Most in a row')))),
       ]),
       SwitchListTile(
         contentPadding: EdgeInsets.zero,
@@ -798,7 +803,143 @@ class _GenerateTabState extends State<_GenerateTab> {
   }
 }
 
+// ------------------------------------------------------------------ availability
+
+/// The teacher-level constraint the generator honours: periods a teacher
+/// cannot teach (a part-timer's mornings, a standing duty), in the default
+/// bell's numbering, as the route stores them.
+class _AvailabilityTab extends StatefulWidget {
+  final _SchoolData data;
+  const _AvailabilityTab({required this.data});
+
+  @override
+  State<_AvailabilityTab> createState() => _AvailabilityTabState();
+}
+
+class _AvailabilityTabState extends State<_AvailabilityTab> {
+  late Future<(Map<String, dynamic>?, Map<String, List<Map>>)> _future = _load();
+  String? _error;
+
+  Future<(Map<String, dynamic>?, Map<String, List<Map>>)> _load() async {
+    final bells = await Ops.list('$_base/academic-years/${widget.data.yearId}/bell-schedules');
+    final rows = await Ops.list('$_base/academic-years/${widget.data.yearId}/teacher-unavailability');
+    final bell = bells.where((b) => b['isDefault'] == true).firstOrNull ?? bells.firstOrNull;
+    return (bell, {for (final r in rows) r['teacherId'] as String: (r['slots'] as List).cast<Map>()});
+  }
+
+  void _reload() => setState(() { _future = _load(); });
+
+  Future<void> _edit(Map<String, dynamic> teacher, Map<String, dynamic> bell, List<Map> current) async {
+    final days = (bell['days'] as List).cast<int>();
+    final periods = bell['teachingPeriods'] as int;
+    final picked = {for (final s in current) '${s['dayOfWeek']}:${s['period']}'};
+    final saved = await showDialog<Set<String>>(
+      context: context,
+      builder: (context) => StatefulBuilder(builder: (context, setDialog) => AlertDialog(
+            title: Text('${teacher['name']}: ${tr('cannot teach')}'),
+            content: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                columnSpacing: 8,
+                columns: [const DataColumn(label: Text('')), for (final d in days) DataColumn(label: Text(tr(_dayNames[d])))],
+                rows: [
+                  for (var p = 1; p <= periods; p++)
+                    DataRow(cells: [
+                      DataCell(Text('P$p')),
+                      for (final d in days)
+                        DataCell(Checkbox(
+                          key: ValueKey('unavail-$d-$p'),
+                          value: picked.contains('$d:$p'),
+                          onChanged: (v) => setDialog(() => v == true ? picked.add('$d:$p') : picked.remove('$d:$p')),
+                        )),
+                    ]),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(onPressed: () => Navigator.pop(context), child: Text(tr('Cancel'))),
+              FilledButton(key: const ValueKey('unavail-save'), onPressed: () => Navigator.pop(context, picked),
+                  child: Text(tr('Save'))),
+            ],
+          )),
+    );
+    if (saved == null) return;
+    try {
+      await Ops.put('$_base/academic-years/${widget.data.yearId}/teacher-unavailability/${teacher['id']}', body: {
+        'slots': [
+          for (final s in saved)
+            {'dayOfWeek': int.parse(s.split(':')[0]), 'period': int.parse(s.split(':')[1])}
+        ],
+      });
+      setState(() => _error = null);
+      _reload();
+    } catch (e) {
+      setState(() => _error = serverErrorMessage(e));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<(Map<String, dynamic>?, Map<String, List<Map>>)>(
+      future: _future,
+      builder: (context, snap) {
+        if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
+        if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!), onRetry: _reload);
+        final (bell, busy) = snap.data!;
+        if (bell == null) {
+          return EmptyState(icon: Icons.schedule_outlined, title: tr('No bell yet'),
+              message: tr('Set up the bell first: a period means nothing until the school has periods.'));
+        }
+        if (widget.data.staff.isEmpty) {
+          return EmptyState(icon: Icons.person_outline, title: tr('No teachers yet'),
+              message: tr('Invite or import the teachers first.'));
+        }
+        return ListView(padding: const EdgeInsets.all(16), children: [
+          Text(tr('Periods a teacher cannot teach. Generating the timetable leaves them free.'),
+              style: Theme.of(context).textTheme.bodySmall),
+          if (_error != null) ...[const Gap(8), _errorText(context, _error!)],
+          const Gap(8),
+          for (final t in widget.data.staff)
+            ListTile(
+              key: ValueKey('unavail-${t['id']}'),
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.person_outline),
+              title: Text(t['name'] as String),
+              subtitle: Text((busy[t['id']] ?? const []).isEmpty
+                  ? tr('Can teach every period')
+                  : '${busy[t['id']]!.length} ${tr('periods they cannot teach')}'),
+              trailing: IconButton(
+                tooltip: '${tr('Periods they cannot teach')}: ${t['name']}',
+                icon: const Icon(Icons.event_busy_outlined),
+                onPressed: () => _edit(t, bell, busy[t['id']] ?? const []),
+              ),
+            ),
+        ]);
+      },
+    );
+  }
+}
+
 // ------------------------------------------------------------------ week
+
+/// A section's week and what it needs: the bell, the class's subjects, this
+/// section's allocations (who teaches each, how often, in what kind of
+/// room) and the school's rooms.
+class _WeekData {
+  final Map<String, dynamic>? bell;
+  final List<Map<String, dynamic>> subjects;
+  final Map<String, Map<String, dynamic>> allocations; // subject id -> allocation
+  final List<Map<String, dynamic>> rooms;
+  const _WeekData(this.bell, this.subjects, this.allocations, this.rooms);
+
+  String subjectName(String id) => subjects.where((s) => s['id'] == id).firstOrNull?['name'] as String? ?? id;
+  String? roomName(String? id) => id == null ? null : rooms.where((r) => r['id'] == id).firstOrNull?['name'] as String?;
+}
+
+/// One period of the week being edited, in the PUT's own shape: a null
+/// teacher is the allocation's teacher. The co-teacher is shown only: the
+/// server takes it from the allocation.
+typedef _Cell = ({String subjectId, String? teacherId, String? roomId, bool locked, String? coTeacherId});
 
 class _WeekTab extends StatefulWidget {
   final _SchoolData data;
@@ -810,13 +951,113 @@ class _WeekTab extends StatefulWidget {
 
 class _WeekTabState extends State<_WeekTab> {
   String? _sectionId;
-  Future<(Map<String, dynamic>, Map<String, dynamic>?)>? _future;
+  Future<_WeekData>? _future;
+  // The week as edited here, (day, period) -> period; saved all at once.
+  Map<(int, int), _Cell> _cells = {};
+  bool _dirty = false;
+  bool _saving = false;
+  String? _error;
+  List<String> _clashes = const [];
+  String? _note;
 
-  Future<(Map<String, dynamic>, Map<String, dynamic>?)> _load(String sectionId) async {
+  Future<_WeekData> _load(String sectionId) async {
+    final section = widget.data.sections.firstWhere((s) => s['id'] == sectionId);
     final week = await Ops.map('$_base/sections/$sectionId/timetable');
     final bells = await Ops.list('$_base/academic-years/${widget.data.yearId}/bell-schedules');
-    return (week, bells.where((b) => b['id'] == week['bellScheduleId']).firstOrNull);
+    final subjects = await Ops.list('$_base/grades/${section['gradeId']}/subjects');
+    final allocs = await Ops.list('$_base/academic-years/${widget.data.yearId}/allocations');
+    final rooms = await Ops.list('$_base/rooms');
+    _take(week);
+    return _WeekData(bells.where((b) => b['id'] == week['bellScheduleId']).firstOrNull, subjects,
+        {for (final a in allocs.where((a) => a['sectionId'] == sectionId)) a['subjectId'] as String: a}, rooms);
   }
+
+  /// The server's week becomes the one being edited.
+  void _take(Map<String, dynamic> week) {
+    _cells = {
+      for (final e in (week['entries'] as List).cast<Map>())
+        (e['dayOfWeek'] as int, e['period'] as int): (
+          subjectId: e['subjectId'] as String,
+          teacherId: e['teacherId'] as String?,
+          roomId: e['roomId'] as String?,
+          locked: e['locked'] == true,
+          coTeacherId: e['coTeacherId'] as String?,
+        ),
+    };
+    _dirty = false;
+  }
+
+  void _pick(String? id) => setState(() {
+        _sectionId = id;
+        _future = id == null ? null : _load(id);
+        _error = null;
+        _clashes = const [];
+        _note = null;
+      });
+
+  Future<void> _editCell(_WeekData w, int day, int period) async {
+    final result = await showDialog<({_Cell? cell})>(
+      context: context,
+      builder: (_) => _CellDialog(
+        title: '${tr(_dayNames[day])}, ${tr('period')} $period',
+        current: _cells[(day, period)],
+        week: w,
+        staff: widget.data.staff,
+      ),
+    );
+    if (result == null) return;
+    setState(() {
+      if (result.cell == null) {
+        _cells.remove((day, period));
+      } else {
+        _cells[(day, period)] = result.cell!;
+      }
+      _dirty = true;
+      _clashes = const [];
+      _error = null;
+      _note = null;
+    });
+  }
+
+  Future<void> _save() async {
+    setState(() {
+      _saving = true;
+      _error = null;
+      _clashes = const [];
+      _note = null;
+    });
+    final keys = _cells.keys.toList()..sort((a, b) => a.$1 != b.$1 ? a.$1 - b.$1 : a.$2 - b.$2);
+    try {
+      final saved = await Ops.put('$_base/sections/$_sectionId/timetable', body: {
+        'entries': [
+          for (final k in keys)
+            {
+              'dayOfWeek': k.$1,
+              'period': k.$2,
+              'subjectId': _cells[k]!.subjectId,
+              'teacherId': _cells[k]!.teacherId,
+              'roomId': _cells[k]!.roomId,
+              'locked': _cells[k]!.locked,
+            },
+        ],
+      });
+      if (!mounted) return;
+      setState(() {
+        _take(Map<String, dynamic>.from(saved as Map));
+        _note = '${tr('Saved')}: ${_cells.length} ${tr('periods')}';
+      });
+    } on OpsError catch (e) {
+      // A 409 names every clash; the server kept the old week.
+      if (mounted) setState(() { _error = serverErrorMessage(e); _clashes = e.clashes; });
+    } catch (e) {
+      if (mounted) setState(() => _error = serverErrorMessage(e));
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  String _staffName(String? id) =>
+      widget.data.staff.where((x) => x['id'] == id).firstOrNull?['name'] as String? ?? '';
 
   @override
   Widget build(BuildContext context) {
@@ -826,61 +1067,244 @@ class _WeekTabState extends State<_WeekTab> {
         key: const ValueKey('week-section'),
         initialValue: _sectionId,
         isExpanded: true,
-        decoration: InputDecoration(labelText: tr('Section'), border: const OutlineInputBorder()),
+        decoration: InputDecoration(
+          labelText: tr('Section'),
+          helperText: _dirty ? tr('Save or discard the changes to choose another section.') : null,
+        ),
         items: [
           for (final s in widget.data.sections)
             DropdownMenuItem(value: s['id'] as String, child: Text(widget.data.sectionLabel(s['id'] as String))),
         ],
-        onChanged: (id) => setState(() {
-          _sectionId = id;
-          _future = id == null ? null : _load(id);
-        }),
+        onChanged: _dirty ? null : _pick,
       ),
       const Gap(12),
-      if (_future != null)
-        FutureBuilder(
+      if (_future == null)
+        Text(tr('Choose a section to see and change its week.'), style: theme.textTheme.bodySmall)
+      else
+        FutureBuilder<_WeekData>(
           future: _future,
           builder: (context, snap) {
             if (snap.connectionState != ConnectionState.done) return const LinearProgressIndicator();
-            if (snap.hasError) return _errorText(context, serverErrorMessage(snap.error!));
-            final (week, bell) = snap.data!;
+            if (snap.hasError) {
+              return Notice(kind: NoticeKind.danger, title: serverErrorMessage(snap.error!),
+                  action: OutlinedButton(onPressed: () => _pick(_sectionId), child: Text(tr('Try again'))));
+            }
+            final w = snap.data!;
+            final bell = w.bell;
             if (bell == null) return Text(tr('Set up the bell first.'));
-            final entries = (week['entries'] as List).cast<Map>();
             final days = (bell['days'] as List).cast<int>();
             final periods = bell['teachingPeriods'] as int;
-            String cell(int d, int p) {
-              final e = entries.where((x) => x['dayOfWeek'] == d && x['period'] == p).firstOrNull;
-              if (e == null) return '';
+            String cell(_Cell c) {
+              final alloc = w.allocations[c.subjectId];
+              final teacher = c.teacherId ?? alloc?['teacherId'] as String?;
+              final co = c.coTeacherId;
               return [
-                e['subjectName'] ?? '',
-                e['teacherName'] ?? '',
-                if (e['coTeacherName'] != null) '+ ${e['coTeacherName']}',
-                if (e['roomName'] != null) e['roomName'],
-              ].where((s) => '$s'.isNotEmpty).join('\n');
+                w.subjectName(c.subjectId),
+                _staffName(teacher),
+                if (co != null && co != teacher) '+ ${_staffName(co)}',
+                w.roomName(c.roomId) ?? '',
+              ].where((s) => s.isNotEmpty).join('\n');
             }
-            final gaps = (week['gaps'] as List).cast<Map>().where((g) => g['timetabled'] != g['allocated']);
+            final placed = <String, int>{};
+            for (final c in _cells.values) {
+              placed[c.subjectId] = (placed[c.subjectId] ?? 0) + 1;
+            }
+            final short = [
+              for (final a in w.allocations.values)
+                if ((placed[a['subjectId']] ?? 0) != a['periodsPerWeek'])
+                  '${tr('Still to place')}: ${placed[a['subjectId']] ?? 0} ${tr('of')} ${a['periodsPerWeek']} '
+                      '${tr('periods a week for')} ${w.subjectName(a['subjectId'] as String)}',
+            ];
             return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(tr('Tap a period to change or lock it. Nothing is saved until you save the week; '
+                  'the school first checks every teacher and room against the other sections.'),
+                  style: theme.textTheme.bodySmall),
+              const Gap(8),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: DataTable(
                   key: const ValueKey('week-grid'),
                   dataRowMaxHeight: 88,
+                  showCheckboxColumn: false,
                   columns: [const DataColumn(label: Text('')), for (final d in days) DataColumn(label: Text(tr(_dayNames[d])))],
                   rows: [
                     for (var p = 1; p <= periods; p++)
                       DataRow(cells: [
                         DataCell(Text('P$p')),
-                        for (final d in days) DataCell(Text(cell(d, p), style: theme.textTheme.bodySmall)),
+                        for (final d in days)
+                          DataCell(
+                            Container(
+                              key: ValueKey('week-cell-$d-$p'),
+                              constraints: const BoxConstraints(minWidth: 64, minHeight: 40),
+                              alignment: Alignment.centerLeft,
+                              child: _cells[(d, p)] == null
+                                  ? Text(tr('Free'), style: theme.textTheme.bodySmall?.copyWith(
+                                      color: theme.colorScheme.onSurfaceVariant))
+                                  : Row(mainAxisSize: MainAxisSize.min, children: [
+                                      Text(cell(_cells[(d, p)]!), style: theme.textTheme.bodySmall),
+                                      if (_cells[(d, p)]!.locked) ...[
+                                        const Gap(4),
+                                        Icon(Icons.lock_outline, size: 14, semanticLabel: tr('Locked'),
+                                            color: theme.colorScheme.primary),
+                                      ],
+                                    ]),
+                            ),
+                            onTap: _saving ? null : () => _editCell(w, d, p),
+                          ),
                       ]),
                   ],
                 ),
               ),
-              for (final g in gaps)
-                Text('${tr('Still to place')}: ${g['timetabled']} ${tr('of')} ${g['allocated']} '
-                    '${tr('periods a week for a subject')}'),
+              for (final line in short) Text(line, style: theme.textTheme.bodySmall),
+              if (_error != null) ...[
+                const Gap(12),
+                Notice(
+                  key: const ValueKey('week-clashes'),
+                  kind: NoticeKind.danger,
+                  title: _clashes.isEmpty
+                      ? _error!
+                      : '${tr('Not saved')}: ${_clashes.length} ${tr('clashes. The week is kept as it was.')}',
+                  lines: _clashes,
+                ),
+              ],
+              if (_note != null) ...[const Gap(8), Text(_note!, style: theme.textTheme.bodySmall)],
+              if (_dirty) ...[
+                const Gap(12),
+                Wrap(spacing: 8, runSpacing: 8, crossAxisAlignment: WrapCrossAlignment.center, children: [
+                  FilledButton(key: const ValueKey('week-save'), onPressed: _saving ? null : _save,
+                      style: phoneTapTarget(context), child: Text(tr('Save the week'))),
+                  TextButton(key: const ValueKey('week-discard'), onPressed: _saving ? null : () => _pick(_sectionId),
+                      style: phoneTapTarget(context), child: Text(tr('Discard changes'))),
+                ]),
+              ],
+              if (_saving) ...[const Gap(12), const LinearProgressIndicator()],
             ]);
           },
         ),
     ]);
   }
 }
+
+/// One period, edited: the subject (or a free period), who teaches it (the
+/// allocation's teacher unless another is picked), the room, and whether it
+/// is locked against the next generation. Pops `(cell: null)` for a free
+/// period, and null when cancelled.
+class _CellDialog extends StatefulWidget {
+  final String title;
+  final _Cell? current;
+  final _WeekData week;
+  final List<Map<String, dynamic>> staff;
+  const _CellDialog({required this.title, required this.current, required this.week, required this.staff});
+
+  @override
+  State<_CellDialog> createState() => _CellDialogState();
+}
+
+class _CellDialogState extends State<_CellDialog> {
+  late String? _subject = widget.current?.subjectId;
+  // The allocation's own teacher is the null choice ("allocated"), not a
+  // second item: a period they teach opens on that choice.
+  late String? _teacher = widget.current?.teacherId ==
+          widget.week.allocations[widget.current?.subjectId]?['teacherId']
+      ? null
+      : widget.current?.teacherId;
+  late String? _room = widget.current?.roomId;
+  late bool _locked = widget.current?.locked ?? false;
+
+  @override
+  Widget build(BuildContext context) {
+    final w = widget.week;
+    final alloc = _subject == null ? null : w.allocations[_subject];
+    final kind = alloc?['roomKind'] as String?;
+    final rooms = [for (final r in w.rooms) if (kind == null || r['kind'] == kind) r];
+    final allocTeacher = widget.staff.where((s) => s['id'] == alloc?['teacherId']).firstOrNull?['name'];
+    return AlertDialog(
+      title: Text(widget.title),
+      content: SizedBox(
+        width: 420,
+        child: SingleChildScrollView(
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            if (w.allocations.isEmpty)
+              Text(tr('This section has no allocations yet: set them on the Allocations tab first.')),
+            DropdownButtonFormField<String?>(
+              key: const ValueKey('cell-subject'),
+              initialValue: _subject,
+              isExpanded: true,
+              decoration: InputDecoration(labelText: tr('Subject')),
+              items: [
+                DropdownMenuItem<String?>(value: null, child: Text(tr('Free period'))),
+                for (final a in w.allocations.values)
+                  DropdownMenuItem<String?>(
+                    value: a['subjectId'] as String,
+                    child: Text('${w.subjectName(a['subjectId'] as String)} (${a['periodsPerWeek']} ${tr('a week')})',
+                        overflow: TextOverflow.ellipsis),
+                  ),
+              ],
+              onChanged: (v) => setState(() {
+                _subject = v;
+                _teacher = null;
+                _room = null;
+              }),
+            ),
+            if (_subject != null) ...[
+              const Gap(8),
+              DropdownButtonFormField<String?>(
+                key: ValueKey('cell-teacher-$_subject'),
+                initialValue: widget.staff.any((s) => s['id'] == _teacher) ? _teacher : null,
+                isExpanded: true,
+                decoration: InputDecoration(labelText: tr('Teacher')),
+                items: [
+                  DropdownMenuItem<String?>(value: null,
+                      child: Text(allocTeacher == null ? tr('The allocation\'s teacher') : '$allocTeacher (${tr('allocated')})',
+                          overflow: TextOverflow.ellipsis)),
+                  for (final s in widget.staff)
+                    if (s['id'] != alloc?['teacherId'])
+                      DropdownMenuItem<String?>(value: s['id'] as String,
+                          child: Text(s['name'] as String, overflow: TextOverflow.ellipsis)),
+                ],
+                onChanged: (v) => setState(() => _teacher = v),
+              ),
+              const Gap(8),
+              DropdownButtonFormField<String?>(
+                key: ValueKey('cell-room-$_subject'),
+                initialValue: rooms.any((r) => r['id'] == _room) ? _room : null,
+                isExpanded: true,
+                decoration: InputDecoration(
+                    labelText: kind == null ? tr('Room') : '${tr('Room')} (${tr('needs a')} ${tr(kind)})'),
+                items: [
+                  DropdownMenuItem<String?>(value: null, child: Text(tr('Its own classroom'))),
+                  for (final r in rooms)
+                    DropdownMenuItem<String?>(value: r['id'] as String,
+                        child: Text(r['name'] as String, overflow: TextOverflow.ellipsis)),
+                ],
+                onChanged: (v) => setState(() => _room = v),
+              ),
+              SwitchListTile(
+                key: const ValueKey('cell-locked'),
+                contentPadding: EdgeInsets.zero,
+                title: Text(tr('Locked')),
+                subtitle: Text(tr('Generating the timetable again keeps this period where it is.')),
+                value: _locked,
+                onChanged: (v) => setState(() => _locked = v),
+              ),
+            ],
+          ]),
+        ),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context), child: Text(tr('Cancel'))),
+        FilledButton(
+          key: const ValueKey('cell-apply'),
+          onPressed: () => Navigator.pop(context, (
+            cell: _subject == null
+                ? null
+                : (subjectId: _subject!, teacherId: _teacher, roomId: _room, locked: _locked,
+                    coTeacherId: alloc?['coTeacherId'] as String?),
+          )),
+          child: Text(tr('Apply')),
+        ),
+      ],
+    );
+  }
+}
+

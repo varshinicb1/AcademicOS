@@ -96,7 +96,7 @@ def start_practice(req: PracticeRequest, current: User = Depends(get_current_use
             chapters = list(dict.fromkeys(r["chapter_id"] for r in revise if r["subject"] == subject))[:3]
     if subject is None:
         raise HTTPException(409, "choose a subject: nothing is marked yet to say which chapters to revise")
-    pool = hr._bank_questions(subject, grade, chapters or None)
+    pool = hr._usable(hr._bank_questions(subject, grade, chapters or None), current)
     if not pool:
         raise HTTPException(422, f"the question bank has no {subject} questions for class {grade} there yet")
     questions = pick(pool, recent=s.recently_answered(current.id), count=req.count,
@@ -132,7 +132,7 @@ def submit_practice(practice_id: str, req: PracticeSubmit, current: User = Depen
     known = {q["id"] for q in p["questions"]}
     if set(req.answers) - known:
         raise HTTPException(422, "those are not questions of this set")
-    _consent(current.school_id, current.id)
+    _consent(current.school_id, current.id, own=True)
     answers = {k: (v or "")[:5000] for k, v in req.answers.items()}
     evaluations, marks, _ = grade_answers(p["questions"], answers)
     p = store().finish_practice(p["id"], answers=answers, evaluations=evaluations, marks=marks)

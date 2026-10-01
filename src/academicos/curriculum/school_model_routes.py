@@ -261,10 +261,11 @@ def list_allocations(academic_year_id: str,
 
 @router.put("/sections/{section_id}/allocations/{subject_id}", response_model=AllocationResponse)
 def set_allocation(section_id: str, subject_id: str, req: AllocationRequest,
-                   principal: User = Depends(require_admin("timetable"))) -> AllocationResponse:
+                   principal: User = Depends(require_admin("timetable", scoped=True))) -> AllocationResponse:
     """Set one cell of the allocation grid: who teaches this subject to this
     section, and how many periods a week."""
     cr._require_school_owns_section(section_id, principal)
+    cr.require_section_in_scope(section_id, principal, "timetable", subject_id=subject_id)
     _staff_member(req.teacher_id, principal)
     sent = req.model_fields_set
     extra: dict[str, Any] = {}
@@ -302,9 +303,10 @@ def set_allocation(section_id: str, subject_id: str, req: AllocationRequest,
 
 @router.delete("/sections/{section_id}/allocations/{subject_id}")
 def delete_allocation(section_id: str, subject_id: str,
-                      principal: User = Depends(require_admin("timetable"))) -> dict:
+                      principal: User = Depends(require_admin("timetable", scoped=True))) -> dict:
     """409 while the timetable still gives the subject periods."""
     cr._require_school_owns_section(section_id, principal)
+    cr.require_section_in_scope(section_id, principal, "timetable", subject_id=subject_id)
     try:
         alloc = cr._require().delete_allocation(section_id, subject_id)
     except KeyError:
@@ -439,9 +441,11 @@ def delete_bell_schedule(bell_schedule_id: str, principal: User = Depends(requir
 
 @router.put("/sections/{section_id}/bell-schedule", response_model=SectionTimetableResponse)
 def set_section_bell(section_id: str, req: SectionBellRequest,
-                     principal: User = Depends(require_admin("timetable"))) -> SectionTimetableResponse:
+                     principal: User = Depends(require_admin("timetable", scoped=True))
+                     ) -> SectionTimetableResponse:
     """Give a section its own bell (null: the year's default)."""
     section = cr._require_school_owns_section(section_id, principal)
+    cr.require_section_in_scope(section_id, principal, "timetable")
     try:
         cr._require().set_section_bell(section_id, req.bell_schedule_id)
     except ValueError as e:
@@ -474,18 +478,53 @@ def section_timetable(section_id: str, current: User = Depends(require_staff)) -
     return _section_week(cr._require_school_owns_section(section_id, current))
 
 
+def _tell_timetable_change(principal: User, before: list, after: list, section_ids: set[str]) -> None:
+    """N-8-5: a changed week tells the people it changes. Each section whose
+    week differs tells its students; each teacher whose own periods in those
+    sections differ is told. A week saved unchanged tells no one. Both the
+    solver's publish and a hand-made week come through here; only the solver
+    used to notify, and only teachers."""
+    from ..operations.routes import notify_parents_safely, notify_safely
+
+    def section_week(entries: list, sid: str) -> set:
+        return {(e.day_of_week, e.period, e.subject_id, e.teacher_id, e.room_id, e.co_teacher_id)
+                for e in entries if e.section_id == sid}
+
+    changed = {sid for sid in section_ids if section_week(before, sid) != section_week(after, sid)}
+    if not changed:
+        return
+
+    def teacher_week(entries: list, t: str) -> set:
+        return {(e.section_id, e.day_of_week, e.period, e.subject_id, e.room_id)
+                for e in entries if e.section_id in changed and t in (e.teacher_id, e.co_teacher_id)}
+
+    teachers = sorted({t for e in before + after if e.section_id in changed for t in (e.teacher_id, e.co_teacher_id)
+                       if t and teacher_week(before, t) != teacher_week(after, t)})
+    store = cr._require()
+    students = sorted({en.student_id for sid in changed for en in store.enrollments_for_section(sid)})
+    for who in (teachers, students):
+        if who:
+            notify_safely(school_id=principal.school_id, user_ids=who, kind="timetable_published", params={},
+                          link="/my-timetable")
+    notify_parents_safely(school_id=principal.school_id, student_ids=students, kind="timetable_published",
+                          params={}, exclude=teachers)
+
+
 @router.put("/sections/{section_id}/timetable", response_model=SectionTimetableResponse)
 def replace_section_timetable(section_id: str, req: SectionTimetableRequest,
-                              principal: User = Depends(require_admin("timetable"))) -> SectionTimetableResponse:
+                              principal: User = Depends(require_admin("timetable", scoped=True))
+                              ) -> SectionTimetableResponse:
     """Replace a section's whole week. Checked before anything is written: a
     teacher or room already busy in another section, a period or day the
     bell does not have, a subject with no allocation or more periods than
     allocated. A 409 lists every clash; the old week is kept."""
     section = cr._require_school_owns_section(section_id, principal)
+    cr.require_section_in_scope(section_id, principal, "timetable")
     for e in req.entries:
         _staff_member(e.teacher_id, principal)
     store = cr._require()
-    before = len(store.timetable_for_section(section_id))
+    week_before = store.timetable_for_section(section_id)
+    before = len(week_before)
     try:
         store.replace_section_timetable(section_id, [e.model_dump() for e in req.entries])
     except TimetableClash as e:
@@ -495,6 +534,7 @@ def replace_section_timetable(section_id: str, req: SectionTimetableRequest,
         raise HTTPException(422, str(e))
     _audit("timetable_replaced", principal, {"sectionId": section_id, "before": before,
                                              "after": len(req.entries)})
+    _tell_timetable_change(principal, week_before, store.timetable_for_section(section_id), {section_id})
     return _section_week(store.get_section(section.id))
 
 
@@ -592,16 +632,15 @@ def solve_timetable(academic_year_id: str, req: SolveRequest,
     applied = False
     if req.apply and result.status == "solved":
         solving = section_ids or {s.id for s in store.sections_for_year(academic_year_id)}
+        week_before = [e for e in store.timetable_for_year(academic_year_id) if e.section_id in solving]
         store.apply_solved_timetable(academic_year_id, result.entries, solving)
         applied = True
         _audit("timetable_solved", principal,
                {"academicYearId": academic_year_id, "sections": len(solving), "kept": result.kept,
                 "movedOrAdded": result.moved_or_added, "removed": result.removed})
-        from ..operations.routes import notify_safely
-        teachers = sorted({t for e in result.entries if e.section_id in solving
-                           for t in (e.teacher_id, e.co_teacher_id) if t})
-        notify_safely(school_id=principal.school_id, user_ids=teachers, kind="timetable_published", params={},
-                      link="/my-timetable")
+        _tell_timetable_change(principal, week_before,
+                               [e for e in store.timetable_for_year(academic_year_id) if e.section_id in solving],
+                               solving)
     return SolveResponse(
         status=result.status, applied=applied, problems=result.problems, kept=result.kept,
         moved_or_added=result.moved_or_added, removed=result.removed, seconds=round(result.seconds, 2),
@@ -779,6 +818,10 @@ async def upload_school_logo(file: UploadFile = File(...),
         raise HTTPException(422, "the image is empty")
     if not _looks_like(file.content_type, data):
         raise HTTPException(415, "that file is not the PNG or JPEG image it says it is")
+    from .school_profile import image_is_printable
+    if not image_is_printable(data):
+        raise HTTPException(422, "that image could not be read; open it, save it again as a PNG or JPEG, "
+                                 "and upload the new file")
     key = save_logo(cr._cfg.data_root, profile, file.content_type, data)
     after = store.set_school_logo(principal.school_id, logo_type=file.content_type, blob_key=key,
                                   updated_by=principal.id)

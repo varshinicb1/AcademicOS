@@ -39,6 +39,15 @@ def bank_subject(name: str) -> str:
     return _SUBJECT_ALIASES.get(name.strip().lower(), name.strip())
 
 
+def _usable(questions: list[dict], current) -> list[dict]:
+    """Bank questions less those the caller's school rejected in its review
+    queue (operations/question_reviews.py). Applied here, at the draw, because
+    `_bank_questions` serves every school and tests replace it."""
+    from .question_reviews import rejected_for
+    rejected = rejected_for(current.school_id)
+    return [q for q in questions if q["id"] not in rejected] if rejected else questions
+
+
 def _bank_questions(subject: str, grade: int, chapter_ids: Optional[list[str]] = None) -> list[dict]:
     """Bank questions for a class, as the wire shape the bank serves
     (camelCase QuestionSchema dumps), optionally only those the chapter view
@@ -79,10 +88,12 @@ def _log_read(current: User, what: str, **kw: Any) -> None:
     record_pii_read(get_audit_log(cr._cfg.data_root), actor=current.id, what=what, **kw)
 
 
-def _consent(school_id: str, student_id: str) -> None:
-    from ..assessment.authz import require_consent
+def _consent(school_id: str, student_id: str, *, own: bool = False) -> None:
+    """`own`: the student (or their parent) is the caller, and reads a
+    refusal worded for them, not the staff wording (v3 audit N-5-1)."""
+    from ..assessment.authz import require_consent, require_own_consent
     from ..assessment.consent import get_consent_store
-    require_consent(get_consent_store(cr._cfg.data_root), school_id, student_id)
+    (require_own_consent if own else require_consent)(get_consent_store(cr._cfg.data_root), school_id, student_id)
 
 
 def _today() -> str:
@@ -329,6 +340,18 @@ def _notify_graded(hw: Homework, sub: Submission) -> None:
                   link=f"/my-homework/{hw.id}", dedupe_key=f"hwgraded:{hw.id}:{sub.student_id}:{sub.graded_at}")
 
 
+def _notify_submitted(hw: Homework, student: User) -> None:
+    """The teacher hears that work is coming in: once a day per homework,
+    with the count so far, not once per student (TA-7)."""
+    if not hw.teacher_id:
+        return
+    handed_in = len(store().submissions_for(hw.id))
+    notify_safely(school_id=hw.school_id, user_ids=[hw.teacher_id], kind="homework_submitted",
+                  params={"title": hw.title, "student": student.name, "count": handed_in,
+                          "total": len(_students(hw))},
+                  link=f"/homework/{hw.id}", dedupe_key=f"hwsubmitted:{hw.id}:{_today()}")
+
+
 def _notify_assigned(hw: Homework) -> None:
     students = [sid for sid, _ in _students(hw)]
     if students:
@@ -373,7 +396,8 @@ def suggest(section_id: str = Query(alias="sectionId"), subject_id: str = Query(
     topic = cs.get_topic(subtopic.topic_id) if subtopic else None
     chapter = cs.get_chapter(topic.chapter_id) if topic else None
     matched = [c for c in chapters if chapter and _name_key(c.chapter_name) == _name_key(chapter.name)]
-    questions = _bank_questions(subject.name, grade.number, [c.chapter_id for c in matched]) if matched else []
+    questions = (_usable(_bank_questions(subject.name, grade.number, [c.chapter_id for c in matched]), current)
+                 if matched else [])
     note = None if matched else (
         f"The question bank has no chapter named '{chapter.name if chapter else ''}' for this class -- the "
         "school's book and the bank may be different editions. Pick chapters from the list.")
@@ -407,14 +431,19 @@ def create_homework(req: HomeworkCreateRequest, current: User = Depends(require_
         raise HTTPException(422, "the due date has already passed")
 
     if req.question_ids:
-        bank = {q["id"]: q for q in _bank_questions(subject.name, grade.number)}
+        whole = {q["id"]: q for q in _bank_questions(subject.name, grade.number)}
+        bank = {q["id"]: q for q in _usable(list(whole.values()), current)}
+        refused = [qid for qid in req.question_ids if qid in whole and qid not in bank]
+        if refused:
+            raise HTTPException(422, "your school's reviewers rejected the answer to "
+                                     + ", ".join(refused[:5]) + "; choose another question")
         missing = [qid for qid in req.question_ids if qid not in bank]
         if missing:
             raise HTTPException(422, f"not in the question bank for class {grade.number} {subject.name}: "
                                      + ", ".join(missing[:5]))
         questions = [bank[qid] for qid in dict.fromkeys(req.question_ids)]
     elif req.chapter_ids:
-        pool = _bank_questions(subject.name, grade.number, req.chapter_ids)
+        pool = _usable(_bank_questions(subject.name, grade.number, req.chapter_ids), current)
         if req.types:
             pool = [q for q in pool if q.get("type") in set(req.types)]
         if req.difficulties:
@@ -609,7 +638,7 @@ def submit(homework_id: str, req: SubmitRequest, current: User = Depends(get_cur
     stray = sorted(set(req.answers) - {q["id"] for q in hw.questions})
     if stray:
         raise HTTPException(422, "these are not questions of this homework: " + ", ".join(stray[:5]))
-    _consent(hw.school_id, current.id)
+    _consent(hw.school_id, current.id, own=True)
     try:
         sub = store().submit_homework(hw, student_id=current.id, section_id=enrollment.section_id,
                                       answers={k: (v or "")[:5000] for k, v in req.answers.items()},
@@ -619,4 +648,5 @@ def submit(homework_id: str, req: SubmitRequest, current: User = Depends(get_cur
         raise HTTPException(409, str(e))
     if sub.status == "graded":
         _notify_graded(hw, sub)
+    _notify_submitted(hw, current)
     return my_homework_detail(homework_id, current)

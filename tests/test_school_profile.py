@@ -170,3 +170,58 @@ def test_routes_set_the_profile_and_logo_and_the_export_prints_them(tmp_path, mo
         assert export["school_profile"]["name"] == "Sunrise Public School"
     finally:
         client.__exit__(None, None, None)
+
+
+def test_the_word_file_and_the_answer_key_carry_the_logo_and_the_traceable_id(tmp_path, monkeypatch):
+    """v3 audit N-2-9: after a logo upload the Word file held no image (0 files
+    in word/media on 42/42) while the PDF printed it, and the answer key had
+    no traceable-copy id and no class, subject, time or marks line."""
+    import xml.etree.ElementTree as ET
+    import zipfile
+
+    import fitz
+    from academicos.assessment.audit_log import get_audit_log
+    from test_assessment_routes_auth import _register
+
+    client, teacher_auth, paper_id = _boot_with_paper(tmp_path, monkeypatch)
+    try:
+        principal = _register(client, "school_1", "p1@example.com", "Priya", principal_key="test-bootstrap-key")
+        p_auth = {"Authorization": f"Bearer {principal['token']}"}
+        base = "/api/v1/curriculum/school-profile"
+        # Before a logo: the Word file has no picture and no dangling reference.
+        client.put(base, json={"name": "Sunrise Public School"}, headers=p_auth)
+        r = client.post(f"/api/v1/papers/{paper_id}/export/docx", headers=teacher_auth)
+        plain = zipfile.ZipFile(io.BytesIO(client.get(r.json()["url"], headers=teacher_auth).content))
+        assert not [n for n in plain.namelist() if n.startswith("word/media/")]
+        assert "rIdLogo" not in plain.read("word/document.xml").decode()
+
+        logo = _png(8, 4)                                   # wider than tall: kept 2:1, not squashed
+        assert client.post(f"{base}/logo", files={"file": ("l.png", logo, "image/png")},
+                           headers=p_auth).status_code == 200
+        r = client.post(f"/api/v1/papers/{paper_id}/export/docx", headers=teacher_auth)
+        assert r.status_code == 200, r.text
+        word = zipfile.ZipFile(io.BytesIO(client.get(r.json()["url"], headers=teacher_auth).content))
+        assert word.read("word/media/logo.png") == logo
+        document = word.read("word/document.xml").decode()
+        ET.fromstring(document)                            # well-formed with the drawing in it
+        assert 'r:embed="rIdLogo"' in document and "Sunrise Public School" in document
+        assert 'cx="648000" cy="324000"' in document       # 18 mm wide, aspect kept
+        assert 'Target="media/logo.png"' in word.read("word/_rels/document.xml.rels").decode()
+        assert 'Extension="png" ContentType="image/png"' in word.read("[Content_Types].xml").decode()
+
+        key = client.post(f"/api/v1/papers/{paper_id}/export/answer-key", headers=teacher_auth)
+        assert key.status_code == 200, key.text
+        wid = key.json()["watermarkId"]
+        pdf = client.get(key.json()["url"], headers=teacher_auth)
+        (tmp_path / "key.pdf").write_bytes(pdf.content)
+        text = " ".join(_extract_text(tmp_path / "key.pdf").split())
+        for expected in (f"Confidential — traceable copy {wid}", "Subject: Mathematics | Class: 10",
+                         "Time Allowed: 3 hours | Maximum Marks:", "MARKING SCHEME", "Q.P. Code",
+                         "Page 1 of 1", "Sunrise Public School"):
+            assert expected in text, expected
+        with fitz.open(str(tmp_path / "key.pdf")) as doc:
+            assert doc[0].get_images(), "the key prints the logo as the paper does"
+        audited = get_audit_log(tmp_path).for_action("answer_key_exported")
+        assert any(e["details"]["watermarkId"] == wid for e in audited)
+    finally:
+        client.__exit__(None, None, None)

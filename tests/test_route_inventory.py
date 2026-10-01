@@ -75,6 +75,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/auth/logout"),
     ("GET", "/api/v1/auth/me"),
     ("GET", "/api/v1/auth/users"),
+    ("POST", "/api/v1/auth/users/{user_id}/close"),
+    ("POST", "/api/v1/auth/users/{user_id}/reopen"),
     ("POST", "/api/v1/auth/invites"),
     ("GET", "/api/v1/auth/invites"),
     ("DELETE", "/api/v1/auth/invites/{code}"),
@@ -215,6 +217,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/dashboard/term/export"),
     ("GET", "/api/v1/calendar-feed"),
     ("POST", "/api/v1/calendar-feed/reset"),
+    ("GET", "/api/v1/my-calendar"),
+    ("GET", "/api/v1/my-load"),
     ("GET", "/api/v1/ics/{token}.ics"),
     ("POST", "/v1/homework-sets"),
     ("POST", "/api/v1/my-homework/{homework_id}/photos"),
@@ -230,6 +234,9 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/auth/code/request"),
     ("POST", "/api/v1/auth/code/verify"),
     ("GET", "/api/v1/auth/providers"),
+    ("GET", "/api/v1/qbank/coverage-map"),
+    ("GET", "/api/v1/qbank/review-queue"),
+    ("POST", "/api/v1/qbank/review/{question_id}"),
     ("POST", "/api/v1/auth/google"),
     ("GET", "/api/v1/homework/suggestion"),
     ("POST", "/api/v1/homework"),
@@ -382,6 +389,8 @@ DOC_ROUTES: frozenset[tuple[str, str]] = frozenset({
 # uninitialized. The startup-free tests below drive exactly that split; the
 # full-boot group exercises the real 401/403/404 paths.
 AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
+    # NFR-2: which mail backends are set up is not public.
+    ("GET", "/api/v1/mail/status"),
     # INT-2: the caller's own number (authenticates first).
     ("GET", "/api/v1/me/contact"),
     ("PUT", "/api/v1/me/contact"),
@@ -423,6 +432,8 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     # --- auth_routes.py (identity reads + principal approval) ---
     ("GET", "/api/v1/auth/me"),
     ("GET", "/api/v1/auth/users"),
+    ("POST", "/api/v1/auth/users/{user_id}/close"),
+    ("POST", "/api/v1/auth/users/{user_id}/reopen"),
     # Invites are principal-only (require_principal -> get_current_user).
     ("POST", "/api/v1/auth/invites"),
     ("GET", "/api/v1/auth/invites"),
@@ -531,9 +542,14 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/staff"),
     ("GET", "/api/v1/dashboard/summary"),
     ("GET", "/api/v1/dashboard/term"),
+    ("GET", "/api/v1/qbank/coverage-map"),
+    ("GET", "/api/v1/qbank/review-queue"),
+    ("POST", "/api/v1/qbank/review/{question_id}"),
     ("GET", "/api/v1/dashboard/term/export"),
     ("GET", "/api/v1/calendar-feed"),
     ("POST", "/api/v1/calendar-feed/reset"),
+    ("GET", "/api/v1/my-calendar"),
+    ("GET", "/api/v1/my-load"),
     ("POST", "/api/v1/my-homework/{homework_id}/photos"),
     ("GET", "/api/v1/my-homework/{homework_id}/photos"),
     ("GET", "/api/v1/my-homework/{homework_id}/photos/{photo_id}"),
@@ -950,8 +966,12 @@ def test_canonical_route_inventory_matches_live_app():
     # 299: SCH-8 added a room's periods out of use (list, set); EX-5/D41 the school
     # profile (get, set) and its logo (get, upload, remove).
     # 302: NFR-7 error tracking (/health/errors, client reports, the operator's list).
-    # 307: EX-8 report cards (a student's, as JSON and PDF; a section's PDF).
-    assert len(API_ROUTES) == 307
+    # 304: INT-2 a person's own number and SMS/WhatsApp consent (get, set).
+    # 307: the question bank's coverage map and review queue (3).
+    # 309: closing and reopening an account (N-67-8).
+    # 311: TA-2 the caller's own calendar and teaching load in the apps.
+    # 314: EX-8 report cards (a student's, as JSON and PDF; a section's PDF).
+    assert len(API_ROUTES) == 314
 
 
 def test_docs_routes_present():
@@ -990,7 +1010,7 @@ def test_non_gated_routes_work_without_startup():
         assert client.post(
             "/api/v1/blueprints/generate", json=blueprint_body()
         ).status_code == 401
-        assert client.get("/api/v1/mail/status").status_code == 200
+        assert client.get("/api/v1/mail/status").status_code == 401
         assert client.get("/api/v1/auth/providers").status_code == 200
 
         assert client.get("/api/v1/syllabus/Science/10").status_code == 200
@@ -1027,9 +1047,8 @@ def test_gated_routes_return_503_without_startup():
                 ("POST", "/api/v1/client-errors"),
                 ("GET", "/api/v1/ops/errors"),
                 ("POST", "/api/v1/blueprints/generate"),
-                ("GET", "/api/v1/mail/status"),
                 # Which ways in are set up: read from the environment, so it
-                # answers before startup like /mail/status (asserted above).
+                # answers before startup.
                 ("GET", "/api/v1/auth/providers"),
                 ("GET", "/api/v1/syllabus/{subject}/{grade}"),
                 ("GET", "/api/v1/syllabus/{subject}/{grade}/timetable"),
@@ -3076,7 +3095,7 @@ def test_full_boot_assessment_lifecycle(tmp_path, monkeypatch):
 
         exported = client.post(f"/api/v1/papers/{paper_id}/export/pdf", headers=auth)
         assert exported.status_code == 200, exported.text
-        assert exported.json()["url"] == f"/api/v1/papers/{paper_id}/file"
+        assert exported.json()["url"] == f"/api/v1/papers/{paper_id}/file?export={exported.json()['watermarkId']}"
         # docx is an export since EX-5 (tests/test_paper_docx.py); an unknown format is still refused
         assert client.post(
             f"/api/v1/papers/{paper_id}/export/docx", headers=auth,

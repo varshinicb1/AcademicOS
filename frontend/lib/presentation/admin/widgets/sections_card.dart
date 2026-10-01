@@ -292,14 +292,14 @@ class _SectionDialogState extends State<_SectionDialog> {
             key: const ValueKey('section-name'),
             controller: _name,
             maxLength: 20,
-            decoration: const InputDecoration(labelText: 'Section name', hintText: 'A', border: OutlineInputBorder()),
+            decoration: const InputDecoration(labelText: 'Section name', hintText: 'A'),
           ),
           const Gap(8),
           DropdownButtonFormField<String?>(
             key: const ValueKey('section-teacher'),
             initialValue: _teacherId,
             isExpanded: true,
-            decoration: const InputDecoration(labelText: 'Class teacher', border: OutlineInputBorder()),
+            decoration: const InputDecoration(labelText: 'Class teacher'),
             items: [
               const DropdownMenuItem<String?>(value: null, child: Text('No class teacher')),
               if (_currentIsUnlisted)

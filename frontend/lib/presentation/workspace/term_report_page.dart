@@ -7,6 +7,7 @@ import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'strings.dart';
 import 'teacher_homework.dart' show TeachingContext;
+import '../shared/widgets/shell.dart';
 
 /// The term at a glance (ADM-2) for the principal or a reports admin:
 /// syllabus against plan, exams and papers, time saved (estimated),
@@ -23,6 +24,9 @@ class TermReportPage extends StatefulWidget {
 class _TermReportPageState extends State<TermReportPage> {
   TeachingContext? _ctx;
   String? _filtersError;
+  List<Map<String, dynamic>> _terms = const [];
+  String? _term;
+  String? _termsError;
   int? _grade;
   String? _section;
   String? _subject;
@@ -32,14 +36,22 @@ class _TermReportPageState extends State<TermReportPage> {
   @override
   void initState() {
     super.initState();
-    TeachingContext.load().then((c) {
+    TeachingContext.load().then((c) async {
       if (mounted) setState(() => _ctx = c);
+      // The terms of the same year, so any term can be reported (N-67-7).
+      try {
+        final terms = await Ops.list('/curriculum/academic-years/${c.yearId}/terms');
+        if (mounted) setState(() => _terms = terms);
+      } catch (e) {
+        if (mounted) setState(() => _termsError = serverErrorMessage(e));
+      }
     }, onError: (Object e) {
       if (mounted) setState(() => _filtersError = serverErrorMessage(e));
     });
   }
 
   Map<String, dynamic> get _query => {
+        if (_term != null) 'termId': _term,
         if (_grade != null) 'grade': _grade,
         if (_section != null) 'sectionId': _section,
         if (_subject != null) 'subject': _subject,
@@ -65,7 +77,7 @@ class _TermReportPageState extends State<TermReportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Term report')), actions: [
+      appBar: destinationAppBar(context, title: Text(tr('Term report')), actions: [
         IconButton(tooltip: tr('Download Excel'), onPressed: _downloading ? null : () => _download('xlsx'),
             icon: const Icon(Icons.grid_on_outlined)),
         IconButton(tooltip: tr('Download PDF'), onPressed: _downloading ? null : () => _download('pdf'),
@@ -100,6 +112,23 @@ class _TermReportPageState extends State<TermReportPage> {
       ..sort((a, b) => a.value.compareTo(b.value));
     final subjects = ctx.subjectNames.values.toSet().toList()..sort();
     return Wrap(spacing: 12, runSpacing: 8, children: [
+      if (_termsError != null)
+        Text('${tr('Terms are not available')}: $_termsError',
+            style: TextStyle(color: Theme.of(context).colorScheme.error)),
+      if (_terms.isNotEmpty)
+        DropdownButton<String?>(
+          key: const Key('term-picker'),
+          value: _term,
+          hint: Text(tr('This term')),
+          items: [
+            DropdownMenuItem(value: null, child: Text(tr('This term'))),
+            for (final t in _terms) DropdownMenuItem(value: t['id'] as String, child: Text(t['name'] as String)),
+          ],
+          onChanged: (t) {
+            _term = t;
+            _reload();
+          },
+        ),
       DropdownButton<int?>(
         value: _grade,
         hint: Text(tr('All classes')),

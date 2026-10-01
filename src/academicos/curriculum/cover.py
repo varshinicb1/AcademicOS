@@ -703,9 +703,11 @@ class CoverMixin:
         rows = self._lost_where("id=?", (lost_id,))
         return rows[0] if rows else None
 
-    def declare_closure(self, academic_year_id: str, on: str, *, reason: str) -> list[LostPeriod]:
+    def declare_closure(self, academic_year_id: str, on: str, *, reason: str,
+                        section_ids: Optional[set[str]] = None) -> list[LostPeriod]:
         """A day that stops being taught at short notice (or after the fact):
-        every section's timetabled periods that day are lost periods. The
+        every section's timetabled periods that day are lost periods -- or
+        only `section_ids`' (some classes out: a trip, an exam hall). The
         caller adds the holiday to the calendar and reflows the plans."""
         year = self.get_academic_year(academic_year_id)
         if year is None:
@@ -718,12 +720,20 @@ class CoverMixin:
             for e in self.timetable_for_year(academic_year_id):
                 if e.day_of_week != wd:
                     continue
+                if section_ids is not None and e.section_id not in section_ids:
+                    continue
                 if self._lost_where("date=? AND section_id=? AND period=?", (on, e.section_id, e.period)):
                     continue
                 out.append(self._insert_lost(year.school_id, academic_year_id, e.section_id, e.subject_id,
                                              on, e.period, f"closure: {reason}", None))
-            self._exec("UPDATE substitutions SET status='cancelled', updated_at=? WHERE academic_year_id=? "
-                       "AND date=? AND status<>'resolved'", (_now(), academic_year_id, on))
+            if section_ids is None:
+                self._exec("UPDATE substitutions SET status='cancelled', updated_at=? WHERE academic_year_id=? "
+                           "AND date=? AND status<>'resolved'", (_now(), academic_year_id, on))
+            else:
+                for sid in sorted(section_ids):
+                    self._exec("UPDATE substitutions SET status='cancelled', updated_at=? WHERE "
+                               "academic_year_id=? AND date=? AND section_id=? AND status<>'resolved'",
+                               (_now(), academic_year_id, on, sid))
         self._commit()
         return out
 
@@ -793,6 +803,12 @@ class CoverMixin:
 
     # ---------------- the day (what actually happens) ----------------
 
+    def handover_for(self, sub: "Substitution") -> Optional[str]:
+        """The absent teacher's note for whoever covers: the leave's handover
+        note, else the substitution's own note."""
+        leave = self.get_leave(sub.leave_id) if sub.leave_id else None
+        return (leave.handover_note if leave and leave.handover_note else None) or sub.note
+
     def day_view(self, academic_year_id: str, on: str, *, section_id: Optional[str] = None,
                  teacher_id: Optional[str] = None) -> list[dict[str, Any]]:
         """One day as it will run: the week's periods, with that day's
@@ -852,6 +868,11 @@ class CoverMixin:
                     row = {**row, "kind": "away", "note": "on leave; see the handover" if s else row["note"]}
                 elif not mine and row["teacherId"] != teacher_id:
                     continue
+                elif not mine and s is not None:
+                    # The cover teacher reads what the absent teacher left for
+                    # them: the note was stored on the leave and reached no one
+                    # (v3 audit N-4-3, N-3-13).
+                    row = {**row, "note": self.handover_for(s) or row["note"]}
             rows.append(row)
         for lp in self._lost_where("academic_year_id=? AND compensation_date=? AND status='compensated'",
                                    (academic_year_id, on)):

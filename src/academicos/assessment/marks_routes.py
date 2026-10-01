@@ -22,7 +22,7 @@ from ..curriculum import routes as cr
 from ..curriculum.schemas import Camel
 from ..operations.routes import store as ops
 from .auth_routes import require_staff
-from .authz import require_consent_for_all, require_school_owns_paper
+from .authz import require_consent_for_all, require_school_owns_paper, student_names, students_without_consent
 from .users import User
 
 router = APIRouter(prefix="/api/v1")
@@ -74,6 +74,10 @@ class MarksGrid(Camel):
     total_marks: int
     questions: list[GridQuestion]
     rows: list[GridRow]
+    # Students whose marks this save left out because no parental consent is
+    # on file, by name. One such student refused the whole section's marks,
+    # naming an internal id (v3 audit N-4-5).
+    without_consent: list[str] = []
 
 
 class QuestionAnalysis(Camel):
@@ -227,6 +231,61 @@ def _feed_learning(paper, assessment, per_student: dict[str, dict[str, float]]) 
         logging.getLogger(__name__).warning("paper %s: learning evidence not recorded", paper.id, exc_info=True)
 
 
+def may_enter_marks(current: User, assessment) -> bool:
+    """Who may write marks on a paper: the principal, the paper's author, a
+    teacher the principal made an exams admin for its class, or a teacher of
+    its subject in its class (either teacher of a co-taught cell). Any staff
+    member of the school could overwrite any paper's marks (E2E run on
+    production's commit, 2026-10-01); reading the grid stays open to staff."""
+    from .auth_routes import holds
+    if current.role == "principal":
+        return True
+    if assessment is None:
+        return False
+    if assessment.teacher_id == current.id:
+        return True
+    try:
+        grade = int(assessment.grade)
+    except (TypeError, ValueError):
+        return False
+    if holds(current, "exams", grade=grade):
+        return True
+    store = cr._require()
+    cells = store.allocations_for_teacher(current.id) + store.co_taught_allocations(current.id)
+    for cell in cells:
+        subject = store.get_subject(cell.subject_id)
+        g = store.get_grade(subject.grade_id) if subject else None
+        if subject and g and g.number == grade and subject.name.casefold() == str(assessment.subject).casefold():
+            return True
+    return False
+
+
+def chapters_by_student_from_marks(school_id: str) -> dict[str, dict[str, set[str]]]:
+    """{assessment id: {student id: the chapter ids of the questions they have
+    marks on}} for the school's papers with marks typed into the grid -- the
+    same shape `GradedStore.chapters_by_student` gives for scanned sheets.
+    School insights read only scanned sheets and showed 0 students and 0
+    papers for a school that entered its marks by hand (E2E run, 2026-10-01)."""
+    from . import routes as ar
+    if ar._papers is None:
+        return {}
+    papers, assessments = ar._papers, ar._require()[1]
+    out: dict[str, dict[str, set[str]]] = {}
+    # From the papers that have marks, not every paper (and set) the school
+    # has: a school's hundreds of papers were each read and queried.
+    for paper_id in ops().papers_with_marks():
+        paper = papers.get(paper_id)
+        assessment = assessments.get(paper.assessment_id) if paper is not None else None
+        if assessment is None or assessment.school_id != school_id:
+            continue
+        marks = ops().marks_for(paper.id)
+        schemas = _schemas(assessment, {q for m in marks.values() for q in m})
+        per = out.setdefault(paper.assessment_id, {})
+        for sid, m in marks.items():
+            per.setdefault(sid, set()).update(c for qid in m for c in (schemas[qid].chapter_ids if qid in schemas else []))
+    return out
+
+
 # ---------------- routes ----------------
 
 @router.put("/papers/{paper_id}/marks", response_model=MarksGrid)
@@ -237,6 +296,9 @@ def enter_marks(paper_id: str, req: MarksRequest, section_id: Optional[str] = Qu
     from ..assessment.audit_log import get_audit_log
     from ..assessment.consent import get_consent_store
     paper, assessment = _paper(paper_id, current)
+    if not may_enter_marks(current, assessment):
+        raise HTTPException(403, "only the paper's author, a teacher of its subject in its class, "
+                                 "an exams admin or the principal enters marks on it")
     maxes = {q.question_id: q.max_marks for q in _questions(paper)}
     users = cr._require_users()
     students = {e.student_id for e in req.entries} | set(req.absent) | set(req.present)
@@ -251,18 +313,40 @@ def enter_marks(paper_id: str, req: MarksRequest, section_id: Optional[str] = Qu
             raise HTTPException(422, f"{e.question_id} is out of {maxes[e.question_id]}; {e.marks:g} is too many")
     if set(req.absent) & {e.student_id for e in req.entries}:
         raise HTTPException(422, "a student cannot be absent and have marks")
-    require_consent_for_all(get_consent_store(cr._cfg.data_root), current.school_id,
-                            {e.student_id for e in req.entries})
-    ops().save_marks(paper.id, [(e.student_id, e.question_id, e.marks) for e in req.entries],
+    consents = get_consent_store(cr._cfg.data_root)
+    marked = sorted({e.student_id for e in req.entries})
+    missing = students_without_consent(consents, current.school_id, marked)
+    if missing and len(missing) == len(marked):
+        require_consent_for_all(consents, current.school_id, marked)      # 409 naming them
+    entries = [e for e in req.entries if e.student_id not in set(missing)]
+    ops().save_marks(paper.id, [(e.student_id, e.question_id, e.marks) for e in entries],
                      absent=req.absent, present=req.present, entered_by=current.id)
     get_audit_log(cr._cfg.data_root).append(
         "marks_entered", assessment_id=paper.assessment_id, actor=current.id,
-        details={"schoolId": current.school_id, "paperId": paper.id, "cells": len(req.entries),
-                 "students": len({e.student_id for e in req.entries}), "absent": len(req.absent)})
-    if assessment is not None and req.entries:
+        details={"schoolId": current.school_id, "paperId": paper.id, "cells": len(entries),
+                 "students": len({e.student_id for e in entries}), "absent": len(req.absent),
+                 "withoutConsent": len(missing)})
+    if assessment is not None and entries:
         all_marks = ops().marks_for(paper.id)
-        _feed_learning(paper, assessment, {sid: all_marks.get(sid, {}) for sid in {e.student_id for e in req.entries}})
-    return _grid(paper, section_id, current)
+        _feed_learning(paper, assessment, {sid: all_marks.get(sid, {}) for sid in {e.student_id for e in entries}})
+        _tell_results(paper, assessment, {e.student_id for e in entries}, all_marks)
+    return _grid(paper, section_id, current).model_copy(update={"without_consent": student_names(missing)})
+
+
+def _tell_results(paper, assessment, students: set[str], all_marks: dict[str, dict[str, float]]) -> None:
+    """Each student whose marks were entered, and their parents, hear their
+    total once per paper (SA-5: only homework results were ever sent). Later
+    corrections are seen in the app; they are not sent again."""
+    from ..operations.routes import notify_parents_safely, notify_safely
+    total = sum(q.max_marks for q in _questions(paper))
+    for sid in sorted(students):
+        got = sum(all_marks.get(sid, {}).values())
+        params = {"title": paper.metadata.assessment_title, "subject": assessment.subject,
+                  "marks": f"{got:g} out of {total}"}
+        notify_safely(school_id=assessment.school_id, user_ids=[sid], kind="test_marks", params=params,
+                      link="/my-learning", dedupe_key=f"testmarks:{paper.id}:{sid}")
+        notify_parents_safely(school_id=assessment.school_id, student_ids=[sid], kind="test_marks",
+                              params=params, dedupe_key=f"testmarks-parent:{paper.id}:{sid}")
 
 
 @router.get("/papers/{paper_id}/marks", response_model=MarksGrid)

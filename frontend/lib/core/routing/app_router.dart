@@ -35,6 +35,7 @@ import '../../presentation/shared/widgets/shell.dart';
 import '../../presentation/workspace/admin_pages.dart';
 import '../../presentation/workspace/app_mode.dart';
 import '../../presentation/workspace/class_progress_page.dart';
+import '../../presentation/workspace/question_bank_console.dart';
 import '../../presentation/workspace/term_report_page.dart';
 import '../../presentation/workspace/cover_pages.dart';
 import '../../presentation/workspace/exams_page.dart';
@@ -48,10 +49,13 @@ import '../../presentation/workspace/teacher_homework.dart';
 import '../../presentation/workspace/week_page.dart';
 import '../../presentation/workspace/workspace_page.dart';
 import '../../presentation/workspace/timetable_admin_page.dart';
+import '../../presentation/workspace/lesson_plan_page.dart';
+import '../../presentation/workspace/periods_owed_page.dart';
 import '../../presentation/workspace/school_profile_page.dart';
 import '../../presentation/workspace/report_cards_page.dart';
 import '../session/current_session.dart';
 import '../local_engine/local_store.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final router = GoRouter(
@@ -270,6 +274,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(path: 'api-keys', builder: (context, state) => const ApiKeysPage()),
               GoRoute(path: 'grants', builder: (context, state) => const GrantsPage()),
               GoRoute(path: 'timetable', builder: (context, state) => const TimetableAdminPage()),
+              GoRoute(path: 'lesson-plans', builder: (context, state) => const LessonPlanPage()),
+              GoRoute(path: 'periods-owed', builder: (context, state) => const PeriodsOwedPage()),
               GoRoute(path: 'school-profile', builder: (context, state) => const SchoolProfilePage()),
               GoRoute(path: 'report-cards', builder: (context, state) => const ReportCardsPage()),
               GoRoute(path: 'my-report-card', builder: (context, state) =>
@@ -277,6 +283,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(path: 'today', builder: (context, state) => const StudentTodayPage()),
               GoRoute(path: 'week', builder: (context, state) => const WeekPage()),
               GoRoute(path: 'class-progress', builder: (context, state) => const ClassProgressPage()),
+              GoRoute(path: 'question-bank',
+                  builder: (context, state) => QuestionBankConsolePage(canReview: state.uri.queryParameters['review'] == '1')),
               GoRoute(path: 'term-report', builder: (context, state) => const TermReportPage()),
               GoRoute(path: 'practice/:id',
                   builder: (context, state) => PracticePage(practiceId: state.pathParameters['id']!)),
@@ -352,7 +360,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.error_outline, size: 64, color: Colors.red),
+            const Icon(Icons.error_outline, size: 64, color: AppColors.danger),
             const SizedBox(height: 16),
             Text(
               'Page not found',
@@ -422,5 +430,8 @@ String? roleLanding(String location,
   if (mode != AppMode.console && role.isNotEmpty) return appHome(mode, role: role);
   if (role == 'parent') return '/school/family';
   if (role == 'student') return '/school';
+  // The principal's first screen is the school at a glance (Overview), not
+  // a teacher's day.
+  if (role == 'principal') return '/school';
   return null;
 }

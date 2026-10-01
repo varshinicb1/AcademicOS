@@ -1,5 +1,6 @@
 """The paper review workflow (EX-6): draft -> reviewer (the HOD, or any
-teacher the author names) -> principal approval -> locked.
+teacher the author names) -> principal approval -> locked. When the reviewer
+is the principal, approving the review is that approval and locks the paper.
 
 The author, or the principal, asks one staff member to review; the paper is
 then "underReview". The reviewer approves it for the principal or sends it
@@ -128,18 +129,32 @@ def decide_review(assessment_id: str, req: ReviewDecision, current: User = Depen
     before = a.status
     if state == "changes_requested":
         _set_status(a, "paperGenerated")
+    # The principal's approval is the final one: approving a review they were
+    # asked for left the paper "under review", waiting for the principal to
+    # approve it a second time from the paper (E2E run, 2026-10-01).
+    locked = state == "approved" and current.role == "principal"
+    if locked:
+        from .routes import approve_assessment
+        a = approve_assessment(a.id, principal=current)
     _audit("paper_review_decided", current, a.id, {"reviewId": r["id"], "decision": state, "before": before,
                                                     "after": a.status})
     notify_safely(school_id=current.school_id, user_ids=[a.teacher_id], kind="paper_review_decided",
                   params={"title": a.title, "reviewer": current.name,
-                          "decision": "approved it for the principal" if state == "approved" else "asked for changes",
+                          "decision": ("approved and locked it" if locked
+                                       else "approved it for the principal" if state == "approved"
+                                       else "asked for changes"),
+                          "decision_hi": ("स्वीकृत कर लॉक किया" if locked
+                                          else "प्रधानाचार्य के लिए स्वीकृत किया" if state == "approved"
+                                          else "बदलाव माँगे"),
                           "comment": r["comment"] or ""},
                   link=f"/assessments/{a.id}", dedupe_key=f"reviewed:{r['id']}")
-    if state == "approved":
+    if state == "approved" and not locked:
         principals = [u.id for u in cr._require_users().users_for_school(current.school_id, role="principal")]
         notify_safely(school_id=current.school_id, user_ids=principals, kind="principal_alert",
                       params={"title": f"Paper ready to approve: {a.title}",
-                              "body": f"{current.name} reviewed it and approved it for you."},
+                              "body": f"{current.name} reviewed it and approved it for you.",
+                              "title_hi": f"स्वीकृति हेतु प्रश्नपत्र तैयार: {a.title}",
+                              "body_hi": f"{current.name} ने इसकी समीक्षा कर आपके लिए स्वीकृत किया है।"},
                       link=f"/assessments/{a.id}", dedupe_key=f"ready:{r['id']}")
     return _out(r, a.title)
 

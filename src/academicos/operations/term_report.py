@@ -210,8 +210,10 @@ def _resolve(current: User, term_id: Optional[str]) -> tuple[str, Scope]:
 
 
 def _syllabus(current: User, year_id: str, scope: Scope, f: _Filter) -> Syllabus:
+    # A term's syllabus is its own lessons, not the year's so far (N-67-6).
+    term = (scope.start_date, scope.end_date) if scope.kind == "term" else (None, None)
     data = cr._require().get_coverage_report(school_id=current.school_id, academic_year_id=year_id,
-                                             as_of_date=scope.as_of)
+                                             as_of_date=scope.as_of, from_date=term[0], to_date=term[1])
     rows = []
     for s in data["subjects"]:
         if not f.keep(s["grade_number"], s["subject_name"], s.get("section_id")):

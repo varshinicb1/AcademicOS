@@ -1978,6 +1978,62 @@
         "title": "BulkAwardResponse",
         "type": "object"
       },
+      "CalendarItem": {
+        "properties": {
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "endDate": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Enddate"
+          },
+          "endTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Endtime"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "startTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starttime"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "title",
+          "date"
+        ],
+        "title": "CalendarItem",
+        "type": "object"
+      },
       "CalendarResponse": {
         "properties": {
           "academicYearId": {
@@ -2186,6 +2242,63 @@
           "totalQuestions"
         ],
         "title": "CatalogResponse",
+        "type": "object"
+      },
+      "ChapterCount": {
+        "properties": {
+          "byDifficulty": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Bydifficulty",
+            "type": "object"
+          },
+          "byType": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Bytype",
+            "type": "object"
+          },
+          "chapterId": {
+            "title": "Chapterid",
+            "type": "string"
+          },
+          "chapterName": {
+            "title": "Chaptername",
+            "type": "string"
+          },
+          "checked": {
+            "title": "Checked",
+            "type": "integer"
+          },
+          "published": {
+            "title": "Published",
+            "type": "integer"
+          },
+          "questions": {
+            "title": "Questions",
+            "type": "integer"
+          },
+          "topics": {
+            "items": {
+              "$ref": "#/components/schemas/TopicCount"
+            },
+            "title": "Topics",
+            "type": "array"
+          }
+        },
+        "required": [
+          "chapterId",
+          "chapterName",
+          "questions",
+          "published",
+          "checked",
+          "byType",
+          "byDifficulty",
+          "topics"
+        ],
+        "title": "ChapterCount",
         "type": "object"
       },
       "ChapterCoverageResponse": {
@@ -2904,6 +3017,21 @@
             "default": true,
             "title": "Reflowplans",
             "type": "boolean"
+          },
+          "sectionIds": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionids"
           }
         },
         "required": [
@@ -3602,6 +3730,35 @@
         "title": "CoverToday",
         "type": "object"
       },
+      "CoverageMap": {
+        "properties": {
+          "grades": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Grades",
+            "type": "array"
+          },
+          "pendingReview": {
+            "title": "Pendingreview",
+            "type": "integer"
+          },
+          "subjects": {
+            "items": {
+              "$ref": "#/components/schemas/SubjectCoverage"
+            },
+            "title": "Subjects",
+            "type": "array"
+          }
+        },
+        "required": [
+          "grades",
+          "subjects",
+          "pendingReview"
+        ],
+        "title": "CoverageMap",
+        "type": "object"
+      },
       "CoverageReportResponse": {
         "properties": {
           "academicYearId": {
@@ -3854,6 +4011,11 @@
       },
       "DayRowResponse": {
         "properties": {
+          "changed": {
+            "default": false,
+            "title": "Changed",
+            "type": "boolean"
+          },
           "coTeacherId": {
             "anyOf": [
               {
@@ -3875,6 +4037,17 @@
               }
             ],
             "title": "Coteachername"
+          },
+          "endTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Endtime"
           },
           "kind": {
             "title": "Kind",
@@ -3917,6 +4090,17 @@
             ],
             "title": "Roomid"
           },
+          "roomName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomname"
+          },
           "sectionId": {
             "title": "Sectionid",
             "type": "string"
@@ -3931,6 +4115,17 @@
               }
             ],
             "title": "Sectionname"
+          },
+          "startTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starttime"
           },
           "subjectId": {
             "title": "Subjectid",
@@ -4021,6 +4216,36 @@
           "waived"
         ],
         "title": "DebtRowResponse",
+        "type": "object"
+      },
+      "DecisionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "decision": {
+            "enum": [
+              "approved",
+              "rejected"
+            ],
+            "title": "Decision",
+            "type": "string"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "maxLength": 1000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "required": [
+          "decision"
+        ],
+        "title": "DecisionRequest",
         "type": "object"
       },
       "DelayedLessonResponse": {
@@ -7183,6 +7408,29 @@
         "title": "LinkRequest",
         "type": "object"
       },
+      "LoadRow": {
+        "properties": {
+          "periodsPerWeek": {
+            "title": "Periodsperweek",
+            "type": "integer"
+          },
+          "sectionName": {
+            "title": "Sectionname",
+            "type": "string"
+          },
+          "subjectName": {
+            "title": "Subjectname",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sectionName",
+          "subjectName",
+          "periodsPerWeek"
+        ],
+        "title": "LoadRow",
+        "type": "object"
+      },
       "LoginRequest": {
         "properties": {
           "email": {
@@ -7327,7 +7575,7 @@
             "title": "Note"
           },
           "status": {
-            "pattern": "^(scheduled|completed|skipped)$",
+            "pattern": "^(scheduled|completed|skipped|partly)$",
             "title": "Status",
             "type": "string"
           }
@@ -7412,6 +7660,14 @@
           "totalMarks": {
             "title": "Totalmarks",
             "type": "integer"
+          },
+          "withoutConsent": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Withoutconsent",
+            "type": "array"
           }
         },
         "required": [
@@ -7713,6 +7969,48 @@
           "totalMarks"
         ],
         "title": "MyHomeworkItem",
+        "type": "object"
+      },
+      "MyLoadResponse": {
+        "properties": {
+          "classes": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/LoadRow"
+            },
+            "title": "Classes",
+            "type": "array"
+          },
+          "coversThisWeek": {
+            "default": 0,
+            "title": "Coversthisweek",
+            "type": "integer"
+          },
+          "daysTaught": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "default": {},
+            "title": "Daystaught",
+            "type": "object"
+          },
+          "invigilationsAhead": {
+            "default": 0,
+            "title": "Invigilationsahead",
+            "type": "integer"
+          },
+          "maxInOneDay": {
+            "default": 0,
+            "title": "Maxinoneday",
+            "type": "integer"
+          },
+          "periodsPerWeek": {
+            "default": 0,
+            "title": "Periodsperweek",
+            "type": "integer"
+          }
+        },
+        "title": "MyLoadResponse",
         "type": "object"
       },
       "MyProgressResponse": {
@@ -8294,6 +8592,17 @@
               }
             ],
             "title": "Instructions"
+          },
+          "instructionsGenerated": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Instructionsgenerated"
           },
           "schoolName": {
             "anyOf": [
@@ -11157,6 +11466,120 @@
         "title": "ReviewDecisionRequest",
         "type": "object"
       },
+      "ReviewItem": {
+        "properties": {
+          "chapter": {
+            "title": "Chapter",
+            "type": "string"
+          },
+          "decision": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision"
+          },
+          "difficulty": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Difficulty"
+          },
+          "evidence": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "markingPoints": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Markingpoints",
+            "type": "array"
+          },
+          "marks": {
+            "title": "Marks",
+            "type": "integer"
+          },
+          "modelAnswer": {
+            "title": "Modelanswer",
+            "type": "string"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "provenance": {
+            "title": "Provenance",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "stem": {
+            "title": "Stem",
+            "type": "string"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          },
+          "topic": {
+            "title": "Topic",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "grade",
+          "subject",
+          "chapter",
+          "topic",
+          "type",
+          "marks",
+          "source",
+          "provenance",
+          "stem",
+          "modelAnswer",
+          "markingPoints",
+          "evidence"
+        ],
+        "title": "ReviewItem",
+        "type": "object"
+      },
       "ReviewItemResponse": {
         "properties": {
           "awardedMarks": {
@@ -11261,6 +11684,35 @@
           "finalMarks"
         ],
         "title": "ReviewItemResponse",
+        "type": "object"
+      },
+      "ReviewPage": {
+        "properties": {
+          "counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Counts",
+            "type": "object"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ReviewItem"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "counts"
+        ],
+        "title": "ReviewPage",
         "type": "object"
       },
       "ReviewRequest": {
@@ -12847,7 +13299,7 @@
         "type": "object"
       },
       "SeedGradeRequest": {
-        "description": "PRD section 0 decision 4 is all grades 6-12. The bound is pydantic's so\nthe answer to grade 5 or 13 is a 422 naming the range, before any row is\ncreated -- there is no syllabus data outside it (seed_cbse10.MIN_GRADE /\nMAX_GRADE, which raises the same bound for the CLI and library callers).",
+        "description": "Requirements v3: grades 1-12 (PRD section 0 decision 4 said 6-12). The bound is pydantic's so\nthe answer to grade 0 or 13 is a 422 naming the range, before any row is\ncreated -- there is no syllabus data outside it (seed_cbse10.MIN_GRADE /\nMAX_GRADE, which raises the same bound for the CLI and library callers).",
         "properties": {
           "academicYearLabel": {
             "minLength": 1,
@@ -12860,7 +13312,7 @@
           },
           "grade": {
             "maximum": 12.0,
-            "minimum": 6.0,
+            "minimum": 1.0,
             "title": "Grade",
             "type": "integer"
           },
@@ -13616,6 +14068,59 @@
         "title": "StudyPlanRequest",
         "type": "object"
       },
+      "SubjectCoverage": {
+        "properties": {
+          "chapters": {
+            "items": {
+              "$ref": "#/components/schemas/ChapterCount"
+            },
+            "title": "Chapters",
+            "type": "array"
+          },
+          "checked": {
+            "title": "Checked",
+            "type": "integer"
+          },
+          "generated": {
+            "title": "Generated",
+            "type": "integer"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "published": {
+            "title": "Published",
+            "type": "integer"
+          },
+          "questions": {
+            "title": "Questions",
+            "type": "integer"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          },
+          "thinTopics": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Thintopics",
+            "type": "array"
+          }
+        },
+        "required": [
+          "grade",
+          "subject",
+          "questions",
+          "published",
+          "checked",
+          "generated",
+          "chapters"
+        ],
+        "title": "SubjectCoverage",
+        "type": "object"
+      },
       "SubjectCoverageResponse": {
         "properties": {
           "bookId": {
@@ -14208,6 +14713,17 @@
           "date": {
             "title": "Date",
             "type": "string"
+          },
+          "handoverNote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Handovernote"
           },
           "id": {
             "title": "Id",
@@ -15667,6 +16183,34 @@
         "title": "TimetableSlotResponse",
         "type": "object"
       },
+      "TopicCount": {
+        "properties": {
+          "checked": {
+            "title": "Checked",
+            "type": "integer"
+          },
+          "published": {
+            "title": "Published",
+            "type": "integer"
+          },
+          "questions": {
+            "title": "Questions",
+            "type": "integer"
+          },
+          "topic": {
+            "title": "Topic",
+            "type": "string"
+          }
+        },
+        "required": [
+          "topic",
+          "questions",
+          "published",
+          "checked"
+        ],
+        "title": "TopicCount",
+        "type": "object"
+      },
       "TopicProgress": {
         "properties": {
           "accuracy": {
@@ -16304,6 +16848,22 @@
           "type"
         ],
         "title": "ValidationError",
+        "type": "object"
+      },
+      "WaiveRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "reason": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reason"
+        ],
+        "title": "WaiveRequest",
         "type": "object"
       },
       "WeekProgress": {
@@ -17930,6 +18490,96 @@
         "summary": "List School Users"
       }
     },
+    "/api/v1/auth/users/{user_id}/close": {
+      "post": {
+        "description": "A person has left the school: their account can no longer sign in,\nevery session they hold ends, and their admin grants are revoked. Their\npapers, marks and history stay, attributed to them (N-67-8).",
+        "operationId": "close_account_api_v1_auth_users__user_id__close_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "title": "User Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Close Account"
+      }
+    },
+    "/api/v1/auth/users/{user_id}/reopen": {
+      "post": {
+        "description": "Undo a close: the account gets back the role it had. Grants are not\nrestored; the principal gives them again if they are still wanted.",
+        "operationId": "reopen_account_api_v1_auth_users__user_id__reopen_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "title": "User Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Reopen Account"
+      }
+    },
     "/api/v1/automations/run": {
       "post": {
         "description": "For Cloud Scheduler: run every automation that is due. Needs the\noperator's key (env ACOS_CRON_KEY); 404 when none is configured, so the\nroute does not exist on a deployment that has not opted in.",
@@ -17981,7 +18631,7 @@
     },
     "/api/v1/automations/status": {
       "get": {
-        "description": "The latest automation runs, newest first (runs are not per school).",
+        "description": "The latest automation runs, newest first, each with what it sent to\nthis school; another school's counts are not shown.",
         "operationId": "automations_status_api_v1_automations_status_get",
         "responses": {
           "200": {
@@ -19232,7 +19882,7 @@
     },
     "/api/v1/curriculum/academic-years/{academic_year_id}/closures": {
       "post": {
-        "description": "A day lost at short notice, or after the fact (rain, an event, an exam\nday): every section's periods that day become lost periods, the day's\ncover is cancelled, the holiday goes on the calendar and the section\nplans move past it.",
+        "description": "A day lost at short notice, or after the fact (rain, an event, an exam\nday): every section's periods that day become lost periods, the day's\ncover is cancelled, the holiday goes on the calendar and the section\nplans move past it. With `sectionIds`, only those sections close: the\ncalendar keeps the day (the rest of the school teaches) and only their\nplans move.",
         "operationId": "declare_closure_api_v1_curriculum_academic_years__academic_year_id__closures_post",
         "parameters": [
           {
@@ -22059,6 +22709,23 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/WaiveRequest"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Req"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "content": {
@@ -23469,7 +24136,7 @@
     },
     "/api/v1/curriculum/seed/cbse": {
       "post": {
-        "description": "Seeds any grade 6-12 for the caller's own school -- PRD section 0\ndecision 4 (\"all grades 6-12, all subjects\"), which until 2026-09-22 the\nproduct could not reach: `seed_cbse_all_grades` existed in seed_cbse10.py\nwired to no route and no CLI command, and `POST /seed/cbse9` was a 404 even\nthough academicos-data/syllabus/ has held every grade's file all along.\n\nSame posture as /seed/cbse10, which now delegates here: principal-gated,\nschool_id taken from the session and never from the body, idempotent on a\nre-run. A subject with no syllabus file for the grade is reported in\n`subjectsSkipped` rather than quietly dropped.\n\nAlso applies the committed decomposition templates\n(decomposition_templates.py) to the chapters it creates, as proposals\nPENDING this principal's approval -- so a new school can reach Topic and\nSubtopic without an LLM key, without anything being approved on its behalf.\n`topicTemplates` reports per subject what got topics and what did not.",
+        "description": "Seeds any grade 1-12 (requirements v3; 6-12 until 2026-09-29) for the caller's own school -- PRD section 0\ndecision 4 (\"all grades 6-12, all subjects\"), which until 2026-09-22 the\nproduct could not reach: `seed_cbse_all_grades` existed in seed_cbse10.py\nwired to no route and no CLI command, and `POST /seed/cbse9` was a 404 even\nthough academicos-data/syllabus/ has held every grade's file all along.\n\nSame posture as /seed/cbse10, which now delegates here: principal-gated,\nschool_id taken from the session and never from the body, idempotent on a\nre-run. A subject with no syllabus file for the grade is reported in\n`subjectsSkipped` rather than quietly dropped.\n\nAlso applies the committed decomposition templates\n(decomposition_templates.py) to the chapters it creates, as proposals\nPENDING this principal's approval -- so a new school can reach Topic and\nSubtopic without an LLM key, without anything being approved on its behalf.\n`topicTemplates` reports per subject what got topics and what did not.",
         "operationId": "seed_cbse_any_grade_api_v1_curriculum_seed_cbse_post",
         "requestBody": {
           "content": {
@@ -25655,7 +26322,7 @@
     },
     "/api/v1/exams/{exam_id}/datesheet": {
       "put": {
-        "description": "Replace the whole datesheet. Every clash (two papers for a class on a\nday, a holiday, a date outside the exam) is reported at once; the old\ndatesheet and its roster are kept on any problem, and dropped with it\notherwise (the roster is per paper).",
+        "description": "Replace the whole datesheet. Every clash (two papers for a class on a\nday, a holiday, a date outside the exam) is reported at once, and the old\ndatesheet and its roster are kept on any problem. Otherwise a paper sent\nagain unchanged keeps its invigilators; a removed or re-timed paper loses\nits duties. After publishing, the classes whose papers changed and the\ninvigilators whose duties changed are told.",
         "operationId": "set_datesheet_api_v1_exams__exam_id__datesheet_put",
         "parameters": [
           {
@@ -25809,7 +26476,7 @@
     },
     "/api/v1/exams/{exam_id}/publish": {
       "post": {
-        "description": "Publish: students of the exam's classes get their datesheet, each\ninvigilator their duties.",
+        "description": "Publish: students of the exam's classes get their datesheet, each\ninvigilator their duties. Publishing again tells only an invigilator\nwhose duties changed since they were last told.",
         "operationId": "publish_api_v1_exams__exam_id__publish_post",
         "parameters": [
           {
@@ -26819,6 +27486,7 @@
     },
     "/api/v1/mail/status": {
       "get": {
+        "description": "Which mail backends are set up -- for the paper delivery sheet, which\nonly a signed-in user opens. Not public (NFR-2): it describes the\ndeployment to anyone who asks.",
         "operationId": "mail_status_api_v1_mail_status_get",
         "responses": {
           "200": {
@@ -26832,6 +27500,11 @@
             "description": "Successful Response"
           }
         },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "summary": "Mail Status"
       }
     },
@@ -26899,6 +27572,58 @@
           }
         ],
         "summary": "Set My Contact"
+      }
+    },
+    "/api/v1/my-calendar": {
+      "get": {
+        "description": "The caller's dated school events from today: holidays, cover and\ninvigilation duties, exam papers and homework due. The ICS feed carries\nthe same; the weekly periods are the timetable's, so they are left out.",
+        "operationId": "my_calendar_api_v1_my_calendar_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "days",
+            "required": false,
+            "schema": {
+              "default": 42,
+              "maximum": 60,
+              "minimum": 1,
+              "title": "Days",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CalendarItem"
+                  },
+                  "title": "Response My Calendar Api V1 My Calendar Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Calendar"
       }
     },
     "/api/v1/my-children": {
@@ -27332,6 +28057,30 @@
           }
         ],
         "summary": "My Learning"
+      }
+    },
+    "/api/v1/my-load": {
+      "get": {
+        "description": "A teacher's own load (TA-2): timetabled periods a week by class and\nsubject, the busiest day, cover duties this week and exam duties ahead.\nOnly the caller's own numbers; the whole staff's load stays the\nprincipal's (ADM-5).",
+        "operationId": "my_load_api_v1_my_load_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyLoadResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Load"
       }
     },
     "/api/v1/my-practice": {
@@ -28193,6 +28942,7 @@
     },
     "/api/v1/papers/{paper_id}/file": {
       "get": {
+        "description": "The exported file: with `export` (the id an export returned), exactly\nthat export's file; without, the paper's latest export.",
         "operationId": "get_paper_file_api_v1_papers__paper_id__file_get",
         "parameters": [
           {
@@ -28212,6 +28962,22 @@
               "default": "pdf",
               "title": "Format",
               "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "export",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Export"
             }
           }
         ],
@@ -28627,6 +29393,256 @@
           }
         ],
         "summary": "Submit Practice"
+      }
+    },
+    "/api/v1/qbank/coverage-map": {
+      "get": {
+        "description": "What the bank holds for each class and subject, chapter by chapter and\ntopic by topic, split by how far each answer can be trusted: published\n(CBSE's or NCERT's own) or checked (grounded in the textbook, two agreeing\nsolves). Staff read it; `pendingReview` counts the checked answers this\nschool has not reviewed yet.",
+        "operationId": "coverage_map_api_v1_qbank_coverage_map_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "grade",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 12,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Grade"
+            }
+          },
+          {
+            "in": "query",
+            "name": "subject",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subject"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoverageMap"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Coverage Map"
+      }
+    },
+    "/api/v1/qbank/review-queue": {
+      "get": {
+        "description": "The checked answers (grounded in the textbook, two agreeing solves) for\nthis school's reviewer to approve or reject, with the textbook sentences\neach answer rests on.",
+        "operationId": "review_queue_api_v1_qbank_review_queue_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "grade",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 12,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Grade"
+            }
+          },
+          {
+            "in": "query",
+            "name": "subject",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subject"
+            }
+          },
+          {
+            "in": "query",
+            "name": "chapter",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Chapter"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "default": "pending",
+              "enum": [
+                "pending",
+                "approved",
+                "rejected",
+                "all"
+              ],
+              "title": "Status",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewPage"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Review Queue"
+      }
+    },
+    "/api/v1/qbank/review/{question_id}": {
+      "post": {
+        "description": "Approve a checked answer for this school (it then reads teacher_verified)\nor reject the question (this school's papers, homework and practice never\ndraw it again). Recorded in the audit log.",
+        "operationId": "decide_api_v1_qbank_review__question_id__post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "question_id",
+            "required": true,
+            "schema": {
+              "title": "Question Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DecisionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewItem"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Decide"
       }
     },
     "/api/v1/questions/optimize": {
@@ -30825,7 +31841,7 @@
             }
           },
           {
-            "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
+            "description": "narrow to ONE kind of key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers, 'ncert_textbook_answer' for a textbook's printed answers; or a checked key: 'textbook_grounded', 'two_model_solved', 'teacher_verified'. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
             "in": "query",
             "name": "key_provenance",
             "required": false,
@@ -30838,7 +31854,7 @@
                   "type": "null"
                 }
               ],
-              "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
+              "description": "narrow to ONE kind of key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers, 'ncert_textbook_answer' for a textbook's printed answers; or a checked key: 'textbook_grounded', 'two_model_solved', 'teacher_verified'. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
               "title": "Key Provenance"
             }
           },
@@ -31319,7 +32335,7 @@
             }
           },
           {
-            "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
+            "description": "narrow to ONE kind of key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers, 'ncert_textbook_answer' for a textbook's printed answers; or a checked key: 'textbook_grounded', 'two_model_solved', 'teacher_verified'. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
             "in": "query",
             "name": "key_provenance",
             "required": false,
@@ -31332,7 +32348,7 @@
                   "type": "null"
                 }
               ],
-              "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
+              "description": "narrow to ONE kind of key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers, 'ncert_textbook_answer' for a textbook's printed answers; or a checked key: 'textbook_grounded', 'two_model_solved', 'teacher_verified'. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
               "title": "Key Provenance"
             }
           },
@@ -31802,7 +32818,7 @@
             }
           },
           {
-            "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
+            "description": "narrow to ONE kind of key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers, 'ncert_textbook_answer' for a textbook's printed answers; or a checked key: 'textbook_grounded', 'two_model_solved', 'teacher_verified'. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
             "in": "query",
             "name": "key_provenance",
             "required": false,
@@ -31815,7 +32831,7 @@
                   "type": "null"
                 }
               ],
-              "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
+              "description": "narrow to ONE kind of key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers, 'ncert_textbook_answer' for a textbook's printed answers; or a checked key: 'textbook_grounded', 'two_model_solved', 'teacher_verified'. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
               "title": "Key Provenance"
             }
           },

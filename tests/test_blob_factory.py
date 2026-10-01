@@ -513,17 +513,52 @@ def test_health_storage_reports_blob_backend(clean_env) -> None:
     body = main_mod.health_storage()
     assert body["blob_backend"] == "gcs"
     assert "durability_backend" in body
+    snapshot_keys = {
+        "{0}_snapshot_conflict": False,
+        "{0}_snapshot_conflict_count": 0,
+        "{0}_snapshot_conflict_at": None,
+        "{0}_snapshot_upload_failures": 0,
+        "{0}_snapshot_upload_failure_at": None,
+        "{0}_snapshot_conflict_copies": 0,
+        "{0}_snapshot_last_conflict_copy": None,
+        "{0}_snapshot_last_saved_at": None,
+    }
     assert body["blob_status"] == {
-        "curriculum_snapshot_conflict": False,
-        "curriculum_snapshot_conflict_count": 0,
-        "curriculum_snapshot_conflict_at": None,
-        "curriculum_snapshot_upload_failures": 0,
-        "curriculum_snapshot_upload_failure_at": None,
-        "curriculum_snapshot_conflict_copies": 0,
-        "curriculum_snapshot_last_conflict_copy": None,
+        **{k.format("curriculum"): v for k, v in snapshot_keys.items()},
+        **{k.format("operations"): v for k, v in snapshot_keys.items()},
         "scan_media_upload_failures": 0,
         "scan_media_upload_failure_at": None,
     }
+
+
+def test_operations_snapshot_that_stops_saving_shows_in_health(shared_gcs, tmp_path: Path) -> None:
+    """N-9-2: the operations store (homework, marks, exams, notifications,
+    parent links) is a whole-file snapshot like the curriculum. If its uploads
+    fail, /health/storage must say so -- it used to report the curriculum and
+    scan media only, and read ok while every operations save failed."""
+    from academicos.operations.store import OperationsStore
+    import academicos.api.main as main_mod
+
+    ops = OperationsStore(tmp_path / "ops" / "operations.sqlite")
+    ops._snapshots._last_upload_at = 0.0
+    ops.set_settings("u1", language="hi")                     # uploads
+    status = main_mod.health_storage()["blob_status"]
+    saved_at = status["operations_snapshot_last_saved_at"]
+    assert saved_at and status["operations_snapshot_upload_failures"] == 0
+
+    shared_gcs.fail_reads_and_writes = True
+    ops._snapshots._last_upload_at = 0.0
+    ops.set_settings("u2", language="hi")                     # this save fails
+    status = main_mod.health_storage()["blob_status"]
+    assert status["operations_snapshot_upload_failures"] == 1
+    assert status["operations_snapshot_upload_failure_at"] >= saved_at
+    assert status["curriculum_snapshot_upload_failures"] == 0, "counted under its own store"
+
+    shared_gcs.fail_reads_and_writes = False
+    assert ops._snapshots.flush() is True                     # the retry lands
+    status = main_mod.health_storage()["blob_status"]
+    assert status["operations_snapshot_last_saved_at"] >= status["operations_snapshot_upload_failure_at"]
+    ops.close()
 
 
 def test_failed_scan_media_upload_is_counted_in_health(

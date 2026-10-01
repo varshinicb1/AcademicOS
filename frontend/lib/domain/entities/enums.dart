@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 part 'enums.freezed.dart';
 part 'enums.g.dart';
@@ -58,9 +59,9 @@ extension DifficultyX on Difficulty {
   };
 
   Color get color => switch (this) {
-    Difficulty.easy => Colors.green,
-    Difficulty.medium => Colors.orange,
-    Difficulty.hard => Colors.red,
+    Difficulty.easy => AppColors.success,
+    Difficulty.medium => AppColors.warning,
+    Difficulty.hard => AppColors.danger,
   };
 }
 
@@ -232,23 +233,25 @@ enum AssessmentStatus {
 }
 
 extension AssessmentStatusX on AssessmentStatus {
+  // The words a teacher reads on a paper's chip -- the Today page's words
+  // ("Ready", "In review"), not the generator's internal steps.
   String get label => switch (this) {
-    AssessmentStatus.draft => 'Draft',
-    AssessmentStatus.blueprintReady => 'Blueprint Ready',
-    AssessmentStatus.questionsSelected => 'Questions Selected',
-    AssessmentStatus.questionOptimized => 'Questions Optimized',
-    AssessmentStatus.paperGenerated => 'Paper Generated',
-    AssessmentStatus.underReview => 'Under Review',
+    AssessmentStatus.draft ||
+    AssessmentStatus.blueprintReady ||
+    AssessmentStatus.questionsSelected ||
+    AssessmentStatus.questionOptimized => 'Draft',
+    AssessmentStatus.paperGenerated => 'Ready',
+    AssessmentStatus.underReview => 'In review',
     AssessmentStatus.principalApproved => 'Approved',
     AssessmentStatus.printed => 'Printed',
     AssessmentStatus.conducted => 'Conducted',
     AssessmentStatus.scanning => 'Scanning',
     AssessmentStatus.scanned => 'Scanned',
-    AssessmentStatus.evaluating => 'Evaluating',
-    AssessmentStatus.evaluated => 'Evaluated',
-    AssessmentStatus.teacherReviewed => 'Teacher Reviewed',
-    AssessmentStatus.reportsGenerated => 'Reports Ready',
-    AssessmentStatus.remediationSent => 'Remediation Sent',
+    AssessmentStatus.evaluating => 'Marking',
+    AssessmentStatus.evaluated => 'Marked',
+    AssessmentStatus.teacherReviewed => 'Marks checked',
+    AssessmentStatus.reportsGenerated => 'Reports ready',
+    AssessmentStatus.remediationSent => 'Follow-up sent',
     AssessmentStatus.archived => 'Archived',
   };
 
@@ -274,22 +277,22 @@ extension AssessmentStatusX on AssessmentStatus {
 
   Color get color => switch (this) {
     AssessmentStatus.draft => Colors.grey,
-    AssessmentStatus.blueprintReady => Colors.blue,
+    AssessmentStatus.blueprintReady => AppColors.info,
     AssessmentStatus.questionsSelected => Colors.purple,
-    AssessmentStatus.questionOptimized => Colors.indigo,
+    AssessmentStatus.questionOptimized => AppColors.accent,
     AssessmentStatus.paperGenerated => Colors.teal,
-    AssessmentStatus.underReview => Colors.orange,
-    AssessmentStatus.principalApproved => Colors.green,
+    AssessmentStatus.underReview => AppColors.warning,
+    AssessmentStatus.principalApproved => AppColors.success,
     AssessmentStatus.printed => Colors.cyan,
-    AssessmentStatus.conducted => Colors.blueGrey,
-    AssessmentStatus.scanning => Colors.amber,
+    AssessmentStatus.conducted => AppColors.neutral,
+    AssessmentStatus.scanning => AppColors.warning,
     AssessmentStatus.scanned => Colors.yellow,
     AssessmentStatus.evaluating => Colors.deepPurple,
-    AssessmentStatus.evaluated => Colors.lightGreen,
+    AssessmentStatus.evaluated => AppColors.success,
     AssessmentStatus.teacherReviewed => Colors.teal,
     AssessmentStatus.reportsGenerated => Colors.greenAccent,
     AssessmentStatus.remediationSent => Colors.pinkAccent,
-    AssessmentStatus.archived => Colors.blueGrey,
+    AssessmentStatus.archived => AppColors.neutral,
   };
 }
 
@@ -351,11 +354,11 @@ extension EvaluationVerdictX on EvaluationVerdict {
   };
 
   Color get color => switch (this) {
-    EvaluationVerdict.fullCredit => Colors.green,
-    EvaluationVerdict.partialCredit => Colors.orange,
-    EvaluationVerdict.noCredit => Colors.red,
-    EvaluationVerdict.carelessError => Colors.amber,
-    EvaluationVerdict.conceptualError => Colors.deepOrange,
+    EvaluationVerdict.fullCredit => AppColors.success,
+    EvaluationVerdict.partialCredit => AppColors.warning,
+    EvaluationVerdict.noCredit => AppColors.danger,
+    EvaluationVerdict.carelessError => AppColors.warning,
+    EvaluationVerdict.conceptualError => AppColors.warning,
     EvaluationVerdict.blank => Colors.grey,
   };
 }
@@ -396,12 +399,12 @@ extension MasteryStatusX on MasteryStatus {
 
   Color get color => switch (this) {
     MasteryStatus.notAttempted => Colors.grey,
-    MasteryStatus.learning => Colors.blue,
-    MasteryStatus.developing => Colors.orange,
-    MasteryStatus.proficient => Colors.lightGreen,
-    MasteryStatus.mastered => Colors.green,
+    MasteryStatus.learning => AppColors.info,
+    MasteryStatus.developing => AppColors.warning,
+    MasteryStatus.proficient => AppColors.success,
+    MasteryStatus.mastered => AppColors.success,
     MasteryStatus.decaying => Colors.redAccent,
-    MasteryStatus.needsReview => Colors.amber,
+    MasteryStatus.needsReview => AppColors.warning,
   };
 }
 
@@ -453,9 +456,9 @@ extension PriorityX on Priority {
 
   Color get color => switch (this) {
     Priority.low => Colors.grey,
-    Priority.medium => Colors.blue,
-    Priority.high => Colors.orange,
-    Priority.urgent => Colors.red,
+    Priority.medium => AppColors.info,
+    Priority.high => AppColors.warning,
+    Priority.urgent => AppColors.danger,
   };
 }
 
@@ -475,10 +478,10 @@ extension GapSeverityX on GapSeverity {
   };
 
   Color get color => switch (this) {
-    GapSeverity.critical => Colors.red,
-    GapSeverity.high => Colors.orange,
-    GapSeverity.medium => Colors.amber,
-    GapSeverity.low => Colors.blue,
+    GapSeverity.critical => AppColors.danger,
+    GapSeverity.high => AppColors.warning,
+    GapSeverity.medium => AppColors.warning,
+    GapSeverity.low => AppColors.info,
   };
 }
 

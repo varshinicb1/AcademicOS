@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/session/current_session.dart';
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'strings.dart';
 import 'messaging_card.dart';
+import '../shared/widgets/shell.dart';
 
 /// The caller's notifications (NTF-1): newest first, unread marked, and the
 /// settings -- quiet hours, language, and push/email per kind.
@@ -36,22 +38,16 @@ class _InboxPageState extends State<InboxPage> {
     if (target != null) context.push(target);
   }
 
-  /// A notification's link names a server page; map the ones the web has.
-  String? _route(String? link) {
-    if (link == null) return null;
-    if (link.startsWith('/my-homework')) return '/school${link.split('?').first}';
-    if (link.startsWith('/homework/')) return '/school/homework';
-    if (link.startsWith('/my-day') || link.startsWith('/cover')) return '/school/my-day';
-    if (link.startsWith('/my-exams')) return '/school/my-exams';
-    if (link.startsWith('/assessments/')) return '/school/reviews';
-    return null;
-  }
+  /// A notification's link names a server page; this is the app's page for
+  /// it. Leave decisions, timetable changes, holidays and digests went
+  /// nowhere (v3 audit N-4-6): every link the server sends has a page here.
+  String? _route(String? link) => inboxRoute(link, CurrentSession.role);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Notifications')), actions: [
+      appBar: destinationAppBar(context, title: Text(tr('Notifications')), actions: [
         TextButton(
           onPressed: () async {
             final messenger = ScaffoldMessenger.of(context);
@@ -65,9 +61,17 @@ class _InboxPageState extends State<InboxPage> {
           child: Text(tr('Mark all read')),
         ),
         IconButton(
-          tooltip: 'Settings',
+          tooltip: 'Notification settings',
           icon: const Icon(Icons.tune),
           onPressed: () => showDialog(context: context, builder: (_) => const _PreferencesDialog()),
+        ),
+        // The teacher and student apps had no way to sign out or change the
+        // theme: Settings was reachable only from the web's side navigation
+        // (v3 audit N-4-7). The inbox is in every app's bottom bar.
+        IconButton(
+          tooltip: 'Settings and sign out',
+          icon: const Icon(Icons.account_circle_outlined),
+          onPressed: () => context.push('/settings'),
         ),
       ]),
       body: FutureBuilder<Map<String, dynamic>>(
@@ -218,4 +222,24 @@ class _PreferencesDialogState extends State<_PreferencesDialog> {
       actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('Done'))],
     );
   }
+}
+
+/// The app's page for a notification's server link, by the reader's role.
+String? inboxRoute(String? link, String role) {
+  if (link == null) return null;
+  final path = link.split('?').first;
+  final staffCover = role == 'principal' ? '/school/cover' : '/school/my-day';
+  if (path.startsWith('/my-homework')) return '/school$path';
+  if (path.startsWith('/homework/')) return '/school$path';
+  if (path == '/homework') return '/school/homework';
+  if (path.startsWith('/my-day') || path == '/leave') return '/school/my-day';
+  if (path.startsWith('/cover')) return staffCover;
+  if (path.startsWith('/my-exams')) return '/school/my-exams';
+  if (path == '/week' || path == '/my-timetable') return '/school/week';
+  if (path == '/my-children') return '/school/family';
+  if (path == '/my-learning') return '/school/my-learning';
+  if (path == '/dashboard') return '/school';
+  if (path.startsWith('/assessments/')) return '/assessment/${path.substring('/assessments/'.length)}';
+  if (path.startsWith('/school/')) return path;
+  return null;
 }

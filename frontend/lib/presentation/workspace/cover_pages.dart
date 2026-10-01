@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/session/current_session.dart';
 
@@ -7,6 +8,9 @@ import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'teacher_homework.dart' show TeachingContext;
 import 'strings.dart';
+import 'package:academicos/core/theme/app_theme.dart';
+import '../shared/widgets/shell.dart';
+import 'period_line.dart';
 
 const _base = '/curriculum';
 
@@ -105,7 +109,13 @@ class _CoverPageState extends State<CoverPage> {
       'second_half_absent': 'Absent 2nd half',
     };
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Attendance & cover')), actions: [
+      appBar: destinationAppBar(context, title: Text(tr('Attendance & cover')), actions: [
+        // A period run as "Lose the period" is owed; this is where it is paid back.
+        IconButton(
+          tooltip: tr('Periods owed'),
+          icon: const Icon(Icons.restore_outlined),
+          onPressed: () => context.push('/school/periods-owed'),
+        ),
         TextButton.icon(
           icon: const Icon(Icons.calendar_today),
           label: Text(_date),
@@ -225,7 +235,7 @@ class _AssignDialogState extends State<_AssignDialog> {
                 ListTile(
                   title: Text(widget.name(c['teacherId'])),
                   subtitle: Text((c['reasons'] as List).join(' · ')),
-                  trailing: c['qualified'] == true ? const ChipTag(label: 'Teaches it', color: Colors.green) : null,
+                  trailing: c['qualified'] == true ? const ChipTag(label: 'Teaches it', color: AppColors.success) : null,
                   onTap: () => _do({'substituteId': c['teacherId']}),
                 ),
               const Divider(),
@@ -259,6 +269,9 @@ class _MyDayPageState extends State<MyDayPage> {
   List<Map<String, dynamic>> _lessons = [];
   TeachingContext? _ctx;
   String? _error;
+  // The school's class and subject labels failing to load no longer blanks
+  // the day: each row carries its own names, so the day shows with a note.
+  String? _ctxError;
   String? _checkedIn;
 
   String get _today => isoDate(DateTime.now());
@@ -266,7 +279,8 @@ class _MyDayPageState extends State<MyDayPage> {
   @override
   void initState() {
     super.initState();
-    TeachingContext.load().then((c) => setState(() => _ctx = c), onError: (Object e) => setState(() => _error = serverErrorMessage(e)));
+    TeachingContext.load().then((c) => setState(() => _ctx = c),
+        onError: (Object e) => setState(() => _ctxError = serverErrorMessage(e)));
     _load();
   }
 
@@ -290,40 +304,76 @@ class _MyDayPageState extends State<MyDayPage> {
     }
   }
 
+  /// Leave in three taps (TA-3): Apply for leave, Today or Tomorrow, Apply.
+  /// Today is chosen when the dialog opens; other days are one more tap.
   Future<void> _applyForLeave() async {
-    DateTimeRange? range;
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final tomorrow = today.add(const Duration(days: 1));
+    DateTimeRange? range = DateTimeRange(start: today, end: today);
+    var pick = 'today';
     var kind = 'full_day';
     final reason = TextEditingController();
     final handover = TextEditingController();
     final ok = await showDialog<bool>(context: context, builder: (ctx) => StatefulBuilder(builder: (ctx, set) => AlertDialog(
       title: Text(tr('Apply for leave')),
       content: SizedBox(width: 440, child: Column(mainAxisSize: MainAxisSize.min, children: [
-        ListTile(
-          contentPadding: EdgeInsets.zero,
-          title: Text(range == null ? 'Choose the days' : '${isoDate(range!.start)} to ${isoDate(range!.end)}'),
-          trailing: const Icon(Icons.date_range),
-          onTap: () async {
-            final r = await showDateRangePicker(context: ctx, firstDate: DateTime.now().subtract(const Duration(days: 1)),
-                lastDate: DateTime.now().add(const Duration(days: 180)));
-            if (r != null) set(() => range = r);
-          },
-        ),
+        Wrap(spacing: 8, runSpacing: 8, children: [
+          ChoiceChip(
+            key: const Key('leave-today'),
+            label: Text(tr('Today')),
+            selected: pick == 'today',
+            onSelected: (_) => set(() {
+              pick = 'today';
+              range = DateTimeRange(start: today, end: today);
+            }),
+          ),
+          ChoiceChip(
+            key: const Key('leave-tomorrow'),
+            label: Text(tr('Tomorrow')),
+            selected: pick == 'tomorrow',
+            onSelected: (_) => set(() {
+              pick = 'tomorrow';
+              range = DateTimeRange(start: tomorrow, end: tomorrow);
+            }),
+          ),
+          ChoiceChip(
+            key: const Key('leave-other'),
+            avatar: const Icon(Icons.date_range, size: 18),
+            label: Text(pick == 'other' && range != null
+                ? '${isoDate(range!.start)} – ${isoDate(range!.end)}'
+                : tr('Other days')),
+            selected: pick == 'other',
+            onSelected: (_) async {
+              final r = await showDateRangePicker(context: ctx, firstDate: today.subtract(const Duration(days: 1)),
+                  lastDate: today.add(const Duration(days: 180)));
+              if (r != null) {
+                set(() {
+                  pick = 'other';
+                  range = r;
+                });
+              }
+            },
+          ),
+        ]),
+        const SizedBox(height: 12),
         SegmentedButton<String>(
-          segments: const [
-            ButtonSegment(value: 'full_day', label: Text('Full day')),
-            ButtonSegment(value: 'first_half', label: Text('1st half')),
-            ButtonSegment(value: 'second_half', label: Text('2nd half')),
+          segments: [
+            ButtonSegment(value: 'full_day', label: Text(tr('Full day'))),
+            ButtonSegment(value: 'first_half', label: Text(tr('1st half'))),
+            ButtonSegment(value: 'second_half', label: Text(tr('2nd half'))),
           ],
           selected: {kind},
           onSelectionChanged: (v) => set(() => kind = v.first),
         ),
-        TextField(controller: reason, decoration: const InputDecoration(labelText: 'Reason')),
+        TextField(controller: reason, decoration: InputDecoration(labelText: tr('Reason (optional)'))),
         TextField(controller: handover, minLines: 2, maxLines: 4,
-            decoration: const InputDecoration(labelText: 'Note for whoever covers (optional)')),
+            decoration: InputDecoration(labelText: tr('Note for whoever covers (optional)'))),
       ])),
       actions: [
         TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Cancel'))),
-        FilledButton(onPressed: range == null ? null : () => Navigator.pop(ctx, true), child: const Text('Apply')),
+        FilledButton(key: const Key('leave-apply'), onPressed: range == null ? null : () => Navigator.pop(ctx, true),
+            child: Text(tr('Apply'))),
       ],
     )));
     if (ok != true || range == null) return;
@@ -333,20 +383,24 @@ class _MyDayPageState extends State<MyDayPage> {
         'reason': reason.text.trim().isEmpty ? 'Leave' : reason.text.trim(),
         if (handover.text.trim().isNotEmpty) 'handoverNote': handover.text.trim(),
       });
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Leave applied; the principal has been asked')));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(tr('Leave applied; the principal has been asked'))));
+      }
       _load();
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
     }
   }
 
-  /// Mark today's lesson taught or not (TA-1); a skipped lesson reflows the plan.
+  /// Mark today's lesson taught, partly taught or not (TA-1). Not taught or
+  /// partly taught plans the subtopic again at the next free period.
   Future<void> _markLesson(String id, String status) async {
     String? note;
-    if (status == 'skipped') {
+    if (status == 'skipped' || status == 'partly') {
       final c = TextEditingController();
       final ok = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(
-        title: const Text('Why was it not taught?'),
+        title: Text(status == 'skipped' ? tr('Why was it not taught?') : tr('What is left to teach?')),
         content: TextField(controller: c, autofocus: true),
         actions: [
           TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Cancel'))),
@@ -401,7 +455,7 @@ class _MyDayPageState extends State<MyDayPage> {
     };
     final pending = _duties.where((d) => d['status'] == 'proposed').toList();
     return Scaffold(
-      appBar: AppBar(title: Text(tr('My day')), actions: [
+      appBar: destinationAppBar(context, title: Text(tr('My day')), actions: [
         FilledButton.tonalIcon(
           onPressed: _checkedIn == null ? _checkIn : null,
           icon: const Icon(Icons.how_to_reg),
@@ -414,13 +468,22 @@ class _MyDayPageState extends State<MyDayPage> {
           : _rows == null
               ? const LoadingIndicator()
               : ListView(padding: const EdgeInsets.all(16), children: [
+                  if (_ctxError != null)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Text(_ctxError!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
+                    ),
                   if (pending.isNotEmpty) ...[
                     SectionHeader(title: tr('Cover asked of you')),
                     for (final d in pending)
                       ListTile(
                         title: Text('${d['date']} · period ${d['period']} · '
                             '${_ctx?.sectionLabels[d['sectionId']] ?? d['sectionId']}'),
-                        subtitle: Text(_ctx?.subjectNames[d['subjectId']] ?? ''),
+                        subtitle: Text([
+                          _ctx?.subjectNames[d['subjectId']] ?? '',
+                          if (d['handoverNote'] != null) '${tr('Note')}: ${d['handoverNote']}',
+                        ].where((s) => s.isNotEmpty).join('\n')),
+                        isThreeLine: d['handoverNote'] != null,
                         trailing: Wrap(spacing: 8, children: [
                           OutlinedButton(onPressed: () => _respond(d['id'], false), child: Text(tr('Decline'))),
                           FilledButton(onPressed: () => _respond(d['id'], true), child: Text(tr('Accept'))),
@@ -437,10 +500,14 @@ class _MyDayPageState extends State<MyDayPage> {
                             ? Wrap(spacing: 6, children: [
                                 OutlinedButton(onPressed: () => _markLesson(l['lessonId'] as String, 'skipped'),
                                     child: Text(tr('Not taught'))),
+                                OutlinedButton(onPressed: () => _markLesson(l['lessonId'] as String, 'partly'),
+                                    child: Text(tr('Partly'))),
                                 FilledButton(onPressed: () => _markLesson(l['lessonId'] as String, 'completed'),
                                     child: Text(tr('Taught'))),
                               ])
-                            : ChipTag(label: l['status'] == 'completed' ? 'Taught' : 'Not taught'),
+                            : ChipTag(label: l['status'] == 'skipped'
+                                ? tr('Not taught')
+                                : (l['note'] as String? ?? '').startsWith('Partly') ? tr('Partly taught') : tr('Taught')),
                       ),
                   ],
                   SectionHeader(
@@ -459,14 +526,30 @@ class _MyDayPageState extends State<MyDayPage> {
                           TextButton(onPressed: () => _cancelLeave(l['id'] as String), child: Text(tr('Cancel'))),
                       ]),
                     ),
-                  SectionHeader(title: tr('Today'), subtitle: '${_rows!.length} periods'),
+                  SectionHeader(
+                    title: tr('Today'),
+                    subtitle: [
+                      '${_rows!.length} periods',
+                      if (_rows!.any((r) => r['changed'] == true))
+                        '${_rows!.where((r) => r['changed'] == true).length} ${tr('changed')}',
+                      nextPeriodLine(_rows!.cast<Map>(), DateTime.now(),
+                              what: (r) => r['sectionName'] as String? ?? '') ??
+                          '',
+                    ].where((s) => s.isNotEmpty).join(' · '),
+                  ),
                   if (_rows!.isEmpty) const Text('No periods today.'),
                   for (final r in _rows!)
                     ListTile(
                       leading: CircleAvatar(child: Text('${r['period']}')),
-                      title: Text('${_ctx?.sectionLabels[r['sectionId']] ?? r['sectionId']} · '
-                          '${_ctx?.subjectNames[r['subjectId']] ?? ''}'),
-                      trailing: ChipTag(label: kinds[r['kind']] ?? r['kind']),
+                      title: Text('${r['sectionName'] ?? _ctx?.sectionLabels[r['sectionId']] ?? r['sectionId']} · '
+                          '${r['subjectName'] ?? _ctx?.subjectNames[r['subjectId']] ?? ''}'),
+                      subtitle: Text([
+                        periodWhenWhere(r),
+                        if (r['note'] != null && r['kind'] != 'regular') r['note'] as String,
+                      ].where((s) => s.isNotEmpty).join(' · ')),
+                      trailing: ChipTag(
+                          label: kinds[r['kind']] ?? r['kind'],
+                          color: r['changed'] == true ? Theme.of(context).colorScheme.tertiary : null),
                     ),
                 ]),
     );

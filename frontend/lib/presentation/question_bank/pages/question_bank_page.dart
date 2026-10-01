@@ -6,6 +6,7 @@ import '../../../core/constants/release_scope.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// Browse the real question bank: every question ingested from CBSE board
 /// papers, filterable the way a teacher actually searches — subject, then
@@ -219,7 +220,6 @@ class _QuestionBankPageState extends State<QuestionBankPage> {
                           _loadQuestions();
                         },
                       ),
-                border: const OutlineInputBorder(),
               ),
             ),
           ),
@@ -317,8 +317,8 @@ class _QuestionBankPageState extends State<QuestionBankPage> {
   }
 
   Color _difficultyColor(String d) => switch (d) {
-        'easy' => Colors.green,
-        'hard' => Colors.red,
-        _ => Colors.orange,
+        'easy' => AppColors.success,
+        'hard' => AppColors.danger,
+        _ => AppColors.warning,
       };
 }

@@ -13,6 +13,8 @@ import '../../core/session/current_session.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'strings.dart';
+import 'package:academicos/core/theme/app_theme.dart';
+import '../shared/widgets/shell.dart';
 
 /// Papers waiting for review (EX-6): the reviewer approves one for the
 /// principal or sends it back with what to change.
@@ -56,7 +58,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Paper reviews')), actions: [
+      appBar: destinationAppBar(context, title: Text(tr('Paper reviews')), actions: [
         SegmentedButton<String>(
           segments: const [ButtonSegment(value: 'pending', label: Text('Waiting')),
             ButtonSegment(value: '', label: Text('All'))],
@@ -96,7 +98,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
                           child: const Text('Open paper')),
                       if (r['reviewerId'] == CurrentSession.userId || CurrentSession.role == 'principal') ...[
                         OutlinedButton(onPressed: () => _decide(r, 'changes'), child: const Text('Ask for changes')),
-                        FilledButton(onPressed: () => _decide(r, 'approve'), child: const Text('Approve for principal')),
+                        FilledButton(onPressed: () => _decide(r, 'approve'),
+                            // The principal's approval is the final one: it locks the paper.
+                            child: Text(CurrentSession.role == 'principal'
+                                ? 'Approve and lock' : 'Approve for principal')),
                       ],
                     ]),
                 ]),
@@ -194,7 +199,7 @@ class _ImportPageState extends State<ImportPage> {
     final r = _result;
     final counts = r == null ? null : Map<String, dynamic>.from(r['counts'] as Map);
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Import & export'))),
+      appBar: destinationAppBar(context, title: Text(tr('Import & export'))),
       body: ListView(padding: const EdgeInsets.all(16), children: [
         const SectionHeader(title: 'Import', subtitle: 'Nothing is written until you apply. People get invites, never accounts.'),
         Wrap(spacing: 8, runSpacing: 8, crossAxisAlignment: WrapCrossAlignment.center, children: [
@@ -220,7 +225,7 @@ class _ImportPageState extends State<ImportPage> {
           )
         else
           TextField(controller: _csv, minLines: 8, maxLines: 20, style: const TextStyle(fontFamily: 'monospace'),
-              decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Paste CSV here, header first')),
+              decoration: const InputDecoration(hintText: 'Paste CSV here, header first')),
         const SizedBox(height: 8),
         Wrap(spacing: 8, children: [
           OutlinedButton(onPressed: _busy ? null : () => _run(apply: false), child: const Text('Check')),
@@ -238,7 +243,7 @@ class _ImportPageState extends State<ImportPage> {
             ListTile(
               dense: true,
               leading: Icon(switch (row['status']) { 'ok' => Icons.check_circle, 'skip' => Icons.remove_circle_outline, _ => Icons.error },
-                  color: switch (row['status']) { 'ok' => Colors.green, 'skip' => theme.disabledColor, _ => theme.colorScheme.error }),
+                  color: switch (row['status']) { 'ok' => AppColors.success, 'skip' => theme.disabledColor, _ => theme.colorScheme.error }),
               title: Text('Row ${row['row']}: ${row['message']}'),
               subtitle: row['inviteCode'] != null ? SelectableText('Invite code: ${row['inviteCode']}') : null,
             ),
@@ -313,7 +318,7 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr('API keys'))),
+      appBar: destinationAppBar(context, title: Text(tr('API keys'))),
       floatingActionButton: FloatingActionButton.extended(onPressed: _mint, icon: const Icon(Icons.key), label: const Text('New key')),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _future,
@@ -357,13 +362,51 @@ class GrantsPage extends StatefulWidget {
 
 class _GrantsPageState extends State<GrantsPage> {
   late Future<(List<Map<String, dynamic>>, List<Map<String, dynamic>>, List<Map<String, dynamic>>)> _future = _load();
+  List<Map<String, dynamic>> _left = const [];
 
   Future<(List<Map<String, dynamic>>, List<Map<String, dynamic>>, List<Map<String, dynamic>>)> _load() async {
     final teachers = await Ops.list('/auth/users', query: {'role': 'teacher'});
     final grants = await Ops.list('/admin/grants');
     final mine = await Ops.map('/my-grants');
     final caps = (mine['available'] as List).map((e) => Map<String, dynamic>.from(e as Map)).toList();
+    // The accounts the school has closed, so one closed by mistake can be reopened.
+    _left = await Ops.list('/auth/users', query: {'role': 'left'});
     return (teachers, grants, caps);
+  }
+
+  /// Someone has left the school: their sign-in stops working at once and
+  /// their admin access ends; their papers, marks and history stay (N-67-8).
+  Future<void> _close(Map<String, dynamic> person) async {
+    final ok = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(
+      title: Text("Close ${person['name']}'s account?"),
+      content: const Text('Use this when someone has left the school. They are signed out everywhere and '
+          'cannot sign in again, and any admin access they had ends. Their papers, marks and history '
+          'stay. You can reopen the account later.'),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Cancel'))),
+        FilledButton(
+          style: FilledButton.styleFrom(backgroundColor: Theme.of(ctx).colorScheme.error),
+          onPressed: () => Navigator.pop(ctx, true),
+          child: const Text('Close account'),
+        ),
+      ],
+    ));
+    if (ok != true) return;
+    try {
+      await Ops.post('/auth/users/${person['id']}/close');
+      _reload();
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
+    }
+  }
+
+  Future<void> _reopen(Map<String, dynamic> person) async {
+    try {
+      await Ops.post('/auth/users/${person['id']}/reopen');
+      _reload();
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
+    }
   }
 
   void _reload() => setState(() { _future = _load(); });
@@ -384,6 +427,10 @@ class _GrantsPageState extends State<GrantsPage> {
         ),
         const SizedBox(height: 8),
         const Text('Only for these classes (none ticked: the whole school)'),
+        const SizedBox(height: 2),
+        Text("An admin limited to some classes acts only on those classes' sections. "
+            'School-wide pages and actions stay with you.',
+            style: Theme.of(ctx).textTheme.bodySmall),
         Wrap(spacing: 4, children: [
           for (var g = 1; g <= 12; g++)
             FilterChip(label: Text('$g'), selected: grades.contains(g),
@@ -408,7 +455,7 @@ class _GrantsPageState extends State<GrantsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Staff permissions'))),
+      appBar: destinationAppBar(context, title: Text(tr('Staff permissions'))),
       body: FutureBuilder(
         future: _future,
         builder: (context, snap) {
@@ -427,6 +474,13 @@ class _GrantsPageState extends State<GrantsPage> {
                   Row(children: [
                     Expanded(child: Text(t['name'], style: Theme.of(context).textTheme.titleSmall)),
                     TextButton.icon(onPressed: () => _grant(t, caps), icon: const Icon(Icons.add), label: const Text('Grant')),
+                    PopupMenuButton<String>(
+                      tooltip: 'More for ${t['name']}',
+                      onSelected: (_) => _close(t),
+                      itemBuilder: (_) => const [
+                        PopupMenuItem(value: 'close', child: Text('Close account (left the school)')),
+                      ],
+                    ),
                   ]),
                   Wrap(spacing: 6, runSpacing: 4, children: [
                     for (final g in grants.where((g) => g['userId'] == t['id']))
@@ -442,6 +496,19 @@ class _GrantsPageState extends State<GrantsPage> {
                   ]),
                 ]),
               ),
+            if (_left.isNotEmpty) ...[
+              const SizedBox(height: 16),
+              Text('Closed accounts', style: Theme.of(context).textTheme.titleSmall),
+              const SizedBox(height: 8),
+              for (final person in _left)
+                AppCard(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  child: Row(children: [
+                    Expanded(child: Text(person['name'] as String)),
+                    TextButton(onPressed: () => _reopen(person), child: const Text('Reopen')),
+                  ]),
+                ),
+            ],
           ]);
         },
       ),

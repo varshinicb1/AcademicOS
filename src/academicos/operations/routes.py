@@ -44,7 +44,8 @@ def init(cfg: Config) -> None:
     from .guardian_routes import on_register
     auth_routes.add_register_hook(on_register)
     # Delegated admin (M1.4): a teacher's grants open require_admin routes.
-    auth_routes.set_grant_checker(lambda user_id, cap, **target: store().holds(user_id, cap, **target))
+    auth_routes.set_grant_checker(lambda user_id, cap, **target: store().holds(user_id, cap, **target),
+                                  scopes=lambda user_id, cap: store().grant_scopes(user_id, cap))
 
 
 def _record_learning(student_id: str, results: list, source: Optional[str]) -> None:
@@ -57,15 +58,40 @@ def store() -> OperationsStore:
     return get_operations_store(_cfg.data_root)
 
 
-def notify_safely(**kw: Any) -> None:
+def notify_safely(**kw: Any) -> list:
     """For other modules: a notification must never break the action that
-    caused it (a leave decision, a substitution), so failures are logged."""
+    caused it (a leave decision, a substitution), so failures are logged.
+    Returns the notifications made ([] when none, or on failure)."""
     if _cfg is None:
-        return
+        return []
     try:
-        store().notify(**kw)
+        return store().notify(**kw)
     except Exception:  # noqa: BLE001
         logger.warning("could not notify %s about %s", kw.get("user_ids"), kw.get("kind"), exc_info=True)
+        return []
+
+
+def notify_parents_safely(*, school_id: str, student_ids, kind: str, params: dict[str, Any],
+                          dedupe_key: Optional[str] = None, exclude=()) -> list[str]:
+    """N-8-7: the linked parents of these students hear the same school
+    notice (a holiday, a published or changed exam, a timetable change),
+    under their own settings -- per-kind channels, quiet hours, language and
+    digest, as every notice. Scoped to the school's own active links; the
+    link is to the parent's children page, since /my-exams and /my-timetable
+    are a student's. Like notify_safely it never breaks the action. Returns
+    the parents it addressed."""
+    if _cfg is None or not student_ids:
+        return []
+    skip = set(exclude)
+    try:
+        parents = [p for p in store().parents_of(student_ids, school_id=school_id) if p not in skip]
+    except Exception:  # noqa: BLE001
+        logger.warning("could not find the parents of %d students for %s", len(student_ids), kind, exc_info=True)
+        return []
+    if parents:
+        notify_safely(school_id=school_id, user_ids=parents, kind=kind, params=params, link="/my-children",
+                      dedupe_key=dedupe_key)
+    return parents
 
 
 class _Req(Camel):
@@ -198,8 +224,9 @@ class AutomationRun(Camel):
 
 @router.get("/automations/status", response_model=list[AutomationRun])
 def automations_status(principal: User = Depends(require_admin("reports"))) -> list[AutomationRun]:
-    """The latest automation runs, newest first (runs are not per school)."""
-    return [AutomationRun(**r) for r in store().automation_history()]
+    """The latest automation runs, newest first, each with what it sent to
+    this school; another school's counts are not shown."""
+    return [AutomationRun(**r) for r in store().automation_history(principal.school_id)]
 
 
 class StaffMember(Camel):

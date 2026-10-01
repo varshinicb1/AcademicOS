@@ -50,17 +50,25 @@ class _LoginPageState extends State<LoginPage> {
   String? _error;
   // The Google client id when this deployment has Google sign-in (INT-1).
   String? _googleClientId;
+  // Whether this deployment can email a sign-in code. Offered only once the
+  // server says so: with no school email set up, a tap answered 503 (N-8-9).
+  bool _emailCode = false;
 
   @override
   void initState() {
     super.initState();
     if (!GetIt.I.isRegistered<Dio>()) return;     // a widget test with no server
     GetIt.I<Dio>().get('/auth/providers').then((r) {
-      final g = (r.data as Map)['google'];
-      if (mounted && g is Map) setState(() => _googleClientId = g['clientId'] as String?);
+      final data = r.data as Map;
+      final g = data['google'];
+      if (!mounted) return;
+      setState(() {
+        if (g is Map) _googleClientId = g['clientId'] as String?;
+        _emailCode = data['emailCode'] == true;
+      });
     }, onError: (Object e) {
-      // Without the answer the page offers the password and the emailed code,
-      // which work regardless; the reason is shown only if Google was asked for.
+      // Without the answer the page offers the password, which works
+      // regardless; the other ways in are shown only when the server has them.
       if (mounted) setState(() => _googleClientId = null);
       debugPrint('sign-in providers: ${serverErrorMessage(e)}');
     });
@@ -218,7 +226,6 @@ class _LoginPageState extends State<LoginPage> {
               labelText: 'School ID',
               hintText: "The new school's ID, from your operator",
               prefixIcon: Icon(Icons.apartment_outlined),
-              border: OutlineInputBorder(),
             ),
             validator: (v) =>
                 (_firstPrincipal && (v == null || v.trim().isEmpty)) ? 'Required' : null,
@@ -232,7 +239,6 @@ class _LoginPageState extends State<LoginPage> {
             decoration: const InputDecoration(
               labelText: 'Principal key',
               prefixIcon: Icon(Icons.key_outlined),
-              border: OutlineInputBorder(),
             ),
             validator: (v) =>
                 (_firstPrincipal && (v == null || v.trim().isEmpty)) ? 'Required' : null,
@@ -248,7 +254,6 @@ class _LoginPageState extends State<LoginPage> {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
     return Scaffold(
-      backgroundColor: colors.surfaceContainerLowest,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -259,22 +264,21 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 24),
-                  Container(
-                    width: 72,
-                    height: 72,
-                    decoration: BoxDecoration(
-                      color: colors.primaryContainer,
-                      shape: BoxShape.circle,
+                  Center(
+                    child: Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: colors.primaryContainer,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Icon(Icons.school_outlined, size: 28, color: colors.onPrimaryContainer),
                     ),
-                    child: Icon(Icons.school, size: 36, color: colors.onPrimaryContainer),
                   ),
                   const SizedBox(height: 16),
                   Text(
                     'AcademicOS',
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: colors.onSurface,
-                    ),
+                    style: theme.textTheme.headlineMedium?.copyWith(color: colors.onSurface),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 4),
@@ -348,7 +352,6 @@ class _LoginPageState extends State<LoginPage> {
                                   labelText: 'Invite code',
                                   hintText: 'The code your principal gave you',
                                   prefixIcon: Icon(Icons.confirmation_number_outlined),
-                                  border: OutlineInputBorder(),
                                 ),
                                 validator: (v) =>
                                     (v == null || v.trim().isEmpty) ? 'Required' : null,
@@ -361,7 +364,6 @@ class _LoginPageState extends State<LoginPage> {
                               decoration: const InputDecoration(
                                 labelText: 'Your name',
                                 prefixIcon: Icon(Icons.person_outline),
-                                border: OutlineInputBorder(),
                               ),
                               validator: (v) =>
                                   (v == null || v.trim().isEmpty) ? 'Required' : null,
@@ -375,7 +377,6 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: const InputDecoration(
                               labelText: 'Email',
                               prefixIcon: Icon(Icons.email_outlined),
-                              border: OutlineInputBorder(),
                             ),
                             validator: (v) =>
                                 (v == null || !v.contains('@')) ? 'Enter a valid email' : null,
@@ -389,8 +390,7 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: InputDecoration(
                               labelText: 'Password',
                               prefixIcon: const Icon(Icons.lock_outline),
-                              border: const OutlineInputBorder(),
-                              suffixIcon: IconButton(
+                              suffixIcon: IconButton(tooltip: _obscurePassword ? 'Show password' : 'Hide password', 
                                 icon: Icon(_obscurePassword
                                     ? Icons.visibility_outlined
                                     : Icons.visibility_off_outlined),
@@ -421,7 +421,7 @@ class _LoginPageState extends State<LoginPage> {
                                   : Text(_registering ? 'Create account' : 'Sign in'),
                             ),
                           ),
-                          if (!_registering)
+                          if (!_registering && _emailCode)
                             TextButton(
                               // Students and parents may sign in without a password (ROLE-2).
                               onPressed: _submitting ? null : _signInWithCode,

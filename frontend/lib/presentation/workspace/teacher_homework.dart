@@ -7,6 +7,8 @@ import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'photos_ui.dart';
 import 'strings.dart';
+import 'package:academicos/core/theme/app_theme.dart';
+import '../shared/widgets/shell.dart';
 
 /// What a teacher teaches this year, for pickers: sections, subjects and
 /// the allocations joining them (the principal sees all of them).
@@ -56,7 +58,7 @@ class _TeacherHomeworkPageState extends State<TeacherHomeworkPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Homework'))),
+      appBar: destinationAppBar(context, title: Text(tr('Homework'))),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           final made = await showDialog<bool>(context: context, builder: (_) => const _CreateHomeworkDialog());
@@ -119,6 +121,7 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
   final Set<String> _questions = {};
   int _count = 5;
   final Set<String> _types = {};
+  final Set<String> _difficulties = {};
   bool _busy = false;
 
   @override
@@ -165,6 +168,7 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
         'instructions': _instructions.text.trim(), 'dueDate': isoDate(_due),
         'questionIds': _questions.toList(), 'chapterIds': _chapters.toList(), 'count': _count,
         if (_types.isNotEmpty) 'types': _types.toList(),
+        if (_difficulties.isNotEmpty) 'difficulties': _difficulties.toList(),
       });
       if (mounted) Navigator.pop(context, true);
     } catch (e) {
@@ -263,6 +267,13 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
                         ('short_answer', 'Short'), ('long_answer', 'Long')])
                         FilterChip(label: Text(t.$2), selected: _types.contains(t.$1),
                             onSelected: (on) => setState(() => on ? _types.add(t.$1) : _types.remove(t.$1))),
+                    ]),
+                    // TA-4: how hard; none ticked means any.
+                    Wrap(spacing: 6, children: [
+                      for (final d in const [('easy', 'Easy'), ('medium', 'Medium'), ('hard', 'Hard')])
+                        FilterChip(key: Key('difficulty-${d.$1}'), label: Text(tr(d.$2)),
+                            selected: _difficulties.contains(d.$1),
+                            onSelected: (on) => setState(() => on ? _difficulties.add(d.$1) : _difficulties.remove(d.$1))),
                     ]),
                     Row(children: [
                       const Text('Pick'),
@@ -452,7 +463,7 @@ class _GradeDialogState extends State<_GradeDialog> {
               SizedBox(width: 90, child: TextField(controller: _marks[e['questionId']],
                   decoration: InputDecoration(suffixText: '/${e['maxMarks']}'))),
               const SizedBox(width: 12),
-              if (e['needsReview'] == true) const ChipTag(label: 'Check this', color: Colors.orange),
+              if (e['needsReview'] == true) const ChipTag(label: 'Check this', color: AppColors.warning),
               const SizedBox(width: 8),
               Expanded(child: Text(e['reasoning'] ?? '', style: theme.textTheme.bodySmall, maxLines: 2)),
             ]),

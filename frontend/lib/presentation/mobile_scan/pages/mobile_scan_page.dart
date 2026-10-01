@@ -13,6 +13,7 @@ import '../../../core/local_engine/local_store.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import 'package:academicos/core/theme/app_theme.dart';
 
 /// Sentinel for the "add a new student" option in the roster dropdown --
 /// never a real student id, so it can't collide with one.
@@ -331,7 +332,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
                 DropdownButtonFormField<Map<String, dynamic>>(
                   initialValue: _selectedAssessment,
                   isExpanded: true,
-                  decoration: const InputDecoration(border: OutlineInputBorder(), isDense: true),
+                  decoration: const InputDecoration(isDense: true),
                   items: _assessments
                       .map((a) => DropdownMenuItem(
                             value: a,
@@ -356,7 +357,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
                   initialValue: _studentSelection,
                   isExpanded: true,
                   decoration: const InputDecoration(
-                      labelText: 'Student', border: OutlineInputBorder(), isDense: true),
+                      labelText: 'Student', isDense: true),
                   items: [
                     for (final id in roster)
                       DropdownMenuItem(
@@ -384,13 +385,13 @@ class _MobileScanPageState extends State<MobileScanPage> {
                 TextField(
                   controller: _studentName,
                   decoration: const InputDecoration(
-                      labelText: 'Student name', border: OutlineInputBorder(), isDense: true),
+                      labelText: 'Student name', isDense: true),
                 ),
                 const Gap(10),
                 TextField(
                   controller: _studentId,
                   decoration: const InputDecoration(
-                      labelText: 'Roll no. / ID (optional)', border: OutlineInputBorder(), isDense: true),
+                      labelText: 'Roll no. / ID (optional)', isDense: true),
                 ),
               ],
             ],
@@ -469,7 +470,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
                                 style: theme.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w600)),
                             const Spacer(),
                             if (p.warnings.isNotEmpty)
-                              Icon(Icons.warning_amber, size: 15, color: Colors.orange.shade700),
+                              const Icon(Icons.warning_amber, size: 15, color: AppColors.warning),
                           ]),
                           const Gap(4),
                           Expanded(
@@ -557,13 +558,13 @@ class _MobileScanPageState extends State<MobileScanPage> {
               background: Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.only(left: 24),
-                decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(16)),
+                decoration: BoxDecoration(color: AppColors.success, borderRadius: BorderRadius.circular(16)),
                 child: const Icon(Icons.check_circle, color: Colors.white, size: 32),
               ),
               secondaryBackground: Container(
                 alignment: Alignment.centerRight,
                 padding: const EdgeInsets.only(right: 24),
-                decoration: BoxDecoration(color: Colors.orange, borderRadius: BorderRadius.circular(16)),
+                decoration: BoxDecoration(color: AppColors.warning, borderRadius: BorderRadius.circular(16)),
                 child: const Icon(Icons.edit, color: Colors.white, size: 32),
               ),
               confirmDismiss: (direction) async {
@@ -669,7 +670,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
                   const Spacer(),
                   ChipTag(
                     label: '${(item.confidence * 100).round()}% confident',
-                    color: item.needsReview ? Colors.orange : Colors.green,
+                    color: item.needsReview ? AppColors.warning : AppColors.success,
                   ),
                 ],
               ),
@@ -678,7 +679,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
               if (item.ocrWarnings.isNotEmpty) ...[
                 const Gap(8),
                 Row(children: [
-                  const Icon(Icons.flag, size: 15, color: Colors.orange),
+                  const Icon(Icons.flag, size: 15, color: AppColors.warning),
                   const Gap(6),
                   Expanded(child: Text(item.ocrWarnings.join('; '), style: theme.textTheme.bodySmall)),
                 ]),
@@ -699,7 +700,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Icon(m.awarded ? Icons.check_circle : Icons.cancel,
-                              size: 17, color: m.awarded ? Colors.green : Colors.red),
+                              size: 17, color: m.awarded ? AppColors.success : AppColors.danger),
                           const Gap(8),
                           Expanded(
                             child: Column(
@@ -852,7 +853,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
               ),
               TextField(
                 controller: comment,
-                decoration: const InputDecoration(labelText: 'Comment (optional)', border: OutlineInputBorder()),
+                decoration: const InputDecoration(labelText: 'Comment (optional)'),
                 maxLines: 2,
               ),
               const Gap(16),
@@ -871,10 +872,10 @@ class _MobileScanPageState extends State<MobileScanPage> {
   }
 
   Color _verdictColor(String v) => switch (v) {
-        'fullCredit' => Colors.green,
-        'partialCredit' => Colors.orange,
+        'fullCredit' => AppColors.success,
+        'partialCredit' => AppColors.warning,
         'blank' => Colors.grey,
-        _ => Colors.red,
+        _ => AppColors.danger,
       };
 
   // ---- Complete ----
@@ -890,7 +891,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(children: [
-                const Icon(Icons.celebration_outlined, color: Colors.green, size: 28),
+                const Icon(Icons.celebration_outlined, color: AppColors.success, size: 28),
                 const Gap(10),
                 Text('Review complete', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
               ]),

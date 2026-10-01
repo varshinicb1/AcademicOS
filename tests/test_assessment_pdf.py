@@ -85,6 +85,49 @@ def test_export_pdf_without_watermark_has_none(tmp_path):
     assert "Page 1" in text
 
 
+def _long_paper(n: int = 40):
+    """A paper long enough to run to several pages."""
+    now = datetime.now(timezone.utc)
+    qs = [GeneratedQuestionSchema(
+        question_id=f"q{i}", display_number=i, marks=5, bloom_level="apply",
+        difficulty="medium", type="long_answer",
+        stem=f"Question {i}: describe, with a labelled diagram and two examples, "
+             "how the process works and why it matters. " * 3)
+        for i in range(1, n + 1)]
+    section = GeneratedSectionSchema(section_id="s1", label="A", name="Long answer",
+                                     questions=qs, total_marks=5 * n)
+    meta = PaperMetadataSchema(assessment_title="Annual Examination", subject="Science",
+                               grade=10, total_marks=5 * n, duration_minutes=180,
+                               generated_at=now)
+    return GeneratedPaper(id="paper_long01", assessment_id="a", sections=[section],
+                          metadata=meta, answer_key={str(i): f"key {i}" for i in range(1, n + 1)})
+
+
+def _page_texts(pdf_path: Path) -> list[str]:
+    import fitz
+
+    doc = fitz.open(str(pdf_path))
+    try:
+        return [page.get_text() for page in doc]
+    finally:
+        doc.close()
+
+
+def test_pto_prints_on_every_page_but_the_last_and_pages_are_counted(tmp_path):
+    """Audit D59: "P.T.O." printed on the last page of 28/28 papers, and the
+    footer said "Page N" with no total. A page with nothing after it tells no
+    one to turn over."""
+    pages = _page_texts(export_pdf(_long_paper(), tmp_path / "long", watermark_id="W1"))
+    assert len(pages) >= 3
+    for n, text in enumerate(pages, start=1):
+        assert f"Page {n} of {len(pages)}" in text, n
+        assert ("P.T.O." in text) == (n < len(pages)), n
+        assert "traceable copy W1" in text, n            # the watermark still on every page
+    # A one-page paper has no page to turn to.
+    one = _page_texts(export_pdf(_make_paper(), tmp_path / "one"))
+    assert len(one) == 1 and "P.T.O." not in one[0] and "Page 1 of 1" in one[0]
+
+
 def test_watermark_differs_per_export(tmp_path):
     a = _extract_text(export_pdf(_make_paper(), tmp_path / "a", watermark_id="COPY-001"))
     b = _extract_text(export_pdf(_make_paper(), tmp_path / "b", watermark_id="COPY-002"))
@@ -518,9 +561,36 @@ def test_the_teachers_header_and_instructions_are_printed(tmp_path):
     })
     text = _extract_text(export_pdf(paper, tmp_path / "h"))
     for expected in ("Green Valley School", "Unit Test 1", "Date: 3 October",
-                     "0 hours 40 minutes", "Write neatly.", "No calculators are allowed."):
+                     "Time Allowed: 40 minutes", "Write neatly.", "No calculators are allowed."):
         assert expected in text, expected
     assert "Draw neat diagrams" not in text      # the canned list is replaced
+    assert "0 hours" not in text
+
+
+@pytest.mark.parametrize("minutes, printed", [
+    (40, "40 minutes"), (1, "1 minute"), (60, "1 hour"), (90, "1 hour 30 minutes"),
+    (61, "1 hour 1 minute"), (120, "2 hours"), (180, "3 hours"), (150, "2 hours 30 minutes"),
+])
+def test_the_time_allowed_reads_as_a_paper_prints_it(minutes, printed):
+    """"Time Allowed: 0 hours 40 minutes" printed on every unit test (v3 audit,
+    14 of 14), and a one-hour paper read "1 hours 00 minutes"."""
+    from academicos.assessment.duration import format_duration
+    assert format_duration(minutes) == printed
+
+
+def test_every_header_prints_the_time_the_same_way(tmp_path):
+    from academicos.assessment.docx_export import export_docx
+    from academicos.assessment.paper import render_text
+    import io
+    import zipfile
+    paper = _make_paper()
+    for minutes, printed in ((40, "40 minutes"), (180, "3 hours"), (90, "1 hour 30 minutes")):
+        paper.metadata = paper.metadata.model_copy(update={"duration_minutes": minutes})
+        pdf_text = _extract_text(export_pdf(paper, tmp_path / f"t{minutes}"))
+        docx = export_docx(paper, tmp_path / f"d{minutes}").read_bytes()
+        word = zipfile.ZipFile(io.BytesIO(docx)).read("word/document.xml").decode()
+        for text in (pdf_text, word, render_text(paper)):
+            assert f"Time Allowed: {printed}" in text, (minutes, text[:300])
 
 
 def test_a_paper_without_a_header_keeps_the_default_instructions(tmp_path):

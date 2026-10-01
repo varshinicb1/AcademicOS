@@ -22,11 +22,12 @@ from .learning import LEARNING_SCHEMA, LearningMixin
 from .notifications import NOTIFICATIONS_SCHEMA, NotificationsMixin
 from .paper_marks import MARKS_SCHEMA, MarksMixin
 from .paper_reviews import REVIEWS_SCHEMA, ReviewsMixin
+from .question_reviews import QUESTION_REVIEWS_SCHEMA, QuestionReviewsMixin
 
 
 class OperationsStore(NotificationsMixin, HomeworkMixin, LearningMixin, GuardiansMixin, AutomationsMixin,
                       ReviewsMixin, MarksMixin, ExamsMixin, GrantsMixin,
-                      FeedsMixin, PhotosMixin, PracticeMixin, CodesMixin):
+                      FeedsMixin, PhotosMixin, PracticeMixin, CodesMixin, QuestionReviewsMixin):
     _SNAPSHOT_KEY = "operations.sqlite"
     _SNAPSHOT_DEBOUNCE_SECONDS = 20.0
 
@@ -53,7 +54,7 @@ class OperationsStore(NotificationsMixin, HomeworkMixin, LearningMixin, Guardian
         return (NOTIFICATIONS_SCHEMA + HOMEWORK_SCHEMA + LEARNING_SCHEMA + GUARDIANS_SCHEMA + AUTOMATIONS_SCHEMA
                 + REVIEWS_SCHEMA + MARKS_SCHEMA + EXAMS_SCHEMA + GRANTS_SCHEMA
                 + FEEDS_SCHEMA + PHOTOS_SCHEMA + PRACTICE_SCHEMA
-                + CODES_SCHEMA)
+                + CODES_SCHEMA + QUESTION_REVIEWS_SCHEMA)
 
     def _exec(self, sql: str, params: tuple = ()) -> None:
         with self._conn_lock:

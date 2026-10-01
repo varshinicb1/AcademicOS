@@ -117,8 +117,9 @@ def _header(student_name: str, student_id: str, subject: str,
                   f"&nbsp;|&nbsp; Subject: {escape(subject)}", styles["meta"]),
         Paragraph(f"Generated {datetime.now().strftime('%d %b %Y')}", styles["small"]),
     ]
-    logo_path = Path(template.logo_url) if template and template.logo_url else None
-    if logo_path and logo_path.exists():
+    from ..curriculum.school_profile import printable_logo
+    logo_path = printable_logo(Path(template.logo_url) if template and template.logo_url else None)
+    if logo_path:
         band = Table([[Image(str(logo_path), width=16 * mm, height=16 * mm), title_block]],
                      colWidths=[20 * mm, content_width - 20 * mm])
         band.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "MIDDLE")]))

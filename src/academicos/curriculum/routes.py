@@ -18,7 +18,8 @@ from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 
-from ..assessment.auth_routes import get_current_user, require_admin, require_principal, require_staff
+from ..assessment.auth_routes import (get_current_user, require_admin, require_in_scope, require_principal,
+                                      require_staff)
 from ..assessment.authz import require_own_school, require_own_subtopics
 from ..assessment.pool import get_pool
 from ..assessment.users import User
@@ -371,10 +372,24 @@ def list_sections(academic_year_id: str,
             for sec in store.sections_for_year(academic_year_id)]
 
 
+def require_section_in_scope(section_id: str, current: User, capability: str,
+                             subject_id: Optional[str] = None) -> None:
+    """For a route a limited admin may take (require_admin(..., scoped=True)):
+    the section, its class, and the subject when the route names one, must
+    be inside the caller's grant. Call it after the school ownership check."""
+    store = _require()
+    sec = store.get_section(section_id)
+    grade = store.get_grade(sec.grade_id) if sec else None
+    require_in_scope(current, capability, grade=grade.number if grade else None,
+                     section_id=section_id, subject_id=subject_id)
+
+
 @router.post("/grades/{grade_id}/sections", response_model=SectionResponse)
 def create_section(grade_id: str, req: CreateSectionRequest,
-                   principal: User = Depends(require_admin("timetable"))) -> SectionResponse:
+                   principal: User = Depends(require_admin("timetable", scoped=True))) -> SectionResponse:
     _require_school_owns_grade(grade_id, principal)
+    grade = _require().get_grade(grade_id)
+    require_in_scope(principal, "timetable", grade=grade.number if grade else None)
     _require_class_teacher(req.class_teacher_id, principal)
     store = _require()
     try:
@@ -391,10 +406,11 @@ def create_section(grade_id: str, req: CreateSectionRequest,
 
 @router.patch("/sections/{section_id}", response_model=SectionResponse)
 def update_section(section_id: str, req: UpdateSectionRequest,
-                   principal: User = Depends(require_admin("timetable"))) -> SectionResponse:
+                   principal: User = Depends(require_admin("timetable", scoped=True))) -> SectionResponse:
     """Rename a section and/or set its class teacher. A field left out is
     unchanged; classTeacherId null clears the class teacher."""
     _require_school_owns_section(section_id, principal)
+    require_section_in_scope(section_id, principal, "timetable")
     sent = req.model_fields_set
     if "name" in sent and req.name is None:
         raise HTTPException(422, "a section needs a name, such as A or Rose")
@@ -422,10 +438,12 @@ def update_section(section_id: str, req: UpdateSectionRequest,
 
 
 @router.delete("/sections/{section_id}")
-def delete_section(section_id: str, principal: User = Depends(require_admin("timetable"))) -> dict:
+def delete_section(section_id: str,
+                   principal: User = Depends(require_admin("timetable", scoped=True))) -> dict:
     """409 while students are enrolled in it, or when it is its class's
     last section."""
     _require_school_owns_section(section_id, principal)
+    require_section_in_scope(section_id, principal, "timetable")
     try:
         sec = _require().delete_section(section_id)
     except KeyError:
@@ -440,9 +458,11 @@ def delete_section(section_id: str, principal: User = Depends(require_admin("tim
 
 @router.get("/sections/{section_id}/students", response_model=list[SectionStudentResponse])
 def list_section_students(section_id: str,
-                          principal: User = Depends(require_admin("users"))) -> list[SectionStudentResponse]:
+                          principal: User = Depends(require_admin("users", scoped=True))
+                          ) -> list[SectionStudentResponse]:
     """Who is enrolled in this section, and only this section."""
     _require_school_owns_section(section_id, principal)
+    require_section_in_scope(section_id, principal, "users")
     return [SectionStudentResponse(student_id=e.student_id, enrollment_id=e.id,
                                    enrolled_at=e.created_at)
             for e in _require().enrollments_for_section(section_id)]
@@ -614,7 +634,7 @@ def seed_cbse10(req: SeedCbse10Request,
 @router.post("/seed/cbse", response_model=SeedCbse10Response)
 def seed_cbse_any_grade(req: SeedGradeRequest,
                         principal: User = Depends(require_principal)) -> SeedCbse10Response:
-    """Seeds any grade 6-12 for the caller's own school -- PRD section 0
+    """Seeds any grade 1-12 (requirements v3; 6-12 until 2026-09-29) for the caller's own school -- PRD section 0
     decision 4 ("all grades 6-12, all subjects"), which until 2026-09-22 the
     product could not reach: `seed_cbse_all_grades` existed in seed_cbse10.py
     wired to no route and no CLI command, and `POST /seed/cbse9` was a 404 even
@@ -1299,12 +1319,23 @@ def add_holiday(academic_year_id: str, req: AddHolidayRequest,
                                       year_start=year.start_date, year_end=year.end_date)
     except ValueError as e:
         raise HTTPException(422, str(e))
-    h = store.add_holiday(calendar_id=cal.id, date=req.date, label=req.label, kind=req.kind,
-                          end_date=req.end_date)
-    moved, not_moved = (_move_lessons_off_holiday(store, year, h, principal)
-                        if req.move_lessons and h.kind != "event" else (None, None))
+    h, moved, not_moved = declare_holiday(store, year, cal, date=req.date, label=req.label, kind=req.kind,
+                                          end_date=req.end_date, principal=principal, move_lessons=req.move_lessons)
     return HolidayResponse(id=h.id, calendar_id=h.calendar_id, date=h.date, label=h.label,
                            kind=h.kind, end_date=h.end_date, lessons_moved=moved, not_moved=not_moved)
+
+
+def declare_holiday(store: CurriculumStore, year, cal, *, date: str, label: str, kind: str,
+                    end_date: Optional[str], principal: User, move_lessons: bool = True):
+    """Add a holiday and, unless it is an event that still teaches, move the
+    lessons on it and tell the people affected. One path for the holiday
+    route and the Excel/CSV import (N-8-6: the import used to add the day
+    only, leaving lessons dated on it and telling no one). Returns (holiday,
+    lessons moved, plans not moved); the counts are None when nothing moved."""
+    h = store.add_holiday(calendar_id=cal.id, date=date, label=label, kind=kind, end_date=end_date)
+    moved, not_moved = (_move_lessons_off_holiday(store, year, h, principal)
+                        if move_lessons and h.kind != "event" else (None, None))
+    return h, moved, not_moved
 
 
 HOLIDAY_NOTICE_DAYS = 14
@@ -1319,7 +1350,7 @@ def _move_lessons_off_holiday(store: CurriculumStore, year, holiday, principal: 
     students and teachers hear of the holiday itself. A plan with no cadence
     to reflow on is named in the answer rather than silently left."""
     from ..assessment.audit_log import get_audit_log
-    from ..operations.routes import notify_safely
+    from ..operations.routes import notify_parents_safely, notify_safely
     first = max(holiday.date, _school_today().isoformat())
     last = holiday.end_date or holiday.date
     if first > last:
@@ -1356,16 +1387,26 @@ def _move_lessons_off_holiday(store: CurriculumStore, year, holiday, principal: 
                           params={"label": holiday.label, "dates": dates, "moved": moved, "moved_hi": moved_hi},
                           link="/week", dedupe_key=f"holiday:{holiday.id}:{uid}:{plan['book_id']}:{plan['section_id']}")
         told |= teachers | students
+        # N-8-7: the students' parents hear the same notice.
+        told |= set(notify_parents_safely(
+            school_id=principal.school_id, student_ids=students, kind="holiday_declared",
+            params={"label": holiday.label, "dates": dates, "moved": moved, "moved_hi": moved_hi},
+            dedupe_key=f"holiday:{holiday.id}:{plan['book_id']}:{plan['section_id']}"))
     # Everyone else hears of the holiday itself only when it is close enough
     # to change their plans: a list of next term's holidays entered today
     # is not news anyone acts on (NTF-1).
     soon = (_school_today() + timedelta(days=HOLIDAY_NOTICE_DAYS)).isoformat()
-    rest = [u.id for u in _require_users().users_for_school(principal.school_id)
-            if u.role in ("teacher", "student") and u.id not in told] if holiday.date <= soon else []
+    people = [u for u in _require_users().users_for_school(principal.school_id)
+              if u.role in ("teacher", "student") and u.id not in told] if holiday.date <= soon else []
+    rest = [u.id for u in people]
     if rest:
         notify_safely(school_id=principal.school_id, user_ids=rest, kind="holiday_declared",
                       params={"label": holiday.label, "dates": dates, "moved": "", "moved_hi": ""},
                       link="/week", dedupe_key=f"holiday:{holiday.id}")
+        notify_parents_safely(school_id=principal.school_id, kind="holiday_declared",
+                              student_ids=[u.id for u in people if u.role == "student"],
+                              params={"label": holiday.label, "dates": dates, "moved": "", "moved_hi": ""},
+                              dedupe_key=f"holiday:{holiday.id}", exclude=told)
     return moved_total, not_moved
 
 
@@ -1894,7 +1935,21 @@ def mark_lesson(lesson_id: str, req: MarkLessonRequest,
         raise HTTPException(
             409, "this lesson has no day in the plan (it no longer fit before the year ends) -- "
                  "ADJUST it onto a working day first")
-    updated = store.mark_lesson(lesson_id, status=req.status, note=req.note, completed_by=current.id)
+    status, note = req.status, req.note
+    if status == "partly":
+        status, note = "completed", "Partly taught" + (f": {req.note}" if req.note else "")
+    updated = store.mark_lesson(lesson_id, status=status, note=note, completed_by=current.id)
+    if req.status in ("skipped", "partly") and lesson.status == "scheduled":
+        # The first time a lesson is marked missed or partly taught, its
+        # subtopic gets a period again (v3 audit N-4-1); re-marking does not
+        # add a second one.
+        from ..assessment.audit_log import get_audit_log
+        try:
+            scheduling_mod.reteach(store, get_audit_log(_cfg.data_root), lesson=updated,
+                                   changed_by=current.id,
+                                   reason="not taught" if req.status == "skipped" else "partly taught")
+        except ValueError as e:      # no teaching days left this year: recorded, not replanned
+            log.warning("lesson %s marked %s but not replanned: %s", lesson_id, req.status, e)
     return _lesson_response(updated)
 
 

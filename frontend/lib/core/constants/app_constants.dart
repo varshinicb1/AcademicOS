@@ -25,7 +25,7 @@ class AppConstants {
   static const double defaultPadding = 16.0;
   static const double smallPadding = 8.0;
   static const double largePadding = 24.0;
-  static const double cardElevation = 2.0;
+  static const double cardElevation = 0.0;  // cards are outlined, not raised
   static const double borderRadius = 12.0;
   static const Duration animationDuration = Duration(milliseconds: 200);
 
@@ -89,16 +89,17 @@ class AppConstants {
     'Attitude',
   ];
   
-  // Colors (semantic)
-  static const int primaryColorValue = 0xFF1E3A5F;      // Deep navy
-  static const int secondaryColorValue = 0xFF2E86C1;    // Bright blue
-  static const int accentColorValue = 0xFFE67E22;       // Orange
-  static const int successColorValue = 0xFF27AE60;      // Green
-  static const int warningColorValue = 0xFFF39C12;      // Amber
-  static const int errorColorValue = 0xFFE74C3C;        // Red
-  static const int surfaceColorValue = 0xFFFFFFFF;      // White
-  static const int backgroundColorValue = 0xFFF8FAFC;   // Light gray
-  
+  // Colors (semantic): design/tokens.json's values. The theme
+  // (core/theme/app_theme.dart) reads the palette there, not these.
+  static const int primaryColorValue = 0xFF4F46E5;      // Indigo, brand 600
+  static const int secondaryColorValue = 0xFF475569;    // Slate 600
+  static const int accentColorValue = 0xFF4338CA;       // Indigo, brand 700
+  static const int successColorValue = 0xFF047857;      // Green
+  static const int warningColorValue = 0xFFB45309;      // Amber
+  static const int errorColorValue = 0xFFB91C1C;        // Red
+  static const int surfaceColorValue = 0xFFFFFFFF;      // White, cards
+  static const int backgroundColorValue = 0xFFF8FAFC;   // Canvas, slate 50
+
   // Typography
   static const String fontFamily = 'Inter';
   static const String monoFontFamily = 'JetBrainsMono';

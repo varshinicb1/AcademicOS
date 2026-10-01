@@ -10,6 +10,7 @@ import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'strings.dart';
+import '../shared/widgets/shell.dart';
 
 const _base = '/curriculum/school-profile';
 
@@ -126,7 +127,7 @@ class _SchoolProfilePageState extends State<SchoolProfilePage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(tr('School profile'))),
+      appBar: destinationAppBar(context, title: Text(tr('School profile'))),
       body: FutureBuilder<Map<String, dynamic>>(
         future: _future,
         builder: (context, snap) {
@@ -146,15 +147,14 @@ class _SchoolProfilePageState extends State<SchoolProfilePage> {
             ],
             const Gap(12),
             TextField(key: const ValueKey('profile-name'), controller: _name, maxLength: 120,
-                decoration: InputDecoration(labelText: tr('School name'), hintText: 'Sunrise Public School',
-                    border: const OutlineInputBorder())),
+                decoration: InputDecoration(labelText: tr('School name'), hintText: 'Sunrise Public School')),
             const Gap(8),
             TextField(key: const ValueKey('profile-address'), controller: _address, maxLength: 200,
-                decoration: InputDecoration(labelText: tr('Address (optional)'), border: const OutlineInputBorder())),
+                decoration: InputDecoration(labelText: tr('Address (optional)'))),
             const Gap(8),
             TextField(key: const ValueKey('profile-affiliation'), controller: _affiliation, maxLength: 120,
                 decoration: InputDecoration(labelText: tr('Affiliation line (optional)'),
-                    hintText: 'CBSE Affiliation No. 1234567', border: const OutlineInputBorder())),
+                    hintText: 'CBSE Affiliation No. 1234567')),
             if (_error != null) ...[
               const Gap(8),
               Text(_error!, key: const ValueKey('profile-error'), style: TextStyle(color: theme.colorScheme.error)),

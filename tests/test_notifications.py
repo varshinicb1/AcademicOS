@@ -84,6 +84,63 @@ def test_a_failing_channel_is_retried_three_times_then_left(ops, monkeypatch):
     assert "403" in after.last_error
 
 
+_UNREGISTERED = '404 {"error": {"code": 404, "status": "NOT_FOUND", "details": [{"errorCode": "UNREGISTERED"}]}}'
+
+
+def test_a_token_fcm_calls_dead_is_removed_after_max_attempts(ops, monkeypatch):
+    """N-8-10: a device whose token FCM calls UNREGISTERED used to be kept for
+    good, so every later notification to that person failed the same way."""
+    seen = []
+
+    def push(tokens, t, b, d):
+        seen.append(list(tokens))
+        dead = [x for x in tokens if x == "tok_dead"]
+        return ("failed", _UNREGISTERED, dead) if tokens else ("skipped", "no device registered", [])
+    monkeypatch.setattr(notif_mod, "send_push", push)
+    ops.register_device("t1", "tok_dead", "android")
+    [n] = _sub(ops, now=_at(10))
+    for _ in range(notif_mod.MAX_ATTEMPTS - 2):
+        ops.deliver_due(now=_at(10))
+    assert ops.devices_for("t1") == ["tok_dead"], "kept while it has failed fewer than MAX_ATTEMPTS times"
+    ops.deliver_due(now=_at(10))
+    assert ops.devices_for("t1") == [], "removed at the MAX_ATTEMPTS-th dead answer"
+    assert ops.get_notification(n.id).attempts == notif_mod.MAX_ATTEMPTS
+    [later] = _sub(ops, now=_at(11))
+    assert seen[-1] == [] and ops.get_notification(later.id).push_status == "skipped"
+
+
+def test_a_transient_push_failure_keeps_the_token(ops, monkeypatch):
+    monkeypatch.setattr(notif_mod, "send_push", lambda *a: ("failed", "503 service unavailable", []))
+    ops.register_device("t1", "tok_ok", "android")
+    _sub(ops, now=_at(10))
+    for _ in range(5):
+        ops.deliver_due(now=_at(10))
+    assert ops.devices_for("t1") == ["tok_ok"]
+
+
+def test_a_send_that_goes_through_clears_the_count(ops, monkeypatch):
+    answers = iter([("failed", _UNREGISTERED, ["tok_x"]), ("failed", _UNREGISTERED, ["tok_x"]),
+                    ("sent", None, []), ("failed", _UNREGISTERED, ["tok_x"])])
+    monkeypatch.setattr(notif_mod, "send_push", lambda *a: next(answers))
+    ops.register_device("t1", "tok_x", "android")
+    [n] = _sub(ops, now=_at(10))                  # dead answer 1
+    ops.deliver_due(now=_at(10))                  # dead answer 2
+    ops.deliver_due(now=_at(10))                  # it went through
+    assert ops.get_notification(n.id).push_status == "sent"
+    _sub(ops, now=_at(10), dedupe_key="second")   # a third dead answer, but not in a row
+    assert ops.devices_for("t1") == ["tok_x"]
+
+
+def test_only_a_dead_token_answer_counts():
+    assert notif_mod.token_is_dead(404, _UNREGISTERED)
+    assert notif_mod.token_is_dead(400, '{"error": {"status": "INVALID_ARGUMENT", "message": '
+                                         '"The registration token is not a valid FCM registration token"}}')
+    assert not notif_mod.token_is_dead(503, "Service Unavailable")
+    assert not notif_mod.token_is_dead(404, "Requested entity was not found.  (wrong project)")
+    assert not notif_mod.token_is_dead(403, '{"error": {"status": "PERMISSION_DENIED", "details": '
+                                            '[{"errorCode": "SENDER_ID_MISMATCH"}]}}')
+
+
 def test_email_is_skipped_with_a_reason_when_no_mailer_is_set_up(ops, monkeypatch):
     monkeypatch.setattr(OperationsStore, "email_for", staticmethod(lambda uid: "p1@example.com"))
     monkeypatch.setattr(notif_mod, "send_push", lambda *a: ("skipped", "no device registered"))

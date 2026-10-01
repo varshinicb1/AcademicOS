@@ -93,7 +93,13 @@ class ExamsMixin:
         return self._fetchall("SELECT * FROM exam_papers WHERE exam_id=? ORDER BY date, start_time, grade", (exam_id,))
 
     def replace_datesheet(self, exam: dict, papers: list[dict], *, working_dates: set[str]) -> list[dict]:
-        """Replace the whole datesheet. Every problem is reported at once."""
+        """Replace the whole datesheet. Every problem is reported at once.
+
+        A paper sent again unchanged (same class, subject, day and times)
+        keeps its id and its invigilators. A paper removed or re-timed loses
+        its duties, and an added or re-timed paper gets a new id. The web adds
+        a paper by re-sending the whole sheet, which used to delete every
+        duty, even after publishing (N-2-4)."""
         problems = []
         seen: dict[tuple[int, str], str] = {}
         for p in papers:
@@ -112,17 +118,40 @@ class ExamsMixin:
             seen[key] = p["subject_name"]
         if problems:
             raise ExamError("; ".join(problems))
+        def key(p: dict) -> tuple:
+            return p["grade"], p["subject_id"], p["date"], p["start_time"], p["end_time"]
+
         with self._conn_lock:
-            self.conn.execute("DELETE FROM invigilation WHERE exam_paper_id IN (SELECT id FROM exam_papers WHERE exam_id=?)",
-                              (exam["id"],))
-            self.conn.execute("DELETE FROM exam_papers WHERE exam_id=?", (exam["id"],))
+            old = {key(p): p["id"] for p in self.exam_papers(exam["id"])}
+            kept: dict[str, dict] = {}
+            added = []
+            for p in papers:
+                pid = old.get(key(p))
+                if pid and pid not in kept:
+                    kept[pid] = p
+                else:
+                    added.append(p)
+            gone = [(pid,) for pid in old.values() if pid not in kept]
+            self.conn.executemany("DELETE FROM invigilation WHERE exam_paper_id=?", gone)
+            self.conn.executemany("DELETE FROM exam_papers WHERE id=?", gone)
+            self.conn.executemany("UPDATE exam_papers SET subject_name=? WHERE id=?",
+                                  [(p["subject_name"], pid) for pid, p in kept.items()])
             self.conn.executemany(
                 "INSERT INTO exam_papers (id, exam_id, grade, subject_id, subject_name, date, start_time, end_time)"
                 " VALUES (?,?,?,?,?,?,?,?)",
                 [(f"ep_{uuid.uuid4().hex[:12]}", exam["id"], p["grade"], p["subject_id"], p["subject_name"], p["date"],
-                  p["start_time"], p["end_time"]) for p in papers])
+                  p["start_time"], p["end_time"]) for p in added])
             self._commit()
         return self.exam_papers(exam["id"])
+
+    def last_notice(self, user_id: str, prefix: str) -> tuple[Optional[str], int]:
+        """The newest notification key `prefix` (or `prefix:...`) this user
+        was sent, and how many there are: what an invigilator was last told
+        about an exam (exam_routes._tell_invigilators)."""
+        rows = self._fetchall("SELECT dedupe_key FROM notifications WHERE user_id=? AND (dedupe_key=? OR "
+                              "substr(dedupe_key, 1, ?)=?) ORDER BY rowid",
+                              (user_id, prefix, len(prefix) + 1, prefix + ":"))
+        return (rows[-1]["dedupe_key"] if rows else None), len(rows)
 
     def roster(self, exam_id: str) -> list[dict]:
         return self._fetchall(

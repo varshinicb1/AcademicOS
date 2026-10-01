@@ -7,6 +7,8 @@ import 'ops_api.dart';
 import 'practice_page.dart';
 import 'photos_ui.dart';
 import 'strings.dart';
+import 'package:academicos/core/theme/app_theme.dart';
+import '../shared/widgets/shell.dart';
 
 /// A student's homework (SA-2): what is due, then each homework's
 /// questions to answer in the app, and the marks and model answers once it
@@ -24,7 +26,7 @@ class _MyHomeworkPageState extends State<MyHomeworkPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr('My homework'))),
+      appBar: destinationAppBar(context, title: Text(tr('My homework'))),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _future,
         builder: (context, snap) {
@@ -62,7 +64,7 @@ class HomeworkStatusTile extends StatelessWidget {
     final status = item['myStatus'] as String;
     final overdue = item['overdue'] == true;
     final (label, color) = switch (status) {
-      'graded' => ('Marked: ${_fmt(item['marks'])}/${item['totalMarks']}', Colors.green),
+      'graded' => ('Marked: ${_fmt(item['marks'])}/${item['totalMarks']}', AppColors.success),
       'submitted' => ('Submitted, waiting for marks', theme.colorScheme.primary),
       _ => (overdue ? 'Overdue' : 'Not submitted', overdue ? theme.colorScheme.error : theme.colorScheme.outline),
     };
@@ -172,7 +174,7 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
         if (graded)
           AppCard(
             margin: const EdgeInsets.symmetric(vertical: 12),
-            color: Colors.green.withValues(alpha: 0.08),
+            color: AppColors.success.withValues(alpha: 0.08),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('Marks: ${_fmt(hw['marks'])} / ${hw['totalMarks']}', style: theme.textTheme.titleMedium),
               if (hw['feedback'] != null) Padding(padding: const EdgeInsets.only(top: 6), child: Text('Teacher: ${hw['feedback']}')),
@@ -198,7 +200,7 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
                   enabled: open,
                   minLines: q['type'] == 'long_answer' ? 5 : 2,
                   maxLines: 12,
-                  decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Your answer'),
+                  decoration: const InputDecoration(hintText: 'Your answer'),
                 ),
               if (evals[q['id']] != null) _EvalLine(e: Map<String, dynamic>.from(evals[q['id']]!)),
             ]),
@@ -268,7 +270,15 @@ class LearningPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text(title)), body: LearningView(path: path));
+    // The student's own progress is a navigation destination; a parent's
+    // view of a child's is a page pushed over the family page.
+    final destination = path == '/my-learning';
+    return Scaffold(
+        appBar: AppBar(
+            leading: destination ? forceShellLeading(context) : null,
+            automaticallyImplyLeading: !destination,
+            title: Text(title)),
+        body: LearningView(path: path));
   }
 }
 
@@ -289,8 +299,8 @@ class _LearningViewState extends State<LearningView> {
   };
 
   Color _color(String status, ThemeData t) => switch (status) {
-        'mastered' => Colors.green,
-        'developing' => Colors.orange,
+        'mastered' => AppColors.success,
+        'developing' => AppColors.warning,
         'needs_work' => t.colorScheme.error,
         _ => t.colorScheme.outline,
       };
@@ -391,7 +401,7 @@ class MyExamsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr('Exams'))),
+      appBar: destinationAppBar(context, title: Text(tr('Exams'))),
       body: FutureBuilder<Map<String, dynamic>>(
         future: Ops.map('/my-exams'),
         builder: (context, snap) {
