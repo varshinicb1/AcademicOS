@@ -18,7 +18,9 @@ teacher is away or a day is lost (REQUIREMENTS SCH-5, SCH-6, SCH-7, SCH-8).
   closure (a short-notice holiday, an event, an exam day) cancels the day. A
   lost period is a debt per section and subject. The engine proposes make-up
   periods (the section's free periods, when its subject teacher is free and
-  under their day's maximum) and records the recovery.
+  under their day's maximum) and records the recovery. The section's lesson
+  plan follows: the lesson of a lost period moves to the next free period,
+  and a make-up period teaches the next lesson (periods_held).
 
 Dates are the school's local dates (IST); times compare by the section's bell,
 so a clash across two bells is still a clash.
@@ -239,6 +241,10 @@ class CoverMixin:
     # alone and knows no exams.
     staff_source: Optional[Callable[[str], list[str]]] = None
     exam_source: Optional[Callable[[str, str], list[dict]]] = None   # (school, year) -> papers
+    # Where a lesson moved by a lost or made-up period is recorded: the
+    # assessment AuditLog, as PUSH writes it. Handed over at boot too; a bare
+    # store has none, and its lost periods leave the plans where they are.
+    plan_audit_log: Optional[Any] = None
 
     # ---------------- helpers ----------------
 
@@ -776,8 +782,11 @@ class CoverMixin:
         existing = self._lost_where("date=? AND section_id=? AND period=?", (sub.date, sub.section_id, sub.period))
         if existing:
             return existing[0]
-        return self._insert_lost(sub.school_id, sub.academic_year_id, sub.section_id, sub.subject_id,
-                                 sub.date, sub.period, reason, sub.id)
+        lp = self._insert_lost(sub.school_id, sub.academic_year_id, sub.section_id, sub.subject_id,
+                               sub.date, sub.period, reason, sub.id)
+        self._replan(lp.academic_year_id, lp.section_id, lp.subject_id, lp.date,
+                     f"period {lp.period} on {lp.date} lost: {reason}")
+        return lp
 
     def _insert_lost(self, school_id, academic_year_id, section_id, subject_id, on, period, reason,
                      source_id) -> LostPeriod:
@@ -791,10 +800,31 @@ class CoverMixin:
                     lp.period, lp.reason, lp.source_id, lp.status, lp.created_at, lp.updated_at))
         return lp
 
-    def _clear_lost(self, sub: Substitution) -> None:
-        """A period that now has a teacher of its subject is no longer lost."""
-        self._exec("DELETE FROM lost_periods WHERE date=? AND section_id=? AND period=? AND status='owed' "
-                   "AND source_id=?", (sub.date, sub.section_id, sub.period, sub.id))
+    def _clear_lost(self, sub: Substitution, *, replan: bool = True) -> None:
+        """A period that now has a teacher of its subject is no longer lost,
+        and the plan may teach in it again (`replan`)."""
+        where = ("date=? AND section_id=? AND period=? AND status='owed' AND source_id=?",
+                 (sub.date, sub.section_id, sub.period, sub.id))
+        if not self._lost_where(*where):
+            return
+        self._exec(f"DELETE FROM lost_periods WHERE {where[0]}", where[1])
+        if replan:
+            self._replan(sub.academic_year_id, sub.section_id, sub.subject_id, sub.date,
+                         f"period {sub.period} on {sub.date} is taught after all")
+
+    def _replan(self, academic_year_id: str, section_id: str, subject_id: str, from_date: str,
+                reason: str) -> int:
+        """A period of the section's subject was lost, given back or made
+        up: its plan is laid again on the periods that now happen (see
+        periods_held), so a lesson whose period was lost is taught at the
+        plan's next free period and a make-up period teaches the next one
+        (v3 audit N-3-10). Each move is on the audit log, as a PUSH's is."""
+        if self.plan_audit_log is None:
+            return 0
+        from .scheduling import replan_section
+        return replan_section(self, self.plan_audit_log, academic_year_id=academic_year_id,
+                              section_id=section_id, subject_id=subject_id, from_date=from_date,
+                              reason=reason, changed_by="system")
 
     def lost_periods_for_year(self, academic_year_id: str, status: Optional[str] = None) -> list[LostPeriod]:
         if status:
@@ -810,7 +840,8 @@ class CoverMixin:
         """A day that stops being taught at short notice (or after the fact):
         every section's timetabled periods that day are lost periods -- or
         only `section_ids`' (some classes out: a trip, an exam hall). The
-        caller adds the holiday to the calendar and reflows the plans."""
+        caller adds the holiday to the calendar and reflows the plans (or,
+        asked not to, leaves them), so nothing here moves a plan."""
         year = self.get_academic_year(academic_year_id)
         if year is None:
             raise KeyError(academic_year_id)
@@ -825,7 +856,7 @@ class CoverMixin:
             for sub in self._subs_where("academic_year_id=? AND date=? AND status NOT IN ('resolved','cancelled')",
                                         (academic_year_id, on)):
                 if section_ids is None or sub.section_id in section_ids:
-                    self._clear_lost(sub)
+                    self._clear_lost(sub, replan=False)
             for e in self.timetable_for_year(academic_year_id):
                 if e.day_of_week != wd:
                     continue
@@ -899,6 +930,8 @@ class CoverMixin:
                 raise CoverError("that period is not free for this section and its teacher")
             self._exec("UPDATE lost_periods SET status='compensated', compensation_date=?, compensation_period=?, "
                        "updated_at=? WHERE id=?", (on, period, _now(), lost_id))
+            self._replan(lp.academic_year_id, lp.section_id, lp.subject_id, on,
+                         f"make-up period {period} on {on} for {lp.date} period {lp.period}")
         self._commit()
         return self.get_lost_period(lost_id)
 
@@ -913,7 +946,7 @@ class CoverMixin:
         self._commit()
         return self.get_lost_period(lost_id)
 
-    # ---------------- the plan's periods (SCH-4 with EX-7) ----------------
+    # ---------------- the plan's periods (SCH-4 with SCH-7, EX-7) ----------------
 
     def periods_held(self, academic_year_id: str, section_id: str,
                      subject_id: str) -> tuple[Counter, Counter]:
@@ -923,21 +956,28 @@ class CoverMixin:
         the plan's periods and adds the second, so a plan made, pushed or
         reflowed is laid only on periods that happen.
 
-        Not taught: a period the class spends sitting a published exam
-        paper (v3 audit N-3-12: 10-A kept its Science lesson on the day of
-        the Class 10 paper)."""
+        Not taught: a lost period of the subject, whatever became of its
+        debt, and a period the class spends sitting a published exam paper.
+        Extra: a make-up period. Until the v3 audit a lost period left its
+        lesson 'scheduled' on that day, a make-up taught nothing (N-3-10),
+        and 10-A kept its Science lesson on the day of the Class 10 paper
+        (N-3-12)."""
         section = self.get_section(section_id)
-        exam_days = self._exam_days(academic_year_id) if section is not None else {}
-        if not exam_days:
+        if section is None:
             return Counter(), Counter()
-        times = self._cover_times(section)
-        week = [e for e in self.timetable_for_section(section_id) if e.subject_id == subject_id]
-        held: set[tuple[str, int]] = set()
-        for d, exams in exam_days.items():
-            wd = date.fromisoformat(d).weekday()
-            held |= {(d, e.period) for e in week
-                     if e.day_of_week == wd and exams.sits(section_id, times.get(e.period))}
-        return Counter(d for d, _ in held), Counter()
+        lost = self._lost_where("academic_year_id=? AND section_id=? AND subject_id=?",
+                                (academic_year_id, section_id, subject_id))
+        held = {(l.date, l.period) for l in lost}
+        extra = Counter(l.compensation_date for l in lost if l.status == "compensated" and l.compensation_date)
+        exam_days = self._exam_days(academic_year_id)
+        if exam_days:
+            times = self._cover_times(section)
+            week = [e for e in self.timetable_for_section(section_id) if e.subject_id == subject_id]
+            for d, exams in exam_days.items():
+                wd = date.fromisoformat(d).weekday()
+                held |= {(d, e.period) for e in week
+                         if e.day_of_week == wd and exams.sits(section_id, times.get(e.period))}
+        return Counter(d for d, _ in held), extra
 
     # ---------------- the day (what actually happens) ----------------
 

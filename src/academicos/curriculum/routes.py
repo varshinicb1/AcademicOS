@@ -153,6 +153,8 @@ def init(config: Config) -> None:
     _store = get_curriculum_store(config.data_root)
     _store.staff_source = _staff_for_cover
     _store.exam_source = _exam_papers_for_cover
+    from ..assessment.audit_log import get_audit_log
+    _store.plan_audit_log = get_audit_log(config.data_root)
 
 
 def _staff_for_cover(school_id: str) -> list[str]:

@@ -306,8 +306,9 @@ def teaching_slots_for_book(store: CurriculumStore, academic_year_id: str, book_
     book's subject's timetable (the section's own week when given).
 
     A section's plan is laid only on periods that happen: the periods
-    store.periods_held() says will not teach the subject (the class sits an
-    exam paper) come off, and the extra ones it names are added."""
+    store.periods_held() says will not teach the subject (a lost period, or
+    the class sitting an exam paper) come off, and the extra ones it names
+    (make-up periods) are added."""
     wd = working_days_for_year(store, academic_year_id)
     slots = subject_teaching_slots(
         [date.fromisoformat(s) for s in wd.dates], periods_per_week,
