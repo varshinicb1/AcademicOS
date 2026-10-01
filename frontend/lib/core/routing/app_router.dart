@@ -78,7 +78,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/login',
         name: 'login',
-        builder: (context, state) => const LoginPage(),
+        builder: (context, state) => LoginPage(
+            inviteCode: state.uri.queryParameters['invite'],
+            schoolId: state.uri.queryParameters['school']),
       ),
       ShellRoute(
         // The teacher and student app builds get a phone shell (app_mode.dart).
@@ -348,7 +350,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: 'login',
                 name: 'login',
-                builder: (context, state) => const LoginPage(),
+                builder: (context, state) => LoginPage(
+            inviteCode: state.uri.queryParameters['invite'],
+            schoolId: state.uri.queryParameters['school']),
               ),
             ],
           ),
