@@ -130,6 +130,10 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           _item(Icons.library_books_outlined, Icons.library_books, 'Question bank', '/school/question-bank'),
         ]),
         (title: 'Setup', items: [
+          // The principal's first task: teachers join only with a code issued here
+          // (the admin console's Invite people). It was reachable only through
+          // School insights or a bulk import (handover review, 2026-10-01).
+          _item(Icons.person_add_alt_1_outlined, Icons.person_add_alt_1, 'Invite people', '/admin'),
           _item(Icons.admin_panel_settings_outlined, Icons.admin_panel_settings, 'Staff and access', '/school/grants'),
           _item(Icons.upload_file_outlined, Icons.upload_file, 'Import and export', '/school/import'),
           _item(Icons.badge_outlined, Icons.badge, 'School profile', '/school/school-profile'),
