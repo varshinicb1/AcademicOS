@@ -61,10 +61,11 @@ def test_seeds_real_chapter_names_matching_the_source_json(store):
     assert "Anuchhed Lekhan" in hindi_chapters
 
 
-def test_mathematics_units_with_no_chapter_list_get_one_chapter_each(store):
-    """Real data: Mathematics_10.json's units all have chapters: [] --
-    verifies the unit-stands-in-for-itself fallback actually ran, matching
-    cbse_syllabus.py's own SyllabusDocument.all_chapters() logic."""
+def test_mathematics_gets_the_books_chapters_under_their_cbse_units(store):
+    """Real data: Mathematics_10.json's units all have chapters: [] and the
+    book's chapters are listed at the top. Each unit used to be seeded as
+    its own only chapter (audit D118); now the book's 14 chapters are, each
+    under the unit the CBSE Class X course structure puts it in."""
     _seed(store)
     grade = store.get_grade_by_number(
         store.get_academic_year_by_label("school_1", "2026-27").id, 10)
@@ -74,7 +75,13 @@ def test_mathematics_units_with_no_chapter_list_get_one_chapter_each(store):
 
     doc = load_syllabus("Mathematics", 10)
     assert all(len(u.chapters) == 0 for u in doc.units), "fixture assumption changed upstream"
-    assert chapters == {u.name for u in doc.units}
+    assert chapters == {c.name for c in doc.chapters}
+    assert not chapters & {u.name for u in doc.units} - {"Coordinate Geometry"}
+    by_unit = {u.name: [c.name for c in store.chapters_for_unit(u.id)] for u in store.units_for_book(book.id)}
+    assert by_unit["Algebra"] == ["Polynomials", "Pair of Linear Equations in Two Variables",
+                                  "Quadratic Equations", "Arithmetic Progressions"]
+    assert by_unit["Trigonometry"] == ["Introduction to Trigonometry", "Some Applications of Trigonometry"]
+    assert sum(u.marks for u in store.units_for_book(book.id)) == 80
 
 
 def test_unit_marks_are_the_real_cbse_weightage_not_invented(store):
