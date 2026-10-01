@@ -202,6 +202,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/cover-summary"),
     ("GET", "/api/v1/curriculum/teacher-attendance"),
     ("PUT", "/api/v1/curriculum/teacher-attendance"),
+    ("GET", "/api/v1/curriculum/my-attendance"),
     ("POST", "/api/v1/curriculum/my-attendance"),
     ("GET", "/api/v1/notifications"),
     ("POST", "/api/v1/notifications/{notification_id}/read"),
@@ -536,6 +537,7 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/cover-summary"),
     ("GET", "/api/v1/curriculum/teacher-attendance"),
     ("PUT", "/api/v1/curriculum/teacher-attendance"),
+    ("GET", "/api/v1/curriculum/my-attendance"),
     ("POST", "/api/v1/curriculum/my-attendance"),
     ("GET", "/api/v1/notifications"),
     ("POST", "/api/v1/notifications/{notification_id}/read"),
@@ -987,7 +989,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 318: NFR-1 erasing a student's or parent's data on the school's request
     # (preview, erase).
     # 320: QA S-05 a principal's password reset and a person's own change.
-    assert len(API_ROUTES) == 320
+    # 321: QA S-12 a teacher's own row of today's register.
+    assert len(API_ROUTES) == 321
 
 
 def test_docs_routes_present():

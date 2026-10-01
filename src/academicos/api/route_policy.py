@@ -270,6 +270,7 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/cover-summary"): _p(ADMIN["reports"]),
     ("GET", "/api/v1/curriculum/teacher-attendance"): _p(ADMIN["leave"]),
     ("PUT", "/api/v1/curriculum/teacher-attendance"): _p(ADMIN["leave"]),
+    ("GET", "/api/v1/curriculum/my-attendance"): _p(STAFF, "the caller's own row of today's register (QA S-12)"),
     ("POST", "/api/v1/curriculum/my-attendance"): _p(STAFF, "the caller checks in"),
     # M3 notifications (operations/routes.py): every route is the caller's own.
     ("GET", "/api/v1/notifications"): _p(ANY_USER, "the callers own inbox"),

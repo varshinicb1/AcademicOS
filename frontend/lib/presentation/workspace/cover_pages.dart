@@ -273,8 +273,10 @@ class _MyDayPageState extends State<MyDayPage> {
   // The school's class and subject labels failing to load no longer blanks
   // the day: each row carries its own names, so the day shows with a note.
   String? _ctxError;
-  // Today's mark once "I'm here" is pressed. Kept on this device, so
-  // reopening My day shows it instead of offering "I'm here" again (QA S-12).
+  // Today's mark: the register's own row (GET my-attendance), so a check-in
+  // made on another device, or the principal's mark, shows too. Kept on this
+  // device as well, so the button reads right before the load answers
+  // (QA S-12: "I'm here" was offered again every time My day opened).
   late String? _checkedIn = LocalStore.instance.checkInFor(CurrentSession.userId, _today);
 
   String get _today => isoDate(DateTime.now());
@@ -295,7 +297,13 @@ class _MyDayPageState extends State<MyDayPage> {
         'to': isoDate(DateTime.now().add(const Duration(days: 7)))});
       final leave = await Ops.list('$_base/leave-requests');
       final lessons = await Ops.list('$_base/my-schedule', query: {'start_date': _today, 'end_date': _today});
+      final mine = await Ops.map('$_base/my-attendance');
+      final mark = mine['status'] as String?;
+      if (mark != null && mark != 'unmarked' && mark != 'on_leave') {
+        LocalStore.instance.setCheckIn(CurrentSession.userId, _today, mark);
+      }
       setState(() {
+        if (mark != null && mark != 'unmarked' && mark != 'on_leave') _checkedIn = mark;
         _rows = rows;
         _duties = duties;
         _lessons = lessons;

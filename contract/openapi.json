@@ -23718,6 +23718,28 @@
       }
     },
     "/api/v1/curriculum/my-attendance": {
+      "get": {
+        "description": "The caller's own attendance today, as the day's register holds it.\nThe register is the principal's, so My day could not tell a teacher who\nhad checked in that they had: \"I'm here\" was offered again every time it\nopened (QA S-12).",
+        "operationId": "my_attendance_api_v1_curriculum_my_attendance_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttendanceRow"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Attendance"
+      },
       "post": {
         "description": "A teacher marks themselves present today (arrival). It never\noverrides an absence the principal has marked.",
         "operationId": "check_in_api_v1_curriculum_my_attendance_post",

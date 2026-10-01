@@ -2234,7 +2234,14 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /**
+         * My Attendance
+         * @description The caller's own attendance today, as the day's register holds it.
+         *     The register is the principal's, so My day could not tell a teacher who
+         *     had checked in that they had: "I'm here" was offered again every time it
+         *     opened (QA S-12).
+         */
+        get: operations["my_attendance_api_v1_curriculum_my_attendance_get"];
         put?: never;
         /**
          * Check In
@@ -16625,6 +16632,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    my_attendance_api_v1_curriculum_my_attendance_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AttendanceRow"];
                 };
             };
         };
