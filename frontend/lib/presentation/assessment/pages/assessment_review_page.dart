@@ -219,8 +219,12 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
       // Review and marks entry are school workflows on the web build only.
       if (!offline && editable && can.mayAskForReview && assessment.status != AssessmentStatus.underReview)
         const PopupMenuItem(value: 'review', child: Text('Send for review')),
-      if (!offline && paper != null) const PopupMenuItem(value: 'marks', child: Text('Enter marks')),
-      if (can.mayDelete) const PopupMenuItem(value: 'delete', child: Text('Delete')),
+      if (!offline && paper != null && can.mayEnterMarks) const PopupMenuItem(value: 'marks', child: Text('Enter marks')),
+      // An approved paper is the record of what was set, and one under
+      // review is the reviewer's: the server refuses to delete either, so
+      // neither offers it (QA P-07 re-test).
+      if (can.mayDelete && editable && assessment.status != AssessmentStatus.underReview)
+        const PopupMenuItem(value: 'delete', child: Text('Delete')),
     ];
     if (items.isEmpty) return const SizedBox.shrink();
     return PopupMenuButton<String>(
@@ -716,7 +720,8 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Download & approve', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+          Text(editable && can.mayApprove ? 'Download & approve' : 'Download',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
           if (set != null) ...[
             const SizedBox(height: 4),
             Text('These download Set $set. Choose another set above for its own files.',
@@ -728,8 +733,15 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
               padding: const EdgeInsets.only(bottom: 8),
               child: Text(_error!, key: const ValueKey('export-error'), style: TextStyle(color: Theme.of(context).colorScheme.error)),
             ),
+          if (!can.mayDownload)
+            const Text(
+              key: ValueKey('download-not-yours'),
+              'Before the exam, a paper and its answer key are downloaded only by its author, '
+              'its reviewer, the principal or an exams admin.',
+            ),
           // One press, one file (QA P-24: "Export PDF" used to reveal a
           // second "Download Paper PDF" button instead of downloading).
+          if (can.mayDownload)
           Wrap(
             spacing: 12,
             runSpacing: 8,

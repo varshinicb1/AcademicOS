@@ -21,7 +21,8 @@ from . import pdf as pdf_export
 from . import grades, paper_timing, selection
 from .audit_log import get_audit_log
 from .authz import (
-    may_download_paper, papers_visible_to, require_may_change_paper, require_may_download_paper,
+    may_download_paper, paper_permissions, papers_visible_to, require_may_change_paper,
+    require_may_download_paper,
     require_own_school, require_own_subtopics, require_school_owns_assessment, require_school_owns_paper,
     without_answer_key,
 )
@@ -381,9 +382,10 @@ def _shortfall_warnings(paper: GeneratedPaper, blueprint: Blueprint) -> list[str
 
 
 def _overlap_warnings(paper: GeneratedPaper) -> list[str]:
-    return [f"Set {label} repeats {n} question(s) from an earlier set: the question bank "
-            f"has no unused question of the same marks and type left in the chapters "
-            f"this paper draws from."
+    from .wording import counted
+    return [counted(f"Set {label} repeats {n} question(s) from an earlier set: the question bank "
+                    f"has no unused question of the same marks and type left in the chapters "
+                    f"this paper draws from.")
             for label, n in paper.set_overlap.items() if n]
 
 
@@ -994,7 +996,8 @@ def create_assessment(
 @router.get("/assessments/{assessment_id}", response_model=Assessment)
 def get_assessment(assessment_id: str, current: User = Depends(require_staff)) -> Assessment:
     _, store = _require()
-    return require_school_owns_assessment(store, assessment_id, current)
+    a = require_school_owns_assessment(store, assessment_id, current)
+    return _with_author_names([a], current)[0]
 
 
 @router.get("/assessments", response_model=list[Assessment])
@@ -1016,21 +1019,46 @@ def list_assessments(
         rows = [a for a in store.list_by_teacher(teacher_id) if a.school_id == current.school_id]
     else:
         rows = papers_visible_to(store.list_by_school(current.school_id), current)
-    return _with_author_names(rows, current.school_id)
+    return _with_author_names(rows, current)
 
 
 # Written by the server, never taken from a client's PUT: the printed marks
 # and edit log follow the paper, and the author's name is added at read time.
-_SERVER_METADATA = frozenset({"paperMarks", "paperEdits", "authorName"})
+_SERVER_METADATA = frozenset({"paperMarks", "paperEdits", "authorName", "permissions"})
 
 
-def _with_author_names(rows: list[Assessment], school_id: str) -> list[Assessment]:
+def _with_author_names(rows: list[Assessment], current: User) -> list[Assessment]:
     """Each paper with its author's name in `metadata.authorName`, for the
     Papers list (QA P-16: no author was shown, even in the principal's
-    school-wide list). Read-time only: update_assessment drops it again."""
-    names = {u.id: u.name for u in _users().users_for_school(school_id)}
-    return [a.model_copy(update={"metadata": {**a.metadata, "authorName": names.get(a.teacher_id, "")}})
+    school-wide list), and what the caller may do with it in
+    `metadata.permissions` (QA R-01, R-04). Read-time only: update_assessment
+    drops both again."""
+    names = {u.id: u.name for u in _users().users_for_school(current.school_id)}
+    may = paper_permissions(rows, current)
+    return [a.model_copy(update={"metadata": {**_with_paper_marks(a).metadata,
+                                              "authorName": names.get(a.teacher_id, ""),
+                                              "permissions": may[a.id]}})
             for a in rows]
+
+
+def _with_paper_marks(a: Assessment) -> Assessment:
+    """`a` with `metadata.paperMarks`, read from its paper once and kept, when
+    it has a paper and was generated or last edited before the field
+    existed: such a paper still listed the blueprint's total (QA P-16)."""
+    if "paperMarks" in a.metadata or not a.generated_paper_id:
+        return a
+    try:
+        paper = _require_papers().get(a.generated_paper_id)
+    except HTTPException:
+        return a
+    if paper is None:
+        return a
+    a = a.model_copy(update={"metadata": {**a.metadata, "paperMarks": printed_marks(paper)}})
+    try:
+        _require()[1].save(a)
+    except Exception:  # noqa: BLE001 - a list must not fail for want of a cache write
+        log.warning("could not record paperMarks on %s", a.id, exc_info=True)
+    return a
 
 
 @router.put("/assessments/{assessment_id}", response_model=Assessment)

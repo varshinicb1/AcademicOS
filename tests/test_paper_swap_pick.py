@@ -440,7 +440,7 @@ def test_a_competency_section_swaps_and_picks_by_the_one_competency_rule(
 
         pick = _pick(client, t1, paper["id"], "1", "src")
         assert pick.status_code == 200, pick.text
-        assert any("src is not competency-based" in n for n in pick.json()["notes"]), \
+        assert any("you picked is not competency-based" in n for n in pick.json()["notes"]), \
             pick.json()["notes"]
 
 
@@ -577,7 +577,7 @@ def test_near_duplicate_stems_never_share_a_paper(tmp_path, monkeypatch):
 
         # Picking it is refused, naming the question it repeats.
         pick = _pick(client, t1, paper["id"], str(free_slot), other)
-        assert pick.status_code == 409 and "near-duplicate" in pick.text
+        assert pick.status_code == 409 and "in other words" in pick.text and "cbe:q" not in pick.text
         assert f"Q{slot_of_twin}" in pick.text
         # Replacing the twin itself with its own near-copy is allowed: the
         # paper still carries only one of them.

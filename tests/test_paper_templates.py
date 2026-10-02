@@ -717,9 +717,9 @@ def test_builder_sets_print_questions_of_their_own_and_count_every_repeat(
     assert printed(c) == [("o4", None), ("o5", None), ("t1", None), ("t0", "t2")]
     assert paper["setOverlap"] == {"A": 0, "B": 1, "C": 3}
     assert [w for w in paper["warnings"] if " repeats " in w] == [
-        "Set B repeats 1 question(s) from an earlier set (Q4 (OR)): no other question in the "
+        "Set B repeats 1 question from an earlier set (Q4 (OR)): no other question in the "
         "bank fits that slot under the section's rules and the paper's chapters.",
-        "Set C repeats 3 question(s) from an earlier set (Q3, Q4, Q4 (OR)): no other question "
+        "Set C repeats 3 questions from an earlier set (Q3, Q4, Q4 (OR)): no other question "
         "in the bank fits those slots under the section's rules and the paper's chapters."]
     for s in (a, b, c):
         # The same paper in shape: sections, marks and choices.
@@ -1237,7 +1237,7 @@ def test_the_real_banks_social_science_gaps_name_their_binding_constraint(real_c
     # A section the bank can partly fill still says how far it gets.
     c = by_title["Section C - Short answer"]
     assert (c.available, c.shortfall) == (2, 3), c
-    assert "Only 2 3-mark question(s) are available; 3 short." in c.reason, c.reason
+    assert "Only 2 3-mark questions are available; 3 short." in c.reason, c.reason
 
 
 # ---- presets checked against the real papers
@@ -1743,7 +1743,7 @@ def test_a_copied_preset_edited_by_the_teacher_prints_instructions_for_its_paper
     for p in [paper] + paper["sets"]:
         lines = p["metadata"]["instructions"].splitlines()
         _assert_instructions_describe(lines, report["sections"])
-        assert not any("4 mark(s)" in x for x in lines), lines
+        assert not any("4 marks" in x for x in lines), lines
 
 
 def test_instructions_the_teacher_rewrites_on_a_copy_print_as_written(tmp_path, monkeypatch):

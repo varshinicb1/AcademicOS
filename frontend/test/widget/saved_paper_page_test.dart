@@ -248,6 +248,36 @@ void main() {
     expect(saver.saved, isEmpty);
   });
 
+  // The re-test of the fixes (2026-10-02): a teacher of the subject was
+  // offered Download and an editable marks grid that could only answer 403
+  // (R-01, R-04), and a locked paper still offered Delete (P-07).
+  testWidgets("the server's own permissions decide what a colleague is offered (R-01, R-04)", (tester) async {
+    final s = _Server()
+      ..assessment = {
+        ..._assessment(_Server().paperId),
+        'metadata': {
+          'permissions': {'change': false, 'download': false, 'enterMarks': false, 'delete': false},
+        },
+      };
+    await open(tester, _esha, withServer: s);
+    expect(await menuItems(tester), isEmpty, reason: 'no Enter marks for someone who may not enter them');
+    await tester.scrollUntilVisible(find.byKey(const ValueKey('download-not-yours')), 300,
+        scrollable: find.byType(Scrollable).first);
+    expect(find.byKey(const ValueKey('download-paper')), findsNothing);
+    expect(find.byKey(const ValueKey('download-answer-key')), findsNothing);
+    expect(find.text('Download & approve'), findsNothing);
+  });
+
+  testWidgets('a locked paper, or one under review, offers no Delete (P-07)', (tester) async {
+    for (final status in ['principalApproved', 'underReview']) {
+      final s = _Server()..assessment = _assessment(_Server().paperId, status: status);
+      await open(tester, _meera, withServer: s);
+      expect(await menuItems(tester), isNot(contains('Delete')), reason: status);
+      await tester.pumpWidget(const SizedBox());
+      await GetIt.instance.reset();
+    }
+  });
+
   testWidgets('Approve & lock updates the page at once (P-12)', (tester) async {
     final s = _Server()..assessment = _assessment(_Server().paperId, status: 'underReview');
     await open(tester, _priya, withServer: s);

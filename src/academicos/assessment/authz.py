@@ -169,6 +169,48 @@ def papers_visible_to(assessments: "Iterable[Assessment]", current: "User") -> "
     return [a for a in rows if a.id in reviewing or may_change_paper(a, current) or teaches(a)]
 
 
+def paper_permissions(assessments: "Iterable[Assessment]", current: "User") -> "dict[str, dict[str, bool]]":
+    """What `current` may do with each paper, by the rules the routes
+    enforce, so a screen offers only those: the re-test found Download
+    buttons and an editable marks grid that could only answer 403 (QA R-01,
+    R-04). Reads the caller's teaching cells and reviews once for the lot.
+
+    change -- swap, pick, remove, rename (may_change_paper);
+    download -- the paper, the Word file, the key (may_download_paper);
+    enterMarks -- the marks grid (marks_routes.may_enter_marks);
+    delete -- its author or the principal (routes.delete_assessment)."""
+    from .auth_routes import holds
+    rows = list(assessments)
+    principal = current.role == "principal"
+    try:
+        from .marks_routes import teaching_cells
+        cells = set() if principal else teaching_cells(current)
+    except HTTPException:
+        cells = set()
+    try:
+        from ..operations import routes as ops
+        reviewing = {r["assessment_id"] for r in
+                     ops.store().reviews_where(current.school_id, reviewer_id=current.id, state=None)}
+    except HTTPException:
+        reviewing = set()
+    out: dict[str, dict[str, bool]] = {}
+    for a in rows:
+        author = bool(a.teacher_id) and a.teacher_id == current.id
+        try:
+            grade: Optional[int] = int(a.grade)
+        except (TypeError, ValueError):
+            grade = None
+        change = author or holds(current, "exams", grade=grade)
+        teaches = grade is not None and (grade, str(a.subject).casefold()) in cells
+        out[a.id] = {
+            "change": change,
+            "download": change or a.id in reviewing or exam_held(a),
+            "enterMarks": change or teaches,
+            "delete": author or principal,
+        }
+    return out
+
+
 def require_school_owns_scan_session(
     session: "ScanSession", assessment_store: "AssessmentStore", current: "User",
 ) -> "ScanSession":

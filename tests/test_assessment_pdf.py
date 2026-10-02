@@ -882,7 +882,7 @@ def test_a_key_with_one_point_for_every_mark_says_it_is_all_or_nothing(tmp_path)
 def test_a_scheme_that_awards_any_two_of_its_points_says_so(tmp_path):
     paper, key = _key_for(_question(
         2, [(f"Reason {n}", 1) for n in (1, 2, 3, 4)], metadata={"anyOf": 2}))
-    assert "Any 2 of the above value points, 1 mark(s) each." in key
+    assert "Any 2 of the above value points, 1 mark each." in key
     assert "all or nothing" not in key
 
 

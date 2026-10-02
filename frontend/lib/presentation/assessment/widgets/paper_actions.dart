@@ -24,14 +24,26 @@ class PaperPermissions {
   final bool principal;
   final bool examsAdmin;
 
-  const PaperPermissions({this.author = false, this.principal = false, this.examsAdmin = false});
+  /// The server's own answer for this person and paper
+  /// (`metadata.permissions`: change, download, enterMarks, delete), when it
+  /// sent one. It knows what this screen cannot -- who reviews the paper, who
+  /// teaches its subject, whether the exam has been held -- so a colleague is
+  /// not offered a download or a marks grid that can only answer 403 (QA
+  /// R-01, R-04).
+  final Map<String, bool>? server;
+
+  const PaperPermissions({this.author = false, this.principal = false, this.examsAdmin = false, this.server});
 
   factory PaperPermissions.of(Assessment a, {Set<String> grants = const {}}) {
     final role = CurrentSession.role;
+    final sent = a.metadata['permissions'];
     return PaperPermissions(
       author: onDevice || (a.teacherId.isNotEmpty && a.teacherId == CurrentSession.userId),
       principal: role == 'principal',
       examsAdmin: role == 'teacher' && grants.contains('exams'),
+      server: !onDevice && sent is Map
+          ? {for (final e in sent.entries) '${e.key}': e.value == true}
+          : null,
     );
   }
 
@@ -42,8 +54,10 @@ class PaperPermissions {
     return const bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false);
   }
 
-  bool get mayChange => author || principal || examsAdmin;
-  bool get mayDelete => author || principal;
+  bool get mayChange => server?['change'] ?? (author || principal || examsAdmin);
+  bool get mayDelete => server?['delete'] ?? (author || principal);
+  bool get mayDownload => server?['download'] ?? true;
+  bool get mayEnterMarks => server?['enterMarks'] ?? true;
   bool get mayAskForReview => author || principal;
   bool get mayApprove => principal || examsAdmin;
 }

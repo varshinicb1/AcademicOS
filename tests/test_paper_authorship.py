@@ -197,5 +197,55 @@ def test_the_list_shows_the_printed_marks_and_a_rename_keeps_them(tmp_path, monk
             "metadata": {**listed["metadata"], "paperMarks": 99}})
         assert renamed.status_code == 200, renamed.text
         assert row()["title"] == "Unit test 2" and row()["metadata"]["paperMarks"] == 7
-        stored = client.get(f"/api/v1/assessments/{aid}", headers=ana).json()["metadata"]
-        assert "authorName" not in stored and stored["paperMarks"] == 7
+        from academicos.assessment import routes as ar
+        stored = ar._require()[1].get(aid).metadata
+        assert "authorName" not in stored and "permissions" not in stored and stored["paperMarks"] == 7
+
+
+def test_each_paper_says_what_the_caller_may_do_with_it(w):
+    """QA R-01, R-04: a colleague was offered Download and an editable marks
+    grid that could only answer 403. The server says, per paper, what the
+    caller may do, by the rules the routes enforce."""
+    from test_assessment_routes_auth import _assessment_body
+
+    r = w.c.post("/api/v1/assessments", json={**_assessment_body("asmt_perm"), "subject": "Science"},
+                 headers=w.ana)
+    aid = r.json()["id"]
+    w.c.patch(f"/api/v1/assessments/{aid}/status", json={"status": "paperGenerated"}, headers=w.ana)
+
+    def may(h):
+        return w.c.get(f"/api/v1/assessments/{aid}", headers=h).json()["metadata"]["permissions"]
+
+    assert may(w.ana) == {"change": True, "download": True, "enterMarks": True, "delete": True}
+    # Bala teaches Science 10-B: he enters marks on it, but before the exam
+    # he neither changes nor takes it away.
+    assert may(w.bala) == {"change": False, "download": False, "enterMarks": True, "delete": False}
+    assert may(w.p) == {"change": True, "download": True, "enterMarks": True, "delete": True}
+    listed = {a["id"]: a for a in w.c.get("/api/v1/assessments", params={"school_id": "school_1"},
+                                          headers=w.bala).json()}
+    assert listed[aid]["metadata"]["permissions"] == may(w.bala)
+    # Read-time only: a PUT that sends them back does not store them.
+    body = w.c.get(f"/api/v1/assessments/{aid}", headers=w.ana).json()
+    assert w.c.put(f"/api/v1/assessments/{aid}", json=body, headers=w.ana).status_code == 200
+    from academicos.assessment import routes as ar
+    assert "permissions" not in ar._require()[1].get(aid).metadata
+
+
+def test_a_paper_made_before_the_printed_marks_existed_gets_them_on_listing(
+        tmp_path, monkeypatch, seeded):
+    """QA P-16 re-test: a paper generated or edited before `paperMarks` was
+    recorded still listed the blueprint's total."""
+    from academicos.assessment import routes as ar
+
+    with _boot_client(tmp_path, monkeypatch) as client:
+        ana, _ = _join(client, "ana@example.com")
+        paper = _generate(client, ana)
+        client.delete(f"/api/v1/papers/{paper['id']}/questions/1", headers=ana)
+        store = ar._require()[1]
+        old = store.get(paper["assessmentId"])
+        store.save(old.model_copy(update={"metadata": {k: v for k, v in old.metadata.items()
+                                                       if k != "paperMarks"}}))
+        [listed] = [a for a in client.get("/api/v1/assessments", params={"school_id": "school_1"},
+                                          headers=ana).json() if a["id"] == paper["assessmentId"]]
+        assert listed["metadata"]["paperMarks"] == 7
+        assert store.get(paper["assessmentId"]).metadata["paperMarks"] == 7, "kept, read once"

@@ -63,6 +63,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Callable, Literal, Optional
 
+from .wording import counted
 from .competency import CBSE_COMPETENCY_TARGET, COMPETENCY_RULE_TEXT, competency_ceiling, \
     competency_signal, is_competency_question, share_summary, whole_percent
 from .pool import near_duplicate
@@ -735,6 +736,10 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
             # change-marks fix a competency shortfall does, so one fix per
             # kind and value is kept.
             fixes = _merge_fixes(gap_fixes, fixes)
+        # "2 questions", not "2 question(s)" (QA P-33).
+        notes[:] = [counted(n) for n in notes]
+        reason = counted(reason)
+        fixes = [x.model_copy(update={"label": counted(x.label)}) for x in fixes]
         availability = SectionAvailability(
             section_id=section.id, title=section.title, marks_each=section.marks_each,
             needed=needed, available=len(eligible), shortfall=shortfall, filled=filled,
@@ -749,7 +754,7 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
         template_id=template_id, grade=template.grade, subject=template.subject,
         bank_questions=len(candidates), keyed_questions=len(keyed),
         complete=all(p.availability.shortfall == 0 for p in plans),
-        sections=[p.availability for p in plans], scope_notes=scope.notes,
+        sections=[p.availability for p in plans], scope_notes=[counted(n) for n in scope.notes],
     )
     return report, plans
 
