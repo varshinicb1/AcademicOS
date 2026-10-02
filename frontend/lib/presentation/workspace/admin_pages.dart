@@ -10,14 +10,20 @@ import '../../core/download/pdf_saver.dart';
 
 import '../../data/datasources/api/api_error.dart';
 import '../../core/session/current_session.dart';
+import '../admin/widgets/password_reset.dart';
+import '../shared/readable.dart';
 import '../shared/widgets/common_widgets.dart';
+import '../shared/widgets/copyable_value.dart';
 import 'ops_api.dart';
 import 'strings.dart';
 import 'package:academicos/core/theme/app_theme.dart';
 import '../shared/widgets/shell.dart';
 
 /// Papers waiting for review (EX-6): the reviewer approves one for the
-/// principal or sends it back with what to change.
+/// principal or sends it back with what to change. The principal's "Waiting"
+/// also holds the papers a colleague approved for them (the server marks
+/// those rows `awaitingPrincipal`), each with the "Approve & lock" that is
+/// the last step.
 class ReviewsPage extends StatefulWidget {
   const ReviewsPage({super.key});
 
@@ -25,38 +31,71 @@ class ReviewsPage extends StatefulWidget {
   State<ReviewsPage> createState() => _ReviewsPageState();
 }
 
+/// The words a review's state is shown in on its chip, never the wire value.
+String reviewStateLabel(Map<String, dynamic> r) => switch (r['state']) {
+      'pending' => 'Waiting',
+      'approved' when r['awaitingPrincipal'] == true => 'Approved by reviewer',
+      'approved' => 'Approved',
+      'changes_requested' => 'Changes asked',
+      'withdrawn' => 'Withdrawn',
+      final s => '$s',
+    };
+
 class _ReviewsPageState extends State<ReviewsPage> {
   String _state = 'pending';
   late Future<List<Map<String, dynamic>>> _future = _fetch();
+  final Set<String> _busy = {};
 
   Future<List<Map<String, dynamic>>> _fetch() => Ops.list('/paper-reviews', query: {'state': _state});
+
+  void _reload() => setState(() {
+        _future = _fetch();
+      });
 
   Future<void> _decide(Map<String, dynamic> r, String decision) async {
     String? comment;
     if (decision == 'changes') {
-      final c = TextEditingController();
-      final ok = await showDialog<bool>(context: context, builder: (_) => AlertDialog(
-        title: const Text('What should change?'),
-        content: TextField(controller: c, minLines: 3, maxLines: 6, autofocus: true),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: Text(tr('Cancel'))),
-          FilledButton(onPressed: () => Navigator.pop(context, true), child: const Text('Send back')),
-        ],
-      ));
-      if (ok != true) return;
-      comment = c.text.trim();
+      comment = await showDialog<String>(context: context, builder: (_) => const _ChangesDialog());
+      if (comment == null || !mounted) return;
     }
-    try {
+    await _run(r, () async {
       await Ops.post('/assessments/${r['assessmentId']}/review-decision',
           body: {'decision': decision, if (comment != null) 'comment': comment});
-      setState(() { _future = _fetch(); });
+      return decision == 'changes'
+          ? 'Sent back to the author with your comments'
+          : CurrentSession.role == 'principal'
+              ? 'Approved and locked: ${r['title']}'
+              : 'Approved; the principal has been told';
+    });
+  }
+
+  /// The principal's approval of a paper a colleague approved for them:
+  /// it locks the paper (PATCH /assessments/{id}/approve).
+  Future<void> _approveAndLock(Map<String, dynamic> r) => _run(r, () async {
+        await Ops.patch('/assessments/${r['assessmentId']}/approve');
+        return 'Approved and locked: ${r['title']}';
+      });
+
+  /// Runs one decision on [r], says what happened and reloads the list, or
+  /// shows the server's reason when it refused.
+  Future<void> _run(Map<String, dynamic> r, Future<String> Function() action) async {
+    final id = '${r['id']}';
+    setState(() => _busy.add(id));
+    try {
+      final done = await action();
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(done)));
+      _reload();
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
+    } finally {
+      if (mounted) setState(() => _busy.remove(id));
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final principal = CurrentSession.role == 'principal';
     return Scaffold(
       appBar: destinationAppBar(context, title: Text(tr('Paper reviews')), actions: [
         SegmentedButton<String>(
@@ -74,41 +113,124 @@ class _ReviewsPageState extends State<ReviewsPage> {
         future: _future,
         builder: (context, snap) {
           if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
-          if (snap.hasError) return ErrorDisplay(message: snap.error.toString());
+          if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!), onRetry: _reload);
           if (snap.data!.isEmpty) {
-            return const EmptyState(icon: Icons.rate_review_outlined, title: 'Nothing to review',
-                message: 'Papers a colleague sends you for review appear here.');
+            return EmptyState(icon: Icons.rate_review_outlined, title: 'Nothing to review',
+                message: principal
+                    ? 'Papers sent to you for review, and papers a colleague approved for you, appear here.'
+                    : 'Papers a colleague sends you for review appear here.');
           }
           return ListView(padding: const EdgeInsets.all(16), children: [
-            for (final r in snap.data!)
-              AppCard(
-                margin: const EdgeInsets.only(bottom: 10),
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Row(children: [
-                    Expanded(child: Text(r['title'], style: Theme.of(context).textTheme.titleSmall)),
-                    ChipTag(label: r['state']),
-                  ]),
-                  if (r['requestNote'] != null) Text('Note: ${r['requestNote']}'),
-                  if (r['comment'] != null) Text('Review: ${r['comment']}'),
-                  Text('Reviewer: ${r['reviewerName']} · asked ${(r['requestedAt'] as String).substring(0, 10)}',
-                      style: Theme.of(context).textTheme.bodySmall),
-                  if (r['state'] == 'pending')
-                    Wrap(spacing: 8, children: [
-                      TextButton(onPressed: () => context.push('/assessment/${r['assessmentId']}'),
-                          child: const Text('Open paper')),
-                      if (r['reviewerId'] == CurrentSession.userId || CurrentSession.role == 'principal') ...[
-                        OutlinedButton(onPressed: () => _decide(r, 'changes'), child: const Text('Ask for changes')),
-                        FilledButton(onPressed: () => _decide(r, 'approve'),
-                            // The principal's approval is the final one: it locks the paper.
-                            child: Text(CurrentSession.role == 'principal'
-                                ? 'Approve and lock' : 'Approve for principal')),
-                      ],
-                    ]),
-                ]),
-              ),
+            for (final r in snap.data!) _row(context, r, principal),
           ]);
         },
       ),
+    );
+  }
+
+  Widget _row(BuildContext context, Map<String, dynamic> r, bool principal) {
+    final theme = Theme.of(context);
+    final busy = _busy.contains('${r['id']}');
+    final pending = r['state'] == 'pending';
+    // A colleague approved it for the principal; the paper is not locked yet.
+    final awaitingPrincipal = r['state'] == 'approved' && r['awaitingPrincipal'] == true;
+    final decides = r['reviewerId'] == CurrentSession.userId || principal;
+    final asked = '${r['requestedAt'] ?? ''}';
+    return AppCard(
+      key: ValueKey('review-${r['id']}'),
+      margin: const EdgeInsets.only(bottom: 10),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          Expanded(child: Text('${r['title']}', style: theme.textTheme.titleSmall)),
+          ChipTag(label: reviewStateLabel(r)),
+        ]),
+        if (r['requestNote'] != null) Text('Note: ${r['requestNote']}'),
+        if (r['comment'] != null) Text('Review: ${r['comment']}'),
+        Text('Reviewer: ${r['reviewerName']} · asked ${asked.length >= 10 ? asked.substring(0, 10) : asked}',
+            style: theme.textTheme.bodySmall),
+        if (awaitingPrincipal && principal)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text('${r['reviewerName']} approved it for you. Approving locks the paper.',
+                style: theme.textTheme.bodySmall),
+          ),
+        if (pending || awaitingPrincipal)
+          Wrap(spacing: 8, crossAxisAlignment: WrapCrossAlignment.center, children: [
+            TextButton(
+                // The paper page can approve or lock it too: the list is
+                // read again on the way back.
+                onPressed: () => context.push('/assessment/${r['assessmentId']}').then((_) {
+                      if (mounted) _reload();
+                    }),
+                child: const Text('Open paper')),
+            if (pending && decides) ...[
+              OutlinedButton(onPressed: busy ? null : () => _decide(r, 'changes'),
+                  child: const Text('Ask for changes')),
+              FilledButton(onPressed: busy ? null : () => _decide(r, 'approve'),
+                  // The principal's approval is the final one: it locks the paper.
+                  child: Text(principal ? 'Approve & lock' : 'Approve for principal')),
+            ],
+            if (awaitingPrincipal && principal)
+              FilledButton.icon(
+                key: ValueKey('approve-lock-${r['id']}'),
+                onPressed: busy ? null : () => _approveAndLock(r),
+                icon: const Icon(Icons.verified),
+                label: const Text('Approve & lock'),
+              ),
+            if (busy) const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)),
+          ]),
+      ]),
+    );
+  }
+}
+
+/// Asks the reviewer what should change, and pops with the comment. It pops
+/// with its own context: popping with the reviews page's closed the page
+/// behind it and left this open, so nothing was ever sent (QA P-08).
+class _ChangesDialog extends StatefulWidget {
+  const _ChangesDialog();
+
+  @override
+  State<_ChangesDialog> createState() => _ChangesDialogState();
+}
+
+class _ChangesDialogState extends State<_ChangesDialog> {
+  final _comment = TextEditingController();
+
+  @override
+  void dispose() {
+    _comment.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final text = _comment.text.trim();
+    return AlertDialog(
+      title: const Text('What should change?'),
+      content: SizedBox(
+        width: 420,
+        child: TextField(
+          key: const ValueKey('review-comment'),
+          controller: _comment,
+          minLines: 3,
+          maxLines: 6,
+          autofocus: true,
+          decoration: const InputDecoration(
+            labelText: 'What should change?',
+            hintText: 'What the author should fix before it is approved',
+          ),
+          onChanged: (_) => setState(() {}),
+        ),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context), child: Text(tr('Cancel'))),
+        // The server refuses an empty comment ("say what to change").
+        FilledButton(
+          onPressed: text.isEmpty ? null : () => Navigator.pop(context, text),
+          child: const Text('Send back'),
+        ),
+      ],
     );
   }
 }
@@ -249,11 +371,24 @@ class _ImportPageState extends State<ImportPage> {
             ),
         ],
         const SizedBox(height: 24),
-        const SectionHeader(title: 'Export', subtitle: 'In the import columns, so an edited export imports back.'),
+        // "In the import columns, so an edited export imports back" was not
+        // true of people: there is no people import, and the people export
+        // pasted into the teachers import invited its students as teachers
+        // (QA S-08). Each export now says how it goes back in, if it does.
+        const SectionHeader(title: 'Export',
+            subtitle: 'Sections, allocations and holidays export in their import\'s columns, so an edited '
+                'file imports back.'),
         for (final k in _exports)
           ListTile(
             dense: true,
             title: Text(k),
+            subtitle: switch (k) {
+              'people' => const Text('One list with a role column. To import people, split it by role and '
+                  'use the teachers, students or parents import for each part; a teachers import does '
+                  'not take students or parents.'),
+              'timetable' => const Text('For reading and printing. Change the timetable under Timetable.'),
+              _ => null,
+            },
             trailing: Wrap(spacing: 8, children: [
               TextButton(onPressed: () => _copy('/admin/export/$k', k), child: const Text('Copy CSV')),
               TextButton(onPressed: () => _download('/admin/export/$k', k), child: const Text('Excel')),
@@ -283,6 +418,15 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
   // (N-67-10), so offering them would only produce an error.
   static const _scopes = ['questions:read', 'facets:read'];
 
+  /// What each scope lets a partner app do, in words; the id stays beside
+  /// it for whoever wires up the app.
+  static const _scopeNames = {
+    'questions:read': 'Search and fetch questions',
+    'facets:read': 'Count questions by class, subject and chapter',
+  };
+
+  static String _scopeName(Object? s) => _scopeNames[s] ?? '$s';
+
   Future<void> _mint() async {
     final label = TextEditingController();
     final subjects = TextEditingController();
@@ -293,7 +437,7 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
       content: SizedBox(width: 460, child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
         TextField(controller: label, decoration: const InputDecoration(labelText: 'Who is it for?')),
         for (final s in _scopes)
-          CheckboxListTile(dense: true, value: scopes.contains(s), title: Text(s),
+          CheckboxListTile(dense: true, value: scopes.contains(s), title: Text(_scopeName(s)), subtitle: Text(s),
               onChanged: (on) => set(() => on == true ? scopes.add(s) : scopes.remove(s))),
         const SizedBox(height: 8),
         const Text('Only these classes (none ticked: every class)'),
@@ -318,16 +462,19 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
         if (grades.isNotEmpty) 'grades': grades.toList()..sort(),
         if (onlySubjects.isNotEmpty) 'subjects': onlySubjects});
       if (!mounted) return;
-      await showDialog(context: context, builder: (_) => AlertDialog(
+      // The key in the app's own typeface with a Copy that says it copied
+      // (QA S-07): it was a monospace SelectableText the web build could not
+      // paint, so the dialog showed only Copy, and the key is shown once.
+      // Done pops the dialog's own context, not this page's.
+      await showDialog(context: context, barrierDismissible: false, builder: (dialog) => AlertDialog(
         title: const Text('Copy the key now'),
-        content: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('It is shown this once. Send it as the X-API-Key header.'),
-          const SizedBox(height: 8),
-          SelectableText(k['key'] as String, style: const TextStyle(fontFamily: 'monospace')),
-        ]),
+        content: SizedBox(width: 460, child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text('It is shown this once. Give it to the partner app, which sends it as the X-API-Key header.'),
+          const SizedBox(height: 12),
+          CopyableValue(value: k['key'] as String, copiedMessage: 'API key copied.'),
+        ])),
         actions: [
-          TextButton(onPressed: () => Clipboard.setData(ClipboardData(text: k['key'] as String)), child: const Text('Copy')),
-          FilledButton(onPressed: () => Navigator.pop(context), child: const Text('Done')),
+          FilledButton(onPressed: () => Navigator.pop(dialog), child: const Text('Done')),
         ],
       ));
       _reload();
@@ -336,14 +483,30 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
     }
   }
 
-  /// " · classes 9, 10 · Science", or nothing for a key with no limits.
+  /// " · classes 9 and 10 · Science", or nothing for a key with no limits.
   static String _limitsText(Map<String, dynamic> k) {
     final grades = (k['grades'] as List?) ?? const [];
     final subjects = (k['subjects'] as List?) ?? const [];
     return [
-      if (grades.isNotEmpty) ' · classes ${grades.join(', ')}',
+      if (grades.isNotEmpty) ' · ${classesLabel(grades)}',
       if (subjects.isNotEmpty) ' · ${subjects.join(', ')}',
     ].join();
+  }
+
+  /// A revoked key fails every request at once, so it asks first (QA S-18).
+  Future<void> _revoke(Map<String, dynamic> k) async {
+    final ok = await confirmAction(context,
+        title: 'Revoke "${k['label']}"?',
+        message: 'The app using this key stops working at once: every request it sends is refused. '
+            'A revoked key cannot be turned back on; the app would need a new key.',
+        confirmLabel: 'Revoke key');
+    if (!ok) return;
+    try {
+      await Ops.delete('/api-keys/${k['id']}');
+      _reload();
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
+    }
   }
 
   /// The key's requests per minute over the last few minutes, the same count
@@ -365,10 +528,11 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
         title: Text('${k['label']} · usage'),
         content: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(rows.isEmpty
-              ? 'No requests in the last few minutes. Last used ${k['lastUsedAt'] ?? 'never'}.'
-              : '$total requests in the last few minutes; the quota is ${k['quotaPerMinute']} a minute.'),
+              ? 'No requests in the last few minutes. Last used ${readableDateTime(k['lastUsedAt'] as String?)}.'
+              : '${plural(total, 'request')} in the last few minutes; the quota is ${k['quotaPerMinute']} a minute.'),
           const SizedBox(height: 8),
-          for (final r in rows) Text('${r['windowStart']}: ${r['count']}'),
+          for (final r in rows)
+            Text('${readableTime(r['windowStart'] as String)}: ${plural((r['count'] as num).toInt(), 'request')}'),
         ]),
         actions: [TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Close'))],
       ),
@@ -395,15 +559,10 @@ class _ApiKeysPageState extends State<ApiKeysPage> {
                 // N-67-10: the principal sees what a key is used for, not only that it exists.
                 onTap: () => _showUsage(k),
                 title: Text('${k['label']} · ${k['prefix']}…'),
-                subtitle: Text('${(k['scopes'] as List).join(', ')}${_limitsText(k)} · '
-                    'last used ${k['lastUsedAt'] ?? 'never'} · tap for usage'),
+                subtitle: Text('${(k['scopes'] as List).map(_scopeName).join(', ')}${_limitsText(k)} · '
+                    'last used ${readableDateTime(k['lastUsedAt'] as String?)} · tap for usage'),
                 trailing: k['active'] == true
-                    ? TextButton(
-                        onPressed: () async {
-                          await Ops.delete('/api-keys/${k['id']}');
-                          _reload();
-                        },
-                        child: const Text('Revoke'))
+                    ? TextButton(onPressed: () => _revoke(k), child: const Text('Revoke'))
                     : const ChipTag(label: 'Revoked'),
               ),
           ]);
@@ -474,6 +633,31 @@ class _GrantsPageState extends State<GrantsPage> {
 
   void _reload() => setState(() { _future = _load(); });
 
+  /// "Leave, attendance and substitutions (class 10)", or the area alone
+  /// when it covers the whole school.
+  static String _grantLabel(Map g) {
+    final area = g['label'].toString().split(':').first;
+    final grades = ((g['scope'] as Map?)?['grades'] as List?) ?? const [];
+    return grades.isEmpty ? area : '$area (${classesLabel(grades)})';
+  }
+
+  /// Taking an admin area away is one tap on the chip's x, so it asks first
+  /// and says what the teacher loses (QA S-18).
+  Future<void> _revokeGrant(Map<String, dynamic> teacher, Map g) async {
+    final ok = await confirmAction(context,
+        title: 'Take this away from ${teacher['name']}?',
+        message: '${teacher['name']} can no longer act as an admin for ${_grantLabel(g)}. Their pages for it '
+            'close at once. You can give it again with Grant.',
+        confirmLabel: 'Take it away');
+    if (!ok) return;
+    try {
+      await Ops.delete('/admin/grants/${g['id']}');
+      _reload();
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
+    }
+  }
+
   Future<void> _grant(Map<String, dynamic> teacher, List<Map<String, dynamic>> caps) async {
     String? cap;
     final grades = <int>{};
@@ -538,23 +722,24 @@ class _GrantsPageState extends State<GrantsPage> {
                     Expanded(child: Text(t['name'], style: Theme.of(context).textTheme.titleSmall)),
                     TextButton.icon(onPressed: () => _grant(t, caps), icon: const Icon(Icons.add), label: const Text('Grant')),
                     PopupMenuButton<String>(
+                      key: ValueKey('staff-more-${t['id']}'),
                       tooltip: 'More for ${t['name']}',
-                      onSelected: (_) => _close(t),
-                      itemBuilder: (_) => const [
-                        PopupMenuItem(value: 'close', child: Text('Close account (left the school)')),
+                      onSelected: (choice) => choice == 'reset'
+                          ? resetPasswordFlow(context, userId: t['id'] as String, name: t['name'] as String)
+                          : _close(t),
+                      itemBuilder: (_) => [
+                        // A teacher who forgot their password (QA S-05).
+                        if (canResetPasswords) const PopupMenuItem(value: 'reset', child: Text('Reset password')),
+                        const PopupMenuItem(value: 'close', child: Text('Close account (left the school)')),
                       ],
                     ),
                   ]),
                   Wrap(spacing: 6, runSpacing: 4, children: [
                     for (final g in grants.where((g) => g['userId'] == t['id']))
                       InputChip(
-                        label: Text(((g['scope'] as Map)['grades'] as List?) == null
-                            ? g['label'].toString().split(':').first
-                            : '${g['label'].toString().split(':').first} (classes ${((g['scope'] as Map)['grades'] as List).join(', ')})'),
-                        onDeleted: () async {
-                          await Ops.delete('/admin/grants/${g['id']}');
-                          _reload();
-                        },
+                        label: Text(_grantLabel(g)),
+                        deleteButtonTooltipMessage: 'Take this away',
+                        onDeleted: () => _revokeGrant(t, g),
                       ),
                   ]),
                 ]),

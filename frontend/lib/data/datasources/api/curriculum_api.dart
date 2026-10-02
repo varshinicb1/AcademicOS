@@ -501,6 +501,14 @@ class CurriculumApi {
     await _dio.post('/curriculum/student-enrollments', data: {'studentId': studentId, 'sectionId': sectionId});
   }
 
+  /// The school's name as papers print it, or null before one is set. Any
+  /// signed-in member of the school may read it.
+  Future<String?> schoolName() async {
+    final r = await _dio.get('/curriculum/school-profile');
+    final name = (Map<String, dynamic>.from(r.data as Map)['name'] as String?)?.trim();
+    return name == null || name.isEmpty ? null : name;
+  }
+
   /// Principal-only: the school's name as papers print it (EX-5, audit D41).
   /// Keeps the address, affiliation line and logo already set.
   Future<void> setSchoolName(String name) async {
@@ -831,9 +839,11 @@ class CurriculumApi {
     await _dio.delete('/curriculum/terms/$termId');
   }
 
-  /// Principal-only: sets up one CBSE class (6-12) as this school's year,
-  /// its subjects, books, units and chapters. Idempotent: running it again
-  /// for the same year reuses what is there.
+  /// Principal-only: sets up one CBSE class (1-12) as this school's year,
+  /// its subjects, books, units and chapters. Classes 6-12 have CBSE
+  /// syllabus files; classes 1-5 get subjects only where the server holds
+  /// the class's NCERT books, and otherwise come back with no subjects.
+  /// Idempotent: running it again for the same year reuses what is there.
   Future<SeedSummary> seedCbseClass(
       {required int grade, required String yearLabel, required String startDate, required String endDate}) async {
     final r = await _dio.post('/curriculum/seed/cbse', data: {

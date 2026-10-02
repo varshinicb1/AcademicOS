@@ -400,8 +400,8 @@ def test_a_paper_that_cannot_reach_the_share_says_so_before_anything_else():
     _, res = _ids(_one_mark_pool(1, 5), [_section("A", 1, 4)], "standard")
     assert res.warnings[0] == (
         "This paper cannot reach CBSE's 50% competency-based share: its sections can hold "
-        "at most 1 competency-based question(s) of the 4 it asks for (25.0%). Of the 6 "
-        "question(s) in the bank these sections can use, 1 (16.7%) are competency-based.")
+        "at most 1 competency-based question of the 4 it asks for (25.0%). Of the 6 "
+        "questions in the bank these sections can use, 1 (16.7%) are competency-based.")
     assert _metrics(res) == (1, 6, 1, 0.5)
     # The printed share is a different fact and is still reported after it.
     # The one share sentence (competency.share_summary, audit D79).
@@ -446,7 +446,7 @@ def test_a_section_an_earlier_one_left_short_counts_its_borrow():
     printed = sum(1 for q in res.selected_questions if selection.is_competency_question(q))
     assert printed == 1
     assert res.optimization_metrics["competencyCeiling"] == 1
-    assert "at most 1 competency-based question(s) of the 4" in res.warnings[0]
+    assert "at most 1 competency-based question of the 4" in res.warnings[0]
 
 
 def _scoped(chosen: list[QuestionSchema], bank: list[QuestionSchema],
@@ -508,7 +508,7 @@ def test_a_restated_question_left_short_is_counted_in_the_ceiling():
     assert res.optimization_metrics["competencyCeiling"] == 1
     assert res.warnings[0].startswith(
         "This paper cannot reach CBSE's 50% competency-based share: its sections can hold "
-        "at most 1 competency-based question(s) of the 4 it asks for (25.0%).")
+        "at most 1 competency-based question of the 4 it asks for (25.0%).")
 
 
 def test_a_paper_that_meets_the_share_never_says_it_cannot():
@@ -573,8 +573,8 @@ def test_a_paper_that_prints_short_is_measured_against_what_it_prints():
     _, res = _ids(_one_mark_pool(1, 3), [_section("A", 1, 6)], "standard")
     assert res.warnings[0] == (
         "This paper cannot reach CBSE's 50% competency-based share: its sections can hold "
-        "at most 1 competency-based question(s) of the 4 it can print (25.0%; it asks for 6). "
-        "Of the 4 question(s) in the bank these sections can use, 1 (25.0%) are "
+        "at most 1 competency-based question of the 4 it can print (25.0%; it asks for 6). "
+        "Of the 4 questions in the bank these sections can use, 1 (25.0%) are "
         "competency-based.")
 
 
@@ -587,8 +587,8 @@ def test_a_chapter_scoped_ceiling_names_the_chosen_chapters():
     res = _scoped([q for q in bank if q.chapter_ids == ["ch1"]], bank, [_section("A", 1, 4)])
     assert res.warnings[0] == (
         "This paper cannot reach CBSE's 50% competency-based share: its sections can hold "
-        "at most 0 competency-based question(s) of the 4 it asks for (0.0%). Of the 4 "
-        "question(s) in the chosen chapters these sections can use, 0 (0.0%) are "
+        "at most 0 competency-based questions of the 4 it asks for (0.0%). Of the 4 "
+        "questions in the chosen chapters these sections can use, 0 (0.0%) are "
         "competency-based; of the 7 in the whole bank, 3 (42.9%) are.")
     m = res.optimization_metrics
     assert (m["competencyUsableInScope"], m["competencyInScope"]) == (4, 0)
@@ -603,7 +603,7 @@ def test_chosen_chapters_with_nothing_that_fits_say_so():
     res = _scoped(chosen, bank, [_section("A", 1, 4)])
     assert res.warnings[0] == (
         "This paper cannot reach CBSE's 50% competency-based share: its sections can hold "
-        "at most 1 competency-based question(s) of the 4 it asks for (25.0%). No question "
+        "at most 1 competency-based question of the 4 it asks for (25.0%). No question "
         "in the chosen chapters fits these sections; of the 6 in the whole bank that do, "
         "1 (16.7%) are competency-based.")
 
@@ -632,8 +632,8 @@ def test_quick_generate_carries_the_ceiling_sentence_first(tmp_path, monkeypatch
     warnings = resp.json()["warnings"]
     sentence = (
         f"This paper cannot reach CBSE's 50% competency-based share: its sections can hold "
-        f"at most 0 competency-based question(s) of the {asked} it asks for (0.0%). Of the "
-        f"{usable} question(s) in the bank these sections can use, 0 (0.0%) are "
+        f"at most 0 competency-based questions of the {asked} it asks for (0.0%). Of the "
+        f"{usable} question{'s' if usable != 1 else ''} in the bank these sections can use, 0 (0.0%) are "
         f"competency-based.")
     assert warnings[0] == sentence, warnings
     printed = next(i for i, w in enumerate(warnings) if w.startswith("Competency-based: "))

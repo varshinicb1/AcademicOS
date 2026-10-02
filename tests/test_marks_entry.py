@@ -61,7 +61,10 @@ def test_entering_marks_fills_the_grid(w, paper):
 
 def test_marks_are_bounded_and_consented(w, paper):
     from academicos.assessment import consent_routes
-    assert _put(w, paper, {"entries": [_cell(w, "s1", "q3", 3)]}).status_code == 422
+    too_many = _put(w, paper, {"entries": [_cell(w, "s1", "q3", 3)]})
+    assert too_many.status_code == 422
+    # The grid's own number and the child's name, never the bank id (QA P-19).
+    assert too_many.json()["detail"] == "A3 for Asha: 3 is more than its 2 marks"
     assert _put(w, paper, {"entries": [_cell(w, "s1", "zz", 1)]}).status_code == 422
     assert _put(w, paper, {"entries": [_cell(w, "s1", "q1", 1)], "absent": [w.ids["s1"]]}).status_code == 422
     assert _put(w, paper, {"entries": [{"studentId": "nobody", "questionId": "q1", "marks": 1}]}).status_code == 422

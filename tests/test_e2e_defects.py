@@ -123,10 +123,12 @@ def test_typed_marks_count_in_school_insights(w, paper, monkeypatch):  # noqa: F
     monkeypatch.setattr(marks_routes, "_bank_schemas", lambda subject, grade, qids: {
         q["id"]: QuestionSchema.model_validate({**q, "chapterIds": ["light"]}) for q in BANK if q["id"] in qids})
     before = w.c.get("/api/v1/insights/school/school_1", headers=w.p).json()
-    assert before["students"] == 0 and before["assessments"] == 0
+    # "students" is the school's enrolled three (QA S-04); those with
+    # evidence are counted apart.
+    assert before["students"] == 3 and before["studentsWithEvidence"] == 0 and before["assessments"] == 0
     assert _put(w, paper, {"entries": [_cell(w, "s1", "q1", 1), _cell(w, "s2", "q1", 0)]}).status_code == 200
     after = w.c.get("/api/v1/insights/school/school_1", headers=w.p).json()
-    assert after["students"] == 2 and after["assessments"] == 1, after
+    assert after["students"] == 3 and after["studentsWithEvidence"] == 2 and after["assessments"] == 1, after
     assert w.c.get("/api/v1/insights/school/school_1", headers=w.p2).status_code == 403
 
 

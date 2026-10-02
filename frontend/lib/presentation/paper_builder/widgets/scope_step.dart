@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/constants/wording.dart';
 import '../../../data/datasources/api/paper_builder_api.dart';
 import '../paper_builder_controller.dart';
 import 'class_subject_step.dart';
@@ -23,9 +24,11 @@ class ScopeStep extends StatelessWidget {
         Row(children: [
           Icon(Icons.description_outlined, size: 20, color: theme.colorScheme.primary),
           const SizedBox(width: 8),
+          // Wraps: cut at two lines, a phone read "Half-Yearly Examination ·
+          // 80 marks · 1…" (QA P-35).
           Expanded(
-            child: Text('${t.name} · ${t.totalMarks} marks · ${t.durationMinutes} min',
-                style: theme.textTheme.titleSmall, overflow: TextOverflow.ellipsis, maxLines: 2),
+            child: Text('${t.name} · ${marksText(t.totalMarks)} · ${t.durationMinutes} min',
+                key: const ValueKey('scope-template'), style: theme.textTheme.titleSmall),
           ),
           TextButton(
             onPressed: () => c.goTo(BuilderStep.template),
@@ -131,16 +134,29 @@ class _Chapters extends StatelessWidget {
 /// counted.
 class _CompetencyLine extends StatelessWidget {
   final CompetencyCheckView check;
-  const _CompetencyLine({required this.check});
+
+  /// How many sets the paper will print.
+  final int sets;
+
+  /// Whether some section cannot be filled.
+  final bool short;
+  const _CompetencyLine({required this.check, this.sets = 1, this.short = false});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final (icon, color) = switch (check.status) {
+      // No green tick beside "4 of 4 sections cannot be filled" (QA P-18).
+      'meets' when short => (Icons.info_outline, theme.colorScheme.onSurfaceVariant),
       'meets' => (Icons.check_circle_outline, theme.colorScheme.primary),
       'below_bank' => (Icons.warning_amber_rounded, theme.colorScheme.error),
       _ => (Icons.info_outline, theme.colorScheme.onSurfaceVariant),
     };
+    // The check runs on Set A's questions; the other sets draw their own,
+    // and their share is known only once they are generated (QA P-13).
+    final others = sets == 2
+        ? 'Set B draws its own questions; its share'
+        : 'Sets B and C draw their own questions; their share';
     return Padding(
       key: const ValueKey('availability-competency'),
       padding: const EdgeInsets.only(top: 8),
@@ -149,7 +165,10 @@ class _CompetencyLine extends StatelessWidget {
         const SizedBox(width: 8),
         Expanded(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(check.summary, style: theme.textTheme.bodyMedium),
+            Text(sets > 1 ? 'Set A: ${check.summary}' : check.summary, style: theme.textTheme.bodyMedium),
+            if (sets > 1)
+              Text('$others is shown with the paper once it is generated.',
+                  key: const ValueKey('competency-other-sets'), style: theme.textTheme.bodySmall),
             if (check.detail.isNotEmpty) Text(check.detail, style: theme.textTheme.bodySmall),
             if (check.belowTarget && check.counted.isNotEmpty)
               Padding(
@@ -222,9 +241,24 @@ class AvailabilityPanel extends StatelessWidget {
             child: Text('Gaps are filled from outside the chosen chapters; the paper lists those questions.',
                 style: theme.textTheme.bodySmall),
           ),
+        // How short, in marks: the sections alone never said the paper would
+        // print 58 of its 80 (QA P-18).
+        if (short.isNotEmpty && !a.nothingFits)
+          if (c.marksReach case final reach?)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                'The paper would print ${reach.reached} of ${marksText(reach.total)}'
+                '${reach.reached < reach.total ? ' — ${reach.total - reach.reached} short' : ''}.',
+                key: const ValueKey('availability-marks'),
+                style: theme.textTheme.bodyMedium,
+              ),
+            ),
         // On the panel, never in the collapsed notes: CBSE's 50% is decided
-        // here, while the chapters can still change (Task 125).
-        if (a.competency != null) _CompetencyLine(check: a.competency!),
+        // here, while the chapters can still change (Task 125). Not beside a
+        // paper with nothing to print.
+        if (a.competency != null && !a.nothingFits)
+          _CompetencyLine(check: a.competency!, sets: c.setCount, short: short.isNotEmpty),
         for (final s in short) _ShortSection(c: c, s: s),
         if (a.nothingFits)
           Padding(
@@ -281,13 +315,20 @@ class _ShortSection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        // What fits, not "bank has": the bank can hold more questions of the
+        // marks than fit the section, and the server's reason below counts
+        // those (QA P-18).
         Text(
-          '${s.title} needs ${s.needed} × ${s.marksEach}-mark, bank has ${s.filled} '
-          '${c.chapterIds.isEmpty ? 'in the whole syllabus' : 'in these chapters'}.',
+          '${s.title} needs ${s.needed} × ${s.marksEach}-mark, ${s.filled} '
+          '${s.filled == 1 ? 'fits' : 'fit'} '
+          '${c.chapterIds.isEmpty ? 'from the whole syllabus' : 'from these chapters'}.',
           style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
         ),
         if (s.reason.isNotEmpty) Text(s.reason, style: theme.textTheme.bodySmall),
-        for (final f in s.fixes)
+        // Only what can close the gap: fewer OR choices never fills a
+        // compulsory question -- the bank fills those first -- so "Print
+        // this section without OR choices" is not offered here.
+        for (final f in s.fixes.where((f) => f.kind != 'reduce_choices'))
           InkWell(
             onTap: () => _apply(context, f),
             child: ConstrainedBox(

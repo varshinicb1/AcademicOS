@@ -12,8 +12,13 @@
 // demo-seeded assessment, through a real AssessmentBloc wired to a real
 // (offline) ApiClient -- no mocks, so a regression of this exact bug fails
 // this test the same way it silently failed for a real teacher on-device.
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
+
+import 'package:academicos/core/download/pdf_saver.dart';
 
 import 'package:academicos/core/local_engine/demo_seeder.dart';
 import 'package:academicos/core/local_engine/local_store.dart';
@@ -46,6 +51,12 @@ Future<void> _scrollUntilVisible(WidgetTester tester, Finder finder) async {
   // ensureVisible nudges it fully into view now that it actually exists.
   await tester.ensureVisible(finder);
   await tester.pumpAndSettle();
+}
+
+class _RecordingSaver implements PdfSaver {
+  final saved = <(Uint8List, String)>[];
+  @override
+  Future<void> save(Uint8List bytes, String filename) async => saved.add((bytes, filename));
 }
 
 void main() {
@@ -87,15 +98,20 @@ void main() {
           reason: '_reopen() must have completed and resolved real data');
       expect(find.text('This assessment could not be opened.'), findsNothing);
 
-      await _scrollUntilVisible(tester, find.text('Export PDF'));
-      expect(find.text('Export PDF'), findsOneWidget,
-          reason: 'the real Export & Approve card must render once _fetchedPaper is populated');
+      await _scrollUntilVisible(tester, find.text('Download paper (PDF)'));
+      expect(find.text('Download paper (PDF)'), findsOneWidget,
+          reason: 'the real Download & approve card must render once _fetchedPaper is populated');
     },
   );
 
   testWidgets(
-    'tapping Export PDF on a reopened assessment actually exports -- the exact regression this test exists for',
+    'one press on Download paper exports it and hands over a named file -- on a reopened assessment',
     (tester) async {
+      // QA P-24: "Export PDF" used to export and then reveal a second
+      // "Download Paper PDF" button; the file was named after the paper id.
+      final saver = _RecordingSaver();
+      GetIt.I.registerSingleton<PdfSaver>(saver);
+      addTearDown(() => GetIt.I.unregister<PdfSaver>());
       final bloc = env.buildAssessmentBloc();
       await tester.pumpWidget(wrapForTest(
         AssessmentReviewPage(assessmentId: realAssessmentId),
@@ -103,38 +119,34 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
-      expect(find.text('Preview, print or email'), findsNothing,
-          reason: 'must not appear before a real export has happened');
-
-      await _scrollUntilVisible(tester, find.text('Export PDF'));
-      await tester.tap(find.text('Export PDF'));
+      await _scrollUntilVisible(tester, find.text('Download paper (PDF)'));
+      await tester.tap(find.text('Download paper (PDF)'));
       await tester.pump();
-      expect(find.text('Exporting…'), findsOneWidget,
-          reason: 'the bloc dispatch must actually start a real export, not silently no-op');
 
-      // Same real-I/O-inside-fake-async-zone issue as DemoSeeder: the real
-      // export renders an actual PDF (LocalPdfExporter -> package:pdf, real
-      // font/glyph work), which pumpAndSettle's fake clock never lets
-      // resolve. runAsync steps outside that zone so the real Future can
-      // actually complete; confirmed necessary -- pumpAndSettle alone timed
-      // out here every time before this fix.
+      // The real export renders an actual PDF (LocalPdfExporter ->
+      // package:pdf), which pumpAndSettle's fake clock never lets resolve;
+      // runAsync steps outside that zone so the real Future can complete.
       await tester.runAsync(() async {
         for (var i = 0; i < 100; i++) {
-          if (find.text('Preview, print or email').evaluate().isNotEmpty) return;
+          if (saver.saved.isNotEmpty) return;
           await Future<void>.delayed(const Duration(milliseconds: 50));
           await tester.pump();
         }
       });
+      await tester.pump();
 
-      expect(find.text('This assessment could not be opened.'), findsNothing);
-      expect(find.text('Preview, print or email'), findsOneWidget,
-          reason: 'a real PDF must have been exported and _exportedUrl set -- '
-              'this is the exact button that silently never appeared before the fix');
+      expect(find.byKey(const ValueKey('export-error')), findsNothing);
+      expect(saver.saved, hasLength(1), reason: 'one press, one file');
+      final (bytes, name) = saver.saved.single;
+      expect(String.fromCharCodes(bytes.take(5)), '%PDF-');
+      expect(name, endsWith('_paper.pdf'));
+      expect(name, startsWith('class_'), reason: 'named for the class and title, not the paper id: $name');
+      expect(find.text('Download Paper PDF'), findsNothing, reason: 'no second button to press');
     },
   );
 
   testWidgets(
-    'Export Answer Key & Marking Scheme button is rendered and tappable',
+    'the answer key downloads from its own button',
     (tester) async {
       final bloc = env.buildAssessmentBloc();
       await tester.pumpWidget(wrapForTest(
@@ -143,8 +155,8 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
-      await _scrollUntilVisible(tester, find.text('Export Answer Key & Marking Scheme'));
-      expect(find.text('Export Answer Key & Marking Scheme'), findsOneWidget);
+      await _scrollUntilVisible(tester, find.text('Download answer key (PDF)'));
+      expect(find.text('Download answer key (PDF)'), findsOneWidget);
     },
   );
 
@@ -220,8 +232,12 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
-      // Parallel sets switcher
-      expect(find.text('Parallel Question Sets (2 Sets)'), findsOneWidget);
+      // The sets switcher, in plain words (QA P-32: "Parallel invariant
+      // sets have identical difficulty..." was jargon, and untrue).
+      expect(find.text('2 sets'), findsOneWidget);
+      expect(find.textContaining('Parallel invariant'), findsNothing);
+      expect(find.text('Each set prints its own questions in the same sections and marks. '
+          'Choose a set to read it, change it or download it.'), findsOneWidget);
       expect(find.text('Set A'), findsOneWidget);
       expect(find.text('Set B'), findsOneWidget);
 
@@ -237,6 +253,9 @@ void main() {
       await tester.tap(find.text('Set B'));
       await tester.pumpAndSettle();
       expect(find.text('SET B'), findsOneWidget);
+      await _scrollUntilVisible(tester, find.text('Download Set B paper (PDF)'));
+      expect(find.text('Download Set B paper (PDF)'), findsOneWidget,
+          reason: 'the set on screen is the one downloaded');
     },
   );
 }

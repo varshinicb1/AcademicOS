@@ -125,6 +125,15 @@ void main() {
 
     await tester.tap(find.text('Withdraw'));
     await tester.pumpAndSettle();
+    // It asks first, naming what happens (QA S-18); Cancel sends nothing.
+    expect(find.text('Withdraw this invite?'), findsOneWidget);
+    await tester.tap(find.text('Cancel'));
+    await tester.pumpAndSettle();
+    expect(server.calls.where((c) => c.startsWith('DELETE')), isEmpty);
+    await tester.tap(find.text('Withdraw'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('confirm-action')));
+    await tester.pumpAndSettle();
 
     expect(server.calls, contains('DELETE /auth/invites/open-code-1234567890ab'));
     expect(find.text('Withdraw'), findsNothing);

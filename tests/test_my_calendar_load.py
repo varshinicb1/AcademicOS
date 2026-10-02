@@ -84,3 +84,19 @@ def test_a_teacher_sees_their_own_load(w):
 
     assert w.c.get("/api/v1/my-load", headers=w.stu).status_code == 403, "a load is for staff"
     assert w.c.get("/api/v1/my-load", headers=w.p).status_code == 200
+
+
+def test_the_feeds_weekly_periods_skip_the_days_the_school_is_closed(w):
+    """QA S-13: the calendar a teacher added to Google Calendar showed their
+    classes on holidays: weekly periods recurred with no exception dates."""
+    closed = w.c.post(f"{BASE}/academic-years/{w.year}/closures", json={"date": "2026-06-15", "reason": "Rain"},
+                      headers=w.p)
+    assert closed.status_code == 200, closed.text
+    url = w.c.get("/api/v1/calendar-feed", headers=w.t["ana"]).json()["url"]
+    ics = w.c.get(url[url.index("/api/v1"):]).text.replace("\r\n ", "")
+    periods = [ev for ev in ics.split("BEGIN:VEVENT")[1:] if "RRULE:FREQ=WEEKLY" in ev]
+    assert periods, "Ana's Monday periods are in the feed"
+    for ev in periods:
+        exdates = next(line for line in ev.splitlines() if line.startswith("EXDATE"))
+        assert "20260615T" in exdates
+        assert "20260608T" not in exdates and "20260622T" not in exdates

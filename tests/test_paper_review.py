@@ -69,3 +69,25 @@ def test_who_may_review(w):
     assert w.c.post(url, json={"reviewerId": bala}, headers=w.p).status_code == 200            # the principal may
     assert w.c.post(f"/api/v1/assessments/{aid}/review-decision", json={"decision": "approve"},
                     headers=w.p).status_code == 200
+
+
+def test_a_paper_a_colleague_approved_waits_in_the_principals_list(w):
+    """QA P-12: once Bala approved it for the principal, the principal's
+    Waiting tab said "Nothing to review" while the paper waited for them."""
+    aid = _paper(w)
+    bala = _me(w, w.bala)
+    w.c.post(f"/api/v1/assessments/{aid}/review-request", json={"reviewerId": bala}, headers=w.ana)
+    [waiting] = w.c.get("/api/v1/paper-reviews", headers=w.p).json()
+    assert waiting["state"] == "pending" and waiting["awaitingPrincipal"] is False
+
+    decide = f"/api/v1/assessments/{aid}/review-decision"
+    assert w.c.post(decide, json={"decision": "approve"}, headers=w.bala).status_code == 200
+    [waiting] = w.c.get("/api/v1/paper-reviews", headers=w.p).json()
+    assert waiting["assessmentId"] == aid and waiting["state"] == "approved"
+    assert waiting["awaitingPrincipal"] is True
+    assert w.c.get("/api/v1/paper-reviews", headers=w.bala).json() == []   # not Bala's any more
+
+    assert w.c.patch(f"/api/v1/assessments/{aid}/approve", headers=w.p).status_code == 200
+    assert w.c.get("/api/v1/paper-reviews", headers=w.p).json() == []
+    [done] = w.c.get("/api/v1/paper-reviews", params={"state": ""}, headers=w.p).json()
+    assert done["awaitingPrincipal"] is False

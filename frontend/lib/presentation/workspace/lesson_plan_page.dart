@@ -475,16 +475,20 @@ class _PlanAllState extends State<_PlanAll> {
   bool _busy = false;
   Map<String, dynamic>? _result;
   String? _error;
+  // Whether the result in hand was asked for with the box ticked: what to do
+  // about a plan with no lessons depends on it.
+  bool _approveAsked = true;
 
   Future<void> _run() async {
     setState(() {
       _busy = true;
       _error = null;
       _result = null;
+      _approveAsked = _approve;
     });
     try {
       final r = await Ops.post('$_base/academic-years/${widget.yearId}/lesson-plans',
-          body: {'approveProposedTopics': _approve});
+          body: {'approveProposedTopics': _approveAsked});
       if (mounted) setState(() => _result = Map<String, dynamic>.from(r as Map));
     } catch (e) {
       if (mounted) setState(() => _error = serverErrorMessage(e));
@@ -500,6 +504,22 @@ class _PlanAllState extends State<_PlanAll> {
     final plans = ((r?['plans'] as List?) ?? const []).cast<Map>();
     final missed = ((r?['notPlanned'] as List?) ?? const []).cast<String>();
     final lessons = plans.fold<int>(0, (n, p) => n + (p['lessonsCreated'] as int? ?? 0));
+    // A plan with no lessons, and why. "7 plans made, 0 lessons dated" with
+    // the approve box unticked said neither (QA S-14, 2026-10-01): a plan with
+    // no lesson, no warning and no subtopic waiting for an estimate is a book
+    // with no approved topics.
+    String label(Map p) => '${p['sectionName']} ${p['subjectName']}';
+    final empty = [for (final p in plans) if ((p['lessonsCreated'] as int? ?? 0) == 0) p];
+    final noTopics = [
+      for (final p in empty)
+        if (p['warning'] == null && (p['subtopicsWithoutEstimate'] as int? ?? 0) == 0) label(p)
+    ];
+    final otherEmpty = [
+      for (final p in empty)
+        if (p['warning'] != null || (p['subtopicsWithoutEstimate'] as int? ?? 0) > 0)
+          '${label(p)}: ${p['warning'] ?? '${p['subtopicsWithoutEstimate']} '
+              '${tr('subtopics have no time estimate, so they were not placed.')}'}'
+    ];
     return AppCard(
       key: const ValueKey('plan-all'),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -530,6 +550,36 @@ class _PlanAllState extends State<_PlanAll> {
               '${plans.length} ${tr('plans made')}, $lessons ${tr('lessons dated')}'
               '${(r['subtopicsCreated'] as int? ?? 0) > 0 ? ' · ${r['subtopicsCreated']} ${tr('subtopics approved')}' : ''}'),
           for (final m in missed) Text('• $m', style: theme.textTheme.bodySmall),
+          if (noTopics.isNotEmpty) ...[
+            const Gap(8),
+            Notice(
+              key: const ValueKey('plan-all-no-topics'),
+              kind: NoticeKind.warning,
+              title: noTopics.length == plans.length
+                  ? tr('No lesson was dated: the books have no approved topics yet.')
+                  : noTopics.length == 1
+                      ? tr('1 plan has no lessons: its book has no approved topics yet.')
+                      : '${noTopics.length} ${tr('plans have no lessons: their books have no approved topics yet.')}',
+              lines: [
+                _approveAsked
+                    ? tr('No proposed topics were waiting on these books. Add or approve their topics under Proposed '
+                        'topics, on the admin console\'s Sequence Reorder tab, then plan again.')
+                    : tr('Tick "Approve the topics proposed for each chapter" above and press Plan every section '
+                        'again.'),
+                ...firstFew(noTopics),
+              ],
+            ),
+          ],
+          if (otherEmpty.isNotEmpty) ...[
+            const Gap(8),
+            Notice(
+              kind: NoticeKind.warning,
+              title: otherEmpty.length == 1
+                  ? tr('1 plan has no lessons:')
+                  : '${otherEmpty.length} ${tr('plans have no lessons:')}',
+              lines: firstFew(otherEmpty),
+            ),
+          ],
         ],
       ]),
     );

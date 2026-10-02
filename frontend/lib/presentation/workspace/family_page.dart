@@ -87,7 +87,14 @@ class _ChildView extends StatelessWidget {
           icon: const Icon(Icons.grading_outlined),
           label: Text(tr('Report card')),
         )),
-        const TabBar(tabs: [Tab(text: 'Week'), Tab(text: 'Today'), Tab(text: 'Homework'), Tab(text: 'Progress')]),
+        // Scrollable, so a 375 px phone shows each label whole: four fixed
+        // tabs cut "Homework" to "Homewo" (QA S-24).
+        TabBar(
+          key: const ValueKey('child-tabs'),
+          isScrollable: true,
+          tabAlignment: TabAlignment.start,
+          tabs: [Tab(text: tr('Week')), Tab(text: tr('Today')), Tab(text: tr('Homework')), Tab(text: tr('Progress'))],
+        ),
         Expanded(child: TabBarView(children: [
           _Week(studentId: id),
           _Today(studentId: id),
@@ -114,15 +121,19 @@ class _ConsentChip extends StatelessWidget {
           color: granted ? AppColors.success : Theme.of(context).colorScheme.error),
       label: Text(granted ? 'Consent given' : 'Consent needed'),
       onPressed: () async {
-        final ok = await showDialog<bool>(context: context, builder: (_) => AlertDialog(
+        // Each button pops the dialog's own route (its builder's context).
+        // The chip's context is under the shell's navigator, so popping with
+        // it closed the page behind the dialog and left the dialog open, and
+        // no consent call was ever made (QA S-01).
+        final ok = await showDialog<bool>(context: context, builder: (dialog) => AlertDialog(
           title: Text(granted ? 'Withdraw consent?' : 'Give consent'),
           content: Text(granted
               ? 'The school will not be able to mark or process your child\'s work in the app until you give consent again.'
               : 'You agree that the school may process your child\'s homework, tests and practice in this app to teach '
                 'and assess them (Digital Personal Data Protection Act, 2023). You can withdraw at any time.'),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(context, false), child: Text(tr('Cancel'))),
-            FilledButton(onPressed: () => Navigator.pop(context, true), child: Text(granted ? 'Withdraw' : 'I agree')),
+            TextButton(onPressed: () => Navigator.pop(dialog, false), child: Text(tr('Cancel'))),
+            FilledButton(onPressed: () => Navigator.pop(dialog, true), child: Text(granted ? 'Withdraw' : 'I agree')),
           ],
         ));
         if (ok != true) return;

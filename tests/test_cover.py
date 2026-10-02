@@ -277,3 +277,37 @@ def test_when_no_teacher_is_free_someone_with_no_class_sits_with_it(s):
     assert got[(w.a10, 1)] == got[(w.b10, 2)] == ("lata", "supervised")
     owed = {(l.section_id, l.subject_id) for l in s.lost_periods_for_year(w.year, "owed")}
     assert {(w.a10, w.sci10), (w.b10, w.sci10)} <= owed, "Science was not taught: both periods are owed"
+
+
+def test_marking_a_teacher_present_again_takes_back_a_made_up_period_and_its_make_up(s):
+    """QA S-02: Suresh was marked absent by mistake, his supervised 10-A
+    period was made up on Monday, then he was marked present. The period
+    stayed "lost" for the class and parents, and the Monday make-up stayed
+    booked: only a period still owed was cleared."""
+    w = _school(s)
+    s.mark_attendance(school_id="s1", academic_year_id=w.year, on=MON, teacher_id="ana",
+                      status="absent", marked_by="p1")
+    [owed] = s.lost_periods_for_year(w.year, "owed")
+    day, period = s.compensation_options(owed.id, today=MON)[0]
+    assert s.compensate(owed.id, on=day, period=period, today=MON).status == "compensated"
+    assert any(r["kind"] == "makeup" for r in s.day_view(w.year, day, section_id=owed.section_id))
+
+    s.mark_attendance(school_id="s1", academic_year_id=w.year, on=MON, teacher_id="ana",
+                      status="present", marked_by="p1")
+    assert s.lost_periods_for_year(w.year) == []
+    assert not any(r["kind"] == "makeup" for r in s.day_view(w.year, day, section_id=owed.section_id))
+    summary = s.cover_summary(w.year, MON, "2026-06-30")
+    assert (summary["lost"], summary["compensated"], summary["owed"]) == (0, 0, 0)
+
+
+def test_a_closure_keeps_a_make_up_already_booked(s):
+    """The other way round: a day closed after a supervised period was made
+    up still owes the period, so its booked make-up stands."""
+    w = _school(s)
+    s.decide_leave(_leave(s, w, "ana").id, approve=True, decided_by="p1")
+    [owed] = s.lost_periods_for_year(w.year, "owed")
+    day, period = s.compensation_options(owed.id, today=MON)[0]
+    s.compensate(owed.id, on=day, period=period, today=MON)
+    s.declare_closure(w.year, MON, reason="rain")
+    made_up = s.lost_periods_for_year(w.year, "compensated")
+    assert [(l.section_id, l.period, l.compensation_date) for l in made_up] == [(owed.section_id, owed.period, day)]

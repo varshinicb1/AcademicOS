@@ -29,6 +29,7 @@ class _Server implements HttpClientAdapter {
   final List<RequestOptions> posted = [];
   final Map<String, String> answers = {
     '/curriculum/my-day': _day,
+    '/curriculum/my-attendance': '{"teacherId":"u1","name":"Tara Teacher","status":"unmarked"}',
     '/curriculum/substitutions': '[{"id":"sub1","date":"2026-10-02","sectionId":"s9a","period":3,"subjectId":"mat",'
         '"absentTeacherId":"u2","substituteId":"u1","status":"proposed","mode":"substitute",'
         '"handoverNote":"Worksheet 3 is on my desk"}]',
@@ -52,7 +53,10 @@ class _Server implements HttpClientAdapter {
   @override
   Future<ResponseBody> fetch(RequestOptions o, Stream<List<int>>? body, Future<void>? cancel) async {
     if (o.method == 'POST') posted.add(o);
-    return ResponseBody.fromString(o.method == 'POST' ? '{}' : (answers[o.path] ?? '[]'), 200,
+    final post = o.path == '/curriculum/my-attendance'
+        ? '{"teacherId":"u1","name":"Tara Teacher","status":"present"}'
+        : '{}';
+    return ResponseBody.fromString(o.method == 'POST' ? post : (answers[o.path] ?? '[]'), 200,
         headers: {Headers.contentTypeHeader: ['application/json']});
   }
 
@@ -137,6 +141,37 @@ void main() {
     final today = '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
     expect((sent.single.data as Map)['startDate'], today);
     expect((sent.single.data as Map)['endDate'], today);
+  });
+
+  // "I'm here" went back to "I'm here" every time My day opened, inviting a
+  // second check-in and saying nothing of the first (QA S-12, 2026-10-01).
+  testWidgets("I'm here stays marked when My day opens again", (tester) async {
+    await pump(tester, const MyDayPage());
+    await tester.tap(find.byKey(const Key('check-in')));
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 300)));
+    await tester.pump(const Duration(milliseconds: 50));
+    expect(find.text('Marked present'), findsOneWidget);
+
+    await tester.pumpWidget(const SizedBox());
+    await pump(tester, const MyDayPage());
+    expect(find.text('Marked present'), findsOneWidget, reason: 'today\'s check-in is remembered');
+    expect(find.text("I'm here"), findsNothing);
+    expect(server.posted.where((o) => o.path == '/curriculum/my-attendance'), hasLength(1));
+  });
+
+  testWidgets('a check-in made on another device shows as marked', (tester) async {
+    LocalStore.instance.setCheckIn('u1', '2000-01-01', 'present');   // nothing remembered for today here
+    server.answers['/curriculum/my-attendance'] = '{"teacherId":"u1","name":"Tara Teacher","status":"present"}';
+    await pump(tester, const MyDayPage());
+    expect(find.text('Marked present'), findsOneWidget, reason: "the register's own row, not this device's memory");
+    expect(find.text("I'm here"), findsNothing);
+    expect(server.posted.where((o) => o.path == '/curriculum/my-attendance'), isEmpty);
+  });
+
+  testWidgets("another day's check-in does not mark today", (tester) async {
+    LocalStore.instance.setCheckIn('u1', '2000-01-01', 'present');
+    await pump(tester, const MyDayPage());
+    expect(find.text("I'm here"), findsOneWidget);
   });
 
   testWidgets('Today: the student sees times, the room and a changed period', (tester) async {

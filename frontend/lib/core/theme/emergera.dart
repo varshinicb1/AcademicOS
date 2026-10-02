@@ -136,7 +136,9 @@ class EmSurfaces {
     segOnBg: const Color(0x29FFFFFF),
     navBg: const Color(0x9E07080F),
     navLine: const Color(0x12FFFFFF),
-    dialogBg: const Color(0xEB101220),
+    // Opaque, not the brand's 92% glass: the paper behind a dialog or the
+    // bank picker read through its fields (QA P-34).
+    dialogBg: const Color(0xFF101220),
     popoverBg: const Color(0xFF15182A), // --em-solid-popover
     tipBg: const Color(0xFFF5F5F7),
     tipFg: const Color(0xFF1D1D1F),
@@ -184,8 +186,9 @@ class EmSurfaces {
     segOnBg: const Color(0xFFFFFFFF),
     navBg: const Color(0xCCFFFFFF),
     navLine: const Color(0x14000000),
-    dialogBg: const Color(0xF7FFFFFF),
-    popoverBg: const Color(0xF0FFFFFF),
+    // Opaque for the same reason as the dark surfaces' (QA P-34).
+    dialogBg: const Color(0xFFFFFFFF),
+    popoverBg: const Color(0xFFFFFFFF),
     tipBg: const Color(0xFF1D1D1F),
     tipFg: const Color(0xFFFFFFFF),
     link: const Color(0xFF0055CC),

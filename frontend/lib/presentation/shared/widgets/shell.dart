@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -172,7 +173,9 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           _item(Icons.quiz_outlined, Icons.quiz, 'Question bank', '/questions'),
           _item(Icons.rate_review_outlined, Icons.rate_review, 'Paper reviews', '/school/reviews'),
           _item(Icons.event_available_outlined, Icons.event_available, 'Exam duties', '/school/my-exams'),
-          _item(Icons.event_busy_outlined, Icons.event_busy, 'Leave', '/school/my-day'),
+          // Check-in, today's lessons, cover duties and leave: the page is
+          // "My day", and "Leave" hid the rest of it (QA S-21).
+          _item(Icons.schedule_outlined, Icons.schedule, 'My day', '/school/my-day'),
         ]),
         if (admin.isNotEmpty) (title: 'Admin', items: admin),
       ];
@@ -235,6 +238,18 @@ int navIndexFor(List<NavItem> items, String location) {
 /// (a widget test that mounts the shell alone).
 String _signedInRole() => Hive.isBoxOpen('academicos_cache') ? CurrentSession.role : '';
 
+/// The signed-in teacher's admin capabilities (`/my-grants`), loaded once per
+/// session; empty until they arrive, offline, and for every other role. A
+/// page that offers an admin's action -- the exams admin's changes to a
+/// colleague's paper -- reads them here instead of asking the server again.
+ValueListenable<Set<String>> myGrants() {
+  // The offline build has no accounts and asks no server.
+  if (!const bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false)) {
+    _Grants.ensureLoaded(_signedInRole());
+  }
+  return _Grants.caps;
+}
+
 /// A teacher's admin capabilities (`/my-grants`), fetched once per session
 /// and shared by every shell build; empty until they arrive, or offline.
 class _Grants {
@@ -287,7 +302,15 @@ class MainShell extends StatelessWidget {
                   SideNav(sections: sections, selected: selected, compact: width < 1000),
                 // Each page owns its own AppBar (shellLeading() gives it the
                 // menu button on a phone), so the shell renders none.
-                Expanded(child: child),
+                //
+                // A semantics container of its own: every page route in
+                // the nested navigator lays a modal barrier, which blocks
+                // the semantics of whatever was painted before it in the
+                // same container -- the whole desktop sidebar. A screen
+                // reader found no Papers, Question bank or any other item
+                // there; the phone's drawer, a route of its own, was fine
+                // (QA P-28, S-22).
+                Expanded(child: Semantics(container: true, child: child)),
               ],
             ),
           ),

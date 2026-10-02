@@ -101,3 +101,18 @@ def test_templates_exports_and_who_may(w):
     assert _imp(w, "students", "name,email\nA,a@example.com\n").status_code == 422      # grade, section missing
     assert w.c.post("/api/v1/admin/import/sections", json={"csv": "grade,section\n10,D\n", "academicYearId": w.year},
                     headers=w.p2).status_code == 403
+
+
+def test_a_row_whose_role_is_another_is_refused_not_invited_as_a_teacher(w):
+    """QA S-08: the people export pasted into the teachers import invited a
+    role=student row as a teacher, and named the school's own students "an
+    account that is not this school's staff"."""
+    text = ("name,email,role\nNew Person,new.p@example.com,student\nNew Teacher,new.t@example.com,teacher\n"
+            "Asha,s1@example.com,student\nAsha,s1@example.com\n")
+    rows = _imp(w, "teachers", text).json()["rows"]
+    assert [r["status"] for r in rows] == ["error", "ok", "error", "error"]
+    assert rows[0]["message"] == "this row's role is student, not teacher or principal; import it with Import students"
+    rows = _imp(w, "teachers", "name,email\nAsha,s1@example.com\n").json()["rows"]
+    assert rows[0]["message"] == "Asha already has a student account at this school, not a staff one"
+    rows = _imp(w, "students", "name,email,grade,section,role\nNew T,new.t2@example.com,10,B,teacher\n").json()["rows"]
+    assert rows[0]["status"] == "error" and "import it with Import teachers" in rows[0]["message"]
