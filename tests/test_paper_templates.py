@@ -1799,3 +1799,58 @@ def test_a_whole_syllabus_paper_prints_off_syllabus_questions_only_to_fill():
     picked, notes = section_of(4)
     assert {"on0", "on1", "on2"} <= picked and len(picked & {"off0", "off1", "off2"}) == 1
     assert any("1 question is not matched to a chapter" in n for n in notes), notes
+
+
+# ---- a paper spreads over the chapters (QA R-03) -----------------------------
+
+import dataclasses  # noqa: E402
+
+def _chaptered(qid: str, chapter: str, *, cbe: bool = False):
+    q = _q(qid, 1, f"Spread item {qid}", "very_short_answer")
+    q.chapter_ids, q.subject = [chapter], "Science"
+    if cbe:
+        q.question_bank_id = "cbe:Item-Bank---Science-Class-10.pdf"
+    return q
+
+
+def _six_of(bank, stale=frozenset()):
+    from academicos.assessment.paper_templates import build_scope_filter, plan
+    from academicos.assessment.schemas import TemplateScope
+    t = PaperTemplateDraft.model_validate(_draft(
+        totalMarks=6, scope={}, sections=[_section("Section A", 6, 1, competencyShare=0.0)]))
+    scope = dataclasses.replace(build_scope_filter(TemplateScope(), bank), last_resort=frozenset())
+    _, plans = plan(t, "tpl", bank, scope, stale=stale)
+    return [q.id for q in plans[0].picked]
+
+
+def test_a_paper_takes_the_chapters_in_turn_and_so_does_the_next():
+    """A whole-syllabus Class 10 Science annual printed 29 of its 31 questions
+    from one chapter: the bank's ids run chapter by chapter, most questions
+    share one quality score, and once a teacher's recent questions went last
+    each new paper took the next block of ids."""
+    from collections import Counter
+    bank = [_chaptered(f"{c}{i}", f"chap-{c}") for c in "abc" for i in range(4)]
+    first = _six_of(bank)
+    assert Counter(q[0] for q in first) == {"a": 2, "b": 2, "c": 2}, first
+    second = _six_of(bank, stale=frozenset(first))
+    assert not set(first) & set(second)
+    assert Counter(q[0] for q in second) == {"a": 2, "b": 2, "c": 2}, second
+
+
+def test_a_recent_competency_question_comes_back_only_to_reach_cbses_half():
+    """A section that names no share takes competency-based questions first,
+    but one from the teacher's recent papers only up to CBSE's 50%: preferring
+    them all reprinted every one of a small bank's on each new paper."""
+    from academicos.assessment.competency import is_competency_question
+    from academicos.assessment.paper_templates import build_scope_filter, plan
+    from academicos.assessment.schemas import TemplateScope
+    bank = ([_chaptered(f"c{i}", "chap-a", cbe=True) for i in range(4)]
+            + [_chaptered(f"p{i}", "chap-b") for i in range(8)])
+    t = PaperTemplateDraft.model_validate(_draft(
+        totalMarks=4, scope={}, sections=[_section("Section A", 4, 1)]))
+    scope = dataclasses.replace(build_scope_filter(TemplateScope(), bank), last_resort=frozenset())
+    _, fresh = plan(t, "tpl", bank, scope)
+    assert sum(is_competency_question(q) for q in fresh[0].picked) == 4
+    _, again = plan(t, "tpl", bank, scope, stale=frozenset({"c0", "c1", "c2", "c3"}))
+    picked = again[0].picked
+    assert sum(is_competency_question(q) for q in picked) == 2, [q.id for q in picked]
