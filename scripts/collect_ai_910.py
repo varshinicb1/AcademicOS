@@ -29,7 +29,7 @@ def collect(directory: Path = DIR) -> tuple[list[dict], list[tuple[str, str]], l
     """(records, (id, why) left out, chapter files read)."""
     records: dict[str, dict] = {}
     left_out: list[tuple[str, str]] = []
-    files = sorted(p for p in directory.glob("*-[0-9][0-9].json"))
+    files = sorted(p for p in directory.glob("*-[0-9][0-9]*.json"))
     for path in files:
         for rec in json.loads(path.read_text(encoding="utf-8")).get("questions", []):
             rid = str(rec.get("id"))

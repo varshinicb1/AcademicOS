@@ -563,7 +563,9 @@ def prefer_ocr(chapter: cg.Chapter) -> cg.Chapter:
 def generate_chapter(book_code: str, number: int, *, mark_budget: int,
                      model: str, provider: str = 'gemini', tiered: bool = True,
                      delay: float = 0.0, per_call: int = 3,
-                     bridge: Path | None = None
+                     bridge: Path | None = None,
+                     only_sections: frozenset[str] = frozenset(), items_per_section: int = 0,
+                     number_from: int = 0
                      ) -> tuple[list[dict], list[dict], dict]:
     """Questions, refusals, and the cost, for one chapter.
 
@@ -610,6 +612,16 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
                 plan.append((section, ""))
     else:
         plan = cg.plan_for_chapter(subject, grade, topics, mark_budget)
+    if only_sections:
+        # A second pass for the sections a bank needs more of than the paper's own proportions give a
+        # chapter: the plan weights a section by each question's marks, so a chapter gets about one
+        # question of every type, one MCQ among them, when a paper uses twenty. This asks for
+        # `items_per_section` of just the named sections, topics rotated.
+        plan = []
+        for section in blueprint.sections:
+            if section.key in only_sections:
+                for i in range(items_per_section):
+                    plan.append((section, topics[i % len(topics)] if topics else ""))
     chapter_id = known.get("id") or tb.chapter_id(subject, grade, chapter_name)
     if not known:
         # No tree names this chapter, so the id is one nothing can resolve.
@@ -674,7 +686,7 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
             # The id is built from this number. The model numbers a call's questions 1, 2, 3, so
             # two calls for one section both produced "...:D:1", and the second was dropped as a
             # duplicate id. Number them across the chapter's section instead.
-            item["option"] = by_section.get(section.key, 0) + 1
+            item["option"] = number_from + by_section.get(section.key, 0) + 1
             record = cg.to_record(
                 item, section, chapter, topic, chapter_id=chapter_id,
                 topic_id="", model=chosen)
@@ -713,8 +725,15 @@ def main() -> int:
                     help="seconds between calls; Gemini's free tier needs this")
     ap.add_argument("--out", type=Path, default=OUT)
     ap.add_argument("--check", action="store_true", help="generate, print, write nothing")
+    ap.add_argument("--only-sections", default="",
+                    help="comma list of section keys (e.g. A,B): plan only these, --items-per-section of each")
+    ap.add_argument("--items-per-section", type=int, default=5)
+    ap.add_argument("--number-from", type=int, default=0,
+                    help="start the ids' numbering here (a second pass uses 100 so it cannot collide with the first)")
     ap.add_argument("--per-call", type=int, default=3,
                     help="questions asked for in one call")
+    ap.add_argument("--suffix", default="",
+                    help="names a second pass's prompt folder (e.g. -mcq), beside the first's")
     ap.add_argument("--bridge", type=Path, default=None,
                     help="folder of prompts (p###.json) and answers (r###.json) for a "
                          "model run elsewhere, e.g. an opencode session")
@@ -741,7 +760,10 @@ def main() -> int:
         kept, refused, meta = generate_chapter(
             args.book, number, mark_budget=args.marks, model=args.model,
             provider=args.provider, tiered=not args.no_tier, delay=args.delay,
-            per_call=args.per_call, bridge=args.bridge and args.bridge / f"{args.book}-{number:02d}")
+            per_call=args.per_call,
+            bridge=args.bridge and args.bridge / f"{args.book}-{number:02d}{args.suffix}",
+            only_sections=frozenset(x for x in args.only_sections.split(",") if x),
+            items_per_section=args.items_per_section, number_from=args.number_from)
         records += kept
         all_refusals += refused
         totals["neurons"] += meta["usage"]["neurons"]

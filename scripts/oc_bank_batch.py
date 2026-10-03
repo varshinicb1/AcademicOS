@@ -114,6 +114,20 @@ def answer(work: Path, folder: str, model: str, timeout_min: int, stall_min: int
     return len(list(d.glob("r*.json")))
 
 
+def suffix_of(args) -> str:
+    """A second pass has its own prompt folders, files and claims beside the first pass's."""
+    return f"-{args.pass_name}" if args.pass_name else ""
+
+
+def pass_flags(args) -> list[str]:
+    """What the generator is told for a second pass: only the named sections, more of each, numbered
+    from 100 so its ids cannot meet the first pass's."""
+    if not args.pass_name:
+        return []
+    return ["--suffix", suffix_of(args), "--only-sections", args.only_sections,
+            "--items-per-section", str(args.items), "--number-from", "100"]
+
+
 def claim(work: Path, folder: str, lane: str) -> bool:
     """Take a chapter for this lane. A claim is a file made atomically, so two lanes never take
     the same chapter; a lane's own earlier claim (a restart) is still its own."""
@@ -130,12 +144,12 @@ def claim(work: Path, folder: str, lane: str) -> bool:
 
 def one_chapter(book: str, number: int, args, language: str) -> str:
     work = Path(args.work)
-    folder = f"{book}-{number:02d}"
+    folder = f"{book}-{number:02d}{suffix_of(args)}"
     out_file = OUT_DIR / f"{folder}.json"
     if out_file.exists() and not args.reingest:
         return "done-before"
     prep = gen(["--book", book, "--chapter", str(number), "--marks", str(args.marks),
-                "--per-call", "3", "--bridge", str(work), "--check"])
+                "--per-call", "3", "--bridge", str(work), "--check", *pass_flags(args)])
     prompts = sorted((work / folder).glob("p*.json"))
     if not prompts:
         log(work, folder=folder, event="no-prompts", detail=(prep.stderr or prep.stdout)[-300:])
@@ -162,7 +176,7 @@ def one_chapter(book: str, number: int, args, language: str) -> str:
         return "incomplete"
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     done = gen(["--book", book, "--chapter", str(number), "--marks", str(args.marks), "--per-call", "3",
-                "--bridge", str(work), "--model", args.model, "--out", str(out_file)])
+                "--bridge", str(work), "--model", args.model, "--out", str(out_file), *pass_flags(args)])
     m = re.search(r"ch\d+\s+kept\s+(\d+)\s+refused\s+(\d+)", done.stdout)
     kept, refused = (int(m[1]), int(m[2])) if m else (0, 0)
     log(work, folder=folder, event="ingested", prompts=len(prompts), answered=answered, kept=kept, refused=refused)
@@ -181,6 +195,10 @@ def main() -> int:
     ap.add_argument("--model", default=MODEL)
     ap.add_argument("--timeout-min", type=int, default=35)
     ap.add_argument("--stall-min", type=int, default=12)
+    ap.add_argument("--pass-name", default="",
+                    help="a second pass over the same chapters, e.g. mcq: its own folders and files (needs --only-sections)")
+    ap.add_argument("--only-sections", default="A", help="with --pass-name: the section keys to plan, comma-separated")
+    ap.add_argument("--items", type=int, default=5, help="with --pass-name: how many of each section, per chapter")
     ap.add_argument("--lane", default="main",
                     help="a name for this driver; two lanes (one with --reverse) can run at once")
     ap.add_argument("--reverse", action="store_true",
@@ -191,6 +209,8 @@ def main() -> int:
                          "for a chapter whose prompts all have answers")
     args = ap.parse_args()
     work = Path(args.work)
+    if args.pass_name and not args.only_sections:
+        raise SystemExit("--pass-name needs --only-sections")
     if not OPENCODE.is_file() or not (work / "BRIEF.md").is_file():
         raise SystemExit(f"needs {OPENCODE} and {work / 'BRIEF.md'}")
     lock = work / ("oc_bank_batch.lock" if args.lane == "main" else f"oc_bank_batch.{args.lane}.lock")
@@ -213,13 +233,13 @@ def main() -> int:
         for book, number in todo:
             if args.limit and attempted >= args.limit:
                 break
-            if (OUT_DIR / f"{book}-{number:02d}.json").exists() and not args.reingest:
+            if (OUT_DIR / f"{book}-{number:02d}{suffix_of(args)}.json").exists() and not args.reingest:
                 continue
-            if not claim(work, f"{book}-{number:02d}", args.lane):
+            if not claim(work, f"{book}-{number:02d}{suffix_of(args)}", args.lane):
                 continue            # the other lane has it
             attempted += 1
             result = one_chapter(book, number, args, books[book].get("language") or "en")
-            log(work, folder=f"{book}-{number:02d}", event="result", result=result)
+            log(work, folder=f"{book}-{number:02d}{suffix_of(args)}", event="result", result=result)
     finally:
         lock.unlink(missing_ok=True)
     return 0
