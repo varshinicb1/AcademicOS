@@ -1,0 +1,682 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:09:B:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/light-reflection-and-refraction"
+      ],
+      "taxonomyChapterId": "science-10/light-reflection-and-refraction",
+      "topic": "Reflection of Light",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A ray of light is sent obliquely from air into a rectangular glass slab and later leaves the slab at its opposite face. State whether the ray that comes out is parallel to the ray that went in, and give the reason.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States that the emergent ray is parallel to the incident ray (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives the reason: the bending at the two opposite parallel faces is equal and opposite (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Parallel to the incident ray, because the bending at the two opposite parallel faces of the slab is equal and opposite.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "emergent ray is parallel to the direction of\nthe incident ray.",
+            "extent of bending of the ray of light at the\nopposite parallel faces AB (air-glass interface)\nand CD (glass-air interface) of the rectangular\nglass slab is equal and opposite."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch9",
+        "pages": [
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:09:B:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/light-reflection-and-refraction"
+      ],
+      "taxonomyChapterId": "science-10/light-reflection-and-refraction",
+      "topic": "Reflection of Light",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A ray of light is made to pass obliquely from air into a rectangular glass slab and then out of the slab into air at its far face. Name the effect produced, and state what causes it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the effect as refraction of light (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the cause is a change in the speed of light as it enters from one transparent medium to another (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Refraction of light; the change of direction is due to a change in the speed of light as it enters from one transparent medium to another.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Now you are familiar with the refraction of light. Refraction is due to\nchange in the speed of light as it enters from one transparent medium to",
+            "In this Activity, you will note, the light ray has changed its direction\nat points O and O′."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch9",
+        "pages": [
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:09:B:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/light-reflection-and-refraction"
+      ],
+      "taxonomyChapterId": "science-10/light-reflection-and-refraction",
+      "topic": "Reflection of Light",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "Light travels fastest in vacuum, while in air its speed is only marginally less than in vacuum and in glass or water it reduces considerably. State the speed of light in vacuum.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States the speed of light in vacuum as 3×10⁸ (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States the unit of speed as m s⁻¹ (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "3×10⁸ m s⁻¹",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "travels fastest in vacuum with speed of 3×10 m s ."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch9",
+        "pages": [
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:09:B:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/light-reflection-and-refraction"
+      ],
+      "taxonomyChapterId": "science-10/light-reflection-and-refraction",
+      "topic": "Reflection of Light",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "The ratio of the sine of the angle of incidence to the sine of the angle of refraction stays the same for a given colour of light and for a given pair of media. Name this law of refraction.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the law as Snell’s law of refraction (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Recalls that the law states the ratio of the sine of angle of incidence to the sine of angle of refraction is a constant (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Snell’s law of refraction",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The ratio of sine of angle of incidence to the sine of angle of",
+            "the given pair of media. This law is also known as Snell’s law of"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch9",
+        "pages": [
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:09:E:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/light-reflection-and-refraction"
+      ],
+      "taxonomyChapterId": "science-10/light-reflection-and-refraction",
+      "topic": "Reflection of Light",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Riya shines a torch through a rectangular glass slab standing on a sheet of white paper. She marks the path of the ray where it enters the slab, where it travels inside the slab, and where it leaves the slab at the far face. She finds that the ray bends in one direction at the first face and in the opposite direction at the second face. She also learns that light travels fastest in vacuum, and wonders why the ray bends at all.\n\nRead the case below and answer the three questions that follow.\nRiya shines a torch through a rectangular glass slab standing on a sheet of white paper. She marks the path of the ray where it enters the slab, where it travels inside the slab, and where it leaves the slab at the far face. She finds that the ray bends in one direction at the first face and in the opposite direction at the second face. She also learns that light travels fastest in vacuum, and wonders why the ray bends at all.\n(i) Name the effect that Riya has observed, and state what causes it.\n(ii) At the face where the ray goes from air into glass, does the ray bend towards the normal or away from it?\n(iii) Compare the speed of light in glass with its speed in vacuum, and say how this supports your answer to the first part.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Refraction of light, caused by a change in the speed of light on entering a different transparent medium. (ii) It bends towards the normal, going from air into glass, a rarer to a denser medium. (iii) The speed of light reduces considerably in glass, far below its speed in vacuum, and that change in speed makes the ray bend.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Now you are familiar with the refraction of light. Refraction is due to\nchange in the speed of light as it enters from one transparent medium to",
+            "glass. Note that the light ray has bent towards\nthe normal. At O′, the light ray has entered",
+            "light is only marginally less, compared to that in vacuum. It reduces\nconsiderably in glass or water."
+          ],
+          "objective": false,
+          "passage": "Riya shines a torch through a rectangular glass slab standing on a sheet of white paper. She marks the path of the ray where it enters the slab, where it travels inside the slab, and where it leaves the slab at the far face. She finds that the ray bends in one direction at the first face and in the opposite direction at the second face. She also learns that light travels fastest in vacuum, and wonders why the ray bends at all."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch9",
+        "pages": [
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:09:E:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/light-reflection-and-refraction"
+      ],
+      "taxonomyChapterId": "science-10/light-reflection-and-refraction",
+      "topic": "Reflection of Light",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A narrow beam of light is sent through a glass block. A ray strikes one face of the block obliquely, and the incident ray, the refracted ray and the normal drawn at the point where the ray meets that face are all watched carefully. The beam is then sent on from inside the glass into the air at the opposite face of the same block, and the ray is watched again at that second face to see which way it bends there.\n\nRead the case below and answer the three questions that follow.\nA narrow beam of light is sent through a glass block. A ray strikes one face of the block obliquely, and the incident ray, the refracted ray and the normal drawn at the point where the ray meets that face are all watched carefully. The beam is then sent on from inside the glass into the air at the opposite face of the same block, and the ray is watched again at that second face to see which way it bends there.\n(i) State what is observed about the incident ray, the refracted ray and the normal at the first face.\n(ii) State how the ray bends at the second face, where light passes from glass into air, and give the reason in terms of the media involved.\n(iii) The two faces are parallel to each other. Explain why, even though the ray bends in opposite directions at the two faces, the ray that comes out runs parallel to the ray that went in.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) The incident ray, the refracted ray and the normal to the interface at the point of incidence all lie in the same plane. (ii) At the glass to air face it bends away from the normal, going from a denser to a rarer medium. (iii) The bending at the two faces is equal and opposite, so the ray emerges parallel to the incident ray.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The incident ray, the refracted ray and the normal to the interface\nof two transparent media at the point of incidence, all lie in the\nsame plane.",
+            "medium to a rarer medium. The light here\nhas bent away from the normal. Compare the",
+            "extent of bending of the ray of light at the\nopposite parallel faces AB (air-glass interface)\nand CD (glass-air interface) of the rectangular\nglass slab is equal and opposite."
+          ],
+          "objective": false,
+          "passage": "A narrow beam of light is sent through a glass block. A ray strikes one face of the block obliquely, and the incident ray, the refracted ray and the normal drawn at the point where the ray meets that face are all watched carefully. The beam is then sent on from inside the glass into the air at the opposite face of the same block, and the ray is watched again at that second face to see which way it bends there."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch9",
+        "pages": [
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:09:E:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/light-reflection-and-refraction"
+      ],
+      "taxonomyChapterId": "science-10/light-reflection-and-refraction",
+      "topic": "Reflection of Light",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Light travels fastest in vacuum. In air its speed is only marginally less than in vacuum, while in glass or water the speed reduces considerably. Meera is studying the law that fixes a constant value for the ratio of the sine of the angle of incidence to the sine of the angle of refraction. She is told that this constant depends on the speeds of light in the two media, and she wants to know why it also depends on the colour of the light and on the pair of media chosen.\n\nRead the case below and answer the three questions that follow.\nLight travels fastest in vacuum. In air its speed is only marginally less than in vacuum, while in glass or water the speed reduces considerably. Meera is studying the law that fixes a constant value for the ratio of the sine of the angle of incidence to the sine of the angle of refraction. She is told that this constant depends on the speeds of light in the two media, and she wants to know why it also depends on the colour of the light and on the pair of media chosen.\n(i) State the value of the speed of light in vacuum.\n(ii) Name the law of refraction in which the ratio of the sine of the angle of incidence to the sine of the angle of refraction is a constant.\n(iii) Explain why the constant value in that law depends on the colour of the light and on the pair of media, using what is stated about the speed of light in different media.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) 3×10⁸ m s⁻¹. (ii) Snell’s law of refraction. (iii) Light propagates at different speeds in different media, so that ratio is a constant only for light of a given colour and for the given pair of media, and a different colour or a different pair of media gives a different value.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "travels fastest in vacuum with speed of 3×10 m s .",
+            "The ratio of sine of angle of incidence to the sine of angle of\nrefraction is a constant, for the light of a given colour and for\nthe given pair of media. This law is also known as Snell’s law of",
+            "the relative speed of propagation of light in different media. It turns\nout that light propagates with different speeds in different media."
+          ],
+          "objective": false,
+          "passage": "Light travels fastest in vacuum. In air its speed is only marginally less than in vacuum, while in glass or water the speed reduces considerably. Meera is studying the law that fixes a constant value for the ratio of the sine of the angle of incidence to the sine of the angle of refraction. She is told that this constant depends on the speeds of light in the two media, and she wants to know why it also depends on the colour of the light and on the pair of media chosen."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch9",
+        "pages": [
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:09:E:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/light-reflection-and-refraction"
+      ],
+      "taxonomyChapterId": "science-10/light-reflection-and-refraction",
+      "topic": "Reflection of Light",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "A rectangular glass slab is held on a sheet of white paper and a ray of light is made to strike one of its faces at an angle. The ray is drawn on the paper where it enters the slab, where it runs inside the slab, and where it comes out at the opposite face. The slab is then turned over and the same ray is again made to strike a face obliquely, so that the three parts of the ray can be compared with one another.\n\nRead the case below and answer the three questions that follow.\nA rectangular glass slab is held on a sheet of white paper and a ray of light is made to strike one of its faces at an angle. The ray is drawn on the paper where it enters the slab, where it runs inside the slab, and where it comes out at the opposite face. The slab is then turned over and the same ray is again made to strike a face obliquely, so that the three parts of the ray can be compared with one another.\n(i) Name the ray that strikes the face of the slab, the ray that travels inside the slab, and the ray that comes out of it.\n(ii) State why the ray that comes out runs parallel to the ray that struck the slab, even though the ray is bent at both faces.\n(iii) The ray that comes out is not on the same line as the ray that went in. Describe this difference and explain how the ray is shifted.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) The ray striking the face is the incident ray, the ray inside the slab is the refracted ray, and the ray coming out is the emergent ray. (ii) The emergent ray is parallel to the incident ray because the bending at the two opposite parallel faces is equal and opposite. (iii) It is shifted sideward, displaced sideways from the path of the incident ray.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In Fig. 9.10, a ray EO is obliquely\nincident on surface AB, called incident ray.\nOO′ is the refracted ray and O′ H is the",
+            "extent of bending of the ray of light at the\nopposite parallel faces AB (air-glass interface)\nand CD (glass-air interface) of the rectangular\nglass slab is equal and opposite.",
+            "the ray emerges parallel to the incident ray.\nHowever, the light ray is shifted sideward"
+          ],
+          "objective": false,
+          "passage": "A rectangular glass slab is held on a sheet of white paper and a ray of light is made to strike one of its faces at an angle. The ray is drawn on the paper where it enters the slab, where it runs inside the slab, and where it comes out at the opposite face. The slab is then turned over and the same ray is again made to strike a face obliquely, so that the three parts of the ray can be compared with one another."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch9",
+        "pages": [
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      9
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

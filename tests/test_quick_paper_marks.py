@@ -59,7 +59,14 @@ def test_a_science_10_quick_paper_holds_the_marks_asked(served, tmp_path, monkey
 
 
 def test_a_rebalanced_paper_says_what_it_changed(served, tmp_path, monkeypatch):
-    with _client_for(tmp_path, monkeypatch, served["Science"]) as client:
+    """The audit's bank held one 2-mark Science 10 question and no 4-mark one. With the model-written
+    questions (corpus/ai-cbse-9-10) the served bank fills the 40 marks as asked, so the rebalancing path
+    is exercised on the bank as it was, without them."""
+    from academicos.assessment.pool import QuestionPool
+
+    as_audited = QuestionPool(questions=[q for q in served["Science"].questions
+                                         if not str((q.record or {}).get("id") or "").startswith("ai:")])
+    with _client_for(tmp_path, monkeypatch, as_audited) as client:
         paper = client.post(QUICK, headers=_auth(client), json={
             "subject": "Science", "grade": 10, "totalMarks": 40}).json()
     [note] = [w for w in paper["warnings"] if w.startswith("To make the 40 marks asked for")]

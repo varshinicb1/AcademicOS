@@ -439,6 +439,41 @@ def taxonomy_chapters() -> dict[str, dict[int, dict]]:
     return out
 
 
+def class_tree_chapters(subject: str, grade: int) -> list[dict]:
+    """The chapters of the class's own taxonomy tree (`Science_9.json`), in book order.
+
+    The class 9 trees were read off the new NCERT books' PDFs by name, so their chapters carry no
+    `source_file` that `taxonomy_chapters` can file under a book code; their order is the book's."""
+    path = TAXONOMY / f"{subject.replace(' ', '_')}_{grade}.json"
+    try:
+        tree = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    return [{"name": c.get("name") or "", "id": c.get("id") or "",
+             "topics": [t.get("name") for t in (c.get("topics") or []) if t.get("name")]}
+            for c in tree.get("chapters") or []]
+
+
+def tree_chapter_for(subject: str, grade: int, book_code: str, number: int) -> tuple[dict, list[str]]:
+    """The tree chapter a book file is, and the ids of any further chapter it also holds.
+
+    A book of as many files as the tree has chapters is read one to one (Science 9: 13 and 13, Social
+    Science 9: 9 and 9). A book of half as many holds two lessons a file (English 9, Kaveri: 8 units
+    of 16 lessons): the file is the first lesson, and the second's id is returned with it, so a
+    question is filed under both rather than under a chapter nothing resolves. Anything else is not
+    guessed."""
+    chapters = class_tree_chapters(subject, grade)
+    files = len([p for p in (BOOKS / book_code).glob(f"{book_code}*.pdf")
+                 if p.stem[len(book_code):].isdigit()])
+    if not chapters or not files:
+        return {}, []
+    if len(chapters) == files and number <= files:
+        return chapters[number - 1], []
+    if len(chapters) == 2 * files and number <= files:
+        return chapters[2 * number - 2], [chapters[2 * number - 1]["id"]]
+    return {}, []
+
+
 def topics_for(book_code: str, number: int) -> list[str]:
     """A chapter's topics: the taxonomy tree's, else the chapter's own headings."""
     from_trees = taxonomy_chapters().get(book_code, {}).get(number, {}).get("topics")
@@ -597,6 +632,11 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
     subject = tb.bank_subject(book.get("subject"))
     grade = int(book.get("class") or 0)
     known = taxonomy_chapters().get(book_code, {}).get(number) or {}
+    also_chapter_ids: list[str] = []
+    if not known:
+        known, also_chapter_ids = tree_chapter_for(subject, grade, book_code, number)
+    # The topics stay what they were: a plan's calls are numbered, and an answer on disk belongs to
+    # the call with its number, so changing a chapter's topics would hand answers to the wrong prompts.
     topics = topics_for(book_code, number)
     # The chapter's own name, from the tree that named it. Never the first topic:
     # a chapter named after its first topic gets an id that is in no tree, and
@@ -704,7 +744,7 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
             item["option"] = number_from + by_section.get(section.key, 0) + 1
             record = cg.to_record(
                 item, section, chapter, topic, chapter_id=chapter_id,
-                topic_id="", model=chosen)
+                topic_id="", model=chosen, also_chapter_ids=tuple(also_chapter_ids))
             if bridge is not None:
                 # It passed `ungrounded`: every quote is the chapter's own text. That is the
                 # definition of the checked tier `textbook_grounded` (qbank_engine), and the

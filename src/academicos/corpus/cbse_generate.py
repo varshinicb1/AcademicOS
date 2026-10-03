@@ -857,7 +857,8 @@ def _repaired(item: dict) -> dict:
 
 
 def to_record(item: dict, section: bp.Section, chapter: Chapter, topic: str,
-              *, chapter_id: str, topic_id: str, model: str) -> dict:
+              *, chapter_id: str, topic_id: str, model: str,
+              also_chapter_ids: tuple[str, ...] = ()) -> dict:
     """A validated question as the bank stores it.
 
     `source` is `ai_generated` and the provenance says so in as many words, so a
@@ -907,7 +908,7 @@ def to_record(item: dict, section: bp.Section, chapter: Chapter, topic: str,
         "questionBankId": f"ai-cbse:{chapter.book_code}",
         "subject": chapter.subject,
         "grade": chapter.grade,
-        "chapterIds": [chapter_id],
+        "chapterIds": [chapter_id, *also_chapter_ids],
         "taxonomyChapterId": chapter_id,
         "topic": topic or chapter.title,
         "difficulty": "medium",

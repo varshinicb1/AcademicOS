@@ -1,0 +1,1254 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iest1:07:A:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "Why do Elections Matter?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A Class 9 section wants the class representative it elected in Grade 8 to stay on for one more year without facing a fresh election. (A) Allow it, because the right to vote is exercised only once in the life of a citizen (B) Allow it, because periodic elections apply to public offices and not to school elections (C) Refuse it, because only the government has the right to decide who leads the people (D) Refuse it, because periodic elections are a crucial element of democracy and elected representatives must remain accountable to the people",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Refuse it, because periodic elections are a crucial element of democracy and elected representatives must remain accountable to the people",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "representative (CR). Can we allow her to continue as the CR in Grade 9",
+            "without facing a fresh election? Similarly, can the government",
+            "is No, because one of the most crucial elements of democracy\nis participating in the periodic election of those who will make\ndecisions on our behalf. Elected representatives are accountable to\nthe people. The right to elect our representatives and holding them\naccountable is ensured through periodic elections, and our vote is\nthe principal means by which we exercise this right."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Allow it, because the right to vote is exercised only once in the life of a citizen",
+            "B": "Allow it, because periodic elections apply to public offices and not to school elections",
+            "C": "Refuse it, because only the government has the right to decide who leads the people",
+            "D": "Refuse it, because periodic elections are a crucial element of democracy and elected representatives must remain accountable to the people"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:07:AR:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "Why do Elections Matter?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Two classmates are comparing how public offices in India get filled. Consider the following statements. 1. In India, members of the Lok Sabha, members of the Vidhan Sabha and members of local bodies are elected through direct elections every five years. 2. The President, the Vice President and members of the Rajya Sabha are elected through indirect elections. Choose the correct option. (A) Both the statements are true, and the second statement explains the first. (B) Both the statements are true, but the second statement does not explain the first. (C) The first statement is true but the second statement is false. (D) Both the statements are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the statements are true, but the second statement does not explain the first.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "either direct or indirect elections. In India, members of the Lok\nvote directly to\nSabha at the central level, members of the Vidhan Sabha (Legislative\nchoose their\nAssembly) at the state level, and members of local bodies (like\nrepresentatives\nPanchayats, municipal corporations, etc.) are elected through direct",
+            "elections every five years. In contrast, the President, Vice President,\nand members of the Rajya Sabha are elected through indirect\nIndirect\nElections:\nelections."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the statements are true, and the second statement explains the first.",
+            "B": "Both the statements are true, but the second statement does not explain the first.",
+            "C": "The first statement is true but the second statement is false.",
+            "D": "Both the statements are false."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:07:B:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "Why do Elections Matter?",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "A student of Class 9 is comparing how public offices in India get filled. Name the offices that are filled in India through indirect elections.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the President as filled through indirect elections (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names the Vice President and the members of the Rajya Sabha as filled through indirect elections (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The President, the Vice President and members of the Rajya Sabha.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "elections every five years. In contrast, the President, Vice President,\nand members of the Rajya Sabha are elected through indirect\nIndirect\nElections:\nelections."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:07:B:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "Why do Elections Matter?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A Class 9 student is making a chart of the elected representatives of India. Give the level of government and the name of the body whose members are elected by direct election at the central level and at the state level.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Central level - the Lok Sabha (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "State level - the Vidhan Sabha, also called the Legislative Assembly (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Central level: the Lok Sabha. State level: the Vidhan Sabha (Legislative Assembly).",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Sabha at the central level, members of the Vidhan Sabha (Legislative\nchoose their\nAssembly) at the state level, and members of local bodies (like\nrepresentatives\nPanchayats, municipal corporations, etc.) are elected through direct",
+            "elections every five years."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:07:C:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "Why do Elections Matter?",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A government has completed the term for which it was chosen. Explain, in about 45 words, why it cannot carry on in office without seeking the mandate of the people again.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Periodic elections named as one of the most crucial elements of democracy (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Citizens must participate in choosing those who will make decisions on their behalf (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Elected representatives are accountable to the people, and periodic elections ensure that accountability (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Periodic elections are among the most crucial elements of democracy, because citizens must take part in choosing those who will make decisions on their behalf. Elected representatives are accountable to the people, and holding them accountable is ensured through periodic elections. A government that carries on beyond its prescribed term denies the people the chance to renew or withhold that mandate.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "is No, because one of the most crucial elements of democracy\nis participating in the periodic election of those who will make\ndecisions on our behalf. Elected representatives are accountable to\nthe people. The right to elect our representatives and holding them\naccountable is ensured through periodic elections, and our vote is\nthe principal means by which we exercise this right."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:07:C:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "Why do Elections Matter?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A student of Class 9 wants to compare the way representatives are chosen at the central and state levels of government in India with the way the President, the Vice President and the members of the Rajya Sabha are chosen. Explain the difference in about 45 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Members of the Lok Sabha at the central level and members of the Vidhan Sabha at the state level named as directly elected (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Members of local bodies such as Panchayats and municipal corporations named as elected directly every five years (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The President, the Vice President and members of the Rajya Sabha named as elected through indirect elections (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Members of the Lok Sabha at the central level and members of the Vidhan Sabha at the state level are elected through direct elections, in which citizens vote directly to choose their representatives. Members of local bodies, such as Panchayats and municipal corporations, are elected directly as well, every five years. By contrast, the President, the Vice President and members of the Rajya Sabha are elected through indirect elections.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "either direct or indirect elections. In India, members of the Lok\nvote directly to\nSabha at the central level, members of the Vidhan Sabha (Legislative\nchoose their\nAssembly) at the state level, and members of local bodies (like\nrepresentatives\nPanchayats, municipal corporations, etc.) are elected through direct",
+            "elections every five years. In contrast, the President, Vice President,\nand members of the Rajya Sabha are elected through indirect\nIndirect\nElections:\nelections."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:07:C:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "Why do Elections Matter?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A student argues that casting a vote once is all that citizens owe, since their representatives have already been chosen. In about 45 words, explain what the right to elect representatives really involves and how periodic elections make it meaningful.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The right to elect our representatives also involves holding them accountable (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Holding elected representatives accountable is ensured through periodic elections (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Our vote is named as the principal means by which we exercise this right (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The right to elect our representatives goes beyond casting a vote once, because it also involves holding them accountable. Holding elected representatives accountable is ensured through periodic elections, which return those who will make decisions on our behalf to the people. Our vote is the principal means by which we exercise this right.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "is No, because one of the most crucial elements of democracy\nis participating in the periodic election of those who will make\ndecisions on our behalf. Elected representatives are accountable to\nthe people. The right to elect our representatives and holding them\naccountable is ensured through periodic elections, and our vote is\nthe principal means by which we exercise this right.",
+            "An election is a process through which we exercise the right to vote\nand fulfil our responsibility as citizens."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:07:D:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "Why do Elections Matter?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A Class 9 student wants to know exactly which offices in India are filled by direct election, which are filled by indirect election, and how often the direct elections recur. Set the answer out in steps, naming every office involved.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Members of the Lok Sabha named as directly elected at the central level (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Members of the Vidhan Sabha, that is the Legislative Assembly, named as directly elected at the state level (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Members of local bodies such as Panchayats and municipal corporations named as directly elected (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Direct elections stated to be held every five years (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The President, the Vice President and members of the Rajya Sabha named as elected through indirect elections (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 - Direct, central level: members of the Lok Sabha are elected through direct elections.\nStep 2 - Direct, state level: members of the Vidhan Sabha, that is the Legislative Assembly, are elected through direct elections.\nStep 3 - Direct, local level: members of local bodies, such as Panchayats and municipal corporations, are elected through direct elections.\nStep 4 - The direct elections are held every five years.\nStep 5 - Indirect: the President, the Vice President and members of the Rajya Sabha are elected through indirect elections, so the five-year interval does not apply to them.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "either direct or indirect elections. In India, members of the Lok\nvote directly to\nSabha at the central level, members of the Vidhan Sabha (Legislative\nchoose their\nAssembly) at the state level, and members of local bodies (like\nrepresentatives\nPanchayats, municipal corporations, etc.) are elected through direct",
+            "elections every five years. In contrast, the President, Vice President,\nand members of the Rajya Sabha are elected through indirect\nIndirect\nElections:\nelections."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:07:D:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "Why do Elections Matter?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Gurmat was elected class representative in Grade 8. The class now asks whether she may carry on as the class representative in Grade 9 without facing a fresh election, and whether a government may similarly carry on beyond its prescribed term without seeking the mandate of the people again. Answer both, giving your reasons in steps.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "A fresh election required before Gurmat carries on as the class representative in Grade 9 (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A government cannot carry on beyond the prescribed term without seeking the mandate of the people again (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Participating in the periodic election of those who will make decisions on our behalf named as one of the most crucial elements of democracy (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Elected representatives are accountable to the people (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Periodic elections ensure that accountability, and our vote is the principal means of exercising the right (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 - No, Gurmat cannot carry on as the class representative in Grade 9 without facing a fresh election.\nStep 2 - The answer is No for a government as well: it cannot carry on beyond the prescribed term without seeking the mandate of the people again.\nStep 3 - The reason is that participating in the periodic election of those who will make decisions on our behalf is one of the most crucial elements of democracy.\nStep 4 - Elected representatives are accountable to the people.\nStep 5 - Periodic elections are what ensure that accountability, and our vote is the principal means by which we exercise the right to elect and hold them accountable.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "representative (CR). Can we allow her to continue as the CR in Grade 9",
+            "without facing a fresh election? Similarly, can the government",
+            "is No, because one of the most crucial elements of democracy\nis participating in the periodic election of those who will make\ndecisions on our behalf. Elected representatives are accountable to\nthe people. The right to elect our representatives and holding them\naccountable is ensured through periodic elections, and our vote is\nthe principal means by which we exercise this right."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:07:D:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "Why do Elections Matter?",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Show in steps why our vote is described as the principal means by which the right to elect our representatives is exercised, and say what becomes of that right when only one political party is contesting an election.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "An election described as a process for exercising the right to vote and fulfilling our responsibility as citizens (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The right to elect our representatives also involves holding them accountable (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Holding them accountable is ensured through periodic elections (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Our vote named as the principal means by which we exercise this right (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "When only one political party contests, the people cannot exercise their choice, and the answer is No (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 - An election is a process through which we exercise the right to vote and fulfil our responsibility as citizens.\nStep 2 - The right to elect our representatives also involves holding them accountable.\nStep 3 - Holding them accountable is ensured through periodic elections, and our vote is the principal means by which we exercise this right.\nStep 4 - So the vote lets the people renew, or withhold, the mandate of those who will make decisions on their behalf.\nStep 5 - If only one political party is contesting, the answer is No: there is no choice to be exercised, because every one of these questions has the same answer.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "An election is a process through which we exercise the right to vote\nand fulfil our responsibility as citizens.",
+            "party is contesting the election? The answer to all these questions\nis No, because one of the most crucial elements of democracy\nis participating in the periodic election of those who will make\ndecisions on our behalf. Elected representatives are accountable to\nthe people. The right to elect our representatives and holding them\naccountable is ensured through periodic elections, and our vote is\nthe principal means by which we exercise this right."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:07:D:4",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "The Laws",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A Class 9 student is preparing notes on the laws that govern the conduct of elections in India. In steps, sort out which law deals with which part of the conduct of elections, and state which law lists the electoral offences and corrupt practices.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "The Representation of the People Act, 1950 assigned to the allocation of seats and delimitation of constituencies (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The Representation of the People Act, 1950 assigned to the preparation and revision of electoral rolls (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The Representation of the People Act, 1950 ensures that every citizen over 18 years of age has the right to vote without discrimination (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The Representation of the People Act, 1951 assigned to nomination of candidates, election campaigns, voting procedures, resolution of disputes and post-election disputes (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The electoral offences and corrupt practices listed under the Representation of the People Act, 1951 (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 - The Representation of the People Act, 1950 (RPA, 1950) deals mainly with the allocation of seats and delimitation of constituencies.\nStep 2 - It also deals with the preparation and revision of electoral rolls, and it ensures that every citizen over 18 years of age has the right to vote without discrimination.\nStep 3 - The Representation of the People Act, 1951 (RPA, 1951) deals with all the other aspects of the conduct of elections and post-election disputes, laying down rules for nomination of candidates, election campaigns, voting procedures and resolution of disputes.\nStep 4 - The Presidential and Vice-Presidential Elections Act, 1952 also exists.\nStep 5 - The electoral offences and corrupt practices are listed by RPA, 1951, and together these Acts ensure the integrity, transparency and accountability of the electoral process.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Act, 1950 deals mainly with the allocation of seats and delimitation\nof constituencies, the preparation and revision of electoral rolls,\nand ensuring that every citizen above 18 years of age and above\nhas the right to vote without discrimination. The Representation\nof the People Act, 1951 deals with all the other aspects of the\nconduct of elections and post-election disputes. It lays down\nrules for nomination of candidates, election campaigns, voting\nprocedures, and resolution of disputes.",
+            "The Representation of the People Act, 1951 also lists out the\nelectoral offences and corrupt practices. For example:"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:07:E:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "Why do Elections Matter?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Every five years, voters in India go to the polls. At the central level they choose members of the Lok Sabha, at the state level members of the Vidhan Sabha, and in their own areas members of local bodies such as Panchayats and municipal corporations. A student notices that this is not how every office is filled, and asks why. She is told that some offices are filled by a different route, and that the right to elect our representatives does not end with the casting of a vote: it also involves holding them accountable, and periodic elections are what ensure that accountability.\n\n(a) Name the offices that in India are filled by indirect elections rather than by direct ones. (b) State the interval after which the direct elections to the Lok Sabha, the Vidhan Sabha and to members of local bodies are held. (c) Explain why the people must be able to renew the mandate of those they choose, and connect your answer to the duty of holding elected representatives accountable.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The President, the Vice President and members of the Rajya Sabha. (1)\n(b) Every five years. (1)\n(c) Because the right to elect our representatives also involves holding them accountable. Periodic elections ensure that accountability, and our vote is the principal means by which we exercise this right. (2)",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "elections every five years. In contrast, the President, Vice President,\nand members of the Rajya Sabha are elected through indirect\nIndirect\nElections:\nelections.",
+            "the people. The right to elect our representatives and holding them\naccountable is ensured through periodic elections, and our vote is\nthe principal means by which we exercise this right."
+          ],
+          "objective": false,
+          "passage": "Every five years, voters in India go to the polls. At the central level they choose members of the Lok Sabha, at the state level members of the Vidhan Sabha, and in their own areas members of local bodies such as Panchayats and municipal corporations. A student notices that this is not how every office is filled, and asks why. She is told that some offices are filled by a different route, and that the right to elect our representatives does not end with the casting of a vote: it also involves holding them accountable, and periodic elections are what ensure that accountability."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:07:E:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "Why do Elections Matter?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Two Class 9 students are arguing about whether a country may simply stop holding elections once its representatives have been chosen. One of them says that an election is not a single day but a process, and that in it the people do two things: they choose the representatives who will make decisions on their behalf, and they hold those representatives accountable. The other replies that regular and periodic elections lie at the core of democracy, and that the right to elect our representatives and to hold them accountable is ensured through periodic elections, with our vote as the principal means of exercising it.\n\n(a) State the two things that the first student says the people do in an election. (b) Name the means by which we exercise the right to elect our representatives, and say what it is that periodic elections ensure. (c) The students then wonder whether their choice would still count if only one political party contested an election. Give the answer, and connect it to the two things named in part (a).",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The people choose those who will make decisions on their behalf, and they hold them accountable. (1)\n(b) Our vote is the principal means by which we exercise this right, and periodic elections ensure that accountability. (2)\n(c) No, because with only one party contesting there is no choice to be made at all. (1)",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "decisions on our behalf. Elected representatives are accountable to\nthe people. The right to elect our representatives and holding them\naccountable is ensured through periodic elections, and our vote is\nthe principal means by which we exercise this right.",
+            "An election is a process through which we exercise the right to vote\nand fulfil our responsibility as citizens.",
+            "party is contesting the election? The answer to all these questions"
+          ],
+          "objective": false,
+          "passage": "Two Class 9 students are arguing about whether a country may simply stop holding elections once its representatives have been chosen. One of them says that an election is not a single day but a process, and that in it the people do two things: they choose the representatives who will make decisions on their behalf, and they hold those representatives accountable. The other replies that regular and periodic elections lie at the core of democracy, and that the right to elect our representatives and to hold them accountable is ensured through periodic elections, with our vote as the principal means of exercising it."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:07:E:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "Why do Elections Matter?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Gurmat was elected class representative in Grade 8, and when the new session begins some classmates ask whether she may simply stay on in Grade 9 without a fresh election, since the section already knows her. At the same time a student raises two further questions: whether a government that has completed its term may carry on without asking the people again, and whether the people can really choose if only one political party is contesting. Their teacher replies that all three questions have the same answer, and explains why.\n\n(a) Give the answer that is required when a representative who was elected in Grade 8 is asked to carry on in Grade 9 without facing a fresh election, and the answer required when a government is asked to carry on beyond its prescribed term. (b) Name the element of democracy that these answers belong to, and say what it is that elected representatives are accountable to. (c) A third student points out that the same answer applies when only one political party is contesting. Explain why the answer must be the same in all three cases.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) No in both cases: a fresh election is needed, and a government cannot carry on beyond its prescribed term without seeking the mandate of the people again. (1)\n(b) Participating in the periodic election of those who will make decisions on our behalf, one of the most crucial elements of democracy. (1)\n(c) All three turn on one right: periodic elections let the people choose those who will decide for them and then hold them accountable. (2)",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "representative (CR). Can we allow her to continue as the CR in Grade 9",
+            "is No, because one of the most crucial elements of democracy\nis participating in the periodic election of those who will make\ndecisions on our behalf. Elected representatives are accountable to\nthe people.",
+            "mandate again? And can we exercise our choice if only one political"
+          ],
+          "objective": false,
+          "passage": "Gurmat was elected class representative in Grade 8, and when the new session begins some classmates ask whether she may simply stay on in Grade 9 without a fresh election, since the section already knows her. At the same time a student raises two further questions: whether a government that has completed its term may carry on without asking the people again, and whether the people can really choose if only one political party is contesting. Their teacher replies that all three questions have the same answer, and explains why."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iest1",
+    "chapters": [
+      7
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

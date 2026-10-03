@@ -1263,3 +1263,33 @@ def test_a_hindi_record_is_mended_and_its_quote_still_matches_the_broken_text():
     record = cg.to_record(item, section, _chapter("hi"), "t", chapter_id="c", topic_id="", model="m")
     assert "लिखना" in record["stem"] and "लिखन ा" not in record["stem"] and "नहीीं" not in record["stem"]
     assert record["answerScheme"]["modelAnswer"] == "आदर्श निबंध लिखना"
+
+
+def test_a_class_9_book_with_no_per_file_tree_is_filed_under_the_class_trees_chapters(tmp_path, monkeypatch):
+    gen = _gen_script("gen_for_tree")
+    import json as _json
+    tax = tmp_path / "taxonomy"
+    tax.mkdir()
+
+    def tree(subject, names):
+        (tax / f"{subject}_9.json").write_text(_json.dumps({"chapters": [
+            {"number": i + 1, "name": n, "id": f"{subject.lower()}-9/{n.lower().replace(' ', '-')}",
+             "topics": [{"name": f"{n} topic"}]} for i, n in enumerate(names)]}), encoding="utf-8")
+
+    tree("Science", ["Cells", "Tissues", "Motion"])
+    tree("English", ["Lesson A", "Lesson B", "Lesson C", "Lesson D"])
+    books = tmp_path / "books"
+    for code, count in (("iesc1", 3), ("iebe1", 2)):
+        (books / code).mkdir(parents=True)
+        for n in range(1, count + 1):
+            (books / code / f"{code}{n:02d}.pdf").write_bytes(b"")
+    monkeypatch.setattr(gen, "TAXONOMY", tax)
+    monkeypatch.setattr(gen, "BOOKS", books)
+    one_to_one, also = gen.tree_chapter_for("Science", 9, "iesc1", 2)
+    assert (one_to_one["name"], also) == ("Tissues", [])
+    first, also = gen.tree_chapter_for("English", 9, "iebe1", 2)       # unit 2 = lessons C and D
+    assert (first["name"], also) == ("Lesson C", ["english-9/lesson-d"])
+    assert gen.tree_chapter_for("Science", 9, "iebe1", 1) == ({}, [])    # counts that fit neither: not guessed
+    record = cg.to_record(_good_mcq(), _mcq_section(), _chapter(), "t", chapter_id="english-9/lesson-c",
+                          topic_id="", model="m", also_chapter_ids=("english-9/lesson-d",))
+    assert record["chapterIds"] == ["english-9/lesson-c", "english-9/lesson-d"]

@@ -1,0 +1,1241 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iest1:09:AR:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/the-price-puzzle-what-drives-the-market"
+      ],
+      "taxonomyChapterId": "social-science-9/the-price-puzzle-what-drives-the-market",
+      "topic": "Demand",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A market sells mangoes. Srivalli bought 1 kg when the price was ₹150 per kg, and 2 kg when the price fell to ₹100 per kg. Her income and taste did not change.\nAssertion: As the price of mangoes fell from ₹150 to ₹100 per kg, the quantity Srivalli demanded rose from 1 kg to 2 kg.\nReason: Market demand is the total quantity of a product demanded by all potential buyers at different prices.\nChoose the correct option. (A) Both the Assertion and the Reason are true, and the Reason correctly explains the Assertion. (B) Both the Assertion and the Reason are true, but the Reason does not correctly explain the Assertion. (C) The Assertion is true, but the Reason is false. (D) The Assertion is false, but the Reason is true.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the Assertion and the Reason are true, but the Reason does not correctly explain the Assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Srivalli, a consumer, bought only 1 kg. As more mangoes became\navailable in the market, over time, the price fell to ₹100, so she bought\n2 kg,",
+            "The total\nquantity of mangoes demanded by all potential buyers at different\nprices is known as market demand, that is, the sum of all individual\ndemand.",
+            "The quantity of a good or service that an individual consumer\nwants to buy at different prices, keeping other factors constant, is\nknown as individual demand."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the Assertion and the Reason are true, and the Reason correctly explains the Assertion.",
+            "B": "Both the Assertion and the Reason are true, but the Reason does not correctly explain the Assertion.",
+            "C": "The Assertion is true, but the Reason is false.",
+            "D": "The Assertion is false, but the Reason is true."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch9",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:09:B:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/the-price-puzzle-what-drives-the-market"
+      ],
+      "taxonomyChapterId": "social-science-9/the-price-puzzle-what-drives-the-market",
+      "topic": "Demand",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "At the beginning of the mango season the price of mangoes was ₹150 per kg and Srivalli bought only 1 kg. When the price later dropped to ₹50 per kg, how many kg of mangoes did Srivalli buy?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Notes that the quantity asked for is the one bought at the price of ₹50 per kg (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States the quantity as 3 kg (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "3 kg",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Srivalli, a consumer, bought only 1 kg. As more mangoes became\navailable in the market, over time, the price fell to ₹100, so she bought\n2 kg, and later, when the price dropped to ₹50 per kg, she bought\n3 kg."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iest1 ch9",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:09:B:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/the-price-puzzle-what-drives-the-market"
+      ],
+      "taxonomyChapterId": "social-science-9/the-price-puzzle-what-drives-the-market",
+      "topic": "Demand",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "At a price of ₹150 per kg, Srivalli wants 1 kg of mangoes, Alex wants 2 kg and Israt wants 3 kg. Taking all three buyers together, what is the market demand for mangoes at that price?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Adds the quantities wanted by the three buyers — 1 kg + 2 kg + 3 kg (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States the market demand as 6 kg (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "6 kg",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The total\nquantity of mangoes demanded by all potential buyers at different\nprices is known as market demand, that is, the sum of all individual\ndemand.",
+            "₹150\n1 kg\n2 kg\n3 kg\n6 kg"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iest1 ch9",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:09:C:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/the-price-puzzle-what-drives-the-market"
+      ],
+      "taxonomyChapterId": "social-science-9/the-price-puzzle-what-drives-the-market",
+      "topic": "Demand",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Srivalli bought 1 kg of mangoes at ₹150 per kg, 2 kg at ₹100 per kg and 3 kg at ₹50 per kg, while her income and taste stayed unchanged. What does this pattern show about the relationship between price and quantity demanded, and what is this relationship called?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that price and quantity demanded move in opposite directions, an inverse relationship (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names the pattern the Law of Demand (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Notes that other factors such as income and taste are held constant (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The pattern shows an inverse relationship: as the price of mangoes falls, the quantity Srivalli demands rises, and a rise in price would cut her demand. This pattern is the Law of Demand. It holds only when other factors such as income and taste are kept constant.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "This phenomenon is called the Law of\nDemand, which highlights the inverse relationship between the\nprice of a product or service and its quantity demanded.",
+            "represents the inverse relationship between price and the quantity\nof a product demanded by the buyer, assuming other factors like\nincome, taste, etc., to be constant."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch9",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:09:C:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/the-price-puzzle-what-drives-the-market"
+      ],
+      "taxonomyChapterId": "social-science-9/the-price-puzzle-what-drives-the-market",
+      "topic": "Demand",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "At ₹150 per kg, Srivalli wants 1 kg of mangoes, Alex wants 2 kg and Israt wants 3 kg. Explain how the market demand for mangoes at ₹150 per kg is worked out from what these three buyers want, and state what it comes to.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Explains that market demand is the sum of the individual demand of all potential buyers (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Adds the three quantities — 1 kg + 2 kg + 3 kg (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States the market demand as 6 kg at ₹150 per kg (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "What one buyer wants to buy at a given price is that buyer's individual demand. Market demand is the sum of the individual demand of all potential buyers at that price. So at ₹150 per kg the market demand is 1 kg + 2 kg + 3 kg, which comes to 6 kg.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The total\nquantity of mangoes demanded by all potential buyers at different\nprices is known as market demand, that is, the sum of all individual\ndemand.",
+            "₹150\n1 kg\n2 kg\n3 kg\n6 kg"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch9",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:09:C:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/the-price-puzzle-what-drives-the-market"
+      ],
+      "taxonomyChapterId": "social-science-9/the-price-puzzle-what-drives-the-market",
+      "topic": "Demand",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A student plots a buyer's demand schedule with price in ₹ on the y-axis and quantity of mangoes in kg on the x-axis, and joins the three plotted points. What is the resulting line called and which points does it join, and what does the shape of the line show about price and quantity demanded?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Names the line the demand curve (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Identifies points A, B and C for 1 kg at ₹150, 2 kg at ₹100 and 3 kg at ₹50 (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Describes the line as downward sloping and explains it as an inverse relationship between price and quantity demanded (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The line is called the demand curve. It joins point A (1 kg at ₹150), point B (2 kg at ₹100) and point C (3 kg at ₹50), forming the downward-sloping line DD'. Its downward slope shows an inverse relationship between price and the quantity the buyer demands.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "as A, B, and C, are connected, the downward sloping line DD’ is called\nthe demand curve.",
+            "bought 1 kg of mangoes at ₹150 (represented at point A). As the price\nfell to ₹100 per kg, she bought 2 kg (at point B). But as the price fell to\n₹50, she bought 3 kg (at point C)."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch9",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:09:D:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/the-price-puzzle-what-drives-the-market"
+      ],
+      "taxonomyChapterId": "social-science-9/the-price-puzzle-what-drives-the-market",
+      "topic": "Demand",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "At a mango market the demand of three buyers and the market demand at two prices are:\n\nPrice (₹ per kg) | Srivalli | Alex | Israt | Market demand\n150 | 1 kg | 2 kg | 3 kg | 6 kg\n100 | 2 kg | 4 kg | 6 kg | 12 kg\n\nUsing this schedule, show in steps how market demand changes as the price falls from ₹150 to ₹100 per kg, and state the pattern you find.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "States that market demand is the sum of all the individual demands (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Works out market demand at ₹150 per kg as 1 + 2 + 3 = 6 kg (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Works out market demand at ₹100 per kg as 2 + 4 + 6 = 12 kg (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Shows the fall of ₹50 per kg in price alongside the rise of market demand from 6 kg to 12 kg (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States the pattern as an inverse relationship between price and quantity demanded (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Market demand is the sum of all the individual demands.\nStep 2: At ₹150 per kg, market demand = 1 + 2 + 3 = 6 kg.\nStep 3: At ₹100 per kg, market demand = 2 + 4 + 6 = 12 kg.\nStep 4: As the price falls by ₹50 per kg, market demand rises from 6 kg to 12 kg, a rise of 6 kg.\nStep 5: Price and quantity demanded move in opposite directions — an inverse relationship.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The total\nquantity of mangoes demanded by all potential buyers at different\nprices is known as market demand, that is, the sum of all individual\ndemand.",
+            "₹150\n1 kg\n2 kg\n3 kg\n6 kg",
+            "₹100\n2 kg\n4 kg\n6 kg\n12 kg"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch9",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:09:D:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/the-price-puzzle-what-drives-the-market"
+      ],
+      "taxonomyChapterId": "social-science-9/the-price-puzzle-what-drives-the-market",
+      "topic": "Demand",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A student records what one consumer wants to buy of a product at three different prices, keeping other factors constant: 1 kg at ₹150 per kg, 2 kg at ₹100 per kg and 3 kg at ₹50 per kg. She then draws this record with price on the y-axis and quantity demanded on the x-axis. Explain, in steps, what the record and the drawing are each called, and why the line she draws slopes downward.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Names the record of one consumer's quantities at different prices the demand schedule (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the schedule represented graphically is the demand curve (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Places price on the y-axis and quantity demanded on the x-axis (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Describes the result as the downward-sloping line DD' (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains the downward slope as an inverse relationship between price and quantity demanded, with other factors constant (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: The record of one consumer's quantities at different prices is a demand schedule.\nStep 2: When that schedule is represented graphically, it is called the demand curve.\nStep 3: The y-axis shows the price in ₹ and the x-axis the quantity demanded in kg.\nStep 4: Joining the plotted points gives the downward-sloping line DD'.\nStep 5: It slopes downward because price and the quantity the buyer demands stand in an inverse relationship, with income and taste constant.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "is shown in the table below, which is also known as the ‘demand\nschedule’. This demand schedule, when represented graphically, is\ncalled the ‘demand curve’.",
+            "as A, B, and C, are connected, the downward sloping line DD’ is called\nthe demand curve."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch9",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:09:D:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/the-price-puzzle-what-drives-the-market"
+      ],
+      "taxonomyChapterId": "social-science-9/the-price-puzzle-what-drives-the-market",
+      "topic": "Demand",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Two buyers, Srivalli and Israt, both buy mangoes in the same market. At ₹150 per kg Srivalli buys 1 kg and Israt buys 3 kg; at ₹100 per kg Srivalli buys 2 kg and Israt buys 6 kg. Show in steps how their combined demand changes as the price falls, and explain why their own demands are not the same as each other.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Identifies individual demand as one consumer's quantity at a given price, other factors constant (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Works out the combined demand at ₹150 per kg as 1 + 3 = 4 kg (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Works out the combined demand at ₹100 per kg as 2 + 6 = 8 kg (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Shows the combined demand rising from 4 kg to 8 kg as the price falls (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that each buyer's individual demand is separate, while market demand is the sum of all individual demands (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: What one consumer wants to buy at a given price, other factors constant, is that consumer's individual demand.\nStep 2: At ₹150 per kg their combined demand = 1 kg + 3 kg = 4 kg.\nStep 3: At ₹100 per kg their combined demand = 2 kg + 6 kg = 8 kg.\nStep 4: So the combined demand rises from 4 kg to 8 kg as the price falls.\nStep 5: Their demands differ because each buyer's individual demand is that buyer's own quantity, while market demand is the sum of all individual demands.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The quantity of a good or service that an individual consumer\nwants to buy at different prices, keeping other factors constant, is\nknown as individual demand.",
+            "₹150\n1 kg\n2 kg\n3 kg\n6 kg",
+            "₹100\n2 kg\n4 kg\n6 kg\n12 kg"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch9",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:09:D:4",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/the-price-puzzle-what-drives-the-market"
+      ],
+      "taxonomyChapterId": "social-science-9/the-price-puzzle-what-drives-the-market",
+      "topic": "Other Determinants of Supply",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "At a market for mangoes, the quantities demanded and supplied at three prices are:\n\nPrice (₹ per kg) | Quantity demanded of mangoes (kg) | Quantity supplied of mangoes (kg) | Outcome\n40 | 38 | 6 | Excess demand\n100 | 12 | 12 | Market equilibrium\n150 | 8 | 43 | Excess supply\n\nShow, in steps, at which price the mango market reaches equilibrium, what the equilibrium quantity is, and why prices tend to remain stable at that price.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "At ₹40 per kg, demand of 38 kg exceeds supply of 6 kg, giving excess demand, a shortage (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "At ₹150 per kg, supply of 43 kg exceeds demand of 8 kg, giving excess supply, a surplus (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "At ₹100 per kg, quantity demanded equals quantity supplied at 12 kg each (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names the equilibrium price as ₹100 and the equilibrium quantity as 12 kg (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that with neither a shortage nor a surplus there is no pressure for prices to change (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: At ₹40 per kg, 38 kg is demanded but only 6 kg supplied — excess demand, a shortage.\nStep 2: At ₹150 per kg, 43 kg is supplied but only 8 kg demanded — excess supply, a surplus.\nStep 3: At ₹100 per kg, 12 kg is demanded and 12 kg supplied, so the two are equal.\nStep 4: Equilibrium price = ₹100; equilibrium quantity = 12 kg.\nStep 5: Prices stay stable here: there is no pressure to change, and neither a shortage nor a surplus.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Equilibrium Price = ₹ 100\nEquilibrium Quantity = 12 kg",
+            "At a price of ₹100, the quantity demanded equals the quantity\nsupplied. This point is known as the market equilibrium. At this point,\nthere is no pressure for prices to change, and the market is ‘cleared’,\nwhich means that there is neither a shortage (excess demand) nor a\nsurplus (excess supply).",
+            "demand, whereas at a higher price, there is excess supply."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch9",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:09:E:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/the-price-puzzle-what-drives-the-market"
+      ],
+      "taxonomyChapterId": "social-science-9/the-price-puzzle-what-drives-the-market",
+      "topic": "Demand",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "During the mango season Srivalli watches the price of mangoes in the market near her home. At the beginning of the season the price is very high, ₹150 per kg, and she buys only 1 kg. As more mangoes arrive in the market, the price falls to ₹100 per kg and she buys 2 kg. Later the price drops to ₹50 per kg and she buys 3 kg. Srivalli notes that her income and her taste have not changed during these months. She plots her purchases, putting price on one axis and quantity on the other, and joins the three points. A friend asks her what the sloping line she has drawn is called.\n\n(a) State what happens to the quantity of mangoes Srivalli buys as the price falls from ₹150 to ₹50 per kg. (b) Name the record Srivalli has kept, and the name of the line she gets when that record is drawn as a graph. (c) Explain why her purchases rise as the price falls, and state what must be kept unchanged for this pattern to hold.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) It rises — 1 kg at ₹150, 2 kg at ₹100 and 3 kg at ₹50 per kg. (b) The record is her demand schedule; drawn as a graph it is her demand curve. (c) Price and quantity demanded are inversely related, and this holds only when factors like income and taste are constant.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Srivalli, a consumer, bought only 1 kg. As more mangoes became\navailable in the market, over time, the price fell to ₹100, so she bought\n2 kg, and later, when the price dropped to ₹50 per kg, she bought\n3 kg.",
+            "is shown in the table below, which is also known as the ‘demand\nschedule’. This demand schedule, when represented graphically, is\ncalled the ‘demand curve’.",
+            "represents the inverse relationship between price and the quantity\nof a product demanded by the buyer, assuming other factors like\nincome, taste, etc., to be constant."
+          ],
+          "objective": false,
+          "passage": "During the mango season Srivalli watches the price of mangoes in the market near her home. At the beginning of the season the price is very high, ₹150 per kg, and she buys only 1 kg. As more mangoes arrive in the market, the price falls to ₹100 per kg and she buys 2 kg. Later the price drops to ₹50 per kg and she buys 3 kg. Srivalli notes that her income and her taste have not changed during these months. She plots her purchases, putting price on one axis and quantity on the other, and joins the three points. A friend asks her what the sloping line she has drawn is called."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch9",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:09:E:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/the-price-puzzle-what-drives-the-market"
+      ],
+      "taxonomyChapterId": "social-science-9/the-price-puzzle-what-drives-the-market",
+      "topic": "Demand",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Three students shop for mangoes at the same market. At ₹150 per kg, Srivalli wants 1 kg, Alex wants 2 kg and Israt wants 3 kg, and 6 kg of mangoes change hands that day. At ₹100 per kg, Srivalli wants 2 kg, Alex wants 4 kg and Israt wants 6 kg, and the buyers together now want 12 kg. A shopkeeper tells the students that no single one of them decides how many mangoes the market will buy. They ask him to explain the difference between what one of them wants and what the market as a whole wants.\n\n(a) Work out the total quantity of mangoes wanted by all three students at ₹150 per kg. (b) Explain how the demand of the market as a whole differs from the demand of one buyer such as Srivalli. (c) If the price of mangoes falls further to ₹50 per kg, what will happen to the market demand, and why?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) 1 + 2 + 3 = 6 kg. (b) One buyer's want is that buyer's individual demand; market demand is the sum of the individual demand of all potential buyers, so 6 kg at ₹150 and 12 kg at ₹100 per kg. (c) It will rise, because a fall in price raises the quantity each buyer demands.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The total\nquantity of mangoes demanded by all potential buyers at different\nprices is known as market demand, that is, the sum of all individual\ndemand.",
+            "₹150\n1 kg\n2 kg\n3 kg\n6 kg",
+            "₹100\n2 kg\n4 kg\n6 kg\n12 kg"
+          ],
+          "objective": false,
+          "passage": "Three students shop for mangoes at the same market. At ₹150 per kg, Srivalli wants 1 kg, Alex wants 2 kg and Israt wants 3 kg, and 6 kg of mangoes change hands that day. At ₹100 per kg, Srivalli wants 2 kg, Alex wants 4 kg and Israt wants 6 kg, and the buyers together now want 12 kg. A shopkeeper tells the students that no single one of them decides how many mangoes the market will buy. They ask him to explain the difference between what one of them wants and what the market as a whole wants."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch9",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:09:E:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/the-price-puzzle-what-drives-the-market"
+      ],
+      "taxonomyChapterId": "social-science-9/the-price-puzzle-what-drives-the-market",
+      "topic": "Demand",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A student draws a graph for one mango buyer. On the vertical axis she writes the price of mangoes in rupees, and on the horizontal axis the quantity of mangoes in kilograms. She marks one point where the price is ₹150 and 1 kg is bought, a second where the price is ₹100 and 2 kg is bought, and a third where the price is ₹50 and 3 kg is bought. She joins the three points with a line and labels it DD'. The shopkeeper at the stall watches her drawing and asks what would happen to this buyer's quantity if the price were to rise above ₹150 per kg.\n\n(a) State what the vertical axis and the horizontal axis of the graph show. (b) Describe the shape of the line DD' and the relationship between price and quantity that it shows. (c) If the price rises above ₹150 per kg, what will this buyer purchase, and why does the buyer respond in this way?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The vertical axis shows the price of mangoes in ₹; the horizontal axis shows the quantity of mangoes demanded in kg. (b) DD' slopes downward, showing an inverse relationship between price and quantity demanded. (c) The buyer will purchase less than 1 kg, because on a downward-sloping demand curve a higher price means a lower quantity demanded.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The y-axis in the Fig. 9.2 (b) represents the price of mangoes (in ₹), and\nthe x-axis shows the quantity demanded of mangoes (in kg).",
+            "as A, B, and C, are connected, the downward sloping line DD’ is called\nthe demand curve.",
+            "represents the inverse relationship between price and the quantity\nof a product demanded by the buyer, assuming other factors like\nincome, taste, etc., to be constant."
+          ],
+          "objective": false,
+          "passage": "A student draws a graph for one mango buyer. On the vertical axis she writes the price of mangoes in rupees, and on the horizontal axis the quantity of mangoes in kilograms. She marks one point where the price is ₹150 and 1 kg is bought, a second where the price is ₹100 and 2 kg is bought, and a third where the price is ₹50 and 3 kg is bought. She joins the three points with a line and labels it DD'. The shopkeeper at the stall watches her drawing and asks what would happen to this buyer's quantity if the price were to rise above ₹150 per kg."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch9",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "Demand",
+      "reason": "stem-is-not-a-question",
+      "stem": "At the beginning of the mango season the price of mangoes was ₹150 per kg and Srivalli bought only 1 kg. Later, more man"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iest1",
+    "chapters": [
+      9
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -67,7 +67,9 @@ def test_social_science_is_served_which_is_the_whole_point():
     corpus = load_corpus()
     ss = [r for r in corpus.records if r.get("subject") == "Social Science"]
     assert ss, "no Social Science records are served; the gap is still open"
-    assert all(r["grade"] == 10 for r in ss)
+    # Sample papers are class 10; the class 9 Social Science records are the model-written ones
+    # (corpus/ai-cbse-9-10), served only as a checked key.
+    assert all(r["grade"] == 10 for r in ss if r.get("source") != "ai_generated")
 
 
 # --- the gates ------------------------------------------------------------

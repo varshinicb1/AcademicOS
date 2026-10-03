@@ -1,0 +1,221 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess1:06:AR:101",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/manufacturing-industries"
+      ],
+      "taxonomyChapterId": "social-science-10/manufacturing-industries",
+      "topic": "Manufacturing Industries",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Read the following statements carefully:\n1. A fertilizer maker in India who blends nitrogen (N), phosphate (P) and potash (K) into complex fertilizer has to buy the potash part of the mix entirely from abroad.\n2. This is because the country does not have any reserves of commercially usable potash or potassium compounds in any form.\nSelect the correct answer. (A) Both the statements are true and statement 2 explains statement 1. (B) Both the statements are true but statement 2 does not explain statement 1. (C) Statement 1 is true but statement 2 is false. (D) Both the statements are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the statements are true and statement 2 explains statement 1.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "entirely imported as the country does not have",
+            "potassium compounds in any form."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the statements are true and statement 2 explains statement 1.",
+            "B": "Both the statements are true but statement 2 does not explain statement 1.",
+            "C": "Statement 1 is true but statement 2 is false.",
+            "D": "Both the statements are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess1 ch6",
+        "pages": [
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:06:AR:102",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/manufacturing-industries"
+      ],
+      "taxonomyChapterId": "social-science-10/manufacturing-industries",
+      "topic": "Manufacturing Industries",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Read the following statements carefully:\n1. Bengaluru has emerged as the electronic capital of India, and the major concentration of the electronics industry is at Bengaluru, Noida, Mumbai, Chennai, Hyderabad and Pune.\n2. Mumbai is the electronic capital of India, because the electronics industry there makes only telephones and cellular telecom equipment.\nSelect the correct answer. (A) Both the statements are true and statement 2 explains statement 1. (B) Both the statements are true but statement 2 does not explain statement 1. (C) Statement 1 is true but statement 2 is false. (D) Both the statements are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Statement 1 is true but statement 2 is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "emerged as the electronic capital of India. Other",
+            "industry concentration is at Bengaluru, Noida,",
+            "of products from transistor sets to television,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the statements are true and statement 2 explains statement 1.",
+            "B": "Both the statements are true but statement 2 does not explain statement 1.",
+            "C": "Statement 1 is true but statement 2 is false.",
+            "D": "Both the statements are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess1 ch6",
+        "pages": [
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:06:AR:103",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/manufacturing-industries"
+      ],
+      "taxonomyChapterId": "social-science-10/manufacturing-industries",
+      "topic": "Manufacturing Industries",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Read the following statements carefully:\n1. Automobile manufacturing in India is concentrated only at Bengaluru, Noida, Mumbai, Chennai, Hyderabad and Pune.\n2. Trucks, buses, cars, motor cycles, scooters and three-wheelers are brought into India from factories overseas, so those few cities alone meet the country's entire need for vehicles.\nSelect the correct answer. (A) Both the statements are true and statement 2 explains statement 1. (B) Both the statements are true but statement 2 does not explain statement 1. (C) Statement 1 is true but statement 2 is false. (D) Both the statements are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the statements are false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "industry is located around Delhi, Gurugram,",
+            "Indore, Hyderabad, Jamshedpur and",
+            "manufactured in India at various centres. After"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the statements are true and statement 2 explains statement 1.",
+            "B": "Both the statements are true but statement 2 does not explain statement 1.",
+            "C": "Statement 1 is true but statement 2 is false.",
+            "D": "Both the statements are false."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess1 ch6",
+        "pages": [
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess1",
+    "chapters": [
+      6
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

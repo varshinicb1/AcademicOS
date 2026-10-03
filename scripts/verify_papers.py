@@ -126,7 +126,8 @@ def _check_pdfs(client, auth, paper: dict, slug: str) -> list[str]:
             continue
         with pymupdf.open(stream=f.content, filetype="pdf") as doc:
             text = "".join(page.get_text() for page in doc)
-        if doc.page_count < 1 or len(text.strip()) < 200:
+            pages = doc.page_count
+        if pages < 1 or len(text.strip()) < 200:
             problems.append(f"the {fmt} PDF has no readable text")
         if "�" in text:
             problems.append(f"the {fmt} PDF holds replacement characters")

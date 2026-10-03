@@ -166,3 +166,17 @@ def test_the_audits_reproduction_over_http(tmp_path):
         params={"chapter_id": "mathematics-6/lines-and-angles", "limit": 1})
     assert r.status_code == 200, r.text
     assert r.json()["totalMatching"] > 0, r.json()
+
+
+def test_a_record_carrying_two_spellings_of_its_chapter_is_counted_once():
+    """40 listed, 38 searched: a question filed as "Heredity" (its taxonomy name) and "heredity" (its
+    chapter id) was one bucket's count twice."""
+    rec = {"id": "q1", "subject": "Science", "grade": 10, "marks": 2, "type": "short_answer",
+           "stem": "Why do traits of parents reach their offspring?", "chapterIds": ["heredity"],
+           "taxonomyChapterId": "science-10/heredity", "topic": "Heredity", "source": "cbse_board_paper",
+           "answerScheme": {"totalMarks": 2, "provenance": "cbse_marking_scheme", "modelAnswer": "genes",
+                            "markingPoints": [{"id": "a", "description": "genes", "marks": 2}]}}
+    corpus = Corpus([rec])
+    topics = [t for t in corpus.topics(subject="Science", grade=10, require_answer_key=False)
+              if t["topic"].lower() == "heredity"]
+    assert [t["count"] for t in topics] == [1], topics

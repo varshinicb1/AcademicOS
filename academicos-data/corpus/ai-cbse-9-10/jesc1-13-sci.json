@@ -1,0 +1,550 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:13:B:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/our-environment"
+      ],
+      "taxonomyChapterId": "science-10/our-environment",
+      "topic": "Eco-system — What Are Its Components?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Kavya's family is buying a refrigerator, and the model the shopkeeper offers is cooled with chlorofluorocarbons (CFCs). Which environmental problem does the use of this refrigerant add to?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Depletion of the ozone layer",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The ozone layer shields the surface of the earth from ultraviolet (UV) radiation",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Depletion of the ozone layer.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the 1980s. This decrease has been linked to synthetic chemicals like",
+            "chlorofluorocarbons (CFCs) which are used as refrigerants and in fire",
+            "in detail, that is, depletion of the ozone layer and waste disposal."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch13",
+        "pages": [
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:13:B:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/our-environment"
+      ],
+      "taxonomyChapterId": "science-10/our-environment",
+      "topic": "Eco-system — What Are Its Components?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Rohit spends a whole summer afternoon playing cricket in the open without a cap. Name one disease that he can develop from the radiation which the ozone layer normally shields him from.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Skin cancer",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It is caused by the ultraviolet (UV) radiation from the Sun",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Skin cancer.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "of the earth from ultraviolet (UV) radiation from the Sun. This radiation",
+            "is highly damaging to organisms, for example, it is known to cause skin",
+            "cancer in human beings."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch13",
+        "pages": [
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:13:B:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/our-environment"
+      ],
+      "taxonomyChapterId": "science-10/our-environment",
+      "topic": "Eco-system — What Are Its Components?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Anita's family bins the vegetable peels, used tea leaves and empty cartons along with the rest of the day's waste. Under which head is this material collected?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Kitchen waste",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It includes vegetable peels, used tea leaves, milk packets and empty cartons",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Kitchen waste.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the waste generated during a day, like kitchen waste (spoilt food,",
+            "vegetable peels, used tea leaves, milk packets and empty cartons),"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch13",
+        "pages": [
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:13:B:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/our-environment"
+      ],
+      "taxonomyChapterId": "science-10/our-environment",
+      "topic": "How Do Our Activities Affect the Environment?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Anita eats vegetables, fruit and meat every day. The pesticide residues in her food grow more and more concentrated at each trophic level, till the largest amount collects in the human body. Give the name of this phenomenon.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Biological magnification",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Human beings occupy the top level of the food chain, so the maximum concentration of the chemicals accumulates in our bodies",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Biological magnification.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "level in any food chain, the maximum concentration of these chemicals",
+            "get accumulated in our bodies. This phenomenon is known as biological",
+            "magnification. This is the reason why our food grains such as wheat"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch13",
+        "pages": [
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:13:E:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/our-environment"
+      ],
+      "taxonomyChapterId": "science-10/our-environment",
+      "topic": "Eco-system — What Are Its Components?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Every summer, fourteen-year-old Zoya trains on the school ground from noon to evening without a cap, and her mother keeps applying creams to her arms. Her cousin lives in a hill town where the air is cool and thin. Zoya's science teacher explains that high above them both, a layer of gas surrounds the earth and holds back the ultraviolet radiation that arrives from the Sun. This layer is thinning. The radiation that it normally holds back now reaches more of the ground, and it is highly damaging to every organism on the way down. Nobody notices this change from one day to the next.\n\n(a) Name the layer of gas that holds back the ultraviolet radiation arriving at the earth's surface. (b) Zoya's mother keeps applying creams to her arms after every practice session. State one effect this radiation has on human beings. (c) The layer is thinning, so the radiation now reaches more of the ground. Explain why this is a danger for living beings far away from Zoya's school ground as well.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Ozone. (b) It is known to cause skin cancer in human beings. (c) The layer surrounds the whole earth, so as it thins the damaging radiation reaches every place on the surface and harms all organisms, wherever they are.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "atmosphere, ozone performs an essential function. It shields the surface",
+            "of the earth from ultraviolet (UV) radiation from the Sun. This radiation",
+            "is highly damaging to organisms, for example, it is known to cause skin"
+          ],
+          "objective": false,
+          "passage": "Every summer, fourteen-year-old Zoya trains on the school ground from noon to evening without a cap, and her mother keeps applying creams to her arms. Her cousin lives in a hill town where the air is cool and thin. Zoya's science teacher explains that high above them both, a layer of gas surrounds the earth and holds back the ultraviolet radiation that arrives from the Sun. This layer is thinning. The radiation that it normally holds back now reaches more of the ground, and it is highly damaging to every organism on the way down. Nobody notices this change from one day to the next."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch13",
+        "pages": [
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:13:E:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/our-environment"
+      ],
+      "taxonomyChapterId": "science-10/our-environment",
+      "topic": "Eco-system — What Are Its Components?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A workshop in Ravi's colony repairs refrigerators, and the owner keeps a can of chlorofluorocarbon (CFC) gas on the shelf because an old unit needs it. The unit leaks slowly. Thousands of kilometres above the city, the amount of ozone in the atmosphere is falling sharply, and the fall began about four decades ago. In 1987 the United Nations Environment Programme succeeded in forging an agreement to freeze CFC production, and today every manufacturing company must make CFC-free refrigerators throughout the world. The workshop owner has heard none of this and has changed nothing.\n\n(a) The leaking unit in Ravi's colony and the falling ozone above the city are connected. Name the chemicals linked to this fall and state the two uses to which they are put. (b) Which organisation succeeded in forging the agreement on CFC production, and what must manufacturing companies make today? (c) The workshop owner has changed nothing even though CFCs are linked to the fall in ozone. Explain how his continued use of them can undo the benefit of that agreement.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Chlorofluorocarbons (CFCs), used as refrigerants and in fire extinguishers. (b) The United Nations Environment Programme (UNEP); CFC-free refrigerators throughout the world. (c) CFCs are linked to the sharp fall in atmospheric ozone, so every leaking old unit keeps the ozone layer depleted and lets the damaging radiation reach the earth.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the 1980s. This decrease has been linked to synthetic chemicals like",
+            "chlorofluorocarbons (CFCs) which are used as refrigerants and in fire\nextinguishers. In 1987, the United Nations Environment Programme",
+            "to make CFC-free refrigerators throughout the world."
+          ],
+          "objective": false,
+          "passage": "A workshop in Ravi's colony repairs refrigerators, and the owner keeps a can of chlorofluorocarbon (CFC) gas on the shelf because an old unit needs it. The unit leaks slowly. Thousands of kilometres above the city, the amount of ozone in the atmosphere is falling sharply, and the fall began about four decades ago. In 1987 the United Nations Environment Programme succeeded in forging an agreement to freeze CFC production, and today every manufacturing company must make CFC-free refrigerators throughout the world. The workshop owner has heard none of this and has changed nothing."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch13",
+        "pages": [
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:13:E:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/our-environment"
+      ],
+      "taxonomyChapterId": "science-10/our-environment",
+      "topic": "Eco-system — What Are Its Components?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Nikhil's class was told to find out what their own families throw away every day. The list they made was long: spoilt food, vegetable peels, used tea leaves, milk packets and empty cartons, then waste paper, empty medicine bottles, strips and bubble packs, and finally old torn clothes and broken footwear. When the teacher asked why any of it mattered, Nikhil quoted his grandmother: we are an integral part of the environment, and changes in the environment affect us just as our activities change the environment around us. So Nikhil's group dug a pit in the school garden and buried the collected material there.\n\n(a) Name the different kinds of material that appeared on Nikhil's class list. (b) State where Nikhil's group put the collected material, and what can be used if there is no space available in the school garden. (c) Nikhil quotes his grandmother to show why this matters. Using her two statements together, explain how a household that changes what it throws away can also change the environment, and how that changed environment acts on the household in return.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Kitchen waste, waste paper, empty medicine bottles and strips, old torn clothes, broken footwear. (b) A pit in the school garden; an old bucket if no space is available. (c) Our activities change the environment around us, so reducing what we throw away changes it; because such changes affect us in turn, the household feels them.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "We are an integral part of the environment. Changes in the environment",
+            "affect us and our activities change the environment around us. We have",
+            "Bury this material in a pit in the school garden or if there is no"
+          ],
+          "objective": false,
+          "passage": "Nikhil's class was told to find out what their own families throw away every day. The list they made was long: spoilt food, vegetable peels, used tea leaves, milk packets and empty cartons, then waste paper, empty medicine bottles, strips and bubble packs, and finally old torn clothes and broken footwear. When the teacher asked why any of it mattered, Nikhil quoted his grandmother: we are an integral part of the environment, and changes in the environment affect us just as our activities change the environment around us. So Nikhil's group dug a pit in the school garden and buried the collected material there."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch13",
+        "pages": [
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:13:E:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/our-environment"
+      ],
+      "taxonomyChapterId": "science-10/our-environment",
+      "topic": "How Do Our Activities Affect the Environment?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Pradeep's family eats rice, vegetables, fruit and meat bought from the market every day. A newspaper report told him that these foods carry varying amounts of pesticide residues, and that washing them does not always remove the residues. His grandmother grows vegetables in a kitchen garden, and Pradeep often wonders whether the family would be better off eating only what she grows. His father explained that the harm grows: the chemicals collected in the body increase progressively at each trophic level, and since human beings occupy the top level in any food chain, the maximum concentration gets accumulated in our bodies. Pradeep now reads every label before he buys.\n\n(a) Pradeep's father says the harm keeps growing as it moves along a food chain. Give the name of this phenomenon and state why human beings end up with the maximum concentration of these chemicals. (b) Pradeep now reads every label before he buys, even though washing the vegetables does not always remove the residues. Using the food his family eats and the way these chemicals build up in the body, explain why checking what he buys still matters.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Biological magnification; human beings occupy the top level in any food chain, so the maximum concentration of the chemicals accumulates in our bodies. (b) His food grains, vegetables, fruit and even meat carry varying amounts of pesticide residues that washing cannot always remove, so choosing food with less of them lowers what finally reaches the body.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "level in any food chain, the maximum concentration of these chemicals",
+            "get accumulated in our bodies. This phenomenon is known as biological",
+            "and rice, vegetables and fruits, and even meat, contain varying amounts"
+          ],
+          "objective": false,
+          "passage": "Pradeep's family eats rice, vegetables, fruit and meat bought from the market every day. A newspaper report told him that these foods carry varying amounts of pesticide residues, and that washing them does not always remove the residues. His grandmother grows vegetables in a kitchen garden, and Pradeep often wonders whether the family would be better off eating only what she grows. His father explained that the harm grows: the chemicals collected in the body increase progressively at each trophic level, and since human beings occupy the top level in any food chain, the maximum concentration gets accumulated in our bodies. Pradeep now reads every label before he buys."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch13",
+        "pages": [
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      13
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

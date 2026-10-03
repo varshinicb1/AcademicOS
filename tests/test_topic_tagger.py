@@ -432,6 +432,8 @@ def test_gold_set_covers_every_class_and_subject_the_banks_hold():
     held = set()
     for path in (EXEMPLAR, CBE, BOARD, SQP):
         for rec in json.loads(path.read_text(encoding="utf-8"))["questions"]:
+            if rec.get("source") == "ai_generated":
+                continue       # filed under a chapter by its generator; the tagger never places it
             subject, grade = question_subject(rec), question_grade(rec)
             if subject and grade:
                 held.add((subject, grade))

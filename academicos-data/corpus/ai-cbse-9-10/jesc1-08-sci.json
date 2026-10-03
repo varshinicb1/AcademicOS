@@ -1,0 +1,468 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:08:B:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/heredity"
+      ],
+      "taxonomyChapterId": "science-10/heredity",
+      "topic": "Accumulation of Variation During Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "In a bed of pea plants a student finds that plants carrying two ‘T’ factors and plants carrying a single ‘T’ factor are both tall, while plants carrying two ‘t’ factors are short. Write the factor combination that makes a plant short, and state how many copies of ‘T’ a tall plant needs.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "A short plant has the factor combination tt",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A single copy of ‘T’ is enough to make the plant tall",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A short plant has the factor combination tt; a tall plant needs only one copy of ‘T’.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In this explanation, both TT and Tt are tall plants, while only tt is a\nshort plant.",
+            "In other words, a single copy of ‘T’ is enough to make the\nplant tall, while both copies have to be ‘t’ for the plant to be short."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch8",
+        "pages": [
+          128,
+          129,
+          130,
+          131,
+          132,
+          133
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:08:B:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/heredity"
+      ],
+      "taxonomyChapterId": "science-10/heredity",
+      "topic": "Accumulation of Variation During Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A student crosses a tall pea plant with round seeds and a short pea plant with wrinkled seeds, and every plant in the first generation is tall and has round seeds. Name the two characteristics that behave in this way, and give the two terms used for traits of each kind.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The two characteristics are tallness and round seeds",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The two terms are dominant traits and recessive traits",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Tallness and round seeds; the two terms are dominant traits and recessive traits.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "They are all tall and have\nround seeds. Tallness and round seeds are thus dominant traits.",
+            "like ‘T’ are called dominant traits, while those that behave like ‘t’ are\ncalled recessive traits."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch8",
+        "pages": [
+          128,
+          129,
+          130,
+          131,
+          132,
+          133
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:08:B:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/heredity"
+      ],
+      "taxonomyChapterId": "science-10/heredity",
+      "topic": "Accumulation of Variation During Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A gardener finds that the height of his pea plants cannot be predicted from the shape of their seeds. Using what a cross between a tall plant with round seeds and a short plant with wrinkled seeds produces in the first and the second generation, state whether the two traits are inherited together or independently.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The tall/short trait and the round seed/wrinkled seed trait are inherited independently",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "New combinations such as tall with wrinkled seeds and short with round seeds appear in the second generation",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Independently.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "seed/wrinkled seed trait are independently inherited.",
+            "be tall, but have wrinkled seeds, while others would be short,\nbut have round seeds."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch8",
+        "pages": [
+          128,
+          129,
+          130,
+          131,
+          132,
+          133
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:08:B:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/heredity"
+      ],
+      "taxonomyChapterId": "science-10/heredity",
+      "topic": "Heredity",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A botanist finds an alteration in the gene for an enzyme that makes the enzyme less efficient, and the pea plant carrying it stays short instead of tall. Name the plant hormone whose amount decides the height of a plant, and state what happens to the amount of that hormone when the enzyme works efficiently.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The height of a plant depends on the amount of a particular plant hormone that can trigger growth",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "If the enzyme works efficiently, a lot of the hormone will be made",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A particular plant hormone that can trigger growth; when the enzyme works efficiently a lot of the hormone is made.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "have hormones that can trigger growth",
+            "depend on the amount of a particular plant hormone",
+            "efficiently, a lot of hormone will be made, and the plant will be"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch8",
+        "pages": [
+          128,
+          129,
+          130,
+          131,
+          132,
+          133
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:08:E:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/heredity"
+      ],
+      "taxonomyChapterId": "science-10/heredity",
+      "topic": "Accumulation of Variation During Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A plant breeder at a school garden crosses a tall pea plant carrying round seeds with a short pea plant carrying wrinkled seeds. To her surprise every plant in the first generation is tall and has round seeds, so she labels the second generation and waits. When the second generation grows, she finds tall plants with round seeds, short plants with wrinkled seeds, and two new kinds she has never seen before: tall plants with wrinkled seeds, and short plants with round seeds. She also wants to know why the tall plants came back at all.\n\nName the two terms used for traits such as tallness and round seeds that show in every plant of the first generation, and for traits that stay hidden in that generation. (ii) Both TT and Tt plants are tall while only tt plants are short. How many copies of ‘T’ make a plant tall, and what must both copies be for the plant to be short? (iii) The breeder gets plants that are tall but have wrinkled seeds in the second generation. Explain how such new combinations of traits are formed.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) The first are dominant traits, the second recessive traits. (ii) A single copy of ‘T’ makes a plant tall; both copies must be ‘t’ for a short plant. (iii) The factors controlling seed shape and seed colour recombine to form the zygote, so F2 offspring show new combinations of traits.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "like ‘T’ are called dominant traits, while those that behave like ‘t’ are\ncalled recessive traits.",
+            "In this explanation, both TT and Tt are tall plants, while only tt is a\nshort plant. In other words, a single copy of ‘T’ is enough to make the\nplant tall, while both copies have to be ‘t’ for the plant to be short.",
+            "shape and seed colour recombine to form zygote leading to form"
+          ],
+          "objective": false,
+          "passage": "A plant breeder at a school garden crosses a tall pea plant carrying round seeds with a short pea plant carrying wrinkled seeds. To her surprise every plant in the first generation is tall and has round seeds, so she labels the second generation and waits. When the second generation grows, she finds tall plants with round seeds, short plants with wrinkled seeds, and two new kinds she has never seen before: tall plants with wrinkled seeds, and short plants with round seeds. She also wants to know why the tall plants came back at all."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch8",
+        "pages": [
+          128,
+          129,
+          130,
+          131,
+          132,
+          133
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:08:E:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/heredity"
+      ],
+      "taxonomyChapterId": "science-10/heredity",
+      "topic": "Accumulation of Variation During Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Two gardeners, who live close to each other, compare their pea patches. One of them crosses a tall plant with round seeds and a short plant with wrinkled seeds, and every plant he gets in the first generation is tall with round seeds. When he uses these to produce the next generation by self-pollination, he finds, besides tall plants with round seeds and short plants with wrinkled seeds, some plants that are tall with wrinkled seeds and others that are short with round seeds. He wants to know how this is possible.\n\nHow does the gardener produce the next generation from his first-generation plants, and what is that generation called? (ii) Are the height trait and the seed-shape trait of the pea inherited together or independently of one another? State which, and name the two characteristics involved. (iii) One of his new plants is short but has round seeds. Explain how such a plant can still appear.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) By self-pollinating the first-generation plants; this is the second generation, or F2. (ii) They are inherited independently — the tall/short trait and the round/wrinkled seed trait. (iii) The factors for the two traits pass on separately, so a short plant can also receive the factor for round seeds and show that trait.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "But what happens when these F1 progeny are used to generate\nF2 progeny by self-pollination?",
+            "the tall/short trait and the round",
+            "seed/wrinkled seed trait are independently inherited."
+          ],
+          "objective": false,
+          "passage": "Two gardeners, who live close to each other, compare their pea patches. One of them crosses a tall plant with round seeds and a short plant with wrinkled seeds, and every plant he gets in the first generation is tall with round seeds. When he uses these to produce the next generation by self-pollination, he finds, besides tall plants with round seeds and short plants with wrinkled seeds, some plants that are tall with wrinkled seeds and others that are short with round seeds. He wants to know how this is possible."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch8",
+        "pages": [
+          128,
+          129,
+          130,
+          131,
+          132,
+          133
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:08:E:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/heredity"
+      ],
+      "taxonomyChapterId": "science-10/heredity",
+      "topic": "Heredity",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A student examines the pea plants in her school garden and sorts them by height. She finds that plants carrying two ‘T’ factors and plants carrying a single ‘T’ factor are both tall, but a plant carrying two ‘t’ factors is short. She also crosses a tall plant with round seeds and a short plant with wrinkled seeds, and every plant she gets in the first generation is tall with round seeds. Her friend says this second result proves that height and seed shape are inherited as one single unit, and she asks her teacher whether that is correct.\n\nState how many copies of ‘T’ a tall plant needs, and what both copies must be for a plant to be short. (ii) Her friend claims that height and seed shape are inherited as one single unit. Using the two characteristics you have been shown, judge her claim and give the reason.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) A single copy of ‘T’ is enough to make the plant tall; both copies must be ‘t’ for the plant to be short. (ii) Her claim is wrong. The tall/short trait and the round/wrinkled seed trait are inherited independently, so they are not passed on as one unit.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In other words, a single copy of ‘T’ is enough to make the\nplant tall, while both copies have to be ‘t’ for the plant to be short.",
+            "In this explanation, both TT and Tt are tall plants, while only tt is a\nshort plant.",
+            "seed/wrinkled seed trait are independently inherited."
+          ],
+          "objective": false,
+          "passage": "A student examines the pea plants in her school garden and sorts them by height. She finds that plants carrying two ‘T’ factors and plants carrying a single ‘T’ factor are both tall, but a plant carrying two ‘t’ factors is short. She also crosses a tall plant with round seeds and a short plant with wrinkled seeds, and every plant she gets in the first generation is tall with round seeds. Her friend says this second result proves that height and seed shape are inherited as one single unit, and she asks her teacher whether that is correct."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch8",
+        "pages": [
+          128,
+          129,
+          130,
+          131,
+          132,
+          133
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "E",
+      "qtype": "case_study",
+      "topic": "Accumulation of Variation During Reproduction",
+      "reason": "figure-not-in-text:10",
+      "stem": "(i) What is the section of DNA that provides information for one protein called, and on what does the height of a plant "
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      8
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

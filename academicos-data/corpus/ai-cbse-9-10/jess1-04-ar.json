@@ -1,0 +1,159 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess1:04:AR:101",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/agriculture"
+      ],
+      "taxonomyChapterId": "social-science-10/agriculture",
+      "topic": "Agriculture",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A shopkeeper sells rubber-lined gloves and rain boots, and a student at the counter asks how the rubber in them can be grown in states that lie well away from the equator. Consider the following statements. 1. Rubber is mainly grown in Kerala, Tamil Nadu, Karnataka and the Andaman and Nicobar islands and the Garo hills of Meghalaya. 2. Rubber is an equatorial crop, but under special conditions, it is also grown in tropical and sub-tropical areas. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "material. It is mainly grown in Kerala, Tamil\nNadu, Karnataka and Andaman and Nicobar",
+            "islands and Garo hills of Meghalaya.",
+            "Rubber: It is an equatorial crop, but under"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess1 ch4",
+        "pages": [
+          1,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:04:AR:102",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/agriculture"
+      ],
+      "taxonomyChapterId": "social-science-10/agriculture",
+      "topic": "Agriculture",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A handicraft shopkeeper is choosing the fibre for strong carry bags and floor mats, and has asked the students in his shop which states supply jute and what it is used for. Consider the following statements. 1. West Bengal, Bihar, Assam, Odisha and Meghalaya are the major jute producing states, and jute is used in making gunny bags, mats, ropes, yarn, carpets and other artefacts. 2. Jute needs a cool and dry climate, so no high temperature is required during the time of growth. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The assertion is true but the reason is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "of growth. West Bengal, Bihar, Assam, Odisha",
+            "and Meghalaya are the major jute producing",
+            "High temperature is required during the time"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess1 ch4",
+        "pages": [
+          1,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "AR",
+      "qtype": "assertion_reason",
+      "topic": "",
+      "reason": "figure-not-in-text:10",
+      "stem": "A Class 10 student is preparing a project on Indian tea and wants to begin it with the country's standing among the tea "
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess1",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

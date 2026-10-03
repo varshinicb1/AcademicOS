@@ -1,0 +1,36 @@
+{
+  "questions": [],
+  "refusals": [
+    {
+      "section": "AR",
+      "qtype": "assertion_reason",
+      "topic": "The Invention of Writing: Before and After",
+      "reason": "evidence-not-in-text",
+      "stem": "While making short notes on how early humans lived in different surroundings, a Class 9 student writes the following two"
+    },
+    {
+      "section": "AR",
+      "qtype": "assertion_reason",
+      "topic": "The Invention of Writing: Before and After",
+      "reason": "evidence-not-in-text",
+      "stem": "In a school museum a student is looking at stone hand axes and cleavers that were discovered in parts of Asia and Europe"
+    },
+    {
+      "section": "AR",
+      "qtype": "assertion_reason",
+      "topic": "The Invention of Writing: Before and After",
+      "reason": "evidence-not-in-text",
+      "stem": "A student is preparing an information board about modern humans for a school exhibition. Before fixing it up, the studen"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iest1",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}
