@@ -436,7 +436,8 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
               children: [
                 Expanded(
                   child: DropdownButtonFormField<int>(
-                    value: _selectedGrade,
+                    key: ValueKey('grade_dropdown_$_selectedGrade'),
+                    initialValue: _selectedGrade,
                     decoration: const InputDecoration(labelText: 'Grade *'),
                     items: List.generate(12, (i) => i + 1).map((g) => DropdownMenuItem(value: g, child: Text('Grade $g'))).toList(),
                     onChanged: (v) {
@@ -459,7 +460,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                 Expanded(
                   child: DropdownButtonFormField<String>(
                     key: ValueKey('subject_dropdown_${_selectedGrade}_$_selectedSubject'),
-                    value: _selectedSubject,
+                    initialValue: _selectedSubject,
                     isExpanded: true,
                     decoration: const InputDecoration(labelText: 'Subject *'),
                     items: subjectsForGrade(_selectedGrade)

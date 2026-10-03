@@ -162,7 +162,6 @@ class _MobileScanPageState extends State<MobileScanPage> {
     try {
       final result = await FilePicker.pickFiles(
         type: FileType.image,
-        allowMultiple: true,
       );
       if (result == null) return;
       for (final f in result.files) {

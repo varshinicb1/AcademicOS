@@ -276,7 +276,8 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<int>(
-                      value: selectedGrade,
+                      key: ValueKey('quick_grade_$selectedGrade'),
+                      initialValue: selectedGrade,
                       decoration: const InputDecoration(labelText: 'Class'),
                       items: const [
                         DropdownMenuItem(value: 12, child: Text('Class 12')),
@@ -298,7 +299,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                     const SizedBox(height: 12),
                     DropdownButtonFormField<String>(
                       key: ValueKey('quick_subject_${selectedGrade}_$selectedSubject'),
-                      value: selectedSubject,
+                      initialValue: selectedSubject,
                       decoration: const InputDecoration(labelText: 'Subject'),
                       items: _quickPaperSubjectsForGrade(selectedGrade)
                           .map((s) => DropdownMenuItem(value: s, child: Text(s)))

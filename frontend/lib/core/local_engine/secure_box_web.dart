@@ -1,7 +1,6 @@
 import 'dart:convert';
-import 'dart:html' as html;
-
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:web/web.dart' as web;
 
 /// Web key storage: `path_provider`'s `getApplicationSupportDirectory()` and
 /// `dart:io`'s `File` have no web implementation -- calling either crashed
@@ -12,11 +11,11 @@ import 'package:hive_flutter/hive_flutter.dart';
 /// storage is isolated by the browser itself, matching the same "private to
 /// this app, not readable by others" property the native file gave.
 Future<List<int>> getOrCreateSecureKey(String keyFileName) async {
-  final existing = html.window.localStorage[keyFileName];
+  final existing = web.window.localStorage.getItem(keyFileName);
   if (existing != null) {
     return base64Decode(existing);
   }
   final key = Hive.generateSecureKey();
-  html.window.localStorage[keyFileName] = base64Encode(key);
+  web.window.localStorage.setItem(keyFileName, base64Encode(key));
   return key;
 }
