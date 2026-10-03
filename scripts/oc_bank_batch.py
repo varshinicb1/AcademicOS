@@ -114,6 +114,20 @@ def answer(work: Path, folder: str, model: str, timeout_min: int, stall_min: int
     return len(list(d.glob("r*.json")))
 
 
+def claim(work: Path, folder: str, lane: str) -> bool:
+    """Take a chapter for this lane. A claim is a file made atomically, so two lanes never take
+    the same chapter; a lane's own earlier claim (a restart) is still its own."""
+    (work / "claims").mkdir(exist_ok=True)
+    path = work / "claims" / f"{folder}.claim"
+    try:
+        fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+    except FileExistsError:
+        return path.read_text(encoding="utf-8").strip() == lane
+    with os.fdopen(fd, "w", encoding="utf-8") as f:
+        f.write(lane)
+    return True
+
+
 def one_chapter(book: str, number: int, args, language: str) -> str:
     work = Path(args.work)
     folder = f"{book}-{number:02d}"
@@ -161,6 +175,10 @@ def main() -> int:
     ap.add_argument("--model", default=MODEL)
     ap.add_argument("--timeout-min", type=int, default=35)
     ap.add_argument("--stall-min", type=int, default=12)
+    ap.add_argument("--lane", default="main",
+                    help="a name for this driver; two lanes (one with --reverse) can run at once")
+    ap.add_argument("--reverse", action="store_true",
+                    help="take the plan's chapters from the end, so a second lane meets the first in the middle")
     ap.add_argument("--reingest", action="store_true",
                     help="validate and rewrite chapters already done, from the answers on disk "
                          "(after a change to the validator or the record format); no model is called "
@@ -169,7 +187,7 @@ def main() -> int:
     work = Path(args.work)
     if not OPENCODE.is_file() or not (work / "BRIEF.md").is_file():
         raise SystemExit(f"needs {OPENCODE} and {work / 'BRIEF.md'}")
-    lock = work / "oc_bank_batch.lock"
+    lock = work / ("oc_bank_batch.lock" if args.lane == "main" else f"oc_bank_batch.{args.lane}.lock")
     if lock.exists():
         raise SystemExit(f"{lock} exists: another batch is running (delete it if that is not so)")
     lock.write_text(str(os.getpid()))
@@ -184,11 +202,15 @@ def main() -> int:
         if args.only:
             b, n = args.only.split(":")
             todo = [(b, int(n))]
+        elif args.reverse:
+            todo.reverse()
         for book, number in todo:
             if args.limit and attempted >= args.limit:
                 break
             if (OUT_DIR / f"{book}-{number:02d}.json").exists() and not args.reingest:
                 continue
+            if not claim(work, f"{book}-{number:02d}", args.lane):
+                continue            # the other lane has it
             attempted += 1
             result = one_chapter(book, number, args, books[book].get("language") or "en")
             log(work, folder=f"{book}-{number:02d}", event="result", result=result)

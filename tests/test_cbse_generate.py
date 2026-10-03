@@ -1017,3 +1017,36 @@ def test_an_invented_quote_fails_even_line_by_line():
              "and nothing else is.")
     item = _grounded_item(stem="Why does irrigation degrade land?", evidence=[quote])
     assert mod.ungrounded(item, INTERLEAVED_TEXT) == "evidence-not-in-text"
+
+
+HINDI_TEXT = (
+    "आज ऐसा कुछ हुआ होगा\n"
+    "खूब\n"
+    "किसलिए इतनी तृषा रे,\n"
+    "भीतर\n"
+    "आज सबका मन चुआ होगा।\n"
+)
+
+
+def test_a_hindi_quote_is_checked_against_the_text_not_waved_through():
+    # The normaliser kept only ASCII, so every Hindi line became nothing and every Hindi
+    # question was refused as having no evidence in the text.
+    mod = _gen_script("gen_chapter_hindi")
+    item = _grounded_item(stem="इस पंक्ति में कौन-सा शब्द प्यास का भाव देता है?",
+                          options={"A": "तृषा", "B": "मन", "C": "आज", "D": "रे"}, correctOption="A",
+                          modelAnswer="तृषा",
+                          evidence=["किसलिए इतनी तृषा रे,\nआज सबका मन चुआ होगा।"])
+    assert mod.ungrounded(item, HINDI_TEXT) is None
+
+
+def test_an_invented_hindi_quote_is_refused():
+    mod = _gen_script("gen_chapter_hindi_invented")
+    item = _grounded_item(stem="इस पंक्ति में कौन-सा शब्द प्यास का भाव देता है?", modelAnswer="तृषा",
+                          evidence=["किसलिए इतनी प्यास लगी है तुम्हें"])
+    assert mod.ungrounded(item, HINDI_TEXT) == "evidence-not-in-text"
+
+
+def test_a_hindi_stem_ending_in_a_danda_is_a_stem_that_asks():
+    assert cg._is_a_question("इस कविता का मूल भाव अपने शब्दों में स्पष्ट कीजिए।")
+    assert cg._is_a_question("कवि ने सावन को किसका प्रतीक माना है?")
+    assert not cg._is_a_question("कविता में सावन का वर्णन है")

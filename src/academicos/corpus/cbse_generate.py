@@ -474,7 +474,8 @@ def _is_a_question(stem: str) -> bool:
         return False
     if text.endswith("?"):
         return True
-    if not text.endswith((".", "!", ":")):
+    # । and ॥ are the danda and double danda: how a Hindi sentence ends.
+    if not text.endswith((".", "!", ":", "।", "॥")):
         return False
     lowered = text.lower()
     if lowered.startswith(("state ", "write ", "list ", "name ", "mention ",

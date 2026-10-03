@@ -26,6 +26,7 @@ import os
 import re
 import sys
 import time
+import unicodedata
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -460,9 +461,14 @@ def chapter_pdf(book_code: str, number: int) -> Path:
 
 
 def _squash(text: str) -> str:
-    """Case, spacing and quote style folded away, so a quote survives a line wrap."""
-    text = (text or "").replace("’", "'").replace("‘", "'")         .replace("“", '"').replace("”", '"')
-    return re.sub(r"[^0-9a-z]+", " ", text.lower()).strip()
+    """Case, spacing and punctuation folded away, so a quote survives a line wrap.
+
+    Letters, combining marks (a Devanagari vowel sign is one) and digits of every script are
+    kept; everything else, quotes and the danda included, is a space. Only ASCII used to be
+    kept, which turned every Hindi line into nothing and refused every Hindi question."""
+    text = unicodedata.normalize("NFKC", text or "")
+    kept = "".join(c if unicodedata.category(c)[0] in "LMN" else " " for c in text.lower())
+    return re.sub(r"\s+", " ", kept).strip()
 
 
 def _quoted_in(quote: str, haystack: str) -> bool:
