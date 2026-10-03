@@ -120,13 +120,20 @@ jobs:
           python-version: '3.12'
           cache: 'pip'
 
-      # All extras, matching the environment the suite was verified in, plus
-      # `postgres` -- which the Dockerfile installs but this list originally
-      # omitted. Without it the Cloud SQL adapter tests below do not skip (the
-      # service and ACOS_TEST_PG_* are set), they error on a missing psycopg
-      # import, which is a worse failure than either skipping or passing.
-      - name: Install academicos with all extras
-        run: pip install -e ".[dev,api,ocr,retrieval,parse-vlm,mobile-scan,gcs,postgres,mcp]"
+      # The extras the suite needs, not every extra. `parse-vlm` (torch, transformers)
+      # and `retrieval` (sentence-transformers, which pulls torch too) are several GB
+      # of CUDA wheels, and installing them filled the runner's disk (`OSError: [Errno
+      # 28] No space left on device`, run 37102901738), so the gate failed before a
+      # single test ran. No test imports either: the rerank tests stub
+      # `sentence_transformers` out to check the fallback, the embedding tagger loads
+      # its model lazily, and the VLM parser is never imported by the suite. The
+      # production image installs what it needs in the Dockerfile, not here.
+      #
+      # `postgres` stays, which the Dockerfile installs: without it the Cloud SQL
+      # adapter tests below do not skip (the service and ACOS_TEST_PG_* are set),
+      # they error on a missing psycopg import.
+      - name: Install academicos with the extras the suite uses
+        run: pip install -e ".[dev,api,ocr,mobile-scan,gcs,postgres,mcp]"
 
       - name: Run the real test suite
         run: pytest tests/ -q
