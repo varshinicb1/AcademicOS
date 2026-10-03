@@ -21,6 +21,7 @@ not support that section, not a reason to loosen the check.
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import json
 import os
 import re
@@ -36,6 +37,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from academicos.corpus import cbse_blueprint as bp            # noqa: E402
 from academicos.corpus import cbse_generate as cg             # noqa: E402
+from academicos.corpus import hindi_ocr as ho                   # noqa: E402
 from academicos.corpus import textbook as tb                  # noqa: E402
 
 BOOKS = Path(r"C:\Users\varsh\OneDrive\Documents\Sarvam\ncert-dataset\textbooks\chapters")
@@ -548,6 +550,16 @@ def bridge_call(folder: Path, index: int, system: str, schema: dict, user: str,
     return None
 
 
+def prefer_ocr(chapter: cg.Chapter) -> cg.Chapter:
+    """A Hindi chapter whose PDF text layer is not Hindi (a legacy font), read from its OCR cache
+    instead. Anything else, and a chapter not yet OCR'd, is returned as it was: the batch then
+    skips it for its text, naming the reason, rather than set questions from the wrong characters."""
+    if chapter.language != "hi" or ho.devanagari_share(chapter.text) >= ho.DEVANAGARI_SHARE_MIN:
+        return chapter
+    cached = ho.load(chapter.book_code, chapter.number)
+    return dataclasses.replace(chapter, pages=tuple(cached)) if cached else chapter
+
+
 def generate_chapter(book_code: str, number: int, *, mark_budget: int,
                      model: str, provider: str = 'gemini', tiered: bool = True,
                      delay: float = 0.0, per_call: int = 3,
@@ -581,6 +593,7 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
     chapter = cg.read_chapter(
         pdf, book_code=book_code, subject=subject, grade=grade,
         language=book.get("language") or "en", number=number, title=title)
+    chapter = prefer_ocr(chapter)
     if not chapter.pages:
         raise SystemExit(f"{pdf} extracted no text")
 
