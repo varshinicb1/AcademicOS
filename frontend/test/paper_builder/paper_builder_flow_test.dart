@@ -183,8 +183,10 @@ void main() {
     await tester.scrollUntilVisible(find.byKey(const ValueKey('availability-summary')), -200,
         scrollable: find.byType(Scrollable).first);
     expect(find.text('1 of 5 sections cannot be filled from 6 chapters.'), findsOneWidget);
-    expect(find.text('Section E - Source / case based needs 3 × 4-mark, bank has 0 in these chapters.'),
+    expect(find.text('Section E - Source / case based needs 3 × 4-mark, 0 fit from these chapters.'),
         findsOneWidget);
+    // How short, in marks (QA P-18): A 20 + B 12 + C 21 + D 15, and E none.
+    expect(find.text('The paper would print 68 of 80 marks — 12 short.'), findsOneWidget);
     expect(primaryLabel(tester), 'Generate anyway (1 section short)');
     expect(calls(api, 'POST', (p) => p.contains('generate')), isEmpty, reason: 'gaps are shown BEFORE generating');
     expectPhoneReady(tester);
@@ -261,8 +263,11 @@ void main() {
     await tester.tap(find.text('Set B'));
     await tester.pumpAndSettle();
     expect(calls(api, 'GET', (p) => p.endsWith('_set_B')).single.status, 200);
-    expect(find.textContaining('Set B is Set A reordered'), findsOneWidget);
-    expect(find.text('Swap'), findsNothing, reason: 'sets are edited through set A');
+    // Set B prints its own questions, and says so (QA P-10: "Set B is Set
+    // A reordered" was untrue, and a Set B question could not be changed).
+    expect(find.byKey(const ValueKey('set-explained')), findsOneWidget);
+    expect(find.textContaining('reordered'), findsNothing);
+    expect(find.text('Swap'), findsWidgets, reason: 'Set B is edited by its own id');
     await tester.tap(find.text('Set A'));
     await tester.pumpAndSettle();
 
@@ -270,7 +275,7 @@ void main() {
     await tester.tap(primary());
     await tester.pumpAndSettle();
     expect(find.text('Your paper is saved'), findsOneWidget);
-    expect(find.text('Make another like this'), findsOneWidget);
+    expect(find.text('Make and save another like this'), findsOneWidget);
     expectPhoneReady(tester);
     await tester.tap(primary());
     await tester.pumpAndSettle();
@@ -297,7 +302,7 @@ void main() {
         .cast<String>()
         .toList()
       ..sort();
-    await tester.tap(find.text('Make another like this'));
+    await tester.tap(find.text('Make and save another like this'));
     await tester.pumpAndSettle();
     final another = calls(api, 'POST', (p) => p == '/papers/generate-from-template').last;
     expect(another.status, 200);
@@ -319,10 +324,18 @@ void main() {
     expect((memory.grade, memory.subject, memory.templateId), (10, 'Science', halfYearly['id']));
   });
 
-  testWidgets('a remembered class, subject and template: one tap from opening to the chapters', (tester) async {
+  testWidgets('a remembered class, subject and template: offered, not chosen; then one tap to the chapters',
+      (tester) async {
     BuilderMemory(fixtureTeacherId)
         .remember(grade: 10, subject: 'Science', templateId: 'preset:cbse:10:science:half_yearly');
     final (api, _) = await pumpBuilder(tester);
+    // A new paper starts at the class (QA P-25), with the last one a tap away.
+    expect(find.text('Which class is this paper for?'), findsOneWidget);
+    expect(api.requests.where((r) => r.path.endsWith('/teacher-templates')), isEmpty);
+    expect(find.text('Continue where you left off'), findsOneWidget);
+    expectPhoneReady(tester);
+    await tester.tap(find.text('Continue with Class 10 Science'));
+    await tester.pumpAndSettle();
     expect(find.text('Class 10 · Science'), findsOneWidget);
     expect(primaryLabel(tester), 'Use "Class 10 Science - Half-Yearly Examination"');
     expectPhoneReady(tester);
@@ -347,6 +360,8 @@ void main() {
       (tester) async {
     BuilderMemory(fixtureTeacherId).remember(grade: 10, subject: 'Science');
     final (api, _) = await pumpBuilder(tester);
+    await tester.tap(find.text('Continue with Class 10 Science'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('New template'));
     await tester.pumpAndSettle();
 
@@ -415,7 +430,9 @@ void main() {
     await tester.scrollUntilVisible(find.byKey(const ValueKey('availability-summary')), -200,
         scrollable: find.byType(Scrollable).first);
     expect(find.text('The bank has nothing for this paper in 2 chapters yet.'), findsOneWidget);
-    expect(find.text('Section A - Objective needs 6 × 1-mark, bank has 0 in these chapters.'), findsOneWidget);
+    expect(find.text('Section A - Objective needs 6 × 1-mark, 0 fit from these chapters.'), findsOneWidget);
+    expect(find.byKey(const ValueKey('availability-marks')), findsNothing, reason: 'nothing at all can print');
+    expect(find.byKey(const ValueKey('availability-competency')), findsNothing);
     expect(find.text('The bank has no Class 7 Mathematics questions yet.'), findsWidgets);
     expect(primaryLabel(tester), 'Nothing to generate yet');
     expect(primaryEnabled(tester), isFalse);

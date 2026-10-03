@@ -198,7 +198,7 @@ void main() {
     final assignCard = find.ancestor(of: find.text('Assign Teacher'), matching: find.byType(Column)).first;
     await _pick(tester, find.descendant(of: assignCard, matching: _dropdownLabelled('Teacher')),
         'Tara Teacher (t@school.invalid)');
-    await _pick(tester, find.descendant(of: assignCard, matching: _dropdownLabelled('Grade')), 'Grade 10');
+    await _pick(tester, find.descendant(of: assignCard, matching: _dropdownLabelled('Class')), 'Grade 10');
     await _pick(tester, find.descendant(of: assignCard, matching: _dropdownLabelled('Subject')), 'Mathematics');
 
     await tester.tap(find.text('Assign Teacher'));
@@ -239,7 +239,7 @@ void main() {
     _backend.previousScheduled = 12;
     await _openPage(tester);
     final card = find.byKey(const ValueKey('book-editions-card'));
-    await _pick(tester, find.descendant(of: card, matching: _dropdownLabelled('Grade')), 'Grade 10');
+    await _pick(tester, find.descendant(of: card, matching: _dropdownLabelled('Books for class')), 'Grade 10');
 
     final picker = find.byKey(const ValueKey('book-edition-subj_math'));
     expect(find.descendant(of: picker, matching: find.text('Mathematics (chosen edition)')), findsOneWidget,
@@ -262,7 +262,7 @@ void main() {
   testWidgets('a saved choice is not reported as a failure when the refresh fails', (tester) async {
     await _openPage(tester);
     final card = find.byKey(const ValueKey('book-editions-card'));
-    await _pick(tester, find.descendant(of: card, matching: _dropdownLabelled('Grade')), 'Grade 10');
+    await _pick(tester, find.descendant(of: card, matching: _dropdownLabelled('Books for class')), 'Grade 10');
 
     // The PUT lands; only the list refresh after it fails.
     _backend.failListBooks = true;
@@ -280,7 +280,7 @@ void main() {
       (tester) async {
     await _openPage(tester);
     final card = find.byKey(const ValueKey('book-editions-card'));
-    await _pick(tester, find.descendant(of: card, matching: _dropdownLabelled('Grade')), 'Grade 10');
+    await _pick(tester, find.descendant(of: card, matching: _dropdownLabelled('Books for class')), 'Grade 10');
 
     // The usual case: whatever refuses the PUT refuses the reload too.
     _backend.failSelect = true;

@@ -1,10 +1,10 @@
 // Task 801: the teacher's list of papers -- the way in to both paper flows
-// (Quick paper and New Assessment) -- at phone, tablet and laptop widths.
-// Its two AppBar actions are the only route to a paper from this screen on a
-// phone, so they have to be thumb-sized as well as on screen.
+// (Quick paper and New paper) -- at phone, tablet and laptop widths.
+// Its AppBar actions (Quick paper, Refresh) and the New paper button are
+// how a phone reaches a paper from here: thumb-sized as well as on screen.
 //
 // The list itself is seeded rather than left empty. An empty list renders the
-// centred "No assessments yet" text (assessment_list_page._buildList), so a
+// centred "No papers yet" text (assessment_list_page._buildList), so a
 // test run against it proves the AppBar and the FAB fit and nothing at all
 // about the row that has to survive 375 px: `Row [Expanded(title + subtitle),
 // ChipTag(status)]`, an unbounded chip beside an Expanded -- the same shape
@@ -93,10 +93,10 @@ void main() {
       expectNoOverflow(tester);
       // The seeded rows, not the empty-state text: the row with the long
       // title and the widest status chip is the one that can overflow.
-      expect(find.text('No assessments yet.\nTap "New Assessment" to build one with the AI Assessment Designer.'),
+      expect(find.text('No papers yet. Start one with New paper.'),
           findsNothing);
       expect(find.text(_longTitle), findsOneWidget);
-      expect(find.text('Science · Grade 10 · 80 marks'), findsOneWidget);
+      expect(find.text('Science · Class 10 · 80 marks'), findsOneWidget);
       expect(find.text(AssessmentStatus.remediationSent.label), findsOneWidget);
       expect(find.text(_shortTitle), findsOneWidget);
 
@@ -108,12 +108,12 @@ void main() {
               '${size.size.width.toInt()} px screen');
 
       expectActionReady(tester, find.byTooltip('Quick paper (CBSE pattern)'), size, label: 'Quick paper');
-      expectActionReady(tester, find.byTooltip('Create assessment'), size, label: 'Create assessment');
+      expectActionReady(tester, find.byTooltip('Refresh'), size, label: 'Refresh');
       expectActionReady(tester, find.byType(FloatingActionButton), size, label: 'New paper');
     });
   }
 
-  testWidgets('in a desktop-UA browser at phone width both AppBar icons are still 48 px', (tester) async {
+  testWidgets('in a desktop-UA browser at phone width both AppBar actions are still 48 px', (tester) async {
     // The same two icons on the density a desktop browser narrowed to 375 px
     // gets (`compact`, -8 -8), which the tests above cannot reach because
     // flutter_test pins the platform to android (review of 2026-09-23).
@@ -125,8 +125,8 @@ void main() {
       expectNoOverflow(tester);
       expectActionReady(tester, find.byTooltip('Quick paper (CBSE pattern)'), phoneScreen,
           label: 'Quick paper on a desktop density');
-      expectActionReady(tester, find.byTooltip('Create assessment'), phoneScreen,
-          label: 'Create assessment on a desktop density');
+      expectActionReady(tester, find.byTooltip('Refresh'), phoneScreen,
+          label: 'Refresh on a desktop density');
     });
   });
 }

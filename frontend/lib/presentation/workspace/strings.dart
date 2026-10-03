@@ -18,6 +18,14 @@ bool get uiHindi {
 
 void setUiLanguage(String code) => LocalStore.instance.box.put(_key, code);
 
+/// Which screens Hindi covers, said wherever the language is chosen. The
+/// School page offered "हिन्दी में देखें" while Settings listed English only,
+/// "not translated yet", and kept a setting of its own that nothing read
+/// (QA S-16). Both now change the one setting above and say the same.
+const hindiCoverage = 'Hindi covers the School page and its tiles, Today, My day, My week, homework, '
+    'leave, the term report, the question bank and the phone apps\' tabs. The side menu, Papers, the '
+    'admin console and Settings stay in English for now.';
+
 String tr(String en) => uiHindi ? (_hi[en] ?? en) : en;
 
 const _hi = <String, String>{

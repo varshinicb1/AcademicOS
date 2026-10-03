@@ -206,19 +206,46 @@ class PaperBuilderController extends ChangeNotifier {
 
   // ---------------------------------------------------------------- start
 
-  /// Opens where the teacher left off: a remembered class and subject go
-  /// straight to the templates (one tap to change), a remembered template is
-  /// pre-selected so "Next" is the only tap left.
+  /// The class and subject of the teacher's last paper, offered on the first
+  /// step as "Continue where you left off"; null when there is none the bank
+  /// can still set a paper in.
+  ({int grade, String subject})? lastTime;
+
+  /// A new paper starts at the class and subject, with the last paper's
+  /// offered as one tap ([continueLastTime]). It used to reopen the last
+  /// paper's class, subject and template at step 2, which a teacher setting
+  /// a different paper took for a mistake (QA P-25). "Quick paper" is the
+  /// exception: it is the one-tap way to a paper, so a remembered class goes
+  /// straight to its CBSE pattern.
   Future<void> start() async {
     await loadCatalog();
     final g = memory.grade, s = memory.subject;
-    if (g != null && s != null && subjectsFor(g).contains(s)) {
-      grade = g;
-      subject = s;
-      step = BuilderStep.template;
+    if (g == null || s == null || !subjectsFor(g).contains(s)) return;
+    if (!quick) {
+      lastTime = (grade: g, subject: s);
       _changed();
-      await loadTemplates();
+      return;
     }
+    grade = g;
+    subject = s;
+    step = BuilderStep.template;
+    _changed();
+    await loadTemplates();
+  }
+
+  /// "Continue where you left off": the last class and subject, on to the
+  /// templates with the last template chosen -- "Use" is the only tap left.
+  Future<void> continueLastTime() async {
+    final last = lastTime;
+    if (last == null) return;
+    if (grade != last.grade || subject != last.subject) {
+      grade = last.grade;
+      subject = last.subject;
+      _resetFromTemplates();
+    }
+    step = BuilderStep.template;
+    _changed();
+    if (templates == null) await loadTemplates();
   }
 
   /// Which subjects the bank can set a paper in, read once per builder.
@@ -355,12 +382,15 @@ class PaperBuilderController extends ChangeNotifier {
     _changed();
     try {
       templates = await api.listTemplates(schoolId, grade: grade!, subject: subject!);
-      final remembered = memory.templateId;
-      template ??= templates!.all.where((t) => t.id == remembered).firstOrNull;
       if (quick && template == null) {
+        // "Quick paper (CBSE pattern)" is the class's CBSE annual pattern,
+        // whatever was used last: the remembered template won, so it opened
+        // a class 8 periodic test or a teacher's own class test (QA P-14).
         template = templates!.presets.where((t) => t.examType == 'annual').firstOrNull ??
             templates!.presets.firstOrNull;
       }
+      final remembered = memory.templateId;
+      template ??= templates!.all.where((t) => t.id == remembered).firstOrNull;
     } catch (e) {
       templatesError = serverErrorMessage(e);
       templatesRetryable = isRetryable(e);
@@ -802,9 +832,8 @@ class PaperBuilderController extends ChangeNotifier {
   int get paperMarks => paper?.sections.fold<int>(0, (s, x) => s + x.totalMarks) ?? 0;
   int get paperQuestions => paper?.sections.fold<int>(0, (s, x) => s + x.questions.length) ?? 0;
 
-  /// Shows another set. A set is edited through set A (the server applies a
-  /// swap or pick to every set), so a set shown after an edit is fetched
-  /// fresh rather than read from the generate response.
+  /// Shows another set. A set shown after an edit is fetched fresh rather
+  /// than read from the generate response: a removal reaches every set.
   Future<void> showSet(String label) async {
     viewingSet = label;
     setError = null;
@@ -841,70 +870,112 @@ class PaperBuilderController extends ChangeNotifier {
     ];
   }
 
+  /// The key a slot's busy state, error and notes are kept under: the slot
+  /// itself on Set A, "B:7" on Set B -- each set has its own question 7.
+  String slotKey(String slot) => viewingSet == 'A' ? slot : '$viewingSet:$slot';
+
+  /// The paper id an edit on the set on screen goes to. Sets B and C print
+  /// their own questions (the server's `setOverlap` is 0), so each is edited
+  /// by its own id; the "Set B is Set A reordered" this replaced was untrue
+  /// and left a garbled Set B question with no way to change it (QA P-10).
+  String? get _shownId => viewingSet == 'A' ? paper?.id : setIds[viewingSet];
+
   /// Removes question [slot] (with its OR) or only an alternative
-  /// ("7_OR"), from the paper and every set. The numbers after it move up,
-  /// so notes and errors kept under the old numbers are dropped.
+  /// ("7_OR"). The server takes the question in the same place out of every
+  /// set, so the sets stay the same paper in shape. The numbers after it
+  /// move up, so notes and errors kept under the old numbers are dropped.
   Future<void> remove(String slot) async {
-    final p = paper;
-    if (p == null || busySlots.contains(slot)) return;
-    final sectionId = p.sections
+    final shown = shownPaper;
+    final id = _shownId;
+    final key = slotKey(slot);
+    if (shown == null || id == null || busySlots.contains(key)) return;
+    final sectionId = shown.sections
         .firstWhere((s) => s.questions.any((q) => '${q.displayNumber}' == slot.split('_').first))
         .sectionId;
-    busySlots.add(slot);
-    slotErrors.remove(slot);
+    busySlots.add(key);
+    slotErrors.remove(key);
     _changed();
     try {
-      final r = await api.remove(p.id, slot);
-      paper = r.paper;
+      final r = await api.remove(id, slot);
       _setPapers.clear();
+      if (viewingSet == 'A') {
+        paper = r.paper;
+      } else {
+        _setPapers[viewingSet] = r.paper;
+        // Set A lost its question in the same place.
+        paper = await api.getPaper(paper!.id);
+      }
       downloaded.clear();
       slotNotes.clear();
       slotErrors.clear();
       if (!slot.endsWith('_OR')) removedBySection[sectionId] = (removedBySection[sectionId] ?? 0) + 1;
     } catch (e) {
-      slotErrors[slot] = serverErrorMessage(e);
+      slotErrors[key] = serverErrorMessage(e);
     } finally {
-      busySlots.remove(slot);
+      busySlots.remove(key);
       _changed();
     }
   }
 
-  void _edited(PaperEditResult r) {
-    paper = r.paper;
-    // Every other set changed on the server too.
-    _setPapers.clear();
-    slotNotes[r.slot] = r.notes;
-    downloaded.clear();
-  }
+  Future<void> swap(String slot) => _edit(slot, (id) => api.swap(id, slot));
 
-  Future<void> swap(String slot) => _edit(slot, () => api.swap(paper!.id, slot));
+  Future<void> pick(String slot, String questionId) => _edit(slot, (id) => api.pick(id, slot, questionId));
 
-  Future<void> pick(String slot, String questionId) => _edit(slot, () => api.pick(paper!.id, slot, questionId));
-
-  Future<void> _edit(String slot, Future<PaperEditResult> Function() call) async {
-    if (paper == null || busySlots.contains(slot)) return;
-    busySlots.add(slot);
-    slotErrors.remove(slot);
+  Future<void> _edit(String slot, Future<PaperEditResult> Function(String paperId) call) async {
+    final id = _shownId;
+    final key = slotKey(slot);
+    if (paper == null || id == null || busySlots.contains(key)) return;
+    busySlots.add(key);
+    slotErrors.remove(key);
     _changed();
     try {
-      _edited(await call());
+      final r = await call(id);
+      if (viewingSet == 'A') {
+        paper = r.paper;
+        // A set that had to repeat the old question changed with it.
+        _setPapers.clear();
+      } else {
+        _setPapers[viewingSet] = r.paper;
+      }
+      slotNotes[key] = r.notes;
+      downloaded.clear();
     } catch (e) {
-      slotErrors[slot] = serverErrorMessage(e);
+      slotErrors[key] = serverErrorMessage(e);
     } finally {
-      busySlots.remove(slot);
+      busySlots.remove(key);
       _changed();
     }
   }
 
-  /// Every question id on the paper, ORs included -- what the picker must
-  /// not offer again.
-  Set<String> get onPaper => {
-        for (final s in paper?.sections ?? const [])
+  /// Every question id on Set A, ORs included -- what "Make another like
+  /// this" asks the server to avoid.
+  Set<String> get onPaper => _questionIds(paper);
+
+  /// The same for the set on screen -- what the picker must not offer again.
+  Set<String> get onShownPaper => _questionIds(shownPaper);
+
+  static Set<String> _questionIds(GeneratedPaper? p) => {
+        for (final s in p?.sections ?? const [])
           for (final GeneratedQuestion q in s.questions) ...[
             q.questionId,
             if (q.internalChoiceQuestionId != null) q.internalChoiceQuestionId!,
           ],
       };
+
+  /// The marks the paper would print with the bank as it stands, against
+  /// the template's total -- "58 of 80" -- once the check has run. A section
+  /// that cannot be filled prints what it has; "attempt any N" counts N.
+  ({int reached, int total})? get marksReach {
+    final a = availability, t = template;
+    if (a == null || t == null) return null;
+    final sections = {for (final (i, s) in t.sections.indexed) s.id.isNotEmpty ? s.id : 's${i + 1}': s};
+    var reached = 0;
+    for (final s in a.sections) {
+      final attempts = sections[s.sectionId]?.attemptCount ?? s.needed;
+      reached += (s.filled < attempts ? s.filled : attempts) * s.marksEach;
+    }
+    return (reached: reached, total: t.totalMarks);
+  }
 
   // --------------------------------------------------------------- finish
 

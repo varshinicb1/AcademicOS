@@ -78,6 +78,10 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/auth/users"),
     ("POST", "/api/v1/auth/users/{user_id}/close"),
     ("POST", "/api/v1/auth/users/{user_id}/reopen"),
+    ("POST", "/api/v1/auth/users/{user_id}/password-reset"),
+    ("POST", "/api/v1/auth/password"),
+    ("GET", "/api/v1/auth/users/{user_id}/erasure"),
+    ("POST", "/api/v1/auth/users/{user_id}/erasure"),
     ("POST", "/api/v1/auth/invites"),
     ("GET", "/api/v1/auth/invites"),
     ("DELETE", "/api/v1/auth/invites/{code}"),
@@ -208,6 +212,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/cover-summary"),
     ("GET", "/api/v1/curriculum/teacher-attendance"),
     ("PUT", "/api/v1/curriculum/teacher-attendance"),
+    ("GET", "/api/v1/curriculum/my-attendance"),
     ("POST", "/api/v1/curriculum/my-attendance"),
     ("GET", "/api/v1/notifications"),
     ("POST", "/api/v1/notifications/{notification_id}/read"),
@@ -324,6 +329,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/books/{book_id}/toc/ingest"),
     ("POST", "/api/v1/curriculum/seed/cbse10"),
     ("POST", "/api/v1/curriculum/seed/cbse"),
+    ("POST", "/api/v1/curriculum/school-setup"),
     ("GET", "/api/v1/curriculum/chapters/{chapter_id}/topics"),
     # The same read keyed by the SYLLABUS slug the Assessment Designer holds
     # (/catalog's chapterId), which is the only chapter id that screen has.
@@ -461,6 +467,10 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/auth/users"),
     ("POST", "/api/v1/auth/users/{user_id}/close"),
     ("POST", "/api/v1/auth/users/{user_id}/reopen"),
+    ("POST", "/api/v1/auth/users/{user_id}/password-reset"),
+    ("POST", "/api/v1/auth/password"),
+    ("GET", "/api/v1/auth/users/{user_id}/erasure"),
+    ("POST", "/api/v1/auth/users/{user_id}/erasure"),
     # Invites are principal-only (require_principal -> get_current_user).
     ("POST", "/api/v1/auth/invites"),
     ("GET", "/api/v1/auth/invites"),
@@ -563,6 +573,7 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/cover-summary"),
     ("GET", "/api/v1/curriculum/teacher-attendance"),
     ("PUT", "/api/v1/curriculum/teacher-attendance"),
+    ("GET", "/api/v1/curriculum/my-attendance"),
     ("POST", "/api/v1/curriculum/my-attendance"),
     ("GET", "/api/v1/notifications"),
     ("POST", "/api/v1/notifications/{notification_id}/read"),
@@ -675,6 +686,7 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/books/{book_id}/toc/ingest"),
     ("POST", "/api/v1/curriculum/seed/cbse10"),
     ("POST", "/api/v1/curriculum/seed/cbse"),
+    ("POST", "/api/v1/curriculum/school-setup"),
     ("POST", "/api/v1/curriculum/chapters/{chapter_id}/extract"),
     ("GET", "/api/v1/curriculum/extraction-runs/{run_id}"),
     ("POST", "/api/v1/curriculum/extraction-runs/{run_id}/approve"),
@@ -1041,7 +1053,12 @@ def test_canonical_route_inventory_matches_live_app():
     # registration, redeem, schools, choose and leave a school, overview.
     # 338: API-6 a key's webhooks (register, list, revoke, delivery log).
     # 339: the operator's single-use invite for a new school's first principal.
-    assert len(API_ROUTES) == 339
+    # 341: NFR-1 erasing a student's or parent's data on the school's request
+    # (preview, erase).
+    # 343: QA S-05 a principal's password reset and a person's own change.
+    # 344: QA S-12 a teacher's own row of today's register.
+    # 345: the setup wizard's one-call school setup (year, classes, calendar, terms, bell).
+    assert len(API_ROUTES) == 345
 
 
 def test_docs_routes_present():

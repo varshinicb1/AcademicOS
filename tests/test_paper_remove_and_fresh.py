@@ -66,12 +66,21 @@ def test_generate_with_avoid_ids_prints_fresh_questions_and_reuses_only_when_it_
                           "choiceCount": 1}],
             "scope": {"chapterIds": ["ch1"]}}, headers=t1).json()["id"]
         first = client.post(GEN, json={"templateId": tid}, headers=t1).json()
-        again = client.post(GEN, json={"templateId": tid}, headers=t1).json()
-        # Without the list the generator is deterministic: the same paper.
-        assert _on_paper(again["paper"]) == _on_paper(first["paper"])
 
+        # A teacher's second paper now ranks their recent papers' questions
+        # last by itself (QA P-03, tests/test_paper_swap_pick.py). The list is
+        # tested on a colleague with no papers of their own and the same
+        # template, so the list is the only thing that changes what prints.
+        body = client.get(f"{BASE}/{tid}", headers=t1).json()
+        bob = _register(client, "school_1", "bob@example.com")
+        bob_tid = client.post(BASE, json=body, headers=bob).json()["id"]
+        same = client.post(GEN, json={"templateId": bob_tid}, headers=bob).json()
+        assert _on_paper(same["paper"]) == _on_paper(first["paper"]), "deterministic without a list"
+
+        cara = _register(client, "school_1", "cara@example.com")
+        cara_tid = client.post(BASE, json=body, headers=cara).json()["id"]
         used = sorted(_on_paper(first["paper"]))
-        r = client.post(GEN, json={"templateId": tid, "avoidQuestionIds": used}, headers=t1)
+        r = client.post(GEN, json={"templateId": cara_tid, "avoidQuestionIds": used}, headers=cara)
         assert r.status_code == 200, r.text
         fresh = r.json()
         a_first = {q for _, q, _ in _printed(first["paper"]) if q.startswith("o")}
@@ -85,7 +94,7 @@ def test_generate_with_avoid_ids_prints_fresh_questions_and_reuses_only_when_it_
         alt = next(a for _, a in b if a)
         assert alt in used
         assert fresh["complete"] is True                  # never short for freshness
-        assert any("last paper" in n.lower() and alt in n for n in fresh["notes"]), fresh["notes"]
+        assert any("repeats your recent papers" in n and alt not in n for n in fresh["notes"]), fresh["notes"]
         # The availability the check shows is unchanged: freshness reorders,
         # it never makes a section short.
         assert [s["filled"] for s in fresh["availability"]["sections"]] == \
@@ -217,7 +226,7 @@ def test_the_printed_instructions_describe_the_paper_after_a_remove(tmp_path, mo
         assert paper["metadata"]["instructions"] == generated
         pdf, word = _pdf_and_word_text(client, t1, pid)
         for text in (pdf, word):
-            assert "Section B - Short answer: 2 question(s) of 3 mark(s) each. 1 of them offer" in text
+            assert "Section B - Short answer: 2 questions of 3 marks each. 1 of them offers" in text
 
         # Remove Q4's OR alternative, then Q1 -- the web's two Remove calls.
         assert _remove(client, t1, pid, "4_OR").status_code == 200
@@ -225,16 +234,16 @@ def test_the_printed_instructions_describe_the_paper_after_a_remove(tmp_path, mo
         assert r.status_code == 200, r.text
         edited = r.json()["paper"]
         want = ("This question paper has 2 sections.\n"
-                "Section A - Objective: 1 question(s) of 1 mark(s) each.\n"
-                "Section B - Short answer: 2 question(s) of 3 mark(s) each.\n"
+                "Section A - Objective: 1 question of 1 mark.\n"
+                "Section B - Short answer: 2 questions of 3 marks each.\n"
                 "All questions are compulsory unless a choice is stated.")
         assert edited["metadata"]["instructions"] == want
         assert edited["metadata"]["totalMarks"] == 7
         pdf, word = _pdf_and_word_text(client, t1, pid)
         for text in (pdf, word):
-            assert "Section A - Objective: 1 question(s) of 1 mark(s) each." in text
-            assert "Section B - Short answer: 2 question(s) of 3 mark(s) each." in text
-            assert "offer an internal choice" not in text and "2 question(s) of 1 mark" not in text
+            assert "Section A - Objective: 1 question of 1 mark." in text
+            assert "Section B - Short answer: 2 questions of 3 marks each." in text
+            assert "offer an internal choice" not in text and "2 questions of 1 mark" not in text
             assert "Maximum Marks: 7" in text
         asm = client.get(f"/api/v1/assessments/{paper['assessmentId']}", headers=t1).json()
         assert asm["metadata"]["paperTemplate"]["instructions"] == want
@@ -271,14 +280,14 @@ def test_the_audits_repro_maths_10_half_yearly_on_the_real_bank(tmp_path, monkey
         assert r.status_code == 200, r.text
         pdf, word = _pdf_and_word_text(client, t1, pid)
         for text in (pdf, word):
-            assert "Section E - Case-study based: 2 question(s) of 4 mark(s) each." in text
-            assert ("Section B - Very short answer: 5 question(s) of 2 mark(s) each. "
-                    "1 of them offer an internal choice (OR)") in text
-            assert "3 question(s) of 4 mark(s)" not in text and "2 of them offer" not in text.split(
+            assert "Section E - Case-study based: 2 questions of 4 marks each." in text
+            assert ("Section B - Very short answer: 5 questions of 2 marks each. "
+                    "1 of them offers an internal choice (OR)") in text
+            assert "3 questions of 4 marks" not in text and "2 of them offer" not in text.split(
                 "Section C")[0]
             assert "Maximum Marks: 76" in text
         for s in r.json()["paper"]["sets"]:           # every set, in its own words
-            assert "Section E - Case-study based: 2 question(s)" in s["metadata"]["instructions"]
+            assert "Section E - Case-study based: 2 questions" in s["metadata"]["instructions"]
             assert s["metadata"]["totalMarks"] == 76
 
 
@@ -310,7 +319,7 @@ def test_a_paper_stored_before_the_flag_prints_its_generated_instructions_rebuil
     paper.metadata = paper.metadata.model_copy(update={"instructions": stale})
     assert paper.metadata.instructions_generated is None
     assert instruction_lines(paper) == [
-        "This question paper has 1 section.", "MCQ: 1 question(s) of 1 mark(s) each.",
+        "This question paper has 1 section.", "MCQ: 1 question of 1 mark.",
         "All questions are compulsory unless a choice is stated."]
     paper.metadata = paper.metadata.model_copy(update={"instructions": "Answer any five.\nUse ink."})
     assert instruction_lines(paper) == ["Answer any five.", "Use ink."]
@@ -342,7 +351,7 @@ def test_removing_from_an_attempt_any_section_keeps_its_marks_and_says_so(
         assert (a["name"], a["totalMarks"], len(a["questions"])) == (
             "Section A - Objective (attempt any 2)", 2, 2)
         assert edited["metadata"]["totalMarks"] == 5
-        assert "Section A - Objective (attempt any 2): 2 question(s) of 1 mark(s) each.\n" \
+        assert "Section A - Objective (attempt any 2): 2 questions of 1 mark each.\n" \
             in edited["metadata"]["instructions"]
 
 

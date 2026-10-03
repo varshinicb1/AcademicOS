@@ -84,6 +84,7 @@ import requests
 from .supabase_kv import SupabaseUnavailable
 from .postgres_kv import durable_table
 from ..config import demo_accounts_enabled
+from ..storage.secure_delete import secure_delete, truncate_wal
 
 logger = logging.getLogger(__name__)
 
@@ -782,6 +783,26 @@ class UserStore:
             self.conn.execute("UPDATE users SET role=? WHERE id=?", (role, user_id))
             self.conn.commit()
 
+    def check_password(self, user_id: str, password: str) -> bool:
+        user = self.get(user_id)
+        raw = self._raw_by_email(user.email) if user is not None else None
+        if raw is None:
+            return False
+        salt = bytes.fromhex(raw["password_salt"])
+        return secrets.compare_digest(_hash_password(password, salt), raw["password_hash"])
+
+    def set_password(self, user_id: str, password: str) -> None:
+        """A new password, with a new salt. Sessions are the caller's to end:
+        a reset ends them all, a change keeps the one making it."""
+        salt = secrets.token_bytes(16)
+        values = {"password_hash": _hash_password(password, salt), "password_salt": salt.hex()}
+        if self._remote.enabled:
+            self._remote.update(values, id=user_id)
+        with self._conn_lock:
+            self.conn.execute("UPDATE users SET password_hash=?, password_salt=? WHERE id=?",
+                              (values["password_hash"], values["password_salt"], user_id))
+            self.conn.commit()
+
     def delete_sessions_for(self, user_id: str) -> None:
         """Sign the user out everywhere."""
         if self._remote_sessions.enabled:
@@ -809,6 +830,61 @@ class UserStore:
         if is_closed(user.role):
             self._set_role(user_id, user.role[len(CLOSED_PREFIX):])
         return self.get(user_id)
+
+    # ---------------- erasure (assessment/erasure.py) ----------------
+
+    def invites_of(self, user: User) -> list[Invite]:
+        """The invites that name this person: sent to their email, or used to
+        create their account. Local and remote rows both, like
+        invites_for_school."""
+        # An unbound invite's email is "": a blank account email must not
+        # match every one of them, so the email is matched only when there is one.
+        email = user.email.strip().lower()
+        merged: dict[str, Invite] = {}
+        with self._conn_lock:
+            rows = self.conn.execute(
+                "SELECT * FROM invites WHERE school_id=? AND ((lower(email)=? AND ?<>'') OR used_by=?)",
+                (user.school_id, email, email, user.id)).fetchall()
+        for r in rows:
+            merged[r["code"]] = _row_to_invite(dict(r))
+        if self._remote_invites.enabled:
+            rows = self._remote_invites.select(school_id=user.school_id, used_by=user.id)
+            if email:
+                rows += self._remote_invites.select(school_id=user.school_id, email=email)
+            for r in rows:
+                merged[r["code"]] = _row_to_invite(r)
+        return list(merged.values())
+
+    def erase_invites(self, user: User) -> int:
+        """Delete the invites that name this person. Returns how many."""
+        invites = self.invites_of(user)
+        with self._conn_lock:
+            with secure_delete(self.conn):
+                for inv in invites:
+                    self.conn.execute("DELETE FROM invites WHERE code=?", (inv.code,))
+            self.conn.commit()
+            truncate_wal(self.conn)
+        if self._remote_invites.enabled:
+            for inv in invites:
+                self._remote_invites.delete(code=inv.code)
+        return len(invites)
+
+    def erase_account(self, user_id: str) -> None:
+        """Delete the account row itself, its name and email with it, and any
+        session left. The last step of an erasure: until it runs, the closed
+        account is still there for the principal to finish the erasure on.
+        Raises on a remote failure, so a half-done erasure is retried, not
+        reported as done."""
+        if self._remote_sessions.enabled:
+            self._remote_sessions.delete(user_id=user_id)
+        if self._remote.enabled:
+            self._remote.delete(id=user_id)
+        with self._conn_lock:
+            with secure_delete(self.conn):
+                self.conn.execute("DELETE FROM sessions WHERE user_id=?", (user_id,))
+                self.conn.execute("DELETE FROM users WHERE id=?", (user_id,))
+            self.conn.commit()
+            truncate_wal(self.conn)
 
     # ---------------- lookups ----------------
 

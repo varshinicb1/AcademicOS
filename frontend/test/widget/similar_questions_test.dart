@@ -22,6 +22,7 @@ import 'package:academicos/core/local_engine/local_api_client.dart';
 import 'package:academicos/core/local_engine/local_pillar_api.dart' show OfflineUnsupportedException;
 import 'package:academicos/core/local_engine/local_store.dart';
 import 'package:academicos/data/datasources/api/api_client.dart';
+import 'package:academicos/domain/entities/entities.dart';
 import 'package:academicos/domain/repositories/requests.dart';
 import 'package:academicos/presentation/assessment/pages/assessment_review_page.dart';
 
@@ -167,9 +168,16 @@ void main() {
           _q('o0', 3, 'Find the discriminant of 2x^2 - 4x + 3 = 0.'),
         ];
 
+    // The pairs come with a paper just generated, which is still editable:
+    // "Swap one" is offered only on a paper that can still change.
     Future<void> pumpPage(WidgetTester tester, GeneratedPaper paper) async {
+      final seeded = Assessment.fromJson(LocalStore.instance.getAssessment(assessmentId)!);
       await tester.pumpWidget(wrapForTest(
-        AssessmentReviewPage(assessmentId: assessmentId, paper: paper),
+        AssessmentReviewPage(
+          assessmentId: assessmentId,
+          assessment: seeded.copyWith(status: AssessmentStatus.paperGenerated),
+          paper: paper,
+        ),
         bloc: env.buildAssessmentBloc(),
       ));
       await tester.pumpAndSettle();

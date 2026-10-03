@@ -44,9 +44,8 @@ class _PrincipalPageState extends State<PrincipalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Reached via a nested route ('/analytics/school' under '/analytics'),
-        // same canPop quirk fixed for the Planner — see shell.dart's
-        // forceShellLeading docstring.
+        // A destination of the side navigation: the menu on a phone and no
+        // back arrow (shell.dart's forceShellLeading).
         leading: forceShellLeading(context),
         title: const Text('School Intelligence'),
         actions: [
@@ -105,6 +104,16 @@ class _PrincipalPageState extends State<PrincipalPage> {
                           color: AppColors.accent)),
                 ],
               ),
+              if (s.studentsWithEvidence != null) ...[
+                const SizedBox(height: 8),
+                Text(
+                  key: const ValueKey('insights-evidence'),
+                  '${s.students} ${s.students == 1 ? 'student is' : 'students are'} enrolled; with evidence: '
+                  '${s.studentsWithEvidence} (marked papers, marked homework or finished practice). '
+                  'Mastery is measured over those.',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
               const SizedBox(height: 8),
               const SectionHeader(title: 'By subject'),
               ...s.subjects.map((sub) => AppCard(

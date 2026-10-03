@@ -1,12 +1,54 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/constants/wording.dart';
 import '../../../data/datasources/api/api_error.dart';
 import '../../../data/datasources/api/paper_builder_api.dart';
+import '../../../data/datasources/api/pillar_api.dart' show ChapterEntry;
 import '../paper_builder_controller.dart';
+
+/// What the picker searches and what it must not offer again: the paper's
+/// class, subject and chapters, and the questions already on it. The
+/// builder hands over its own; a saved paper's page (which edits a paper
+/// after the builder is gone) builds one from the paper.
+class BankPickerSource {
+  final PaperBuilderApi api;
+  final String subject;
+  final int grade;
+
+  /// The paper's chapters, searched by default; empty is the whole syllabus.
+  final List<String> chapterIds;
+
+  /// The chapter menu; empty hides it.
+  final List<ChapterEntry> chapters;
+  final Set<String> onPaper;
+
+  const BankPickerSource({
+    required this.api,
+    required this.subject,
+    required this.grade,
+    this.chapterIds = const [],
+    this.chapters = const [],
+    this.onPaper = const {},
+  });
+
+  factory BankPickerSource.of(PaperBuilderController c) => BankPickerSource(
+        api: c.api,
+        subject: c.subject!,
+        grade: c.grade!,
+        chapterIds: c.chapterIds.toList(),
+        chapters: c.chapters,
+        onPaper: c.onShownPaper,
+      );
+}
 
 /// Opens the bank picker for one slot and returns the chosen question id,
 /// or null if the teacher closed it.
 Future<String?> showBankPicker(BuildContext context, PaperBuilderController c,
+        {required String slot, required int marks}) =>
+    showBankPickerFor(context, BankPickerSource.of(c), slot: slot, marks: marks);
+
+/// [showBankPicker] for any paper, not only the builder's.
+Future<String?> showBankPickerFor(BuildContext context, BankPickerSource source,
     {required String slot, required int marks}) {
   return showModalBottomSheet<String>(
     context: context,
@@ -15,7 +57,7 @@ Future<String?> showBankPicker(BuildContext context, PaperBuilderController c,
     showDragHandle: true,
     builder: (_) => FractionallySizedBox(
       heightFactor: 0.9,
-      child: BankPicker(c: c, slot: slot, marks: marks),
+      child: BankPicker.from(source: source, slot: slot, marks: marks),
     ),
   );
 }
@@ -25,10 +67,15 @@ Future<String?> showBankPicker(BuildContext context, PaperBuilderController c,
 /// verified answer key; one without cannot be picked (PRD rule Q1: no answer
 /// key, no question), and one already on the paper is marked as such.
 class BankPicker extends StatefulWidget {
-  final PaperBuilderController c;
+  final BankPickerSource source;
   final String slot;
   final int marks;
-  const BankPicker({super.key, required this.c, required this.slot, required this.marks});
+
+  /// The builder's picker, searching what [c] holds.
+  BankPicker({super.key, required PaperBuilderController c, required this.slot, required this.marks})
+      : source = BankPickerSource.of(c);
+
+  const BankPicker.from({super.key, required this.source, required this.slot, required this.marks});
 
   @override
   State<BankPicker> createState() => _BankPickerState();
@@ -36,7 +83,7 @@ class BankPicker extends StatefulWidget {
 
 class _BankPickerState extends State<BankPicker> {
   final _search = TextEditingController();
-  late String? _chapter = widget.c.chapterIds.length == 1 ? widget.c.chapterIds.first : null;
+  late String? _chapter = widget.source.chapterIds.length == 1 ? widget.source.chapterIds.first : null;
   List<BankItem>? _items;
   String? _error;
   bool _errorRetryable = false;
@@ -63,12 +110,12 @@ class _BankPickerState extends State<BankPicker> {
       _errorRetryable = false;
     });
     try {
-      final c = widget.c;
-      final items = await c.api.searchBank(
-        subject: c.subject!,
-        grade: c.grade!,
+      final s = widget.source;
+      final items = await s.api.searchBank(
+        subject: s.subject,
+        grade: s.grade,
         marks: widget.marks,
-        chapterIds: _chapter != null ? [_chapter!] : c.chapterIds.toList(),
+        chapterIds: _chapter != null ? [_chapter!] : s.chapterIds,
         keyword: _search.text,
       );
       if (!mounted || ticket != _ticket) return;
@@ -89,7 +136,7 @@ class _BankPickerState extends State<BankPicker> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final onPaper = widget.c.onPaper;
+    final onPaper = widget.source.onPaper;
     final items = _items ?? const <BankItem>[];
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -97,7 +144,7 @@ class _BankPickerState extends State<BankPicker> {
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
           child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            Text('Pick question ${widget.slot.replaceAll('_OR', ' (OR)')} · ${widget.marks} marks',
+            Text('Pick question ${widget.slot.replaceAll('_OR', ' (OR)')} · ${marksText(widget.marks)}',
                 style: theme.textTheme.titleMedium),
             const SizedBox(height: 8),
             TextField(
@@ -110,16 +157,16 @@ class _BankPickerState extends State<BankPicker> {
               ),
               onSubmitted: (_) => _load(),
             ),
-            if (widget.c.chapters.isNotEmpty)
+            if (widget.source.chapters.isNotEmpty)
               DropdownButton<String?>(
                 value: _chapter,
                 isExpanded: true,
                 items: [
                   DropdownMenuItem<String?>(
                     value: null,
-                    child: Text(widget.c.chapterIds.isEmpty ? 'All chapters' : "This paper's chapters"),
+                    child: Text(widget.source.chapterIds.isEmpty ? 'All chapters' : "This paper's chapters"),
                   ),
-                  for (final ch in widget.c.chapters)
+                  for (final ch in widget.source.chapters)
                     DropdownMenuItem<String?>(
                       value: ch.chapterId,
                       child: Text(ch.chapterName, overflow: TextOverflow.ellipsis),
@@ -163,7 +210,7 @@ class _BankPickerState extends State<BankPicker> {
       enabled: usable,
       minVerticalPadding: 10,
       title: Text(q.stem, maxLines: 4, overflow: TextOverflow.ellipsis),
-      subtitle: Text('${q.marks} marks · $status',
+      subtitle: Text('${marksText(q.marks)} · $status',
           style: TextStyle(color: q.hasAnswerKey ? null : theme.colorScheme.error)),
       trailing: usable ? const Icon(Icons.add_circle_outline, semanticLabel: 'Use this question') : null,
       onTap: usable ? () => Navigator.of(context).pop(q.id) : null,

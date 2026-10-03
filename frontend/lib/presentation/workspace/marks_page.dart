@@ -11,7 +11,11 @@ import 'strings.dart';
 /// chapter, topic and class.
 class MarksPage extends StatefulWidget {
   final String paperId;
-  const MarksPage({super.key, required this.paperId});
+
+  /// The paper's class, when the page that opened this knows it; read from
+  /// the paper otherwise. Only that class's sections are offered.
+  final int? grade;
+  const MarksPage({super.key, required this.paperId, this.grade});
 
   @override
   State<MarksPage> createState() => _MarksPageState();
@@ -19,6 +23,7 @@ class MarksPage extends StatefulWidget {
 
 class _MarksPageState extends State<MarksPage> {
   TeachingContext? _ctx;
+  late int? _grade = widget.grade;
   String? _section;
   Map<String, dynamic>? _grid;
   Map<String, dynamic>? _analysis;
@@ -28,10 +33,42 @@ class _MarksPageState extends State<MarksPage> {
   String? _error;
   bool _saving = false;
 
+  /// Save was pressed with a bad mark on the grid; the list of bad marks
+  /// says so until they are fixed.
+  bool _saveRefused = false;
+
   @override
   void initState() {
     super.initState();
     TeachingContext.load().then((c) => setState(() => _ctx = c), onError: (e) => setState(() => _error = serverErrorMessage(e)));
+    if (_grade == null) {
+      Ops.map('/papers/${widget.paperId}').then((p) {
+        final grade = (p['metadata'] as Map?)?['grade'];
+        if (mounted && grade is int) setState(() => _grade = grade);
+      }, onError: (e) {
+        // Every section stays on offer; say why the list is not narrowed.
+        if (mounted) setState(() => _error = "Could not read the paper's class: ${serverErrorMessage(e)}");
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    for (final c in _cells.values) {
+      c.dispose();
+    }
+    super.dispose();
+  }
+
+  /// The sections that can have sat this paper: its class's ("10-A" for a
+  /// class 10 paper). 6-A was offered for a class 10 paper (QA P-20).
+  Map<String, String> _sections(TeachingContext ctx) {
+    final g = _grade;
+    if (g == null) return ctx.sectionLabels;
+    return {
+      for (final e in ctx.sectionLabels.entries)
+        if (e.value.startsWith('$g-')) e.key: e.value,
+    };
   }
 
   Future<void> _load() async {
@@ -39,6 +76,9 @@ class _MarksPageState extends State<MarksPage> {
     try {
       final g = await Ops.map('/papers/${widget.paperId}/marks', query: {'sectionId': _section});
       final a = await Ops.map('/papers/${widget.paperId}/analysis', query: {'sectionId': _section});
+      for (final c in _cells.values) {
+        c.dispose();
+      }
       _cells.clear();
       _absent.clear();
       _dirty.clear();
@@ -61,22 +101,58 @@ class _MarksPageState extends State<MarksPage> {
     }
   }
 
+  static String _number(num v) => v == v.roundToDouble() ? '${v.toInt()}' : '$v';
+
+  /// What is wrong with one typed cell, naming it the way the grid's header
+  /// and the class register do -- "A3 for Asha: 5 is more than 4" -- or null
+  /// when it is empty or a mark the question can take. The server named an
+  /// internal question id, and only once Save was pressed (QA P-20, P-19).
+  String? _cellProblem(Map row, Map question) {
+    if (_absent.contains(row['studentId'])) return null;
+    final text = _cells[(row['studentId'] as String, question['questionId'] as String)]?.text.trim() ?? '';
+    if (text.isEmpty) return null;
+    final where = '${question['number']} for ${row['name']}';
+    final v = double.tryParse(text);
+    if (v == null) return '$where: "$text" is not a number';
+    final max = (question['maxMarks'] as num?) ?? 0;
+    if (v < 0) return '$where: marks cannot be below 0';
+    if (v > max) return '$where: ${_number(v)} is more than ${_number(max)}';
+    return null;
+  }
+
+  /// Every bad cell on the grid, in reading order.
+  List<String> _problems() {
+    final g = _grid;
+    if (g == null) return const [];
+    final questions = (g['questions'] as List).cast<Map>();
+    return [
+      for (final r in (g['rows'] as List).cast<Map>())
+        for (final q in questions)
+          if (_cellProblem(r, q) case final problem?) problem,
+    ];
+  }
+
   Future<void> _save() async {
+    // Caught here, before anything is sent: the server refused the whole
+    // save for one cell and named it by an internal id.
+    if (_problems().isNotEmpty) {
+      setState(() => _saveRefused = true);
+      return;
+    }
     final entries = <Map<String, dynamic>>[];
     for (final e in _cells.entries) {
       final (sid, qid) = e.key;
       if (!_dirty.contains(sid) || _absent.contains(sid) || e.value.text.trim().isEmpty) continue;
-      final v = double.tryParse(e.value.text.trim());
-      if (v == null) {
-        setState(() => _error = 'Marks must be numbers');
-        return;
-      }
-      entries.add({'studentId': sid, 'questionId': qid, 'marks': v});
+      entries.add({'studentId': sid, 'questionId': qid, 'marks': double.parse(e.value.text.trim())});
     }
     final rows = (_grid!['rows'] as List).cast<Map>();
     final absent = [for (final r in rows) if (_absent.contains(r['studentId']) && r['absent'] != true) r['studentId']];
     final present = [for (final r in rows) if (!_absent.contains(r['studentId']) && r['absent'] == true) r['studentId']];
-    setState(() => _saving = true);
+    setState(() {
+      _saving = true;
+      _saveRefused = false;
+      _error = null;
+    });
     try {
       final saved = await Ops.send('PUT', '/papers/${widget.paperId}/marks', query: {'sectionId': _section},
           body: {'entries': entries, 'absent': absent, 'present': present}, label: 'Marks for this paper');
@@ -106,6 +182,7 @@ class _MarksPageState extends State<MarksPage> {
     final theme = Theme.of(context);
     final ctx = _ctx;
     final g = _grid;
+    final problems = _problems();
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -123,17 +200,42 @@ class _MarksPageState extends State<MarksPage> {
           if (ctx != null)
             Padding(
               padding: const EdgeInsets.all(12),
-              child: DropdownButton<String>(
-                value: _section,
-                hint: const Text('Choose a section'),
-                items: [for (final e in ctx.sectionLabels.entries) DropdownMenuItem(value: e.key, child: Text(e.value))],
-                onChanged: (v) {
-                  setState(() => _section = v);
-                  _load();
-                },
-              ),
+              child: _sections(ctx).isEmpty
+                  ? Text('Your school has no Class $_grade section set up, so marks for this paper '
+                      'cannot be entered yet.', key: const ValueKey('no-sections'))
+                  : DropdownButton<String>(
+                      key: const ValueKey('marks-section'),
+                      value: _sections(ctx).containsKey(_section) ? _section : null,
+                      hint: const Text('Choose a section'),
+                      items: [
+                        for (final e in _sections(ctx).entries) DropdownMenuItem(value: e.key, child: Text(e.value)),
+                      ],
+                      onChanged: (v) {
+                        setState(() => _section = v);
+                        _load();
+                      },
+                    ),
             ),
-          if (_error != null) Text(_error!, style: TextStyle(color: theme.colorScheme.error)),
+          if (_error != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Text(_error!, key: const ValueKey('marks-error'), style: TextStyle(color: theme.colorScheme.error)),
+            ),
+          // Named as they are typed, not only when Save is pressed.
+          if (problems.isNotEmpty)
+            Padding(
+              key: const ValueKey('marks-problems'),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                if (_saveRefused)
+                  Text(problems.length == 1 ? 'Fix this before saving:' : 'Fix these ${problems.length} marks before saving:',
+                      style: TextStyle(color: theme.colorScheme.error, fontWeight: FontWeight.w600)),
+                for (final p in problems.take(3)) Text(p, style: TextStyle(color: theme.colorScheme.error)),
+                if (problems.length > 3)
+                  Text('and ${problems.length - 3} more, outlined in the grid',
+                      style: TextStyle(color: theme.colorScheme.error)),
+              ]),
+            ),
           Expanded(
             child: g == null
                 ? const EmptyState(icon: Icons.grid_on, title: 'Choose a section',
@@ -168,18 +270,34 @@ class _MarksPageState extends State<MarksPage> {
             for (final r in rows)
               DataRow(cells: [
                 DataCell(Text(r['name'])),
-                DataCell(Checkbox(
-                  value: _absent.contains(r['studentId']),
-                  onChanged: (on) => setState(() => on == true ? _absent.add(r['studentId']) : _absent.remove(r['studentId'])),
+                DataCell(Semantics(
+                  label: '${r['name']} absent',
+                  child: Checkbox(
+                    value: _absent.contains(r['studentId']),
+                    onChanged: (on) => setState(() => on == true ? _absent.add(r['studentId']) : _absent.remove(r['studentId'])),
+                  ),
                 )),
                 for (final q in questions)
                   DataCell(SizedBox(
                     width: 48,
-                    child: TextField(
-                      controller: _cells[(r['studentId'] as String, q['questionId'] as String)],
-                      enabled: !_absent.contains(r['studentId']),
-                      keyboardType: TextInputType.number,
-                      onChanged: (_) => setState(() => _dirty.add(r['studentId'])),
+                    // Each cell says which question and whose mark it is: a
+                    // screen reader heard 38 unnamed fields per row (QA P-28).
+                    child: Semantics(
+                      label: '${q['number']} for ${r['name']}, out of ${q['maxMarks']}',
+                      child: TextField(
+                        key: ValueKey('mark-${r['studentId']}-${q['questionId']}'),
+                        controller: _cells[(r['studentId'] as String, q['questionId'] as String)],
+                        enabled: !_absent.contains(r['studentId']),
+                        keyboardType: TextInputType.number,
+                        // A bad mark is outlined as it is typed; the line
+                        // above the grid says what is wrong with it.
+                        decoration: InputDecoration(
+                          isDense: true,
+                          errorText: _cellProblem(r, q) == null ? null : '',
+                          errorStyle: const TextStyle(height: 0, fontSize: 0),
+                        ),
+                        onChanged: (_) => setState(() => _dirty.add(r['studentId'])),
+                      ),
                     ),
                   )),
                 DataCell(Text(_totalText(r), key: ValueKey('total-${r['studentId']}'))),
@@ -244,38 +362,4 @@ class _MarksPageState extends State<MarksPage> {
                 trailing: Text(c['facility'] == null ? '-' : '${((c['facility'] as num) * 100).round()}%')),
         ],
       ];
-}
-
-/// Asks a colleague to review a paper (EX-6), from the paper's own page.
-Future<void> requestReview(BuildContext context, String assessmentId) async {
-  final staff = await Ops.list('/staff');
-  if (!context.mounted) return;
-  String? reviewer;
-  final note = TextEditingController();
-  final ok = await showDialog<bool>(context: context, builder: (ctx) => StatefulBuilder(builder: (ctx, set) => AlertDialog(
-    title: const Text('Send for review'),
-    content: SizedBox(width: 420, child: Column(mainAxisSize: MainAxisSize.min, children: [
-      DropdownButtonFormField<String>(
-        initialValue: reviewer,
-        decoration: const InputDecoration(labelText: 'Reviewer (HOD or a colleague)'),
-        items: [for (final s in staff) DropdownMenuItem(value: s['id'] as String, child: Text(s['name'] as String))],
-        onChanged: (v) => set(() => reviewer = v),
-      ),
-      TextField(controller: note, decoration: const InputDecoration(labelText: 'Note (optional)')),
-    ])),
-    actions: [
-      TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Cancel'))),
-      FilledButton(onPressed: reviewer == null ? null : () => Navigator.pop(ctx, true), child: const Text('Send')),
-    ],
-  )));
-  if (ok != true || !context.mounted) return;
-  try {
-    await Ops.post('/assessments/$assessmentId/review-request',
-        body: {'reviewerId': reviewer, if (note.text.trim().isNotEmpty) 'note': note.text.trim()});
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Sent for review; the reviewer has been told')));
-    }
-  } catch (e) {
-    if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
-  }
 }

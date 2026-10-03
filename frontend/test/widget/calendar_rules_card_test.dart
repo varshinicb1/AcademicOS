@@ -45,7 +45,9 @@ void main() {
   testWidgets("an untouched Update keeps a saved 'first_third' rule", (tester) async {
     final submitted = await _pump(tester, _calendar(rule: 'first_third'));
 
-    expect(find.text('Saved: first_third'), findsOneWidget);
+    expect(find.text('Saved: 1st and 3rd Saturdays off'), findsOneWidget);
+    expect(find.text('Saved: Sundays off; 1st and 3rd Saturdays off.'), findsOneWidget);
+    expect(find.textContaining('first_third'), findsNothing, reason: 'the stored value is not shown as it is stored');
     expect(find.textContaining('standard menus do not offer'), findsOneWidget);
 
     await tester.tap(find.text('Update Calendar'));
@@ -66,7 +68,7 @@ void main() {
   testWidgets('the principal can still switch away from the saved rule', (tester) async {
     final submitted = await _pump(tester, _calendar(rule: 'first_third'));
 
-    await tester.tap(find.text('Saved: first_third'));
+    await tester.tap(find.text('Saved: 1st and 3rd Saturdays off'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('All Saturdays Off').last);
     await tester.pumpAndSettle();
@@ -85,6 +87,32 @@ void main() {
     await tester.tap(find.text('Update Calendar'));
     expect(submitted.weeklyOffDays, ['friday']);
     expect(submitted.rule, 'second_fourth');
+  });
+
+  // QA S-19 (2026-10-01): the line read "Saturday rule second_fourth".
+  testWidgets('the saved calendar is described in words', (tester) async {
+    await _pump(tester, _calendar(rule: 'second_fourth'));
+    expect(find.text('Saved: Sundays off; 2nd and 4th Saturdays off.'), findsOneWidget);
+    expect(find.textContaining('second_fourth'), findsNothing);
+  });
+
+  testWidgets('a new calendar from the parent replaces the saved line at once', (tester) async {
+    await _pump(tester, _calendar());
+    expect(find.text('Saved: Sundays off; every Saturday a working day.'), findsOneWidget);
+    await _pump(tester, _calendar(rule: 'second_fourth'));
+    expect(find.text('Saved: Sundays off; 2nd and 4th Saturdays off.'), findsOneWidget);
+    expect(find.text('2nd & 4th Saturdays Off'), findsOneWidget, reason: 'the menu follows it too');
+  });
+
+  test('rules and off days read as words', () {
+    expect(CalendarRulesCard.saturdayRuleWords('none'), 'every Saturday a working day');
+    expect(CalendarRulesCard.saturdayRuleWords('all'), 'every Saturday off');
+    expect(CalendarRulesCard.saturdayRuleWords('2nd,4th'), '2nd and 4th Saturdays off');
+    expect(CalendarRulesCard.saturdayRuleWords('first_third_fifth'), '1st, 3rd and 5th Saturdays off');
+    expect(CalendarRulesCard.saturdayRuleWords('odd'), 'Saturday rule "odd"');
+    expect(CalendarRulesCard.weeklyOffWords(const []), 'no weekly off day');
+    expect(CalendarRulesCard.describe(_calendar(weeklyOffDays: ['saturday', 'sunday'], rule: 'second_fourth')),
+        'Saved: Saturdays and Sundays off.');
   });
 
   testWidgets('with no saved calendar it initializes with the defaults', (tester) async {

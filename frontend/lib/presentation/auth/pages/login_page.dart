@@ -62,16 +62,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    final invite = widget.inviteCode?.trim() ?? '';
-    final school = widget.schoolId?.trim() ?? '';
-    if (invite.isNotEmpty) {
-      _registering = true;
-      _inviteCode.text = invite;
-    } else if (school.isNotEmpty) {
-      _registering = true;
-      _firstPrincipal = true;
-      _schoolId.text = school;
-    }
+    _applyLink();
     if (!GetIt.I.isRegistered<Dio>()) return;     // a widget test with no server
     GetIt.I<Dio>().get('/auth/providers').then((r) {
       final data = r.data as Map;
@@ -87,6 +78,77 @@ class _LoginPageState extends State<LoginPage> {
       if (mounted) setState(() => _googleClientId = null);
       debugPrint('sign-in providers: ${serverErrorMessage(e)}');
     });
+  }
+
+  /// An invite link (`?invite=`) or a school-setup link (`?school=`) opens
+  /// its path with the code or school filled in.
+  void _applyLink() {
+    final invite = widget.inviteCode?.trim() ?? '';
+    final school = widget.schoolId?.trim() ?? '';
+    if (invite.isNotEmpty) {
+      _registering = true;
+      _firstPrincipal = false;
+      _inviteCode.text = invite;
+    } else if (school.isNotEmpty) {
+      _registering = true;
+      _firstPrincipal = true;
+      _schoolId.text = school;
+    }
+  }
+
+  /// A link opened in a tab where the app is already on Sign in: go_router
+  /// rebuilds this same page with the new query, and until 2026-10-01 only
+  /// initState read it, so the code was not filled in until a reload
+  /// (QA S-20).
+  @override
+  void didUpdateWidget(LoginPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.inviteCode != widget.inviteCode || oldWidget.schoolId != widget.schoolId) {
+      setState(() {
+        _error = null;
+        _applyLink();
+      });
+    }
+  }
+
+  /// There is no self-service reset (no school email is needed to run the
+  /// app), so this says who gives a forgotten password back (QA S-05): the
+  /// principal resets anyone's from Staff and access, and the emailed
+  /// sign-in code is offered where the school has email.
+  Future<void> _forgotPassword() async {
+    final theme = Theme.of(context);
+    final useCode = await showDialog<bool>(
+      context: context,
+      builder: (dialog) => AlertDialog(
+        title: const Text('Forgot your password?'),
+        content: SizedBox(
+          width: 420,
+          child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+            const Text('Teachers and staff: ask your principal. They reset it under Staff and access and give '
+                'you a one-time password.'),
+            const SizedBox(height: 8),
+            const Text('Students and parents: tell your class teacher or the principal. The principal, or a '
+                'teacher who manages people, gives you a one-time password.'),
+            const SizedBox(height: 8),
+            const Text('Sign in with the one-time password, then choose your own under Settings, '
+                'Change password.'),
+            const SizedBox(height: 8),
+            Text('Principals: your password is reset by AcademicOS. Contact them.',
+                style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+          ]),
+        ),
+        actions: [
+          if (_emailCode)
+            TextButton(
+              key: const Key('forgot-email-code'),
+              onPressed: () => Navigator.pop(dialog, true),
+              child: const Text('Email me a sign-in code'),
+            ),
+          FilledButton(onPressed: () => Navigator.pop(dialog, false), child: const Text('OK')),
+        ],
+      ),
+    );
+    if (useCode == true && mounted) await _signInWithCode();
   }
 
   Future<void> _signInWithGoogle(String credential) async {
@@ -204,7 +266,7 @@ class _LoginPageState extends State<LoginPage> {
       // AuthApi already ran every DioException through the shared error
       // path, so this is the server's (or the connection's) own sentence.
       var message = serverErrorMessage(e);
-      if (_registering && _firstPrincipal && message.contains('principal key not accepted')) {
+      if (_registering && _firstPrincipal && message.toLowerCase().contains('principal key not accepted')) {
         message = 'That principal key was not accepted. Copy it again in full -- it is '
             'case-sensitive -- and check the school ID with AcademicOS.';
       }
@@ -451,6 +513,12 @@ class _LoginPageState extends State<LoginPage> {
                                   : Text(_registering ? 'Create account' : 'Sign in'),
                             ),
                           ),
+                          if (!_registering)
+                            TextButton(
+                              key: const Key('forgot-password'),
+                              onPressed: _submitting ? null : _forgotPassword,
+                              child: const Text('Forgot password?'),
+                            ),
                           if (!_registering && _emailCode)
                             TextButton(
                               // Students and parents may sign in without a password (ROLE-2).

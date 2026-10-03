@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../core/constants/release_scope.dart';
+import '../../../core/constants/wording.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
@@ -177,12 +178,12 @@ class _QuestionBankPageState extends State<QuestionBankPage> {
                           ?.copyWith(fontWeight: FontWeight.w700)),
                   Text('Class ${e.grade}', style: theme.textTheme.bodySmall),
                   const Gap(4),
-                  Text('${e.questionCount} questions',
+                  Text(questionsText(e.questionCount),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.bodySmall
                           ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-                  Text('${e.chapters} chapters',
+                  Text(counted(e.chapters, 'chapter'),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.bodySmall

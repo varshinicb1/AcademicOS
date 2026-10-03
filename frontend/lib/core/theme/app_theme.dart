@@ -348,13 +348,21 @@ class AppTheme {
         helperStyle: font(color: p.textMuted, fontSize: 13),
       ),
       // .em-chip: a pill of --em-fill-1 with the rim; pressed is --em-chip-on.
+      // The label follows the fill: --em-chip-on is the text colour inverted
+      // (fog on dark, graphite on light), so a selected chip's label is
+      // --em-chip-on's own foreground. With the label left at p.text a
+      // selected chip was white on white in the dark theme and graphite on
+      // graphite in the light one: a bell's days, a homework's sections and
+      // its chapters showed only a tick (QA S-10).
       chipTheme: ChipThemeData(
         backgroundColor: s.fill1,
         selectedColor: s.chipOnBg,
         disabledColor: s.fill1,
         side: BorderSide(color: s.rimLine),
         checkmarkColor: s.chipOnFg,
-        labelStyle: font(color: p.text, fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: -0.07),
+        labelStyle: font(
+            color: WidgetStateColor.resolveWith((st) => st.contains(WidgetState.selected) ? s.chipOnFg : p.text),
+            fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: -0.07),
         secondaryLabelStyle: font(color: s.chipOnFg, fontSize: 14, fontWeight: FontWeight.w500),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
         shape: const StadiumBorder(),

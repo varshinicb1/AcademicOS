@@ -13,6 +13,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../support/semantics_labels.dart';
+
 final _grid = {
   'paperId': 'p1', 'sectionId': 'sec_a', 'totalMarks': 4, 'withoutConsent': [],
   'questions': [
@@ -50,16 +52,26 @@ final _analysis = {
 
 class _Backend implements HttpClientAdapter {
   static const _json = {Headers.contentTypeHeader: ['application/json']};
+  final List<String> sent = [];
 
   ResponseBody _ok(Object b) => ResponseBody.fromString(jsonEncode(b), 200, headers: _json);
 
   @override
   Future<ResponseBody> fetch(RequestOptions o, Stream<List<int>>? body, Future<void>? cancel) async {
+    if (o.method != 'GET') sent.add('${o.method} ${o.path}');
     switch (o.path) {
       case '/curriculum/academic-years':
         return _ok([{'id': 'ay_1', 'label': '2026-27', 'startDate': '2026-04-01', 'endDate': '2027-03-31'}]);
       case '/curriculum/academic-years/ay_1/sections':
-        return _ok([{'id': 'sec_a', 'gradeNumber': 10, 'name': 'A', 'gradeId': 'g10'}]);
+        // A class 6 section as well: it cannot have sat a class 10 paper.
+        return _ok([
+          {'id': 'sec_6a', 'gradeNumber': 6, 'name': 'A', 'gradeId': 'g6'},
+          {'id': 'sec_a', 'gradeNumber': 10, 'name': 'A', 'gradeId': 'g10'},
+        ]);
+      case '/curriculum/grades/g6/subjects':
+        return _ok([{'id': 'sub_maths6', 'name': 'Mathematics'}]);
+      case '/papers/p1':
+        return _ok({'id': 'p1', 'metadata': {'grade': 10, 'subject': 'Science'}});
       case '/curriculum/grades/g10/subjects':
         return _ok([{'id': 'sub_sci', 'name': 'Science'}]);
       case '/curriculum/academic-years/ay_1/allocations':
@@ -85,8 +97,11 @@ void main() {
     await Hive.openBox('academicos_cache');
   });
 
+  late _Backend backend;
+
   setUp(() {
-    GetIt.instance.registerSingleton<Dio>(Dio()..httpClientAdapter = _Backend());
+    backend = _Backend();
+    GetIt.instance.registerSingleton<Dio>(Dio()..httpClientAdapter = backend);
     LocalStore.instance.authUser = {'id': 'p_1', 'schoolId': 'school_1', 'role': 'principal', 'name': 'Priya'};
   });
 
@@ -143,5 +158,53 @@ void main() {
     await tester.scrollUntilVisible(find.byKey(const ValueKey('incomplete-note')), -200,
         scrollable: find.byType(Scrollable).last);
     expect(find.textContaining('Incomplete: 1, left out of the average'), findsOneWidget);
+  });
+
+  // QA P-20 (2026-10-01): 6-A was offered for a class 10 paper, a bad mark
+  // was named by an internal id and only once the server refused the save.
+  testWidgets("only the paper's class's sections are offered", (tester) async {
+    tester.view.physicalSize = const Size(1200, 900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(const MaterialApp(home: MarksPage(paperId: 'p1')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byType(DropdownButton<String>));
+    await tester.pumpAndSettle();
+    expect(find.text('10-A'), findsWidgets);
+    expect(find.text('6-A'), findsNothing, reason: 'the paper is class 10 (read from /papers/p1)');
+  });
+
+  testWidgets('a mark over the maximum is named as it is typed and never sent', (tester) async {
+    await open(tester);
+    final cell = find.byKey(const ValueKey('mark-stu_2-q1'));
+    await tester.enterText(cell, '5');
+    await tester.pumpAndSettle();
+    expect(find.text('A1 for Bhavna: 5 is more than 1'), findsOneWidget, reason: 'named before Save');
+    expect(tester.widget<TextField>(cell).decoration?.errorText, isNotNull, reason: 'the cell is outlined');
+
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+    expect(find.text('Fix this before saving:'), findsOneWidget);
+    expect(find.text('A1 for Bhavna: 5 is more than 1'), findsOneWidget);
+    expect(backend.sent, isEmpty, reason: 'caught here, not by a 422');
+
+    await tester.enterText(cell, 'abc');
+    await tester.pumpAndSettle();
+    expect(find.text('A1 for Bhavna: "abc" is not a number'), findsOneWidget);
+
+    await tester.enterText(cell, '1');
+    await tester.pumpAndSettle();
+    expect(find.textContaining('A1 for Bhavna'), findsNothing);
+    expect(find.text('Fix this before saving:'), findsNothing, reason: 'nothing left to fix');
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+    expect(backend.sent, ['PUT /papers/p1/marks']);
+  });
+
+  testWidgets('each mark cell tells a screen reader whose mark it is (QA P-28)', (tester) async {
+    final semantics = tester.ensureSemantics();
+    await open(tester);
+    expect(textFieldLabels(tester), contains('A3 for Asha, out of 2'));
+    semantics.dispose();
   });
 }

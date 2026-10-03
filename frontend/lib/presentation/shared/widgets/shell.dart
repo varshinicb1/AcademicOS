@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +9,7 @@ import '../../../core/constants/app_constants.dart';
 import '../../../core/session/current_session.dart';
 import '../../../core/session/owner_session.dart';
 import '../../../data/datasources/api/api_error.dart';
+import '../../guide/guide_page.dart';
 
 /// Drop into any page's `AppBar(leading: shellLeading(context), ...)`.
 ///
@@ -35,13 +37,16 @@ Widget? shellLeading(BuildContext context) {
 /// (E2E run on production's commit, 2026-10-01). A page pushed over a
 /// destination (a homework, an exam, a child's progress) keeps its back arrow
 /// by using a plain [AppBar].
+///
+/// Its last action is the Guide's question mark ([GuideButton]), for a
+/// signed-in role that has a guide; the Guide's own page passes [guide] false.
 AppBar destinationAppBar(BuildContext context,
-        {required Widget title, List<Widget>? actions, PreferredSizeWidget? bottom}) =>
+        {required Widget title, List<Widget>? actions, PreferredSizeWidget? bottom, bool guide = true}) =>
     AppBar(
       leading: forceShellLeading(context),
       automaticallyImplyLeading: false,
       title: title,
-      actions: actions,
+      actions: [...?actions, if (guide) const GuideButton()],
       bottom: bottom,
     );
 
@@ -132,6 +137,9 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           _item(Icons.library_books_outlined, Icons.library_books, 'Question bank', '/school/question-bank'),
         ]),
         (title: 'Setup', items: [
+          // The guided setup (onboarding/pages/setup_wizard_page.dart): the whole
+          // first-run in one flow, reopenable any time.
+          _item(Icons.auto_fix_high_outlined, Icons.auto_fix_high, 'Set up your school', '/school/setup'),
           // The principal's first task: teachers join only with a code issued here
           // (the admin console's Invite people). It was reachable only through
           // School insights or a bulk import (handover review, 2026-10-01).
@@ -174,7 +182,9 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           _item(Icons.quiz_outlined, Icons.quiz, 'Question bank', '/questions'),
           _item(Icons.rate_review_outlined, Icons.rate_review, 'Paper reviews', '/school/reviews'),
           _item(Icons.event_available_outlined, Icons.event_available, 'Exam duties', '/school/my-exams'),
-          _item(Icons.event_busy_outlined, Icons.event_busy, 'Leave', '/school/my-day'),
+          // Check-in, today's lessons, cover duties and leave: the page is
+          // "My day", and "Leave" hid the rest of it (QA S-21).
+          _item(Icons.schedule_outlined, Icons.schedule, 'My day', '/school/my-day'),
         ]),
         if (admin.isNotEmpty) (title: 'Admin', items: admin),
       ];
@@ -248,6 +258,20 @@ String _signedInRole() => Hive.isBoxOpen('academicos_cache') ? CurrentSession.ro
 
 /// An owner over several schools (ROLE-4); false with no local store.
 bool _signedInIsOwner() => Hive.isBoxOpen('academicos_cache') && CurrentSession.isOwner;
+/// [_signedInRole] for the pages that sit beside the shell (the Guide).
+String signedInRole() => _signedInRole();
+
+/// The signed-in teacher's admin capabilities (`/my-grants`), loaded once per
+/// session; empty until they arrive, offline, and for every other role. A
+/// page that offers an admin's action -- the exams admin's changes to a
+/// colleague's paper -- reads them here instead of asking the server again.
+ValueListenable<Set<String>> myGrants() {
+  // The offline build has no accounts and asks no server.
+  if (!const bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false)) {
+    _Grants.ensureLoaded(_signedInRole());
+  }
+  return _Grants.caps;
+}
 
 /// A teacher's admin capabilities (`/my-grants`), fetched once per session
 /// and shared by every shell build; empty until they arrive, or offline.
@@ -310,7 +334,15 @@ class MainShell extends StatelessWidget {
                   SideNav(sections: sections, selected: selected, compact: width < 1000, schoolSwitcher: owner),
                 // Each page owns its own AppBar (shellLeading() gives it the
                 // menu button on a phone), so the shell renders none.
-                Expanded(child: child),
+                //
+                // A semantics container of its own: every page route in
+                // the nested navigator lays a modal barrier, which blocks
+                // the semantics of whatever was painted before it in the
+                // same container -- the whole desktop sidebar. A screen
+                // reader found no Papers, Question bank or any other item
+                // there; the phone's drawer, a route of its own, was fine
+                // (QA P-28, S-22).
+                Expanded(child: Semantics(container: true, child: child)),
               ],
             ),
           ),
@@ -364,6 +396,14 @@ class SideNav extends StatelessWidget {
       compact: compact,
       inDrawer: inDrawer,
     );
+    final guideRow = guideAvailableFor(_signedInRole())
+        ? _NavRow(
+            item: _item(Icons.help_outline, Icons.help, 'Guide', guidePath),
+            selected: GoRouterState.of(context).uri.path == guidePath,
+            compact: compact,
+            inDrawer: inDrawer,
+          )
+        : null;
     final body = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -389,6 +429,7 @@ class SideNav extends StatelessWidget {
             child: SchoolSwitcher(compact: compact, inDrawer: inDrawer),
           ),
         Expanded(child: ListView(padding: const EdgeInsets.symmetric(horizontal: 8), children: rows)),
+        if (guideRow != null) Padding(padding: const EdgeInsets.fromLTRB(8, 4, 8, 0), child: guideRow),
         Padding(padding: const EdgeInsets.fromLTRB(8, 4, 8, 12), child: settings),
       ],
     );

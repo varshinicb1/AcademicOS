@@ -31,6 +31,9 @@ class _Backend extends Interceptor {
   final List<(String, String)> sections = [];
   final List<(String, String)> sectionsAdded = [];
   int? failSeedAt;
+  // Classes below this one come back with no subjects, as on a server that
+  // holds no NCERT books for classes 1-5 (QA S-03).
+  int emptyBelow = 0;
   bool failProfile = false;
   Map<String, dynamic>? profile;
   int _n = 0;
@@ -92,9 +95,11 @@ class _Backend extends Interceptor {
       seeds.add(body);
       final gradeId = 'g_${body['grade']}';
       if (!sections.any((x) => x.$1 == gradeId)) sections.add((gradeId, 'A'));
+      final empty = (body['grade'] as int) < emptyBelow;
       return _answer(h, o, 200, {
         'boardId': 'b', 'academicYearId': 'ay_1', 'gradeId': 'g_${body['grade']}', 'grade': body['grade'],
-        'subjectsSeeded': 5, 'unitsSeeded': 10, 'chaptersSeeded': 14, 'subjectsSkipped': <String>[],
+        'subjectsSeeded': empty ? 0 : 5, 'unitsSeeded': empty ? 0 : 10, 'chaptersSeeded': empty ? 0 : 14,
+        'subjectsSkipped': <String>[],
       });
     }
     if (o.path == '/curriculum/school-profile') {
@@ -245,11 +250,17 @@ void main() {
     expect(find.byKey(const ValueKey('terms-empty')), findsOneWidget);
   });
 
-  Future<(bool Function(), _Backend)> pumpSetup(WidgetTester tester, {int? failAt}) async {
+  Future<(bool Function(), _Backend)> pumpSetup(WidgetTester tester,
+      {int? failAt, int emptyBelow = 0, String? savedName}) async {
     tester.view.physicalSize = _phone;
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
-    final backend = _Backend()..failSeedAt = failAt;
+    final backend = _Backend()
+      ..failSeedAt = failAt
+      ..emptyBelow = emptyBelow;
+    if (savedName != null) {
+      backend.profile = {'name': savedName, 'address': '12 MG Road', 'affiliation': null, 'hasLogo': true};
+    }
     var done = false;
     await tester.pumpWidget(MaterialApp(
       home: Scaffold(
@@ -262,6 +273,14 @@ void main() {
     return (() => done, backend);
   }
 
+  /// The summary stays on screen until the principal moves on.
+  Future<void> finish(WidgetTester tester, bool Function() done) async {
+    expect(find.byKey(const ValueKey('setup-finished')), findsOneWidget);
+    expect(done(), isFalse, reason: 'the summary waits for Continue');
+    await tapKey(tester, 'setup-continue');
+    expect(done(), isTrue);
+  }
+
   // Every class the release serves (1-10 since requirements v3), in order.
   testWidgets('a new school sets up classes 1 to 10 in this session', (tester) async {
     final (done, backend) = await pumpSetup(tester);
@@ -271,7 +290,9 @@ void main() {
     expect([for (final s in backend.seeds) s['grade']], releaseGrades);
     expect(backend.seeds.map((s) => (s['academicYearLabel'], s['startDate'], s['endDate'])).toSet(),
         {('2026-27', '2026-04-01', '2027-03-31')});
-    expect(done(), isTrue);
+    expect(find.text('Class 10: 5 subjects, 14 chapters, section A'), findsOneWidget);
+    expect(find.byKey(const ValueKey('setup-empty-classes')), findsNothing);
+    await finish(tester, done);
     expect(backend.sectionsAdded, isEmpty, reason: 'one section per class is the A every class starts with');
     expect(backend.calls.where((c) => c.contains('/sections')), isEmpty);
   });
@@ -280,7 +301,7 @@ void main() {
     final (done, backend) = await pumpSetup(tester);
     await tester.enterText(find.byKey(const ValueKey('setup-sections')), '3');
     await tapKey(tester, 'setup-run');
-    expect(done(), isTrue);
+    await finish(tester, done);
     for (final g in releaseGrades) {
       expect([for (final (grade, name) in backend.sections) if (grade == 'g_$g') name], ['A', 'B', 'C']);
     }
@@ -295,7 +316,8 @@ void main() {
       await tapKey(tester, 'setup-run');
       expect(find.text('Sections per class is a whole number from 1 to 10.'), findsOneWidget);
     }
-    expect(backend.calls, isEmpty);
+    // Only the saved name was read, to fill the field in.
+    expect(backend.calls, ['GET /curriculum/school-profile']);
     expect(done(), isFalse);
   });
 
@@ -308,7 +330,7 @@ void main() {
     expect(backend.sectionsAdded, before);
     backend.failSeedAt = null;
     await tapKey(tester, 'setup-run');
-    expect(done(), isTrue);
+    await finish(tester, done);
     expect(backend.sectionsAdded, [for (final g in releaseGrades) ('g_$g', 'B')]);
   });
 
@@ -316,7 +338,7 @@ void main() {
     final (done, backend) = await pumpSetup(tester);
     await tester.enterText(find.byKey(const ValueKey('setup-school-name')), 'Sunrise Public School');
     await tapKey(tester, 'setup-run');
-    expect(done(), isTrue);
+    await finish(tester, done);
     expect(backend.profile?['name'], 'Sunrise Public School');
     final put = backend.calls.indexOf('PUT /curriculum/school-profile');
     final firstSeed = backend.calls.indexOf('POST /curriculum/seed/cbse');
@@ -347,6 +369,65 @@ void main() {
     await tapKey(tester, 'setup-run');
     // The seed is idempotent, so the classes before 8 again reuse what is there.
     expect([for (final s in backend.seeds) s['grade']], [...before, ...releaseGrades]);
-    expect(done(), isTrue);
+    await finish(tester, done);
+  });
+
+  // QA S-03 (2026-10-01): classes 1 to 5 were created with no subjects on a
+  // server without their NCERT books, while the card promised "subjects,
+  // books, chapters" for all ten, and the summary vanished when setup ended.
+  testWidgets('the card says before it starts which classes may come without subjects', (tester) async {
+    await pumpSetup(tester);
+    final text = tester.widget<Text>(find.byKey(const ValueKey('setup-explainer'))).data!;
+    expect(text, contains('Classes 6 to 10 come with their CBSE subjects, books and chapters.'));
+    expect(text, contains('Classes 1 to 5 get subjects only if this server holds their NCERT books'));
+    expect(text, isNot(contains('CBSE classes 1 to 10 with their subjects')));
+  });
+
+  testWidgets('classes set up with no subjects are named, and the summary stays until Continue', (tester) async {
+    final (done, backend) = await pumpSetup(tester, emptyBelow: 6);
+    await tester.enterText(find.byKey(const ValueKey('setup-sections')), '2');
+    await tapKey(tester, 'setup-run');
+    expect([for (final s in backend.seeds) s['grade']], releaseGrades);
+    expect(find.text('Classes 1 to 10 are set up'), findsOneWidget);
+    expect(find.text('Class 1: sections A to B, no subjects'), findsOneWidget);
+    expect(find.text('Class 6: 5 subjects, 14 chapters, sections A to B'), findsOneWidget);
+    expect(find.byKey(ValueKey('setup-done-${releaseGrades.length - 1}')), findsOneWidget,
+        reason: 'a line for every class');
+    expect(find.textContaining('Classes 1 to 5 have no subjects: this server holds no NCERT books for them.'),
+        findsOneWidget);
+    expect(find.byKey(const ValueKey('setup-run')), findsNothing, reason: 'nothing is left to run');
+    expect(tester.takeException(), isNull);
+    await tester.pump(const Duration(seconds: 5));
+    expect(find.byKey(const ValueKey('setup-finished')), findsOneWidget, reason: 'it does not vanish');
+    await finish(tester, done);
+  });
+
+  test('a list of classes reads as words', () {
+    expect(SchoolSetupCard.classesLabel([3]), 'Class 3');
+    expect(SchoolSetupCard.classesLabel([5, 1, 2, 3, 4]), 'Classes 1 to 5');
+    expect(SchoolSetupCard.classesLabel([1, 2]), 'Classes 1 and 2');
+    expect(SchoolSetupCard.classesLabel([1, 3, 4]), 'Classes 1, 3 and 4');
+  });
+
+  // QA S-09: the card asked for the school's name again, blank, after School
+  // profile had saved it, and pointed to a "School tab" that does not exist.
+  testWidgets("the name School profile saved is filled in, and is not sent again unchanged", (tester) async {
+    final (done, backend) = await pumpSetup(tester, savedName: 'Green Valley School');
+    final field = tester.widget<TextField>(find.byKey(const ValueKey('setup-school-name')));
+    expect(field.controller!.text, 'Green Valley School');
+    expect(find.textContaining('on School profile'), findsOneWidget);
+    expect(find.textContaining('School tab'), findsNothing);
+    await tapKey(tester, 'setup-run');
+    expect(backend.calls, isNot(contains('PUT /curriculum/school-profile')));
+    await finish(tester, done);
+  });
+
+  testWidgets('a changed name is saved, keeping the address already set', (tester) async {
+    final (done, backend) = await pumpSetup(tester, savedName: 'Green Valley School');
+    await tester.enterText(find.byKey(const ValueKey('setup-school-name')), 'Green Valley Public School');
+    await tapKey(tester, 'setup-run');
+    expect(backend.profile?['name'], 'Green Valley Public School');
+    expect(backend.profile?['address'], '12 MG Road');
+    await finish(tester, done);
   });
 }

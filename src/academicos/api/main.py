@@ -23,6 +23,7 @@ from pydantic import BaseModel, Field
 
 from ..agents.orchestrator import DoubtSolver, ExaminerScorer, PaperAnalyst
 from ..assessment import auth_routes, consent_routes, ingest_routes, mobile_routes, mobile_scan, pillar_routes
+from ..assessment import erasure
 from ..assessment import grade_by_question
 from ..assessment import paper_template_routes
 from ..assessment import qbank_routes
@@ -41,6 +42,7 @@ from ..config import (Config, LLMNotEnabled, build_identity, enforce_production_
 from ..curriculum import routes as curriculum_routes
 from ..curriculum import school_model_routes
 from ..curriculum import teaching_group_routes
+from ..curriculum import school_setup_routes
 from ..curriculum import cover_routes
 from ..assessment import api_key_routes
 from ..assessment import marks_routes
@@ -267,10 +269,12 @@ app.include_router(pillar_routes.router)
 app.include_router(mobile_routes.router)
 app.include_router(ingest_routes.router)
 app.include_router(auth_routes.router)
+app.include_router(erasure.router)
 app.include_router(consent_routes.router)
 app.include_router(curriculum_routes.router)
 app.include_router(school_model_routes.router)
 app.include_router(teaching_group_routes.router)
+app.include_router(school_setup_routes.router)
 app.include_router(cover_routes.router)
 app.include_router(operations_routes.router)
 app.include_router(homework_routes.router)
@@ -498,6 +502,9 @@ def init_runtime(config: Optional[Config] = None) -> None:
     operations_routes.init(cfg)
     paper_template_routes.init(cfg)
     mobile_scan.configure_workdir(cfg.data_root / "scan-sessions")
+    # DPDP erasure on the school's request (NFR-1) reaches every store, the
+    # learner event log opened above included.
+    erasure.init(cfg, events=_events)
     # The public question-bank API. Its own key store and its own scope
     # vocabulary, deliberately separate from the user auth above: an API key is
     # a machine credential for content, and must never carry a user's identity.

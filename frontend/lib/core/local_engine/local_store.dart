@@ -205,6 +205,25 @@ class LocalStore {
   Future<void> clearAppTourSeenFlag() => _box.delete('app_tour_seen_v1');
   bool get hasSeenAppTour => _box.get('app_tour_seen_v1', defaultValue: false) as bool;
 
+  // ---- A teacher's "I'm here" today (SCH-9, My day) ----
+  // The server answers a check-in with the mark it keeps, but has no read of
+  // a teacher's own mark (the day's register is the principal's), so My day
+  // offered "I'm here" again every time it opened (QA S-12, 2026-10-01).
+  // One record per user, for the last day they checked in; another day's
+  // record reads as not checked in.
+  String? checkInFor(String userId, String date) {
+    if (!Hive.isBoxOpen('academicos_cache')) return null;
+    final raw = _box.get('check_in_$userId') as String?;
+    if (raw == null) return null;
+    final record = Map<String, dynamic>.from(jsonDecode(raw) as Map);
+    return record['date'] == date ? record['status'] as String? : null;
+  }
+
+  void setCheckIn(String userId, String date, String status) {
+    if (!Hive.isBoxOpen('academicos_cache')) return;
+    _box.put('check_in_$userId', jsonEncode({'date': date, 'status': status}));
+  }
+
   // ---- Teacher role (offline identity, continued) ----
   // Real gap found on-device: every review/finalize/approve action's
   // "reviewerId"/actor was permanently blank -- teacherName (above) already
@@ -284,7 +303,7 @@ class LocalStore {
   // Light unless the person chose otherwise in Settings: the product is
   // designed white (design/tokens.json), and following a dark OS setting
   // opened it dark for everyone who had one (review 2026-10-01).
-  String get themeModeName => _box.get('theme_mode') as String? ?? 'dark';
+  String get themeModeName => _box.get('theme_mode') as String? ?? 'light';
   set themeModeName(String v) => _box.put('theme_mode', v);
 
   // ---- Teacher profile (this device's user) ----

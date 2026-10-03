@@ -66,6 +66,70 @@ class Invite {
   bool get isOpen => status == 'open';
 }
 
+/// POST /students/{id}/guardian-invites: a single-use parent invite linked
+/// to one child (operations/guardian_routes.py). Whoever registers with the
+/// code gets a parent account linked to that student.
+class GuardianInvite {
+  final String code;
+  final String studentId;
+  final String relation;
+  final String? email;
+  final String expiresAt;
+
+  GuardianInvite.fromJson(Map<String, dynamic> j)
+      : code = j['code'] as String,
+        studentId = j['studentId'] as String,
+        relation = j['relation'] as String,
+        email = j['email'] as String?,
+        expiresAt = j['expiresAt'] as String;
+}
+
+/// POST /auth/users/{id}/password-reset: the one-time password the principal
+/// reads out. It is shown once and kept nowhere else.
+class PasswordReset {
+  final String userId;
+  final String name;
+  final String temporaryPassword;
+
+  PasswordReset.fromJson(Map<String, dynamic> j)
+      : userId = j['userId'] as String,
+        name = j['name'] as String,
+        temporaryPassword = j['temporaryPassword'] as String;
+}
+
+/// One store's share of an erasure: what it holds of the person (`count`).
+class ErasurePart {
+  final String part;
+  final String label;
+  final int count;
+  final String? error;
+
+  ErasurePart.fromJson(Map<String, dynamic> j)
+      : part = j['part'] as String,
+        label = j['label'] as String,
+        count = (j['count'] as num).toInt(),
+        error = j['error'] as String?;
+}
+
+/// GET /auth/users/{id}/erasure: what an erasure would delete, and what
+/// stays and why (the audit log, a parent's consent for a child, backups).
+class ErasurePreview {
+  final String userId;
+  final String name;
+  final String role; // "student" | "parent"
+  final bool closed;
+  final List<ErasurePart> parts;
+  final List<(String what, String why)> kept;
+
+  ErasurePreview.fromJson(Map<String, dynamic> j)
+      : userId = j['userId'] as String,
+        name = j['name'] as String,
+        role = j['role'] as String,
+        closed = j['closed'] as bool,
+        parts = (j['parts'] as List).map((e) => ErasurePart.fromJson(Map<String, dynamic>.from(e))).toList(),
+        kept = (j['kept'] as List).map((e) => ((e as Map)['what'] as String, e['why'] as String)).toList();
+}
+
 class AuthResult {
   final AuthUser user;
   final String token;
@@ -83,6 +147,17 @@ class AuthException implements Exception {
   AuthException(this.message);
   @override
   String toString() => message;
+}
+
+/// The relations a guardian invite takes (operations/guardians.py RELATIONS).
+const guardianRelations = ['mother', 'father', 'guardian', 'grandparent', 'other'];
+
+/// "incorrect email or password" -> "Incorrect email or password."
+String asSentence(String text) {
+  final t = text.trim();
+  if (t.isEmpty) return t;
+  final first = t[0].toUpperCase() + t.substring(1);
+  return RegExp(r'[.!?]$').hasMatch(first) ? first : '$first.';
 }
 
 class AuthApi {
@@ -190,6 +265,48 @@ class AuthApi {
     }
   }
 
+  /// A single-use invite for one of [studentId]'s parents or guardians.
+  /// `relation` is one of [guardianRelations]. Principal, or a teacher with
+  /// the people admin area.
+  Future<GuardianInvite> createGuardianInvite(
+      {required String studentId, required String relation, String? email, int? expiresInDays}) async {
+    try {
+      final r = await _dio.post('/students/${Uri.encodeComponent(studentId)}/guardian-invites', data: {
+        'relation': relation,
+        if (email != null && email.isNotEmpty) 'email': email,
+        if (expiresInDays != null) 'expiresInDays': expiresInDays,
+      });
+      return GuardianInvite.fromJson(Map<String, dynamic>.from(r.data));
+    } on DioException catch (e) {
+      throw _asAuthException(e);
+    }
+  }
+
+  /// Sets a one-time password for a teacher, student or parent of the
+  /// caller's school and signs them out everywhere (QA S-05). The server
+  /// refuses the principal's own account and another principal's (403).
+  Future<PasswordReset> resetPassword(String userId) async {
+    try {
+      final r = await _dio.post('/auth/users/${Uri.encodeComponent(userId)}/password-reset');
+      return PasswordReset.fromJson(Map<String, dynamic>.from(r.data));
+    } on DioException catch (e) {
+      throw _asAuthException(e);
+    }
+  }
+
+  /// Changes the signed-in person's own password. The server ends every
+  /// session, this one included, and answers with a new token for this
+  /// device, which is returned for the caller to keep.
+  Future<String> changePassword({required String currentPassword, required String newPassword}) async {
+    try {
+      final r = await _dio.post('/auth/password',
+          data: {'currentPassword': currentPassword, 'newPassword': newPassword});
+      return (r.data as Map)['token'] as String;
+    } on DioException catch (e) {
+      throw _asAuthException(e);
+    }
+  }
+
   /// Every invite the school has issued, used and unused, newest first.
   Future<List<Invite>> invites() async {
     final r = await _dio.get('/auth/invites');
@@ -206,6 +323,29 @@ class AuthApi {
     }
   }
 
+  /// What erasing this student or parent would delete, part by part, and
+  /// what would stay (GET /auth/users/{id}/erasure; principal only). Changes
+  /// nothing.
+  Future<ErasurePreview> erasurePreview(String userId) async {
+    final r = await _dio.get('/auth/users/${Uri.encodeComponent(userId)}/erasure');
+    return ErasurePreview.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  /// Erase a student's or parent's data on the school's written request
+  /// (DPDP). Cannot be undone. `requestedBy` is "parent" | "student" |
+  /// "school"; `requestReceivedOn` is the day the request reached the school;
+  /// `confirmName` must be the person's name. A 503 means some part could not
+  /// be erased yet: the account stays closed and running it again finishes it.
+  Future<List<ErasurePart>> erase(String userId,
+      {required String requestedBy, required DateTime requestReceivedOn, required String confirmName}) async {
+    final day = '${requestReceivedOn.year.toString().padLeft(4, '0')}-'
+        '${requestReceivedOn.month.toString().padLeft(2, '0')}-${requestReceivedOn.day.toString().padLeft(2, '0')}';
+    final r = await _dio.post('/auth/users/${Uri.encodeComponent(userId)}/erasure', data: {
+      'requestedBy': requestedBy, 'requestReceivedOn': day, 'confirmName': confirmName,
+    });
+    return ((r.data as Map)['parts'] as List).map((e) => ErasurePart.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
   /// The sign-in and invite forms' own wording for the statuses they expect;
   /// everything else goes through the shared serverErrorMessage. Until Task
   /// 802 the fallback was "Could not reach the server" for any status, so a
@@ -215,7 +355,10 @@ class AuthApi {
   AuthException _asAuthException(DioException e) {
     final status = e.response?.statusCode;
     final data = e.response?.data;
-    final detail = data is Map && data['detail'] is String ? data['detail'] as String : null;
+    final raw = data is Map && data['detail'] is String ? data['detail'] as String : null;
+    // The server writes its reasons in lower case with no full stop
+    // ("incorrect email or password"); the form shows them as sentences.
+    final detail = raw == null || raw.trim().isEmpty ? null : asSentence(raw);
     if (status == 401) {
       // Wrong credentials only on sign-in/register; on the invite calls a
       // 401 is a session that ended, not a password the principal mistyped.

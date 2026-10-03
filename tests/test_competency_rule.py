@@ -395,7 +395,9 @@ def test_the_served_class_6_to_10_signals():
     del by_dict[None]
     # 435 CBE items until the fidelity rebuild of 2026-09-28, which refused the
     # ones that cannot be answered as printed (corpus/fidelity.py).
-    # 366 -> 364 (2026-10-01): two CBE items withheld, cbe:q:Maths10AS8 (a lost
-    # value) and cbe:q:SCIENCE8JS41c (its key answers one of three parts).
+    # 366 -> 364 (2026-10-01): cbe:q:Maths10AS8 is refused as value-missing ("(Using π= )",
+    # and its key's Rs 8800 contradicts the stem's Rs 50 a metre) after the extraction
+    # repair (dde445a, #78), and cbe:q:SCIENCE8JS41c is withheld (its key answers one
+    # of three parts).
     assert dict(by_dict) == {"cbeItemBank": 364, "assertionReasonLabels": 2}
     assert not exemplar

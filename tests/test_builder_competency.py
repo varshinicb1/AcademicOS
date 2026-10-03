@@ -54,11 +54,19 @@ def _schemas(records: list[dict]) -> list[QuestionSchema]:
     return [QuestionSchema.model_validate(r) for r in records]
 
 
-def _template(count: int = 4, chapters: tuple[str, ...] = ()) -> PaperTemplateDraft:
+def _template(count: int = 4, chapters: tuple[str, ...] = (),
+              share: float | None = None) -> PaperTemplateDraft:
+    """`share` is the section's competency share. None, as the presets leave
+    every section but the case studies, takes competency-based questions
+    first (QA R-03); a test of what the builder says about a paper below 50%
+    names 0, a template that asks for no competency-based questions."""
+    section = {"title": "Section A", "questionCount": count, "marksEach": 1}
+    if share is not None:
+        section["competencyShare"] = share
     return PaperTemplateDraft.model_validate({
         "name": "Unit test", "grade": 10, "subject": "Science", "examType": "unit_test",
         "totalMarks": count, "durationMinutes": 40,
-        "sections": [{"title": "Section A", "questionCount": count, "marksEach": 1}],
+        "sections": [section],
         "scope": {"chapterIds": list(chapters)},
     })
 
@@ -173,8 +181,9 @@ def split_bank(monkeypatch):
     monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), _fixture_pool(SPLIT))
 
 
-def _create(client, headers, *, count: int = 4, chapters: tuple[str, ...] = ("ch1",)) -> str:
-    body = _template(count, chapters).model_dump(by_alias=True, mode="json")
+def _create(client, headers, *, count: int = 4, chapters: tuple[str, ...] = ("ch1",),
+            share: float | None = None) -> str:
+    body = _template(count, chapters, share).model_dump(by_alias=True, mode="json")
     r = client.post(BASE, json=body, headers=headers)
     assert r.status_code == 200, r.text
     return r.json()["id"]
@@ -348,12 +357,17 @@ def test_the_served_bank_reads_as_the_builder_will_show_it(tmp_path, monkeypatch
         # Measured on the rebuilt bank (2026-09-28), which no longer serves the
         # CBE items that point at a figure they do not carry.
         assert half["competency"]["summary"] == "Competency-based: 10 of 30 questions (33%)"
+        # 22 of 31 (71%) until 2026-10-01. A section that names no share now
+        # takes competency-based questions first (QA R-03), but one filed under
+        # no current chapter (QA P-04) only as far as CBSE's 50%.
         assert half["competency"]["detail"] == (
-            "Below CBSE's 50%. The whole syllabus would give 22 of 31 (71%).")
+            "Below CBSE's 50%. The whole syllabus would give 19 of 31 (61%).")
         assert half["tiers"]["available"] is False
 
         six = availability("preset:cbse:6:science:annual", [])
         assert six["competency"]["status"] == "below_bank"
+        # 7 of 36 (19%) for a while on 2026-10-01 (QA P-04), back to 10 now
+        # that a section with no share takes competency-based questions first.
         assert six["competency"]["summary"] == "Competency-based: 10 of 36 questions (28%)"
         assert six["competency"]["detail"] == (
             "Below CBSE's 50%. The Class 6 Science bank cannot reach it with this template: "
@@ -385,7 +399,9 @@ def ranked_bank(monkeypatch):
 
 
 def _generate(client, headers) -> dict:
-    tid = _create(client, headers)
+    # A template that asks for no competency-based questions, so the paper is
+    # below 50% while the bank holds enough: what the sentences below are about.
+    tid = _create(client, headers, share=0.0)
     r = client.post(GEN, json={"templateId": tid, "allowGaps": True}, headers=headers)
     assert r.status_code == 200, r.text
     return r.json()["paper"]
@@ -438,7 +454,7 @@ def test_picking_up_to_50_percent_drops_every_below_target_sentence(tmp_path, mo
 # rounded two ways: "11 of 37 questions (30%)" and "Set A has 29.7%" (D79).
 
 def _generate_sets(client, headers, sets: int) -> dict:
-    tid = _create(client, headers)
+    tid = _create(client, headers, share=0.0)     # as `_generate`
     r = client.post(GEN, json={"templateId": tid, "allowGaps": True, "setCount": sets},
                     headers=headers)
     assert r.status_code == 200, r.text
@@ -516,7 +532,7 @@ def test_a_bank_that_could_reach_50_percent_is_not_blamed():
     first read "the bank cannot reach it ... 4 of the 8 questions it can use
     (50%) are competency-based" -- a sentence that refutes itself. The bank's
     ceiling decides: here the four CBE questions alone would fill the paper."""
-    check = _check(_template(chapters=("ch1",)), _schemas(RANKED))
+    check = _check(_template(chapters=("ch1",), share=0.0), _schemas(RANKED))
     assert (check.printed, check.competency_based) == (4, 0)
     assert check.status == "below_choice"
     assert check.detail == ("Below CBSE's 50%. The bank has enough competency-based questions "
@@ -559,3 +575,15 @@ def test_a_judged_difficulty_still_gets_the_note():
     picked = _schemas([_rec(f"p{i}", "ch1", difficulty="easy") for i in range(4)])
     notes, _ = _mix_notes(_mixed_section(), picked, _LeftOut())
     assert any("difficulty is easy/medium/hard 4/0/0" in n for n in notes), notes
+
+
+def test_a_section_that_names_no_share_takes_competency_based_questions_first():
+    """QA R-03: only the presets' case-study sections name a share, so the
+    rest of a paper's share was whatever the order gave -- 95% on a Class 10
+    Mathematics half-yearly while CBE items sorted first by id, 8% once a
+    teacher's recent papers held them. A section that names none takes them
+    first; one that names a share, 0 included, keeps it."""
+    bank = _schemas(RANKED)       # the plain questions rank above the CBE ones
+    assert _check(_template(), bank).summary == "Competency-based: 4 of 4 questions (100%)"
+    assert _check(_template(share=0.0), bank).summary == "Competency-based: 0 of 4 questions (0%)"
+    assert _check(_template(share=0.5), bank).summary == "Competency-based: 2 of 4 questions (50%)"

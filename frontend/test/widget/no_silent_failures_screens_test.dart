@@ -88,9 +88,9 @@ void main() {
       await tester.pumpWidget(wrapForTest(const PrincipalAdminPage()));
       await tester.pumpAndSettle();
 
-      // "Assign a teacher" card: its Grade dropdown is the first on the tab
-      // (the enroll card below has the second).
-      await tester.tap(find.widgetWithText(DropdownButtonFormField<GradeSummary>, 'Grade').first);
+      // "Assign a teacher" card: its "Class" dropdown. The book card's is
+      // "Books for class" (QA S-22: two controls on one tab were both "Grade").
+      await tester.tap(find.widgetWithText(DropdownButtonFormField<GradeSummary>, 'Class').first);
       await tester.pumpAndSettle();
       await tester.tap(find.text('Grade 10').last);
       await tester.pumpAndSettle();

@@ -717,9 +717,9 @@ def test_builder_sets_print_questions_of_their_own_and_count_every_repeat(
     assert printed(c) == [("o4", None), ("o5", None), ("t1", None), ("t0", "t2")]
     assert paper["setOverlap"] == {"A": 0, "B": 1, "C": 3}
     assert [w for w in paper["warnings"] if " repeats " in w] == [
-        "Set B repeats 1 question(s) from an earlier set (Q4 (OR)): no other question in the "
+        "Set B repeats 1 question from an earlier set (Q4 (OR)): no other question in the "
         "bank fits that slot under the section's rules and the paper's chapters.",
-        "Set C repeats 3 question(s) from an earlier set (Q3, Q4, Q4 (OR)): no other question "
+        "Set C repeats 3 questions from an earlier set (Q3, Q4, Q4 (OR)): no other question "
         "in the bank fits those slots under the section's rules and the paper's chapters."]
     for s in (a, b, c):
         # The same paper in shape: sections, marks and choices.
@@ -1237,7 +1237,7 @@ def test_the_real_banks_social_science_gaps_name_their_binding_constraint(real_c
     # A section the bank can partly fill still says how far it gets.
     c = by_title["Section C - Short answer"]
     assert (c.available, c.shortfall) == (2, 3), c
-    assert "Only 2 3-mark question(s) are available; 3 short." in c.reason, c.reason
+    assert "Only 2 3-mark questions are available; 3 short." in c.reason, c.reason
 
 
 # ---- presets checked against the real papers
@@ -1356,9 +1356,14 @@ def _choice_bank(threes: int):
 
 
 def _plan_draft(t, bank):
+    import dataclasses
+
     from academicos.assessment.paper_templates import build_scope_filter, plan
     from academicos.assessment.schemas import TemplateScope
-    return plan(t, "tpl", bank, build_scope_filter(TemplateScope(), bank))
+    # These fixtures carry no chapter, so the whole-syllabus rule would rank
+    # every one of them last and say so; it has tests of its own below.
+    scope = dataclasses.replace(build_scope_filter(TemplateScope(), bank), last_resort=frozenset())
+    return plan(t, "tpl", bank, scope)
 
 
 def test_a_section_with_internal_choice_pairs_an_or_alternative_per_choice():
@@ -1559,10 +1564,10 @@ def test_preset_instructions_describe_the_paper_that_was_printed():
     assert lines[0] == "This question paper has 4 sections."
     by_title = {line.split(":")[0]: line for line in lines[1:-1]}
     assert set(by_title) == {s.title for s in t.sections[:4]}
-    assert "1 of them offer" in by_title["Section B - Very short answer"]
+    assert "1 of them offers" in by_title["Section B - Very short answer"]
     assert "OR" not in by_title["Section C - Short answer"]
     d = by_title["Section D - Long answer"]
-    assert "3 question(s)" in d and "OR" not in d, d
+    assert "3 questions" in d and "OR" not in d, d
 
 
 def test_a_relax_type_fix_names_the_types_to_apply():
@@ -1663,11 +1668,18 @@ def test_the_real_papers_instructions_match_the_ors_it_prints(
             if not s["filled"]:
                 assert line is None, line
                 continue
-            assert f"{s['filled']} question(s)" in line, line
+            assert _n(s["filled"], "question") in line, line
             if s["choicesFilled"]:
-                assert f"{s['choicesFilled']} of them offer an internal choice" in line, line
+                assert f"{_n(s['choicesFilled'], 'of them offer', 'of them offers')} an internal choice" \
+                    in line, line
             else:
                 assert "OR" not in line, line
+
+
+def _n(n: int, many: str, one: str = "") -> str:
+    """How the printed instructions count: "1 question", "3 questions"
+    (they said "question(s)" until QA P-33)."""
+    return f"{n} {(one or many) if n == 1 else (many if one else many + 's')}"
 
 
 def _printed_title(section: dict, report: dict) -> str:
@@ -1692,9 +1704,10 @@ def _assert_instructions_describe(lines: list[str], sections: list[dict]) -> Non
         if not s["filled"]:
             assert line is None, line
             continue
-        assert f"{s['filled']} question(s) of {s['marksEach']} mark(s)" in line, line
+        assert f"{_n(s['filled'], 'question')} of {_n(s['marksEach'], 'mark')}" in line, line
         if s["choicesFilled"]:
-            assert f"{s['choicesFilled']} of them offer an internal choice" in line, line
+            assert f"{_n(s['choicesFilled'], 'of them offer', 'of them offers')} an internal choice" \
+                in line, line
         else:
             assert "OR" not in line, line
 
@@ -1730,7 +1743,7 @@ def test_a_copied_preset_edited_by_the_teacher_prints_instructions_for_its_paper
     for p in [paper] + paper["sets"]:
         lines = p["metadata"]["instructions"].splitlines()
         _assert_instructions_describe(lines, report["sections"])
-        assert not any("4 mark(s)" in x for x in lines), lines
+        assert not any("4 marks" in x for x in lines), lines
 
 
 def test_instructions_the_teacher_rewrites_on_a_copy_print_as_written(tmp_path, monkeypatch):
@@ -1747,3 +1760,97 @@ def test_instructions_the_teacher_rewrites_on_a_copy_print_as_written(tmp_path, 
         assert r.status_code == 200, r.text
         assert r.json()["paper"]["metadata"]["instructions"] == (
             "Answer in your own words.\nMaps are attached.")
+
+
+# ---- "Whole syllabus" is the class's current syllabus first (QA P-04) --------
+
+def test_a_whole_syllabus_paper_prints_off_syllabus_questions_only_to_fill():
+    """A Class 10 Science annual printed three Exemplar questions on Sources
+    of Energy, a chapter CBSE dropped, and the bank's unmatched ones ranked
+    with the rest. They rank last now, and a section that needs one says so."""
+    from academicos.assessment.chapter_filing import ChapterFiling
+
+    known = sorted(ChapterFiling.for_class("Science", 10).known)
+    if not known:
+        pytest.skip("no Class 10 Science syllabus in this checkout")
+    on = [_q(f"on{i}", 3, f"Syllabus item number {i} about {w}?", "short_answer")
+          for i, w in enumerate(("acids", "lenses", "nephrons"))]
+    off = [_q(f"off{i}", 3, f"Dropped item number {i} about {w}?", "short_answer")
+           for i, w in enumerate(("tidal energy", "biogas plants", "solar cookers"))]
+    for q in on:
+        q.chapter_ids = [known[0]]
+    for q in on + off:
+        q.subject, q.quality_score = "Science", 0.5
+    for q in off:                    # the best-rated questions, as the Exemplar's were
+        q.quality_score = 0.99
+    from academicos.assessment.paper_templates import build_scope_filter, plan
+    from academicos.assessment.schemas import TemplateScope
+
+    def section_of(n: int):
+        t = PaperTemplateDraft.model_validate(_draft(
+            totalMarks=3 * n, scope={}, sections=[_section("Section B", n, 3)]))
+        bank = on + off
+        report, plans = plan(t, "tpl", bank, build_scope_filter(TemplateScope(), bank))
+        return {q.id for q in plans[0].picked}, report.sections[0].notes
+
+    picked, notes = section_of(3)
+    assert picked == {"on0", "on1", "on2"}
+    assert not any("not matched to a chapter" in n for n in notes), notes
+    picked, notes = section_of(4)
+    assert {"on0", "on1", "on2"} <= picked and len(picked & {"off0", "off1", "off2"}) == 1
+    assert any("1 question is not matched to a chapter" in n for n in notes), notes
+
+
+# ---- a paper spreads over the chapters (QA R-03) -----------------------------
+
+import dataclasses  # noqa: E402
+
+def _chaptered(qid: str, chapter: str, *, cbe: bool = False):
+    q = _q(qid, 1, f"Spread item {qid}", "very_short_answer")
+    q.chapter_ids, q.subject = [chapter], "Science"
+    if cbe:
+        q.question_bank_id = "cbe:Item-Bank---Science-Class-10.pdf"
+    return q
+
+
+def _six_of(bank, stale=frozenset()):
+    from academicos.assessment.paper_templates import build_scope_filter, plan
+    from academicos.assessment.schemas import TemplateScope
+    t = PaperTemplateDraft.model_validate(_draft(
+        totalMarks=6, scope={}, sections=[_section("Section A", 6, 1, competencyShare=0.0)]))
+    scope = dataclasses.replace(build_scope_filter(TemplateScope(), bank), last_resort=frozenset())
+    _, plans = plan(t, "tpl", bank, scope, stale=stale)
+    return [q.id for q in plans[0].picked]
+
+
+def test_a_paper_takes_the_chapters_in_turn_and_so_does_the_next():
+    """A whole-syllabus Class 10 Science annual printed 29 of its 31 questions
+    from one chapter: the bank's ids run chapter by chapter, most questions
+    share one quality score, and once a teacher's recent questions went last
+    each new paper took the next block of ids."""
+    from collections import Counter
+    bank = [_chaptered(f"{c}{i}", f"chap-{c}") for c in "abc" for i in range(4)]
+    first = _six_of(bank)
+    assert Counter(q[0] for q in first) == {"a": 2, "b": 2, "c": 2}, first
+    second = _six_of(bank, stale=frozenset(first))
+    assert not set(first) & set(second)
+    assert Counter(q[0] for q in second) == {"a": 2, "b": 2, "c": 2}, second
+
+
+def test_a_recent_competency_question_comes_back_only_to_reach_cbses_half():
+    """A section that names no share takes competency-based questions first,
+    but one from the teacher's recent papers only up to CBSE's 50%: preferring
+    them all reprinted every one of a small bank's on each new paper."""
+    from academicos.assessment.competency import is_competency_question
+    from academicos.assessment.paper_templates import build_scope_filter, plan
+    from academicos.assessment.schemas import TemplateScope
+    bank = ([_chaptered(f"c{i}", "chap-a", cbe=True) for i in range(4)]
+            + [_chaptered(f"p{i}", "chap-b") for i in range(8)])
+    t = PaperTemplateDraft.model_validate(_draft(
+        totalMarks=4, scope={}, sections=[_section("Section A", 4, 1)]))
+    scope = dataclasses.replace(build_scope_filter(TemplateScope(), bank), last_resort=frozenset())
+    _, fresh = plan(t, "tpl", bank, scope)
+    assert sum(is_competency_question(q) for q in fresh[0].picked) == 4
+    _, again = plan(t, "tpl", bank, scope, stale=frozenset({"c0", "c1", "c2", "c3"}))
+    picked = again[0].picked
+    assert sum(is_competency_question(q) for q in picked) == 2, [q.id for q in picked]

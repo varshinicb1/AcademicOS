@@ -430,19 +430,79 @@ def test_one_word_options_like_both_and_neither_still_split():
     assert options == ["i", "ii", "both", "neither"]
 
 
+# A font that draws every symbol, as the production image's DejaVu Sans does,
+# and Helvetica, which draws none of them (the phone's PDF font). pdf_safe
+# keeps a symbol the font can draw and spells out one it cannot.
+_DEJAVU = ("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+           "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf")
+
+
+@pytest.fixture
+def dejavu() -> str:
+    if not Path(_DEJAVU[0]).exists():
+        pytest.skip("DejaVu Sans is not installed (the production image has it)")
+    from reportlab.pdfbase import pdfmetrics
+    from reportlab.pdfbase.ttfonts import TTFont
+    if "TestDejaVu" not in pdfmetrics.getRegisteredFontNames():
+        pdfmetrics.registerFont(TTFont("TestDejaVu", _DEJAVU[0]))
+        pdfmetrics.registerFont(TTFont("TestDejaVu-Bold", _DEJAVU[1]))
+    return "TestDejaVu"
+
+
 def test_a_delta_that_means_change_in_is_not_a_triangle():
     """pdf_safe runs on every subject; the geometry mapping printed an
     Economics 'Increase in Income (ΔY)' as 'triangle Y'."""
-    assert pdf_safe("Increase in Income (ΔY)") == "Increase in Income (delta Y)"
-    assert pdf_safe("Energy released = ∆m × 931.5 MeV") == "Energy released = delta m × 931.5 MeV"
-    assert pdf_safe("∆\U0001d438\U0001d43c\U0001d43c > ∆EIV") == "delta EII > delta EIV"
+    h = "Helvetica"
+    assert pdf_safe("Increase in Income (ΔY)", h) == "Increase in Income (delta Y)"
+    assert pdf_safe("Energy released = ∆m × 931.5 MeV", h) == "Energy released = delta m × 931.5 MeV"
+    assert pdf_safe("∆\U0001d438\U0001d43c\U0001d43c > ∆EIV", h) == "delta EII > delta EIV"
 
 
 def test_a_geometry_triangle_is_still_a_triangle():
-    assert pdf_safe("∆OAB is an equilateral triangle") == "triangle OAB is an equilateral triangle"
-    assert pdf_safe("Δ ABC ~ Δ PQR") == "triangle ABC ~ triangle PQR"
+    h = "Helvetica"
+    assert pdf_safe("∆OAB is an equilateral triangle", h) == "triangle OAB is an equilateral triangle"
+    assert pdf_safe("Δ ABC ~ Δ PQR", h) == "triangle ABC ~ triangle PQR"
     # Italic vertex letters, as CBE Maths writes them.
-    assert pdf_safe("∆\U0001d443\U0001d446\U0001d444 ~ ∆QSR") == "triangle PSQ ~ triangle QSR"
+    assert pdf_safe("∆\U0001d443\U0001d446\U0001d444 ~ ∆QSR", h) == "triangle PSQ ~ triangle QSR"
+
+
+def test_a_delta_the_font_draws_is_printed_as_written(dejavu):
+    """Either reading of a delta is the author's own, so a font that draws it
+    prints it: 'ΔABC' on a geometry paper, 'ΔY' on an economics one."""
+    assert pdf_safe("Increase in Income (ΔY)", dejavu) == "Increase in Income (ΔY)"
+    assert pdf_safe("Δ ABC ~ Δ PQR", dejavu) == "Δ ABC ~ Δ PQR"
+    assert pdf_safe("∆\U0001d443\U0001d446\U0001d444 ~ ∆QSR", dejavu) == "∆PSQ ~ ∆QSR"
+
+
+def test_a_symbol_the_font_draws_is_printed_not_spelled_out(dejavu):
+    """QA P-02 (2026-10-01): a Class 10 paper set in DejaVu, which draws every
+    one of these, printed 'sqrt 3', 'theta', 'pi', '<=' and 'a^2'."""
+    cases = (
+        ("√3 + √2", "√3 + √2", "sqrt3 + sqrt2"),
+        ("sin θ = 3/5", "sin θ = 3/5", "sin theta = 3/5"),
+        ("area = πr²", "area = πr²", "area = pir^2"),
+        ("x ≤ 5 and y ≥ 2, x ≠ y", "x ≤ 5 and y ≥ 2, x ≠ y", "x <= 5 and y >= 2, x != y"),
+        ("∴ ∠ABC = 90°", "∴ ∠ABC = 90°", "therefore angle ABC = 90°"),
+        ("x ⇒ y", "x ⇒ y", "x => y"),
+        ("₹ 500", "₹ 500", "Rs. 500"),
+        ("2α + 1", "2α + 1", "2alpha + 1"),
+    )
+    for text, drawn, spelled in cases:
+        assert pdf_safe(text, dejavu) == drawn
+        assert pdf_safe(text, "Helvetica") == spelled
+
+
+def test_a_stand_in_character_becomes_the_one_it_means_in_any_font(dejavu):
+    """Styled Greek, a ring operator for a degree, the CJK plus-minus, a
+    combining arrow: replaced whatever the font, then kept or spelled."""
+    for font in (dejavu, "Helvetica"):
+        assert pdf_safe("cos 60∘", font) == "cos 60°"
+        assert pdf_safe("x =土4", font) == "x =±4"
+        assert pdf_safe("（x-10)", font) == "(x-10)"
+    assert pdf_safe("\U0001d6fc + \U0001d703", dejavu) == "α + θ"
+    assert pdf_safe("\U0001d6fc + \U0001d703", "Helvetica") == "alpha + theta"
+    assert pdf_safe("TS║QR", dejavu) == "TS∥QR"
+    assert pdf_safe("TS║QR", "Helvetica") == "TS||QR"
 
 
 def test_a_question_taller_than_a_page_exports(tmp_path):
@@ -475,7 +535,11 @@ def test_subparts_of_a_descriptive_question_are_not_gridded_as_options(tmp_path)
 
 def test_math_italic_letters_survive():
     """'12𝑥2 + 11𝑥−15' printed as '122 + 11−15' -- the variable vanished."""
-    assert pdf_safe("12\U0001d4652 + 11\U0001d465−15") == "12x2 + 11x-15"
+    assert pdf_safe("12\U0001d4652 + 11\U0001d465−15", "Helvetica") == "12x2 + 11x-15"
+
+
+def test_math_italic_letters_survive_in_a_unicode_font(dejavu):
+    assert pdf_safe("12\U0001d4652 + 11\U0001d465−15", dejavu) == "12x2 + 11x−15"
 
 
 def _option_lines(text: str) -> list[str]:
@@ -607,33 +671,44 @@ def test_a_paper_without_a_header_keeps_the_default_instructions(tmp_path):
 # the repair puts into the served bank, measured on the merge's own output.
 
 RESTORED_SYMBOLS = (
-    # the repaired text, as the record now holds it, and what the page shows
-    ("density ρ", "density ρ"),            # cbe:q:Science9PS1
-    ("50° at O", "50° at O"),              # cbe:q:Maths9MS6
-    ("2α + 1", "2α + 1"),                  # cbe:q:Maths9MS6
-    ("find ∠BAC", "find angle BAC"),       # cbe:q:Maths9MS6
-    ("6.54 × 4", "6.54 × 4"),              # cbe:q:Maths10AS6
-    ("26.16 ÷ 4", "26.16 ÷ 4"),            # cbe:q:Maths6RB5
-    ("(Using π = 3.14)", "(Using pi = 3.14)"),   # cbe:q:Maths10AS8
-    ("R1 20 Ω", "R1 20 Ω"),                # cbe:q:Science10SD1
-    ("x ⇒ y", "x => y"),                   # cbe:q:Maths10AS8's working
-    ("∴ altitude", "therefore altitude"),  # Mathematics X f01c7b6f Q27
-    ("• Deriving", "- Deriving"),          # the SQP marking schemes' bullet
-    ("2⋅4 g/litre", "2·4 g/litre"),        # Biology XII 784bd959 Q27
-    ("In ΔACE", "In triangle ACE"),        # cbe:q:Maths9BS8
+    # the repaired text, as the record now holds it, and what the page shows:
+    # set in a font that draws the symbol, and in one that cannot
+    ("density ρ", "density ρ", "density ρ"),            # cbe:q:Science9PS1
+    ("50° at O", "50° at O", "50° at O"),               # cbe:q:Maths9MS6
+    ("2α + 1", "2α + 1", "2alpha + 1"),                 # cbe:q:Maths9MS6
+    ("find ∠BAC", "find ∠BAC", "find angle BAC"),       # cbe:q:Maths9MS6
+    ("6.54 × 4", "6.54 × 4", "6.54 × 4"),               # cbe:q:Maths10AS6
+    ("26.16 ÷ 4", "26.16 ÷ 4", "26.16 ÷ 4"),            # cbe:q:Maths6RB5
+    ("(Using π = 3.14)", "(Using π = 3.14)", "(Using pi = 3.14)"),   # cbe:q:Maths10AS8
+    ("R1 20 Ω", "R1 20 Ω", "R1 20 Ω"),                  # cbe:q:Science10SD1
+    ("x ⇒ y", "x ⇒ y", "x => y"),                       # cbe:q:Maths10AS8's working
+    ("∴ altitude", "∴ altitude", "therefore altitude"),  # Mathematics X f01c7b6f Q27
+    ("• Deriving", "- Deriving", "- Deriving"),         # the SQP marking schemes' bullet
+    ("2⋅4 g/litre", "2·4 g/litre", "2·4 g/litre"),      # Biology XII 784bd959 Q27
+    ("In ΔACE", "In ΔACE", "In triangle ACE"),          # cbe:q:Maths9BS8
 )
 
 
 def test_every_restored_symbol_reaches_the_page(tmp_path):
-    stem = ("Restored symbols: " + "; ".join(text for text, _ in RESTORED_SYMBOLS)
+    stem = ("Restored symbols: " + "; ".join(text for text, _, _ in RESTORED_SYMBOLS)
             + " -- explain each one and give a reason for your answer.")
     paper = _make_paper()
     paper.sections[0].questions[0].stem = stem
     raw = _extract_text(export_pdf(paper, tmp_path / "symbols"))
     assert "\x00" not in raw, "a character the font cannot draw printed as a notdef box"
     printed = " ".join(raw.split())    # the renderer wraps the stem where it must
-    for repaired, on_the_page in RESTORED_SYMBOLS:
+    for repaired, drawn, spelled in RESTORED_SYMBOLS:
+        # Whichever body font this machine registered (DejaVu in production,
+        # Segoe UI on Windows): each symbol is printed or spelled, never lost.
+        on_the_page = pdf_safe(repaired)
+        assert on_the_page in (drawn, spelled), on_the_page
         assert on_the_page in printed, f"{repaired!r} did not reach the page"
+
+
+def test_restored_symbols_print_as_symbols_in_dejavu(dejavu):
+    for repaired, drawn, spelled in RESTORED_SYMBOLS:
+        assert pdf_safe(repaired, dejavu) == drawn
+        assert pdf_safe(repaired, "Helvetica") == spelled
 
 
 # ---- the table is a guard, not a sample (Task 121 review) -------------------
@@ -726,13 +801,23 @@ def test_every_symbol_in_the_served_bank_reaches_the_page(tmp_path):
 def test_an_exponent_prints_as_an_exponent_not_a_digit():
     """`4y³` printed `4y3` -- a different quantity, and the whole point of the
     question. The re-audit of 2026-09-23 found it on cbe:q:Maths8BS2, whose
-    options are `(A) 4y³ (B) 9y³ (C) 13y³ (D) 36y³`. A subscript stays a plain
-    digit: `H₂O` reads as H2O, the way chemistry is written in ASCII, and no
+    options are `(A) 4y³ (B) 9y³ (C) 13y³ (D) 36y³`. In a font that cannot
+    draw it, the exponent gets a caret; a subscript becomes a plain digit:
+    `H₂O` reads as H2O, the way chemistry is written in ASCII, and no
     subscript changes a value."""
-    assert pdf_safe("(A) 4y³ (B) 9y³") == "(A) 4y^3 (B) 9y^3"
-    assert pdf_safe("a² + b² = c²") == "a^2 + b^2 = c^2"
-    assert pdf_safe("10⁻³") == "10^-3"
-    assert pdf_safe("H₂O and CO₂") == "H2O and CO2"
+    h = "Helvetica"
+    assert pdf_safe("(A) 4y³ (B) 9y³", h) == "(A) 4y^3 (B) 9y^3"
+    assert pdf_safe("a² + b² = c²", h) == "a^2 + b^2 = c^2"
+    assert pdf_safe("10⁻³", h) == "10^-3"
+    assert pdf_safe("H₂O and CO₂", h) == "H2O and CO2"
+
+
+def test_an_exponent_the_font_draws_stays_raised(dejavu):
+    """QA P-02: set in DejaVu, a paper still printed `a^2 + b^2 = c^2`."""
+    assert pdf_safe("(A) 4y³ (B) 9y³", dejavu) == "(A) 4y³ (B) 9y³"
+    assert pdf_safe("a² + b² = c²", dejavu) == "a² + b² = c²"
+    assert pdf_safe("10⁻³", dejavu) == "10⁻³"
+    assert pdf_safe("H₂O and CO₂", dejavu) == "H₂O and CO₂"
 
 
 # --------------------------------------------------------------------------- #
@@ -797,7 +882,7 @@ def test_a_key_with_one_point_for_every_mark_says_it_is_all_or_nothing(tmp_path)
 def test_a_scheme_that_awards_any_two_of_its_points_says_so(tmp_path):
     paper, key = _key_for(_question(
         2, [(f"Reason {n}", 1) for n in (1, 2, 3, 4)], metadata={"anyOf": 2}))
-    assert "Any 2 of the above value points, 1 mark(s) each." in key
+    assert "Any 2 of the above value points, 1 mark each." in key
     assert "all or nothing" not in key
 
 
@@ -815,3 +900,36 @@ def test_an_option_key_is_not_told_to_set_its_own_value_points():
                                      metadata={"objective": True}))
     assert "all or nothing" not in key
     assert "value points" not in key
+
+
+def test_the_footer_keeps_the_school_and_the_page_count_apart(tmp_path):
+    """QA P-30: a long school name ran into the centred page number,
+    "Q.P. Code FAFCE43AB9Page 1 of 5". The count is on the right now, and a
+    name too long for its half of the line is cut."""
+    import fitz
+
+    from academicos.assessment.schemas import SchoolTemplate
+
+    paper = _make_paper()
+    paper.metadata.school_name = "The Very Long Name Of A School " * 4
+    path = export_pdf(paper, tmp_path / "f", template=SchoolTemplate(id="t", school_id="s", name="x"))
+    with fitz.open(str(path)) as doc:
+        page = doc[0]
+        footer = [b for b in page.get_text("blocks") if b[1] > page.rect.height - 20 * 2.835]
+        left = [b for b in footer if "Q.P. Code" in b[4] or "…" in b[4]]
+        right = [b for b in footer if "Page 1 of" in b[4]]
+        assert left and right
+        assert max(b[2] for b in left) < min(b[0] for b in right), "the two footer texts overlap"
+
+
+def test_the_key_says_all_or_nothing_once_and_marks_the_rows(tmp_path):
+    """QA P-31: the full note printed under nearly every row of a board key."""
+    from academicos.assessment.paper import ALL_OR_NOTHING_NOTE
+
+    paper = _make_paper()
+    gq = paper.sections[0].questions[0]
+    paper.answer_key = {str(gq.display_number): "Oxygen [5m]\n" + ALL_OR_NOTHING_NOTE}
+    text = " ".join(_extract_text(export_answer_key_pdf(paper, tmp_path)).split())
+    assert text.count("the source prints no split") == 1
+    assert "Oxygen [5m] (all or nothing)" in text
+    assert "Mark / s" not in text and "Marks" in text

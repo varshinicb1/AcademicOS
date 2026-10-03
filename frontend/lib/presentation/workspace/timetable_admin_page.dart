@@ -1015,6 +1015,7 @@ class _BellTabState extends State<_BellTab> {
 
 // ------------------------------------------------------------------ generate
 
+
 class _GenerateTab extends StatefulWidget {
   final _SchoolData data;
   const _GenerateTab({required this.data});
@@ -1047,7 +1048,6 @@ class _GenerateTabState extends State<_GenerateTab> {
   bool _busy = false;
   Map<String, dynamic>? _result;
   String? _error;
-
   @override
   void dispose() {
     _maxDay.dispose();
@@ -1097,6 +1097,7 @@ class _GenerateTabState extends State<_GenerateTab> {
       if (mounted) setState(() => _busy = false);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

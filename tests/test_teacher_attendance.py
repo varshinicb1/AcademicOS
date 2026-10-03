@@ -68,3 +68,16 @@ def test_check_in_and_who_may(w):
     other = w.c.put(URL, params={"date": MON}, json={"marks": [{"teacherId": w.uid["ana"], "status": "absent"}]},
                     headers=w.p2)
     assert other.status_code in (403, 404)
+
+
+def test_a_teacher_reads_their_own_check_in(w):
+    """QA S-12: My day offered "I'm here" again every time it opened, because
+    the register is the principal's and a teacher could not read their row."""
+    mine = w.c.get(f"{BASE}/my-attendance", headers=w.t["dev"])
+    assert mine.status_code == 200 and mine.json()["status"] == "unmarked"
+    w.c.post(f"{BASE}/my-attendance", headers=w.t["dev"])
+    again = w.c.get(f"{BASE}/my-attendance", headers=w.t["dev"]).json()
+    assert again["status"] == "present" and again["teacherId"] == w.uid["dev"] and again["markedAt"]
+    _mark(w, chitra="absent")
+    assert w.c.get(f"{BASE}/my-attendance", headers=w.t["chitra"]).json()["status"] == "absent"
+    assert w.c.get(f"{BASE}/my-attendance", headers=w.stu).status_code == 403

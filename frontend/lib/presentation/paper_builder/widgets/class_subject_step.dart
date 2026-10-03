@@ -11,9 +11,37 @@ class ClassSubjectStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final last = c.lastTime;
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
       children: [
+        // A new paper starts here; the last paper's class and subject are
+        // one tap away, never chosen for the teacher (QA P-25).
+        if (last != null && c.grade == null)
+          Card(
+            key: const ValueKey('builder-continue'),
+            margin: const EdgeInsets.only(bottom: 16),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 8, 8),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('Continue where you left off', style: theme.textTheme.titleSmall),
+                const SizedBox(height: 2),
+                Text(
+                    'Class ${last.grade} · ${last.subject}'
+                    '${c.memory.templateId != null ? ', with the template you used last' : ''}.',
+                    style: theme.textTheme.bodySmall),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton.icon(
+                    onPressed: c.continueLastTime,
+                    style: TextButton.styleFrom(minimumSize: const Size(0, 44)),
+                    icon: const Icon(Icons.arrow_forward),
+                    label: Text('Continue with Class ${last.grade} ${last.subject}'),
+                  ),
+                ),
+              ]),
+            ),
+          ),
         Text('Which class is this paper for?', style: theme.textTheme.titleMedium),
         const SizedBox(height: 8),
         Wrap(spacing: 8, runSpacing: 8, children: [

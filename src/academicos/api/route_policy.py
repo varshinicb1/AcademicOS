@@ -117,6 +117,12 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/auth/users"): _p(ADMIN["users"]),
     ("POST", "/api/v1/auth/users/{user_id}/close"): _p(ADMIN["users"]),
     ("POST", "/api/v1/auth/users/{user_id}/reopen"): _p(ADMIN["users"]),
+    ("POST", "/api/v1/auth/users/{user_id}/password-reset"): _p(
+        ADMIN["users"], "a one-time password for a school account; never the principal's (QA S-05)"),
+    ("POST", "/api/v1/auth/password"): _p(ANY_USER, "the caller's own password; needs the current one"),
+    # NFR-1: never delegated -- an erasure cannot be undone (assessment/erasure.py).
+    ("GET", "/api/v1/auth/users/{user_id}/erasure"): _p(PRINCIPAL, "what erasing a student or parent deletes"),
+    ("POST", "/api/v1/auth/users/{user_id}/erasure"): _p(PRINCIPAL, "DPDP erasure on the school's request"),
     ("POST", "/api/v1/auth/invites"): _p(ADMIN["users"]),
     ("GET", "/api/v1/auth/invites"): _p(ADMIN["users"]),
     ("DELETE", "/api/v1/auth/invites/{code}"): _p(ADMIN["users"]),
@@ -283,6 +289,7 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/cover-summary"): _p(ADMIN["reports"]),
     ("GET", "/api/v1/curriculum/teacher-attendance"): _p(ADMIN["leave"]),
     ("PUT", "/api/v1/curriculum/teacher-attendance"): _p(ADMIN["leave"]),
+    ("GET", "/api/v1/curriculum/my-attendance"): _p(STAFF, "the caller's own row of today's register (QA S-12)"),
     ("POST", "/api/v1/curriculum/my-attendance"): _p(STAFF, "the caller checks in"),
     # M3 notifications (operations/routes.py): every route is the caller's own.
     ("GET", "/api/v1/notifications"): _p(ANY_USER, "the callers own inbox"),
@@ -458,6 +465,10 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
         PRINCIPAL, "choosing the year's edition is the school's decision; Depends(require_principal)"),
     ("POST", "/api/v1/curriculum/seed/cbse"): _p(
         PRINCIPAL, "seeds any class 6-12; same posture as /seed/cbse10, which delegates here"),
+    # The setup wizard: a new school's year, classes, calendar, terms and bell
+    # in one call (curriculum/school_setup.py), for the caller's own school.
+    ("POST", "/api/v1/curriculum/school-setup"): _p(
+        PRINCIPAL, "sets up the caller's own school; idempotent; Depends(require_principal)"),
     ("GET", "/api/v1/curriculum/chapters/by-slug/{subject}/{grade}/{slug}/topics"): _p(
         ANY_USER, "read-only; resolves a syllabus slug to the caller's own school's chapter, so a teacher's subtopic picker can find one"),
     ("GET", "/api/v1/curriculum/chapters/{chapter_id}/proposed-topics"): _p(

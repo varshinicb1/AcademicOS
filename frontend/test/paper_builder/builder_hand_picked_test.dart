@@ -103,6 +103,9 @@ void main() {
       ),
     ));
     await tester.pumpAndSettle();
+    // A new paper starts at the class (QA P-25); the remembered one is a tap away.
+    await tester.tap(find.text('Continue with Class 10 Science'));
+    await tester.pumpAndSettle();
 
     // The template step offers the bank instead of a template.
     await tapVisible(tester, find.byKey(const ValueKey('hand-pick')));
@@ -151,6 +154,8 @@ void main() {
         userId: fixtureTeacherId,
       ),
     ));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Continue with Class 10 Science'));  // QA P-25: a new paper starts at the class
     await tester.pumpAndSettle();
     await tapVisible(tester, find.byKey(const ValueKey('hand-pick')));
     // Only the first of the two: a list the server did not capture is

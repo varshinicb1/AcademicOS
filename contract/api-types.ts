@@ -570,6 +570,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/auth/password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Change Password
+         * @description The signed-in person's own password. Other sessions end; this one
+         *     stays signed in.
+         */
+        post: operations["change_password_api_v1_auth_password_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/auth/providers": {
         parameters: {
             query?: never;
@@ -656,6 +677,55 @@ export interface paths {
          *     papers, marks and history stay, attributed to them (N-67-8).
          */
         post: operations["close_account_api_v1_auth_users__user_id__close_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/auth/users/{user_id}/erasure": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Preview Erasure
+         * @description What erasing this student or parent would delete, part by part, and
+         *     what would stay. Changes nothing.
+         */
+        get: operations["preview_erasure_api_v1_auth_users__user_id__erasure_get"];
+        put?: never;
+        /**
+         * Erase
+         * @description Erase a student's or a parent's personal data on the school's written
+         *     request. Cannot be undone. See the module docstring for the order and
+         *     for what stays.
+         */
+        post: operations["erase_api_v1_auth_users__user_id__erasure_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/auth/users/{user_id}/password-reset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Reset Password
+         * @description Set a one-time password for a school account and sign it out
+         *     everywhere. The response is the only place the password appears; it is
+         *     not stored in the clear or written to the audit log.
+         */
+        post: operations["reset_password_api_v1_auth_users__user_id__password_reset_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2353,7 +2423,14 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /**
+         * My Attendance
+         * @description The caller's own attendance today, as the day's register holds it.
+         *     The register is the principal's, so My day could not tell a teacher who
+         *     had checked in that they had: "I'm here" was offered again every time it
+         *     opened (QA S-12).
+         */
+        get: operations["my_attendance_api_v1_curriculum_my_attendance_get"];
         put?: never;
         /**
          * Check In
@@ -2736,6 +2813,28 @@ export interface paths {
         post: operations["upload_school_logo_api_v1_curriculum_school_profile_logo_post"];
         /** Remove School Logo */
         delete: operations["remove_school_logo_api_v1_curriculum_school_profile_logo_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/school-setup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * School Setup
+         * @description Sets up the caller's school to start: academic year, classes and
+         *     sections with their CBSE subjects and chapters, calendar, terms and bell
+         *     schedule. Safe to call again; it adds only what is missing.
+         */
+        post: operations["school_setup_api_v1_curriculum_school_setup_post"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -4783,7 +4882,10 @@ export interface paths {
         /**
          * My Reviews
          * @description The papers waiting for the caller's review; the principal sees the
-         *     school's.
+         *     school's. For the principal, "pending" also holds the papers a colleague
+         *     approved for them: until 2026-10-01 those left the list the moment the
+         *     colleague approved, and the principal's Waiting tab read "Nothing to
+         *     review" while the paper waited for them (QA P-12).
          */
         get: operations["my_reviews_api_v1_paper_reviews_get"];
         put?: never;
@@ -8067,6 +8169,71 @@ export interface components {
             /** Studentid */
             studentId: string;
         };
+        /** ErasureKept */
+        ErasureKept: {
+            /** What */
+            what: string;
+            /** Why */
+            why: string;
+        };
+        /** ErasurePart */
+        ErasurePart: {
+            /** Count */
+            count: number;
+            /** Error */
+            error?: string | null;
+            /** Label */
+            label: string;
+            /** Part */
+            part: string;
+            /** Tables */
+            tables?: {
+                [key: string]: number;
+            } | null;
+        };
+        /** ErasurePreview */
+        ErasurePreview: {
+            /** Closed */
+            closed: boolean;
+            /** Kept */
+            kept: components["schemas"]["ErasureKept"][];
+            /** Name */
+            name: string;
+            /** Parts */
+            parts: components["schemas"]["ErasurePart"][];
+            /** Role */
+            role: string;
+            /** Userid */
+            userId: string;
+        };
+        /** ErasureRequest */
+        ErasureRequest: {
+            /** Confirmname */
+            confirmName: string;
+            /**
+             * Requestreceivedon
+             * Format: date
+             */
+            requestReceivedOn: string;
+            /**
+             * Requestedby
+             * @enum {string}
+             */
+            requestedBy: "parent" | "student" | "school";
+        };
+        /** ErasureResult */
+        ErasureResult: {
+            /** Erasedat */
+            erasedAt: string;
+            /** Kept */
+            kept: components["schemas"]["ErasureKept"][];
+            /** Parts */
+            parts: components["schemas"]["ErasurePart"][];
+            /** Role */
+            role: string;
+            /** Userid */
+            userId: string;
+        };
         /** ErrorGroupResponse */
         ErrorGroupResponse: {
             /** Count */
@@ -9860,6 +10027,11 @@ export interface components {
          *     default, which every PDF without a template falls back to.
          */
         PaperTemplate: {
+            /**
+             * Addressline
+             * @default
+             */
+            addressLine: string;
             /** Basedon */
             basedOn?: string | null;
             /**
@@ -10073,6 +10245,22 @@ export interface components {
             status: string;
             /** Studentid */
             studentId: string;
+        };
+        /** PasswordChangeRequest */
+        PasswordChangeRequest: {
+            /** Currentpassword */
+            currentPassword: string;
+            /** Newpassword */
+            newPassword: string;
+        };
+        /** PasswordResetResponse */
+        PasswordResetResponse: {
+            /** Name */
+            name: string;
+            /** Temporarypassword */
+            temporaryPassword: string;
+            /** Userid */
+            userId: string;
         };
         /** PathQuery */
         PathQuery: {
@@ -11095,6 +11283,11 @@ export interface components {
             assessmentId: string;
             /** Authorid */
             authorId: string;
+            /**
+             * Awaitingprincipal
+             * @default false
+             */
+            awaitingPrincipal: boolean;
             /** Comment */
             comment?: string | null;
             /** Decidedat */
@@ -11389,6 +11582,11 @@ export interface components {
             schoolId: string;
             /** Students */
             students: number;
+            /**
+             * Studentswithevidence
+             * @default 0
+             */
+            studentsWithEvidence: number;
             /** Subjects */
             subjects: components["schemas"]["SubjectRollupResponse"][];
         };
@@ -11440,6 +11638,54 @@ export interface components {
             updatedAt?: string | null;
         };
         /**
+         * SchoolSetupRequest
+         * @description Every field has a default: an empty body sets up the Indian year
+         *     containing today, classes 6-10 with section A, Sunday off, two terms and
+         *     an 8-period bell.
+         */
+        SchoolSetupRequest: {
+            bell?: components["schemas"]["SetupBellBody"];
+            /** Classes */
+            classes?: components["schemas"]["SetupClassBody"][];
+            /** Enddate */
+            endDate?: string | null;
+            /**
+             * Secondandfourthsaturdaysoff
+             * @default false
+             */
+            secondAndFourthSaturdaysOff: boolean;
+            /** Startdate */
+            startDate?: string | null;
+            /** Terms */
+            terms?: components["schemas"]["SetupTermBody"][] | null;
+            /** Weeklyoffdays */
+            weeklyOffDays?: string[];
+            /** Yearlabel */
+            yearLabel?: string | null;
+        };
+        /**
+         * SchoolSetupResponse
+         * @description `created` and `alreadyExisted` are sentences for the person who
+         *     pressed the button; `skipped` names what could not be made and why.
+         */
+        SchoolSetupResponse: {
+            academicYear: components["schemas"]["AcademicYearResponse"];
+            /** Alreadyexisted */
+            alreadyExisted: string[];
+            /** Bellscheduleid */
+            bellScheduleId: string;
+            /** Calendarid */
+            calendarId: string;
+            /** Classes */
+            classes: components["schemas"]["SetupClassResponse"][];
+            /** Created */
+            created: string[];
+            /** Skipped */
+            skipped: string[];
+            /** Termids */
+            termIds: string[];
+        };
+        /**
          * SchoolSummary
          * @description One school's numbers. Counts only: nothing here names a student, a
          *     teacher, a paper or a section.
@@ -11476,6 +11722,11 @@ export interface components {
         };
         /** SchoolTemplate */
         SchoolTemplate: {
+            /**
+             * Addressline
+             * @default
+             */
+            addressLine: string;
             /**
              * Brandcolor
              * @default #000000
@@ -12021,6 +12272,72 @@ export interface components {
             periodsPerWeek: number;
             /** Subject */
             subject: string;
+        };
+        /**
+         * SetupBellBody
+         * @description The default bell: `periods` periods of `periodMinutes` from `startsAt`,
+         *     and one break of `breakMinutes` after period `breakAfterPeriod` (0: none).
+         */
+        SetupBellBody: {
+            /**
+             * Breakafterperiod
+             * @default 4
+             */
+            breakAfterPeriod: number;
+            /**
+             * Breakminutes
+             * @default 20
+             */
+            breakMinutes: number;
+            /**
+             * Periodminutes
+             * @default 40
+             */
+            periodMinutes: number;
+            /**
+             * Periods
+             * @default 8
+             */
+            periods: number;
+            /**
+             * Startsat
+             * @default 08:00
+             */
+            startsAt: string;
+        };
+        /**
+         * SetupClassBody
+         * @description One class and its sections. Classes 6-10 can be set up here.
+         */
+        SetupClassBody: {
+            /** Grade */
+            grade: number;
+            /** Sections */
+            sections?: string[];
+        };
+        /** SetupClassResponse */
+        SetupClassResponse: {
+            /** Chaptersadded */
+            chaptersAdded: number;
+            /** Created */
+            created: boolean;
+            /** Grade */
+            grade: number;
+            /** Gradeid */
+            gradeId: string;
+            /** Sections */
+            sections: string[];
+            /** Subjects */
+            subjects: number;
+        };
+        /** SetupTermBody */
+        SetupTermBody: {
+            /** Enddate */
+            endDate: string;
+            /** Name */
+            name: string;
+            /** Startdate */
+            startDate: string;
         };
         /** ShareRequest */
         ShareRequest: {
@@ -14660,6 +14977,41 @@ export interface operations {
             };
         };
     };
+    change_password_api_v1_auth_password_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PasswordChangeRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     providers_api_v1_auth_providers_get: {
         parameters: {
             query?: never;
@@ -14764,6 +15116,103 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["UserResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    preview_erasure_api_v1_auth_users__user_id__erasure_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                user_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErasurePreview"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    erase_api_v1_auth_users__user_id__erasure_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                user_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ErasureRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErasureResult"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reset_password_api_v1_auth_users__user_id__password_reset_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                user_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PasswordResetResponse"];
                 };
             };
             /** @description Validation Error */
@@ -17694,6 +18143,26 @@ export interface operations {
             };
         };
     };
+    my_attendance_api_v1_curriculum_my_attendance_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AttendanceRow"];
+                };
+            };
+        };
+    };
     check_in_api_v1_curriculum_my_attendance_post: {
         parameters: {
             query?: never;
@@ -18333,6 +18802,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SchoolProfileResponse"];
+                };
+            };
+        };
+    };
+    school_setup_api_v1_curriculum_school_setup_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SchoolSetupRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SchoolSetupResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

@@ -6,6 +6,7 @@ import '../../core/session/owner_session.dart';
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'dashboard_card.dart';
+import 'setup_checklist.dart';
 import 'young_home.dart';
 import 'ops_api.dart';
 import 'profiles.dart';
@@ -160,11 +161,19 @@ class _WorkspacePageState extends State<WorkspacePage> {
     final tiles = _tiles(CurrentSession.role);
     return Scaffold(
       appBar: destinationAppBar(context, title: Text(tr('School')), actions: [
-        // English / हिन्दी for these pages, per device (TA-9).
+        // English / हिन्दी for these pages, per device (TA-9): the same
+        // setting as Settings, Language, which says the same about coverage.
         IconButton(
           tooltip: uiHindi ? 'Switch to English' : 'हिन्दी में देखें',
           icon: const Icon(Icons.translate),
-          onPressed: () => setState(() => setUiLanguage(uiHindi ? 'en' : 'hi')),
+          onPressed: () {
+            setState(() => setUiLanguage(uiHindi ? 'en' : 'hi'));
+            if (uiHindi) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(const SnackBar(content: Text(hindiCoverage)));
+            }
+          },
         ),
         // A shared family phone: switch between the children and parents on it (SA-8).
         if (CurrentSession.role == 'student' || CurrentSession.role == 'parent')
@@ -177,48 +186,65 @@ class _WorkspacePageState extends State<WorkspacePage> {
       // Keyed by school, so the dashboard reloads after an owner's switch.
       body: Column(key: ValueKey('school:${CurrentSession.schoolId}'), children: [
         const OfflineBanner(),
-        // The principal and reports admins see today at a glance (ADM-2).
-        if (CurrentSession.role == 'principal' || _caps.contains('reports')) const DashboardCard(),
-        if (_young) const Expanded(child: YoungHome()) else
-        Expanded(child: RefreshIndicator(
-        onRefresh: _loadUnread,
-        child: LayoutBuilder(builder: (context, c) {
-          final cols = c.maxWidth > 1100 ? 3 : (c.maxWidth > 700 ? 2 : 1);
-          return GridView.count(
-            padding: const EdgeInsets.all(16),
-            crossAxisCount: cols,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            childAspectRatio: cols == 1 ? 4.2 : 3.0,
-            children: [
-              for (final t in tiles)
-                AppCard(
-                  onTap: () => context.push(t.path).then((_) => _loadUnread()),
-                  child: Row(children: [
-                    Badge(
-                      isLabelVisible: t.path == '/school/inbox' && _unread > 0,
-                      label: Text('$_unread'),
-                      child: Icon(t.icon, size: 32, color: theme.colorScheme.primary),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(t.title, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
-                          const SizedBox(height: 4),
-                          Text(t.subtitle, style: theme.textTheme.bodySmall, maxLines: 2, overflow: TextOverflow.ellipsis),
-                        ],
-                      ),
-                    ),
-                  ]),
-                ),
-            ],
-          );
-        }),
-      )),
+        if (_young)
+          const Expanded(child: YoungHome())
+        else
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: _loadUnread,
+              child: LayoutBuilder(builder: (context, c) {
+                final cols = c.maxWidth > 1100 ? 3 : (c.maxWidth > 700 ? 2 : 1);
+                // One scroll for the cards and the tiles: the dashboard and the
+                // setup checklist above a fixed grid left a phone no room for it.
+                return CustomScrollView(slivers: [
+                  // A principal whose school is not set up yet sees its first
+                  // steps (QA S-09); the principal and reports admins see today
+                  // at a glance (ADM-2).
+                  if (CurrentSession.role == 'principal') const SliverToBoxAdapter(child: SetupChecklistCard()),
+                  if (CurrentSession.role == 'principal' || _caps.contains('reports'))
+                    const SliverToBoxAdapter(child: DashboardCard()),
+                  SliverPadding(
+                    padding: const EdgeInsets.all(16),
+                    // One column is a list, each tile as tall as its words: a
+                    // fixed 4.2:1 tile cut a phone's two-line subtitles short.
+                    sliver: cols == 1
+                        ? SliverList.list(children: [for (final t in tiles) _tile(context, theme, t)])
+                        : SliverGrid.count(
+                            crossAxisCount: cols,
+                            mainAxisSpacing: 12,
+                            crossAxisSpacing: 12,
+                            childAspectRatio: 3.0,
+                            children: [for (final t in tiles) _tile(context, theme, t)],
+                          ),
+                  ),
+                ]);
+              }),
+            ),
+          ),
       ]),
     );
   }
+
+  Widget _tile(BuildContext context, ThemeData theme, _Tile t) => AppCard(
+        onTap: () => context.push(t.path).then((_) => _loadUnread()),
+        child: Row(children: [
+          Badge(
+            isLabelVisible: t.path == '/school/inbox' && _unread > 0,
+            label: Text('$_unread'),
+            child: Icon(t.icon, size: 32, color: theme.colorScheme.primary),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(t.title, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+                const SizedBox(height: 4),
+                Text(t.subtitle, style: theme.textTheme.bodySmall, maxLines: 2, overflow: TextOverflow.ellipsis),
+              ],
+            ),
+          ),
+        ]),
+      );
 }

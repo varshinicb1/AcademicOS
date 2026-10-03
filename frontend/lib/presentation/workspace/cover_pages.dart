@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/download/pdf_saver.dart';
+import '../../core/local_engine/local_store.dart';
 import '../../core/session/current_session.dart';
 
 import '../../data/datasources/api/api_error.dart';
@@ -319,7 +320,11 @@ class _MyDayPageState extends State<MyDayPage> {
   // The school's class and subject labels failing to load no longer blanks
   // the day: each row carries its own names, so the day shows with a note.
   String? _ctxError;
-  String? _checkedIn;
+  // Today's mark: the register's own row (GET my-attendance), so a check-in
+  // made on another device, or the principal's mark, shows too. Kept on this
+  // device as well, so the button reads right before the load answers
+  // (QA S-12: "I'm here" was offered again every time My day opened).
+  late String? _checkedIn = LocalStore.instance.checkInFor(CurrentSession.userId, _today);
 
   String get _today => isoDate(DateTime.now());
 
@@ -340,7 +345,13 @@ class _MyDayPageState extends State<MyDayPage> {
       final leave = await Ops.list('$_base/leave-requests');
       final lessons = await Ops.list('$_base/my-schedule', query: {'start_date': _today, 'end_date': _today});
       final calendar = await Ops.list('/my-calendar', query: {'days': 1});
+      final mine = await Ops.map('$_base/my-attendance');
+      final mark = mine['status'] as String?;
+      if (mark != null && mark != 'unmarked' && mark != 'on_leave') {
+        LocalStore.instance.setCheckIn(CurrentSession.userId, _today, mark);
+      }
       setState(() {
+        if (mark != null && mark != 'unmarked' && mark != 'on_leave') _checkedIn = mark;
         _rows = rows;
         _calendarDay = calendarDayItems(calendar, _today);
         _duties = duties;
@@ -577,7 +588,9 @@ class _MyDayPageState extends State<MyDayPage> {
   Future<void> _checkIn() async {
     try {
       final r = await Ops.post('$_base/my-attendance');
-      setState(() => _checkedIn = r['status'] as String);
+      final status = r['status'] as String;
+      LocalStore.instance.setCheckIn(CurrentSession.userId, _today, status);
+      if (mounted) setState(() => _checkedIn = status);
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
     }
@@ -604,9 +617,10 @@ class _MyDayPageState extends State<MyDayPage> {
     return Scaffold(
       appBar: destinationAppBar(context, title: Text(tr('My day')), actions: [
         FilledButton.tonalIcon(
+          key: const Key('check-in'),
           onPressed: _checkedIn == null ? _checkIn : null,
           icon: const Icon(Icons.how_to_reg),
-          label: Text(_checkedIn == null ? "I'm here" : 'Marked $_checkedIn'),
+          label: Text(_checkedIn == null ? "I'm here" : 'Marked ${_checkedIn!.replaceAll('_', ' ')}'),
         ),
         const SizedBox(width: 12),
       ]),

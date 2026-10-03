@@ -417,8 +417,9 @@ def test_a_paper_counts_once_and_only_while_it_exists(tmp_path, monkeypatch, see
             "scope": {"chapterIds": ["ch1"]}}, headers=teacher).json()["id"]
         first, again = (client.post(GEN, json={"templateId": tid}, headers=teacher).json() for _ in range(2))
         assert first["assessmentId"] != again["assessmentId"]
+        # Generate pressed again prints other questions now (QA P-03): two papers.
         assert ([q["questionId"] for s in first["paper"]["sections"] for q in s["questions"]]
-                == [q["questionId"] for s in again["paper"]["sections"] for q in s["questions"]])
+                != [q["questionId"] for s in again["paper"]["sections"] for q in s["questions"]])
         quick = client.post("/api/v1/papers/quick-generate", headers=teacher, json={
             "subject": "Science", "grade": 10, "chapterIds": ["ch1"], "totalMarks": 20}).json()
         assert client.delete(f"/api/v1/assessments/{quick['assessmentId']}", headers=teacher).status_code == 200
@@ -428,17 +429,21 @@ def test_a_paper_counts_once_and_only_while_it_exists(tmp_path, monkeypatch, see
             "subject": "Science", "grade": 10, "questionIds": ["o2", "o3"],
             "assessmentId": picked["assessmentId"]})
         assert r.status_code == 200, r.text
+        # The same questions again, on a new assessment: the same paper twice.
+        twin = client.post("/api/v1/papers/generate-from-ids", headers=teacher, json={
+            "subject": "Science", "grade": 10, "questionIds": ["o2", "o3"]})
+        assert twin.status_code == 200 and twin.json()["assessmentId"] != picked["assessmentId"]
 
         body = client.get("/api/v1/paper-timing", headers=principal).json()
-        assert body["papers"] == 2, "5 presses, 2 papers that still exist"
-        assert body["papersByPath"] == {"builder": 1, "hand-picked": 1}
-        assert body["examCoverage"]["covered"] == [{"grade": 10, "subject": "Science", "papers": 2}]
-        assert body["estimatedMinutesSavedTotal"] == pytest.approx(2 * body["estimatedMinutesSavedPerPaper"], abs=0.1)
+        assert body["papers"] == 3, "6 presses, 3 papers that still exist"
+        assert body["papersByPath"] == {"builder": 2, "hand-picked": 1}
+        assert body["examCoverage"]["covered"] == [{"grade": 10, "subject": "Science", "papers": 3}]
+        assert body["estimatedMinutesSavedTotal"] == pytest.approx(3 * body["estimatedMinutesSavedPerPaper"], abs=0.1)
         term = client.get("/api/v1/dashboard/term", headers=principal)
         assert term.status_code == 200, term.text
         saved = term.json()["timeSaved"]
-        assert saved["papers"] == 2 and saved["estimated"] is True
-        assert term.json()["exams"]["papersSet"] == 2
+        assert saved["papers"] == 3 and saved["estimated"] is True
+        assert term.json()["exams"]["papersSet"] == 3
 
 
 def test_a_paper_keeps_the_baseline_in_force_when_it_was_made(tmp_path, monkeypatch, seeded):

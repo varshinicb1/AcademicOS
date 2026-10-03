@@ -32,6 +32,8 @@ import '../../presentation/settings/pages/classes_page.dart';
 import '../../presentation/settings/pages/legal_page.dart';
 import '../../presentation/auth/pages/login_page.dart';
 import '../../presentation/shared/widgets/shell.dart';
+import '../../presentation/guide/guide_page.dart';
+import '../../presentation/guide/guide_welcome.dart';
 import '../../presentation/workspace/admin_pages.dart';
 import '../../presentation/workspace/app_mode.dart';
 import '../../presentation/workspace/class_progress_page.dart';
@@ -52,6 +54,7 @@ import '../../presentation/workspace/timetable_admin_page.dart';
 import '../../presentation/workspace/lesson_plan_page.dart';
 import '../../presentation/workspace/periods_owed_page.dart';
 import '../../presentation/workspace/school_profile_page.dart';
+import '../../presentation/onboarding/pages/setup_wizard_page.dart';
 import '../../presentation/workspace/report_cards_page.dart';
 import '../../presentation/workspace/owner_pages.dart';
 import '../../presentation/workspace/webhooks_page.dart';
@@ -86,9 +89,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       ShellRoute(
         // The teacher and student app builds get a phone shell (app_mode.dart).
-        builder: (context, state, child) => appMode == AppMode.console
-            ? MainShell(child: child)
-            : AppModeShell(mode: appMode, role: CurrentSession.role, child: child),
+        // GuideWelcome greets a person the first time they sign in here.
+        builder: (context, state, child) => GuideWelcome(
+          child: appMode == AppMode.console
+              ? MainShell(child: child)
+              : AppModeShell(mode: appMode, role: CurrentSession.role, child: child),
+        ),
         routes: [
           GoRoute(
             path: '/home',
@@ -142,6 +148,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               child: QuestionBankPage(),
             ),
           ),
+          // School insights is a page of its own, not a child of '/analytics':
+          // nested there, the Mastery dashboard was built underneath it on every
+          // visit and asked for the demo student's knowledge, a 404 for every
+          // real school (QA S-15). Declared first so '/analytics' does not
+          // claim the path.
+          GoRoute(
+            path: '/analytics/school',
+            name: 'principal',
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: PrincipalPage(),
+            ),
+          ),
           GoRoute(
             path: '/analytics',
             name: 'analytics',
@@ -166,13 +184,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                   child: GapAnalysisPage(
                     assessmentId: state.uri.queryParameters['assessment'] ?? '',
                   ),
-                ),
-              ),
-              GoRoute(
-                path: 'school',
-                name: 'principal',
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: PrincipalPage(),
                 ),
               ),
             ],
@@ -288,6 +299,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(path: 'lesson-plans', builder: (context, state) => const LessonPlanPage()),
               GoRoute(path: 'periods-owed', builder: (context, state) => const PeriodsOwedPage()),
               GoRoute(path: 'school-profile', builder: (context, state) => const SchoolProfilePage()),
+              GoRoute(path: 'setup', builder: (context, state) => const SetupWizardPage()),
               GoRoute(path: 'report-cards', builder: (context, state) => const ReportCardsPage()),
               GoRoute(path: 'my-report-card', builder: (context, state) =>
                   StudentReportCardPage(studentId: CurrentSession.userId, name: CurrentSession.name)),
@@ -297,10 +309,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(path: 'question-bank',
                   builder: (context, state) => QuestionBankConsolePage(canReview: state.uri.queryParameters['review'] == '1')),
               GoRoute(path: 'term-report', builder: (context, state) => const TermReportPage()),
+              // The Guide: each role's common jobs, step by step (guide_page.dart).
+              GoRoute(path: 'guide', builder: (context, state) => const GuidePage()),
               GoRoute(path: 'practice/:id',
                   builder: (context, state) => PracticePage(practiceId: state.pathParameters['id']!)),
               GoRoute(path: 'marks/:paperId',
-                  builder: (context, state) => MarksPage(paperId: state.pathParameters['paperId']!)),
+                  builder: (context, state) => MarksPage(
+                      paperId: state.pathParameters['paperId']!,
+                      grade: (state.extra as Map<String, dynamic>?)?['grade'] as int?)),
             ],
           ),
           GoRoute(
@@ -358,9 +374,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 name: 'legal',
                 builder: (context, state) => LegalPage(doc: state.pathParameters['doc']!),
               ),
+              // Its own name: two routes named 'login' fail go_router's
+              // duplicate-name assertion, so a debug build (and any test
+              // that builds this router) could not start.
               GoRoute(
                 path: 'login',
-                name: 'login',
+                name: 'settings-login',
                 builder: (context, state) => LoginPage(
             inviteCode: state.uri.queryParameters['invite'],
             schoolId: state.uri.queryParameters['school']),

@@ -225,3 +225,31 @@ def test_the_word_file_and_the_answer_key_carry_the_logo_and_the_traceable_id(tm
         assert any(e["details"]["watermarkId"] == wid for e in audited)
     finally:
         client.__exit__(None, None, None)
+
+
+def test_the_paper_key_and_word_file_print_the_address_and_affiliation(tmp_path):
+    """QA P-17: the profile screen promises address and affiliation "at the
+    top of every paper, answer key and report"; papers printed only the name."""
+    import zipfile
+
+    from academicos.assessment.docx_export import export_docx
+    from academicos.assessment.pdf import export_answer_key_pdf
+
+    paper = _make_paper()
+    profile = SchoolProfile(school_id="s1", name="Sunrise Public School",
+                            address="1 School Road, Pune", affiliation="CBSE Affiliation No. 1130456")
+    branding = printed_branding(None, profile, None, "s1")
+    line = "1 School Road, Pune | CBSE Affiliation No. 1130456"
+    for text in (_extract_text(export_pdf(paper, tmp_path / "p", template=branding)),
+                 _extract_text(export_answer_key_pdf(paper, tmp_path / "k", template=branding)),
+                 zipfile.ZipFile(export_docx(paper, tmp_path / "d", template=branding))
+                 .read("word/document.xml").decode()):
+        assert line in " ".join(text.split())
+
+    # A header naming a branch or a joint exam is not given the main address.
+    branch = paper.model_copy(deep=True)
+    branch.metadata.school_name = "Sunrise Public School, Hadapsar Branch"
+    assert "1 School Road" not in _extract_text(export_pdf(branch, tmp_path / "b", template=branding))
+    # Neither line set: nothing extra prints.
+    bare = printed_branding(None, SchoolProfile(school_id="s1", name="Sunrise Public School"), None, "s1")
+    assert bare.address_line == ""

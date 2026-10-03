@@ -110,3 +110,19 @@ def test_the_workbook_keeps_formulas_as_text():
     sheet = z.read("xl/worksheets/sheet1.xml").decode()
     assert "'=HYPERLINK(1)" in sheet and "<v>-3</v>" in sheet and "x&amp;y" in sheet
     assert 'name="ABC"' in z.read("xl/workbook.xml").decode()
+
+
+def test_the_downloads_carry_the_schools_name_and_address(w):
+    """QA S-11: the term report's header was "Term report: Term 2" only."""
+    import fitz
+    _term(w)
+    w.store.set_school_profile("school_1", name="Sunrise Public School", address="1 School Road, Pune",
+                               affiliation="CBSE 1130456", updated_by="p")
+    p = w.c.get("/api/v1/dashboard/term/export", params={"format": "pdf"}, headers=w.p)
+    with fitz.open(stream=p.content, filetype="pdf") as doc:
+        first = " ".join(doc[0].get_text().split())
+    assert first.index("Sunrise Public School") < first.index("Term report")
+    assert "1 School Road, Pune | CBSE 1130456" in first
+    x = w.c.get("/api/v1/dashboard/term/export", params={"format": "xlsx"}, headers=w.p)
+    sheet = zipfile.ZipFile(io.BytesIO(x.content)).read("xl/worksheets/sheet1.xml").decode()
+    assert sheet.index("Sunrise Public School") < sheet.index("Term report")
