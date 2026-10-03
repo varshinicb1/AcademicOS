@@ -829,17 +829,40 @@ def test_a_record_is_marked_generated_and_carries_its_provenance():
     assert record["taxonomyTopicId"] == "t-1"
 
 
-def test_an_mcq_record_keeps_its_options_and_key_out_of_the_stem():
-    # The bank stores options once, in the answer scheme. Repeating them in the
-    # stem prints them twice on a rendered paper.
+def test_an_mcq_record_prints_its_options_from_the_stem_and_keeps_the_key_out_of_it():
+    # The paper's printer (pdf.split_stem_and_options) and the merge's MCQ gate read the
+    # options out of the stem, as every served board question carries them. Options held
+    # only in the answer scheme print as a question with no choices. The scheme keeps
+    # them too, with the key; the stem never says which one is right.
+    from academicos.assessment.pdf import split_stem_and_options
     section = bp.for_paper("Mathematics", 10).sections[0]
     record = cg.to_record(_good_mcq(), section, _chapter(), "t",
                           chapter_id="c", topic_id="", model="m")
     meta = record["answerScheme"]["metadata"]
     assert meta["options"]["C"] == "Rs 60"
     assert meta["correctOption"] == "C"
-    assert "(A)" not in record["stem"]
-    assert "Rs 60" not in record["stem"]
+    head, options = split_stem_and_options(record["stem"])
+    assert head == "Meera buys 4 apples at Rs 15 each. How much does she pay?"
+    assert options == ["Rs 45", "Rs 50", "Rs 60", "Rs 75"]
+    assert record["stem"].count("(A)") == 1
+
+
+def test_a_case_record_prints_its_passage_in_the_stem():
+    section = bp.Section("E", "Case Based", bp.CASE, 2, 4)
+    item = {"qtype": bp.CASE, "marks": 4, "bloomLevel": "apply", "option": 1,
+            "passage": "A village digs a well and finds four layers of soil.",
+            "stem": "(a) Name the top layer. (b) Why is the lowest layer called bedrock?",
+            "modelAnswer": "(a) Top soil. (b) It is unweathered parent rock."}
+    record = cg.to_record(item, section, _chapter(), "t", chapter_id="c", topic_id="", model="m")
+    assert record["stem"].startswith("A village digs a well and finds four layers of soil.")
+    assert record["stem"].endswith("called bedrock?")
+
+
+def test_a_record_names_each_page_once():
+    section = bp.for_paper("Mathematics", 10).sections[0]
+    record = cg.to_record(_good_mcq(), section, _chapter(), "t",
+                          chapter_id="c", topic_id="", model="m")
+    assert record["provenance"]["pages"] == [1, 2, 3]
 
 
 def test_an_mcq_records_its_model_answer_as_the_correct_option():

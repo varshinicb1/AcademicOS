@@ -98,6 +98,9 @@ class Paths:
     # and NCERT textbook exercises (corpus/textbook.py); no file serves none.
     transcribed: Path | None = None
     textbook: Path | None = None
+    # Questions a model wrote from a chapter, collected by collect_ai_910.py; served only
+    # where grounded (bank_merge.ai_not_grounded). No file serves none.
+    ai: Path | None = None
 
     @property
     def withheld(self) -> Path:
@@ -116,6 +119,7 @@ DEFAULT = Paths(
     parse_dir=REPO / "academicos-data" / "parse",
     transcribed=REPO / "academicos-data" / "corpus" / "cbse-board" / "questions.json",
     textbook=REPO / "academicos-data" / "corpus" / "ncert-textbook" / "questions.json",
+    ai=REPO / "academicos-data" / "corpus" / "ai-cbse-9-10" / "questions.json",
 )
 
 
@@ -241,7 +245,8 @@ def run(paths: Paths, *, check: bool, allow_no_board: bool = False,
 
     result = bank_merge.compose(served["questions"], cbe["questions"], sqp["questions"],
                                 held=held, exemplar=exemplar["questions"],
-                                transcribed=_optional(paths.transcribed), textbook=_optional(paths.textbook))
+                                transcribed=_optional(paths.transcribed), textbook=_optional(paths.textbook),
+                                ai=_optional(paths.ai))
     names = _chapter_names(result.questions)
     questions, chapter_ids = bank_merge.resolve_chapter_ids(
         result.questions, _chapters_by_grade(names), _taxonomy_names(paths.taxonomy))

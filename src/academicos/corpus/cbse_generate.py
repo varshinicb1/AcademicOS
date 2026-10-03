@@ -783,6 +783,18 @@ def to_record(item: dict, section: bp.Section, chapter: Chapter, topic: str,
     if section.qtype == bp.CASE:
         scheme["metadata"]["passage"] = item.get("passage") or ""
 
+    stem = strip_question_number(item.get("stem") or "")
+    if section.qtype in (bp.MCQ, bp.ASSERTION_REASON):
+        # The bank, the paper and the merge's MCQ gate all read the options out of the
+        # stem, as every served board question carries them: "... (A) x (B) y (C) z (D) w".
+        # Left only in the metadata, the question prints with no choices.
+        options = item.get("options") or {}
+        if options and not re.search(r"\(A\)", stem):
+            stem = f"{stem} " + " ".join(f"({k}) {options[k]}" for k in "ABCD" if k in options)
+    if section.qtype == bp.CASE and (item.get("passage") or "").strip():
+        # A case study is its passage and the questions on it; the stem is what prints.
+        stem = item["passage"].strip() + "\n\n" + stem
+
     record = {
         "id": f"ai:cbse:{chapter.book_code}:{chapter.number:02d}:{section.key}:{item.get('option', 1)}",
         "questionBankId": f"ai-cbse:{chapter.book_code}",
@@ -795,7 +807,7 @@ def to_record(item: dict, section: bp.Section, chapter: Chapter, topic: str,
         "bloomLevel": item.get("bloomLevel") or "understand",
         "type": section.qtype,
         # The paper supplies the number; the stem must not carry one.
-        "stem": strip_question_number(item.get("stem") or ""),
+        "stem": stem,
         "stemLatex": "",
         "parts": [],
         "answerScheme": scheme,
@@ -807,7 +819,7 @@ def to_record(item: dict, section: bp.Section, chapter: Chapter, topic: str,
             "model": model,
             "section": f"{section.key} {section.name}",
             "chapter": f"{chapter.book_code} ch{chapter.number}",
-            "pages": list(chapter.page_numbers),
+            "pages": sorted(set(chapter.page_numbers)),
             "promptVersion": 1,
         },
     }

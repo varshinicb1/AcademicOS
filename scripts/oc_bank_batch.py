@@ -118,7 +118,7 @@ def one_chapter(book: str, number: int, args, language: str) -> str:
     work = Path(args.work)
     folder = f"{book}-{number:02d}"
     out_file = OUT_DIR / f"{folder}.json"
-    if out_file.exists():
+    if out_file.exists() and not args.reingest:
         return "done-before"
     prep = gen(["--book", book, "--chapter", str(number), "--marks", str(args.marks),
                 "--per-call", "3", "--bridge", str(work), "--check"])
@@ -161,6 +161,10 @@ def main() -> int:
     ap.add_argument("--model", default=MODEL)
     ap.add_argument("--timeout-min", type=int, default=35)
     ap.add_argument("--stall-min", type=int, default=12)
+    ap.add_argument("--reingest", action="store_true",
+                    help="validate and rewrite chapters already done, from the answers on disk "
+                         "(after a change to the validator or the record format); no model is called "
+                         "for a chapter whose prompts all have answers")
     args = ap.parse_args()
     work = Path(args.work)
     if not OPENCODE.is_file() or not (work / "BRIEF.md").is_file():
@@ -183,7 +187,7 @@ def main() -> int:
         for book, number in todo:
             if args.limit and attempted >= args.limit:
                 break
-            if (OUT_DIR / f"{book}-{number:02d}.json").exists():
+            if (OUT_DIR / f"{book}-{number:02d}.json").exists() and not args.reingest:
                 continue
             attempted += 1
             result = one_chapter(book, number, args, books[book].get("language") or "en")

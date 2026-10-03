@@ -652,9 +652,19 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
                                 "topic": topic, "reason": reason,
                                 "stem": (item.get("stem") or "")[:120]})
                 continue
-            kept.append(cg.to_record(
+            record = cg.to_record(
                 item, section, chapter, topic, chapter_id=chapter_id,
-                topic_id="", model=chosen))
+                topic_id="", model=chosen)
+            if bridge is not None:
+                # It passed `ungrounded`: every quote is the chapter's own text. That is the
+                # definition of the checked tier `textbook_grounded` (qbank_engine), and the
+                # merge serves a model-written record only with this label and these quotes.
+                quotes = item.get("evidence")
+                quotes = [quotes] if isinstance(quotes, str) else list(quotes or [])
+                scheme = record.setdefault("answerScheme", {})
+                scheme["provenance"] = "textbook_grounded"
+                scheme.setdefault("metadata", {})["evidence"] = [q for q in quotes if isinstance(q, str)]
+            kept.append(record)
             by_section[section.key] = by_section.get(section.key, 0) + 1
 
     return kept, refused, {"usage": usage, "bySection": by_section, "pending": pending,
