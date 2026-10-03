@@ -459,11 +459,83 @@ def chapter_pdf(book_code: str, number: int) -> Path:
     return folder / f"{book_code}{number:02d}.pdf"
 
 
+def _squash(text: str) -> str:
+    """Case, spacing and quote style folded away, so a quote survives a line wrap."""
+    text = (text or "").replace("’", "'").replace("‘", "'")         .replace("“", '"').replace("”", '"')
+    return re.sub(r"[^0-9a-z]+", " ", text.lower()).strip()
+
+
+def ungrounded(item: dict, source: str) -> str | None:
+    """Why a question is not tied to the text it was set from, or None.
+
+    A free model asked to use only the chapter will still add a plausible figure
+    from memory (a state's infant-mortality rate that the page does not print), and
+    `cg.validate` cannot see that: the question is well-formed and wrong. Two
+    checks catch it without a second model. Every question carries `evidence`,
+    quotes copied from the text, and each quote must be found in it. And every
+    figure of two or more digits in the question or its answer must occur in the
+    text, because an invented number is the commonest invented fact.
+    """
+    haystack = _squash(source)
+    quotes = item.get("evidence")
+    if isinstance(quotes, str):
+        quotes = [quotes]
+    quotes = [q for q in (quotes or []) if isinstance(q, str) and q.strip()]
+    if not quotes:
+        return "no-evidence"
+    for quote in quotes:
+        if len(_squash(quote)) < 12 or _squash(quote) not in haystack:
+            return "evidence-not-in-text"
+    parts = [item.get("stem") or "", item.get("passage") or "",
+             item.get("modelAnswer") or ""]
+    parts += list((item.get("options") or {}).values())
+    parts += [str(x) for x in item.get("markingPoints") or []]
+    printed = {n.replace(",", "").rstrip(".") for n in re.findall(r"\d[\d,]*\.?\d*", source)}
+    # A single digit is a count in most questions ("three states"), but not when it
+    # is a rate or a share: "6 per 1,000", "9%".
+    # "In about 45 words" and "(5 marks)" instruct the student; they are not facts.
+    asked = re.sub(r"\b\d+\s*(?:words?|marks?|minutes?|lines?|steps?|sentences?|points?)\b",
+                   " ", " ".join(parts), flags=re.I)
+    figures = re.findall(r"\d[\d,]*\.?\d*\d|\d{2,}|\b\d(?=\s*(?:%|per\b|percent))", asked)
+    for figure in figures:
+        if figure.replace(",", "").rstrip(".") not in printed:
+            return f"figure-not-in-text:{figure}"
+    return None
+
+
+def bridge_call(folder: Path, index: int, system: str, schema: dict, user: str,
+                section, topic: str) -> dict | None:
+    """The answer to call `index`, or None after writing its prompt for a model
+    that runs elsewhere. A malformed answer file is a refusal's worth of signal, so
+    it is returned as an empty section rather than skipped quietly."""
+    folder.mkdir(parents=True, exist_ok=True)
+    answer = folder / f"r{index:03d}.json"
+    if answer.is_file():
+        try:
+            parsed = json.loads(answer.read_text(encoding="utf-8"))
+        except ValueError:
+            return {"questions": []}
+        return parsed if isinstance(parsed, dict) else {"questions": []}
+    (folder / f"p{index:03d}.json").write_text(json.dumps(
+        {"index": index, "section": section.key, "topic": topic, "system": system,
+         "schema": schema, "user": user}, ensure_ascii=False, indent=1),
+        encoding="utf-8")
+    return None
+
+
 def generate_chapter(book_code: str, number: int, *, mark_budget: int,
                      model: str, provider: str = 'gemini', tiered: bool = True,
-                     delay: float = 0.0, per_call: int = 3
+                     delay: float = 0.0, per_call: int = 3,
+                     bridge: Path | None = None
                      ) -> tuple[list[dict], list[dict], dict]:
-    """Questions, refusals, and the cost, for one chapter."""
+    """Questions, refusals, and the cost, for one chapter.
+
+    `bridge` is a folder, for a model that cannot be called from here (an
+    opencode session). Each call's prompt is written to `<bridge>/p###.json`; when
+    `<bridge>/r###.json` exists it is read as that call's answer and goes through
+    the same validator as any other provider. A call with no answer yet is counted
+    as pending, not refused.
+    """
     registry = book_registry()
     book = registry.get(book_code)
     if not book:
@@ -513,7 +585,8 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
              "prompt_tokens": 0, "completion_tokens": 0}
     by_section: dict[str, int] = {}
 
-    for group in group_plan(plan, per_call=per_call):
+    pending = 0
+    for index, group in enumerate(group_plan(plan, per_call=per_call), start=1):
         section = group[0][0]
         # One topic per group, the first in it; the schema pins section and marks,
         # and the model is told to make the questions differ.
@@ -522,19 +595,26 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
         system, schema, user = cg.build_prompt(
             chapter, section, topic, count=len(group), bank_subject=subject,
             topics=topics)
-        if delay:
+        if bridge is not None:
+            parsed = bridge_call(bridge, index, system, schema, user, section, topic)
+            if parsed is None:
+                pending += 1
+                continue
+            spent, chosen = {}, model or "opencode"
+        elif delay:
             # Gemini's free tier is a few requests a minute. A corpus run is
             # thousands of calls, so the pacing is not a nicety.
             time.sleep(delay)
-        try:
-            if provider == "gemini":
-                parsed, spent = call_gemini(system, schema, user, model=chosen)
-            else:
-                parsed, spent = call_workers_ai(system, schema, user, model=chosen)
-        except SystemExit as exc:
-            refused.append({"section": section.key, "qtype": section.qtype,
-                            "topic": topic, "reason": str(exc)})
-            continue
+        if bridge is None:
+            try:
+                if provider == "gemini":
+                    parsed, spent = call_gemini(system, schema, user, model=chosen)
+                else:
+                    parsed, spent = call_workers_ai(system, schema, user, model=chosen)
+            except SystemExit as exc:
+                refused.append({"section": section.key, "qtype": section.qtype,
+                                "topic": topic, "reason": str(exc)})
+                continue
         usage["calls"] += 1
         usage["neurons"] += float(spent.get("neurons") or 0.0)
         usage["usd"] += _cost_of(spent, chosen)
@@ -546,6 +626,8 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
         for raw in parsed.get("questions") or []:
             item = cg.parse_item(raw)
             reason = cg.validate(item, section)
+            if not reason and bridge is not None:
+                reason = ungrounded(item, user)
             if reason:
                 refused.append({"section": section.key, "qtype": section.qtype,
                                 "topic": topic, "reason": reason,
@@ -556,7 +638,7 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
                 topic_id="", model=chosen))
             by_section[section.key] = by_section.get(section.key, 0) + 1
 
-    return kept, refused, {"usage": usage, "bySection": by_section,
+    return kept, refused, {"usage": usage, "bySection": by_section, "pending": pending,
                            "topics": len(topics), "untopiced": untopiced,
                            "pages": len(chapter.page_numbers)}
 
@@ -579,6 +661,11 @@ def main() -> int:
                     help="seconds between calls; Gemini's free tier needs this")
     ap.add_argument("--out", type=Path, default=OUT)
     ap.add_argument("--check", action="store_true", help="generate, print, write nothing")
+    ap.add_argument("--per-call", type=int, default=3,
+                    help="questions asked for in one call")
+    ap.add_argument("--bridge", type=Path, default=None,
+                    help="folder of prompts (p###.json) and answers (r###.json) for a "
+                         "model run elsewhere, e.g. an opencode session")
     args = ap.parse_args()
 
     if not args.book:
@@ -602,7 +689,7 @@ def main() -> int:
         kept, refused, meta = generate_chapter(
             args.book, number, mark_budget=args.marks, model=args.model,
             provider=args.provider, tiered=not args.no_tier, delay=args.delay,
-            per_call=args.per_call)
+            per_call=args.per_call, bridge=args.bridge and args.bridge / f"{args.book}-{number:02d}")
         records += kept
         all_refusals += refused
         totals["neurons"] += meta["usage"]["neurons"]
@@ -611,7 +698,8 @@ def main() -> int:
         totals["calls"] += meta["usage"]["calls"]
         print(f"ch{number:02d}  kept {len(kept):>3}  refused {len(refused):>3}  "
               f"pages {meta['pages']:>3}  topics {meta['topics']:>2}  "
-              f"sections {meta['bySection']}")
+              f"sections {meta['bySection']}"
+              + (f"  PENDING {meta['pending']} calls" if meta.get("pending") else ""))
 
     # Workers AI reports neurons, Gemini reports dollars. Show whichever the run
     # actually spent, and both are 0 when the run failed before any call.
