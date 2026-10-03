@@ -964,3 +964,33 @@ def test_a_word_limit_or_marks_in_the_stem_is_not_a_fact_to_prove():
     # ...but a figure that is not an instruction still is.
     item = _grounded_item(stem="In about 45 words, say why 99 children died.")
     assert mod.ungrounded(item, CHAPTER_TEXT) == "figure-not-in-text:99"
+
+
+INTERLEAVED_TEXT = (
+    "Chapter 1\n"
+    "Subsoil weathered\n"
+    "the states of Punjab, Haryana, western Uttar\n"
+    "Top soil the upper soil layer\n"
+    "Pradesh, over irrigation is responsible for land\n"
+    "degradation due to water logging.\n"
+)
+
+
+def test_a_quote_read_across_interleaved_lines_is_found_line_by_line():
+    # A column or a figure's labels sit between two lines of the same sentence.
+    mod = _gen_script("gen_chapter_interleaved")
+    quote = ("the states of Punjab, Haryana, western Uttar\n"
+             "Pradesh, over irrigation is responsible for land\n"
+             "degradation due to water logging.")
+    item = _grounded_item(stem="Why does irrigation degrade land?", evidence=[quote],
+                          options={"A": "a", "B": "b", "C": "c", "D": "d"})
+    assert mod.ungrounded(item, INTERLEAVED_TEXT) is None
+
+
+def test_an_invented_quote_fails_even_line_by_line():
+    mod = _gen_script("gen_chapter_invented_lines")
+    quote = ("the states of Punjab, Haryana, western Uttar\n"
+             "Pradesh, over irrigation is responsible for flooding\n"
+             "and nothing else is.")
+    item = _grounded_item(stem="Why does irrigation degrade land?", evidence=[quote])
+    assert mod.ungrounded(item, INTERLEAVED_TEXT) == "evidence-not-in-text"

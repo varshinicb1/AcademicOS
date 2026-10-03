@@ -465,6 +465,25 @@ def _squash(text: str) -> str:
     return re.sub(r"[^0-9a-z]+", " ", text.lower()).strip()
 
 
+def _quoted_in(quote: str, haystack: str) -> bool:
+    """Whether a quote is the chapter's own words.
+
+    The extracted text keeps the page's lines but not always their order: a two-column
+    page, a figure's labels or a table are interleaved with the prose, so a quote that
+    reads correctly on the page is not one unbroken string in the extraction. So the
+    whole quote is tried first, and failing that every line of it that is long enough
+    to mean something must be found on its own. An invented sentence still fails: none
+    of its lines exist in the text."""
+    whole = _squash(quote)
+    if len(whole) < 12:
+        return False
+    if whole in haystack:
+        return True
+    lines = [_squash(l) for l in quote.splitlines()]
+    substantial = [l for l in lines if len(l) >= 12]
+    return bool(substantial) and all(l in haystack for l in substantial)
+
+
 def ungrounded(item: dict, source: str) -> str | None:
     """Why a question is not tied to the text it was set from, or None.
 
@@ -484,7 +503,7 @@ def ungrounded(item: dict, source: str) -> str | None:
     if not quotes:
         return "no-evidence"
     for quote in quotes:
-        if len(_squash(quote)) < 12 or _squash(quote) not in haystack:
+        if not _quoted_in(quote, haystack):
             return "evidence-not-in-text"
     parts = [item.get("stem") or "", item.get("passage") or "",
              item.get("modelAnswer") or ""]
