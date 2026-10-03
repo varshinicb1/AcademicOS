@@ -25,11 +25,15 @@ abstract final class Em {
     stops: [0, .5, 1],
   );
 
-  /// .em-btn--primary: radial-gradient(120% 140% at 50% 0%, ...).
+  /// .em-btn--primary: radial-gradient(120% 140% at 50% 0%, ...). The brand's lit
+  /// stops (#FF9A5C ... #D9430A) put a white label at 2.1-4.4:1, below the 4.5:1 AA
+  /// asks of button text, so every stop here is the brand's ember-deep family
+  /// (#C2410C is its own accent): white on them is 4.66-5.72:1.
+  /// test/unit/theme_contrast_test.dart holds the stops to it.
   static const primaryFill = RadialGradient(
     center: Alignment(0, -1),
     radius: 1.4,
-    colors: [Color(0xFFFF9A5C), Color(0xFFFF6A2A), Color(0xFFF2510F), Color(0xFFD9430A)],
+    colors: [Color(0xFFCF450D), Color(0xFFC9420C), Color(0xFFC2410C), Color(0xFFB93A0A)],
     stops: [0, .42, .70, 1],
   );
 
@@ -42,6 +46,9 @@ abstract final class Em {
     BoxShadow(color: Color(0x80FF5A1F), offset: Offset(0, 12), blurRadius: 36),
     BoxShadow(color: Color(0x59FF5A1F), offset: Offset(0, 2), blurRadius: 8),
   ];
+
+  /// What a primary button casts on the light theme instead of [glow].
+  static const softShadow = [BoxShadow(color: Color(0x33C2410C), offset: Offset(0, 2), blurRadius: 8)];
 
   static const radiusSm = 10.0; // --em-radius-sm
   static const radiusMd = 16.0; // --em-radius-md
@@ -244,16 +251,19 @@ class EmRimBorder extends RoundedRectangleBorder {
 Widget emPrimaryBackground(BuildContext context, Set<WidgetState> states, Widget? child) {
   final disabled = states.contains(WidgetState.disabled);
   final hot = states.contains(WidgetState.hovered) || states.contains(WidgetState.focused);
+  // The ember glow is the brand's night look. On the light default it is a loud halo
+  // around every button, so light gets a soft shadow and a fainter gloss.
+  final light = Theme.of(context).brightness == Brightness.light;
   return Opacity(
     opacity: disabled ? .45 : 1,
     child: DecoratedBox(
       decoration: ShapeDecoration(
         shape: const StadiumBorder(side: BorderSide(color: Color(0x8CD2460A))),
         gradient: Em.primaryFill,
-        shadows: disabled ? const [] : (hot ? Em.glowHover : Em.glow),
+        shadows: disabled ? const [] : light ? Em.softShadow : (hot ? Em.glowHover : Em.glow),
       ),
       child: Stack(alignment: Alignment.center, children: [
-        _Gloss(opacity: hot ? .75 : .5),
+        _Gloss(opacity: (hot ? .75 : .5) * (light ? .5 : 1)),
         if (child != null) child,
       ]),
     ),

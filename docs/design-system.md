@@ -2,6 +2,20 @@
 
 **v2.0 · 2026-09-17 · white-first · emoji-free**
 
+> **What the app ships (2026-10-03).** The Flutter app does not use the indigo brand below.
+> It ships the Emergera ember palette (`frontend/lib/core/theme/{app_theme,emergera}.dart`),
+> **light by default**: neutral canvas `#F6F6F8`, white cards, text `#1D1D1F`, one ember
+> accent `#C2410C`, status colours as fg/bg/border triples. Dark (ink `#07080F`, ember
+> `#FF5A1F`) is a choice in Settings. The rules below (white-first surfaces, one brand colour,
+> status never by colour alone, no emoji) still hold; the indigo values and `tokens.json` are the
+> web reference and have not been moved to ember. Moving them is open.
+>
+> Measured contrast (WCAG, `frontend/test/unit/theme_contrast_test.dart` holds it): body text
+> 16.8:1 light / 17.2:1 dark; secondary text 4.7:1 / 8.0:1; a white label on the primary button
+> 4.66-5.72:1 on every stop of its fill. The brand's original lit stops (`#FF9A5C` ... `#D9430A`)
+> put that label at 2.1-4.4:1 and were replaced with the ember-deep family. The ember glow is
+> dark-theme only; light buttons cast a soft shadow.
+
 The machine-readable source of truth is [`../design/tokens.json`](../design/tokens.json).
 This document explains it; it does not restate every value. If the two ever
 disagree, the JSON wins and this file is wrong.

@@ -163,7 +163,10 @@ void main() {
 
   testWidgets('API keys: readable last use, a confirmed revoke, and a new key shown whole', (tester) async {
     await pump(tester, const ApiKeysPage());
-    expect(find.textContaining('last used 28 Sep 2026 at'), findsOneWidget);
+    // The page shows the device's local day: 21:27 UTC is the 29th in India, so the
+    // expectation is derived the same way instead of hard-coding the UTC day.
+    final usedOn = DateTime.parse('2026-09-28T21:27:20.432778+00:00').toLocal().day;
+    expect(find.textContaining('last used $usedOn Sep 2026 at'), findsOneWidget);
     expect(find.textContaining('T21:27'), findsNothing);
     expect(find.textContaining('class 10'), findsOneWidget);
     expect(find.textContaining('Search and fetch questions'), findsOneWidget);
