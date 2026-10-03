@@ -72,3 +72,33 @@ def test_a_hindi_paper_must_be_devanagari_and_an_english_one_must_not():
                 "(A) एक (B) दो (C) तीन (D) चार" if q["type"] == "mcq" else "")
     assert not any("Devanagari" in p for p in paper_verify.verify(paper, PRESET, language="hi")), \
         paper_verify.verify(paper, PRESET, language="hi")
+
+
+def test_a_class_9_10_language_paper_is_held_to_the_kind_each_section_is_headed_with():
+    preset = next(p for p in template_presets.presets(grade=10) if p.id == "preset:cbse:10:english:unit_test")
+    paper = {"sections": [], "answerKey": {}, "warnings": [], "metadata": {"totalMarks": preset.total_marks},
+             "competencyTargetMet": None}
+    tags, n = {}, 0
+    for index, want in enumerate(preset.sections):
+        questions = []
+        for _ in range(want.question_count):
+            n += 1
+            questions.append({"questionId": f"q{n}", "displayNumber": n, "marks": want.marks_each,
+                              "type": "mcq" if want.marks_each == 1 else "short_answer",
+                              "stem": f"Question {n} asks about something else entirely, number {n}."
+                                      + (OPTIONS if want.marks_each == 1 else "")})
+            paper["answerKey"][str(n)] = "key"
+            tags[f"q{n}"] = next(iter(sorted(paper_templates_kinds(want))))
+        paper["sections"].append({"sectionId": f"s{index}", "label": want.title, "questions": questions,
+                                  "totalMarks": want.question_count * want.marks_each})
+    assert paper_verify.verify(paper, preset, tags=tags) == []
+    tags["q1"] = "grammar"        # a grammar question under Reading comprehension
+    problems = paper_verify.verify(paper, preset, tags=tags)
+    assert any("q1" in p and "grammar" in p for p in problems), problems
+    tags.pop("q1")
+    assert any("untagged" in p for p in paper_verify.verify(paper, preset, tags=tags))
+
+
+def paper_templates_kinds(section):
+    from academicos.assessment import paper_templates
+    return paper_templates.section_kinds(section)

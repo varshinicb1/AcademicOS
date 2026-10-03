@@ -11,6 +11,9 @@ here hold the finished paper to that template and to what a teacher can use:
   choices     an MCQ prints four options the printer can split out of its stem
   language    a Hindi paper is in Devanagari, an English one is not
   uniqueness  no question twice in a paper
+  kind        in an English or Hindi paper for class 9-10, every question is of the kind its
+              section is headed with (reading, grammar, extract, writing, literature), by the
+              `paperSection` tag the bank holds for it
 
 `verify` takes the paper as the API returns it (camelCase JSON) and the template, and returns the
 problems in plain sentences; none is a verified paper. Nothing here reads the bank or the network:
@@ -19,9 +22,10 @@ scripts/verify_papers.py makes the papers and calls this.
 from __future__ import annotations
 
 import re
-from typing import Any, Iterable
+from typing import Any, Iterable, Mapping
 
 from ..corpus import bank_merge
+from . import paper_templates
 from . import pdf as pdf_mod
 
 MIN_STEM_CHARS = 12
@@ -40,8 +44,13 @@ def _all_questions(paper: dict) -> Iterable[tuple[str, dict]]:
             yield section.get("label") or section.get("sectionId") or "?", q
 
 
-def verify(paper: dict, template: Any, *, language: str = "en") -> list[str]:
-    """Every reason `paper` is not a verified paper for `template`; empty means verified."""
+def verify(paper: dict, template: Any, *, language: str = "en",
+           tags: Mapping[str, str] | None = None) -> list[str]:
+    """Every reason `paper` is not a verified paper for `template`; empty means verified.
+
+    `tags` maps a question id to the `paperSection` the bank holds for it. A paper of a tagged
+    kind (class 9-10 English or Hindi) is checked against it when given; the paper itself does not
+    carry the tag."""
     problems: list[str] = []
     sections = paper.get("sections") or []
     expected = list(template.sections)
@@ -105,6 +114,17 @@ def verify(paper: dict, template: Any, *, language: str = "en") -> list[str]:
         number = str(q.get("displayNumber"))
         if not str(key.get(number) or "").strip():
             problems.append(f"{where}: no answer or marking scheme in the key")
+    if tags is not None and template.grade in paper_templates._TAGGED_GRADES             and template.subject.lower().startswith(("english", "hindi")):
+        for got, want in zip(sections, expected):
+            kinds = paper_templates.section_kinds(want)
+            if kinds is None:
+                continue
+            for q in got.get("questions") or []:
+                tag = tags.get(q.get("questionId") or "")
+                if tag not in kinds:
+                    problems.append(f"{got.get('label') or want.title} Q{q.get('displayNumber')} "
+                                    f"({q.get('questionId')}): a {tag or 'untagged'} question in a "
+                                    f"section that takes {' / '.join(sorted(kinds))}")
     if paper.get("competencyTargetMet") is False:
         problems.append("the competency share is under the board's target")
     return problems

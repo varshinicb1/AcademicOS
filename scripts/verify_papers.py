@@ -51,6 +51,7 @@ def main() -> int:
     grades = [int(g) for g in args.grades.split(",")]
     subjects = args.subjects.split(",")
     exams = args.exams.split(",")
+    tags = _paper_section_tags()
     available = {p.id: p for g in grades for p in template_presets.presets(grade=g)}
     wanted = [available[i] for g in grades for s in subjects for e in exams
               if (i := f"preset:cbse:{g}:{s}:{e}") in available]
@@ -76,7 +77,8 @@ def main() -> int:
                 cell["problems"] = [f"HTTP {r.status_code}: {r.text[:200]}"]
             else:
                 paper = r.json()["paper"]
-                cell["problems"] = paper_verify.verify(paper, preset, language="hi" if slug == "hindi" else "en")
+                cell["problems"] = paper_verify.verify(paper, preset, language="hi" if slug == "hindi" else "en",
+                                                 tags=tags)
                 if args.pdf and not cell["problems"]:
                     cell["problems"] += _check_pdfs(client, auth, paper, slug)
                 cell["status"] = "verified" if not cell["problems"] else "defects"
@@ -96,6 +98,15 @@ def main() -> int:
     if args.json:
         args.json.write_text(json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
     return 0 if ok == len(report) else 1
+
+
+def _paper_section_tags() -> dict[str, str]:
+    """question id -> `paperSection`, from the served bank this checkout would serve."""
+    bank = ROOT / "academicos-data" / "syllabus" / "questions.json"
+    data = json.loads(bank.read_text(encoding="utf-8"))
+    records = data if isinstance(data, list) else data.get("questions", [])
+    return {r["id"]: r["metadata"]["paperSection"] for r in records
+            if (r.get("metadata") or {}).get("paperSection")}
 
 
 def _check_pdfs(client, auth, paper: dict, slug: str) -> list[str]:
