@@ -1080,3 +1080,32 @@ def test_two_calls_for_one_section_do_not_share_record_ids(tmp_path):
     kept, refused, _ = mod.generate_chapter("jess2", 1, mark_budget=40, model="m", bridge=folder, per_call=1)
     ids = [r["id"] for r in kept]
     assert len(ids) == len(set(ids)), ids
+
+
+def test_a_second_pass_asks_only_for_its_sections_and_cannot_collide_with_the_first(tmp_path):
+    # The paper's proportions give a chapter about one MCQ; a bank needs several. The second pass plans
+    # just the named sections, as many as asked, numbered from 100 so its ids never meet the first pass's.
+    import pytest
+    pdf_dir = Path(r"C:\Users\varsh\OneDrive\Documents\Sarvam\ncert-dataset\textbooks\chapters\jess2")
+    if not (pdf_dir / "jess201.pdf").is_file():
+        pytest.skip("the NCERT chapter PDFs are not on this machine")
+    mod = _gen_script("gen_chapter_pass2")
+    folder = tmp_path / "jess2-01-mcq"
+    folder.mkdir()
+    kw = dict(mark_budget=20, model="m", bridge=folder, per_call=3, only_sections=frozenset({"A"}),
+              items_per_section=5, number_from=100)
+    mod.generate_chapter("jess2", 1, **kw)
+    prompts = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(folder.glob("p*.json"))]
+    assert [p["section"] for p in prompts] == ["A", "A"], "five MCQs in calls of three and two"
+    for p in prompts:
+        n = 3 if p["index"] == 1 else 2
+        opts = {k: f"option {k}" for k in "ABCD"}
+        quote = [l for l in p["user"].splitlines() if len(l.split()) > 6][2]
+        answer = {"questions": [{"qtype": "mcq", "marks": "1", "bloomLevel": "apply", "option": 1,
+                                 "stem": f"Which statement does the text make about its second idea, number {i}?",
+                                 "options": opts, "correctOption": "ABCD"[i % 4], "evidence": [quote]}
+                                for i in range(n)]}
+        (folder / f"r{p['index']:03d}.json").write_text(json.dumps(answer), encoding="utf-8")
+    kept, _, _ = mod.generate_chapter("jess2", 1, **kw)
+    ids = [r["id"] for r in kept]
+    assert ids == [f"ai:cbse:jess2:01:A:{n}" for n in range(101, 106)], ids
