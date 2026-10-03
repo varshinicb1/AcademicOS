@@ -55,6 +55,10 @@ const _exempt = {
   // decides whether an Admin group is listed, and every admin page reports
   // its own failures through serverErrorMessage.
   'lib/presentation/shared/widgets/shell.dart': 1,
+  // A person's saved Guide/setup progress is a convenience with a copy on the device: a
+  // failed read leaves that copy in place, and a failed write is queued (no connection) or
+  // is a bug of ours the person cannot act on. Neither should interrupt what they were doing.
+  'lib/presentation/shared/user_progress.dart': 2,
 };
 
 const _marker = '// not-a-failure:';

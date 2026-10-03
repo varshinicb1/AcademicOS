@@ -1,83 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/session/current_session.dart';
 import '../../core/theme/app_theme.dart';
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'strings.dart';
 
-/// One step of setting a school up: what it is, where it is done, and
-/// whether the school has done it.
-typedef SetupStep = ({String key, String title, String subtitle, String path, bool done});
+/// One step of setting a school up, as the server reads it from the school's own data
+/// (GET /setup-status): what it is, how far it is, where it is done.
+typedef SetupStep = ({String key, String title, String detail, String path, bool done});
 
-/// A new school's first steps, on the principal's School page: School
-/// profile, Classes, Calendar and terms, People, Timetable -- each a link,
-/// each ticked once the school's own data shows it done.
+/// A new school's setup level, on the principal's School page: a percentage, and every
+/// step with where it stands -- School name, Classes, Terms, Teachers, a teacher for each
+/// subject, Timetable, Students, a first paper -- each a link.
 ///
-/// A new principal landed on a dashboard of zeros with no word on what to do
-/// first, and class setup was found only by guessing "Invite people" (QA S-09,
-/// 2026-10-01). The card goes away once every step is done.
-///
-/// Every read is one the server answers with 200 for a new school: the
-/// calendar itself is not read (a year without one is a 404), so the
-/// calendar step counts as done once the year has its terms, which are set
-/// on the same Calendar & Setup tab.
+/// A new principal landed on a dashboard of zeros with no word on what to do first, and
+/// class setup was found only by guessing "Invite people" (QA S-09, 2026-10-01). The level
+/// is computed by the server on every read, from what the school actually has, so it
+/// cannot go stale or be ticked by hand. The card goes away once every step is done.
 class SetupChecklistCard extends StatefulWidget {
   const SetupChecklistCard({super.key});
-
-  /// The steps for what the school has. [hasName]: School profile saved a
-  /// name; [hasClasses]: the year has classes; [hasTerms]: the year has
-  /// terms; [hasTeachers]: a teacher has joined; [hasTimetable]: a week is
-  /// timetabled.
-  static List<SetupStep> steps({
-    required bool hasName,
-    required bool hasClasses,
-    required bool hasTerms,
-    required bool hasTeachers,
-    required bool hasTimetable,
-  }) =>
-      [
-        (key: 'profile', title: 'School profile', subtitle: 'The name, address and logo printed on papers',
-          path: '/school/school-profile', done: hasName),
-        (key: 'classes', title: 'Classes', subtitle: 'The academic year, its classes and sections',
-          path: '/admin', done: hasClasses),
-        (key: 'calendar', title: 'Calendar and terms',
-          subtitle: 'Weekly off days, the Saturday rule, holidays and the terms, on Calendar & Setup',
-          path: '/admin?tab=calendar', done: hasTerms),
-        (key: 'people', title: 'People', subtitle: 'Invite your teachers, then your students and parents',
-          path: '/admin', done: hasTeachers),
-        (key: 'timetable', title: 'Timetable', subtitle: 'Who teaches what, the bell, then generate the week',
-          path: '/school/timetable', done: hasTimetable),
-      ];
 
   @override
   State<SetupChecklistCard> createState() => _SetupChecklistCardState();
 }
 
-class _SetupChecklistCardState extends State<SetupChecklistCard> {
-  late Future<List<SetupStep>> _future = _load();
+class _Status {
+  final List<SetupStep> steps;
+  final int percent;
+  final String? nextKey;
+  const _Status(this.steps, this.percent, this.nextKey);
+}
 
-  static Future<List<SetupStep>> _load() async {
-    final profile = await Ops.map('/curriculum/school-profile');
-    final staff = await Ops.list('/staff');
-    final years = await Ops.list('/curriculum/academic-years', query: {'school_id': CurrentSession.schoolId});
-    var hasClasses = false, hasTerms = false, hasTimetable = false;
-    if (years.isNotEmpty) {
-      years.sort((a, b) => (a['startDate'] as String).compareTo(b['startDate'] as String));
-      final id = years.last['id'] as String;
-      hasClasses = (await Ops.list('/curriculum/academic-years/$id/grades')).isNotEmpty;
-      hasTerms = (await Ops.list('/curriculum/academic-years/$id/terms')).isNotEmpty;
-      hasTimetable = hasClasses && (await Ops.list('/curriculum/academic-years/$id/timetable')).isNotEmpty;
-    }
-    return SetupChecklistCard.steps(
-      hasName: (profile['name'] as String? ?? '').trim().isNotEmpty,
-      hasClasses: hasClasses,
-      hasTerms: hasTerms,
-      hasTeachers: staff.any((s) => s['role'] == 'teacher'),
-      hasTimetable: hasTimetable,
-    );
+class _SetupChecklistCardState extends State<SetupChecklistCard> {
+  late Future<_Status> _future = _load();
+
+  static Future<_Status> _load() async {
+    final r = await Ops.map('/setup-status');
+    return _Status([
+      for (final s in (r['steps'] as List).cast<Map>())
+        (key: s['key'] as String, title: s['title'] as String, detail: s['detail'] as String,
+          path: s['path'] as String, done: s['done'] == true),
+    ], (r['percent'] as num).toInt(), r['nextKey'] as String?);
   }
 
   void _reload() {
@@ -90,7 +55,7 @@ class _SetupChecklistCardState extends State<SetupChecklistCard> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return FutureBuilder<List<SetupStep>>(
+    return FutureBuilder<_Status>(
       future: _future,
       builder: (context, snap) {
         if (snap.connectionState != ConnectionState.done) return const SizedBox.shrink();
@@ -102,10 +67,11 @@ class _SetupChecklistCardState extends State<SetupChecklistCard> {
                 style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.error)),
           );
         }
-        final steps = snap.data!;
+        final status = snap.data!;
+        final steps = status.steps;
         final done = steps.where((s) => s.done).length;
         if (done == steps.length) return const SizedBox.shrink();
-        final next = steps.firstWhere((s) => !s.done);
+        final next = steps.firstWhere((s) => s.key == status.nextKey, orElse: () => steps.firstWhere((s) => !s.done));
         return AppCard(
           key: const ValueKey('setup-checklist'),
           margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -114,6 +80,16 @@ class _SetupChecklistCardState extends State<SetupChecklistCard> {
             const SizedBox(height: 2),
             Text('$done ${tr('of')} ${steps.length} ${tr('done')}. ${tr('Next')}: ${tr(next.title)}.',
                 style: theme.textTheme.bodySmall),
+            const SizedBox(height: 8),
+            Semantics(
+              label: '${status.percent} percent set up',
+              child: LinearProgressIndicator(
+                  key: const ValueKey('setup-progress'),
+                  value: status.percent / 100, minHeight: 6, borderRadius: BorderRadius.circular(3)),
+            ),
+            const SizedBox(height: 4),
+            Text('${status.percent}% ${tr('set up')}',
+                key: const ValueKey('setup-percent'), style: theme.textTheme.bodySmall),
             const SizedBox(height: 8),
             FilledButton.icon(
               key: const ValueKey('setup-wizard-start'),
@@ -132,7 +108,7 @@ class _SetupChecklistCardState extends State<SetupChecklistCard> {
                     semanticLabel: s.done ? tr('Done') : tr('Not done yet')),
                 title: Text(tr(s.title),
                     style: s.done ? TextStyle(color: theme.colorScheme.onSurfaceVariant) : null),
-                subtitle: Text(tr(s.subtitle)),
+                subtitle: Text(tr(s.detail)),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () => context.push(s.path).then((_) => _reload()),
               ),

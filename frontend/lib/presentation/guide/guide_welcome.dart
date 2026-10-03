@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../core/session/current_session.dart';
 import '../shared/device_memory.dart';
+import '../shared/user_progress.dart';
 import '../shared/widgets/shell.dart';
 import '../workspace/app_mode.dart';
 import 'guide_content.dart';
@@ -14,9 +15,15 @@ import 'guide_page.dart';
 abstract final class GuideWelcomeMemory {
   static String _key(String userId) => 'guide_welcome:$userId';
 
-  static String? choiceOf(String userId) => DeviceMemory.read(_key(userId)) as String?;
+  /// The choice on this device, or the one saved for the person on the server (another
+  /// browser or phone): they are not welcomed twice.
+  static String? choiceOf(String userId) =>
+      DeviceMemory.read(_key(userId)) as String? ?? UserProgress.read('welcome') as String?;
 
-  static void remember(String userId, String choice) => DeviceMemory.write(_key(userId), choice);
+  static void remember(String userId, String choice) {
+    DeviceMemory.write(_key(userId), choice);
+    UserProgress.save('welcome', choice);
+  }
 }
 
 /// The signed-in user's id, or '' with no local store (a test that mounts a
@@ -64,6 +71,9 @@ class _GuideWelcomeState extends State<GuideWelcome> {
     final user = widget.userId ?? _signedInUser();
     final role = widget.role ?? signedInRole();
     if (user.isEmpty || !guideAvailableFor(role)) return;
+    // The server may already know this person was welcomed, in another browser or on a phone.
+    await UserProgress.load();
+    if (!mounted) return;
     if (GuideWelcomeMemory.choiceOf(user) != null || _askedThisRun.contains(user)) return;
     _askedThisRun.add(user);
     final router = GoRouter.of(context);

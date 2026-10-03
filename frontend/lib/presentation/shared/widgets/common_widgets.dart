@@ -1,3 +1,4 @@
+import '../../../data/datasources/api/api_error.dart';
 import 'package:flutter/material.dart';
 import '../../../core/theme/emergera.dart';
 
@@ -259,6 +260,25 @@ class ErrorDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // A feature that is not switched on yet is not a fault: calm, no Retry.
+    if (isComingSoonMessage(message)) {
+      final theme = Theme.of(context);
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(AppConstants.largePadding),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Icon(Icons.schedule_outlined, size: 56, color: theme.colorScheme.primary),
+            const SizedBox(height: 16),
+            Text(comingSoonPrefix, key: const ValueKey('coming-soon'),
+                style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600)),
+            const SizedBox(height: 8),
+            Text(message.substring(comingSoonPrefix.length).replaceFirst(RegExp(r'^:\s*'), ''),
+                style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                textAlign: TextAlign.center),
+          ]),
+        ),
+      );
+    }
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppConstants.largePadding),

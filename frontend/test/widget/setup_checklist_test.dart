@@ -32,6 +32,7 @@ class _School implements HttpClientAdapter {
   bool hasTerms = false;
   bool hasTeacher = false;
   bool hasTimetable = false;
+  bool failStatus = false;
   static const _json = {Headers.contentTypeHeader: ['application/json']};
 
   Map<String, dynamic> get _summary => {
@@ -44,10 +45,32 @@ class _School implements HttpClientAdapter {
         'studentsNeedingHelp': <Object>[],
       };
 
+  /// GET /setup-status as the server builds it (operations/progress_routes.py).
+  Map<String, dynamic> get _status {
+    final steps = [
+      (key: 'profile', title: 'School name and logo', done: name != null, path: '/school/school-profile'),
+      (key: 'classes', title: 'Classes and sections', done: hasClasses, path: '/school/setup'),
+      (key: 'calendar', title: 'Year, terms and bell', done: hasTerms, path: '/school/setup'),
+      (key: 'teachers', title: 'Teachers', done: hasTeacher, path: '/admin'),
+      (key: 'subjects', title: 'A teacher for each subject', done: hasTeacher && hasTimetable, path: '/school/timetable'),
+      (key: 'timetable', title: 'Timetable', done: hasTimetable, path: '/school/timetable'),
+      (key: 'students', title: 'Students', done: false, path: '/admin'),
+      (key: 'paper', title: 'First question paper', done: false, path: '/assessment'),
+    ];
+    final done = steps.where((x) => x.done).length;
+    return {
+      'steps': [for (final x in steps) {'key': x.key, 'title': x.title, 'done': x.done, 'path': x.path,
+        'detail': x.done ? 'Done' : 'Not yet'}],
+      'done': done, 'total': steps.length, 'percent': (100 * done / steps.length).round(),
+      'nextKey': steps.where((x) => !x.done).map((x) => x.key).firstOrNull,
+    };
+  }
+
   @override
   Future<ResponseBody> fetch(RequestOptions o, Stream<List<int>>? body, Future<void>? cancel) async {
     asked.add(o.path);
     final Object? answer = switch (o.path) {
+      '/setup-status' => failStatus ? null : _status,
       '/curriculum/school-profile' => {'name': name, 'address': null, 'affiliation': null, 'hasLogo': false},
       '/staff' => [
           {'id': 'p_1', 'name': 'Farida Khan', 'role': 'principal'},
@@ -119,7 +142,7 @@ void main() {
     useScreen(tester, phoneScreen);
     final router = GoRouter(initialLocation: '/school', routes: [
       GoRoute(path: '/school', builder: (_, __) => const Scaffold(body: SingleChildScrollView(child: SetupChecklistCard()))),
-      for (final path in ['/admin', '/school-profile-page', '/timetable-page'])
+      for (final path in ['/admin', '/school-profile-page', '/timetable-page', '/school/setup', '/assessment'])
         GoRoute(path: path, builder: (_, s) => Scaffold(body: Text('at ${s.uri}'))),
     ], redirect: (_, s) => switch (s.uri.path) {
           '/school/school-profile' => '/school-profile-page',
@@ -141,12 +164,14 @@ void main() {
   testWidgets('a new school sees the five steps, none done, and the first is next', (tester) async {
     await pumpChecklist(tester);
     expect(find.byKey(const ValueKey('setup-checklist')), findsOneWidget);
-    expect(find.text('0 of 5 done. Next: School profile.'), findsOneWidget);
-    for (final step in ['profile', 'classes', 'calendar', 'people', 'timetable']) {
+    expect(find.text('0 of 8 done. Next: School name and logo.'), findsOneWidget);
+    expect(find.text('0% set up'), findsOneWidget);
+    for (final step in ['profile', 'classes', 'calendar', 'teachers', 'subjects', 'timetable', 'students', 'paper']) {
       expect(find.byKey(ValueKey('setup-step-$step')), findsOneWidget);
       expect(ticked(tester, step), isFalse, reason: step);
     }
-    expect(school.asked.where((p) => p.endsWith('/calendar')), isEmpty, reason: 'a new year has none: a 404');
+    expect(school.asked.where((p) => p != '/setup-status' && p != '/notifications' && p != '/dashboard/summary'),
+        isEmpty, reason: 'one call carries the whole level');
     expectNoOverflow(tester);
   });
 
@@ -157,11 +182,12 @@ void main() {
       ..hasClasses = true
       ..hasTeacher = true;
     await pumpChecklist(tester);
-    expect(find.text('3 of 5 done. Next: Calendar and terms.'), findsOneWidget);
+    expect(find.text('3 of 8 done. Next: Year, terms and bell.'), findsOneWidget);
+    expect(find.text('38% set up'), findsOneWidget);
     expect(ticked(tester, 'profile'), isTrue);
     expect(ticked(tester, 'classes'), isTrue);
     expect(ticked(tester, 'calendar'), isFalse);
-    expect(ticked(tester, 'people'), isTrue);
+    expect(ticked(tester, 'teachers'), isTrue);
     expect(ticked(tester, 'timetable'), isFalse);
   });
 
@@ -169,10 +195,10 @@ void main() {
     final router = await pumpChecklist(tester);
     final expected = {
       'profile': '/school-profile-page',
-      'classes': '/admin',
-      'calendar': '/admin?tab=calendar',
-      'people': '/admin',
+      'classes': '/school/setup',
+      'teachers': '/admin',
       'timetable': '/timetable-page',
+      'paper': '/assessment',
     };
     for (final MapEntry(key: step, value: location) in expected.entries) {
       await tester.tap(find.byKey(ValueKey('setup-step-$step')));
@@ -184,7 +210,7 @@ void main() {
     }
   });
 
-  testWidgets('a school with every step done sees no checklist', (tester) async {
+  testWidgets('a school with most steps done still sees what is left', (tester) async {
     school
       ..name = 'Green Valley School'
       ..hasYear = true
@@ -193,7 +219,14 @@ void main() {
       ..hasTeacher = true
       ..hasTimetable = true;
     await pumpChecklist(tester);
+    expect(find.byKey(const ValueKey('setup-checklist')), findsOneWidget, reason: 'students and a paper are still to do');
+  });
+
+  testWidgets('the card says so, in a sentence, when the level cannot be read', (tester) async {
+    school.failStatus = true;
+    await pumpChecklist(tester);
     expect(find.byKey(const ValueKey('setup-checklist')), findsNothing);
+    expect(find.byKey(const ValueKey('setup-checklist-error')), findsOneWidget);
   });
 
   testWidgets('with no teacher yet the dashboard does not count the principal as unmarked', (tester) async {

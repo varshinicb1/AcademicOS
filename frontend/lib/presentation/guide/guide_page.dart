@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../shared/user_progress.dart';
 import '../shared/widgets/common_widgets.dart';
 import '../shared/widgets/shell.dart';
 import 'guide_content.dart';
@@ -35,50 +36,88 @@ class GuideButton extends StatelessWidget {
 
 /// The Guide: the jobs the signed-in role does most, each opening to a few
 /// numbered steps and a Take me there button that goes to the page that does
-/// it (guide_content.dart).
-class GuidePage extends StatelessWidget {
+/// it (guide_content.dart). Which jobs a person opened and finished is saved
+/// for them (UserProgress), so it is still there in another browser.
+class GuidePage extends StatefulWidget {
   const GuidePage({super.key, this.role});
 
   /// Whose guide to show; the signed-in role when null.
   final String? role;
 
   @override
+  State<GuidePage> createState() => _GuidePageState();
+}
+
+/// The saved-progress keys of one job.
+String guideDoneKey(String jobId) => 'guide.done.$jobId';
+String guideOpenedKey(String jobId) => 'guide.opened.$jobId';
+
+class _GuidePageState extends State<GuidePage> {
+  @override
+  void initState() {
+    super.initState();
+    UserProgress.load();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final who = role ?? signedInRole();
+    final who = widget.role ?? signedInRole();
     final jobs = guideJobsFor(who);
     return Scaffold(
       appBar: destinationAppBar(context, title: const Text('Guide'), guide: false),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
-        children: [
-          Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 760),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                if (jobs.isEmpty)
-                  Text('Sign in to see the guide for your role.', style: theme.textTheme.bodyLarge)
-                else ...[
-                  Text('What a ${guideRoleName(who)} does most', style: theme.textTheme.titleLarge),
-                  const SizedBox(height: 6),
-                  Text(
-                    'Open a job to see its steps. Take me there opens the page where you do it.',
-                    style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-                  ),
-                  if (who == 'principal' || who == 'teacher') ...[
-                    const SizedBox(height: 4),
-                    Text(
-                      'Pages you use less often are in the menu under More${who == 'principal' ? ' and Setup' : ''}.',
-                      style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-                    ),
-                  ],
-                  const SizedBox(height: 16),
-                  for (final job in jobs) _JobCard(job: job),
-                ],
-              ]),
-            ),
-          ),
-        ],
+      body: ValueListenableBuilder<Map<String, Object?>>(
+        valueListenable: UserProgress.items,
+        builder: (context, _, __) {
+          final done = jobs.where((j) => UserProgress.isDone(guideDoneKey(j.id))).length;
+          return ListView(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+            children: [
+              Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 760),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                    if (jobs.isEmpty)
+                      Text('Sign in to see the guide for your role.', style: theme.textTheme.bodyLarge)
+                    else ...[
+                      Text('What a ${guideRoleName(who)} does most', style: theme.textTheme.titleLarge),
+                      const SizedBox(height: 6),
+                      Text(
+                        'Open a job to see its steps. Take me there opens the page where you do it. '
+                        'Tick a job when you have done it; your ticks are saved.',
+                        style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                      ),
+                      if (who == 'principal' || who == 'teacher') ...[
+                        const SizedBox(height: 4),
+                        Text(
+                          'Pages you use less often are in the menu under More${who == 'principal' ? ' and Setup' : ''}.',
+                          style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                        ),
+                      ],
+                      const SizedBox(height: 12),
+                      Semantics(
+                        label: '$done of ${jobs.length} jobs done',
+                        child: LinearProgressIndicator(
+                            key: const ValueKey('guide-progress'), value: done / jobs.length, minHeight: 6,
+                            borderRadius: BorderRadius.circular(3)),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        key: const ValueKey('guide-progress-text'),
+                        done == jobs.length
+                            ? 'All ${jobs.length} jobs done'
+                            : '$done of ${jobs.length} jobs done',
+                        style: theme.textTheme.bodySmall,
+                      ),
+                      const SizedBox(height: 16),
+                      for (final job in jobs) _JobCard(job: job),
+                    ],
+                  ]),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -93,16 +132,24 @@ class _JobCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
+    final done = UserProgress.isDone(guideDoneKey(job.id));
     return AppCard(
       padding: EdgeInsets.zero,
       margin: const EdgeInsets.only(bottom: 12),
       child: ExpansionTile(
         key: PageStorageKey('guide-job-${job.id}'),
-        leading: Icon(job.icon, color: colors.primary),
+        leading: Icon(done ? Icons.check_circle : job.icon, color: done ? colors.primary : colors.primary,
+            semanticLabel: done ? 'Done' : null),
         title: Text(job.title, style: theme.textTheme.titleMedium),
         subtitle: Text(job.summary, style: theme.textTheme.bodySmall),
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
+        onExpansionChanged: (open) {
+          // Opening a job is progress too: it tells the school which guidance is being read.
+          if (open && UserProgress.read(guideOpenedKey(job.id)) == null) {
+            UserProgress.save(guideOpenedKey(job.id), DateTime.now().toUtc().toIso8601String());
+          }
+        },
         children: [
           for (var i = 0; i < job.steps.length; i++) _Step(number: i + 1, text: job.steps[i]),
           const SizedBox(height: 8),
@@ -112,6 +159,14 @@ class _JobCard extends StatelessWidget {
             style: phoneTapTarget(context),
             icon: const Icon(Icons.arrow_forward),
             label: const Text('Take me there'),
+          ),
+          CheckboxListTile(
+            key: ValueKey('guide-done-${job.id}'),
+            contentPadding: EdgeInsets.zero,
+            controlAffinity: ListTileControlAffinity.leading,
+            value: done,
+            title: const Text('I have done this'),
+            onChanged: (v) => UserProgress.save(guideDoneKey(job.id), v == true),
           ),
         ],
       ),
