@@ -1050,3 +1050,33 @@ def test_a_hindi_stem_ending_in_a_danda_is_a_stem_that_asks():
     assert cg._is_a_question("इस कविता का मूल भाव अपने शब्दों में स्पष्ट कीजिए।")
     assert cg._is_a_question("कवि ने सावन को किसका प्रतीक माना है?")
     assert not cg._is_a_question("कविता में सावन का वर्णन है")
+
+
+def test_two_calls_for_one_section_do_not_share_record_ids(tmp_path):
+    # The model numbers each call's questions 1, 2, 3; two calls for section D both gave
+    # "...:D:1" and the collector dropped the second as a duplicate id. A real chapter is read
+    # here with answers for two calls of the same section, and every id must be its own.
+    import shutil
+    import pytest
+    pdf_dir = Path(r"C:\Users\varsh\OneDrive\Documents\Sarvam\ncert-dataset\textbooks\chapters\jess2")
+    if not (pdf_dir / "jess201.pdf").is_file() or shutil.which("python") is None:
+        pytest.skip("the NCERT chapter PDFs are not on this machine")
+    mod = _gen_script("gen_chapter_ids")
+    folder = tmp_path / "jess2-01"
+    folder.mkdir()
+    # Prepare the prompts, then answer every call of section D with the same one-question reply.
+    mod.generate_chapter("jess2", 1, mark_budget=40, model="m", bridge=folder, per_call=1)
+    prompts = sorted(folder.glob("p*.json"))
+    d_calls = [p for p in prompts if json.loads(p.read_text(encoding="utf-8"))["section"] == "D"]
+    assert len(d_calls) >= 2, "the chapter must have two calls for one section for this to test anything"
+    for p in d_calls:
+        prompt = json.loads(p.read_text(encoding="utf-8"))
+        quote = [l for l in prompt["user"].splitlines() if len(l.split()) > 6][3]
+        answer = {"questions": [{
+            "qtype": "long_answer", "marks": "5", "bloomLevel": "apply", "option": 1,
+            "stem": "Explain in steps what the passage says about the first idea it names. ",
+            "modelAnswer": quote, "markingPoints": ["a", "b", "c", "d", "e"], "evidence": [quote]}]}
+        (folder / p.name.replace("p", "r", 1)).write_text(json.dumps(answer), encoding="utf-8")
+    kept, refused, _ = mod.generate_chapter("jess2", 1, mark_budget=40, model="m", bridge=folder, per_call=1)
+    ids = [r["id"] for r in kept]
+    assert len(ids) == len(set(ids)), ids

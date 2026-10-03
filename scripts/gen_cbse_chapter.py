@@ -671,6 +671,10 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
                                 "topic": topic, "reason": reason,
                                 "stem": (item.get("stem") or "")[:120]})
                 continue
+            # The id is built from this number. The model numbers a call's questions 1, 2, 3, so
+            # two calls for one section both produced "...:D:1", and the second was dropped as a
+            # duplicate id. Number them across the chapter's section instead.
+            item["option"] = by_section.get(section.key, 0) + 1
             record = cg.to_record(
                 item, section, chapter, topic, chapter_id=chapter_id,
                 topic_id="", model=chosen)
