@@ -124,7 +124,7 @@ def pass_flags(args) -> list[str]:
     from 100 so its ids cannot meet the first pass's."""
     if not args.pass_name:
         return []
-    return ["--suffix", suffix_of(args), "--only-sections", args.only_sections,
+    return [f"--suffix={suffix_of(args)}", "--only-sections", args.only_sections,
             "--items-per-section", str(args.items), "--number-from", "100"]
 
 
