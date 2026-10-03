@@ -123,9 +123,12 @@ def test_every_requested_hash_is_present_in_the_result(tmp_path):
 def test_real_model_tags_plausible_chapters(tmp_path):
     """One real, non-mocked check that the actual sentence-transformers
     model produces a sane result end-to-end -- not just that the plumbing
-    calls .encode() correctly."""
-    # The real model needs the optional `retrieval` extra; without it this is
-    # an environment without the model, not a tagger failure.
+    calls .encode() correctly.
+
+    Skipped where sentence-transformers is not installed: the CI install no
+    longer carries the `retrieval` extra (torch, several GB, which filled the
+    runner's disk), so this runs on a machine that has it. The tests above cover
+    the plumbing with a fake model on every run."""
     pytest.importorskip("sentence_transformers")
     cache = ChapterTagCache(tmp_path / "tags.sqlite")
     items = [
