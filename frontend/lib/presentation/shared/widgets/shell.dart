@@ -147,7 +147,6 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           _item(Icons.admin_panel_settings_outlined, Icons.admin_panel_settings, 'Staff and access', '/school/grants'),
           _item(Icons.upload_file_outlined, Icons.upload_file, 'Import and export', '/school/import'),
           _item(Icons.badge_outlined, Icons.badge, 'School profile', '/school/school-profile'),
-          _item(Icons.key_outlined, Icons.key, 'API keys', '/school/api-keys'),
         ]),
       ];
     case 'teacher':

@@ -57,7 +57,6 @@ import '../../presentation/workspace/school_profile_page.dart';
 import '../../presentation/onboarding/pages/setup_wizard_page.dart';
 import '../../presentation/workspace/report_cards_page.dart';
 import '../../presentation/workspace/owner_pages.dart';
-import '../../presentation/workspace/webhooks_page.dart';
 import '../session/current_session.dart';
 import '../local_engine/local_store.dart';
 import 'package:academicos/core/theme/app_theme.dart';
@@ -291,9 +290,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(path: 'exams', builder: (context, state) => const ExamsPage()),
               GoRoute(path: 'reviews', builder: (context, state) => const ReviewsPage()),
               GoRoute(path: 'import', builder: (context, state) => const ImportPage()),
-              GoRoute(path: 'api-keys', builder: (context, state) => const ApiKeysPage()),
-              GoRoute(path: 'api-keys/:id/webhooks', builder: (context, state) => WebhooksPage(
-                  keyId: state.pathParameters['id']!, keyLabel: state.uri.queryParameters['label'] ?? '')),
+              // Question-bank API keys and their webhooks are the operator's, not a school's:
+              // there is no school route to them. ApiKeysPage and WebhooksPage stay for an
+              // operator console (admin_pages.dart, webhooks_page.dart).
               GoRoute(path: 'grants', builder: (context, state) => const GrantsPage()),
               GoRoute(path: 'timetable', builder: (context, state) => const TimetableAdminPage()),
               GoRoute(path: 'lesson-plans', builder: (context, state) => const LessonPlanPage()),
