@@ -37,8 +37,8 @@ void main() {
     expect(sections.first.collapsible, isFalse);
     expect([for (final i in sections[1].items) i.label], ['Paper reviews', 'School insights', 'Periods owed',
         'Homework', 'Class progress', 'Question bank']);
-    expect([for (final i in sections[2].items) i.label], ['Invite people', 'Staff and access', 'School profile',
-        'Import and export', 'API keys', 'Calendar and terms']);
+    expect([for (final i in sections[2].items) i.label], ['Set up your school', 'Invite people', 'Staff and access',
+        'School profile', 'Import and export', 'Calendar and terms']);
     for (final s in sections.skip(1)) {
       expect(s.collapsible, isTrue, reason: '${s.title} folds away');
       expect(s.openByDefault, isFalse, reason: '${s.title} starts folded');
@@ -50,7 +50,7 @@ void main() {
     const before = ['/school', '/assessment', '/school/reviews', '/school/term-report', '/analytics/school',
       '/school/inbox', '/school/exams', '/school/timetable', '/school/lesson-plans', '/school/cover',
       '/school/periods-owed', '/school/homework', '/school/class-progress', '/school/question-bank', '/admin',
-      '/school/grants', '/school/import', '/school/school-profile', '/school/api-keys'];
+      '/school/grants', '/school/import', '/school/school-profile'];
     final paths = [for (final i in navItemsFor('principal')) i.path];
     expect(paths, containsAll(before));
     expect(paths, contains('/admin?tab=calendar-setup'));

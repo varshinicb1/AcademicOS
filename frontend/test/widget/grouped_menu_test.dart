@@ -21,7 +21,7 @@ const _principalCore = ['Overview', 'Papers', 'Exams', 'Timetable', 'Lesson plan
   'Term report', 'Inbox'];
 const _principalMore = ['Paper reviews', 'School insights', 'Periods owed', 'Homework', 'Class progress',
   'Question bank'];
-const _principalSetup = ['Invite people', 'Staff and access', 'School profile', 'Import and export', 'API keys',
+const _principalSetup = ['Set up your school', 'Invite people', 'Staff and access', 'School profile', 'Import and export',
   'Calendar and terms'];
 
 void _signIn(String role) => LocalStore.instance.authUser = {
@@ -40,7 +40,7 @@ Widget _app(String initial) {
   const paths = ['/school', '/assessment', '/school/exams', '/school/timetable', '/school/lesson-plans',
     '/school/cover', '/school/term-report', '/school/inbox', '/school/reviews', '/analytics/school',
     '/school/periods-owed', '/school/homework', '/school/class-progress', '/school/question-bank', '/admin',
-    '/school/grants', '/school/school-profile', '/school/import', '/school/api-keys', '/settings', '/home',
+    '/school/grants', '/school/school-profile', '/school/import', '/school/setup', '/settings', '/home',
     '/school/my-day', '/school/week', '/evaluation', '/questions', '/school/my-exams', '/school/today',
     '/school/my-homework', '/school/my-learning'];
   final router = GoRouter(initialLocation: initial, routes: [
