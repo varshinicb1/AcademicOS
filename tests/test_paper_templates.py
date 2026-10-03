@@ -942,18 +942,25 @@ def test_a_source_stem_alone_is_not_a_competency_signal():
 
 
 def test_a_heading_no_constraint_checks_says_so():
-    """English Grammar/Reading/Literature are filled by marks alone -- the bank
-    does not label a question as grammar -- so the report must say the
-    section's content was not checked rather than implying it was."""
+    """English Grammar/Reading/Literature are filled by marks alone where the bank does not label
+    a question as grammar (classes below 9), so the report must say the section's content was not
+    checked rather than implying it was. Classes 9-10 are tagged, and check it."""
     from academicos.assessment.template_presets import get_preset
     bank = [_q(f"e{i}", 1, "Answer any four of the following in 40-50 words.",
                "very_short_answer") for i in range(40)]
     for q in bank:
         q.subject = "English"
-    report, _ = _plan_preset("preset:cbse:10:english:annual", bank)
+    report, _ = _plan_preset("preset:cbse:8:english:annual", bank)
     by_title = {s.title: s for s in report.sections}
-    grammar = by_title["Section B - Grammar (attempt any 10)"]
+    grammar = by_title["Section B - Grammar"]
     assert any("not checked" in n for n in grammar.notes), grammar.notes
+
+    # Class 10: an untagged one-mark question is no Grammar question, so it fills nothing there,
+    # and the report has nothing to say about content it did check.
+    report, _ = _plan_preset("preset:cbse:10:english:annual", bank)
+    grammar = {s.title: s for s in report.sections}["Section B - Grammar (attempt any 10)"]
+    assert grammar.filled == 0, grammar
+    assert not any("not checked" in n for n in grammar.notes), grammar.notes
 
     ss_report, _ = _plan_preset(SS10, _ss_bank())
     for s in ss_report.sections:
