@@ -303,7 +303,7 @@ class LocalStore {
   // Light unless the person chose otherwise in Settings: the product is
   // designed white (design/tokens.json), and following a dark OS setting
   // opened it dark for everyone who had one (review 2026-10-01).
-  String get themeModeName => _box.get('theme_mode') as String? ?? 'dark';
+  String get themeModeName => _box.get('theme_mode') as String? ?? 'light';
   set themeModeName(String v) => _box.put('theme_mode', v);
 
   // ---- Teacher profile (this device's user) ----
