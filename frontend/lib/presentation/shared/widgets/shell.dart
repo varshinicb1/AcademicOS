@@ -308,8 +308,6 @@ String signedInRole() => Hive.isBoxOpen('academicos_cache') ? CurrentSession.rol
 
 /// An owner over several schools (ROLE-4); false with no local store.
 bool _signedInIsOwner() => Hive.isBoxOpen('academicos_cache') && CurrentSession.isOwner;
-/// [_signedInRole] for the pages that sit beside the shell (the Guide).
-String signedInRole() => _signedInRole();
 
 /// The signed-in teacher's admin capabilities (`/my-grants`), loaded once per
 /// session; empty until they arrive, offline, and for every other role. A
@@ -318,7 +316,7 @@ String signedInRole() => _signedInRole();
 ValueListenable<Set<String>> myGrants() {
   // The offline build has no accounts and asks no server.
   if (!const bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false)) {
-    _Grants.ensureLoaded(_signedInRole());
+    _Grants.ensureLoaded(signedInRole());
   }
   return _Grants.caps;
 }
@@ -495,7 +493,7 @@ class _SideNavState extends State<SideNav> {
       compact: compact,
       inDrawer: inDrawer,
     );
-    final guideRow = guideAvailableFor(_signedInRole())
+    final guideRow = guideAvailableFor(signedInRole())
         ? _NavRow(
             item: _item(Icons.help_outline, Icons.help, 'Guide', guidePath),
             selected: GoRouterState.of(context).uri.path == guidePath,
