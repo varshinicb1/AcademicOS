@@ -71,19 +71,22 @@ class FinishStep extends StatelessWidget {
           label: const Text('Open in my papers'),
           style: OutlinedButton.styleFrom(minimumSize: const Size(0, 48)),
         ),
-        const SizedBox(height: 8),
-        // It saves a second paper at once; the button says so (QA P-25).
-        OutlinedButton.icon(
-          onPressed: c.generating ? null : c.makeAnother,
-          icon: const Icon(Icons.replay),
-          label: const Text('Make and save another like this'),
-          style: OutlinedButton.styleFrom(minimumSize: const Size(0, 48)),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 4),
-          child: Text('A second paper, saved now: the same template and chapters, with other questions.',
-              style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-        ),
+        // Only a template paper has a template to make another from.
+        if (c.fromTemplate) ...[
+          const SizedBox(height: 8),
+          // It saves a second paper at once; the button says so (QA P-25).
+          OutlinedButton.icon(
+            onPressed: c.generating ? null : c.makeAnother,
+            icon: const Icon(Icons.replay),
+            label: const Text('Make and save another like this'),
+            style: OutlinedButton.styleFrom(minimumSize: const Size(0, 48)),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text('A second paper, saved now: the same template and chapters, with other questions.',
+                style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+          ),
+        ],
         const SizedBox(height: 8),
         TextButton(
           onPressed: () => c.goTo(BuilderStep.paper),

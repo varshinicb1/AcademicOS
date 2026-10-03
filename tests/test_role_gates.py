@@ -36,7 +36,7 @@ from academicos.api.main import app
 from academicos.api.route_policy import LEVELS as ROUTE_POLICY_LEVELS
 from academicos.assessment.auth_routes import ADMIN_DETAIL
 from academicos.api.route_policy import (
-    ANY_USER, API_KEY, PRINCIPAL, PUBLIC, ROUTE_POLICY, SELF_OR_STAFF, STAFF,
+    ANY_USER, API_KEY, OWNER, PRINCIPAL, PUBLIC, ROUTE_POLICY, SELF_OR_STAFF, STAFF,
     app_operations, iter_routes,
 )
 from academicos.assessment import auth_routes, pillar_routes, qbank_routes
@@ -49,6 +49,7 @@ from _auth_helpers import grant_consent, register_invited
 STAFF_DETAIL = "this action requires a teacher or principal account"
 SELF_DETAIL = "students can only access their own data"
 PRINCIPAL_DETAIL = "this action requires the principal role"
+OWNER_DETAIL = auth_routes.OWNER_DETAIL
 BOOTSTRAP_KEY = "role-gates-bootstrap-key"
 
 
@@ -86,6 +87,8 @@ def _level_from_code(route) -> str:
     admin = next((c for c in calls if getattr(c, "capability", None)), None)
     if admin is not None:
         return f"admin:{admin.capability}"
+    if auth_routes.require_owner in calls:
+        return OWNER
     if auth_routes.require_principal in calls:
         return PRINCIPAL
     if auth_routes.require_staff in calls:
@@ -217,6 +220,21 @@ def test_a_teacher_without_a_grant_is_refused_every_admin_route(world, method, p
     r = _call(client, method, _concrete(path, teacher["user"]["schoolId"]), _auth(teacher))
     assert r.status_code == 403, f"{method} {path} -> {r.status_code} {r.text[:200]}"
     assert r.json()["detail"] == ADMIN_DETAIL
+
+
+_OWNER_ONLY = sorted(k for k, p in ROUTE_POLICY.items() if p.level == OWNER)
+
+
+@pytest.mark.parametrize("who", ["student", "teacher", "principal"])
+@pytest.mark.parametrize("method,path", _OWNER_ONLY, ids=[f"{m} {p}" for m, p in _OWNER_ONLY])
+def test_only_an_owner_account_reaches_an_owner_route(world, method, path, who):
+    """ROLE-4: a school's own principal is not an owner, and neither is
+    anyone below them; each gets the owner gate's own 403."""
+    client, people = world
+    person = people[who]
+    r = _call(client, method, _concrete(path, person["user"]["schoolId"]), _auth(person))
+    assert r.status_code == 403, f"{who}: {method} {path} -> {r.status_code} {r.text[:200]}"
+    assert r.json()["detail"] == OWNER_DETAIL
 
 
 # --------------------------------------------------------------- self_or_staff

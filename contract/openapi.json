@@ -39,6 +39,22 @@
         "title": "AcademicYearResponse",
         "type": "object"
       },
+      "ActiveSchoolRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "schoolId": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Schoolid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "schoolId"
+        ],
+        "title": "ActiveSchoolRequest",
+        "type": "object"
+      },
       "AddBookRequest": {
         "properties": {
           "boardId": {
@@ -87,6 +103,20 @@
             ],
             "title": "Enddate"
           },
+          "grades": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grades"
+          },
           "kind": {
             "default": "holiday",
             "title": "Kind",
@@ -97,10 +127,32 @@
             "title": "Label",
             "type": "string"
           },
+          "lastPeriod": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastperiod"
+          },
           "moveLessons": {
             "default": true,
             "title": "Movelessons",
             "type": "boolean"
+          },
+          "timetableWeekday": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timetableweekday"
           }
         },
         "required": [
@@ -1852,6 +1904,20 @@
         "title": "Body_ingest_school_document_api_v1_ingest_school_documents_post",
         "type": "object"
       },
+      "Body_upload_leave_document_api_v1_curriculum_leave_requests__leave_id__document_post": {
+        "properties": {
+          "file": {
+            "contentMediaType": "application/octet-stream",
+            "title": "File",
+            "type": "string"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_leave_document_api_v1_curriculum_leave_requests__leave_id__document_post",
+        "type": "object"
+      },
       "Body_upload_photo_api_v1_my_homework__homework_id__photos_post": {
         "properties": {
           "file": {
@@ -1948,6 +2014,11 @@
           "approveProposedTopics": {
             "default": false,
             "title": "Approveproposedtopics",
+            "type": "boolean"
+          },
+          "fitToPeriodsLeft": {
+            "default": false,
+            "title": "Fittoperiodsleft",
             "type": "boolean"
           }
         },
@@ -3336,6 +3407,29 @@
         "title": "CompetencyWeights",
         "type": "object"
       },
+      "CompressedSubtopicResponse": {
+        "properties": {
+          "periodsNeeded": {
+            "title": "Periodsneeded",
+            "type": "integer"
+          },
+          "periodsPlanned": {
+            "title": "Periodsplanned",
+            "type": "integer"
+          },
+          "subtopicId": {
+            "title": "Subtopicid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subtopicId",
+          "periodsNeeded",
+          "periodsPlanned"
+        ],
+        "title": "CompressedSubtopicResponse",
+        "type": "object"
+      },
       "ComputeTeachingTimeRequest": {
         "properties": {
           "periodsPerWeek": {
@@ -3354,6 +3448,17 @@
             "default": false,
             "title": "Recompute",
             "type": "boolean"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
           }
         },
         "title": "ComputeTeachingTimeRequest",
@@ -3399,6 +3504,17 @@
             "default": 0,
             "title": "Periodsshort",
             "type": "integer"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
           },
           "totalInstructionalMinutes": {
             "title": "Totalinstructionalminutes",
@@ -5496,6 +5612,14 @@
             "title": "Covered",
             "type": "array"
           },
+          "noQuestions": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/ClassSubject"
+            },
+            "title": "Noquestions",
+            "type": "array"
+          },
           "notYet": {
             "items": {
               "$ref": "#/components/schemas/ClassSubject"
@@ -5755,6 +5879,19 @@
             "title": "Subject",
             "type": "string"
           },
+          "teacherSeconds": {
+            "anyOf": [
+              {
+                "maximum": 86400.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherseconds"
+          },
           "templateId": {
             "anyOf": [
               {
@@ -5817,6 +5954,19 @@
             "title": "Setcount",
             "type": "integer"
           },
+          "teacherSeconds": {
+            "anyOf": [
+              {
+                "maximum": 86400.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherseconds"
+          },
           "templateId": {
             "title": "Templateid",
             "type": "string"
@@ -5872,6 +6022,17 @@
             ],
             "title": "Competencytargetmet"
           },
+          "difficultyMeasured": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Difficultymeasured"
+          },
           "formattedContent": {
             "default": "",
             "title": "Formattedcontent",
@@ -5886,8 +6047,24 @@
             "title": "Id",
             "type": "string"
           },
+          "marksAsked": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Marksasked"
+          },
           "metadata": {
             "$ref": "#/components/schemas/PaperMetadataSchema"
+          },
+          "preview": {
+            "default": false,
+            "title": "Preview",
+            "type": "boolean"
           },
           "sections": {
             "items": {
@@ -5919,6 +6096,13 @@
               "$ref": "#/components/schemas/GeneratedPaper"
             },
             "title": "Sets",
+            "type": "array"
+          },
+          "shortfall": {
+            "items": {
+              "$ref": "#/components/schemas/SectionShortfall"
+            },
+            "title": "Shortfall",
             "type": "array"
           },
           "similarPairs": {
@@ -6423,6 +6607,251 @@
         "title": "GroupAnalysis",
         "type": "object"
       },
+      "GroupLaneBody": {
+        "additionalProperties": false,
+        "description": "One lane: its subject (a subject of the sections' class), teacher,\nroom, and for an elective the students who chose it. `id` keeps a lane\nacross an edit.",
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "roomId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomid"
+          },
+          "studentIds": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 200,
+            "title": "Studentids",
+            "type": "array"
+          },
+          "subjectId": {
+            "minLength": 1,
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          }
+        },
+        "required": [
+          "subjectId"
+        ],
+        "title": "GroupLaneBody",
+        "type": "object"
+      },
+      "GroupLaneResponse": {
+        "description": "One lane of a group: an elective's subject choice, or a combined\nclass's one subject, with its teacher and room.",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "roomId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomid"
+          },
+          "roomName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomname"
+          },
+          "studentIds": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Studentids",
+            "type": "array"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "subjectName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subjectname"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          },
+          "teacherName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teachername"
+          }
+        },
+        "required": [
+          "id",
+          "subjectId"
+        ],
+        "title": "GroupLaneResponse",
+        "type": "object"
+      },
+      "GroupPeriodResponse": {
+        "description": "A period a section spends in an elective group or a combined class\n(N-3-20), with every lane taught then.",
+        "properties": {
+          "dayOfWeek": {
+            "title": "Dayofweek",
+            "type": "integer"
+          },
+          "endTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Endtime"
+          },
+          "groupId": {
+            "title": "Groupid",
+            "type": "string"
+          },
+          "groupName": {
+            "title": "Groupname",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "lanes": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/GroupLaneResponse"
+            },
+            "title": "Lanes",
+            "type": "array"
+          },
+          "period": {
+            "title": "Period",
+            "type": "integer"
+          },
+          "startTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starttime"
+          }
+        },
+        "required": [
+          "groupId",
+          "groupName",
+          "kind",
+          "dayOfWeek",
+          "period"
+        ],
+        "title": "GroupPeriodResponse",
+        "type": "object"
+      },
+      "GroupSessionResponse": {
+        "description": "A period of an elective group or a combined class (N-3-20).",
+        "properties": {
+          "dayOfWeek": {
+            "title": "Dayofweek",
+            "type": "integer"
+          },
+          "groupId": {
+            "title": "Groupid",
+            "type": "string"
+          },
+          "period": {
+            "title": "Period",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "groupId",
+          "dayOfWeek",
+          "period"
+        ],
+        "title": "GroupSessionResponse",
+        "type": "object"
+      },
+      "GroupSlotResponse": {
+        "properties": {
+          "dayOfWeek": {
+            "title": "Dayofweek",
+            "type": "integer"
+          },
+          "period": {
+            "title": "Period",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "dayOfWeek",
+          "period"
+        ],
+        "title": "GroupSlotResponse",
+        "type": "object"
+      },
       "GuardianInviteRequest": {
         "additionalProperties": false,
         "properties": {
@@ -6586,6 +7015,20 @@
             ],
             "title": "Enddate"
           },
+          "grades": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grades"
+          },
           "id": {
             "title": "Id",
             "type": "string"
@@ -6597,6 +7040,17 @@
           "label": {
             "title": "Label",
             "type": "string"
+          },
+          "lastPeriod": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastperiod"
           },
           "lessonsMoved": {
             "anyOf": [
@@ -6622,6 +7076,17 @@
               }
             ],
             "title": "Notmoved"
+          },
+          "timetableWeekday": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timetableweekday"
           }
         },
         "required": [
@@ -7627,6 +8092,34 @@
         "title": "LeaveDecisionResponse",
         "type": "object"
       },
+      "LeaveDocumentResponse": {
+        "properties": {
+          "contentType": {
+            "title": "Contenttype",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "size": {
+            "title": "Size",
+            "type": "integer"
+          },
+          "uploadedAt": {
+            "title": "Uploadedat",
+            "type": "string"
+          }
+        },
+        "required": [
+          "contentType",
+          "name",
+          "size",
+          "uploadedAt"
+        ],
+        "title": "LeaveDocumentResponse",
+        "type": "object"
+      },
       "LeaveResponse": {
         "properties": {
           "academicYearId": {
@@ -7647,6 +8140,16 @@
               }
             ],
             "title": "Decidedby"
+          },
+          "document": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LeaveDocumentResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "endDate": {
             "title": "Enddate",
@@ -7681,6 +8184,17 @@
           "reason": {
             "title": "Reason",
             "type": "string"
+          },
+          "replacementId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Replacementid"
           },
           "startDate": {
             "title": "Startdate",
@@ -8630,6 +9144,318 @@
         "title": "OtherEditionResponse",
         "type": "object"
       },
+      "OwnerLinkCreateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "expiresInDays": {
+            "anyOf": [
+              {
+                "maximum": 90.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expiresindays"
+          },
+          "label": {
+            "default": "",
+            "maxLength": 100,
+            "title": "Label",
+            "type": "string"
+          }
+        },
+        "title": "OwnerLinkCreateRequest",
+        "type": "object"
+      },
+      "OwnerLinkCreatedResponse": {
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "codeHint": {
+            "title": "Codehint",
+            "type": "string"
+          },
+          "createdAt": {
+            "title": "Createdat",
+            "type": "string"
+          },
+          "createdBy": {
+            "title": "Createdby",
+            "type": "string"
+          },
+          "expiresAt": {
+            "title": "Expiresat",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "ownerEmail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Owneremail"
+          },
+          "ownerId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ownerid"
+          },
+          "ownerName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ownername"
+          },
+          "redeemedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Redeemedat"
+          },
+          "revokedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revokedat"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "codeHint",
+          "status",
+          "createdAt",
+          "createdBy",
+          "expiresAt",
+          "code"
+        ],
+        "title": "OwnerLinkCreatedResponse",
+        "type": "object"
+      },
+      "OwnerLinkResponse": {
+        "properties": {
+          "codeHint": {
+            "title": "Codehint",
+            "type": "string"
+          },
+          "createdAt": {
+            "title": "Createdat",
+            "type": "string"
+          },
+          "createdBy": {
+            "title": "Createdby",
+            "type": "string"
+          },
+          "expiresAt": {
+            "title": "Expiresat",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "ownerEmail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Owneremail"
+          },
+          "ownerId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ownerid"
+          },
+          "ownerName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ownername"
+          },
+          "redeemedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Redeemedat"
+          },
+          "revokedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revokedat"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "codeHint",
+          "status",
+          "createdAt",
+          "createdBy",
+          "expiresAt"
+        ],
+        "title": "OwnerLinkResponse",
+        "type": "object"
+      },
+      "OwnerOverview": {
+        "properties": {
+          "schools": {
+            "items": {
+              "$ref": "#/components/schemas/SchoolSummary"
+            },
+            "title": "Schools",
+            "type": "array"
+          }
+        },
+        "required": [
+          "schools"
+        ],
+        "title": "OwnerOverview",
+        "type": "object"
+      },
+      "OwnerRegisterRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Code",
+            "type": "string"
+          },
+          "email": {
+            "maxLength": 200,
+            "minLength": 3,
+            "title": "Email",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "password": {
+            "title": "Password",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "password",
+          "code"
+        ],
+        "title": "OwnerRegisterRequest",
+        "type": "object"
+      },
+      "OwnerSchool": {
+        "properties": {
+          "active": {
+            "title": "Active",
+            "type": "boolean"
+          },
+          "linkedAt": {
+            "title": "Linkedat",
+            "type": "string"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "schoolId": {
+            "title": "Schoolid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "schoolId",
+          "linkedAt",
+          "active"
+        ],
+        "title": "OwnerSchool",
+        "type": "object"
+      },
       "PaperAnalysis": {
         "properties": {
           "chapters": {
@@ -9527,6 +10353,61 @@
         "title": "PathQuery",
         "type": "object"
       },
+      "PeriodChangeResponse": {
+        "description": "One period of one section the generated week changes (N-3-6):\n`before` -> `after`. No `before` is a period added; no `after`, one\nthat becomes free.",
+        "properties": {
+          "after": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PeriodResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "before": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PeriodResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "dayOfWeek": {
+            "title": "Dayofweek",
+            "type": "integer"
+          },
+          "period": {
+            "title": "Period",
+            "type": "integer"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "sectionName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionname"
+          }
+        },
+        "required": [
+          "sectionId",
+          "dayOfWeek",
+          "period"
+        ],
+        "title": "PeriodChangeResponse",
+        "type": "object"
+      },
       "PeriodConfigurationResponse": {
         "properties": {
           "academicYearId": {
@@ -9553,6 +10434,108 @@
           "periodMinutes"
         ],
         "title": "PeriodConfigurationResponse",
+        "type": "object"
+      },
+      "PeriodResponse": {
+        "description": "What one period holds, with names to read it by. A group's period\n(N-3-20) carries the group; its subject is the group's first lane's.",
+        "properties": {
+          "coTeacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coteacherid"
+          },
+          "groupId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Groupid"
+          },
+          "groupName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Groupname"
+          },
+          "roomId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomid"
+          },
+          "roomName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomname"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "subjectName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subjectname"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          },
+          "teacherName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teachername"
+          }
+        },
+        "required": [
+          "subjectId"
+        ],
+        "title": "PeriodResponse",
         "type": "object"
       },
       "PhotoResponse": {
@@ -9599,6 +10582,25 @@
       },
       "PlanBuiltResponse": {
         "properties": {
+          "chaptersWithoutSubtopics": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Chapterswithoutsubtopics",
+            "type": "array"
+          },
+          "fitNote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fitnote"
+          },
           "lastScheduledDate": {
             "anyOf": [
               {
@@ -9625,6 +10627,11 @@
           "subjectName": {
             "title": "Subjectname",
             "type": "string"
+          },
+          "subtopicsCompressed": {
+            "default": 0,
+            "title": "Subtopicscompressed",
+            "type": "integer"
           },
           "subtopicsWithoutEstimate": {
             "default": 0,
@@ -11487,6 +12494,11 @@
             "title": "Grade",
             "type": "integer"
           },
+          "preview": {
+            "default": false,
+            "title": "Preview",
+            "type": "boolean"
+          },
           "setCount": {
             "default": 1,
             "title": "Setcount",
@@ -11495,6 +12507,19 @@
           "subject": {
             "title": "Subject",
             "type": "string"
+          },
+          "teacherSeconds": {
+            "anyOf": [
+              {
+                "maximum": 86400.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherseconds"
           },
           "templateId": {
             "anyOf": [
@@ -11580,6 +12605,22 @@
         "title": "RecordConsentRequest",
         "type": "object"
       },
+      "RedeemRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Code",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code"
+        ],
+        "title": "RedeemRequest",
+        "type": "object"
+      },
       "RegisterRequest": {
         "properties": {
           "email": {
@@ -11659,6 +12700,24 @@
           "name"
         ],
         "title": "RenameRequest",
+        "type": "object"
+      },
+      "ReplacementRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          }
+        },
+        "title": "ReplacementRequest",
         "type": "object"
       },
       "ReportCardResponse": {
@@ -12646,6 +13705,11 @@
       },
       "ScheduleBookRequest": {
         "properties": {
+          "fitToPeriodsLeft": {
+            "default": false,
+            "title": "Fittoperiodsleft",
+            "type": "boolean"
+          },
           "force": {
             "default": false,
             "title": "Force",
@@ -12693,6 +13757,14 @@
             "title": "Bookid",
             "type": "string"
           },
+          "chaptersWithoutSubtopics": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Chapterswithoutsubtopics",
+            "type": "array"
+          },
           "firstScheduledDate": {
             "anyOf": [
               {
@@ -12703,6 +13775,17 @@
               }
             ],
             "title": "Firstscheduleddate"
+          },
+          "fitNote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fitnote"
           },
           "lastScheduledDate": {
             "anyOf": [
@@ -12743,6 +13826,14 @@
               }
             ],
             "title": "Sectionid"
+          },
+          "subtopicsCompressed": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/CompressedSubtopicResponse"
+            },
+            "title": "Subtopicscompressed",
+            "type": "array"
           },
           "subtopicsPartiallyScheduled": {
             "items": {
@@ -13238,6 +14329,163 @@
         "title": "SchoolSetupResponse",
         "type": "object"
       },
+      "SchoolSummary": {
+        "description": "One school's numbers. Counts only: nothing here names a student, a\nteacher, a paper or a section.",
+        "properties": {
+          "coverFilled": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coverfilled"
+          },
+          "coverFilledPct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coverfilledpct"
+          },
+          "coverRequested": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coverrequested"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "papersThisTerm": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Papersthisterm"
+          },
+          "period": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Period"
+          },
+          "periodEnd": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Periodend"
+          },
+          "periodStart": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Periodstart"
+          },
+          "rowsBehind": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rowsbehind"
+          },
+          "schoolId": {
+            "title": "Schoolid",
+            "type": "string"
+          },
+          "syllabusPacePct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Syllabuspacepct"
+          },
+          "syllabusPlanned": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Syllabusplanned"
+          },
+          "syllabusTaught": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Syllabustaught"
+          }
+        },
+        "required": [
+          "schoolId"
+        ],
+        "title": "SchoolSummary",
+        "type": "object"
+      },
       "SchoolTemplate": {
         "properties": {
           "addressLine": {
@@ -13368,6 +14616,17 @@
               }
             ],
             "title": "Note"
+          },
+          "noteLink": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notelink"
           },
           "startDate": {
             "title": "Startdate",
@@ -13721,6 +14980,48 @@
         "title": "SectionFix",
         "type": "object"
       },
+      "SectionMergeRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "intoSectionId": {
+            "minLength": 1,
+            "title": "Intosectionid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "intoSectionId"
+        ],
+        "title": "SectionMergeRequest",
+        "type": "object"
+      },
+      "SectionMergeResponse": {
+        "properties": {
+          "allocationsRemoved": {
+            "title": "Allocationsremoved",
+            "type": "integer"
+          },
+          "into": {
+            "$ref": "#/components/schemas/SectionResponse"
+          },
+          "movedStudents": {
+            "title": "Movedstudents",
+            "type": "integer"
+          },
+          "periodsRemoved": {
+            "title": "Periodsremoved",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "into",
+          "movedStudents",
+          "periodsRemoved",
+          "allocationsRemoved"
+        ],
+        "title": "SectionMergeResponse",
+        "type": "object"
+      },
       "SectionResponse": {
         "description": "One class of a grade (\"10-B\", M1.1). studentCount is how many\nstudents are enrolled in it now.",
         "properties": {
@@ -13769,6 +15070,114 @@
           "name"
         ],
         "title": "SectionResponse",
+        "type": "object"
+      },
+      "SectionShortfall": {
+        "description": "One section a quick paper prints short because the bank cannot fill\nit: what it asked for, what it prints, and how many questions the bank\nholds for it where the paper draws from.",
+        "properties": {
+          "asked": {
+            "title": "Asked",
+            "type": "integer"
+          },
+          "available": {
+            "title": "Available",
+            "type": "integer"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "marksEach": {
+            "title": "Markseach",
+            "type": "integer"
+          },
+          "missingMarks": {
+            "title": "Missingmarks",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "printed": {
+            "title": "Printed",
+            "type": "integer"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sectionId",
+          "label",
+          "name",
+          "marksEach",
+          "asked",
+          "printed",
+          "missingMarks",
+          "available",
+          "reason"
+        ],
+        "title": "SectionShortfall",
+        "type": "object"
+      },
+      "SectionSplitRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "studentIds": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 200,
+            "minItems": 1,
+            "title": "Studentids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "name",
+          "studentIds"
+        ],
+        "title": "SectionSplitRequest",
+        "type": "object"
+      },
+      "SectionSplitResponse": {
+        "description": "The new section, and what it took from the old one. Its week is\ngenerated next: POST .../timetable/solve with sectionIds [its id].",
+        "properties": {
+          "allocationsCopied": {
+            "title": "Allocationscopied",
+            "type": "integer"
+          },
+          "groupsJoined": {
+            "title": "Groupsjoined",
+            "type": "integer"
+          },
+          "movedStudents": {
+            "title": "Movedstudents",
+            "type": "integer"
+          },
+          "section": {
+            "$ref": "#/components/schemas/SectionResponse"
+          }
+        },
+        "required": [
+          "section",
+          "movedStudents",
+          "allocationsCopied",
+          "groupsJoined"
+        ],
+        "title": "SectionSplitResponse",
         "type": "object"
       },
       "SectionStudentResponse": {
@@ -13837,6 +15246,14 @@
               "$ref": "#/components/schemas/TimetableGapResponse"
             },
             "title": "Gaps",
+            "type": "array"
+          },
+          "groupPeriods": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/GroupPeriodResponse"
+            },
+            "title": "Groupperiods",
             "type": "array"
           },
           "sectionId": {
@@ -14541,11 +15958,27 @@
             "title": "Applied",
             "type": "boolean"
           },
+          "changes": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/PeriodChangeResponse"
+            },
+            "title": "Changes",
+            "type": "array"
+          },
           "entries": {
             "items": {
               "$ref": "#/components/schemas/ProposedEntryResponse"
             },
             "title": "Entries",
+            "type": "array"
+          },
+          "groupSessions": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/GroupSessionResponse"
+            },
+            "title": "Groupsessions",
             "type": "array"
           },
           "kept": {
@@ -14555,6 +15988,17 @@
           "movedOrAdded": {
             "title": "Movedoradded",
             "type": "integer"
+          },
+          "previewId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previewid"
           },
           "problems": {
             "items": {
@@ -16192,6 +17636,120 @@
         "title": "TeacherUnavailabilityResponse",
         "type": "object"
       },
+      "TeachingGroupRequest": {
+        "additionalProperties": false,
+        "description": "kind: \"elective\" (two or more parallel lanes, each its own subject\nand teacher) or \"combined\" (one lane: the sections taught together).",
+        "properties": {
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "lanes": {
+            "items": {
+              "$ref": "#/components/schemas/GroupLaneBody"
+            },
+            "maxItems": 12,
+            "minItems": 1,
+            "title": "Lanes",
+            "type": "array"
+          },
+          "name": {
+            "maxLength": 60,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "periodsPerWeek": {
+            "maximum": 60.0,
+            "minimum": 1.0,
+            "title": "Periodsperweek",
+            "type": "integer"
+          },
+          "sectionIds": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "minItems": 1,
+            "title": "Sectionids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "kind",
+          "name",
+          "periodsPerWeek",
+          "sectionIds",
+          "lanes"
+        ],
+        "title": "TeachingGroupRequest",
+        "type": "object"
+      },
+      "TeachingGroupResponse": {
+        "properties": {
+          "academicYearId": {
+            "title": "Academicyearid",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "lanes": {
+            "items": {
+              "$ref": "#/components/schemas/GroupLaneResponse"
+            },
+            "title": "Lanes",
+            "type": "array"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "periods": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/GroupSlotResponse"
+            },
+            "title": "Periods",
+            "type": "array"
+          },
+          "periodsPerWeek": {
+            "title": "Periodsperweek",
+            "type": "integer"
+          },
+          "sectionIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sectionids",
+            "type": "array"
+          },
+          "sectionNames": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sectionnames",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "academicYearId",
+          "kind",
+          "name",
+          "periodsPerWeek",
+          "sectionIds",
+          "sectionNames",
+          "lanes"
+        ],
+        "title": "TeachingGroupResponse",
+        "type": "object"
+      },
       "TeachingTimeEstimateResponse": {
         "properties": {
           "academicYearId": {
@@ -16677,6 +18235,11 @@
           "papers": {
             "title": "Papers",
             "type": "integer"
+          },
+          "papersWithTeacherTime": {
+            "default": 0,
+            "title": "Paperswithteachertime",
+            "type": "integer"
           }
         },
         "required": [
@@ -16773,6 +18336,39 @@
             "title": "Dayofweek",
             "type": "integer"
           },
+          "endTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Endtime"
+          },
+          "groupId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Groupid"
+          },
+          "groupName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Groupname"
+          },
           "id": {
             "title": "Id",
             "type": "string"
@@ -16822,6 +18418,17 @@
               }
             ],
             "title": "Sectionname"
+          },
+          "startTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starttime"
           },
           "subjectId": {
             "title": "Subjectid",
@@ -17580,6 +19187,11 @@
             "title": "Id",
             "type": "string"
           },
+          "isOwner": {
+            "default": false,
+            "title": "Isowner",
+            "type": "boolean"
+          },
           "name": {
             "title": "Name",
             "type": "string"
@@ -17795,6 +19407,279 @@
         "title": "WaiveRequest",
         "type": "object"
       },
+      "WebhookCreateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "events": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 10,
+            "minItems": 1,
+            "title": "Events",
+            "type": "array"
+          },
+          "url": {
+            "maxLength": 2000,
+            "minLength": 9,
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "title": "WebhookCreateRequest",
+        "type": "object"
+      },
+      "WebhookCreatedResponse": {
+        "properties": {
+          "active": {
+            "title": "Active",
+            "type": "boolean"
+          },
+          "createdAt": {
+            "title": "Createdat",
+            "type": "string"
+          },
+          "createdBy": {
+            "title": "Createdby",
+            "type": "string"
+          },
+          "events": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Events",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "keyId": {
+            "title": "Keyid",
+            "type": "string"
+          },
+          "revokedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revokedat"
+          },
+          "secret": {
+            "title": "Secret",
+            "type": "string"
+          },
+          "secretHint": {
+            "title": "Secrethint",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "keyId",
+          "url",
+          "events",
+          "secretHint",
+          "createdAt",
+          "createdBy",
+          "active",
+          "secret"
+        ],
+        "title": "WebhookCreatedResponse",
+        "type": "object"
+      },
+      "WebhookDelivery": {
+        "properties": {
+          "attempts": {
+            "title": "Attempts",
+            "type": "integer"
+          },
+          "chapterId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chapterid"
+          },
+          "createdAt": {
+            "title": "Createdat",
+            "type": "string"
+          },
+          "deliveredAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliveredat"
+          },
+          "eventId": {
+            "title": "Eventid",
+            "type": "string"
+          },
+          "eventType": {
+            "title": "Eventtype",
+            "type": "string"
+          },
+          "grade": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grade"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "lastError": {
+            "default": "",
+            "title": "Lasterror",
+            "type": "string"
+          },
+          "lastStatusCode": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Laststatuscode"
+          },
+          "nextAttemptAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nextattemptat"
+          },
+          "questionCount": {
+            "default": 0,
+            "title": "Questioncount",
+            "type": "integer"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "subject": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subject"
+          },
+          "updatedAt": {
+            "title": "Updatedat",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "eventId",
+          "eventType",
+          "status",
+          "attempts",
+          "createdAt",
+          "updatedAt"
+        ],
+        "title": "WebhookDelivery",
+        "type": "object"
+      },
+      "WebhookResponse": {
+        "properties": {
+          "active": {
+            "title": "Active",
+            "type": "boolean"
+          },
+          "createdAt": {
+            "title": "Createdat",
+            "type": "string"
+          },
+          "createdBy": {
+            "title": "Createdby",
+            "type": "string"
+          },
+          "events": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Events",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "keyId": {
+            "title": "Keyid",
+            "type": "string"
+          },
+          "revokedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revokedat"
+          },
+          "secretHint": {
+            "title": "Secrethint",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "keyId",
+          "url",
+          "events",
+          "secretHint",
+          "createdAt",
+          "createdBy",
+          "active"
+        ],
+        "title": "WebhookResponse",
+        "type": "object"
+      },
       "WeekProgress": {
         "properties": {
           "answered": {
@@ -17855,6 +19740,11 @@
           },
           "alternateSaturdayOffCount": {
             "title": "Alternatesaturdayoffcount",
+            "type": "integer"
+          },
+          "compensatoryCount": {
+            "default": 0,
+            "title": "Compensatorycount",
             "type": "integer"
           },
           "dates": {
@@ -18416,6 +20306,220 @@
           }
         ],
         "summary": "Key Usage"
+      }
+    },
+    "/api/v1/api-keys/{key_id}/webhooks": {
+      "get": {
+        "description": "This key's webhooks, newest first. The secret is never listed.",
+        "operationId": "list_webhooks_api_v1_api_keys__key_id__webhooks_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key_id",
+            "required": true,
+            "schema": {
+              "title": "Key Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/WebhookResponse"
+                  },
+                  "title": "Response List Webhooks Api V1 Api Keys  Key Id  Webhooks Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Webhooks"
+      },
+      "post": {
+        "description": "Register a partner's HTTPS URL for this key's events. Copy `secret`\nnow: it signs every delivery and is not shown again. The URL must be\npublic HTTPS (a private, loopback, link-local or metadata address is\nrefused, now and at every send), and only questions the key may read are\never announced to it.",
+        "operationId": "create_webhook_api_v1_api_keys__key_id__webhooks_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key_id",
+            "required": true,
+            "schema": {
+              "title": "Key Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebhookCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookCreatedResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Webhook"
+      }
+    },
+    "/api/v1/api-keys/{key_id}/webhooks/{webhook_id}": {
+      "delete": {
+        "description": "Stop the webhook at once; what it had not delivered is cancelled.",
+        "operationId": "revoke_webhook_api_v1_api_keys__key_id__webhooks__webhook_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key_id",
+            "required": true,
+            "schema": {
+              "title": "Key Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "webhook_id",
+            "required": true,
+            "schema": {
+              "title": "Webhook Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Revoke Webhook"
+      }
+    },
+    "/api/v1/api-keys/{key_id}/webhooks/{webhook_id}/deliveries": {
+      "get": {
+        "description": "The webhook's last 50 deliveries, newest first: status, attempts, and\nthe receiver's last answer or the error.",
+        "operationId": "webhook_deliveries_api_v1_api_keys__key_id__webhooks__webhook_id__deliveries_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key_id",
+            "required": true,
+            "schema": {
+              "title": "Key Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "webhook_id",
+            "required": true,
+            "schema": {
+              "title": "Webhook Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/WebhookDelivery"
+                  },
+                  "title": "Response Webhook Deliveries Api V1 Api Keys  Key Id  Webhooks  Webhook Id  Deliveries Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Webhook Deliveries"
       }
     },
     "/api/v1/assessments": {
@@ -21391,7 +23495,7 @@
     },
     "/api/v1/curriculum/academic-years/{academic_year_id}/lesson-plans": {
       "post": {
-        "description": "Every section's dated plan in one action (N-67-5). A school set up on\nthe web had none: seeding proposes topics but approving them was a\nchapter-at-a-time step on another tab, and each section and subject was\nthen planned on its own. This does the same steps the Lesson plans page\ndoes for one section, for all of them:\n\n1. With `approveProposedTopics`, the principal approves the topic\n   proposals still pending on the year's chosen books. The principal's\n   own click is the approval; nothing is approved without it.\n2. Each book's subtopics are timed against the year (idempotent), at the\n   most periods a week any section has for it.\n3. Each section's plan is laid on its own week from its allocation.\n   What was taught, marked or has passed is kept (`force`).\n\nA section and subject that cannot be planned is named in `notPlanned`\nwith the reason, never skipped silently.",
+        "description": "Every section's dated plan in one action (N-67-5). A school set up on\nthe web had none: seeding proposes topics but approving them was a\nchapter-at-a-time step on another tab, and each section and subject was\nthen planned on its own. This does the same steps the Lesson plans page\ndoes for one section, for all of them:\n\n1. With `approveProposedTopics`, the principal approves the topic\n   proposals still pending on the year's chosen books. The principal's\n   own click is the approval; nothing is approved without it.\n2. Each book's subtopics are timed against the year (idempotent), at the\n   most periods a week any section has for it.\n3. Each section's plan is laid on its own week from its allocation.\n   What was taught, marked or has passed is kept (`force`).\n\nA section and subject that cannot be planned is named in `notPlanned`\nwith the reason, never skipped silently, and each plan names the\nchapters it left out for want of subtopics (`chaptersWithoutSubtopics`,\nD119).",
         "operationId": "build_lesson_plans_api_v1_curriculum_academic_years__academic_year_id__lesson_plans_post",
         "parameters": [
           {
@@ -21986,6 +24090,108 @@
         "summary": "Set Teacher Unavailability"
       }
     },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/teaching-groups": {
+      "get": {
+        "description": "The year's elective groups and combined classes, with their lanes and\nwhere they are placed.",
+        "operationId": "list_teaching_groups_api_v1_curriculum_academic_years__academic_year_id__teaching_groups_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TeachingGroupResponse"
+                  },
+                  "title": "Response List Teaching Groups Api V1 Curriculum Academic Years  Academic Year Id  Teaching Groups Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Teaching Groups"
+      },
+      "post": {
+        "description": "An elective group (students of one or more sections of a class split\ninto parallel lanes, taught at the same time by different teachers) or a\ncombined class (two or more sections taught together by one teacher in\none room). Generating the timetable places it as one block.",
+        "operationId": "create_teaching_group_api_v1_curriculum_academic_years__academic_year_id__teaching_groups_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeachingGroupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeachingGroupResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Teaching Group"
+      }
+    },
     "/api/v1/curriculum/academic-years/{academic_year_id}/terms": {
       "get": {
         "operationId": "list_terms_api_v1_curriculum_academic_years__academic_year_id__terms_get",
@@ -22277,9 +24483,63 @@
         "summary": "Add Timetable Slot"
       }
     },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/previews/{preview_id}/publish": {
+      "post": {
+        "description": "Publish exactly the week a preview showed -- no second solve, so what\nthe principal approved is what the school gets (N-3-6). 404: no such\npreview (a newer one or a publish replaced it). 409: the timetable,\nallocations, bells, rooms or availability changed after the preview was\nmade; preview again.",
+        "operationId": "publish_timetable_preview_api_v1_curriculum_academic_years__academic_year_id__timetable_previews__preview_id__publish_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "preview_id",
+            "required": true,
+            "schema": {
+              "title": "Preview Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SolveResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Publish Timetable Preview"
+      }
+    },
     "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve": {
       "post": {
-        "description": "Generate a clash-free week for the whole school (or `sectionIds`) from\nthe allocations and bells: no teacher, room or section in two places,\na teacher's maximum a day and in a row, subjects spread across the week,\nunavailable periods free, locked periods kept, and -- with keepExisting\n-- the fewest changes to the current week. `apply: false` returns the\nproposal and its diff without writing; `apply: true` publishes it.",
+        "description": "Generate a clash-free week for the whole school (or `sectionIds`) from\nthe allocations and bells: no teacher, room or section in two places,\na teacher's maximum a day and in a row, subjects spread across the week,\nunavailable periods free, locked periods kept, and -- with keepExisting\n-- the fewest changes to the current week. Every changed period is\nlisted in `changes`.\n\n`apply: false` writes nothing: it keeps the proposal under `previewId`,\nwhich `POST .../timetable/previews/{previewId}/publish` writes exactly\n(N-3-6). `apply: true` generates and publishes in one step: the week\nwritten is the one returned.",
         "operationId": "solve_timetable_api_v1_curriculum_academic_years__academic_year_id__timetable_solve_post",
         "parameters": [
           {
@@ -22625,7 +24885,7 @@
         "summary": "Get Book Schedule"
       },
       "post": {
-        "description": "Generates the real, dated schedule for this book -- see\nscheduling.py's module docstring for the full method and its honestly-\ndocumented weekday-assignment simplification. Requires\ncompute_teaching_time_estimates() to have already run for this\n(book, academic_year); a Subtopic without a real estimate is skipped\nand reported, never given a guessed period count. `allSubtopicsScheduled`\nis false, with a `warning` sentence, whenever any subtopic ends up\nwithout its full dated periods. `force` keeps completed/skipped lessons,\nand every lesson dated before today (taught or overdue), and replans\nonly what is still to be taught. New lessons are placed from\nthe school's today (or the year's first day, if later): a day that has\npassed cannot be taught on, and the shortfall warning counts only the\nperiods left.",
+        "description": "Generates the real, dated schedule for this book -- see\nscheduling.py's module docstring for the full method and its honestly-\ndocumented weekday-assignment simplification. Requires\ncompute_teaching_time_estimates() to have already run for this\n(book, academic_year); a Subtopic without a real estimate is skipped\nand reported, never given a guessed period count. `allSubtopicsScheduled`\nis false, with a `warning` sentence, whenever any subtopic ends up\nwithout its full dated periods. `force` keeps completed/skipped lessons,\nand every lesson dated before today (taught or overdue), and replans\nonly what is still to be taught. New lessons are placed from\nthe school's today (or the year's first day, if later): a day that has\npassed cannot be taught on, and the shortfall warning counts only the\nperiods left. With `fitToPeriodsLeft`, a syllabus that needs more periods\nthan are left is fitted to them: each subtopic gets proportionally fewer,\nat least one, and every one given fewer is listed in\n`subtopicsCompressed` (D35).",
         "operationId": "schedule_book_api_v1_curriculum_books__book_id__schedule_post",
         "parameters": [
           {
@@ -22753,7 +25013,7 @@
     },
     "/api/v1/curriculum/books/{book_id}/teaching-time-estimates": {
       "post": {
-        "description": "Distributes this subject's real, calendar-grounded instructional\ntime across its real, approved Subtopics -- see calendar.py's\ncompute_teaching_time_estimates() docstring for the full method.\nIdempotent per subtopic: re-running never duplicates or silently\noverwrites an existing estimate (§29 -- an admin who has since\nhand-adjusted an estimate must not have it clobbered by a re-run).\n\n`periods_per_week`: an explicit value in the request always wins (a\none-off override); when omitted, resolves this book's subject's real,\npersisted SubjectPeriodAllocation for the year instead of forcing the\ncaller to re-supply it every time -- 400 with a clear message if\nneither exists, never a guessed default.",
+        "description": "Distributes this subject's real, calendar-grounded instructional\ntime across its real, approved Subtopics -- see calendar.py's\ncompute_teaching_time_estimates() docstring for the full method.\nIdempotent per subtopic: re-running never duplicates or silently\noverwrites an existing estimate (§29 -- an admin who has since\nhand-adjusted an estimate must not have it clobbered by a re-run).\n\nThe budget is sized from a section's own week (N-3-8): `sectionId`'s,\nor, when none is named, the largest of the class's sections that have\nthe subject in their timetable. Only a class with no section week falls\nback to the school-wide slots.\n\n`periods_per_week`: an explicit value in the request always wins (a\none-off override); when omitted, resolves the section's allocation\n(`sectionId`), else this book's subject's persisted\nSubjectPeriodAllocation for the year, else the most any section of the\nclass is allocated -- 400 with a clear message if none exists, never a\nguessed default.",
         "operationId": "compute_teaching_time_estimates_api_v1_curriculum_books__book_id__teaching_time_estimates_post",
         "parameters": [
           {
@@ -23834,6 +26094,157 @@
         "summary": "Decide Leave"
       }
     },
+    "/api/v1/curriculum/leave-requests/{leave_id}/document": {
+      "get": {
+        "description": "The request's supporting document, for the teacher on leave and the\nschool's leave admin. A read by anyone but the teacher is logged.",
+        "operationId": "leave_document_api_v1_curriculum_leave_requests__leave_id__document_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "leave_id",
+            "required": true,
+            "schema": {
+              "title": "Leave Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Leave Document"
+      },
+      "post": {
+        "description": "Attach a supporting document to a leave request: a PDF, JPEG or PNG of\nat most 2 MB. The teacher on leave, or whoever applied for them (the\nprincipal), may; a second upload replaces the first. Only while the\nrequest stands (pending or approved).",
+        "operationId": "upload_leave_document_api_v1_curriculum_leave_requests__leave_id__document_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "leave_id",
+            "required": true,
+            "schema": {
+              "title": "Leave Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_leave_document_api_v1_curriculum_leave_requests__leave_id__document_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Upload Leave Document"
+      }
+    },
+    "/api/v1/curriculum/leave-requests/{leave_id}/replacement": {
+      "put": {
+        "description": "Long leave (SCH-8): name a temporary replacement teacher, who takes the\nteacher's periods for the leave's dates -- each one they are free for,\naccepted at once -- and teaches their classes' lessons of those dates.\nNull takes the replacement off, and the engine proposes cover again.\nReturns the leave and its substitutions from today on.",
+        "operationId": "set_leave_replacement_api_v1_curriculum_leave_requests__leave_id__replacement_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "leave_id",
+            "required": true,
+            "schema": {
+              "title": "Leave Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplacementRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveDecisionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set Leave Replacement"
+      }
+    },
     "/api/v1/curriculum/lost-periods/{lost_id}/compensate": {
       "post": {
         "operationId": "compensate_api_v1_curriculum_lost_periods__lost_id__compensate_post",
@@ -24324,7 +26735,7 @@
     },
     "/api/v1/curriculum/reporting/coverage": {
       "get": {
-        "description": "Planned vs. actually-taught coverage, variance, and completion %\naggregated by Subject and Chapter for school management (§17, §32).",
+        "description": "Planned vs. actually-taught coverage, variance, and completion %\naggregated by Subject and Chapter for school management (§17, §32).\n`as_of_date` defaults to the school's today (IST), the same day delayed\ntopics read; it was the server's UTC date, so between 00:00 and 05:30\nIST Coverage & Pace showed yesterday beside today's overdue list (D66).",
         "operationId": "get_coverage_report_api_v1_curriculum_reporting_coverage_get",
         "parameters": [
           {
@@ -25295,6 +27706,116 @@
         "summary": "Set Section Bell"
       }
     },
+    "/api/v1/curriculum/sections/{section_id}/merge": {
+      "post": {
+        "description": "Merge a section into another of its class mid-year (SCH-8): every\nstudent moves and keeps the other section's week; the emptied section,\nits week and its allocations are removed. 422 while it is in a group\nthe other section is not in. Its students and the teachers who lose\nperiods are told.",
+        "operationId": "merge_section_api_v1_curriculum_sections__section_id__merge_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SectionMergeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionMergeResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Merge Section"
+      }
+    },
+    "/api/v1/curriculum/sections/{section_id}/split": {
+      "post": {
+        "description": "Split a section mid-year (SCH-8): `studentIds` move to a new section\nof the class named `name`, which gets the old section's bell, a copy of\neach of its allocations and its groups. The old section keeps its week;\ngenerate the new section's next (solve with sectionIds [its id]).",
+        "operationId": "split_section_api_v1_curriculum_sections__section_id__split_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SectionSplitRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionSplitResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Split Section"
+      }
+    },
     "/api/v1/curriculum/sections/{section_id}/students": {
       "get": {
         "description": "Who is enrolled in this section, and only this section.",
@@ -25389,7 +27910,7 @@
         "summary": "Section Timetable"
       },
       "put": {
-        "description": "Replace a section's whole week. Checked before anything is written: a\nteacher or room already busy in another section, a period or day the\nbell does not have, a subject with no allocation or more periods than\nallocated. A 409 lists every clash; the old week is kept.",
+        "description": "Replace a section's whole week. Checked before anything is written: a\nteacher or room already busy in another section, a period or day the\nbell does not have, a subject with no allocation or more periods than\nallocated. A 409 lists every clash; the old week is kept. A subject\nwhose weekdays changed has its plan re-laid on the new week from today\n(N-3-14).",
         "operationId": "replace_section_timetable_api_v1_curriculum_sections__section_id__timetable_put",
         "parameters": [
           {
@@ -26367,6 +28888,106 @@
           }
         ],
         "summary": "Mark Teacher Attendance"
+      }
+    },
+    "/api/v1/curriculum/teaching-groups/{group_id}": {
+      "delete": {
+        "description": "The group and its periods; its sections' periods then are free.",
+        "operationId": "delete_teaching_group_api_v1_curriculum_teaching_groups__group_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "title": "Group Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Delete Teaching Group Api V1 Curriculum Teaching Groups  Group Id  Delete",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Delete Teaching Group"
+      },
+      "put": {
+        "description": "Replace a group's definition. Changing its sections, periods a week\nor a lane's teacher or room takes its placed periods away: generate the\ntimetable again to place it.",
+        "operationId": "update_teaching_group_api_v1_curriculum_teaching_groups__group_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "title": "Group Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeachingGroupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeachingGroupResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Update Teaching Group"
       }
     },
     "/api/v1/curriculum/terms/current": {
@@ -28884,7 +31505,7 @@
     },
     "/api/v1/my-calendar": {
       "get": {
-        "description": "The caller's dated school events from today: holidays, cover and\ninvigilation duties, exam papers and homework due. The ICS feed carries\nthe same; the weekly periods are the timetable's, so they are left out.",
+        "description": "The caller's dated school events from today: holidays, half days,\nexam windows and compensatory working days (N-3-19), cover and\ninvigilation duties, exam papers and homework due. The ICS feed carries\nthe same; the weekly periods are the timetable's, so they are left out.",
         "operationId": "my_calendar_api_v1_my_calendar_get",
         "parameters": [
           {
@@ -29802,6 +32423,322 @@
           }
         },
         "summary": "List Errors"
+      }
+    },
+    "/api/v1/owner-links": {
+      "get": {
+        "description": "This school's owner links, newest first: open codes, linked owners\n(who they are), and withdrawn or expired ones.",
+        "operationId": "list_owner_links_api_v1_owner_links_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/OwnerLinkResponse"
+                  },
+                  "title": "Response List Owner Links Api V1 Owner Links Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Owner Links"
+      },
+      "post": {
+        "description": "A single-use code that links one owner account to THIS school. Copy\n`code` now: only its hash is kept. Whoever redeems it acts in this school\nwith a principal's rights until you revoke the link.",
+        "operationId": "create_owner_link_api_v1_owner_links_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OwnerLinkCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnerLinkCreatedResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Owner Link"
+      }
+    },
+    "/api/v1/owner-links/{link_id}": {
+      "delete": {
+        "description": "Withdraw a code, or end a linked owner's access to this school. It\ntakes effect on the owner's next request. Another school's link is a 404.",
+        "operationId": "revoke_owner_link_api_v1_owner_links__link_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "link_id",
+            "required": true,
+            "schema": {
+              "title": "Link Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnerLinkResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Revoke Owner Link"
+      }
+    },
+    "/api/v1/owner/active-school": {
+      "delete": {
+        "description": "Stop acting in a school: back to the owner's own pages.",
+        "operationId": "leave_school_api_v1_owner_active_school_delete",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Leave School"
+      },
+      "post": {
+        "description": "Act in one linked school: from now on this session is that school's\nprincipal on every route, and sees that school's data only. Answers the\nsession's new identity (as /auth/me will).",
+        "operationId": "choose_school_api_v1_owner_active_school_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActiveSchoolRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Choose School"
+      }
+    },
+    "/api/v1/owner/links/redeem": {
+      "post": {
+        "description": "Link one more school to this owner account with its principal's code.",
+        "operationId": "redeem_owner_link_api_v1_owner_links_redeem_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RedeemRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnerSchool"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Redeem Owner Link"
+      }
+    },
+    "/api/v1/owner/overview": {
+      "get": {
+        "description": "Each linked school's term at a glance: papers set this term, syllabus\ntaught against plan, and cover filled. Aggregates per school, side by\nside; open a school to see anything behind a number.",
+        "operationId": "owner_overview_api_v1_owner_overview_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnerOverview"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Owner Overview"
+      }
+    },
+    "/api/v1/owner/register": {
+      "post": {
+        "description": "Create an owner account with the first school's owner link code. More\nschools are linked later with POST /owner/links/redeem. 403 for a code\nthat is unknown, used, withdrawn or expired; 409 for a taken email.",
+        "operationId": "register_owner_api_v1_owner_register_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OwnerRegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Register Owner"
+      }
+    },
+    "/api/v1/owner/schools": {
+      "get": {
+        "description": "Exactly the schools linked to this account, and which one this\nsession acts in. A revoked link is gone from the list at once.",
+        "operationId": "owner_schools_api_v1_owner_schools_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/OwnerSchool"
+                  },
+                  "title": "Response Owner Schools Api V1 Owner Schools Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Owner Schools"
       }
     },
     "/api/v1/paper-reviews": {

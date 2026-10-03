@@ -656,6 +656,7 @@ def test_progress_and_delayed_topics_count_an_unscheduled_lesson(principal_world
     assert r.status_code == 200, r.text
     first = next(l for l in w.store.scheduled_lessons_for_book(b.year, b.book)
                  if l.status == "scheduled")
+    w.today = date.fromisoformat(first.date)     # marked on its own day (D67: never before it)
     r = w.client.patch(f"{BASE}/scheduled-lessons/{first.id}", json={"status": "completed"},
                        headers=w.auth)
     assert r.status_code == 200, r.text

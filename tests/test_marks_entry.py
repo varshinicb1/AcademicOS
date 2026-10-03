@@ -117,3 +117,54 @@ def test_a_partly_entered_row_is_incomplete_and_left_out_of_the_class_figures(w,
     a = w.c.get(f"/api/v1/papers/{paper}/analysis", params={"sectionId": w.a10}, headers=w.ana).json()
     assert a["summary"]["incomplete"] == 0 and a["summary"]["meanPercent"] == 62.5
     assert a["summary"]["bands"]["E"] == 1
+
+
+# ---- measured difficulty (EX-3) ----------------------------------------------
+#
+# Audit 2026-09-30: no source in the bank judges a question's difficulty, so
+# Foundation, Standard and Advanced printed identical questions on 14/14
+# pairs. The marks teachers enter now measure it: each question's facility
+# (mean score over maximum) across every paper, student and school that sat
+# it, published from 20 answers, stored as an aggregate only (API-5).
+
+def test_marks_measure_each_questions_facility_without_naming_a_student(w, paper):
+    from academicos.assessment import facility
+    from academicos.assessment import routes as ar
+    from academicos.operations.routes import store
+
+    base = ar._require_papers().get(paper)
+    papers = [paper] + [f"{paper}_{i}" for i in range(2, 8)]
+    for pid in papers[1:]:
+        ar._require_papers().save(base.model_copy(update={"id": pid}), school_id="school_1")
+
+    def sit(pid, q1=(1, 0, 1)):
+        # q1 (1 mark): 2 of 3 scored; q2 (1 mark): nobody; q3 (2 marks): 3 of 6.
+        cells = [_cell(w, s, "q1", m) for s, m in zip(("s1", "s2", "s3"), q1)]
+        cells += [_cell(w, s, "q2", 0) for s in ("s1", "s2", "s3")]
+        cells += [_cell(w, s, "q3", m) for s, m in zip(("s1", "s2", "s3"), (2, 1, 0))]
+        r = _put(w, pid, {"entries": cells})
+        assert r.status_code == 200, r.text
+
+    for pid in papers[:6]:
+        sit(pid)
+    assert facility.lookup(["q1", "q2", "q3"]) == {}, "18 answers: not yet a measurement"
+    sit(papers[6])
+    measured = facility.lookup(["q1", "q2", "q3"])
+    assert measured["q1"] == (pytest.approx(14 / 21), 21)
+    assert measured["q2"] == (0.0, 21) and measured["q3"] == (0.5, 21)
+    assert [facility.difficulty_from(measured[q][0]) for q in ("q1", "q2", "q3")] == ["medium", "hard", "medium"]
+
+    # Entering a paper's marks again replaces its part; it does not add to it.
+    sit(papers[0], q1=(1, 1, 1))
+    assert facility.lookup(["q1"])["q1"] == (pytest.approx(15 / 21), 21)
+    # An absent student's cells leave the measurement with them.
+    assert _put(w, papers[6], {"absent": [w.ids["s3"]]}).status_code == 200
+    assert facility.lookup(["q1"])["q1"] == (pytest.approx(14 / 20), 20)
+
+    # Aggregates only: nothing in the facility tables names a student.
+    with store()._conn_lock:
+        for table in ("question_facility", "question_facility_parts"):
+            columns = {r[1] for r in store().conn.execute(f"PRAGMA table_info({table})")}
+            assert not {c for c in columns if "student" in c}, (table, columns)
+            assert not any(w.ids[s] in str(tuple(row)) for row in store().conn.execute(f"SELECT * FROM {table}")
+                           for s in ("s1", "s2", "s3"))

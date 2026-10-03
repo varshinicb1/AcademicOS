@@ -298,12 +298,20 @@ class PaperTiming {
   final List<String> measured;
   final List<String> declared;
 
+  /// How many of [papers] count the baseline less the time their teacher
+  /// spent making them, as the web app measured it; the rest count the whole
+  /// baseline (audit D49). Their median time, in minutes, or null.
+  final int papersWithTeacherTime;
+  final double? medianTeacherMinutes;
+
   /// The server's own sentence about what these numbers are worth. Rendered
   /// verbatim rather than paraphrased on the screen.
   final String caveat;
 
   PaperTiming.fromJson(Map<String, dynamic> j)
       : papers = j['papers'] ?? 0,
+        papersWithTeacherTime = j['papersWithTeacherTime'] ?? 0,
+        medianTeacherMinutes = (j['medianTeacherMinutes'] as num?)?.toDouble(),
         medianGenerationSeconds = (j['medianGenerationSeconds'] ?? 0).toDouble(),
         baselineMinutesPerPaper = (j['baselineMinutesPerPaper'] ?? 0).toDouble(),
         baselineProvenance = j['baselineProvenance'] ?? '',
@@ -319,8 +327,14 @@ class PaperTiming {
         term = j['term'] == null
             ? null
             : TimingTerm.fromJson(Map<String, dynamic>.from(j['term'])),
+        setup = j['setup'] is Map ? TimingSetup.fromJson(Map<String, dynamic>.from(j['setup'] as Map)) : null,
         examCoverage = ExamCoverage.fromJson(
             Map<String, dynamic>.from(j['examCoverage'] ?? const {}));
+
+  /// What the school must set up before these figures can be per term or
+  /// name the classes without a paper, and the web page that does it; null
+  /// when nothing is missing (audit D43).
+  final TimingSetup? setup;
 
   /// No paper has been generated through the web app yet, so every figure
   /// below it is arithmetic on nothing. A screen must say that rather than
@@ -335,6 +349,21 @@ class PaperTiming {
   final ExamCoverage examCoverage;
 
   bool get isTerm => scope == 'term' && term != null;
+}
+
+/// One setup step the server names: [need] is "classes" or "terms", [link]
+/// the web route that has the control ("/admin?tab=calendar-setup").
+class TimingSetup {
+  final String need;
+  final String label;
+  final String link;
+  final String message;
+
+  TimingSetup.fromJson(Map<String, dynamic> j)
+      : need = j['need'] as String? ?? '',
+        label = j['label'] as String? ?? '',
+        link = j['link'] as String? ?? '',
+        message = j['message'] as String? ?? '';
 }
 
 /// The term a [PaperTiming] reports.
@@ -362,13 +391,20 @@ class TimingTerm {
 /// does NOT mean nothing is missing.
 class ExamCoverage {
   final List<CoveredClass> covered;
+
+  /// No paper yet, for a class the question bank can serve.
   final List<CoveredClass> notYet;
+
+  /// No paper yet because the question bank has no questions for the class
+  /// yet: the bank's gap, not the teachers' (audit D117).
+  final List<CoveredClass> noQuestions;
   final int unattributed;
   final bool classesDeclared;
 
   ExamCoverage.fromJson(Map<String, dynamic> j)
       : covered = _pairs(j['covered']),
         notYet = _pairs(j['notYet']),
+        noQuestions = _pairs(j['noQuestions']),
         unattributed = j['unattributed'] ?? 0,
         classesDeclared = j['classesDeclared'] ?? false;
 

@@ -56,6 +56,8 @@ import '../../presentation/workspace/periods_owed_page.dart';
 import '../../presentation/workspace/school_profile_page.dart';
 import '../../presentation/onboarding/pages/setup_wizard_page.dart';
 import '../../presentation/workspace/report_cards_page.dart';
+import '../../presentation/workspace/owner_pages.dart';
+import '../../presentation/workspace/webhooks_page.dart';
 import '../session/current_session.dart';
 import '../local_engine/local_store.dart';
 import 'package:academicos/core/theme/app_theme.dart';
@@ -262,6 +264,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               child: ParentPortalPage(),
             ),
           ),
+          // ROLE-4: an owner's schools side by side, before it opens one.
+          GoRoute(
+            path: '/owner',
+            pageBuilder: (context, state) => const NoTransitionPage(child: OwnerOverviewPage()),
+          ),
           // The school workspace: day-to-day tools per role (homework,
           // progress, parents, cover, exams, notifications, admin tools).
           GoRoute(
@@ -285,6 +292,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(path: 'reviews', builder: (context, state) => const ReviewsPage()),
               GoRoute(path: 'import', builder: (context, state) => const ImportPage()),
               GoRoute(path: 'api-keys', builder: (context, state) => const ApiKeysPage()),
+              GoRoute(path: 'api-keys/:id/webhooks', builder: (context, state) => WebhooksPage(
+                  keyId: state.pathParameters['id']!, keyLabel: state.uri.queryParameters['label'] ?? '')),
               GoRoute(path: 'grants', builder: (context, state) => const GrantsPage()),
               GoRoute(path: 'timetable', builder: (context, state) => const TimetableAdminPage()),
               GoRoute(path: 'lesson-plans', builder: (context, state) => const LessonPlanPage()),
@@ -313,6 +322,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/admin',
             name: 'principal-admin',
+            // ?tab=calendar-setup opens Calendar & Setup, where terms are
+            // declared: the link the time-saved guidance gives (audit D43).
             builder: (context, state) => PrincipalAdminPage(initialTab: state.uri.queryParameters['tab']),
           ),
           GoRoute(
@@ -452,6 +463,8 @@ String? roleLanding(String location,
   // The teacher and student apps open on their own first page.
   if (mode != AppMode.console && role.isNotEmpty) return appHome(mode, role: role);
   if (role == 'parent') return '/school/family';
+  // An owner that has not opened one of its schools sees them all (ROLE-4).
+  if (role == 'owner') return '/owner';
   if (role == 'student') return '/school';
   // The principal's first screen is the school at a glance (Overview), not
   // a teacher's day.

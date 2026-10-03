@@ -192,4 +192,24 @@ void main() {
         scrollable: find.descendant(of: find.byType(ListView), matching: find.byType(Scrollable)).last);
     expect(lessonField, findsOneWidget, reason: 'the lesson to move is carried into the adjust form');
   });
+
+  testWidgets("PUSH's date is picked from a calendar, never typed (D116)", (tester) async {
+    await _openCoverageTab(tester);
+    await tester.tap(find.widgetWithText(Tab, 'Reschedule'));
+    await tester.pumpAndSettle();
+
+    final field = find.byKey(const ValueKey('push-from-date'));
+    await tester.ensureVisible(field);
+    await tester.pumpAndSettle();
+    TextField input() => tester.widget<TextField>(find.descendant(of: field, matching: find.byType(TextField)));
+    expect(input().readOnly, isTrue, reason: '"2026-10-5" typed by hand was pushed from November');
+
+    await tester.tap(field);
+    await tester.pumpAndSettle();
+    expect(find.byType(DatePickerDialog), findsOneWidget);
+    await tester.tap(find.text('15'));
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+    expect(input().controller!.text, matches(RegExp(r'^\d{4}-\d{2}-15$')));
+  });
 }

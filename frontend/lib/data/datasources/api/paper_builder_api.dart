@@ -392,12 +392,83 @@ class TemplatePaperResult {
   final List<SectionAvailabilityView> gaps;
   final List<String> notes;
 
+  /// A paper made another way than from a template (hand-picked, quick):
+  /// whole by construction, so no gaps.
+  TemplatePaperResult.ofPaper(this.paper)
+      : assessmentId = paper.assessmentId,
+        complete = true,
+        gaps = const [],
+        notes = const [];
+
   TemplatePaperResult.fromJson(Map<String, dynamic> j)
       : paper = parsePaper(Map<String, dynamic>.from(j['paper'] as Map)),
         assessmentId = j['assessmentId'] as String? ?? '',
         complete = j['complete'] as bool? ?? false,
         gaps = _maps(j['gaps']).map(SectionAvailabilityView.fromJson).toList(),
         notes = List<String>.from(j['notes'] ?? const []);
+}
+
+/// One section of the layout asked for that a quick paper prints short
+/// because the bank cannot fill it (the server's SectionShortfall, D57).
+class SectionShortfallView {
+  final String label;
+  final String name;
+  final int marksEach;
+  final int asked;
+  final int printed;
+  final int missingMarks;
+  final int available;
+  final String reason;
+
+  SectionShortfallView.fromJson(Map<String, dynamic> j)
+      : label = j['label'] as String? ?? '',
+        name = j['name'] as String? ?? '',
+        marksEach = j['marksEach'] as int? ?? 0,
+        asked = j['asked'] as int? ?? 0,
+        printed = j['printed'] as int? ?? 0,
+        missingMarks = j['missingMarks'] as int? ?? 0,
+        available = j['available'] as int? ?? 0,
+        reason = j['reason'] as String? ?? '';
+}
+
+/// POST /papers/quick-generate's answer: the paper, the marks asked for and,
+/// when the bank cannot make them, each section that prints short. A
+/// [preview] was not saved.
+class QuickPaperResult {
+  final GeneratedPaper paper;
+  final int marksAsked;
+  final bool preview;
+  final List<SectionShortfallView> shortfall;
+
+  /// How many of the questions this version (level) prints have a
+  /// difficulty measured from the marks teachers entered, which the level
+  /// ranked on (EX-3); null from a server that does not count them.
+  final int? difficultyMeasured;
+
+  /// Whether a level can change this paper at all, and the server's
+  /// sentence about this version's difficulty.
+  final bool? tiersAvailable;
+  final String? difficultySentence;
+
+  QuickPaperResult.fromJson(Map<String, dynamic> j)
+      : paper = parsePaper(j),
+        marksAsked = j['marksAsked'] as int? ?? 0,
+        preview = j['preview'] as bool? ?? false,
+        shortfall = _maps(j['shortfall']).map(SectionShortfallView.fromJson).toList(),
+        difficultyMeasured = j['difficultyMeasured'] as int?,
+        tiersAvailable = j['tiersAvailable'] as bool?,
+        difficultySentence = List<String>.from(j['warnings'] ?? const [])
+            .where((w) => RegExp(r'^(Foundation|Standard|Advanced) version: ').hasMatch(w))
+            .firstOrNull;
+
+  int get marksHeld => paper.metadata.totalMarks;
+  bool get holdsAll => marksHeld >= marksAsked;
+
+  /// "A 12 × 1, B 1 × 2, ..." -- the layout the paper prints.
+  String get layout => [
+        for (final s in paper.sections)
+          if (s.questions.isNotEmpty) '${s.label} ${s.questions.length} × ${s.questions.first.marks}',
+      ].join(', ');
 }
 
 class PaperEditResult {
@@ -520,6 +591,7 @@ class PaperBuilderApi {
     bool allowGaps = false,
     bool fillFromOutsideScope = false,
     List<String> avoidQuestionIds = const [],
+    double? teacherSeconds,
   }) async {
     final r = await _dio.post('/papers/generate-from-template',
         data: {
@@ -529,9 +601,65 @@ class PaperBuilderApi {
           'allowGaps': allowGaps,
           'fillFromOutsideScope': fillFromOutsideScope,
           if (avoidQuestionIds.isNotEmpty) 'avoidQuestionIds': avoidQuestionIds,
+          // The teacher's time on this paper (time saved is the baseline less
+          // it, server-side; audit D49).
+          if (teacherSeconds != null) 'teacherSeconds': teacherSeconds,
         },
         options: Options(receiveTimeout: const Duration(minutes: 3)));
     return TemplatePaperResult.fromJson(Map<String, dynamic>.from(r.data as Map));
+  }
+
+  /// A paper of exactly [questionIds], in that order within each marks
+  /// section (POST /papers/generate-from-ids): the hand-picked paper. The
+  /// server refuses (404) an id its bank for the class does not hold rather
+  /// than print the paper without it (audit D57).
+  Future<GeneratedPaper> generateFromIds({
+    required String subject,
+    required int grade,
+    required List<String> questionIds,
+    String? title,
+    double? teacherSeconds,
+  }) async {
+    final r = await _dio.post('/papers/generate-from-ids',
+        data: {
+          'subject': subject,
+          'grade': grade,
+          'questionIds': questionIds,
+          if (title != null) 'title': title,
+          if (teacherSeconds != null) 'teacherSeconds': teacherSeconds,
+        },
+        options: Options(receiveTimeout: const Duration(minutes: 3)));
+    return parsePaper(Map<String, dynamic>.from(r.data as Map));
+  }
+
+  /// A quick paper of [totalMarks] (POST /papers/quick-generate): the server
+  /// rebalances a section the bank cannot fill so the paper holds the marks
+  /// whenever the bank can, and otherwise names the shortfall by section.
+  /// [preview] saves nothing -- the builder shows the answer before the
+  /// teacher saves it (audit D57).
+  Future<QuickPaperResult> quickGenerate({
+    required String subject,
+    required int grade,
+    required int totalMarks,
+    String tier = 'standard',
+    List<String> chapterIds = const [],
+    int setCount = 1,
+    bool preview = false,
+    double? teacherSeconds,
+  }) async {
+    final r = await _dio.post('/papers/quick-generate',
+        data: {
+          'subject': subject,
+          'grade': grade,
+          'totalMarks': totalMarks,
+          'tier': tier,
+          'chapterIds': chapterIds,
+          'setCount': setCount,
+          'preview': preview,
+          if (teacherSeconds != null) 'teacherSeconds': teacherSeconds,
+        },
+        options: Options(receiveTimeout: const Duration(minutes: 3)));
+    return QuickPaperResult.fromJson(Map<String, dynamic>.from(r.data as Map));
   }
 
   Future<GeneratedPaper> getPaper(String paperId) async {
@@ -560,10 +688,11 @@ class PaperBuilderApi {
     return PaperRemoveResult.fromJson(Map<String, dynamic>.from(r.data as Map));
   }
 
+  /// Bank questions for a class; [marks] null is any marks.
   Future<List<BankItem>> searchBank({
     required String subject,
     required int grade,
-    required int marks,
+    required int? marks,
     List<String> chapterIds = const [],
     String? keyword,
     int limit = 60,
@@ -571,8 +700,8 @@ class PaperBuilderApi {
     final r = await _dio.post('/questions/search', data: {
       'subject': subject,
       'grade': grade,
-      'minMarks': marks,
-      'maxMarks': marks,
+      if (marks != null) 'minMarks': marks,
+      if (marks != null) 'maxMarks': marks,
       if (chapterIds.isNotEmpty) 'chapterIds': chapterIds,
       if (keyword != null && keyword.trim().isNotEmpty) 'keyword': keyword.trim(),
       'limit': limit,

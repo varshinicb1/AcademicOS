@@ -27,11 +27,21 @@ from datetime import datetime, timedelta, timezone
 import pytest
 
 from academicos.assessment import paper_timing as pt
+from academicos.operations.homework_routes import _bank_question_count as _REAL_BANK_COUNT
 from test_paper_swap_pick import GEN, seeded  # noqa: F401
 from test_paper_templates import BASE, _boot_client, _register
 
 IST = timezone(timedelta(hours=5, minutes=30))
 BOOTSTRAP = "test-bootstrap-key"
+
+
+@pytest.fixture(autouse=True)
+def _every_pair_has_questions(monkeypatch):
+    """The fixture bank (`seeded`) holds only Science 10; these tests are
+    about papers, so every declared pair counts as one the bank can serve
+    unless a test says otherwise (D117's own test below)."""
+    from academicos.operations import homework_routes as hr
+    monkeypatch.setattr(hr, "_bank_question_count", lambda subject, grade: 10)
 
 
 def _today():
@@ -88,7 +98,9 @@ def test_a_term_baseline_replaces_the_default_and_says_where_it_came_from(tmp_pa
     rep = pt.report(tmp_path, school_id="s1", baseline=(90.0, "set by the principal for Term 1"))
     assert rep.baseline_minutes_per_paper == 90.0
     assert rep.baseline_provenance == "set by the principal for Term 1"
-    assert rep.estimated_minutes_saved_per_paper == 89.0
+    # No teacher time measured on this paper: the whole baseline, not the
+    # baseline less the server's 60 s (D49).
+    assert rep.estimated_minutes_saved_per_paper == 90.0
 
 
 def test_exam_coverage_names_what_was_set_and_what_was_not(tmp_path):
@@ -100,6 +112,46 @@ def test_exam_coverage_names_what_was_set_and_what_was_not(tmp_path):
     assert cov["notYet"] == [{"grade": 9, "subject": "Science"},
                              {"grade": 10, "subject": "Mathematics"}]
     assert cov["classesDeclared"] is True
+
+
+def test_a_pair_the_bank_cannot_serve_is_not_no_paper_yet(tmp_path):
+    """D117: 11 of 25 declared pairs (Hindi 6-10, Social Science 6-9,
+    English 7-8) have 0 questions, yet the card read "Class 6 Hindi: no paper
+    yet". With the bank's count, such a pair is `noQuestions` instead."""
+    _append(tmp_path, "template_paper_generated", subject="Science", grade=10)
+    rep = pt.report(tmp_path, school_id="s1")
+    counts = {(10, "Science"): 400, (10, "Mathematics"): 600, (6, "Hindi"): 0}
+    cov = pt.exam_coverage(rep, universe=[(10, "Science"), (10, "Mathematics"), (6, "Hindi")],
+                           questions=lambda g, s: counts[(g, s)])
+    assert cov["covered"] == [{"grade": 10, "subject": "Science", "papers": 1}]
+    assert cov["notYet"] == [{"grade": 10, "subject": "Mathematics"}]
+    assert cov["noQuestions"] == [{"grade": 6, "subject": "Hindi"}]
+
+
+def test_paper_timing_names_the_pairs_the_bank_cannot_serve(tmp_path, monkeypatch, seeded):
+    from academicos.operations import homework_routes as hr
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal, teacher = _users(client)
+        store, year = _school(tmp_path, grades=((10, ("Science", "Mathematics")), (6, ("Hindi",))))
+        _term(store, year)
+        monkeypatch.setattr(hr, "_bank_question_count",
+                            lambda subject, grade: 0 if subject == "Hindi" else 50)
+        _set_papers(client, teacher)
+        cov = client.get("/api/v1/paper-timing", headers=principal).json()["examCoverage"]
+        assert cov["notYet"] == [{"grade": 10, "subject": "Mathematics"}]
+        assert cov["noQuestions"] == [{"grade": 6, "subject": "Hindi"}]
+
+
+def test_the_bank_count_is_the_catalogs(tmp_path, monkeypatch, seeded):
+    """The count is GET /catalog's, read through the same pool: the seeded
+    bank has Science 10 only."""
+    real = _REAL_BANK_COUNT
+    with _boot_client(tmp_path, monkeypatch) as client:
+        _users(client)
+        listed = {(e["grade"], e["subject"]): e["questionCount"]
+                  for e in client.get("/api/v1/catalog").json()["entries"]}
+        assert real("Science", 10) == listed[(10, "Science")] > 0
+        assert real("Maths", 10) == listed.get((10, "Mathematics"), 0) == 0
 
 
 def test_exam_coverage_without_declared_classes_cannot_list_what_is_missing(tmp_path):
@@ -215,7 +267,48 @@ def test_with_no_term_covering_today_it_says_so_rather_than_passing_all_time_as_
         assert body["scope"] == "allTime" and body["term"] is None
         assert "no term" in body["scopeNote"].lower()
         assert body["papers"] == 3
+        # No year and no classes at all: classes come first, on the console.
         assert body["examCoverage"]["classesDeclared"] is False
+        assert body["setup"]["need"] == "classes" and body["setup"]["link"] == "/admin"
+
+
+def test_with_classes_set_up_and_no_term_the_guidance_is_true_and_links_the_page(
+        tmp_path, monkeypatch, seeded):
+    """D43: with class 10 seeded and no term, /paper-timing returned
+    `classesDeclared false` (the class list was read only through a term),
+    so the card told a school with its classes set up to "set up your classes
+    and subjects for this year in calendar setup" -- false, and naming a
+    screen the web app does not have. The classes now come from the year
+    covering today, and the one step left (terms) names the console tab that
+    declares them, with its link."""
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal, teacher = _users(client)
+        _school(tmp_path)                       # classes, no term
+        _set_papers(client, teacher)
+        body = client.get("/api/v1/paper-timing", headers=principal).json()
+        assert body["scope"] == "allTime"
+        cov = body["examCoverage"]
+        assert cov["classesDeclared"] is True
+        assert cov["notYet"] == [{"grade": 9, "subject": "Science"},
+                                 {"grade": 10, "subject": "Mathematics"}]
+        assert body["setup"] == {
+            "need": "terms", "label": "Declare terms", "link": "/admin?tab=calendar-setup",
+            "message": "Declare this year's terms on the School Admin console, under Calendar & "
+                       "Setup, to see one term at a time."}
+        assert body["scopeNote"].endswith(body["setup"]["message"])
+        assert "calendar setup" not in body["scopeNote"]
+
+        store, year = get_curriculum(tmp_path)
+        _term(store, year)
+        body = client.get("/api/v1/paper-timing", headers=principal).json()
+        assert body["scope"] == "term" and body["setup"] is None and body["scopeNote"] is None
+
+
+def get_curriculum(tmp_path):
+    from academicos.curriculum.store import get_curriculum_store
+    store = get_curriculum_store(tmp_path)
+    [year] = store.academic_years_for_school("school_1")
+    return store, year
 
 
 def test_another_schools_term_is_refused(tmp_path, monkeypatch, seeded):
@@ -351,3 +444,85 @@ def test_a_paper_counts_once_and_only_while_it_exists(tmp_path, monkeypatch, see
         saved = term.json()["timeSaved"]
         assert saved["papers"] == 3 and saved["estimated"] is True
         assert term.json()["exams"]["papersSet"] == 3
+
+
+def test_a_paper_keeps_the_baseline_in_force_when_it_was_made(tmp_path, monkeypatch, seeded):
+    """D51: no generation row carried `baselineMinutesAtRecordTime` (the
+    routes appended their rows directly; `record_generation` was dead code),
+    so raising a term's baseline rewrote the saving of every paper already
+    reported -- 13 papers went from 780 to 1,560 minutes. Each row now carries
+    the baseline in force, and the report reads it: a later change moves only
+    the papers made after it."""
+    from academicos.assessment.audit_log import get_audit_log
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal, teacher = _users(client)
+        store, year = _school(tmp_path)
+        term = _term(store, year)
+        assert client.put(BASELINE.format(term.id), json={"minutes": 60}, headers=principal).status_code == 200
+        _set_papers(client, teacher)
+        audit = get_audit_log(tmp_path)
+        for action in pt.GENERATION_ACTIONS:
+            details = audit.for_action(action)[0]["details"]
+            assert details["baselineMinutesAtRecordTime"] == 60, action
+            assert "Term 1" in details["baselineProvenanceAtRecordTime"], action
+
+        assert client.put(BASELINE.format(term.id), json={"minutes": 120}, headers=principal).status_code == 200
+        r = client.post("/api/v1/papers/generate-from-ids", headers=teacher, json={
+            "subject": "Science", "grade": 10, "questionIds": ["o2", "o3"]})
+        assert r.status_code == 200, r.text
+
+        body = client.get("/api/v1/paper-timing", headers=principal).json()
+        assert body["papers"] == 4
+        assert body["baselineMinutesPerPaper"] == 120          # what a paper made now gets
+        assert body["papersAtRecordedBaseline"] == 4
+        # Three papers at 60 and one at 120, less a second or so of generation.
+        assert body["estimatedMinutesSavedTotal"] == pytest.approx(3 * 60 + 120, abs=1)
+        saved = client.get("/api/v1/dashboard/term", headers=principal).json()["timeSaved"]
+        assert saved["minutesTotal"] == pytest.approx(3 * 60 + 120, abs=1)
+        science = client.get("/api/v1/dashboard/term?subject=Science&grade=10", headers=principal).json()
+        assert science["timeSaved"]["minutesTotal"] == pytest.approx(3 * 60 + 120, abs=1)
+
+
+def test_time_saved_is_the_baseline_less_the_teachers_time_in_the_builder(tmp_path, monkeypatch, seeded):
+    """D49: what was recorded as "time to produce" was server compute
+    (0.02-0.15 s), so "time saved" was the baseline times the paper count.
+    Each generate request now carries the teacher's own time, measured by the
+    web app from opening the builder or the quick dialog; the paper's saving
+    is the baseline less it, and a paper without it counts the whole
+    baseline, still labelled estimated."""
+    from academicos.assessment.audit_log import get_audit_log
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal, teacher = _users(client)
+        store, year = _school(tmp_path)
+        term = _term(store, year)
+        client.put(BASELINE.format(term.id), json={"minutes": 60}, headers=principal)
+        tid = client.post(BASE, json={
+            "name": "Unit test", "grade": 10, "subject": "Science", "examType": "unit_test",
+            "totalMarks": 8, "durationMinutes": 40,
+            "sections": [{"title": "Section A", "questionCount": 2, "marksEach": 1},
+                         {"title": "Section B", "questionCount": 2, "marksEach": 3}],
+            "scope": {"chapterIds": ["ch1"]}}, headers=teacher).json()["id"]
+        assert client.post(GEN, json={"templateId": tid, "teacherSeconds": -1},
+                           headers=teacher).status_code == 422
+        r = client.post(GEN, json={"templateId": tid, "teacherSeconds": 900}, headers=teacher)
+        assert r.status_code == 200, r.text
+        r = client.post("/api/v1/papers/quick-generate", headers=teacher, json={
+            "subject": "Science", "grade": 10, "chapterIds": ["ch1"], "totalMarks": 20,
+            "teacherSeconds": 300})
+        assert r.status_code == 200, r.text
+        r = client.post("/api/v1/papers/generate-from-ids", headers=teacher, json={
+            "subject": "Science", "grade": 10, "questionIds": ["o0", "o1"]})   # not measured
+        assert r.status_code == 200, r.text
+        audit = get_audit_log(tmp_path)
+        assert audit.for_action("template_paper_generated")[0]["details"]["teacherSeconds"] == 900
+        assert audit.for_action("quick_paper_generated")[0]["details"]["teacherSeconds"] == 300
+        assert audit.for_action("id_curated_paper_generated")[0]["details"]["teacherSeconds"] is None
+
+        body = client.get("/api/v1/paper-timing", headers=principal).json()
+        assert body["papers"] == 3 and body["papersWithTeacherTime"] == 2
+        assert body["medianTeacherMinutes"] == 10.0
+        assert body["estimatedMinutesSavedTotal"] == pytest.approx((60 - 15) + (60 - 5) + 60)
+        assert body["estimated"] is True
+        saved = client.get("/api/v1/dashboard/term", headers=principal).json()["timeSaved"]
+        assert saved["minutesTotal"] == pytest.approx(160)
+        assert saved["papersWithTeacherTime"] == 2 and saved["estimated"] is True

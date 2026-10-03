@@ -88,12 +88,13 @@ class _TimetableAdminPageState extends State<TimetableAdminPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 6,
+      length: 7,
       child: Scaffold(
         appBar: destinationAppBar(context,
           title: Text(tr('Timetable')),
           bottom: TabBar(isScrollable: true, tabs: [
             Tab(text: tr('Allocations')),
+            Tab(text: tr('Groups')),
             Tab(text: tr('Rooms')),
             Tab(text: tr('Bell')),
             Tab(text: tr('Availability')),
@@ -118,6 +119,7 @@ class _TimetableAdminPageState extends State<TimetableAdminPage> {
             }
             return TabBarView(children: [
               _AllocationsTab(data: data),
+              _GroupsTab(data: data),
               _RoomsTab(data: data),
               _BellTab(data: data),
               _AvailabilityTab(data: data),
@@ -375,6 +377,317 @@ class _AllocationRowState extends State<_AllocationRow> {
           ]),
         ]),
       ),
+    );
+  }
+}
+
+// ------------------------------------------------------------------ groups
+
+/// "Hindi (Ana), Sanskrit (Dev)": a group's lanes as one line.
+String groupLanesLine(List<dynamic> lanes) => [
+      for (final l in lanes.cast<Map>())
+        '${l['subjectName'] ?? l['subjectId']}${l['teacherName'] == null ? '' : ' (${l['teacherName']})'}'
+            '${l['roomName'] == null ? '' : ', ${l['roomName']}'}',
+    ].join('; ');
+
+/// Elective groups and combined classes (SCH-8, audit N-3-20): the students
+/// of one class's sections split into parallel lanes taught at the same
+/// time by different teachers, or sections taught together by one teacher
+/// in one room. Generating the timetable places each as one block.
+class _GroupsTab extends StatefulWidget {
+  final _SchoolData data;
+  const _GroupsTab({required this.data});
+
+  @override
+  State<_GroupsTab> createState() => _GroupsTabState();
+}
+
+class _GroupsTabState extends State<_GroupsTab> {
+  late Future<(List<Map<String, dynamic>>, List<Map<String, dynamic>>)> _future = _load();
+  String? _error;
+
+  Future<(List<Map<String, dynamic>>, List<Map<String, dynamic>>)> _load() async {
+    final groups = await Ops.list('$_base/academic-years/${widget.data.yearId}/teaching-groups');
+    final rooms = await Ops.list('$_base/rooms');
+    return (groups, rooms);
+  }
+
+  void _reload() => setState(() { _future = _load(); });
+
+  Future<void> _add(List<Map<String, dynamic>> rooms) async {
+    final body = await showDialog<Map<String, dynamic>>(
+      context: context,
+      builder: (_) => _GroupDialog(data: widget.data, rooms: rooms),
+    );
+    if (body == null) return;
+    try {
+      await Ops.post('$_base/academic-years/${widget.data.yearId}/teaching-groups', body: body);
+      setState(() => _error = null);
+      _reload();
+    } catch (e) {
+      setState(() => _error = serverErrorMessage(e));
+    }
+  }
+
+  Future<void> _delete(Map<String, dynamic> group) async {
+    try {
+      await Ops.delete('$_base/teaching-groups/${group['id']}');
+      setState(() => _error = null);
+      _reload();
+    } catch (e) {
+      setState(() => _error = serverErrorMessage(e));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return FutureBuilder<(List<Map<String, dynamic>>, List<Map<String, dynamic>>)>(
+      future: _future,
+      builder: (context, snap) {
+        if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
+        if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!), onRetry: _reload);
+        final (groups, rooms) = snap.data!;
+        return ListView(padding: const EdgeInsets.all(16), children: [
+          Text(tr('Electives split a class\'s students into parallel lanes taught at the same time; a combined '
+              'class teaches sections together. Generating the timetable places each as one block.'),
+              style: theme.textTheme.bodySmall),
+          if (_error != null) ...[const Gap(8), _errorText(context, _error!)],
+          const Gap(8),
+          if (groups.isEmpty) Text(tr('No groups yet.'), style: theme.textTheme.bodySmall),
+          for (final g in groups)
+            ListTile(
+              key: ValueKey('group-${g['id']}'),
+              contentPadding: EdgeInsets.zero,
+              leading: Icon(g['kind'] == 'elective' ? Icons.call_split : Icons.groups_outlined),
+              title: Text(g['name'] as String),
+              subtitle: Text('${g['kind'] == 'elective' ? tr('Elective') : tr('Combined class')} · '
+                  '${(g['sectionNames'] as List).join(', ')} · ${g['periodsPerWeek']} ${tr('a week')}, '
+                  '${(g['periods'] as List).length} ${tr('placed')}\n${groupLanesLine(g['lanes'] as List)}'),
+              isThreeLine: true,
+              trailing: IconButton(tooltip: '${tr('Remove')} ${g['name']}', icon: const Icon(Icons.delete_outline),
+                  onPressed: () => _delete(g)),
+            ),
+          const Gap(8),
+          FilledButton.tonalIcon(
+            key: const ValueKey('group-add'),
+            onPressed: () => _add(rooms),
+            style: phoneTapTarget(context),
+            icon: const Icon(Icons.add),
+            label: Text(tr('Add a group')),
+          ),
+        ]);
+      },
+    );
+  }
+}
+
+/// A new group: its kind, name and periods a week, the class and the
+/// sections it takes, and its lanes (one for a combined class). Pops the
+/// POST body, or null when cancelled.
+class _GroupDialog extends StatefulWidget {
+  final _SchoolData data;
+  final List<Map<String, dynamic>> rooms;
+  const _GroupDialog({required this.data, required this.rooms});
+
+  @override
+  State<_GroupDialog> createState() => _GroupDialogState();
+}
+
+typedef _Lane = ({String? subjectId, String? teacherId, String? roomId});
+
+class _GroupDialogState extends State<_GroupDialog> {
+  String _kind = 'elective';
+  final _name = TextEditingController();
+  final _periods = TextEditingController(text: '3');
+  String? _gradeId;
+  Future<List<Map<String, dynamic>>>? _subjects;
+  final Set<String> _sections = {};
+  List<_Lane> _lanes = [for (var i = 0; i < 2; i++) (subjectId: null, teacherId: null, roomId: null)];
+  String? _error;
+
+  @override
+  void dispose() {
+    _name.dispose();
+    _periods.dispose();
+    super.dispose();
+  }
+
+  void _pickClass(String? gradeId) => setState(() {
+        _gradeId = gradeId;
+        _sections.clear();
+        _lanes = [for (final _ in _lanes) (subjectId: null, teacherId: null, roomId: null)];
+        _subjects = gradeId == null ? null : Ops.list('$_base/grades/$gradeId/subjects');
+      });
+
+  void _pickKind(String? kind) => setState(() {
+        _kind = kind ?? 'elective';
+        final n = _kind == 'combined' ? 1 : 2;
+        _lanes = [for (var i = 0; i < n; i++) i < _lanes.length ? _lanes[i] : (subjectId: null, teacherId: null, roomId: null)];
+      });
+
+  void _setLane(int i, _Lane lane) => setState(() => _lanes = [...(_lanes..[i] = lane)]);
+
+  void _save() {
+    final periods = int.tryParse(_periods.text.trim());
+    final String? problem = _name.text.trim().isEmpty
+        ? tr('Give the group a name, such as Third language.')
+        : periods == null || periods < 1 || periods > 60
+            ? tr('Periods a week is a whole number from 1 to 60.')
+            : _sections.length < (_kind == 'combined' ? 2 : 1)
+                ? (_kind == 'combined' ? tr('A combined class joins two sections or more.') : tr('Choose its sections.'))
+                : _lanes.any((l) => l.subjectId == null)
+                    ? tr('Choose a subject for every lane.')
+                    : null;
+    if (problem != null) {
+      setState(() => _error = problem);
+      return;
+    }
+    Navigator.pop(context, {
+      'kind': _kind,
+      'name': _name.text.trim(),
+      'periodsPerWeek': periods,
+      'sectionIds': [for (final s in widget.data.sections) if (_sections.contains(s['id'])) s['id']],
+      'lanes': [
+        for (final l in _lanes) {'subjectId': l.subjectId, 'teacherId': l.teacherId, 'roomId': l.roomId},
+      ],
+    });
+  }
+
+  Widget _lane(int i, List<Map<String, dynamic>> subjects) {
+    final lane = _lanes[i];
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Wrap(spacing: 8, runSpacing: 8, crossAxisAlignment: WrapCrossAlignment.center, children: [
+        SizedBox(
+          width: 170,
+          child: DropdownButtonFormField<String?>(
+            key: ValueKey('group-lane-subject-$i'),
+            initialValue: lane.subjectId,
+            isExpanded: true,
+            decoration: InputDecoration(labelText: '${tr('Subject')} ${i + 1}'),
+            items: [
+              for (final s in subjects)
+                DropdownMenuItem<String?>(value: s['id'] as String, child: Text(s['name'] as String, overflow: TextOverflow.ellipsis)),
+            ],
+            onChanged: (v) => _setLane(i, (subjectId: v, teacherId: lane.teacherId, roomId: lane.roomId)),
+          ),
+        ),
+        SizedBox(
+          width: 170,
+          child: DropdownButtonFormField<String?>(
+            key: ValueKey('group-lane-teacher-$i'),
+            initialValue: lane.teacherId,
+            isExpanded: true,
+            decoration: InputDecoration(labelText: tr('Teacher')),
+            items: [
+              DropdownMenuItem<String?>(value: null, child: Text(tr('No one'))),
+              for (final s in widget.data.staff)
+                DropdownMenuItem<String?>(value: s['id'] as String, child: Text(s['name'] as String, overflow: TextOverflow.ellipsis)),
+            ],
+            onChanged: (v) => _setLane(i, (subjectId: lane.subjectId, teacherId: v, roomId: lane.roomId)),
+          ),
+        ),
+        SizedBox(
+          width: 150,
+          child: DropdownButtonFormField<String?>(
+            key: ValueKey('group-lane-room-$i'),
+            initialValue: lane.roomId,
+            isExpanded: true,
+            decoration: InputDecoration(labelText: tr('Room')),
+            items: [
+              DropdownMenuItem<String?>(value: null, child: Text(tr('Its own classroom'))),
+              for (final r in widget.rooms)
+                DropdownMenuItem<String?>(value: r['id'] as String, child: Text(r['name'] as String, overflow: TextOverflow.ellipsis)),
+            ],
+            onChanged: (v) => _setLane(i, (subjectId: lane.subjectId, teacherId: lane.teacherId, roomId: v)),
+          ),
+        ),
+        if (_kind == 'elective' && _lanes.length > 2)
+          IconButton(tooltip: '${tr('Remove lane')} ${i + 1}', icon: const Icon(Icons.close),
+              onPressed: () => setState(() => _lanes = [..._lanes]..removeAt(i))),
+      ]),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final grades = <String, int>{
+      for (final s in widget.data.sections) s['gradeId'] as String: (s['gradeNumber'] as num?)?.toInt() ?? 0,
+    };
+    final classSections = [for (final s in widget.data.sections) if (s['gradeId'] == _gradeId) s];
+    return AlertDialog(
+      title: Text(tr('Add a group')),
+      content: SizedBox(
+        width: 560,
+        child: SingleChildScrollView(
+          child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+            DropdownButtonFormField<String>(
+              key: const ValueKey('group-kind'),
+              initialValue: _kind,
+              isExpanded: true,
+              decoration: InputDecoration(labelText: tr('Kind')),
+              items: [
+                DropdownMenuItem(value: 'elective', child: Text(tr('Elective: parallel lanes at the same time'))),
+                DropdownMenuItem(value: 'combined', child: Text(tr('Combined class: sections taught together'))),
+              ],
+              onChanged: _pickKind,
+            ),
+            const Gap(8),
+            TextField(key: const ValueKey('group-name'), controller: _name,
+                decoration: InputDecoration(labelText: tr('Name'), hintText: tr('Third language'))),
+            const Gap(8),
+            TextField(key: const ValueKey('group-periods'), controller: _periods, keyboardType: TextInputType.number,
+                decoration: InputDecoration(labelText: tr('Periods a week'))),
+            const Gap(8),
+            DropdownButtonFormField<String>(
+              key: const ValueKey('group-class'),
+              initialValue: _gradeId,
+              isExpanded: true,
+              decoration: InputDecoration(labelText: tr('Class')),
+              items: [
+                for (final e in (grades.entries.toList()..sort((a, b) => a.value - b.value)))
+                  DropdownMenuItem(value: e.key, child: Text('${tr('Class')} ${e.value}')),
+              ],
+              onChanged: _pickClass,
+            ),
+            if (_gradeId != null) ...[
+              const Gap(8),
+              Wrap(spacing: 8, children: [
+                for (final s in classSections)
+                  FilterChip(
+                    key: ValueKey('group-section-${s['id']}'),
+                    label: Text(widget.data.sectionLabel(s['id'] as String)),
+                    selected: _sections.contains(s['id']),
+                    onSelected: (v) => setState(() => v ? _sections.add(s['id'] as String) : _sections.remove(s['id'])),
+                  ),
+              ]),
+              FutureBuilder<List<Map<String, dynamic>>>(
+                future: _subjects,
+                builder: (context, snap) {
+                  if (snap.connectionState != ConnectionState.done) return const LinearProgressIndicator();
+                  if (snap.hasError) return _errorText(context, serverErrorMessage(snap.error!));
+                  return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    for (var i = 0; i < _lanes.length; i++) _lane(i, snap.data!),
+                    if (_kind == 'elective')
+                      TextButton.icon(
+                        key: const ValueKey('group-lane-add'),
+                        onPressed: () => setState(() => _lanes = [..._lanes, (subjectId: null, teacherId: null, roomId: null)]),
+                        icon: const Icon(Icons.add),
+                        label: Text(tr('Add a lane')),
+                      ),
+                  ]);
+                },
+              ),
+            ],
+            if (_error != null) ...[const Gap(8), _errorText(context, _error!)],
+          ]),
+        ),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context), child: Text(tr('Cancel'))),
+        FilledButton(key: const ValueKey('group-save'), onPressed: _save, child: Text(tr('Add'))),
+      ],
     );
   }
 }
@@ -702,52 +1015,6 @@ class _BellTabState extends State<_BellTab> {
 
 // ------------------------------------------------------------------ generate
 
-/// The periods a generated week changes against the week now published,
-/// counted as the server counts them: a period is its section, day, period
-/// and subject. A subject's period that leaves one slot and lands on another
-/// in the same section is a move; one with no partner is new or removed.
-/// [who] names a section's subject ("10-A Science"). Sorted by who, then
-/// day and period.
-///
-/// The preview gave only counts ("keeps 36, moves or adds 4, removes 0"),
-/// so the principal published without seeing which periods move (QA S-17,
-/// 2026-10-01).
-List<String> timetableChanges(
-    List<Map> before, List<Map> after, String Function(String sectionId, String subjectId) who) {
-  String key(Map e) => '${e['sectionId']}|${e['dayOfWeek']}|${e['period']}|${e['subjectId']}';
-  final was = {for (final e in before) key(e)};
-  final will = {for (final e in after) key(e)};
-  final groups = <String, ({List<Map> out, List<Map> into})>{};
-  ({List<Map> out, List<Map> into}) group(Map e) =>
-      groups.putIfAbsent('${e['sectionId']}|${e['subjectId']}', () => (out: [], into: []));
-  for (final e in before) {
-    if (!will.contains(key(e))) group(e).out.add(e);
-  }
-  for (final e in after) {
-    if (!was.contains(key(e))) group(e).into.add(e);
-  }
-  int order(Map e) => (e['dayOfWeek'] as int) * 100 + (e['period'] as int);
-  String slot(Map e) => '${tr(_dayNames[e['dayOfWeek'] as int])} ${tr('period')} ${e['period']}';
-  final lines = <({String who, int at, String text})>[];
-  for (final g in groups.values) {
-    g.out.sort((a, b) => order(a) - order(b));
-    g.into.sort((a, b) => order(a) - order(b));
-    final first = g.out.isNotEmpty ? g.out.first : g.into.first;
-    final name = who(first['sectionId'] as String, first['subjectId'] as String);
-    for (var i = 0; i < g.out.length || i < g.into.length; i++) {
-      if (i < g.out.length && i < g.into.length) {
-        lines.add((who: name, at: order(g.out[i]),
-            text: '$name: ${tr('moves from')} ${slot(g.out[i])} ${tr('to')} ${slot(g.into[i])}'));
-      } else if (i < g.into.length) {
-        lines.add((who: name, at: order(g.into[i]), text: '$name: ${tr('new on')} ${slot(g.into[i])}'));
-      } else {
-        lines.add((who: name, at: order(g.out[i]), text: '$name: ${tr('no longer on')} ${slot(g.out[i])}'));
-      }
-    }
-  }
-  lines.sort((a, b) => a.who != b.who ? a.who.compareTo(b.who) : a.at - b.at);
-  return [for (final l in lines) l.text];
-}
 
 class _GenerateTab extends StatefulWidget {
   final _SchoolData data;
@@ -757,6 +1024,23 @@ class _GenerateTab extends StatefulWidget {
   State<_GenerateTab> createState() => _GenerateTabState();
 }
 
+/// One period of the generated week's diff as a line: "Mon P3: Science
+/// (Ana) → Maths (Bala)", with "free" for a period added or emptied.
+String periodChangeLine(Map change) {
+  String holds(Map? p) {
+    if (p == null) return tr('free');
+    final teacher = p['teacherName'] as String?;
+    final room = p['roomName'] as String?;
+    return [
+      '${p['subjectName'] ?? p['subjectId']}${teacher == null ? '' : ' ($teacher)'}',
+      if (room != null) room,
+    ].join(', ');
+  }
+
+  return '${tr(_dayNames[change['dayOfWeek'] as int])} P${change['period']}: '
+      '${holds(change['before'] as Map?)} → ${holds(change['after'] as Map?)}';
+}
+
 class _GenerateTabState extends State<_GenerateTab> {
   final _maxDay = TextEditingController(text: '7');
   final _maxRow = TextEditingController(text: '4');
@@ -764,12 +1048,6 @@ class _GenerateTabState extends State<_GenerateTab> {
   bool _busy = false;
   Map<String, dynamic>? _result;
   String? _error;
-  // What the preview changes, period by period; null until listed.
-  List<String>? _changes;
-  String? _changesError;
-  // No week has been published: every period of the preview is new.
-  bool _firstWeek = false;
-
   @override
   void dispose() {
     _maxDay.dispose();
@@ -777,85 +1055,64 @@ class _GenerateTabState extends State<_GenerateTab> {
     super.dispose();
   }
 
-  Future<void> _solve({required bool apply}) async {
+  /// Generates a week and shows it without writing; the server keeps it
+  /// under a preview id, and publishing writes exactly that week (N-3-6).
+  Future<void> _preview() async {
     final maxDay = int.tryParse(_maxDay.text.trim()), maxRow = int.tryParse(_maxRow.text.trim());
     if (maxDay == null || maxDay < 1 || maxDay > 12 || maxRow == null || maxRow < 1 || maxRow > 12) {
       setState(() => _error = tr('A teacher\'s most a day and in a row are whole numbers from 1 to 12.'));
       return;
     }
+    await _send(() => Ops.post('$_base/academic-years/${widget.data.yearId}/timetable/solve', body: {
+          'apply': false,
+          'keepExisting': _keep,
+          'maxPerDay': maxDay,
+          'maxConsecutive': maxRow,
+          'timeLimitSeconds': 60,
+        }));
+  }
+
+  Future<void> _publish() async {
+    final id = _result?['previewId'] as String?;
+    if (id == null) return;
+    final ok = await _send(
+        () => Ops.post('$_base/academic-years/${widget.data.yearId}/timetable/previews/$id/publish'));
+    // A stale or replaced preview cannot be published: preview again first.
+    if (!ok && mounted) setState(() => _result = {...?_result, 'previewId': null});
+  }
+
+  Future<bool> _send(Future<dynamic> Function() call) async {
     setState(() {
       _busy = true;
       _error = null;
     });
     try {
-      final r = await Ops.post('$_base/academic-years/${widget.data.yearId}/timetable/solve', body: {
-        'apply': apply,
-        'keepExisting': _keep,
-        'maxPerDay': maxDay,
-        'maxConsecutive': maxRow,
-        'timeLimitSeconds': 60,
-      });
-      final result = Map<String, dynamic>.from(r as Map);
-      if (mounted) {
-        setState(() {
-          _result = result;
-          _changes = null;
-          _changesError = null;
-          _firstWeek = false;
-        });
-      }
-      if (!apply && result['status'] == 'solved') await _listChanges(result);
+      final r = await call();
+      if (mounted) setState(() => _result = Map<String, dynamic>.from(r as Map));
+      return true;
     } catch (e) {
       if (mounted) setState(() => _error = serverErrorMessage(e));
+      return false;
     } finally {
       if (mounted) setState(() => _busy = false);
     }
   }
 
-  /// The preview's changes against the published week. The solve answer
-  /// carries the whole proposed week; the published one is read here, and a
-  /// subject the published week does not name is named from its class.
-  Future<void> _listChanges(Map<String, dynamic> result) async {
-    try {
-      final data = widget.data;
-      final before = await Ops.list('$_base/academic-years/${data.yearId}/timetable');
-      final after = ((result['entries'] as List?) ?? const []).cast<Map>();
-      final names = <String, String>{
-        for (final e in before)
-          if (e['subjectName'] != null) e['subjectId'] as String: e['subjectName'] as String
-      };
-      final grades = {
-        for (final e in after)
-          if (!names.containsKey(e['subjectId']))
-            data.sections.where((x) => x['id'] == e['sectionId']).firstOrNull?['gradeId'] as String?
-      }.whereType<String>();
-      for (final g in grades) {
-        for (final subject in await Ops.list('$_base/grades/$g/subjects')) {
-          names[subject['id'] as String] = subject['name'] as String;
-        }
-      }
-      final changes = timetableChanges(before, after,
-          (section, subject) => '${data.sectionLabel(section)} ${names[subject] ?? subject}');
-      if (mounted) {
-        setState(() {
-          _firstWeek = before.isEmpty;
-          _changes = changes;
-        });
-      }
-    } catch (e) {
-      if (mounted) setState(() => _changesError = serverErrorMessage(e));
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final r = _result;
     final solved = r?['status'] == 'solved';
-    final changes = _changes;
+    final changes = ((r?['changes'] as List?) ?? const []).cast<Map>();
+    final bySection = <String, List<Map>>{};
+    for (final c in changes) {
+      bySection.putIfAbsent(c['sectionId'] as String, () => []).add(c);
+    }
     return ListView(padding: const EdgeInsets.all(16), children: [
       Text(tr('Generate a clash-free week for every section from the allocations, rooms and bell. '
-          'Preview first: nothing changes until you publish.'), style: theme.textTheme.bodySmall),
+          'Preview first: nothing changes until you publish, and publishing writes exactly the week previewed.'),
+          style: theme.textTheme.bodySmall),
       const Gap(12),
       Wrap(spacing: 12, runSpacing: 12, children: [
         SizedBox(width: 180, child: TextField(key: const ValueKey('solve-max-day'), controller: _maxDay,
@@ -873,10 +1130,10 @@ class _GenerateTabState extends State<_GenerateTab> {
       ),
       if (_error != null) ...[_errorText(context, _error!), const Gap(8)],
       Wrap(spacing: 8, children: [
-        FilledButton.tonal(key: const ValueKey('solve-preview'), onPressed: _busy ? null : () => _solve(apply: false),
+        FilledButton.tonal(key: const ValueKey('solve-preview'), onPressed: _busy ? null : _preview,
             style: phoneTapTarget(context), child: Text(tr('Preview'))),
-        FilledButton(key: const ValueKey('solve-publish'), onPressed: _busy || !solved || r?['applied'] == true
-            ? null : () => _solve(apply: true),
+        FilledButton(key: const ValueKey('solve-publish'),
+            onPressed: _busy || !solved || r?['applied'] == true || r?['previewId'] == null ? null : _publish,
             style: phoneTapTarget(context), child: Text(tr('Publish'))),
       ]),
       if (_busy) ...[const Gap(12), const LinearProgressIndicator()],
@@ -894,28 +1151,23 @@ class _GenerateTabState extends State<_GenerateTab> {
         if (solved)
           Text('${tr('keeps')} ${r['kept']}, ${tr('moves or adds')} ${r['movedOrAdded']}, '
               '${tr('removes')} ${r['removed']} ${tr('periods')} (${r['seconds']} s)'),
-        if (solved && r['applied'] != true) ...[
-          if (_changesError != null)
-            Text('${tr('The changed periods could not be listed')}: $_changesError',
-                style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.error))
-          else if (changes != null) ...[
-            const Gap(8),
-            if (_firstWeek)
-              Text(key: const ValueKey('solve-changes'),
-                  tr('No week is published yet, so every period is new. See each section on the Week tab after '
-                      'publishing.'))
-            else if (changes.isEmpty)
-              Text(key: const ValueKey('solve-changes'), tr('No period changes: the published week stays as it is.'))
-            else
-              Notice(
-                key: const ValueKey('solve-changes'),
-                kind: NoticeKind.info,
-                title: tr('What publishing changes:'),
-                lines: firstFew(changes, max: 40),
-              ),
-          ],
-        ],
         for (final p in (r['problems'] as List? ?? const [])) Text('- $p'),
+        if (solved && changes.isEmpty) Text(key: const ValueKey('solve-no-changes'), tr('No period changes.')),
+        if (changes.isNotEmpty) ...[
+          const Gap(8),
+          Text('${changes.length} ${tr('periods change')}:', style: theme.textTheme.titleSmall),
+          // Section by section, each period's before and after.
+          for (final MapEntry(key: sectionId, value: rows) in bySection.entries)
+            ExpansionTile(
+              key: ValueKey('solve-changes-$sectionId'),
+              tilePadding: EdgeInsets.zero,
+              childrenPadding: const EdgeInsets.only(bottom: 8),
+              expandedCrossAxisAlignment: CrossAxisAlignment.start,
+              title: Text('${rows.first['sectionName'] ?? widget.data.sectionLabel(sectionId)}: '
+                  '${rows.length} ${tr('periods')}'),
+              children: [for (final c in rows) Text(periodChangeLine(c), style: theme.textTheme.bodySmall)],
+            ),
+        ],
       ],
     ]);
   }
@@ -1042,13 +1294,15 @@ class _AvailabilityTabState extends State<_AvailabilityTab> {
 
 /// A section's week and what it needs: the bell, the class's subjects, this
 /// section's allocations (who teaches each, how often, in what kind of
-/// room) and the school's rooms.
+/// room), the school's rooms, and the periods the section spends in its
+/// groups -- the group's, not editable here (N-3-20).
 class _WeekData {
   final Map<String, dynamic>? bell;
   final List<Map<String, dynamic>> subjects;
   final Map<String, Map<String, dynamic>> allocations; // subject id -> allocation
   final List<Map<String, dynamic>> rooms;
-  const _WeekData(this.bell, this.subjects, this.allocations, this.rooms);
+  final Map<(int, int), Map> groupPeriods; // (day, period) -> the group's period
+  const _WeekData(this.bell, this.subjects, this.allocations, this.rooms, this.groupPeriods);
 
   String subjectName(String id) => subjects.where((s) => s['id'] == id).firstOrNull?['name'] as String? ?? id;
   String? roomName(String? id) => id == null ? null : rooms.where((r) => r['id'] == id).firstOrNull?['name'] as String?;
@@ -1087,7 +1341,8 @@ class _WeekTabState extends State<_WeekTab> {
     final rooms = await Ops.list('$_base/rooms');
     _take(week);
     return _WeekData(bells.where((b) => b['id'] == week['bellScheduleId']).firstOrNull, subjects,
-        {for (final a in allocs.where((a) => a['sectionId'] == sectionId)) a['subjectId'] as String: a}, rooms);
+        {for (final a in allocs.where((a) => a['sectionId'] == sectionId)) a['subjectId'] as String: a}, rooms,
+        {for (final g in ((week['groupPeriods'] as List?) ?? const []).cast<Map>()) (g['dayOfWeek'] as int, g['period'] as int): g});
   }
 
   /// The server's week becomes the one being edited.
@@ -1255,7 +1510,16 @@ class _WeekTabState extends State<_WeekTab> {
                               key: ValueKey('week-cell-$d-$p'),
                               constraints: const BoxConstraints(minWidth: 64, minHeight: 40),
                               alignment: Alignment.centerLeft,
-                              child: _cells[(d, p)] == null
+                              child: _cells[(d, p)] == null && w.groupPeriods[(d, p)] != null
+                                  ? Row(mainAxisSize: MainAxisSize.min, children: [
+                                      Icon(Icons.groups_outlined, size: 14, semanticLabel: tr('Group'),
+                                          color: theme.colorScheme.primary),
+                                      const Gap(4),
+                                      Text('${w.groupPeriods[(d, p)]!['groupName']}\n'
+                                          '${groupLanesLine(w.groupPeriods[(d, p)]!['lanes'] as List)}',
+                                          style: theme.textTheme.bodySmall),
+                                    ])
+                                  : _cells[(d, p)] == null
                                   ? Text(tr('Free'), style: theme.textTheme.bodySmall?.copyWith(
                                       color: theme.colorScheme.onSurfaceVariant))
                                   : Row(mainAxisSize: MainAxisSize.min, children: [
@@ -1267,7 +1531,8 @@ class _WeekTabState extends State<_WeekTab> {
                                       ],
                                     ]),
                             ),
-                            onTap: _saving ? null : () => _editCell(w, d, p),
+                            // A group's period is changed with its group, not here.
+                            onTap: _saving || w.groupPeriods[(d, p)] != null ? null : () => _editCell(w, d, p),
                           ),
                       ]),
                   ],

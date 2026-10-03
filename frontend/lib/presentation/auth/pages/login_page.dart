@@ -242,6 +242,13 @@ class _LoginPageState extends State<LoginPage> {
           schoolId: _schoolId.text.trim(), principalKey: _principalKey.text.trim(),
           name: _name.text.trim(), email: _email.text.trim(), password: _password.text,
         );
+      } else if (_inviteCode.text.trim().startsWith('own_')) {
+        // ROLE-4: an owner link code a school's principal issued makes an
+        // owner account over that school (and later others), not a member.
+        result = await api.registerOwner(
+          code: _inviteCode.text.trim(), name: _name.text.trim(),
+          email: _email.text.trim(), password: _password.text,
+        );
       } else {
         result = await api.register(
           inviteCode: _inviteCode.text.trim(), name: _name.text.trim(),
@@ -439,6 +446,7 @@ class _LoginPageState extends State<LoginPage> {
                                 decoration: const InputDecoration(
                                   labelText: 'Invite code',
                                   hintText: 'The code your principal gave you',
+                                  helperText: 'An owner of several schools enters the owner link code here',
                                   prefixIcon: Icon(Icons.confirmation_number_outlined),
                                 ),
                                 validator: (v) =>

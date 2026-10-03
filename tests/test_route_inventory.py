@@ -175,6 +175,13 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/curriculum/sections/{section_id}/timetable"),
     ("GET", "/api/v1/curriculum/my-timetable"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/previews/{preview_id}/publish"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teaching-groups"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/teaching-groups"),
+    ("PUT", "/api/v1/curriculum/teaching-groups/{group_id}"),
+    ("DELETE", "/api/v1/curriculum/teaching-groups/{group_id}"),
+    ("POST", "/api/v1/curriculum/sections/{section_id}/split"),
+    ("POST", "/api/v1/curriculum/sections/{section_id}/merge"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability"),
     ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability"),
@@ -188,6 +195,9 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/leave-requests"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/decision"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/cancel"),
+    ("PUT", "/api/v1/curriculum/leave-requests/{leave_id}/replacement"),
+    ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/document"),
+    ("GET", "/api/v1/curriculum/leave-requests/{leave_id}/document"),
     ("GET", "/api/v1/curriculum/substitutions"),
     ("GET", "/api/v1/curriculum/substitutions/{sub_id}/candidates"),
     ("POST", "/api/v1/curriculum/substitutions/{sub_id}/assign"),
@@ -280,6 +290,21 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/api-keys"),
     ("DELETE", "/api/v1/api-keys/{key_id}"),
     ("GET", "/api/v1/api-keys/{key_id}/usage"),
+    # API-6 a key's webhooks (api_key_routes.py).
+    ("POST", "/api/v1/api-keys/{key_id}/webhooks"),
+    ("GET", "/api/v1/api-keys/{key_id}/webhooks"),
+    ("DELETE", "/api/v1/api-keys/{key_id}/webhooks/{webhook_id}"),
+    ("GET", "/api/v1/api-keys/{key_id}/webhooks/{webhook_id}/deliveries"),
+    # ROLE-4 multi-campus owners (owner_routes.py).
+    ("POST", "/api/v1/owner-links"),
+    ("GET", "/api/v1/owner-links"),
+    ("DELETE", "/api/v1/owner-links/{link_id}"),
+    ("POST", "/api/v1/owner/links/redeem"),
+    ("GET", "/api/v1/owner/schools"),
+    ("POST", "/api/v1/owner/active-school"),
+    ("DELETE", "/api/v1/owner/active-school"),
+    ("GET", "/api/v1/owner/overview"),
+    ("POST", "/api/v1/owner/register"),
     ("POST", "/api/v1/assessments/{assessment_id}/review-request"),
     ("POST", "/api/v1/assessments/{assessment_id}/review-decision"),
     ("GET", "/api/v1/assessments/{assessment_id}/reviews"),
@@ -511,6 +536,13 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/curriculum/sections/{section_id}/timetable"),
     ("GET", "/api/v1/curriculum/my-timetable"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/previews/{preview_id}/publish"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teaching-groups"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/teaching-groups"),
+    ("PUT", "/api/v1/curriculum/teaching-groups/{group_id}"),
+    ("DELETE", "/api/v1/curriculum/teaching-groups/{group_id}"),
+    ("POST", "/api/v1/curriculum/sections/{section_id}/split"),
+    ("POST", "/api/v1/curriculum/sections/{section_id}/merge"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability"),
     ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/room-unavailability"),
@@ -524,6 +556,9 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/leave-requests"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/decision"),
     ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/cancel"),
+    ("PUT", "/api/v1/curriculum/leave-requests/{leave_id}/replacement"),
+    ("POST", "/api/v1/curriculum/leave-requests/{leave_id}/document"),
+    ("GET", "/api/v1/curriculum/leave-requests/{leave_id}/document"),
     ("GET", "/api/v1/curriculum/substitutions"),
     ("GET", "/api/v1/curriculum/substitutions/{sub_id}/candidates"),
     ("POST", "/api/v1/curriculum/substitutions/{sub_id}/assign"),
@@ -609,6 +644,20 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/api-keys"),
     ("DELETE", "/api/v1/api-keys/{key_id}"),
     ("GET", "/api/v1/api-keys/{key_id}/usage"),
+    # API-6 a key's webhooks (api_key_routes.py).
+    ("POST", "/api/v1/api-keys/{key_id}/webhooks"),
+    ("GET", "/api/v1/api-keys/{key_id}/webhooks"),
+    ("DELETE", "/api/v1/api-keys/{key_id}/webhooks/{webhook_id}"),
+    ("GET", "/api/v1/api-keys/{key_id}/webhooks/{webhook_id}/deliveries"),
+    # ROLE-4 multi-campus owners (owner_routes.py).
+    ("POST", "/api/v1/owner-links"),
+    ("GET", "/api/v1/owner-links"),
+    ("DELETE", "/api/v1/owner-links/{link_id}"),
+    ("POST", "/api/v1/owner/links/redeem"),
+    ("GET", "/api/v1/owner/schools"),
+    ("POST", "/api/v1/owner/active-school"),
+    ("DELETE", "/api/v1/owner/active-school"),
+    ("GET", "/api/v1/owner/overview"),
     ("POST", "/api/v1/assessments/{assessment_id}/review-request"),
     ("POST", "/api/v1/assessments/{assessment_id}/review-decision"),
     ("GET", "/api/v1/assessments/{assessment_id}/reviews"),
@@ -920,6 +969,15 @@ def _valid_body_for(method: str, path: str) -> dict:
                 "email": "teacher1@example.com", "password": "correct horse battery"}
     if path == "/api/v1/auth/invites":
         return {"role": "teacher"}
+    if path == "/api/v1/owner/register":
+        return {"name": "Owner One", "email": "owner1@example.com",
+                "password": "correct horse battery", "code": "own_x"}
+    if path == "/api/v1/owner/links/redeem":
+        return {"code": "own_x"}
+    if path == "/api/v1/api-keys/{key_id}/webhooks":
+        return {"url": "https://partner.example/hook"}
+    if path == "/api/v1/owner/active-school":
+        return {"schoolId": "school_1"}
     if path == "/api/v1/auth/login":
         return {"email": "teacher1@example.com", "password": "correct horse battery"}
     if path == "/v1/question/solve":
@@ -987,13 +1045,20 @@ def test_canonical_route_inventory_matches_live_app():
     # 311: TA-2 the caller's own calendar and teaching load in the apps.
     # 314: EX-8 report cards (a student's, as JSON and PDF; a section's PDF).
     # 315: N-67-5 every section's lesson plan in one action.
-    # 316: the operator's single-use invite for a new school's first principal.
-    # 318: NFR-1 erasing a student's or parent's data on the school's request
+    # 316: N-3-6 publishing exactly a previewed week.
+    # 322: N-3-20 elective groups and combined classes (4), splitting and merging a section (2).
+    # 324: N-3-17 a leave request's supporting document (attach, read).
+    # 325: SCH-8 a long leave's temporary replacement teacher.
+    # 334: ROLE-4 owners over several schools: owner links (3), owner
+    # registration, redeem, schools, choose and leave a school, overview.
+    # 338: API-6 a key's webhooks (register, list, revoke, delivery log).
+    # 339: the operator's single-use invite for a new school's first principal.
+    # 341: NFR-1 erasing a student's or parent's data on the school's request
     # (preview, erase).
-    # 320: QA S-05 a principal's password reset and a person's own change.
-    # 321: QA S-12 a teacher's own row of today's register.
-    # 322: the setup wizard's one-call school setup (year, classes, calendar, terms, bell).
-    assert len(API_ROUTES) == 322
+    # 343: QA S-05 a principal's password reset and a person's own change.
+    # 344: QA S-12 a teacher's own row of today's register.
+    # 345: the setup wizard's one-call school setup (year, classes, calendar, terms, bell).
+    assert len(API_ROUTES) == 345
 
 
 def test_docs_routes_present():
@@ -2337,8 +2402,16 @@ def test_full_boot_completion_tracking(tmp_path, monkeypatch):
     completed with a note, an unassigned same-school teacher is refused,
     a principal can override, and the mark is honestly reflected back
     through both GET /my-schedule and the PATCH response itself."""
+    from datetime import date
+
+    from academicos.curriculum import routes as curriculum_routes
+
     monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
     with _boot_client(tmp_path, monkeypatch) as client:
+        # The plan starts on the school's today and a lesson is marked on its
+        # own day (D67), so today is pinned to the year's first day: on a real
+        # Sunday the first lesson would be tomorrow's.
+        monkeypatch.setattr(curriculum_routes, "_school_today", lambda: date(2026, 6, 1))
         principal = client.post("/api/v1/auth/register", json={
             "schoolId": "school_1", "name": "Principal", "email": "principal@example.com",
             "password": "correct horse battery", "principalKey": "test-bootstrap-key",

@@ -58,6 +58,8 @@ def w(tmp_path, monkeypatch):
         q for q in BANK if not chapter_ids or ("light" in chapter_ids and q["id"] != "q4")
         or ("life" in chapter_ids and q["id"] == "q4")])
     monkeypatch.setattr(hr, "_bank_chapters", lambda subject, grade: CHAPTERS)
+    monkeypatch.setattr(hr, "_bank_question_count",
+                        lambda subject, grade: sum(c["question_count"] for c in CHAPTERS))
     with _boot_client(tmp_path, monkeypatch) as c:
         p = _register(c, "school_1", "p1@example.com", "Priya", principal_key="test-bootstrap-key")
         p2 = _register(c, "school_2", "p2@example.com", "Ravi", principal_key="test-bootstrap-key")

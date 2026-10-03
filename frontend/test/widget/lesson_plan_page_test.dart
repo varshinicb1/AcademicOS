@@ -99,17 +99,23 @@ class _Backend implements HttpClientAdapter {
           'periodsAllocated': 14, 'periodsShort': 2, 'fitsInYear': false,
         });
       case ('POST', '/curriculum/academic-years/ay_1/lesson-plans'):
+        final fitAll = (o.data as Map?)?['fitToPeriodsLeft'] == true;
         if (plansAnswer != null) return _ok(plansAnswer!);
         return _ok({
           'runsApproved': 13, 'topicsCreated': 39, 'subtopicsCreated': 117,
           'plans': [
-            {'sectionId': 'sec_a', 'sectionName': '10-A', 'subjectName': 'Science', 'lessonsCreated': 140},
-            {'sectionId': 'sec_b', 'sectionName': '10-B', 'subjectName': 'Science', 'lessonsCreated': 138},
+            {'sectionId': 'sec_a', 'sectionName': '10-A', 'subjectName': 'Science', 'lessonsCreated': 140,
+              'chaptersWithoutSubtopics': ['Light - Reflection and Refraction']},
+            {'sectionId': 'sec_b', 'sectionName': '10-B', 'subjectName': 'Science', 'lessonsCreated': 138,
+              if (fitAll) 'subtopicsCompressed': 40,
+              if (fitAll) 'fitNote': 'fitted to the 138 teaching periods left from 2026-10-01: the estimates need '
+                  '290, so 40 of 117 subtopics still to teach get fewer periods, at least one each'},
           ],
           'notPlanned': ['10-A English: no book is chosen for the subject'],
         });
       case ('POST', '/curriculum/books/book_sci/schedule'):
         lessons = [for (var i = 0; i < 12; i++) _lesson(i, 'scheduled')];
+        final fit = (o.data as Map?)?['fitToPeriodsLeft'] == true;
         return _ok({
           'academicYearId': 'ay_1', 'bookId': 'book_sci', 'periodsPerWeek': 6, 'teachingDaysAvailable': 12,
           'lessonsCreated': 12, 'subtopicsScheduled': 1, 'subtopicsPartiallyScheduled': <String>[],
@@ -117,7 +123,10 @@ class _Backend implements HttpClientAdapter {
           'firstScheduledDate': '2026-10-01', 'lastScheduledDate': '2026-10-12', 'teachingPeriodsAvailable': 12,
           'lessonsKept': 0, 'pastLessonsKept': 0, 'allSubtopicsScheduled': false,
           'warning': '1 of 2 subtopics have no date: the year has 12 Science periods left and the estimates need 14.',
-          'sectionId': 'sec_a',
+          'sectionId': 'sec_a', 'chaptersWithoutSubtopics': ['Light - Reflection and Refraction'],
+          if (fit) 'subtopicsCompressed': [{'subtopicId': 'st_1', 'periodsNeeded': 7, 'periodsPlanned': 5}],
+          if (fit) 'fitNote': 'fitted to the 12 teaching periods left from 2026-10-01: the estimates need 14, '
+              'so 1 of 2 subtopics still to teach get fewer periods, at least one each',
         });
     }
     rejected.add('${o.method} $path');
@@ -194,6 +203,11 @@ void main() {
     expect(find.text('2 plans made, 278 lessons dated · 117 subtopics approved'), findsOneWidget);
     expect(find.text('• 10-A English: no book is chosen for the subject'), findsOneWidget,
         reason: 'what was not planned is named, with why');
+    // D119: a chapter with no approved subtopic is not in the plan, and the plan says so.
+    expect(find.byKey(const ValueKey('plan-all-left-out-sec_a-Science')), findsOneWidget);
+    expect(find.textContaining('10-A Science: 1 chapters not in the plan (no approved subtopics): '
+        'Light - Reflection and Refraction'), findsOneWidget);
+    expect(find.byKey(const ValueKey('plan-all-left-out-sec_b-Science')), findsNothing);
   });
 
   // With the box unticked nothing is approved, so a school whose topics are
@@ -258,7 +272,8 @@ void main() {
     final (m1, p1, q1, b1) = backend.sent[0];
     expect((m1, p1), ('POST', '/curriculum/books/book_sci/teaching-time-estimates'));
     expect(q1, {'academic_year_id': 'ay_1'});
-    expect(b1, {'periodsPerWeek': 6}, reason: "the section's own allocation, not a school-wide one");
+    expect(b1, {'periodsPerWeek': 6, 'sectionId': 'sec_a'},
+        reason: "the section's own allocation and week, not a school-wide one (N-3-8)");
     final (m2, p2, q2, b2) = backend.sent[1];
     expect((m2, p2), ('POST', '/curriculum/books/book_sci/schedule'));
     expect(q2, {'academic_year_id': 'ay_1'});
@@ -270,10 +285,38 @@ void main() {
     expect(find.textContaining('1 subtopics have no date'), findsOneWidget);
     expect(find.text('• Chemical Reactions and Equations: Types of chemical reactions'), findsOneWidget);
     expect(find.text('• Unit 3: Natural Phenomena'), findsOneWidget);
+    // D119: the chapter the plan left out, named from the server's answer.
+    expect(find.byKey(const ValueKey('plan-chapters-left-out')), findsOneWidget);
+    expect(find.text('1 chapters are not in the plan: they have no approved subtopics.'), findsOneWidget);
+    expect(find.text('• Light - Reflection and Refraction'), findsOneWidget);
     expect(find.text('The subtopics need 14 periods; the year has 12.'), findsOneWidget);
     // The plan on the page is re-read: the section now has one.
     expect(find.textContaining('10-A: 12 lessons, 2026-10-01 to 2026-10-12'), findsOneWidget);
     expect(find.text('Make the plan again'), findsOneWidget);
+  });
+
+  testWidgets('the plan can be fitted to the periods left, and says what that took (D35)', (tester) async {
+    await pumpPage(tester, const LessonPlanPage(), _narrow);
+    await pickScience(tester);
+    expect(tester.widget<CheckboxListTile>(find.byKey(const ValueKey('plan-fit'))).value, isFalse,
+        reason: 'never fitted unless asked');
+    await tapKey(tester, 'plan-fit');
+    await tapKey(tester, 'plan-make');
+    expect(backend.sent[1].$4, {'sectionId': 'sec_a', 'force': false, 'fitToPeriodsLeft': true});
+    expect(find.byKey(const ValueKey('plan-fitted')), findsOneWidget);
+    expect(find.textContaining('Fitted to the periods left: fitted to the 12 teaching periods left'), findsOneWidget);
+    expect(find.text('• Chemical Reactions and Equations: Balancing a chemical equation: 7 → 5 periods'),
+        findsOneWidget, reason: 'each subtopic given fewer periods is named, with how many');
+  });
+
+  testWidgets('every section can be fitted at once, and each fitted plan says so (D35)', (tester) async {
+    await pumpPage(tester, const LessonPlanPage(), _narrow);
+    await tapKey(tester, 'plan-all-fit');
+    await tapKey(tester, 'plan-all-run');
+    expect(backend.sent.single.$4, {'approveProposedTopics': true, 'fitToPeriodsLeft': true});
+    expect(find.byKey(const ValueKey('plan-all-fitted-sec_b-Science')), findsOneWidget);
+    expect(find.textContaining('10-B Science: fitted to the 138 teaching periods left'), findsOneWidget);
+    expect(find.byKey(const ValueKey('plan-all-fitted-sec_a-Science')), findsNothing);
   });
 
   testWidgets('a section that already has a plan is planned again with force', (tester) async {

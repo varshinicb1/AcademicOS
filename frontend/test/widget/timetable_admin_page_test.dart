@@ -29,8 +29,21 @@ class _Backend implements HttpClientAdapter {
   final List<(String, String, dynamic)> sent = [];
   Map<String, dynamic> solveAnswer = {
     'status': 'solved', 'applied': false, 'problems': <String>[], 'kept': 40, 'movedOrAdded': 4,
-    'removed': 2, 'seconds': 1.5, 'entries': <dynamic>[],
+    'removed': 2, 'seconds': 1.5, 'entries': <dynamic>[], 'previewId': 'ttprev_1',
+    'changes': [
+      {'sectionId': 'sec_a', 'sectionName': '10-A', 'dayOfWeek': 0, 'period': 3,
+        'before': {'subjectId': 'sci', 'subjectName': 'Science', 'teacherId': 't_ana', 'teacherName': 'Ana'},
+        'after': {'subjectId': 'mat', 'subjectName': 'Maths', 'teacherId': 't_dev', 'teacherName': 'Dev',
+          'roomId': 'room_1', 'roomName': 'Room 1'}},
+      {'sectionId': 'sec_a', 'sectionName': '10-A', 'dayOfWeek': 1, 'period': 1, 'before': null,
+        'after': {'subjectId': 'sci', 'subjectName': 'Science', 'teacherId': 't_ana', 'teacherName': 'Ana'}},
+      {'sectionId': 'sec_b', 'sectionName': '10-B', 'dayOfWeek': 4, 'period': 2,
+        'before': {'subjectId': 'mat', 'subjectName': 'Maths', 'teacherId': 't_dev', 'teacherName': 'Dev'},
+        'after': null},
+    ],
   };
+  // The publish route's refusal, when set: 409 for a preview made stale.
+  int? publishStatus;
   int? roomClosureStatus;
   bool weekClash = false;
   // The week now published (GET .../timetable), as the server answers it.
@@ -104,6 +117,13 @@ class _Backend implements HttpClientAdapter {
       case ('POST', '/curriculum/academic-years/ay_1/timetable/solve'):
         final apply = (o.data as Map)['apply'] == true;
         return _ok({...solveAnswer, 'applied': apply && solveAnswer['status'] == 'solved'});
+      case ('POST', '/curriculum/academic-years/ay_1/timetable/previews/ttprev_1/publish'):
+        if (publishStatus != null) {
+          return ResponseBody.fromString(jsonEncode({'detail': 'the timetable, allocations, bells, rooms or '
+              'availability changed after this preview was made; preview again to see the week that fits them now'}),
+              publishStatus!, headers: _json);
+        }
+        return _ok({...solveAnswer, 'applied': true});
       case ('PUT', '/curriculum/sections/sec_a/timetable'):
         if (weekClash) {
           return ResponseBody.fromString(jsonEncode({'detail': {
@@ -139,7 +159,29 @@ class _Backend implements HttpClientAdapter {
               'teacherName': 'Ana', 'coTeacherName': 'Dev', 'roomName': 'Lab 1', 'sectionName': '10-A'},
           ],
           'gaps': [{'subjectId': 'sci', 'allocated': 6, 'timetabled': 1}],
+          'groupPeriods': [
+            {'groupId': 'tg_1', 'groupName': 'Second language', 'kind': 'elective', 'dayOfWeek': 2, 'period': 1,
+              'lanes': [
+                {'id': 'l1', 'subjectId': 'hin', 'subjectName': 'Hindi', 'teacherId': 't_ana', 'teacherName': 'Ana'},
+                {'id': 'l2', 'subjectId': 'eng', 'subjectName': 'English', 'teacherId': 't_dev', 'teacherName': 'Dev'},
+              ]},
+          ],
         });
+      case ('GET', '/curriculum/academic-years/ay_1/teaching-groups'):
+        return _ok([
+          {'id': 'tg_1', 'academicYearId': 'ay_1', 'kind': 'elective', 'name': 'Second language', 'periodsPerWeek': 3,
+            'sectionIds': ['sec_a', 'sec_b'], 'sectionNames': ['10-A', '10-B'],
+            'lanes': [
+              {'id': 'l1', 'subjectId': 'hin', 'subjectName': 'Hindi', 'teacherId': 't_ana', 'teacherName': 'Ana'},
+              {'id': 'l2', 'subjectId': 'eng', 'subjectName': 'English', 'teacherId': 't_dev', 'teacherName': 'Dev',
+                'roomId': 'room_1', 'roomName': 'Room 1'},
+            ],
+            'periods': [{'dayOfWeek': 2, 'period': 1}]},
+        ]);
+      case ('POST', '/curriculum/academic-years/ay_1/teaching-groups'):
+        return _ok({'id': 'tg_2', 'academicYearId': 'ay_1', ...Map<String, dynamic>.from(o.data as Map)});
+      case ('DELETE', '/curriculum/teaching-groups/tg_1'):
+        return _ok({'ok': true});
     }
     return ResponseBody.fromString(jsonEncode({'detail': 'no route ${o.method} $path'}), 404, headers: _json);
   }
@@ -270,7 +312,7 @@ void main() {
     expect(backend.sent, isEmpty);
   });
 
-  testWidgets('a preview shows the changes and publishing sends apply', (tester) async {
+  testWidgets('a preview lists every changed period, and publishing writes that preview (N-3-6)', (tester) async {
     await pump(tester);
     await openTab(tester, 'Generate');
     final publish = find.byKey(const ValueKey('solve-publish'));
@@ -279,63 +321,35 @@ void main() {
     expect(find.text('A week that meets every rule:'), findsOneWidget);
     expect(find.textContaining('keeps 40, moves or adds 4, removes 2 periods'), findsOneWidget);
     expect((backend.sent.single.$3 as Map)['apply'], isFalse);
+    expect(find.text('3 periods change:'), findsOneWidget);
+    expect(find.text('10-A: 2 periods'), findsOneWidget);
+    expect(find.text('10-B: 1 periods'), findsOneWidget);
+    await tapKey(tester, 'solve-changes-sec_a');
+    expect(find.text('Mon P3: Science (Ana) → Maths (Dev), Room 1'), findsOneWidget);
+    expect(find.text('Tue P1: free → Science (Ana)'), findsOneWidget);
 
+    // Publishing sends the preview's id, never a second solve.
     await tapKey(tester, 'solve-publish');
-    expect((backend.sent.last.$3 as Map)['apply'], isTrue);
+    final (method, path, _) = backend.sent.last;
+    expect((method, path), ('POST', '/curriculum/academic-years/ay_1/timetable/previews/ttprev_1/publish'));
+    expect(backend.sent.where((s) => s.$2.endsWith('/timetable/solve')), hasLength(1));
     expect(find.text('Published. Teachers have been told.'), findsOneWidget);
   });
 
-  // The preview gave only counts, so the principal published without seeing
-  // which periods move (QA S-17, 2026-10-01). It now lists them against the
-  // published week, as the server counts them.
-  testWidgets('a preview lists the periods that move, are new or go, before Publish', (tester) async {
-    Map<String, dynamic> entry(String section, int day, int period, String subject, [String? name]) => {
-          'id': 'tt_$section$day$period', 'sectionId': section, 'dayOfWeek': day, 'period': period,
-          'subjectId': subject, 'teacherId': 't_ana', 'locked': false,
-          'subjectName': name, 'sectionName': section == 'sec_a' ? '10-A' : '10-B',
-        };
-    backend.published = [
-      entry('sec_a', 0, 1, 'sci', 'Science'),
-      entry('sec_a', 1, 2, 'mat'), // no name: named from the class's subjects
-      entry('sec_b', 0, 2, 'sci', 'Science'),
-    ];
-    backend.solveAnswer = {
-      'status': 'solved', 'applied': false, 'problems': <String>[], 'kept': 1, 'movedOrAdded': 2, 'removed': 2,
-      'seconds': 0.4,
-      'entries': [
-        {'sectionId': 'sec_a', 'dayOfWeek': 0, 'period': 1, 'subjectId': 'sci', 'teacherId': 't_ana'},
-        {'sectionId': 'sec_a', 'dayOfWeek': 2, 'period': 1, 'subjectId': 'mat', 'teacherId': 't_ana'},
-        {'sectionId': 'sec_a', 'dayOfWeek': 4, 'period': 2, 'subjectId': 'sci', 'teacherId': 't_ana'},
-      ],
-    };
+  testWidgets('a preview made stale is refused, and Publish waits for a new preview', (tester) async {
+    backend.publishStatus = 409;
     await pump(tester);
     await openTab(tester, 'Generate');
     await tapKey(tester, 'solve-preview');
-    expect(find.byKey(const ValueKey('solve-changes')), findsOneWidget);
-    expect(find.text('What publishing changes:'), findsOneWidget);
-    expect(find.text('• 10-A Maths: moves from Tue period 2 to Wed period 1'), findsOneWidget);
-    expect(find.text('• 10-A Science: new on Fri period 2'), findsOneWidget);
-    expect(find.text('• 10-B Science: no longer on Mon period 2'), findsOneWidget);
-    expect(find.textContaining('Mon period 1'), findsNothing, reason: 'a kept period is not a change');
-    expect(tester.takeException(), isNull, reason: 'the list fits a phone');
-
     await tapKey(tester, 'solve-publish');
-    expect(find.text('Published. Teachers have been told.'), findsOneWidget);
-    expect(find.byKey(const ValueKey('solve-changes')), findsNothing,
-        reason: 'publishing solves again; the preview\'s list is not claimed for it');
+    expect(find.textContaining('changed after this preview was made; preview again'), findsOneWidget);
+    expect(tester.widget<FilledButton>(find.byKey(const ValueKey('solve-publish'))).onPressed, isNull);
+    expect(find.text('A week that meets every rule:'), findsOneWidget, reason: 'the preview stays to read');
   });
 
-  testWidgets("a school's first week says every period is new", (tester) async {
-    backend.solveAnswer = {
-      ...backend.solveAnswer,
-      'entries': [
-        {'sectionId': 'sec_a', 'dayOfWeek': 0, 'period': 1, 'subjectId': 'sci', 'teacherId': 't_ana'},
-      ],
-    };
-    await pump(tester);
-    await openTab(tester, 'Generate');
-    await tapKey(tester, 'solve-preview');
-    expect(find.textContaining('No week is published yet, so every period is new.'), findsOneWidget);
+  test('a changed period reads as before and after', () {
+    expect(periodChangeLine({'dayOfWeek': 5, 'period': 8, 'before': {'subjectId': 'x', 'subjectName': 'Art'}, 'after': null}),
+        'Sat P8: Art → free');
   });
 
   testWidgets('a week no timetable can meet lists why and cannot be published', (tester) async {
@@ -491,6 +505,59 @@ void main() {
     expect(body, {'slots': [{'dayOfWeek': 2, 'period': 1}]});
   });
 
+  testWidgets('an elective group is added with its sections and lanes (N-3-20)', (tester) async {
+    await pump(tester);
+    await openTab(tester, 'Groups');
+    expect(find.text('Second language'), findsOneWidget);
+    expect(find.textContaining('Elective · 10-A, 10-B · 3 a week, 1 placed'), findsOneWidget);
+    expect(find.textContaining('Hindi (Ana); English (Dev), Room 1'), findsOneWidget);
+
+    await tapKey(tester, 'group-add');
+    await tester.enterText(find.byKey(const ValueKey('group-name')), 'Third language');
+    await tester.enterText(find.byKey(const ValueKey('group-periods')), '4');
+    await choose(tester, 'group-class', 'Class 10');
+    await tapKey(tester, 'group-section-sec_a');
+    await tapKey(tester, 'group-section-sec_b');
+    await choose(tester, 'group-lane-subject-0', 'Science');
+    await choose(tester, 'group-lane-teacher-0', 'Ana');
+    await choose(tester, 'group-lane-subject-1', 'Maths');
+    await choose(tester, 'group-lane-teacher-1', 'Dev');
+    await choose(tester, 'group-lane-room-1', 'Lab 1');
+    await tapKey(tester, 'group-save');
+    final (method, path, body) = backend.sent.single;
+    expect((method, path), ('POST', '/curriculum/academic-years/ay_1/teaching-groups'));
+    expect(body, {
+      'kind': 'elective', 'name': 'Third language', 'periodsPerWeek': 4, 'sectionIds': ['sec_a', 'sec_b'],
+      'lanes': [
+        {'subjectId': 'sci', 'teacherId': 't_ana', 'roomId': null},
+        {'subjectId': 'mat', 'teacherId': 't_dev', 'roomId': 'room_lab'},
+      ],
+    });
+  });
+
+  testWidgets('a combined class of one section is caught before sending', (tester) async {
+    await pump(tester);
+    await openTab(tester, 'Groups');
+    await tapKey(tester, 'group-add');
+    await choose(tester, 'group-kind', 'Combined class: sections taught together');
+    await tester.enterText(find.byKey(const ValueKey('group-name')), 'PE together');
+    await choose(tester, 'group-class', 'Class 10');
+    await tapKey(tester, 'group-section-sec_a');
+    expect(find.byKey(const ValueKey('group-lane-subject-1')), findsNothing, reason: 'a combined class has one lane');
+    await choose(tester, 'group-lane-subject-0', 'Science');
+    await tapKey(tester, 'group-save');
+    expect(find.text('A combined class joins two sections or more.'), findsOneWidget);
+    expect(backend.sent, isEmpty);
+  });
+
+  testWidgets("a section's week shows its group periods, which are the group's to change", (tester) async {
+    await pump(tester);
+    await openWeek(tester);
+    expect(find.text('Second language\nHindi (Ana); English (Dev)'), findsOneWidget);
+    await tapCell(tester, 2, 1);
+    expect(find.byKey(const ValueKey('cell-subject')), findsNothing, reason: 'no period dialog for a group period');
+  });
+
   for (final (name, screen) in [
     ('390 px', (size: const Size(390, 844), textScale: 1.0)),
     ('390 px at 1.3x text', (size: const Size(390, 844), textScale: 1.3)),
@@ -515,6 +582,14 @@ void main() {
       await tester.tap(find.byTooltip('Periods they cannot teach: Ana'));
       await tester.pumpAndSettle();
       expectNoOverflow(tester, where: ' in the availability dialog');
+      await tester.tap(find.text('Cancel').last);
+      await tester.pumpAndSettle();
+      await openTab(tester, 'Groups');
+      expectNoOverflow(tester, where: ' on groups');
+      await tapKey(tester, 'group-add');
+      await choose(tester, 'group-class', 'Class 10');
+      await tapKey(tester, 'group-lane-add');
+      expectNoOverflow(tester, where: ' in the group dialog');
     });
   }
 }

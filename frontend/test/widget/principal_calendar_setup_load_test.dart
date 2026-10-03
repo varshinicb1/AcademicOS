@@ -130,4 +130,21 @@ void main() {
     expect(find.textContaining('Initialize the academic calendar above'), findsNothing,
         reason: 'the calendar IS saved -- telling the principal to initialize it would be wrong');
   });
+
+  // Audit D43: the time-saved guidance told the principal to declare terms
+  // "in calendar setup", a screen the web app did not have by that name. It
+  // now links "/admin?tab=calendar-setup", which must open that tab -- loaded,
+  // as a tap on it would load it.
+  testWidgets('a link with tab=calendar-setup opens Calendar & Setup, loaded', (tester) async {
+    tester.view.physicalSize = const Size(1600, 1400);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+
+    await tester.pumpWidget(wrapForTest(const PrincipalAdminPage(initialTab: 'calendar-setup')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Calendar & Period Configuration'), findsOneWidget);
+    expect(find.text('Could not load calendar: $_legacyDetail'), findsOneWidget,
+        reason: 'opened by link, the tab loads its calendar without a tap');
+  });
 }

@@ -689,7 +689,9 @@ def test_sets_b_and_c_stay_in_the_chosen_chapters(served, tmp_path, monkeypatch)
     them it repeats a set A question, and setOverlap says so."""
     pool = served["Science"]
     chosen = _largest_chapters(pool, 3)
-    chapter_of = {q.id: set(q.chapter_ids) for q in map(to_question_schema, pool.questions)}
+    # In the chosen chapters as the chapter view files them -- what the route's
+    # `pool.filter` selects (audit D24), not a record's own `chapterIds` alone.
+    in_chosen = {q.id for q in map(to_question_schema, pool.filter(chapter_ids=chosen))}
     with _client_for(tmp_path, monkeypatch, pool) as client:
         resp = client.post("/api/v1/papers/quick-generate", headers=_auth(client), json={
             "subject": "Science", "grade": 10, "totalMarks": 40, "setCount": 3,
@@ -697,7 +699,7 @@ def test_sets_b_and_c_stay_in_the_chosen_chapters(served, tmp_path, monkeypatch)
     assert resp.status_code == 200, resp.text
     data = resp.json()
     sets = {s["setLabel"]: _printed_ids(s) for s in data["sets"]}
-    outside = {label: [i for i in ids if not chapter_of[i] & set(chosen)]
+    outside = {label: [i for i in ids if i not in in_chosen]
                for label, ids in sets.items()}
     if outside["A"]:
         # Set A may only borrow with the optimizer saying so.
@@ -825,7 +827,9 @@ def test_a_paper_that_borrows_outside_the_chosen_chapters_says_so(served, tmp_pa
     (merge of 2026-09-23: 3 of 20 on Science 10, 40 marks)."""
     pool = served["Science"]
     chosen = _largest_chapters(pool, 3)
-    chapter_of = {q.id: set(q.chapter_ids) for q in map(to_question_schema, pool.questions)}
+    # In the chosen chapters as the chapter view files them -- what the route's
+    # `pool.filter` selects (audit D24), not a record's own `chapterIds` alone.
+    in_chosen = {q.id for q in map(to_question_schema, pool.filter(chapter_ids=chosen))}
     with _client_for(tmp_path, monkeypatch, pool) as client:
         resp = client.post("/api/v1/papers/quick-generate", headers=_auth(client), json={
             "subject": "Science", "grade": 10, "totalMarks": 40, "setCount": 1,
@@ -833,7 +837,7 @@ def test_a_paper_that_borrows_outside_the_chosen_chapters_says_so(served, tmp_pa
     assert resp.status_code == 200, resp.text
     data = resp.json()
     printed = _printed_ids(data["sets"][0] if data["sets"] else data)
-    outside = [i for i in printed if not chapter_of[i] & set(chosen)]
+    outside = [i for i in printed if i not in in_chosen]
     if outside:
         assert any("outside the selected chapters" in w for w in data["warnings"]), data["warnings"]
 

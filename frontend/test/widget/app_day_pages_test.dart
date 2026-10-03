@@ -143,6 +143,55 @@ void main() {
     expect((sent.single.data as Map)['endDate'], today);
   });
 
+  // v3 audit N-3-17: the web offered only a full day and the two halves,
+  // though the API took named periods.
+  testWidgets('Leave for named periods: the teacher picks them from their day', (tester) async {
+    await pump(tester, const MyDayPage());
+    final apply = find.text('Apply for leave');
+    await tester.scrollUntilVisible(apply, 200);
+    await tester.tap(apply);
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 300)));
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.byKey(const Key('leave-attach')), findsOneWidget, reason: 'a document can go with it');
+    await tester.tap(find.byKey(const Key('leave-kind-periods')));
+    await tester.pump(const Duration(milliseconds: 100));
+    final applyButton = tester.widget<FilledButton>(find.byKey(const Key('leave-apply')));
+    expect(applyButton.onPressed, isNull, reason: 'no period chosen yet');
+    await tester.tap(find.byKey(const Key('leave-period-1')));
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.tap(find.byKey(const Key('leave-apply')));
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 300)));
+    await tester.pump(const Duration(milliseconds: 50));
+    final sent = server.posted.where((o) => o.path == '/curriculum/leave-requests').toList();
+    expect(sent, hasLength(1));
+    expect((sent.single.data as Map)['kind'], 'periods');
+    expect((sent.single.data as Map)['periods'], [1]);
+  });
+
+  testWidgets('The principal sees named periods and the document on a request', (tester) async {
+    LocalStore.instance.authUser = {'id': 'p1', 'schoolId': 'school_1', 'role': 'principal', 'name': 'Priya'};
+    server.answers['/curriculum/academic-years'] = '[{"id":"y1","startDate":"2026-04-01","endDate":"2027-03-31"}]';
+    server.answers['/curriculum/teacher-attendance'] =
+        '{"date":"2026-10-01","rows":[{"teacherId":"u2","name":"Ana","status":"unmarked"}],"substitutions":[]}';
+    server.answers['/curriculum/leave-requests'] = '[{"id":"l1","teacherId":"u2","startDate":"2026-10-02",'
+        '"endDate":"2026-10-02","kind":"periods","periods":[3,5],"reason":"doctor","status":"pending",'
+        '"document":{"contentType":"application/pdf","name":"certificate.pdf","size":2048,"uploadedAt":"x"}}]';
+    await pump(tester, const CoverPage());
+    expect(tester.takeException(), isNull);
+    expect(find.textContaining('(periods 3, 5)'), findsOneWidget);
+    expect(find.byKey(const Key('leave-document-l1')), findsOneWidget);
+    expect(find.byTooltip('Open certificate.pdf'), findsOneWidget);
+  });
+
+  test('a leave reads as its kind', () {
+    expect(leaveKindLabel({'kind': 'periods', 'periods': [3, 5]}), 'periods 3, 5');
+    expect(leaveKindLabel({'kind': 'first_half'}), '1st half');
+    expect(leaveKindLabel({'kind': 'full_day'}), 'full day');
+    expect(leaveDocumentType('Scan.JPG'), 'image/jpeg');
+    expect(leaveDocumentType('certificate.pdf'), 'application/pdf');
+    expect(leaveDocumentType('note.docx'), isNull);
+  });
+
   // "I'm here" went back to "I'm here" every time My day opened, inviting a
   // second check-in and saying nothing of the first (QA S-12, 2026-10-01).
   testWidgets("I'm here stays marked when My day opens again", (tester) async {
@@ -195,6 +244,79 @@ void main() {
     expect(find.textContaining('Covers this week: 2'), findsOneWidget);
     expect(find.text('10-A Science · 6'), findsOneWidget);
     expect(find.text('P1'), findsOneWidget, reason: 'the grid is still there');
+  });
+
+  testWidgets("Week: each period shows its own section's bell time (N-3-15)", (tester) async {
+    // Two Junior periods and one Main period; the bell sent is Main's. The
+    // grid used to label every row with Main's times.
+    server.answers['/curriculum/my-timetable'] = '{"role":"teacher","entries":['
+        '{"dayOfWeek":0,"period":1,"subjectName":"Science","sectionName":"6-A","startTime":"08:20","endTime":"09:00"},'
+        '{"dayOfWeek":1,"period":2,"subjectName":"Science","sectionName":"6-A","startTime":"09:00","endTime":"09:40"},'
+        '{"dayOfWeek":2,"period":2,"subjectName":"Maths","sectionName":"10-A","startTime":"08:45","endTime":"09:25"}],'
+        '"bellSchedule":{"slots":[{"period":1,"start":"08:05","end":"08:45"},'
+        '{"period":2,"start":"08:45","end":"09:25"}],"days":[0,1,2,3,4,5]}}';
+    await pump(tester, const WeekPage());
+    expect(tester.takeException(), isNull);
+    expect(find.text('08:20-09:00'), findsOneWidget, reason: "P1 is taught only on the Junior bell");
+    expect(find.text('08:05-08:45'), findsNothing, reason: "Main's P1 time is nobody's here");
+    // P2 is on both bells: the row has no one time, each period shows its own.
+    expect(find.text('09:00-09:40'), findsOneWidget);
+    expect(find.text('08:45-09:25'), findsOneWidget);
+  });
+
+  test('a row takes the time its periods share, else none', () {
+    final entries = [
+      {'period': 1, 'startTime': '08:20', 'endTime': '09:00'},
+      {'period': 2, 'startTime': '09:00', 'endTime': '09:40'},
+      {'period': 2, 'startTime': '08:45', 'endTime': '09:25'},
+    ];
+    expect(rowTimes(entries, {1: '08:05-08:45', 2: '08:45-09:25', 3: '09:25-10:05'}, [1, 2, 3]),
+        {1: '08:20-09:00', 2: null, 3: '09:25-10:05'});
+  });
+
+  // v3 audit N-3-19: the apps never said a day was a holiday, a half day or
+  // in an exam window; only the calendar feed carried holidays.
+  String iso(DateTime d) =>
+      '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+
+  void calendarCovering(_Server server, DateTime from) {
+    final first = iso(from), last = iso(from.add(const Duration(days: 1)));
+    server.answers['/my-calendar'] = '[{"kind":"half_day","title":"Half day: PTM (periods 1-4)","date":"$first",'
+        '"endDate":"$last"},{"kind":"exam_window","title":"Exam window: Unit test 1 (class 10)","date":"$first",'
+        '"endDate":"$last"},{"kind":"homework","title":"Homework due: Light","date":"$first"}]';
+  }
+
+  testWidgets('Today: the student is told the day is a half day in an exam window', (tester) async {
+    LocalStore.instance.authUser = {'id': 's1', 'schoolId': 'school_1', 'role': 'student', 'name': 'Asha'};
+    calendarCovering(server, DateTime.now());
+    await pump(tester, const StudentTodayPage());
+    expect(tester.takeException(), isNull);
+    expect(find.byKey(const ValueKey('calendar-day-notice')), findsOneWidget);
+    expect(find.text('Half day: PTM (periods 1-4)'), findsOneWidget);
+    expect(find.text('Exam window: Unit test 1 (class 10)'), findsOneWidget);
+    expect(find.text('Homework due: Light'), findsNothing, reason: 'the notice says how the day runs, nothing else');
+  });
+
+  testWidgets('My day: the teacher is told today is a half day', (tester) async {
+    calendarCovering(server, DateTime.now());
+    await pump(tester, const MyDayPage());
+    expect(tester.takeException(), isNull);
+    expect(find.text('Half day: PTM (periods 1-4)'), findsOneWidget);
+  });
+
+  testWidgets('Week: half days, exam windows and working days are coming up', (tester) async {
+    server.answers['/my-calendar'] = '[{"kind":"half_day","title":"Half day: PTM (periods 1-4)","date":"2026-10-12"},'
+        '{"kind":"exam_window","title":"Exam window: Half-yearly (class 10)","date":"2026-10-20",'
+        '"endDate":"2026-10-24"},{"kind":"working_day","title":"Working day: Rain day (Monday\'s timetable)",'
+        '"date":"2026-10-31"}]';
+    await pump(tester, const WeekPage());
+    expect(tester.takeException(), isNull);
+    expect(find.text('Half day: PTM (periods 1-4)'), findsOneWidget);
+    expect(find.text('Exam window: Half-yearly (class 10)'), findsOneWidget);
+    expect(find.text("Working day: Rain day (Monday's timetable)"), findsOneWidget);
+    expect(find.byIcon(Icons.timelapse), findsOneWidget);
+    expect(find.byIcon(Icons.edit_calendar), findsOneWidget);
+    expect(find.byIcon(Icons.event_available), findsOneWidget);
   });
 
   testWidgets('Week: a student gets no load section', (tester) async {

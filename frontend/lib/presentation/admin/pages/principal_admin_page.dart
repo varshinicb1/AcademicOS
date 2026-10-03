@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/local_engine/local_store.dart';
 import '../../../data/datasources/api/auth_api.dart';
@@ -9,6 +10,7 @@ import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 import '../widgets/book_edition_card.dart';
+import '../widgets/calendar_days_card.dart';
 import '../widgets/calendar_rules_card.dart';
 import '../widgets/erasure_card.dart';
 import '../widgets/insights_card.dart';
@@ -31,11 +33,22 @@ enum _AdminTab {
   coverage('Coverage & Pace', Icons.analytics_outlined),
   sequence('Sequence Reorder', Icons.low_priority_outlined),
   reschedule('Reschedule', Icons.edit_calendar_outlined),
-  calendarSetup('Calendar & Setup', Icons.settings_suggest_outlined);
+  calendarSetup('Calendar & Setup', Icons.settings_suggest_outlined, slug: 'calendar-setup');
 
-  const _AdminTab(this.label, this.icon);
+  const _AdminTab(this.label, this.icon, {this.slug});
   final String label;
   final IconData icon;
+
+  /// The `tab` query value that opens this tab ("/admin?tab=calendar-setup"):
+  /// the link the server's setup guidance gives (audit D43).
+  final String? slug;
+
+  /// `calendar` is the shorter name the School page's setup checklist links with
+  /// (`/admin?tab=calendar`); it opens the same tab as `calendar-setup`.
+  static _AdminTab? fromSlug(String? slug) {
+    final wanted = slug == 'calendar' ? 'calendar-setup' : slug;
+    return wanted == null ? null : _AdminTab.values.where((t) => t.slug == wanted).firstOrNull;
+  }
 }
 
 /// Shown when a subject has no chosen edition: no book at all, or several and
@@ -55,11 +68,11 @@ const _noEditionMessage =
 /// 3. Reschedule: Disruption handling via PUSH (shifting subsequent lessons
 ///    forward past a closure) and ADJUST (rescheduling a single lesson to a new date).
 class PrincipalAdminPage extends StatefulWidget {
-  /// 'calendar' opens on Calendar & Setup (the dashboard's setup checklist
-  /// links there); anything else, or nothing, opens on Roster.
-  final String? initialTab;
-
   const PrincipalAdminPage({super.key, this.initialTab});
+
+  /// The `tab` query parameter: "calendar-setup" (or "calendar") opens Calendar &
+  /// Setup, where terms are declared. Anything else opens the first tab.
+  final String? initialTab;
 
   @override
   State<PrincipalAdminPage> createState() => _PrincipalAdminPageState();
@@ -168,25 +181,39 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   @override
   void initState() {
     super.initState();
-    final initial = widget.initialTab == 'calendar' ? _AdminTab.calendarSetup : _AdminTab.roster;
-    _tabController = TabController(length: _AdminTab.values.length, vsync: this, initialIndex: initial.index);
-    _tabController.addListener(() {
-      final tab = _AdminTab.values[_tabController.index];
-      if (tab == _AdminTab.masterCalendar && _masterLessons.isEmpty && !_loadingMasterCalendar) {
-        _loadMasterCalendar();
-      } else if (tab == _AdminTab.coverage && _coverageReport == null && !_loadingReporting) {
-        _loadReporting();
-      } else if (tab == _AdminTab.calendarSetup && _workingDaysSummary == null && !_loadingWorkingDays) {
-        _loadCalendarSetup();
-      }
-    });
+    final opening = _AdminTab.fromSlug(widget.initialTab);
+    _tabController = TabController(length: _AdminTab.values.length, vsync: this,
+        initialIndex: opening?.index ?? 0);
+    _tabController.addListener(() => _loadTab(_AdminTab.values[_tabController.index]));
     _future = _load();
-    if (initial == _AdminTab.calendarSetup) {
+    if (opening == _AdminTab.calendarSetup) {
       // The listener above only hears a change of tab, not the one it opens on.
       _future.then((_) => _loadCalendarSetup(), onError: (Object e) {
         // The page's own FutureBuilder shows this failure with Retry.
         _showMessage(serverErrorMessage(e));
       });
+    }
+  }
+
+  /// Loads what [tab] shows the first time it is opened.
+  void _loadTab(_AdminTab tab) {
+    if (tab == _AdminTab.masterCalendar && _masterLessons.isEmpty && !_loadingMasterCalendar) {
+      _loadMasterCalendar();
+    } else if (tab == _AdminTab.coverage && _coverageReport == null && !_loadingReporting) {
+      _loadReporting();
+    } else if (tab == _AdminTab.calendarSetup && _workingDaysSummary == null && !_loadingWorkingDays) {
+      _loadCalendarSetup();
+    }
+  }
+
+  /// Opens the page a setup step links (audit D43): this console's own tab
+  /// when the link names one, otherwise the route.
+  void _openSetup(String link) {
+    final tab = _AdminTab.fromSlug(Uri.parse(link).queryParameters['tab']);
+    if (tab != null && Uri.parse(link).path == '/admin') {
+      _tabController.animateTo(tab.index);
+    } else {
+      context.go(link);
     }
   }
 
@@ -229,6 +256,11 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     _academicYearId = currentYear.id;
 
     final grades = await curriculumApi.grades(currentYear.id);
+    // Opened on a tab by link ("/admin?tab=calendar-setup"): load it as
+    // switching to it would, now that the year is known.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _loadTab(_AdminTab.values[_tabController.index]);
+    });
     return _AdminData(academicYearId: currentYear.id, year: currentYear, grades: grades,
         teachers: teachers, students: students);
   }
@@ -410,6 +442,22 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       _showMessage('Could not push schedule: ${serverErrorMessage(e)}');
     } finally {
       if (mounted) setState(() => _pushing = false);
+    }
+  }
+
+  /// PUSH's date comes from a calendar, never free text (audit D116): the
+  /// server compared a typed date as text, so "2026-10-5" pushed from
+  /// November and "2026-13-05" pushed every 2027 lesson.
+  Future<void> _pickPushDate() async {
+    final current = DateTime.tryParse(_pushDateController.text) ?? DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: current,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2035),
+    );
+    if (picked != null && mounted) {
+      setState(() => _pushDateController.text = picked.toString().substring(0, 10));
     }
   }
 
@@ -958,6 +1006,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
             InsightsCard(
               timing: _timing!,
               catalog: _catalog!,
+              onOpenSetup: _openSetup,
               // The card reports a save that fails; a saved one reloads the
               // card so the saving is measured against the new baseline.
               onSetBaseline: (minutes) async {
@@ -1223,10 +1272,14 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
               ),
               const Gap(12),
               TextFormField(
+                key: const ValueKey('push-from-date'),
                 controller: _pushDateController,
+                readOnly: true,
+                onTap: _pickPushDate,
                 decoration: const InputDecoration(
-                  labelText: 'Disruption Date (YYYY-MM-DD)',
+                  labelText: 'Disruption Date',
                   hintText: 'Lessons on or after this date will shift',
+                  suffixIcon: Icon(Icons.calendar_today),
                 ),
               ),
               const Gap(12),
@@ -1701,6 +1754,16 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
           ),
         ),
         const Gap(16),
+        if (_academicYearId != null && _calendar != null) ...[
+          CalendarDaysCard(
+            api: GetIt.I<CurriculumApi>(),
+            academicYearId: _academicYearId!,
+            grades: (data.grades.map((g) => g.number).toSet().toList()..sort()),
+            onMessage: _showMessage,
+            onChanged: _loadCalendarSetup,
+          ),
+          const Gap(16),
+        ],
         AppCard(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1736,6 +1799,10 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 Text('Weekly Offs: ${_workingDaysSummary!.weeklyOffCount}'),
                 const Gap(4),
                 Text('Alternate Saturdays Off: ${_workingDaysSummary!.alternateSaturdayOffCount}'),
+                if (_workingDaysSummary!.compensatoryCount > 0) ...[
+                  const Gap(4),
+                  Text('Off days made working days: ${_workingDaysSummary!.compensatoryCount}'),
+                ],
               ] else if (_calendarLoadError != null)
                 Text('Working days could not be computed: $_calendarLoadError',
                     style: TextStyle(color: theme.colorScheme.error))
@@ -1753,7 +1820,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                     children: [
                       Expanded(
                         child: Text(
-                            '• ${h.date}${h.endDate != null ? ' to ${h.endDate}' : ''}: ${h.label} (${h.kind})',
+                            '• ${h.date}${h.endDate != null ? ' to ${h.endDate}' : ''}: ${h.label} (${h.describe})',
                             style: theme.textTheme.bodySmall),
                       ),
                       IconButton(

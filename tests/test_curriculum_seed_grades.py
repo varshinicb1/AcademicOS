@@ -54,8 +54,8 @@ def _seed(client, auth: dict, grade: int):
 
 # ---------------- 1-3: any grade, idempotent, honest about what is missing ----------------
 
-def test_seeding_grade_7_creates_a_chapter_row_per_marks_unit(client, principal):
-    """What a seeded Class 7 Science looks like, and the cost we accepted.
+def test_seeding_grade_7_creates_the_books_own_chapters(client, principal):
+    """What a seeded Class 7 Science looks like (audit D118).
 
     fb0107a moved each book's own chapters to the TOP of its syllabus file,
     because six of the ten class 6-10 Maths/Science files described a
@@ -63,21 +63,14 @@ def test_seeding_grade_7_creates_a_chapter_row_per_marks_unit(client, principal)
     marks weightage and no chapter list, and nothing in the file says which
     chapter belongs to which unit -- while a chapter row needs a unit.
 
-    So a seeded class gets one chapter per unit: 4 rows for Science 7, named
-    "Living Organisms and Life Processes" and the like, where the book prints
-    12 chapters. The user chose this on 2026-09-24 over hanging all 12 under
-    one holder unit, because the class-10 topic/subtopic templates a school
-    already approved are keyed to those units and re-keying them is not
-    something this repo can do (their source is school_1's approved
-    decomposition, a database this repo does not carry).
-
-    The cost, stated so nobody rediscovers it as a bug: a principal setting a
-    class up sees a chapter list that matches no textbook. It is the same
-    defect the chapter view spent 1f00e98..fb0107a removing from the question
-    bank, still present here. What changes it: a chapter-to-unit mapping from
-    CBSE, or re-keying the approved templates onto the book's chapters."""
+    Until D118 a seeded class got one chapter per unit: 4 rows for Science 7,
+    named after the units, where the book prints 12 chapters. Now the book's
+    12 chapters are the rows, in book order (taxonomy/Science_7.json). The
+    CBSE course structure does not place these NCF-SE chapters in units, so
+    they sit under one unit carrying the subject's marks rather than in a
+    unit chosen by a guess."""
     from academicos.curriculum import routes as curriculum_routes
-    from academicos.syllabus.cbse_syllabus import load_syllabus
+    from academicos.syllabus.cbse_syllabus import load_syllabus, taxonomy_chapters
 
     r = _seed(client, _bearer(principal), 7)
     assert r.status_code == 200, r.text
@@ -88,15 +81,14 @@ def test_seeding_grade_7_creates_a_chapter_row_per_marks_unit(client, principal)
     store = curriculum_routes._require()
     science = next(s for s in store.subjects_for_grade(body["gradeId"]) if s.name == "Science")
     book = store.books_for_subject(science.id)[0]
-    seeded = {c.name for c in store.chapters_for_book(book.id)}
+    seeded = [c.name for c in store.chapters_for_book(book.id)]
 
     doc = load_syllabus("Science", 7)
     assert doc.chapters, "fixture assumption changed: Science_7.json has no book chapters"
-    assert {u.name for u in doc.units} == seeded, seeded
-    # The book's chapters are NOT rows, and that is the accepted cost above.
-    # This asserts it rather than leaving it implied, so the day someone
-    # fixes the mapping this test fails and says why.
-    assert not {c.name for c in doc.chapters} & seeded
+    assert seeded == list(taxonomy_chapters("Science", 7).values())
+    assert not set(seeded) & {u.name for u in doc.units}, "no unit stands in for a chapter"
+    [unit] = store.units_for_book(book.id)
+    assert unit.marks == sum(u.marks for u in doc.units)
 
 
 def test_seeding_the_same_grade_twice_does_not_duplicate_rows(client, principal):
@@ -459,15 +451,19 @@ def test_seeding_grade_10_proposes_template_topics_pending_approval(client, prin
 
 def test_the_seed_reports_which_chapters_got_no_template_and_why(client, principal):
     """Item 5c: grades/subjects with neither source stay chapter-only and are
-    REPORTED. Class 7's syllabus JSON lists the pre-NEP chapter names while the
-    only textbook tree is the 2024-25 edition, so nothing matches -- the route
-    has to say so rather than look like a successful full setup."""
+    REPORTED. Class 7 Social Science's syllabus JSON lists chapter names the
+    textbook tree does not print, so nothing matches -- the route has to say
+    so rather than look like a successful full setup. Class 7 Science is
+    seeded from the book's own chapters since D118, and their topics come
+    from the book's contents."""
     body = _seed(client, _bearer(principal), 7).json()
-    assert body["chaptersWithTopics"] == 0
     assert body["chaptersWithoutTopics"] > 0
+    social = next(t for t in body["topicTemplates"] if t["subject"] == "Social Science")
+    assert social["chaptersWithTopics"] == 0
+    assert social["note"], "no reason given for a subject with no topics at all"
     science = next(t for t in body["topicTemplates"] if t["subject"] == "Science")
-    assert science["chaptersWithTopics"] == 0
-    assert science["note"], "no reason given for a subject with no topics at all"
+    assert science["chaptersWithTopics"] == science["chapters"] == 12
+    assert science["provenance"] == ["template:ncert-textbook-contents"] and science["note"] is None
 
 
 def test_a_partly_covered_subject_is_not_told_that_nothing_matched():

@@ -790,12 +790,28 @@ class CurriculumApi {
   /// `kind`: 'public' | 'school' | 'emergency' | 'holiday' |
   /// 'unexpected_closure' remove teaching days; 'event' marks a day that
   /// still teaches. A date outside the academic year is a 422.
-  Future<HolidayInfo> addHoliday(String academicYearId, {required String date, required String label, String kind = 'public', String? endDate}) async {
+  ///
+  /// The days that run differently (v3 audit N-3-19) take a field of their
+  /// own: 'half_day' keeps periods 1..[lastPeriod]; 'exam_window' stops
+  /// teaching for [grades] (none: every class); 'working_day' makes an off
+  /// day a working day running the timetable of [timetableWeekday]
+  /// (0 = Monday).
+  Future<HolidayInfo> addHoliday(String academicYearId,
+      {required String date,
+      required String label,
+      String kind = 'public',
+      String? endDate,
+      int? lastPeriod,
+      List<int>? grades,
+      int? timetableWeekday}) async {
     final r = await _dio.post('/curriculum/academic-years/$academicYearId/holidays', data: {
       'date': date,
       'label': label,
       'kind': kind,
       if (endDate != null) 'endDate': endDate,
+      if (lastPeriod != null) 'lastPeriod': lastPeriod,
+      if (grades != null && grades.isNotEmpty) 'grades': grades,
+      if (timetableWeekday != null) 'timetableWeekday': timetableWeekday,
     });
     return HolidayInfo.fromJson(Map<String, dynamic>.from(r.data));
   }
@@ -1077,6 +1093,10 @@ class HolidayInfo {
   final String label;
   final String kind;
   final String? endDate;
+  final int? lastPeriod;
+  final List<int>? grades;
+  final int? timetableWeekday;
+  final int? lessonsMoved;
 
   HolidayInfo.fromJson(Map<String, dynamic> j)
       : id = j['id'] as String,
@@ -1084,7 +1104,25 @@ class HolidayInfo {
         date = j['date'] as String,
         label = j['label'] as String,
         kind = j['kind'] as String? ?? 'public',
-        endDate = j['endDate'] as String?;
+        endDate = j['endDate'] as String?,
+        lastPeriod = j['lastPeriod'] as int?,
+        grades = (j['grades'] as List?)?.map((e) => e as int).toList(),
+        timetableWeekday = j['timetableWeekday'] as int?,
+        lessonsMoved = j['lessonsMoved'] as int?;
+
+  static const weekdayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+  /// What the day does, in words: "half day, periods 1-4",
+  /// "exam window, class 9, 10", "working day, Monday's timetable", or the kind.
+  String get describe => switch (kind) {
+        'half_day' => 'half day, periods 1-${lastPeriod ?? '?'}',
+        'exam_window' => grades == null || grades!.isEmpty
+            ? 'exam window, every class'
+            : 'exam window, class ${grades!.join(', ')}',
+        'working_day' => 'working day, '
+            '${timetableWeekday == null ? 'its own' : "${weekdayNames[timetableWeekday!]}'s"} timetable',
+        _ => kind,
+      };
 }
 
 class WorkingDaysSummary {
@@ -1095,6 +1133,8 @@ class WorkingDaysSummary {
   final int alternateSaturdayOffCount;
   final int holidayCount;
   final List<String> dates;
+  // Off days made working days (compensatory Saturdays), among workingDays.
+  final int compensatoryCount;
 
   WorkingDaysSummary.fromJson(Map<String, dynamic> j)
       : academicYearId = j['academicYearId'] as String,
@@ -1103,7 +1143,8 @@ class WorkingDaysSummary {
         weeklyOffCount = j['weeklyOffCount'] as int? ?? 0,
         alternateSaturdayOffCount = j['alternateSaturdayOffCount'] as int? ?? 0,
         holidayCount = j['holidayCount'] as int? ?? 0,
-        dates = (j['dates'] as List? ?? const []).map((e) => e.toString()).toList();
+        dates = (j['dates'] as List? ?? const []).map((e) => e.toString()).toList(),
+        compensatoryCount = j['compensatoryCount'] as int? ?? 0;
 }
 
 class ScheduledLessonSummary {

@@ -323,6 +323,7 @@ gets flagged to the user, not silently shipped.
       | **Composio**, `backend.composio.dev`, which relays through the school's Gmail/Outlook | The same as SMTP for mail. For calendar sync, an assessment's title and date | **Only if `COMPOSIO_API_KEY` is set.** The GCP deploy does not set it, so Composio is not reachable in that release |
       | **Supabase** | Scan photos/PDFs and the curriculum snapshot (Supabase Storage) | **Not in the GCP release once Task 501 (`eaa30f8`, `feat/product-gcp`) is merged.** On this branch before that merge, `deploy-gcp.yml` still injects the Supabase credentials |
       | **Render** | Everything, as host | The Render release only. It is not the GCP release |
+      | **A partner's webhook receiver** (API-6, 2026-10-01): an HTTPS URL a school's principal registers for one of the school's question-bank API keys (`assessment/webhooks.py`) | `questions.added` events: question ids with their class, subject and chapter, and why they were added. No question text and no student, teacher or school record: the event's fields are a closed list, and only questions the key may read are named | Only once a principal has registered a webhook, when the questions that key may read grow. Public HTTPS addresses only (private, loopback, link-local and metadata addresses are refused at registration and at every send), signed with HMAC-SHA256, and revoked with the webhook or the key |
 
       Two findings from reading the code. (1) `vision.py` and `llm_evaluate.py`
       read `SARVAM_API_KEY`, and the GCP deploy injects only
@@ -795,6 +796,44 @@ and practice pages show the 409 sentence itself (`apiErrorMessage` in
 - Tests record consent in their setup (`grant_consent` in
   `tests/_auth_helpers.py`); nothing bypasses the rule.
 
+## Owners over several schools (ROLE-4, 2026-10-01)
+
+One owner account (a trust or management) may be linked to several schools.
+This is a change to tenancy, so what holds is written down here.
+
+- **Who grants it.** Only a school's own principal account issues an owner
+  link (`POST /api/v1/owner-links`): a single-use code, shown once, kept only
+  as its SHA-256, expiring in 14 days by default. The owner redeems it, and the
+  link then is the membership. The principal can end it at any time
+  (`DELETE /api/v1/owner-links/{id}`), and it ends on the owner's next request:
+  the link is re-checked on every request, not cached in the session. An
+  owner acting as the school's principal cannot issue or withdraw owner links,
+  so a revoked owner cannot have left a second account linked behind it.
+- **What it grants.** Principal-level rights in ONE school at a time. The
+  owner's session chooses a linked school (`POST /api/v1/owner/active-school`),
+  and every route then sees that school's principal and scopes by that school
+  alone, so the existing `school_id` checks are what keep the schools apart.
+  With no school chosen, an owner reaches only its own routes and `/auth/me`.
+  No route returns two schools' records in one response; the one exception is
+  `GET /api/v1/owner/overview`, which gives per-school counts (papers this
+  term, syllabus taught against plan, cover filled) and names no student,
+  teacher or record. `tests/test_owner_multi_campus.py` sweeps every
+  parameterless GET as an owner acting in one school for the other school's
+  records, and checks an unlinked school, switching, and a revoke.
+- **Logged.** `owner_link_created`, `owner_registered`, `owner_link_redeemed`,
+  `owner_link_revoked` and every `owner_school_switched` are audit entries.
+  What an owner does inside a school is logged as that school's principal's
+  actions are, with the owner as `actor`; a principal-level change
+  (`admin_action`) also carries `viaOwner` and the `schoolId` it was made in,
+  and a read of student data is a `pii_read` with the owner as `actor`.
+- **Storage.** The links live in the operations store (SQLite, snapshotted to
+  the blob store with the admin grants). They hold account and school ids,
+  not student data.
+- **Not settled by code.** Each school remains the data fiduciary for its own
+  students. A school linking an owner is giving that owner access to its
+  student data, so the school's DPA (`docs/dpa-template.md`) should name the
+  owner before a link is issued. The web says what the link grants when the
+  principal creates one; it cannot check the paperwork.
 ## Erasure on request (2026-10-01)
 
 The v3 audit's first hold on NFR-1 was "no route deletes or erases a user or
