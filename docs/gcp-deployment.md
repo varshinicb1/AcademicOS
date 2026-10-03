@@ -191,6 +191,27 @@ the Dart build, so it must be compiled *after* the backend URL is known.
 Keep the Render service warm for a week as instant rollback.
 
 
+## 4b. Keys and settings: the operator's page
+
+Everything optional in production (the Sarvam key for AI marking and scan reading, Composio,
+SMTP email, WhatsApp, SMS, Google sign-in, push, the operator keys) is set from one page,
+**`deploy/gcp/secrets-page.html`**. Open it in a browser on your own computer, fill in only what
+you have, press *Build my script*, and run the script it gives you with your own `gcloud` login.
+
+- The page makes **no network request** (its Content-Security-Policy forbids one) and stores
+  nothing. The script it builds holds the values (base64-encoded, not hidden), stores each in
+  Secret Manager as `acos-cfg-<name>`, lets the service account read it, updates the live service
+  and **deletes itself**. Do not commit or send it.
+- The list of settings is `deploy/gcp/optional-config.json`. The deploy workflow reads the same
+  file and wires every listed secret that exists into the service, so a later deploy keeps what you
+  set by hand (`--set-secrets` replaces the whole list; without this a deploy would drop your keys).
+  A secret that does not exist is skipped, so nothing fails for a channel nobody configured.
+- To add a setting: add it to the JSON, run `python scripts/build_secrets_page.py`, commit both.
+  `tests/test_optional_config.py` fails if the page is stale, a variable is not one the code reads,
+  or a generated script does not parse.
+- Production accepts Sarvam only as the LLM provider (`APPROVED_LLM_HOSTS`); a key for another
+  provider stops the revision starting.
+
 ## 5. Frontend web: Firebase Hosting (optional move)
 
 The workflow's frontend job does this on every deploy; by hand it is:

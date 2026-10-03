@@ -1,0 +1,143 @@
+{
+  "_about": "Every optional production setting, in one place. The deploy workflow (.github/workflows/deploy-gcp.yml) wires each one that exists in Secret Manager into the Cloud Run service, and deploy/gcp/secrets-page.html (built from this file by scripts/build_secrets_page.py) is the page the operator fills in to create them. Secret id: 'secret'. A value never lives in git.",
+  "project": "vidyuthlabs",
+  "region": "asia-south1",
+  "service": "academicos-backend",
+  "groups": [
+    {
+      "id": "ai",
+      "title": "AI marking and scan reading",
+      "blurb": "Reads photographed answer sheets, marks written answers and runs the doubt critic. Without it those features say they are not enabled for the school; nothing else is affected. Production accepts Sarvam only.",
+      "items": [
+        {
+          "env": "ACOS_LLM_API_KEY",
+          "alsoEnv": ["SARVAM_API_KEY"],
+          "secret": "acos-llm-api-key",
+          "preWired": true,
+          "label": "Sarvam API key",
+          "kind": "secret",
+          "help": "From dashboard.sarvam.ai, API keys. One key serves both names the code reads.",
+          "unlocks": "Scan OCR, AI marking, doubt critic"
+        }
+      ]
+    },
+    {
+      "id": "composio",
+      "title": "Composio (email and calendar actions)",
+      "blurb": "Composio sends email and writes to a connected Google Calendar for the apps. Optional if you use SMTP for email.",
+      "items": [
+        {
+          "env": "COMPOSIO_API_KEY",
+          "secret": "acos-cfg-composio-api-key",
+          "label": "Composio API key",
+          "kind": "secret",
+          "help": "app.composio.dev, Settings, API keys. The full key is much longer than 23 characters.",
+          "unlocks": "Email through Composio, calendar sync"
+        },
+        {
+          "env": "COMPOSIO_CALENDAR_USER_ID",
+          "secret": "acos-cfg-composio-calendar-user-id",
+          "label": "Composio calendar user id",
+          "kind": "setting",
+          "help": "The Composio entity (user id) that owns the connected Google Calendar.",
+          "unlocks": "Calendar sync"
+        },
+        {
+          "env": "COMPOSIO_CALENDAR_CONNECTED_ACCOUNT_ID",
+          "secret": "acos-cfg-composio-calendar-connected-account-id",
+          "label": "Composio connected account id",
+          "kind": "setting",
+          "help": "The connected account id of that Google Calendar, from Composio's Connected accounts.",
+          "unlocks": "Calendar sync"
+        }
+      ]
+    },
+    {
+      "id": "email",
+      "title": "Email by SMTP",
+      "blurb": "Used for sign-in codes, password resets and notices when Composio is not set. Any provider works (Gmail with an app password, Zoho, SES, Brevo).",
+      "items": [
+        {"env": "SMTP_HOST", "secret": "acos-cfg-smtp-host", "label": "SMTP host", "kind": "setting",
+         "help": "For example smtp.gmail.com", "unlocks": "Email", "placeholder": "smtp.example.com"},
+        {"env": "SMTP_PORT", "secret": "acos-cfg-smtp-port", "label": "SMTP port", "kind": "setting",
+         "help": "587 for STARTTLS (the default).", "unlocks": "Email", "placeholder": "587", "pattern": "^[0-9]{2,5}$"},
+        {"env": "SMTP_USER", "secret": "acos-cfg-smtp-user", "label": "SMTP user", "kind": "setting",
+         "help": "Usually the full sender address.", "unlocks": "Email"},
+        {"env": "SMTP_PASSWORD", "secret": "acos-cfg-smtp-password", "label": "SMTP password", "kind": "secret",
+         "help": "An app password, not your own login password.", "unlocks": "Email"},
+        {"env": "SMTP_FROM", "secret": "acos-cfg-smtp-from", "label": "From address", "kind": "setting",
+         "help": "What recipients see. Defaults to the SMTP user.", "unlocks": "Email", "optional": true}
+      ]
+    },
+    {
+      "id": "whatsapp",
+      "title": "WhatsApp notices",
+      "blurb": "Parents get timetable, exam and marks notices on WhatsApp through the Meta Cloud API. Needs an approved message template.",
+      "items": [
+        {"env": "ACOS_WHATSAPP_TOKEN", "secret": "acos-cfg-whatsapp-token", "label": "WhatsApp access token",
+         "kind": "secret", "help": "A permanent system-user token from Meta Business, WhatsApp Cloud API.",
+         "unlocks": "WhatsApp notices"},
+        {"env": "ACOS_WHATSAPP_PHONE_NUMBER_ID", "secret": "acos-cfg-whatsapp-phone-number-id",
+         "label": "Phone number id", "kind": "setting",
+         "help": "Meta Business, WhatsApp, API setup: the id of the sending number (digits).",
+         "unlocks": "WhatsApp notices", "pattern": "^[0-9]{6,25}$"},
+        {"env": "ACOS_WHATSAPP_TEMPLATE", "secret": "acos-cfg-whatsapp-template", "label": "Template name",
+         "kind": "setting", "help": "The approved template's name. Defaults to academicos_notice.",
+         "unlocks": "WhatsApp notices", "optional": true, "placeholder": "academicos_notice"},
+        {"env": "ACOS_WHATSAPP_API_VERSION", "secret": "acos-cfg-whatsapp-api-version",
+         "label": "Graph API version", "kind": "setting", "help": "Defaults to v21.0.",
+         "unlocks": "WhatsApp notices", "optional": true, "placeholder": "v21.0"}
+      ]
+    },
+    {
+      "id": "sms",
+      "title": "SMS notices",
+      "blurb": "A DLT-approved SMS template sent through MSG91, for parents without WhatsApp.",
+      "items": [
+        {"env": "ACOS_SMS_AUTHKEY", "secret": "acos-cfg-sms-authkey", "label": "MSG91 auth key", "kind": "secret",
+         "help": "MSG91 dashboard, Authkey.", "unlocks": "SMS notices"},
+        {"env": "ACOS_SMS_TEMPLATE_ID", "secret": "acos-cfg-sms-template-id", "label": "DLT template id",
+         "kind": "setting", "help": "The approved template id in MSG91.", "unlocks": "SMS notices"}
+      ]
+    },
+    {
+      "id": "signin",
+      "title": "Sign in with Google",
+      "blurb": "Adds a Google button to the sign-in page. The client id is public, but it is kept here so it is set the same way as everything else.",
+      "items": [
+        {"env": "ACOS_GOOGLE_CLIENT_ID", "secret": "acos-cfg-google-client-id", "label": "Google OAuth client id",
+         "kind": "setting",
+         "help": "Google Cloud console, APIs and services, Credentials, a Web client. Authorised origin: your web address.",
+         "unlocks": "Google sign-in", "pattern": "^[0-9]+-[a-z0-9]+\\.apps\\.googleusercontent\\.com$",
+         "placeholder": "1234567890-abc.apps.googleusercontent.com"}
+      ]
+    },
+    {
+      "id": "push",
+      "title": "Push notifications (phone apps)",
+      "blurb": "Firebase Cloud Messaging. The service account the backend runs as also needs the Firebase Cloud Messaging API Admin role.",
+      "items": [
+        {"env": "ACOS_FCM_PROJECT", "secret": "acos-cfg-fcm-project", "label": "Firebase project id",
+         "kind": "setting", "help": "Firebase console, Project settings. Defaults to the Google Cloud project.",
+         "unlocks": "Push notifications", "optional": true, "placeholder": "vidyuthlabs"}
+      ]
+    },
+    {
+      "id": "operator",
+      "title": "Operator keys",
+      "blurb": "Ours, not a school's. Generate them here; they are shown once so you can keep a copy in your password manager.",
+      "items": [
+        {"env": "ACOS_OPS_KEY", "secret": "acos-cfg-ops-key", "label": "Operations key", "kind": "secret",
+         "generate": true, "help": "Lets the operator read the error list (GET /api/v1/ops/errors).",
+         "unlocks": "Operator error list"},
+        {"env": "ACOS_CRON_KEY", "secret": "acos-cfg-cron-key", "label": "Scheduler key", "kind": "secret",
+         "generate": true, "help": "The shared secret the daily scheduler job sends to run reminders and digests.",
+         "unlocks": "Scheduled reminders and digests"},
+        {"env": "ACOS_WEB_ORIGIN", "secret": "acos-cfg-web-origin", "label": "Web address in emailed links",
+         "kind": "setting", "help": "The address invite and reset links point to. Defaults to the Firebase site.",
+         "unlocks": "Links in emails", "optional": true, "placeholder": "https://vidyuthlabs.web.app",
+         "pattern": "^https://[^ ]+$"}
+      ]
+    }
+  ]
+}

@@ -342,6 +342,18 @@ jobs:
           SECRETS="$SECRETS,ACOS_LLM_API_KEY=acos-llm-api-key:latest"
           SECRETS="$SECRETS,SARVAM_API_KEY=acos-llm-api-key:latest"
 
+          # Everything the operator stored through deploy/gcp/secrets-page.html: each setting
+          # in deploy/gcp/optional-config.json whose secret exists in Secret Manager is wired
+          # in under its variable name. --set-secrets replaces the whole list, so without this
+          # loop the next deploy would silently drop a key set by hand. A secret that does not
+          # exist yet is skipped, so a deploy never fails for a channel nobody configured.
+          while read -r ENV_NAME SECRET_ID; do
+            if gcloud secrets describe "$SECRET_ID" --project "$PROJECT_ID" >/dev/null 2>&1; then
+              SECRETS="$SECRETS,${ENV_NAME}=${SECRET_ID}:latest"
+              echo "wired optional setting $ENV_NAME"
+            fi
+          done < <(jq -r '.groups[].items[] | select((.preWired // false) | not) | "\(.env) \(.secret)"' deploy/gcp/optional-config.json)
+
           # ACOS_ENV=production arms the startup guard (config.py
           # production_config_problems): placeholder/empty secrets, CORS '*',
           # demo accounts, a short bootstrap key, or an LLM URL outside
