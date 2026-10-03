@@ -829,17 +829,40 @@ def test_a_record_is_marked_generated_and_carries_its_provenance():
     assert record["taxonomyTopicId"] == "t-1"
 
 
-def test_an_mcq_record_keeps_its_options_and_key_out_of_the_stem():
-    # The bank stores options once, in the answer scheme. Repeating them in the
-    # stem prints them twice on a rendered paper.
+def test_an_mcq_record_prints_its_options_from_the_stem_and_keeps_the_key_out_of_it():
+    # The paper's printer (pdf.split_stem_and_options) and the merge's MCQ gate read the
+    # options out of the stem, as every served board question carries them. Options held
+    # only in the answer scheme print as a question with no choices. The scheme keeps
+    # them too, with the key; the stem never says which one is right.
+    from academicos.assessment.pdf import split_stem_and_options
     section = bp.for_paper("Mathematics", 10).sections[0]
     record = cg.to_record(_good_mcq(), section, _chapter(), "t",
                           chapter_id="c", topic_id="", model="m")
     meta = record["answerScheme"]["metadata"]
     assert meta["options"]["C"] == "Rs 60"
     assert meta["correctOption"] == "C"
-    assert "(A)" not in record["stem"]
-    assert "Rs 60" not in record["stem"]
+    head, options = split_stem_and_options(record["stem"])
+    assert head == "Meera buys 4 apples at Rs 15 each. How much does she pay?"
+    assert options == ["Rs 45", "Rs 50", "Rs 60", "Rs 75"]
+    assert record["stem"].count("(A)") == 1
+
+
+def test_a_case_record_prints_its_passage_in_the_stem():
+    section = bp.Section("E", "Case Based", bp.CASE, 2, 4)
+    item = {"qtype": bp.CASE, "marks": 4, "bloomLevel": "apply", "option": 1,
+            "passage": "A village digs a well and finds four layers of soil.",
+            "stem": "(a) Name the top layer. (b) Why is the lowest layer called bedrock?",
+            "modelAnswer": "(a) Top soil. (b) It is unweathered parent rock."}
+    record = cg.to_record(item, section, _chapter(), "t", chapter_id="c", topic_id="", model="m")
+    assert record["stem"].startswith("A village digs a well and finds four layers of soil.")
+    assert record["stem"].endswith("called bedrock?")
+
+
+def test_a_record_names_each_page_once():
+    section = bp.for_paper("Mathematics", 10).sections[0]
+    record = cg.to_record(_good_mcq(), section, _chapter(), "t",
+                          chapter_id="c", topic_id="", model="m")
+    assert record["provenance"]["pages"] == [1, 2, 3]
 
 
 def test_an_mcq_records_its_model_answer_as_the_correct_option():
@@ -964,3 +987,66 @@ def test_a_word_limit_or_marks_in_the_stem_is_not_a_fact_to_prove():
     # ...but a figure that is not an instruction still is.
     item = _grounded_item(stem="In about 45 words, say why 99 children died.")
     assert mod.ungrounded(item, CHAPTER_TEXT) == "figure-not-in-text:99"
+
+
+INTERLEAVED_TEXT = (
+    "Chapter 1\n"
+    "Subsoil weathered\n"
+    "the states of Punjab, Haryana, western Uttar\n"
+    "Top soil the upper soil layer\n"
+    "Pradesh, over irrigation is responsible for land\n"
+    "degradation due to water logging.\n"
+)
+
+
+def test_a_quote_read_across_interleaved_lines_is_found_line_by_line():
+    # A column or a figure's labels sit between two lines of the same sentence.
+    mod = _gen_script("gen_chapter_interleaved")
+    quote = ("the states of Punjab, Haryana, western Uttar\n"
+             "Pradesh, over irrigation is responsible for land\n"
+             "degradation due to water logging.")
+    item = _grounded_item(stem="Why does irrigation degrade land?", evidence=[quote],
+                          options={"A": "a", "B": "b", "C": "c", "D": "d"})
+    assert mod.ungrounded(item, INTERLEAVED_TEXT) is None
+
+
+def test_an_invented_quote_fails_even_line_by_line():
+    mod = _gen_script("gen_chapter_invented_lines")
+    quote = ("the states of Punjab, Haryana, western Uttar\n"
+             "Pradesh, over irrigation is responsible for flooding\n"
+             "and nothing else is.")
+    item = _grounded_item(stem="Why does irrigation degrade land?", evidence=[quote])
+    assert mod.ungrounded(item, INTERLEAVED_TEXT) == "evidence-not-in-text"
+
+
+HINDI_TEXT = (
+    "आज ऐसा कुछ हुआ होगा\n"
+    "खूब\n"
+    "किसलिए इतनी तृषा रे,\n"
+    "भीतर\n"
+    "आज सबका मन चुआ होगा।\n"
+)
+
+
+def test_a_hindi_quote_is_checked_against_the_text_not_waved_through():
+    # The normaliser kept only ASCII, so every Hindi line became nothing and every Hindi
+    # question was refused as having no evidence in the text.
+    mod = _gen_script("gen_chapter_hindi")
+    item = _grounded_item(stem="इस पंक्ति में कौन-सा शब्द प्यास का भाव देता है?",
+                          options={"A": "तृषा", "B": "मन", "C": "आज", "D": "रे"}, correctOption="A",
+                          modelAnswer="तृषा",
+                          evidence=["किसलिए इतनी तृषा रे,\nआज सबका मन चुआ होगा।"])
+    assert mod.ungrounded(item, HINDI_TEXT) is None
+
+
+def test_an_invented_hindi_quote_is_refused():
+    mod = _gen_script("gen_chapter_hindi_invented")
+    item = _grounded_item(stem="इस पंक्ति में कौन-सा शब्द प्यास का भाव देता है?", modelAnswer="तृषा",
+                          evidence=["किसलिए इतनी प्यास लगी है तुम्हें"])
+    assert mod.ungrounded(item, HINDI_TEXT) == "evidence-not-in-text"
+
+
+def test_a_hindi_stem_ending_in_a_danda_is_a_stem_that_asks():
+    assert cg._is_a_question("इस कविता का मूल भाव अपने शब्दों में स्पष्ट कीजिए।")
+    assert cg._is_a_question("कवि ने सावन को किसका प्रतीक माना है?")
+    assert not cg._is_a_question("कविता में सावन का वर्णन है")

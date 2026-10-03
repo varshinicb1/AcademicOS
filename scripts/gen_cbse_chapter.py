@@ -26,6 +26,7 @@ import os
 import re
 import sys
 import time
+import unicodedata
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -460,9 +461,33 @@ def chapter_pdf(book_code: str, number: int) -> Path:
 
 
 def _squash(text: str) -> str:
-    """Case, spacing and quote style folded away, so a quote survives a line wrap."""
-    text = (text or "").replace("’", "'").replace("‘", "'")         .replace("“", '"').replace("”", '"')
-    return re.sub(r"[^0-9a-z]+", " ", text.lower()).strip()
+    """Case, spacing and punctuation folded away, so a quote survives a line wrap.
+
+    Letters, combining marks (a Devanagari vowel sign is one) and digits of every script are
+    kept; everything else, quotes and the danda included, is a space. Only ASCII used to be
+    kept, which turned every Hindi line into nothing and refused every Hindi question."""
+    text = unicodedata.normalize("NFKC", text or "")
+    kept = "".join(c if unicodedata.category(c)[0] in "LMN" else " " for c in text.lower())
+    return re.sub(r"\s+", " ", kept).strip()
+
+
+def _quoted_in(quote: str, haystack: str) -> bool:
+    """Whether a quote is the chapter's own words.
+
+    The extracted text keeps the page's lines but not always their order: a two-column
+    page, a figure's labels or a table are interleaved with the prose, so a quote that
+    reads correctly on the page is not one unbroken string in the extraction. So the
+    whole quote is tried first, and failing that every line of it that is long enough
+    to mean something must be found on its own. An invented sentence still fails: none
+    of its lines exist in the text."""
+    whole = _squash(quote)
+    if len(whole) < 12:
+        return False
+    if whole in haystack:
+        return True
+    lines = [_squash(l) for l in quote.splitlines()]
+    substantial = [l for l in lines if len(l) >= 12]
+    return bool(substantial) and all(l in haystack for l in substantial)
 
 
 def ungrounded(item: dict, source: str) -> str | None:
@@ -484,7 +509,7 @@ def ungrounded(item: dict, source: str) -> str | None:
     if not quotes:
         return "no-evidence"
     for quote in quotes:
-        if len(_squash(quote)) < 12 or _squash(quote) not in haystack:
+        if not _quoted_in(quote, haystack):
             return "evidence-not-in-text"
     parts = [item.get("stem") or "", item.get("passage") or "",
              item.get("modelAnswer") or ""]
@@ -633,9 +658,19 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
                                 "topic": topic, "reason": reason,
                                 "stem": (item.get("stem") or "")[:120]})
                 continue
-            kept.append(cg.to_record(
+            record = cg.to_record(
                 item, section, chapter, topic, chapter_id=chapter_id,
-                topic_id="", model=chosen))
+                topic_id="", model=chosen)
+            if bridge is not None:
+                # It passed `ungrounded`: every quote is the chapter's own text. That is the
+                # definition of the checked tier `textbook_grounded` (qbank_engine), and the
+                # merge serves a model-written record only with this label and these quotes.
+                quotes = item.get("evidence")
+                quotes = [quotes] if isinstance(quotes, str) else list(quotes or [])
+                scheme = record.setdefault("answerScheme", {})
+                scheme["provenance"] = "textbook_grounded"
+                scheme.setdefault("metadata", {})["evidence"] = [q for q in quotes if isinstance(q, str)]
+            kept.append(record)
             by_section[section.key] = by_section.get(section.key, 0) + 1
 
     return kept, refused, {"usage": usage, "bySection": by_section, "pending": pending,
