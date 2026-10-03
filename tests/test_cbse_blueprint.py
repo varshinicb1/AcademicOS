@@ -61,12 +61,11 @@ def test_social_science_and_science_keep_their_own_shape(subject):
         assert any(s.qtype == bp.ASSERTION_REASON and s.count == 4
                    for s in blueprint.sections)
     if subject in ("English", "Hindi"):
-        named = {s.name for s in blueprint.sections}
-        assert "Reading" in named and "Literature" in named
+        kinds = {s.kind for s in blueprint.sections}
+        assert {"reading", "grammar", "extract", "writing", "literature"} <= kinds
         # Reading hangs off a passage, and the paper is written work, not MCQs.
         assert any(s.carries_source for s in blueprint.sections)
-        written = sum(s.section_marks for s in blueprint.sections
-                      if s.marks >= 10)
+        written = sum(s.section_marks for s in blueprint.sections if s.qtype != bp.MCQ)
         assert written >= 40, "a language paper is not 40 marks of writing"
 
 
@@ -82,7 +81,7 @@ def test_no_section_asks_for_more_marks_than_the_board_prints():
     # Section marks are per question. A 10-mark section is right for the language
     # papers' writing slot and wrong everywhere else; nothing may invent a mark
     # value that is not a CBSE one.
-    board_marks = {1, 2, 3, 4, 5, 8, 10}
+    board_marks = {1, 2, 3, 4, 5, 6, 8, 10}   # 6: the language papers' long answers
     for _, _, blueprint in _all():
         for section in blueprint.sections:
             assert section.marks in board_marks, (
@@ -115,7 +114,8 @@ def test_the_competency_focus_is_actually_competency():
 def test_a_paper_is_not_all_one_mark_questions():
     for _, _, blueprint in _all():
         one_mark = sum(s.section_marks for s in blueprint.sections if s.marks == 1)
-        assert one_mark < blueprint.total_marks * 0.5
+        # Half at most: the English paper's reading, grammar and extract items are 40 of 80.
+        assert one_mark <= blueprint.total_marks * 0.5
 
 
 def test_bloom_mix_covers_every_level_the_sections_imply():

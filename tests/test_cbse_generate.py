@@ -1109,3 +1109,90 @@ def test_a_second_pass_asks_only_for_its_sections_and_cannot_collide_with_the_fi
     kept, _, _ = mod.generate_chapter("jess2", 1, **kw)
     ids = [r["id"] for r in kept]
     assert ids == [f"ai:cbse:jess2:01:A:{n}" for n in range(101, 106)], ids
+
+
+# --------------------------------------------------------------------------- #
+# language kinds: reading, extract, grammar, writing, literature
+# --------------------------------------------------------------------------- #
+
+PASSAGE = ("The old clock in the hall had stopped years ago, but nobody dared to remove it. "
+           "Every evening the children sat beneath it and told stories about the hands that once "
+           "moved, and the grandmother listened and smiled at each one.")
+
+
+def _english(key: str) -> bp.Section:
+    return next(s for s in bp.for_paper("English", 10).sections if s.key == key)
+
+
+def _reading_item(**over) -> dict:
+    item = {"qtype": bp.MCQ, "marks": 1, "bloomLevel": "understand",
+            "stem": "Why does the grandmother smile at the children's stories?",
+            "options": {"A": "They amuse her", "B": "They fix the clock", "C": "They are in verse",
+                        "D": "They end early"},
+            "correctOption": "A", "passage": PASSAGE, "option": 1}
+    item.update(over)
+    return item
+
+
+@pytest.mark.parametrize("subject", ["English", "Hindi"])
+def test_every_language_section_names_its_kind(subject):
+    for section in bp.for_paper(subject, 10).sections:
+        assert section.kind in {"reading", "grammar", "extract", "writing", "literature"}, section
+
+
+def test_a_reading_question_carries_its_passage_and_says_what_it_is():
+    section = _english("A")
+    assert cg.validate(_reading_item(), section) is None
+    record = cg.to_record(_reading_item(), section, _chapter(), "t", chapter_id="c", topic_id="",
+                          model="m")
+    assert record["stem"].startswith(PASSAGE)
+    assert "(A) They amuse her" in record["stem"]
+    assert record["metadata"] == {"paperSection": "reading"}
+
+
+def test_a_section_with_no_kind_adds_no_tag():
+    record = cg.to_record(_good_mcq(), _mcq_section(), _chapter(), "t", chapter_id="c", topic_id="",
+                          model="m")
+    assert "metadata" not in record
+
+
+@pytest.mark.parametrize("passage, reason", [
+    ("", "passage-too-short"),
+    ("Too short to read.", "passage-too-short"),
+    (" ".join(["word"] * 200), "passage-too-long"),
+])
+def test_a_reading_question_needs_a_passage_worth_reading(passage, reason):
+    assert cg.validate(_reading_item(passage=passage), _english("A")) == reason
+
+
+def test_the_stem_must_not_repeat_the_passage_it_is_printed_under():
+    assert cg.validate(_reading_item(stem=PASSAGE + " Why does she smile?"), _english("A")) \
+        == "stem-repeats-the-passage"
+
+
+def test_the_reading_schema_asks_for_a_passage_and_other_mcqs_do_not():
+    reading = cg._schema(_english("A"), 3)["properties"]["questions"]["items"]
+    assert "passage" in reading["required"]
+    plain = cg._schema(_mcq_section(), 3)["properties"]["questions"]["items"]
+    assert "passage" not in plain["properties"]
+
+
+def test_the_prompt_lets_a_reading_question_say_the_passage_and_a_plain_one_not():
+    system, _, _ = cg.build_prompt(_chapter(), _english("A"), "t", count=3, bank_subject="English")
+    assert 'may say "the passage"' in system and "copy 50-110 words" in system
+    system, _, _ = cg.build_prompt(_chapter(), _mcq_section(), "t", count=3, bank_subject="English")
+    assert "Never mention the chapter, the text, the passage" in system
+
+
+def test_a_passage_the_book_does_not_print_is_refused_and_one_it_does_is_kept():
+    gen = _gen_script("gen_for_passage")
+    text = "intro line of the lesson\n" + PASSAGE + "\nclosing line of the lesson"
+    item = _reading_item(evidence=["The old clock in the hall had stopped years ago"])
+    assert gen.ungrounded(item, text, _english("A")) is None
+    invented = _reading_item(passage="A completely different passage about a river that the "
+                                     "lesson never prints anywhere at all, in any of its lines.",
+                             evidence=["The old clock in the hall had stopped years ago"])
+    assert gen.ungrounded(invented, text, _english("A")) == "passage-not-in-text"
+    # a case study's passage is the model's own writing, so it is not held to the text
+    case = _english("A")
+    assert gen.ungrounded(invented, text, bp.Section("E", "Case Based", bp.CASE, 3, 4)) is None

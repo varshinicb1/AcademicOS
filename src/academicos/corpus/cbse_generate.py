@@ -204,14 +204,12 @@ The paper is {total_marks} marks. You are writing Section {section_key}, "{secti
 Rules, all of which the board enforces:
 - Every question in this section is worth exactly {marks} mark(s).
 - The question type is {qtype}. Write it in the form the board uses for that type.
-{type_rules}- Set the question in a real situation a Class {grade} student meets, not a \
+{type_rules}{kind_rules}- Set the question in a real situation a Class {grade} student meets, not a \
 definition to memorise. The board calls this competency-based, and it is the reason the \
 paper exists.
 - Use only what the chapter text below actually says. If the chapter does not settle it, \
 write a different question; never write one the text cannot answer.
-- Never mention the chapter, the text, the passage or yourself in the question. A student \
-must not be able to tell it was written by reading the question.
-- Write in {language_name}. {script_note}
+{naming_rule}- Write in {language_name}. {script_note}
 - Distractors, where the type has them, must be plausible to a student who has read the \
 chapter and wrong for a reason. No joke options, no "all of the above", no "none of these".
 {bloom_note}Return only the questions, as JSON matching the schema."""
@@ -244,6 +242,46 @@ TYPE_RULES = {
 """,
     bp.MAP: """- Name the map or diagram the question needs, and say where it is in the chapter.
 - The question is unanswerable without it, so say so in one clause.
+""",
+}
+
+
+NAMING_RULE = """- Never mention the chapter, the text, the passage or yourself in the question. A student \
+must not be able to tell it was written by reading the question.
+"""
+SOURCE_NAMING_RULE = """- The question is printed under its `passage`, so it may say "the passage" or "the extract". \
+Never mention the chapter, the lesson, the book or yourself.
+"""
+
+# What each kind of language question is. The paper's section names the kind (assessment/
+# template_presets); the generator writes it so a section never has to guess what a 1-mark
+# question is. {words} is the section's word limit.
+KIND_RULES = {
+    "reading": """- `passage`: copy 50-110 words from the chapter text exactly as printed, whole sentences in
+  order. It is printed above the question, so the question must not repeat it.
+- The question can be answered only by reading the passage: an inference, the writer's purpose
+  or tone, what a word or phrase means in that place, or a detail.
+""",
+    "extract": """- `passage`: copy 30-80 words from the chapter text exactly as printed (a stanza, a speech or
+  a paragraph), whole lines in order. It is printed above the question, so the question must not
+  repeat it.
+- Ask about the extract: its meaning, a word or image in it, who speaks, why, what it shows.
+""",
+    "grammar": """- Base the question on one sentence copied from the chapter text, and put that sentence in
+  `evidence`. Test one grammar point that sentence shows (tense, voice, narration, a determiner,
+  a modal, a clause, a connector, a punctuation mark; in Hindi a sandhi, samas, alankar, vakya
+  bhed or pad parichay). The stem carries the sentence or one made from it, with four options.
+- The answer must follow from the rule, not from taste.
+""",
+    "writing": """- Set one writing task of the kind the paper asks for (a letter, an e-mail, a notice, a
+  paragraph, a speech, an article, an advertisement, a message) on a situation drawn from the
+  chapter's own theme. Say the format, the topic and the word limit ({words} words).
+- `markingPoints`: content, format, organisation, accuracy and expression, as separate points.
+  `modelAnswer`: a short sample in the right format.
+""",
+    "literature": """- Ask about the lesson or poem: a character's reason, the theme, what a line means, how
+  something changes, why something happened. The answer is in the chapter text.
+- The model answer says it in about {words} words, and each marking point is one idea.
 """,
 }
 
@@ -285,6 +323,9 @@ def build_prompt(chapter: Chapter, section: bp.Section, topic: str, *,
             words=section.answer_words or section.marks * 2,
             n=max(2, min(count, 4))),
         script_note=script_note,
+        naming_rule=SOURCE_NAMING_RULE if section.carries_source else NAMING_RULE,
+        kind_rules=KIND_RULES.get(section.kind, "").format(
+            words=section.answer_words or section.marks * 2),
         bloom_note=(f"- Aim for this cognitive level: {target_bloom}.\n"),
     )
 
@@ -358,6 +399,10 @@ def _schema(section: bp.Section, count: int) -> dict:
         item["properties"]["passage"] = {"type": "string"}
         item["properties"]["modelAnswer"] = {"type": "string"}
         item["required"] += ["passage", "modelAnswer"]
+    elif section.carries_source:
+        # A reading or extract question prints the passage it was set on above its own stem.
+        item["properties"]["passage"] = {"type": "string"}
+        item["required"] += ["passage"]
 
     return {
         "type": "object",
@@ -392,8 +437,15 @@ def _user_text(chapter: Chapter, topic: str, section: bp.Section,
     # is the topic's own span, kept tight, and the chapter is only used whole when
     # the topic cannot be located at all.
     lines = chapter.topic_window(topic, topics)
-    window = 90
-    if len(lines) < 20 or len(lines) > window:
+    # A language question is set on passages, so it needs the lesson itself and not a thin slice of
+    # an activity page: more lines, which the free models handle without cost.
+    window = 320 if section.kind else 90
+    if section.kind and section.kind != "grammar":
+        # The lesson comes first in a chapter file and its exercises after it. A topic's centred
+        # slice of an English chapter was an exercise page ("Fill in the blanks with the past
+        # perfect"), which is no passage to read or extract to ask about.
+        lines = list(chapter.pages[:window])
+    elif len(lines) < 20 or len(lines) > window:
         # Too thin to set a question from, or so wide it is costing tokens: take a
         # centred slice of the topic's own span rather than the entire chapter.
         pool = lines if len(lines) >= 20 else chapter.pages
@@ -640,6 +692,16 @@ def validate(item: dict, section: bp.Section) -> str | None:
         if len(points) > section.marks:
             return "too-many-marking-points"
 
+    if section.carries_source and section.qtype != bp.CASE:
+        passage = (item.get("passage") or "").strip()
+        words = len(passage.split())
+        if words < 25:
+            return "passage-too-short"
+        if words > 160:
+            return "passage-too-long"
+        if passage in stem:
+            return "stem-repeats-the-passage"
+
     if section.qtype == bp.CASE:
         passage = (item.get("passage") or "").strip()
         # CBSE case passages run 100-150 words; the prompt asks for 80-120. A
@@ -792,8 +854,9 @@ def to_record(item: dict, section: bp.Section, chapter: Chapter, topic: str,
         options = item.get("options") or {}
         if options and not re.search(r"\(A\)", stem):
             stem = f"{stem} " + " ".join(f"({k}) {options[k]}" for k in "ABCD" if k in options)
-    if section.qtype == bp.CASE and (item.get("passage") or "").strip():
-        # A case study is its passage and the questions on it; the stem is what prints.
+    if (section.qtype == bp.CASE or section.carries_source) and (item.get("passage") or "").strip():
+        # A case study, a reading question and an extract question are their passage and the
+        # question on it; the stem is what prints.
         stem = item["passage"].strip() + "\n\n" + stem
 
     record = {
@@ -824,6 +887,9 @@ def to_record(item: dict, section: bp.Section, chapter: Chapter, topic: str,
             "promptVersion": 1,
         },
     }
+    if section.kind:
+        # What a template section that names the kind (Reading, Grammar, Writing...) matches on.
+        record["metadata"] = {"paperSection": section.kind}
     if topic_id:
         record["taxonomyTopicId"] = topic_id
     return record

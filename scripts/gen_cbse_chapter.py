@@ -492,7 +492,7 @@ def _quoted_in(quote: str, haystack: str) -> bool:
     return bool(substantial) and all(l in haystack for l in substantial)
 
 
-def ungrounded(item: dict, source: str) -> str | None:
+def ungrounded(item: dict, source: str, section=None) -> str | None:
     """Why a question is not tied to the text it was set from, or None.
 
     A free model asked to use only the chapter will still add a plausible figure
@@ -513,6 +513,12 @@ def ungrounded(item: dict, source: str) -> str | None:
     for quote in quotes:
         if not _quoted_in(quote, haystack):
             return "evidence-not-in-text"
+    if section is not None and getattr(section, "carries_source", False) \
+            and section.qtype != cg.bp.CASE:
+        # A reading or extract passage is the book's own text, copied: a passage the model made
+        # up would be a question about nothing the book says.
+        if not _quoted_in(item.get("passage") or "", haystack):
+            return "passage-not-in-text"
     parts = [item.get("stem") or "", item.get("passage") or "",
              item.get("modelAnswer") or ""]
     parts += list((item.get("options") or {}).values())
@@ -677,7 +683,7 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
             item = cg.parse_item(raw)
             reason = cg.validate(item, section)
             if not reason and bridge is not None:
-                reason = ungrounded(item, user)
+                reason = ungrounded(item, user, section)
             if reason:
                 refused.append({"section": section.key, "qtype": section.qtype,
                                 "topic": topic, "reason": reason,

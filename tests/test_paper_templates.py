@@ -22,6 +22,7 @@ import pytest
 from pydantic import ValidationError
 
 from academicos.api.main import app
+from academicos.assessment import paper_templates
 from academicos.assessment import pool as pool_mod
 from academicos.assessment.schemas import PaperTemplate, PaperTemplateDraft
 from academicos.assessment.templates import default_sections
@@ -1854,3 +1855,52 @@ def test_a_recent_competency_question_comes_back_only_to_reach_cbses_half():
     _, again = plan(t, "tpl", bank, scope, stale=frozenset({"c0", "c1", "c2", "c3"}))
     picked = again[0].picked
     assert sum(is_competency_question(q) for q in picked) == 2, [q.id for q in picked]
+
+
+# --------------------------------------------------------------------------- #
+# classes 9-10 English and Hindi: a heading that names a kind takes only that kind
+# --------------------------------------------------------------------------- #
+
+def _template_section(title: str, marks: int):
+    from academicos.assessment.schemas import TemplateSection
+    return TemplateSection.model_validate(_section(title, 1, marks))
+
+
+def _language_question(subject: str, grade: int, tag, marks: int = 1):
+    from academicos.assessment.schemas import QuestionSchema
+    rec = _record(f"lang-{subject}-{grade}-{tag}-{marks}", marks, "ch1", qtype="mcq" if marks == 1 else "short_answer",
+                  subject=subject)
+    rec["grade"] = grade
+    if tag:
+        rec["metadata"] = {"paperSection": tag}
+    return QuestionSchema.model_validate(rec)
+
+
+@pytest.mark.parametrize("title, marks, tag, fits", [
+    ("Section A - Reading comprehension", 1, "reading", True),
+    ("Section A - Reading comprehension", 1, "grammar", False),
+    ("Section A - Reading comprehension", 1, None, False),
+    ("Section B - Grammar (attempt any 10)", 1, "grammar", True),
+    ("Section B - Writing", 5, "writing", True),
+    ("Section B - Writing", 5, "literature", False),
+    ("Section C - Literature: extract based", 1, "extract", True),
+    ("Section C - Literature: extract based", 1, "reading", False),
+    ("Section C - Literature: short answer (attempt any 4)", 3, "literature", True),
+    ("Section C - Literature: short answer (attempt any 4)", 3, "extract", False),
+    # the unit-test presets head a one-mark literature section "Literature" alone
+    ("Section D - Literature", 1, "extract", True),
+    ("Section D - Literature", 1, "literature", True),
+    ("Section D - Literature", 1, "grammar", False),
+    ("Section C (Khand Ga) - Textbook: extract based MCQ", 1, "extract", True),
+    ("Section C (Khand Ga) - Supplementary reader (attempt any 2)", 4, "literature", True),
+    ("Section D (Khand Gha) - Writing: letter, CV / e-mail", 5, "writing", True),
+])
+def test_a_language_heading_takes_only_its_own_kind_in_classes_9_and_10(title, marks, tag, fits):
+    section = _template_section(title, marks)
+    assert paper_templates._fits(_language_question("English", 10, tag, marks), section) is fits
+
+
+def test_other_classes_and_other_subjects_keep_the_marks_only_match():
+    section = _template_section("Section B - Grammar", 1)
+    assert paper_templates._fits(_language_question("English", 8, None), section)
+    assert paper_templates._fits(_language_question("Science", 10, None), section)
