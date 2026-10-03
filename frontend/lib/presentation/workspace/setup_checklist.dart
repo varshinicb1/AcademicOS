@@ -114,6 +114,14 @@ class _SetupChecklistCardState extends State<SetupChecklistCard> {
             const SizedBox(height: 2),
             Text('$done ${tr('of')} ${steps.length} ${tr('done')}. ${tr('Next')}: ${tr(next.title)}.',
                 style: theme.textTheme.bodySmall),
+            const SizedBox(height: 8),
+            FilledButton.icon(
+              key: const ValueKey('setup-wizard-start'),
+              style: phoneTapTarget(context),
+              onPressed: () => context.push('/school/setup').then((_) => _reload()),
+              icon: const Icon(Icons.auto_fix_high_outlined),
+              label: Text(done == 0 ? tr('Start guided setup') : tr('Continue guided setup')),
+            ),
             const SizedBox(height: 4),
             for (final s in steps)
               ListTile(

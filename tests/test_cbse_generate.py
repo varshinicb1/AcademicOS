@@ -12,6 +12,7 @@ three-mark question carrying two marking points. Those are the failures that
 reach a real paper, so they get the tests.
 """
 
+import json
 import sys
 from pathlib import Path
 
@@ -870,3 +871,96 @@ def test_the_id_is_unique_per_section_and_option():
                      chapter_id="c", topic_id="", model="m")
     assert a["id"] != b["id"]
     assert a["id"].startswith("ai:cbse:jemh1:01:A")
+
+
+# --------------------------------------------------------------------------- #
+# the prompt-folder bridge and the groundedness check (a model run elsewhere,
+# e.g. an opencode session, answers files; the same validator judges them)
+# --------------------------------------------------------------------------- #
+CHAPTER_TEXT = (
+    "Chapter 1: Development\n"
+    "Haryana has a per capita income of Rs 264,000 a year. Kerala has a per capita\n"
+    "income of Rs 175,000. In Kerala the infant mortality rate is 12 per 1,000 live births.\n"
+)
+
+
+def _grounded_item(**over):
+    item = dict(stem="Which state has an infant mortality rate of 12 per 1,000 live births?",
+                options={"A": "Haryana", "B": "Kerala", "C": "Bihar", "D": "Punjab"},
+                correctOption="B", modelAnswer="Kerala",
+                evidence=["In Kerala the infant mortality rate is 12 per 1,000 live births."])
+    item.update(over)
+    return item
+
+
+def test_a_question_quoting_the_text_is_grounded():
+    mod = _gen_script("gen_chapter_grounded")
+    assert mod.ungrounded(_grounded_item(), CHAPTER_TEXT) is None
+
+
+def test_a_question_with_no_evidence_is_refused():
+    mod = _gen_script("gen_chapter_noevidence")
+    assert mod.ungrounded(_grounded_item(evidence=[]), CHAPTER_TEXT) == "no-evidence"
+    assert mod.ungrounded({k: v for k, v in _grounded_item().items() if k != "evidence"},
+                          CHAPTER_TEXT) == "no-evidence"
+
+
+def test_a_quote_that_is_not_in_the_text_is_refused():
+    # The model "quotes" a sentence the chapter never printed.
+    mod = _gen_script("gen_chapter_badquote")
+    item = _grounded_item(evidence=["Kerala has the lowest infant mortality in India."])
+    assert mod.ungrounded(item, CHAPTER_TEXT) == "evidence-not-in-text"
+
+
+def test_a_quote_survives_a_line_wrap_and_a_change_of_case():
+    mod = _gen_script("gen_chapter_wrap")
+    item = _grounded_item(evidence=["HARYANA has a per capita income of Rs 264,000 a year."])
+    assert mod.ungrounded(item, CHAPTER_TEXT) is None
+    wrapped = _grounded_item(evidence=["Kerala has a per capita income of Rs 175,000."])
+    assert mod.ungrounded(wrapped, CHAPTER_TEXT) is None
+
+
+def test_an_invented_figure_is_refused_even_with_a_real_quote():
+    # A true-looking statistic from memory, attached to a real quote.
+    mod = _gen_script("gen_chapter_figure")
+    item = _grounded_item(stem="Kerala's infant mortality rate was recorded in 2019. "
+                               "Which state is this?")
+    assert mod.ungrounded(item, CHAPTER_TEXT) == "figure-not-in-text:2019"
+    rate_in_stem = _grounded_item(stem="Which state's rate fell to 6 per 1,000?")
+    assert mod.ungrounded(rate_in_stem, CHAPTER_TEXT) == "figure-not-in-text:6"
+    rate = _grounded_item(modelAnswer="Kerala, at 7 per 1,000")
+    assert mod.ungrounded(rate, CHAPTER_TEXT) == "figure-not-in-text:7"
+
+
+def test_a_figure_with_a_thousands_comma_matches_the_text():
+    mod = _gen_script("gen_chapter_comma")
+    item = _grounded_item(stem="Which state has a per capita income of Rs 264,000?",
+                          evidence=["Haryana has a per capita income of Rs 264,000 a year."])
+    assert mod.ungrounded(item, CHAPTER_TEXT) is None
+
+
+def test_the_bridge_writes_the_prompt_then_reads_the_answer(tmp_path):
+    mod = _gen_script("gen_chapter_bridge")
+    section = _mcq_section()
+    assert mod.bridge_call(tmp_path, 1, "sys", {"type": "object"}, "user", section, "topic") is None
+    prompt = json.loads((tmp_path / "p001.json").read_text(encoding="utf-8"))
+    assert prompt["system"] == "sys" and prompt["user"] == "user" and prompt["section"] == section.key
+    (tmp_path / "r001.json").write_text(json.dumps({"questions": [{"stem": "x"}]}), encoding="utf-8")
+    assert mod.bridge_call(tmp_path, 1, "sys", {}, "user", section, "topic") == {"questions": [{"stem": "x"}]}
+
+
+def test_a_malformed_bridge_answer_is_an_empty_section_not_a_crash(tmp_path):
+    mod = _gen_script("gen_chapter_bridge_bad")
+    (tmp_path / "r001.json").write_text("{not json", encoding="utf-8")
+    assert mod.bridge_call(tmp_path, 1, "s", {}, "u", _mcq_section(), "t") == {"questions": []}
+    (tmp_path / "r002.json").write_text("[1, 2]", encoding="utf-8")
+    assert mod.bridge_call(tmp_path, 2, "s", {}, "u", _mcq_section(), "t") == {"questions": []}
+
+
+def test_a_word_limit_or_marks_in_the_stem_is_not_a_fact_to_prove():
+    mod = _gen_script("gen_chapter_instruction")
+    item = _grounded_item(stem="In about 45 words (3 marks), say which state has 12 per 1,000.")
+    assert mod.ungrounded(item, CHAPTER_TEXT) is None
+    # ...but a figure that is not an instruction still is.
+    item = _grounded_item(stem="In about 45 words, say why 99 children died.")
+    assert mod.ungrounded(item, CHAPTER_TEXT) == "figure-not-in-text:99"
