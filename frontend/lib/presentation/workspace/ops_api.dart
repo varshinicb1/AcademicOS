@@ -262,6 +262,10 @@ class OpsError implements Exception {
         msg = (d.first as Map)['msg']?.toString() ?? msg;
       }
     }
+    // 501 is a feature not switched on yet: "Coming soon", not an error (api_error.dart).
+    if (e.response?.statusCode == 501) {
+      msg = comingSoonMessage(code: data is Map ? data['code'] as String? : null, detail: detail is String ? detail : null);
+    }
     return OpsError(e.response?.statusCode, msg, detail: detail);
   }
 

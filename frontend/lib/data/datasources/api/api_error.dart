@@ -18,6 +18,20 @@ import 'package:dio/dio.dart';
 
 final _valueError = RegExp(r'^Value error, ');
 
+/// What a feature that is not switched on yet is called on screen. The server answers 501
+/// (not 503: retrying will never help until it is switched on) with a `code`; the person sees
+/// "Coming soon", not an error, and no Retry button.
+const comingSoonPrefix = 'Coming soon';
+
+String comingSoonMessage({String? code, String? detail}) => switch (code) {
+      'llm_not_enabled' =>
+        '$comingSoonPrefix: AI marking and scan reading are not switched on for your school yet.',
+      'not_available' when detail != null && detail.trim().isNotEmpty => '$comingSoonPrefix: ${detail.trim()}',
+      _ => '$comingSoonPrefix: this is not switched on for your school yet.',
+    };
+
+bool isComingSoonMessage(String message) => message.startsWith(comingSoonPrefix);
+
 const _signedOut = "You're signed out — sign in again";
 const _noAccess = "You don't have access to that";
 const _unreachable = "Couldn't reach the server — check your connection";
@@ -49,6 +63,9 @@ String serverErrorMessage(Object e) {
   if (status == 401) return _signedOut;
   final data = response?.data;
   final detail = data is Map ? data['detail'] : null;
+  if (status == 501) {
+    return comingSoonMessage(code: data is Map ? data['code'] as String? : null, detail: detail is String ? detail : null);
+  }
   if (detail is String && detail.trim().isNotEmpty) return detail;
   final message = detail is Map ? detail['message'] : null;
   if (message is String && message.trim().isNotEmpty) return message;

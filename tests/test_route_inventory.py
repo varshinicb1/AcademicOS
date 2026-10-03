@@ -227,6 +227,9 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/admin/grants"),
     ("DELETE", "/api/v1/admin/grants/{grant_id}"),
     ("GET", "/api/v1/my-grants"),
+    ("GET", "/api/v1/me/progress"),
+    ("PUT", "/api/v1/me/progress/{key}"),
+    ("GET", "/api/v1/setup-status"),
     ("GET", "/api/v1/staff"),
     ("GET", "/api/v1/dashboard/summary"),
     ("GET", "/api/v1/dashboard/term"),
@@ -587,6 +590,9 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/admin/grants"),
     ("DELETE", "/api/v1/admin/grants/{grant_id}"),
     ("GET", "/api/v1/my-grants"),
+    ("GET", "/api/v1/me/progress"),
+    ("PUT", "/api/v1/me/progress/{key}"),
+    ("GET", "/api/v1/setup-status"),
     ("GET", "/api/v1/staff"),
     ("GET", "/api/v1/dashboard/summary"),
     ("GET", "/api/v1/dashboard/term"),
@@ -1058,7 +1064,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 343: QA S-05 a principal's password reset and a person's own change.
     # 344: QA S-12 a teacher's own row of today's register.
     # 345: the setup wizard's one-call school setup (year, classes, calendar, terms, bell).
-    assert len(API_ROUTES) == 345
+    # 348: saved Guide/setup progress (read, write) and the principal's setup level.
+    assert len(API_ROUTES) == 348
 
 
 def test_docs_routes_present():

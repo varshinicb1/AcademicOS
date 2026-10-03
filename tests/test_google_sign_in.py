@@ -59,4 +59,5 @@ def test_without_a_client_id_there_is_no_google_button(w, monkeypatch):
     monkeypatch.delenv("ACOS_GOOGLE_CLIENT_ID", raising=False)
     assert w.c.get("/api/v1/auth/providers").json()["google"] is None
     r = w.c.post("/api/v1/auth/google", json={"credential": _token()})
-    assert r.status_code == 503 and "password" in r.json()["detail"]
+    assert r.status_code == 501 and "password" in r.json()["detail"]
+    assert r.json()["code"] == "not_available", "the apps show this as Coming soon, not an error"

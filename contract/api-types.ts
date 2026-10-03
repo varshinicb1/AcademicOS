@@ -4321,6 +4321,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/me/progress": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** My Progress */
+        get: operations["my_progress_api_v1_me_progress_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/progress/{key}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Save Progress */
+        put: operations["save_progress_api_v1_me_progress__key__put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/my-calendar": {
         parameters: {
             query?: never;
@@ -5748,6 +5782,26 @@ export interface paths {
          *     one bank subject (e.g. "Science").
          */
         get: operations["class_progress_api_v1_sections__section_id__progress_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/setup-status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Setup Status
+         * @description How far this school is from making its first real paper, in the order a school does it.
+         */
+        get: operations["setup_status_api_v1_setup_status_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -10553,6 +10607,20 @@ export interface components {
             /** Warnings */
             warnings?: string[];
         };
+        /** ProgressEntry */
+        ProgressEntry: {
+            /** Updatedat */
+            updatedAt: string;
+            /** Value */
+            value?: unknown;
+        };
+        /** ProgressResponse */
+        ProgressResponse: {
+            /** Items */
+            items: {
+                [key: string]: components["schemas"]["ProgressEntry"];
+            };
+        };
         /** ProgressRow */
         ProgressRow: {
             /** Developing */
@@ -10569,6 +10637,11 @@ export interface components {
             studentsWithEvidence: number;
             /** Subject */
             subject: string;
+        };
+        /** ProgressWrite */
+        ProgressWrite: {
+            /** Value */
+            value?: unknown;
         };
         /** ProposalResponse */
         ProposalResponse: {
@@ -12329,6 +12402,32 @@ export interface components {
             sections: string[];
             /** Subjects */
             subjects: number;
+        };
+        /** SetupStatus */
+        SetupStatus: {
+            /** Done */
+            done: number;
+            /** Nextkey */
+            nextKey?: string | null;
+            /** Percent */
+            percent: number;
+            /** Steps */
+            steps: components["schemas"]["SetupStep"][];
+            /** Total */
+            total: number;
+        };
+        /** SetupStep */
+        SetupStep: {
+            /** Detail */
+            detail: string;
+            /** Done */
+            done: boolean;
+            /** Key */
+            key: string;
+            /** Path */
+            path: string;
+            /** Title */
+            title: string;
         };
         /** SetupTermBody */
         SetupTermBody: {
@@ -21423,6 +21522,61 @@ export interface operations {
             };
         };
     };
+    my_progress_api_v1_me_progress_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProgressResponse"];
+                };
+            };
+        };
+    };
+    save_progress_api_v1_me_progress__key__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                key: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProgressWrite"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProgressEntry"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     my_calendar_api_v1_my_calendar_get: {
         parameters: {
             query?: {
@@ -23930,6 +24084,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    setup_status_api_v1_setup_status_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SetupStatus"];
                 };
             };
         };

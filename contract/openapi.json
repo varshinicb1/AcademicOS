@@ -11152,6 +11152,38 @@
         "title": "ProcessSessionResponse",
         "type": "object"
       },
+      "ProgressEntry": {
+        "properties": {
+          "updatedAt": {
+            "title": "Updatedat",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value"
+          }
+        },
+        "required": [
+          "updatedAt"
+        ],
+        "title": "ProgressEntry",
+        "type": "object"
+      },
+      "ProgressResponse": {
+        "properties": {
+          "items": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ProgressEntry"
+            },
+            "title": "Items",
+            "type": "object"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "ProgressResponse",
+        "type": "object"
+      },
       "ProgressRow": {
         "properties": {
           "developing": {
@@ -11193,6 +11225,16 @@
           "early"
         ],
         "title": "ProgressRow",
+        "type": "object"
+      },
+      "ProgressWrite": {
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "title": "Value"
+          }
+        },
+        "title": "ProgressWrite",
         "type": "object"
       },
       "ProposalResponse": {
@@ -15717,6 +15759,81 @@
           "created"
         ],
         "title": "SetupClassResponse",
+        "type": "object"
+      },
+      "SetupStatus": {
+        "properties": {
+          "done": {
+            "title": "Done",
+            "type": "integer"
+          },
+          "nextKey": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nextkey"
+          },
+          "percent": {
+            "title": "Percent",
+            "type": "integer"
+          },
+          "steps": {
+            "items": {
+              "$ref": "#/components/schemas/SetupStep"
+            },
+            "title": "Steps",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "steps",
+          "done",
+          "total",
+          "percent"
+        ],
+        "title": "SetupStatus",
+        "type": "object"
+      },
+      "SetupStep": {
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "string"
+          },
+          "done": {
+            "title": "Done",
+            "type": "boolean"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "path": {
+            "title": "Path",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "title",
+          "done",
+          "detail",
+          "path"
+        ],
+        "title": "SetupStep",
         "type": "object"
       },
       "SetupTermBody": {
@@ -31503,6 +31620,83 @@
         "summary": "Set My Contact"
       }
     },
+    "/api/v1/me/progress": {
+      "get": {
+        "operationId": "my_progress_api_v1_me_progress_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProgressResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Progress"
+      }
+    },
+    "/api/v1/me/progress/{key}": {
+      "put": {
+        "operationId": "save_progress_api_v1_me_progress__key__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "schema": {
+              "title": "Key",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProgressWrite"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProgressEntry"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Save Progress"
+      }
+    },
     "/api/v1/my-calendar": {
       "get": {
         "description": "The caller's dated school events from today: holidays, half days,\nexam windows and compensatory working days (N-3-19), cover and\ninvigilation duties, exam papers and homework due. The ICS feed carries\nthe same; the weekly periods are the timetable's, so they are left out.",
@@ -35442,6 +35636,30 @@
           }
         ],
         "summary": "Class Progress"
+      }
+    },
+    "/api/v1/setup-status": {
+      "get": {
+        "description": "How far this school is from making its first real paper, in the order a school does it.",
+        "operationId": "setup_status_api_v1_setup_status_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SetupStatus"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Setup Status"
       }
     },
     "/api/v1/staff": {
