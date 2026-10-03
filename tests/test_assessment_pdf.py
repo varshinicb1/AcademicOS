@@ -933,3 +933,20 @@ def test_the_key_says_all_or_nothing_once_and_marks_the_rows(tmp_path):
     assert text.count("the source prints no split") == 1
     assert "Oxygen [5m] (all or nothing)" in text
     assert "Mark / s" not in text and "Marks" in text
+
+
+@pytest.mark.parametrize("stem, head, options", [
+    # "of" before a real first option is not a mention: 13 served Exemplar / CBE class 9-10
+    # Science and Maths items printed their four choices as one run-on line.
+    ("Sodium carbonate is a basic salt because it is a salt of (A) strong acid and strong base "
+     "(B) weak acid and weak base (C) strong acid and weak base (D) weak acid and strong base",
+     "Sodium carbonate is a basic salt because it is a salt of",
+     ["strong acid and strong base", "weak acid and weak base",
+      "strong acid and weak base", "weak acid and strong base"]),
+    ("1. The acidic properties of hydrochloric acid are due to the concentration of (A) hydrogen ions "
+     "(B) chloride ions (C) bromide ions (D) nitrate ions",
+     "1. The acidic properties of hydrochloric acid are due to the concentration of",
+     ["hydrogen ions", "chloride ions", "bromide ions", "nitrate ions"]),
+])
+def test_a_mention_word_before_a_real_first_option_does_not_hide_the_options(stem, head, options):
+    assert split_stem_and_options(stem) == (head, options)

@@ -68,3 +68,26 @@ def test_a_published_copy_of_a_question_wins_over_the_model_written_one():
 
 def test_a_bank_composed_without_the_source_does_not_report_it():
     assert "ai" not in bm.compose([], [], []).counts
+
+
+def test_a_language_question_keeps_its_paper_section_through_the_merge():
+    """A template section headed Reading or Grammar matches on `metadata.paperSection`
+    (assessment/paper_templates), so the merge must not lose it, and the pool must load it."""
+    chapter = cg.Chapter(
+        book_code="jeff1", subject="English", grade=10, language="en", number=1, title="A Letter",
+        pages=tuple((p, f"page {p} line {i}") for p in (1, 2) for i in range(30)))
+    passage = " ".join(["The old clock stopped long ago and nobody dared to remove it."] * 3)
+    item = {"qtype": bp.MCQ, "marks": 1, "bloomLevel": "understand", "option": 1, "passage": passage,
+            "stem": "Why did nobody remove the clock?",
+            "options": {"A": "They feared it", "B": "It was costly", "C": "It was lost", "D": "It was new"},
+            "correctOption": "A"}
+    section = next(s for s in bp.for_paper("English", 10).sections if s.key == "A")
+    record = cg.to_record(item, section, chapter, "Reading", chapter_id="english-10/a-letter",
+                          topic_id="", model="m")
+    record["answerScheme"]["provenance"] = "textbook_grounded"
+    record["answerScheme"]["metadata"]["evidence"] = ["The old clock stopped long ago"]
+    out = bm.compose([], [], [], ai=[record])
+    assert [q["id"] for q in out.questions] == [record["id"]]
+    assert out.questions[0]["metadata"]["paperSection"] == "reading"
+    from academicos.assessment.schemas import QuestionSchema
+    assert QuestionSchema.model_validate(out.questions[0]).metadata["paperSection"] == "reading"

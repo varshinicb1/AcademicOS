@@ -43,7 +43,7 @@ MODEL = "opencode-go/space-bunny-free"
 # English first (their English-language books extract cleanly), Hindi last, after the
 # extraction check below.
 PLAN = ["jess1", "jess2", "jess3", "jess4", "iest1", "jeff1", "jefp1", "iebe1",
-        "ihga1", "jhks1", "jhkr1", "jhsp1", "jhsy1"]
+        "ihga1", "jhks1", "jhkr1", "jhsp1", "jhsy1", "jewe2", "iesc1", "jesc1"]
 
 
 def chapters_of(book: str) -> list[int]:
@@ -199,6 +199,7 @@ def main() -> int:
                     help="a second pass over the same chapters, e.g. mcq: its own folders and files (needs --only-sections)")
     ap.add_argument("--only-sections", default="A", help="with --pass-name: the section keys to plan, comma-separated")
     ap.add_argument("--items", type=int, default=5, help="with --pass-name: how many of each section, per chapter")
+    ap.add_argument("--books", help="only these books, comma-separated (default: every book in PLAN)")
     ap.add_argument("--lane", default="main",
                     help="a name for this driver; two lanes (one with --reverse) can run at once")
     ap.add_argument("--reverse", action="store_true",
@@ -222,7 +223,7 @@ def main() -> int:
         from academicos.corpus import textbook as tb      # noqa: F401  (fails early if the env is wrong)
         books = {b["code"]: b for b in json.loads(MANIFEST.read_text(encoding="utf-8"))}
         todo = []
-        for book in PLAN:
+        for book in (args.books.split(",") if args.books else PLAN):
             for n in chapters_of(book):
                 todo.append((book, n))
         if args.only:
