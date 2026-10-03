@@ -1196,3 +1196,20 @@ def test_a_passage_the_book_does_not_print_is_refused_and_one_it_does_is_kept():
     # a case study's passage is the model's own writing, so it is not held to the text
     case = _english("A")
     assert gen.ungrounded(invented, text, bp.Section("E", "Case Based", bp.CASE, 3, 4)) is None
+
+
+def test_a_map_pointing_question_is_kept_and_needs_no_copied_passage():
+    section = next(s for s in bp.for_paper("Social Science", 10).sections if s.qtype == bp.MAP)
+    stem = ("On an outline political map of India, locate and label the following: (a) Bhakra Nangal "
+            "dam (b) Kandla port (c) Tarapur nuclear power plant (d) Digboi oilfield (e) Kolar gold field.")
+    item = {"qtype": bp.MAP, "marks": 5, "bloomLevel": "apply", "stem": stem, "option": 1,
+            "modelAnswer": "Punjab; Gujarat; Maharashtra; Assam; Karnataka",
+            "markingPoints": ["Bhakra Nangal: Punjab", "Kandla: Gujarat", "Tarapur: Maharashtra",
+                              "Digboi: Assam", "Kolar: Karnataka"]}
+    assert cg.validate(item, section) is None
+    assert "passage" not in cg._schema(section, 1)["properties"]["questions"]["items"]["properties"]
+    assert "modelAnswer" in cg._schema(section, 1)["properties"]["questions"]["items"]["required"]
+    assert cg.validate({**item, "markingPoints": []}, section) == "no-marking-points"
+    record = cg.to_record(item, section, _chapter(), "t", chapter_id="c", topic_id="", model="m")
+    assert record["stem"] == stem
+    assert sum(p["marks"] for p in record["answerScheme"]["markingPoints"]) == 5

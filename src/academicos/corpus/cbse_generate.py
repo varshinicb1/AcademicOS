@@ -240,10 +240,25 @@ TYPE_RULES = {
 - The passage is part of the question, not a separate item.
 - Keep the model answer to about {words} words in total.
 """,
-    bp.MAP: """- Name the map or diagram the question needs, and say where it is in the chapter.
-- The question is unanswerable without it, so say so in one clause.
+    bp.MAP: """- A map-pointing question: "On an outline political map of India, locate and label the
+  following:" and then five features, (a) to (e), each worth one mark, that the chapter names
+  (a dam, a port, a power plant, a mineral belt, a state where something happened, the place of
+  a session or a movement). Say "outline map of India" or "outline map of the world", never "the
+  given map", "the figure" or "the map shown": the paper prints no map, the student marks the
+  school's blank outline map.
+- Name each feature exactly as the chapter does, with nothing the student could not find from
+  the chapter alone.
+- `modelAnswer` lists each feature with where it lies (state or region) as the chapter says.
+  `markingPoints` is one point per feature.
 """,
 }
+
+
+def has_passage(section: bp.Section) -> bool:
+    """A reading or extract question prints a passage copied from the book above its stem. A case
+    study writes its own passage, and a map section "carries a source" only in the sense that the
+    map sits above the question: neither takes the copied-passage rules."""
+    return section.carries_source and section.qtype not in (bp.CASE, bp.MAP)
 
 
 NAMING_RULE = """- Never mention the chapter, the text, the passage or yourself in the question. A student \
@@ -323,7 +338,7 @@ def build_prompt(chapter: Chapter, section: bp.Section, topic: str, *,
             words=section.answer_words or section.marks * 2,
             n=max(2, min(count, 4))),
         script_note=script_note,
-        naming_rule=SOURCE_NAMING_RULE if section.carries_source else NAMING_RULE,
+        naming_rule=SOURCE_NAMING_RULE if has_passage(section) else NAMING_RULE,
         kind_rules=KIND_RULES.get(section.kind, "").format(
             words=section.answer_words or section.marks * 2),
         bloom_note=(f"- Aim for this cognitive level: {target_bloom}.\n"),
@@ -388,7 +403,7 @@ def _schema(section: bp.Section, count: int) -> dict:
         }
         item["properties"]["correctOption"] = {"type": "string", "enum": list("ABCD")}
         item["required"] += ["options", "correctOption"]
-    if section.qtype in (bp.SA, bp.LA, bp.VSA):
+    if section.qtype in (bp.SA, bp.LA, bp.VSA, bp.MAP):
         item["properties"]["modelAnswer"] = {"type": "string"}
         # No minItems/maxItems: Gemini rejects them. `validate` refuses a
         # marking-point count that does not match the marks.
@@ -399,7 +414,7 @@ def _schema(section: bp.Section, count: int) -> dict:
         item["properties"]["passage"] = {"type": "string"}
         item["properties"]["modelAnswer"] = {"type": "string"}
         item["required"] += ["passage", "modelAnswer"]
-    elif section.carries_source:
+    elif has_passage(section):
         # A reading or extract question prints the passage it was set on above its own stem.
         item["properties"]["passage"] = {"type": "string"}
         item["required"] += ["passage"]
@@ -675,7 +690,7 @@ def validate(item: dict, section: bp.Section) -> str | None:
     if item.get("qtype") in (bp.SA, bp.LA, bp.VSA) and _contradicts_its_stem(item):
         return "premise-not-supported"
 
-    if section.qtype in (bp.VSA, bp.SA, bp.LA):
+    if section.qtype in (bp.VSA, bp.SA, bp.LA, bp.MAP):
         if not (item.get("modelAnswer") or "").strip():
             return "no-model-answer"
         points = item.get("markingPoints") or []
@@ -692,7 +707,7 @@ def validate(item: dict, section: bp.Section) -> str | None:
         if len(points) > section.marks:
             return "too-many-marking-points"
 
-    if section.carries_source and section.qtype != bp.CASE:
+    if has_passage(section):
         passage = (item.get("passage") or "").strip()
         words = len(passage.split())
         if words < 25:
@@ -831,7 +846,7 @@ def to_record(item: dict, section: bp.Section, chapter: Chapter, topic: str,
                     "metadata": {"answerSource": "generated",
                                  "evidence": [],
                                  "objective": section.qtype in (bp.MCQ, bp.ASSERTION_REASON)}}
-    if section.qtype in (bp.VSA, bp.SA, bp.LA):
+    if section.qtype in (bp.VSA, bp.SA, bp.LA, bp.MAP):
         scheme["markingPoints"] = _marking_points(item.get("markingPoints") or [],
                                                  section.marks)
     if section.qtype in (bp.MCQ, bp.ASSERTION_REASON):
@@ -854,7 +869,7 @@ def to_record(item: dict, section: bp.Section, chapter: Chapter, topic: str,
         options = item.get("options") or {}
         if options and not re.search(r"\(A\)", stem):
             stem = f"{stem} " + " ".join(f"({k}) {options[k]}" for k in "ABCD" if k in options)
-    if (section.qtype == bp.CASE or section.carries_source) and (item.get("passage") or "").strip():
+    if (section.qtype == bp.CASE or has_passage(section)) and (item.get("passage") or "").strip():
         # A case study, a reading question and an extract question are their passage and the
         # question on it; the stem is what prints.
         stem = item["passage"].strip() + "\n\n" + stem

@@ -513,8 +513,7 @@ def ungrounded(item: dict, source: str, section=None) -> str | None:
     for quote in quotes:
         if not _quoted_in(quote, haystack):
             return "evidence-not-in-text"
-    if section is not None and getattr(section, "carries_source", False) \
-            and section.qtype != cg.bp.CASE:
+    if section is not None and cg.has_passage(section):
         # A reading or extract passage is the book's own text, copied: a passage the model made
         # up would be a question about nothing the book says.
         if not _quoted_in(item.get("passage") or "", haystack):

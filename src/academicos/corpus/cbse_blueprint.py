@@ -239,7 +239,11 @@ def _board_social_science() -> Blueprint:
     return Blueprint(
         subject="Social Science", grade_band="board", theory_marks=80,
         sections=(
-            Section("A", "Objective", MCQ, 20, 1),
+            # Four of Section A's twenty marks go on assertion-reason, as in Science: the paper's
+            # objective run carries them, and they are what the competency rule counts at one mark.
+            # Its own key, "AR", so a pass over it never collides with the MCQs' ids.
+            Section("A", "Objective", MCQ, 16, 1),
+            Section("AR", "Assertion-Reason", ASSERTION_REASON, 4, 1),
             Section("B", "Very Short Answer", VSA, 4, 2, answer_words=25,
                     internal_choice=1),
             Section("C", "Short Answer", SA, 5, 3, answer_words=45,
