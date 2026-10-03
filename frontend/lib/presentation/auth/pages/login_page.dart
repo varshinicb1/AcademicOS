@@ -7,6 +7,7 @@ import '../../../core/local_engine/local_store.dart';
 import '../../../data/datasources/api/api_error.dart';
 import '../../../data/datasources/api/auth_api.dart';
 import '../../shared/widgets/common_widgets.dart';
+import '../../shared/widgets/theme_toggle.dart';
 import '../../workspace/profiles.dart';
 import '../widgets/google_button.dart';
 
@@ -355,7 +356,8 @@ class _LoginPageState extends State<LoginPage> {
     final colors = theme.colorScheme;
     return Scaffold(
       body: SafeArea(
-        child: Center(
+        child: Stack(children: [
+        Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 440),
             child: SingleChildScrollView(
@@ -555,6 +557,10 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ),
+        // Light or dark before signing in, as on every page after (the
+        // brand template's theme toggle).
+        const Positioned(top: 4, right: 4, child: ThemeToggleButton()),
+        ]),
       ),
     );
   }
