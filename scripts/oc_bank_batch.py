@@ -154,6 +154,12 @@ def one_chapter(book: str, number: int, args, language: str) -> str:
     if answered == 0:
         log(work, folder=folder, event="no-answers")
         return "failed"
+    if answered < len(prompts):
+        # A chapter with some calls unanswered is not done: its file would stand for the whole chapter
+        # and its missing sections would never be retried. The answers so far stay on disk; the next
+        # run asks the model only for the rest.
+        log(work, folder=folder, event="incomplete", prompts=len(prompts), answered=answered)
+        return "incomplete"
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     done = gen(["--book", book, "--chapter", str(number), "--marks", str(args.marks), "--per-call", "3",
                 "--bridge", str(work), "--model", args.model, "--out", str(out_file)])
