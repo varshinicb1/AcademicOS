@@ -1,0 +1,278 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:06:B:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/control-and-coordination"
+      ],
+      "taxonomyChapterId": "science-10/control-and-coordination",
+      "topic": "Animals – Nervous System",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A student hears the teacher call her name, stands up, writes the answer on the board and claps when the lesson ends. State what kind of action she is performing, and name the major region of the brain in which the decision to act is taken.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "She is performing voluntary actions, which are based on deciding what to do next",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The decision is taken in the fore-brain, the main thinking part of the brain",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A voluntary action; the fore-brain.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Writing, talking, moving a chair,\nclapping at the end of a programme are examples of voluntary actions\nwhich are based on deciding what to do next.",
+            "The fore-brain is the main thinking part of the brain."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch6",
+        "pages": [
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:06:B:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/control-and-coordination"
+      ],
+      "taxonomyChapterId": "science-10/control-and-coordination",
+      "topic": "Animals – Nervous System",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "Information from all over the body has to reach the brain and spinal cord, and instructions have to travel back to the muscles. Name the part of the nervous system that carries out this two-way communication, and name the two kinds of nerves it is made of.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The two-way communication between the central nervous system and the other parts of the body is carried out by the peripheral nervous system",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It consists of cranial nerves arising from the brain and spinal nerves arising from the spinal cord",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The peripheral nervous system; cranial nerves arising from the brain and spinal nerves arising from the spinal cord.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the central nervous system and the other parts of the body is facilitated\nby the peripheral nervous system consisting of cranial nerves arising\nfrom the brain and spinal nerves arising from the spinal cord.",
+            "brain and spinal cord constitute the central nervous system (Fig. 6.3)."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch6",
+        "pages": [
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:06:B:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/control-and-coordination"
+      ],
+      "taxonomyChapterId": "science-10/control-and-coordination",
+      "topic": "Animals – Nervous System",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "After finishing her lunch, a student says that she is no longer hungry although the food is still on the table. State the sensation that tells her she has eaten enough, and name the part of the brain in which the centre responsible for it lies.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The sensation is the feeling of being full, which comes from a centre associated with hunger",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "That centre lies in a separate part of the fore-brain",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The sensation of feeling full; a separate part of the fore-brain.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The sensation of feeling full is because of a centre\nassociated with hunger, which is in a separate part of the fore-brain."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch6",
+        "pages": [
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "B",
+      "qtype": "very_short_answer",
+      "topic": "Animals – Nervous System",
+      "reason": "figure-not-in-text:10",
+      "stem": "A Class 10 student touches the metal rack of a hot plate in the school laboratory and pulls her hand back before she has"
+    },
+    {
+      "section": "E",
+      "qtype": "case_study",
+      "topic": "Animals – Nervous System",
+      "reason": "figure-not-in-text:10",
+      "stem": "(i) Name the connection made between the nerve that detects heat and the nerve that moves muscles, and state the part of"
+    },
+    {
+      "section": "E",
+      "qtype": "case_study",
+      "topic": "Animals – Nervous System",
+      "reason": "figure-not-in-text:10",
+      "stem": "(i) State what is meant by a voluntary action, and name the region of the brain that is the main thinking part of the br"
+    },
+    {
+      "section": "E",
+      "qtype": "case_study",
+      "topic": "Animals – Nervous System",
+      "reason": "figure-not-in-text:10",
+      "stem": "(i) Name the two parts that together form the central nervous system, and state which one of them is the main coordinati"
+    },
+    {
+      "section": "E",
+      "qtype": "case_study",
+      "topic": "Animals – Nervous System",
+      "reason": "figure-not-in-text:10",
+      "stem": "(i) State the sensation that tells the student she has eaten enough, name the centre responsible for it, and state the p"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      6
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

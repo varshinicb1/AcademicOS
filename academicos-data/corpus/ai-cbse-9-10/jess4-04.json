@@ -1,0 +1,956 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess4:04:AR:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/political-parties"
+      ],
+      "taxonomyChapterId": "social-science-10/political-parties",
+      "topic": "Why do we need political parties?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Read the two statements given below and answer the question that follows.\nStatement: Modern democracies cannot exist without political parties, because political parties perform a series of functions.\nReason: Laws for a country need not be debated and passed in a legislature, because political parties make them.\nWhich of the following options is correct? (A) Both the statement and the reason are true and the reason is a correct explanation of the statement. (B) Both the statement and the reason are true but the reason is not a correct explanation of the statement. (C) The statement is true but the reason is false. (D) Both the statement and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The statement is true but the reason is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "But we still need to ask why modern\nAs we noted last year, the big policy\ndemocracies cannot exist without\ndecisions are taken by political\npolitical parties. We can understand",
+            "Formally, laws are debated and\npassed in the legislature. But since"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the statement and the reason are true and the reason is a correct explanation of the statement.",
+            "B": "Both the statement and the reason are true but the reason is not a correct explanation of the statement.",
+            "C": "The statement is true but the reason is false.",
+            "D": "Both the statement and the reason are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess4 ch4",
+        "pages": [
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:04:B:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/political-parties"
+      ],
+      "taxonomyChapterId": "social-science-10/political-parties",
+      "topic": "Why do we need political parties?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "After a long water shortage, the residents of a colony find that the party in power has done nothing about their complaints, and they tell their councillor that they will vote against that party in the next elections. State what this threat forces the party to do, and what will happen to it if it still does nothing.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The party has to be responsive to people's needs and demands",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Otherwise people can reject those parties in the next elections",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "It has to be responsive to people's needs and demands; otherwise people can reject it in the next elections.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Parties have to be responsive",
+            "to people’s needs and demands.",
+            "Otherwise people can reject those\nin making laws for a country.\nparties in the next elections."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess4 ch4",
+        "pages": [
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:04:B:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/political-parties"
+      ],
+      "taxonomyChapterId": "social-science-10/political-parties",
+      "topic": "Why do we need political parties?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A party has won the elections and now wants to run the government itself. State, in short, the steps it takes to put its own team in charge.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The party recruits leaders and trains them",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It then makes them ministers to run the government in the way they want",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "It recruits leaders, trains them, and then makes them ministers to run the government in the way they want.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "political parties. Parties recruit",
+            "leaders, train them and then",
+            "make them ministers to run the"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess4 ch4",
+        "pages": [
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:04:C:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/political-parties"
+      ],
+      "taxonomyChapterId": "social-science-10/political-parties",
+      "topic": "Why do we need political parties?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A student complains that people in the country hold far too many different opinions on what policies are suitable for society, and that no government can handle all of them. Explain in about 45 words how a political party deals with this, and what a government is then expected to do.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that a large number of similar opinions have to be grouped together to provide a direction in which policies can be formulated by the governments",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that a party reduces a vast multitude of opinions into a few basic positions which it supports",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that a government is expected to base its policies on the line taken by the ruling party",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A large number of similar opinions have to be grouped together to provide a direction in which policies can be formulated. A party reduces a vast multitude of opinions into a few basic positions which it supports. A government is expected to base its policies on the line taken by the ruling party.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "But no government\ncan handle such a large variety\nof views. In a democracy, a large\nnumber of similar opinions have\nto be grouped together to provide\na direction in which policies can\nbe formulated by the governments.",
+            "This is what the parties do. A party\nreduces a vast multitude of opinions\ninto a few basic positions which it\nsupports.",
+            "A government is expected\nThat is why, they feel close to parties\nto base its policies on the line taken"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess4 ch4",
+        "pages": [
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:04:C:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/political-parties"
+      ],
+      "taxonomyChapterId": "social-science-10/political-parties",
+      "topic": "Why do we need political parties?",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Most of the members of a legislature belong to one political party, and a law is being debated and passed. Explain in about 45 words why the members vote the way their party leadership tells them, even where that goes against their personal opinions.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that formally, laws are debated and passed in the legislature",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that since most of the members belong to a party, they go by the direction of the party leadership",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that they do so irrespective of their personal opinions, so parties play a decisive role in making laws for a country",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Formally, laws are debated and passed in the legislature. But since most of the members belong to a party, they go by the direction of the party leadership, irrespective of their personal opinions. This is why parties play a decisive role in making laws for a country.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Formally, laws are debated and\npassed in the legislature. But since\nNecessity\nmost of the members belong to a\nThis list of functions in a sense\nparty, they go by the direction of\nanswers the question asked above:\nthe party leadership, irrespective of\nwe need political parties because\ntheir personal opinions.",
+            "3 Parties play a decisive role\nOtherwise people can reject those\nin making laws for a country.\nparties in the next elections."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess4 ch4",
+        "pages": [
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:04:C:3",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/political-parties"
+      ],
+      "taxonomyChapterId": "social-science-10/political-parties",
+      "topic": "Why do we need political parties?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A group of students decides to imagine an election held with no political parties at all. Explain in about 45 words what would happen to the candidates standing in it and to the promises they make to the people, and say what this shows about the need for political parties.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that every candidate in the elections would be independent",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that so no one would be able to make any promises to the people",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that modern democracies cannot exist without political parties, because they perform all these functions",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Every candidate in the elections would be independent, so no one would be able to make any promises to the people. This is how the necessity of political parties can be understood. Modern democracies cannot exist without political parties, because parties perform all these functions.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "imagining a situation without parties.\nleaders, train them and then\nEvery candidate in the elections\nmake them ministers to run the\nwill be independent. So no one\ngovernment in the way they want.\nwill be able to make any promises",
+            "But we still need to ask why modern\nAs we noted last year, the big policy\ndemocracies cannot exist without\ndecisions are taken by political\npolitical parties. We can understand",
+            "This list of functions in a sense\nparty, they go by the direction of\nanswers the question asked above:\nthe party leadership, irrespective of\nwe need political parties because\ntheir personal opinions.\nthey perform all these functions."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess4 ch4",
+        "pages": [
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:04:D:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/political-parties"
+      ],
+      "taxonomyChapterId": "social-science-10/political-parties",
+      "topic": "Why do we need political parties?",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A student is asked to explain to the class why modern democracies cannot exist without political parties. Set out, in steps, what political parties actually do to fill political offices and exercise political power.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Political parties fill political offices and exercise political power by performing a series of functions",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They contest elections, and in most democracies elections are fought mainly among the candidates put up by political parties",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They put forward different policies and programmes and the voters choose from them",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They play a decisive role in making laws for a country",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They form and run governments by recruiting leaders, training them and then making them ministers to run the government in the way they want",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Parties contest elections - in most democracies, elections are fought mainly among the candidates put up by political parties.\nStep 2: Parties put forward different policies and programmes and the voters choose from them.\nStep 3: Parties play a decisive role in making laws for a country.\nStep 4: Parties form and run governments - they recruit leaders, train them and then make them ministers to run the government in the way they want.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Basically, political parties fill political\nis marked by a\noffices and exercise political power.\ntendency to take a\nParties do so by performing a series\nside and inability\nof functions:",
+            "2 Parties put forward different\npolicies and programmes and the\nvoters choose from them.",
+            "4 Parties form and run governments.\nBut we still need to ask why modern\nAs we noted last year, the big policy\ndemocracies cannot exist without\ndecisions are taken by political\npolitical parties. We can understand\nexecutive that comes from the\nthe necessity of political parties by\npolitical parties. Parties recruit\nimagining a situation without parties.\nleaders, train them and then\nEvery candidate in the elections\nmake them ministers to run the\nwill be independent. So no one\ngovernment in the way they want.\nwill be able to make any promises"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch4",
+        "pages": [
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:04:D:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/political-parties"
+      ],
+      "taxonomyChapterId": "social-science-10/political-parties",
+      "topic": "Why do we need political parties?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Two students compare elections in India and in the USA. Set out, in steps, the different ways in which political parties select their candidates for contesting elections, and say which of these methods more and more countries are now following.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Parties select their candidates in different ways",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In some countries, such as the USA, members and supporters of a party choose its candidates",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Now more and more countries are following this method",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In other countries like India, top party leaders choose candidates for contesting elections",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In most democracies, elections are fought mainly among the candidates put up by political parties",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Parties select their candidates in different ways.\nStep 2: In some countries, such as the USA, members and supporters of a party choose its candidates.\nStep 3: Now more and more countries are following this method.\nStep 4: In other countries like India, top party leaders choose candidates for contesting elections.\nStep 5: In most democracies, elections are fought mainly among the candidates put up by political parties.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Parties select\ntheir candidates in different ways.\nIn some countries, such as the USA,\nmembers and supporters of a party\nchoose its candidates. Now more\nand more countries are following\nthis method.",
+            "In other countries\nlike India, top party leaders choose\ncandidates for contesting elections.",
+            "mainly among the candidates put\nup by political parties."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch4",
+        "pages": [
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:04:D:3",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/political-parties"
+      ],
+      "taxonomyChapterId": "social-science-10/political-parties",
+      "topic": "State parties",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A student in Delhi asks why national parties can no longer be sure of winning a Lok Sabha majority on their own, and what they now have to do about it. Set out, in steps, what has changed and what has followed from it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Over the last three decades, the number and strength of these parties has expanded, and this made the Parliament of India politically more and more diverse",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "No one national party is able to secure on its own a majority in the Lok Sabha, until 2014",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "As a result, the national parties are compelled to form alliances with State parties",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Since 1996, nearly every one of the State parties has got an opportunity to be a part of one national level political organisation or the other national level coalition",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "This has contributed to the strengthening of federalism and democracy in the country",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Over the last three decades, the number and strength of these parties has expanded, making the Parliament politically more and more diverse.\nStep 2: No one national party is able to secure on its own a majority in the Lok Sabha, until 2014.\nStep 3: As a result, the national parties are compelled to form alliances with State parties.\nStep 4: Since 1996, nearly every State party has joined a national level organisation or coalition, strengthening federalism and democracy.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Over the last three decades, the\nof the major parties of the country are\nnumber and strength of these parties has\nclassified by the Election Commission\nexpanded. This made the Parliament\nas ‘State parties’. These are commonly\nof India politically more and more\nreferred to as regional parties. Yet\ndiverse. No one national party is able",
+            "diverse. No one national party is able\nthese parties need not be regional in\nto secure on its own a majority in the\ntheir ideology or outlook. Some of\nLok Sabha, until 2014. As a result, the\nthese parties are all India parties that\nnational parties are compelled to form\nhappen to have succeeded only in\nalliances with State parties. Since 1996,",
+            "nearly every one of the State parties has\nParty and Rashtriya Janata Dal have\ngot an opportunity to be a part of one\nnational level political organisation\nor the other national level coalition\nwith units in several states. Some of\ngovernment. This has contributed to\nthese parties like Biju Janata Dal, Sikkim\nthe strengthening of federalism and\nDemocratic Front, Mizo National\ndemocracy in our country. (See the"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch4",
+        "pages": [
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:04:F:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/political-parties"
+      ],
+      "taxonomyChapterId": "social-science-10/political-parties",
+      "topic": "Political Parties",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "map_based",
+      "stem": "On an outline map of India, locate and label the following:\n(a) The State in which the Bahujan Samaj Party has its main base.\n(b) A neighbouring State in which the Bahujan Samaj Party has a substantial presence.\n(c) The State which the Bharatiya Janata Party wants to see fully integrated with India.\n(d) A State in which the Communist Party of India - Marxist enjoys strong support.\n(e) Another State in which the Communist Party of India - Marxist enjoys strong support.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Uttar Pradesh - the State in which the Bahujan Samaj Party has its main base",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Madhya Pradesh - a neighbouring State in which the Bahujan Samaj Party has a substantial presence",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Jammu and Kashmir - the State which the Bharatiya Janata Party wants to see fully integrated with India",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "West Bengal - a State in which the Communist Party of India - Marxist enjoys strong support",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Kerala - another State in which the Communist Party of India - Marxist enjoys strong support",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Uttar Pradesh, the main base of the Bahujan Samaj Party.\n(b) Madhya Pradesh, one of the neighbouring States where it has a substantial presence; Uttarakhand, Chhattisgarh, Delhi and Punjab are others.\n(c) Jammu and Kashmir, whose full territorial and political integration with India the Bharatiya Janata Party wants.\n(d) West Bengal, where the Communist Party of India - Marxist enjoys strong support.\n(e) Kerala, another State where the Communist Party of India - Marxist enjoys strong support; Tripura is also named.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It has its main base in the\nstate of Uttar Pradesh and substantial\npresence in neighbouring states like\nMadhya Pradesh, Chhattisgarh,\nUttarakhand, Delhi and Punjab.",
+            "Wants full territorial and political\nintegration of Jammu and Kashmir\nwith India, a uniform civil code",
+            "Enjoys strong support in West\nBengal, Kerala and Tripura, especially"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Map Based",
+        "chapter": "jess4 ch4",
+        "pages": [
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "Why do we need political parties?",
+      "reason": "figure-not-in-text:10",
+      "stem": "A Class 10 student notices that people vote again for the same party even though they say in private that they do not fu"
+    },
+    {
+      "section": "D",
+      "qtype": "long_answer",
+      "topic": "Why do we need political parties?",
+      "reason": "figure-not-in-text:10",
+      "stem": "A voter tells a Class 10 student that she votes for the same party again and again even though she does not fully trust "
+    },
+    {
+      "section": "E",
+      "qtype": "case_study",
+      "topic": "Why do we need political parties?",
+      "reason": "figure-not-in-text:10",
+      "stem": "Read the case below and answer the questions that follow. (a) State who chooses the candidates a party puts up to contes"
+    },
+    {
+      "section": "E",
+      "qtype": "case_study",
+      "topic": "Why do we need political parties?",
+      "reason": "figure-not-in-text:10",
+      "stem": "Read the case below and answer the questions that follow. (a) Explain why no government can handle the large variety of "
+    },
+    {
+      "section": "E",
+      "qtype": "case_study",
+      "topic": "Why do we need political parties?",
+      "reason": "figure-not-in-text:10",
+      "stem": "Read the case below and answer the questions that follow. (a) Imran names two functions of parties. Name two others that"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess4",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

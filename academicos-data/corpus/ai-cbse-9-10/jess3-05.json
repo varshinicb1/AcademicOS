@@ -1,0 +1,1245 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess3:05:A:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/print-culture-and-the-modern-world"
+      ],
+      "taxonomyChapterId": "social-science-10/print-culture-and-the-modern-world",
+      "topic": "The First Printed Books",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A student is told that Buddhist missionaries carried hand-printing technology from China to Japan, and that the oldest Chinese book was printed in AD 868; name the years in which hand-printing was introduced into Japan. (A) AD 868 (B) 1753 (C) 768-770 AD (D) 2007",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "768-770 AD",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "technology into Japan around\n768-770.",
+            "768-770. The oldest Chinese book,\nAD\n868, is the Buddhist Diamond Sutra, containing six sheets",
+            "Kitagawa Utamaro, born in Edo in 1753, was widely known for"
+          ],
+          "objective": true,
+          "options": {
+            "A": "AD 868",
+            "B": "1753",
+            "C": "768-770 AD",
+            "D": "2007"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess3 ch5",
+        "pages": [
+          1,
+          2,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:05:B:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/print-culture-and-the-modern-world"
+      ],
+      "taxonomyChapterId": "social-science-10/print-culture-and-the-modern-world",
+      "topic": "The First Printed Books",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "A student is shown a Korean collection of Buddhist scriptures belonging to the mid-13th century that was carved onto about 80,000 woodblocks and later inscribed on the UNESCO Memory of the World Register; name the collection and give the year in which it was inscribed.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the collection as the Tripitaka Koreana",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives the year in which it was inscribed as 2007",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The Tripitaka Koreana; 2007",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the Tripitaka Koreana are a Korean\ncollection of Buddhist scriptures.",
+            "80,000 woodblocks. They were\ninscribed on the UNESCO Memory",
+            "of the World Register in 2007."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess3 ch5",
+        "pages": [
+          1,
+          2,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:05:B:2",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/print-culture-and-the-modern-world"
+      ],
+      "taxonomyChapterId": "social-science-10/print-culture-and-the-modern-world",
+      "topic": "The First Printed Books",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "A collector examines the oldest Chinese book, printed in AD 868, whose pages carry both text and woodcut illustrations; name the book and say how many sheets it contains.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the book as the Buddhist Diamond Sutra",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that it contains six sheets",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The Buddhist Diamond Sutra; six sheets",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "868, is the Buddhist Diamond Sutra, containing six sheets",
+            "of text and woodcut illustrations. Pictures were printed on textiles,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess3 ch5",
+        "pages": [
+          1,
+          2,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:05:C:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/print-culture-and-the-modern-world"
+      ],
+      "taxonomyChapterId": "social-science-10/print-culture-and-the-modern-world",
+      "topic": "The First Printed Books",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A publisher in China finds that the state's orders for printed textbooks keep growing; explain why textbooks were being printed in such large numbers, and say what happened to the volume of print from the sixteenth century onwards.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that the imperial state in China was, for a very long time, the major producer of printed material",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that China possessed a huge bureaucratic system recruiting personnel through civil service examinations, and that textbooks for these were printed in vast numbers under the sponsorship of the imperial state",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that from the sixteenth century the number of examination candidates went up, and that this increased the volume of print",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The imperial state in China was, for a very long time, the major producer of printed material. China possessed a huge bureaucratic system which recruited its personnel through civil service examinations, and textbooks for these examinations were printed in vast numbers under the sponsorship of the imperial state. From the sixteenth century the number of examination candidates went up, and that increased the volume of print.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The imperial state in China was, for a very long time, the major\nproducer of printed material.",
+            "system which recruited its personnel through civil service\nexaminations. Textbooks for this examination were printed in vast\nnumbers under the sponsorship of the imperial state.",
+            "From the\nsixteenth century, the number of examination candidates went up\nand that increased the volume of print."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess3 ch5",
+        "pages": [
+          1,
+          2,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:05:C:2",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/print-culture-and-the-modern-world"
+      ],
+      "taxonomyChapterId": "social-science-10/print-culture-and-the-modern-world",
+      "topic": "The First Printed Books",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A reader in seventeenth-century China says that reading has become a leisure activity and that people now read for pleasure; say who was using print besides scholar-officials, and name three kinds of writing the new readership preferred.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that the uses of print diversified as urban culture bloomed, and that print was no longer used just by scholar-officials",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that merchants used print in their everyday life, as they collected trade information",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that reading increasingly became a leisure activity, and names three kinds of writing the new readership preferred, such as fictional narratives, poetry, autobiographies, anthologies of literary masterpieces and romantic plays",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "By the seventeenth century, as urban culture bloomed in China, the uses of print diversified and print was no longer used just by scholar-officials. Merchants used print in their everyday life, as they collected trade information, and reading increasingly became a leisure activity. The new readership preferred fictional narratives, poetry, autobiographies, anthologies of literary masterpieces and romantic plays.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "uses of print diversified. Print was no longer used just by scholar-\nofficials. Merchants used print in their everyday life, as they collected\ntrade information. Reading increasingly became a leisure activity.",
+            "The new readership preferred fictional narratives, poetry,\nautobiographies, anthologies of literary masterpieces, and romantic\nplays."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess3 ch5",
+        "pages": [
+          1,
+          2,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:05:C:3",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/print-culture-and-the-modern-world"
+      ],
+      "taxonomyChapterId": "social-science-10/print-culture-and-the-modern-world",
+      "topic": "The First Printed Books",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A visitor to a bookstore in Edo in the late eighteenth century finds the shelves packed with hand-printed material; name three kinds of subject the books deal with, and say who gathered in the flourishing urban circles of the city.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Names three of the subjects the hand-printed books dealt with, such as women, musical instruments, calculations, tea ceremony, flower arrangements, proper etiquette, cooking and famous places",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that in the flourishing urban circles at Edo, illustrated collections of paintings depicted an elegant urban culture",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that this elegant urban culture involved artists, courtesans and teahouse gatherings",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The shelves held books on women, musical instruments, calculations, tea ceremony, flower arrangements, proper etiquette, cooking and famous places. In the flourishing urban circles at Edo, illustrated collections of paintings depicted an elegant urban culture, involving artists, courtesans and teahouse gatherings.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "with hand-printed material of various types – books on women,\nmusical instruments, calculations, tea ceremony, flower\narrangements, proper etiquette, cooking and famous places.",
+            "illustrated collections of paintings\ndepicted an elegant urban culture, involving artists, courtesans,\nand teahouse gatherings."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess3 ch5",
+        "pages": [
+          1,
+          2,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:05:D:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/print-culture-and-the-modern-world"
+      ],
+      "taxonomyChapterId": "social-science-10/print-culture-and-the-modern-world",
+      "topic": "The First Printed Books",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A student traces printing in China from hand printing to mechanical presses; show in steps (a) how books were printed by hand and why the traditional Chinese ‘accordion book’ was folded and stitched at the side, (b) what new technology arrived, from where and when, (c) which city became the hub of the new print culture and whom it catered to, and (d) what change followed for printing.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "States that books were printed by rubbing paper against the inked surface of woodblocks",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that because both sides of the thin, porous sheet could not be printed, the traditional Chinese ‘accordion book’ was folded and stitched at the side",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that Western printing techniques and mechanical presses were imported in the late nineteenth century as Western powers established their outposts in China",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that Shanghai became the hub of the new print culture, catering to the Western-style schools",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that from hand printing there was a gradual shift to mechanical printing",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Books were printed by rubbing paper – also invented there – against the inked surface of woodblocks. As both sides of the thin, porous sheet could not be printed, the traditional Chinese ‘accordion book’ was folded and stitched at the side.\n(b) Western printing techniques and mechanical presses were imported in the late nineteenth century as Western powers established their outposts in China.\n(c) Shanghai became the hub of the new print culture, catering to the Western-style schools.\n(d) From hand printing there was a gradual shift to mechanical printing.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "onwards, books in China were printed by rubbing paper – also\ninvented there – against the inked surface of woodblocks.",
+            "Chinese ‘accordion book’ was folded and stitched at the side.",
+            "in the late nineteenth century as Western powers established their\noutposts in China. Shanghai became the hub of the new print culture,\ncatering to the Western-style schools. From hand printing there was\nnow a gradual shift to mechanical printing."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess3 ch5",
+        "pages": [
+          1,
+          2,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:05:D:2",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/print-culture-and-the-modern-world"
+      ],
+      "taxonomyChapterId": "social-science-10/print-culture-and-the-modern-world",
+      "topic": "The First Printed Books",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A student is researching how printing took root in Japan; show in steps (a) who brought hand-printing there and roughly when, (b) what the oldest Chinese book, printed in AD 868, was and what it contained, and (c) what besides books was being printed in medieval Japan.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "States that Buddhist missionaries from China introduced hand-printing technology into Japan around 768-770",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the oldest Chinese book, printed in AD 868, is the Buddhist Diamond Sutra",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the Diamond Sutra contained six sheets of text and woodcut illustrations",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that pictures were printed on textiles",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that pictures were printed on playing cards and paper money",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Buddhist missionaries from China introduced hand-printing technology into Japan around 768-770.\n(b) The oldest Chinese book, printed in AD 868, is the Buddhist Diamond Sutra, containing six sheets of text and woodcut illustrations.\n(c) Pictures were printed on textiles, playing cards and paper money.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Buddhist missionaries from China introduced hand-printing\ntechnology into Japan around\n768-770. The oldest Chinese book,\nAD\n868, is the Buddhist Diamond Sutra, containing six sheets",
+            "of text and woodcut illustrations. Pictures were printed on textiles,",
+            "playing cards and paper money. In"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess3 ch5",
+        "pages": [
+          1,
+          2,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:05:D:3",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/print-culture-and-the-modern-world"
+      ],
+      "taxonomyChapterId": "social-science-10/print-culture-and-the-modern-world",
+      "topic": "The First Printed Books",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A publisher in Edo wants thousands of identical ukiyo prints made from one design; show in steps (a) what the art form ukiyo means and who was born in Edo in 1753, (b) in what order a commissioned theme became a printed image, and (c) what happened to the artist’s original drawing.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "States that ukiyo means ‘pictures of the floating world’, depicting ordinary human experiences, especially urban ones",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that Kitagawa Utamaro, born in Edo in 1753, was widely known for his contributions to this art form",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that publishers like Tsutaya Juzaburo identified subjects and commissioned artists who drew the theme in outline",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that a skilled woodblock carver pasted the drawing on a woodblock and carved a printing block",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the original drawing was destroyed and only prints survived",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Ukiyo means ‘pictures of the floating world’, the depiction of ordinary human experiences, especially urban ones, and Kitagawa Utamaro, born in Edo in 1753, was widely known for his contributions to it.\n(b) Publishers like Tsutaya Juzaburo identified subjects and commissioned artists who drew the theme in outline; then a skilled woodblock carver pasted the drawing on a woodblock and carved a printing block.\n(c) In the process, the original drawing was destroyed and only prints survived.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Kitagawa Utamaro, born in Edo in 1753, was widely known for\nhis contributions to an art form called ukiyo (‘pictures of the floating\nworld’) or depiction of ordinary human experiences, especially urban\nones.",
+            "Tsutaya Juzaburo identified subjects and commissioned artists who\ndrew the theme in outline. Then a skilled woodblock carver pasted\nthe drawing on a woodblock and carved a printing block to",
+            "would be destroyed and only prints would survive."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess3 ch5",
+        "pages": [
+          1,
+          2,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:05:D:4",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/print-culture-and-the-modern-world"
+      ],
+      "taxonomyChapterId": "social-science-10/print-culture-and-the-modern-world",
+      "topic": "The Reading Mania",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "A student reads a diary entry written in 1791 by a London publisher about what his customers were buying; show in steps (a) who wrote the entry and what he recorded about the sale of books, (b) how the poorer country people spent their winter evenings before that period and what they did with the same evenings afterwards, and (c) name the two books the entry says these readers were sent out to buy.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "States that the writer was the London publisher James Lackington, in 1791",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the sale of books in general had increased prodigiously within the last twenty years, and that the poorer sort of farmers and even the poor country people in general were reading",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that before that period they spent their winter evenings relating stories of witches, ghosts and hobgoblins",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that now they shorten the winter night by hearing their sons and daughters read them tales, romances and so on",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names the two books as Peregrine Pickle’s Adventure and The History of Joseph Andrews",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) In 1791 a London publisher, James Lackington, wrote in his diary that the sale of books in general had increased prodigiously within the last twenty years, and that the poorer sort of farmers and even the poor country people in general were among those reading.\n(b) Before that period they spent their winter evenings relating stories of witches, ghosts and hobgoblins; now they shorten the winter night by hearing their sons and daughters read them tales, romances and so on.\n(c) John, going to town with a load of hay, is charged not to forget to bring home Peregrine Pickle’s Adventure, and Dolly, sent to sell her eggs, is commissioned to purchase The History of Joseph Andrews.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In 1791, a London publisher, James Lackington,\nwrote in his diary:\n‘The sale of books in general has increased\nprodigiously within the last twenty years.",
+            "poorer sort of farmers and even the poor country\npeople in general who before that period spent\ntheir winter evenings in relating stories of witches,\nghosts, hobgoblins … now shorten the winter\nnight by hearing their sons and daughters read\nthem tales, romances, etc.",
+            "to forget to bring home Peregrine Pickle’s\nAdventure … and when Dolly is sent to sell her\neggs, she is commissioned to purchase The\nHistory of Joseph Andrews.’"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess3 ch5",
+        "pages": [
+          1,
+          2,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:05:E:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/print-culture-and-the-modern-world"
+      ],
+      "taxonomyChapterId": "social-science-10/print-culture-and-the-modern-world",
+      "topic": "The First Printed Books",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "In China, books were printed by rubbing paper against the inked surface of woodblocks, and as both sides of the thin, porous sheet could not be printed, the traditional Chinese ‘accordion book’ was folded and stitched at the side. The imperial state in China was, for a very long time, the major producer of printed material. China possessed a huge bureaucratic system which recruited its personnel through civil service examinations, and textbooks for these examinations were printed in vast numbers under the sponsorship of the imperial state. From the sixteenth century, the number of examination candidates went up and that increased the volume of print.\n\nRead the case and answer the three questions below, each in one or two lines. (i) Why was the traditional Chinese ‘accordion book’ folded and stitched at the side? (ii) Who produced printed material in China for a very long time, and for what purpose were textbooks printed in vast numbers? (iii) A student says the state’s printing orders fell after the sixteenth century; use the case to show why that is not what happened.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Because both sides of the thin, porous sheet could not be printed. (ii) The imperial state; textbooks for the civil service examinations were printed in vast numbers under its sponsorship. (iii) From the sixteenth century the number of examination candidates went up, and that increased the volume of print.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "sides of the thin, porous sheet could not be printed, the traditional",
+            "The imperial state in China was, for a very long time, the major\nproducer of printed material. China possessed a huge bureaucratic\nsystem which recruited its personnel through civil service\nexaminations. Textbooks for this examination were printed in vast\nnumbers under the sponsorship of the imperial state.",
+            "From the\nsixteenth century, the number of examination candidates went up\nand that increased the volume of print."
+          ],
+          "objective": false,
+          "passage": "In China, books were printed by rubbing paper against the inked surface of woodblocks, and as both sides of the thin, porous sheet could not be printed, the traditional Chinese ‘accordion book’ was folded and stitched at the side. The imperial state in China was, for a very long time, the major producer of printed material. China possessed a huge bureaucratic system which recruited its personnel through civil service examinations, and textbooks for these examinations were printed in vast numbers under the sponsorship of the imperial state. From the sixteenth century, the number of examination candidates went up and that increased the volume of print."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess3 ch5",
+        "pages": [
+          1,
+          2,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:05:E:2",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/print-culture-and-the-modern-world"
+      ],
+      "taxonomyChapterId": "social-science-10/print-culture-and-the-modern-world",
+      "topic": "The First Printed Books",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "By the seventeenth century, as urban culture bloomed in China, the uses of print diversified and print was no longer used just by scholar-officials. Merchants used print in their everyday life, as they collected trade information, and reading increasingly became a leisure activity. The new readership preferred fictional narratives, poetry, autobiographies, anthologies of literary masterpieces and romantic plays. Rich women began to read, and many women began publishing their poetry and plays; wives of scholar-officials published their works and courtesans wrote about their lives.\n\nRead the case and answer the three questions below, each in one or two lines. (i) Name two uses that print was put to in seventeenth-century China by people other than scholar-officials. (ii) Which kinds of writing did the new readership prefer? (iii) A student says only men wrote books in this period; use the case to show why that is not correct.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Merchants collected trade information, and reading became a leisure activity. (ii) Fictional narratives, poetry, autobiographies, anthologies of literary masterpieces and romantic plays. (iii) Rich women read and many published their poetry and plays, wives of scholar-officials published their works, and courtesans wrote about their lives.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "uses of print diversified. Print was no longer used just by scholar-\nofficials. Merchants used print in their everyday life, as they collected\ntrade information. Reading increasingly became a leisure activity.",
+            "The new readership preferred fictional narratives, poetry,\nautobiographies, anthologies of literary masterpieces, and romantic\nplays.",
+            "Rich women began to read, and many women began\npublishing their poetry and plays. Wives of scholar-officials published\ntheir works and courtesans wrote about their lives."
+          ],
+          "objective": false,
+          "passage": "By the seventeenth century, as urban culture bloomed in China, the uses of print diversified and print was no longer used just by scholar-officials. Merchants used print in their everyday life, as they collected trade information, and reading increasingly became a leisure activity. The new readership preferred fictional narratives, poetry, autobiographies, anthologies of literary masterpieces and romantic plays. Rich women began to read, and many women began publishing their poetry and plays; wives of scholar-officials published their works and courtesans wrote about their lives."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess3 ch5",
+        "pages": [
+          1,
+          2,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:05:E:3",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/print-culture-and-the-modern-world"
+      ],
+      "taxonomyChapterId": "social-science-10/print-culture-and-the-modern-world",
+      "topic": "The First Printed Books",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Kitagawa Utamaro, born in Edo in 1753, was widely known for his contributions to an art form called ukiyo, ‘pictures of the floating world’, or the depiction of ordinary human experiences, especially urban ones. His prints travelled to contemporary US and Europe and influenced artists like Manet, Monet and Van Gogh. Publishers like Tsutaya Juzaburo identified subjects and commissioned artists who drew the theme in outline. Then a skilled woodblock carver pasted the drawing on a woodblock and carved a printing block to reproduce the painter’s lines. In the process, the original drawing was destroyed and only prints would survive.\n\nRead the case and answer the three questions below, each in one or two lines. (i) In what order did a commissioned theme become a printed image in Edo? (ii) What happened to the artist’s original drawing? (iii) How can you tell from the case that these prints were made for readers beyond Japan?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) A publisher such as Tsutaya Juzaburo identified the subject, an artist drew it in outline, and a skilled woodblock carver pasted the drawing on a woodblock and carved a printing block. (ii) It was destroyed; only prints survived. (iii) The prints travelled to contemporary US and Europe and influenced artists like Manet, Monet and Van Gogh.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Kitagawa Utamaro, born in Edo in 1753, was widely known for\nhis contributions to an art form called ukiyo (‘pictures of the floating\nworld’) or depiction of ordinary human experiences, especially urban\nones. These prints travelled to contemporary US and Europe and\ninfluenced artists like Manet, Monet and Van Gogh.",
+            "Tsutaya Juzaburo identified subjects and commissioned artists who\ndrew the theme in outline. Then a skilled woodblock carver pasted\nthe drawing on a woodblock and carved a printing block to",
+            "would be destroyed and only prints would survive."
+          ],
+          "objective": false,
+          "passage": "Kitagawa Utamaro, born in Edo in 1753, was widely known for his contributions to an art form called ukiyo, ‘pictures of the floating world’, or the depiction of ordinary human experiences, especially urban ones. His prints travelled to contemporary US and Europe and influenced artists like Manet, Monet and Van Gogh. Publishers like Tsutaya Juzaburo identified subjects and commissioned artists who drew the theme in outline. Then a skilled woodblock carver pasted the drawing on a woodblock and carved a printing block to reproduce the painter’s lines. In the process, the original drawing was destroyed and only prints would survive."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess3 ch5",
+        "pages": [
+          1,
+          2,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "F",
+      "qtype": "map_based",
+      "topic": "",
+      "reason": "stem-names-the-text",
+      "stem": "Fig. 11, The nobility and the common people before the French Revolution, a cartoon of the late eighteenth century (page"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess3",
+    "chapters": [
+      5
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

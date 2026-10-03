@@ -1,0 +1,414 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess1:01:A:101",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/resources-and-development"
+      ],
+      "taxonomyChapterId": "social-science-10/resources-and-development",
+      "topic": "Resources and Development",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A worker sinks a borewell and at the bottom of it reaches hard rock that has not been weathered at all; name the layer of soil he has reached. (A) Top soil (B) Unweathered parent bed rock (C) Substratum (D) Subsoil",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Unweathered parent bed rock",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Unweathered\nparent bed rock",
+            "Substratum\nweathered parent\nrock material"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Top soil",
+            "B": "Unweathered parent bed rock",
+            "C": "Substratum",
+            "D": "Subsoil"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:01:A:102",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/resources-and-development"
+      ],
+      "taxonomyChapterId": "social-science-10/resources-and-development",
+      "topic": "Resources and Development",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Over irrigation has caused land degradation in Haryana; name the two other places that are grouped with Haryana for this damage. (A) Gujarat and Rajasthan (B) Jharkhand and Chhattisgarh (C) Punjab and Madhya Pradesh (D) Punjab and western Uttar Pradesh",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Punjab and western Uttar Pradesh",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the states of Punjab, Haryana, western Uttar\nPradesh, over irrigation is responsible for land\ndegradation due to water logging leading to\nincrease in salinity and alkalinity in the soil."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Gujarat and Rajasthan",
+            "B": "Jharkhand and Chhattisgarh",
+            "C": "Punjab and Madhya Pradesh",
+            "D": "Punjab and western Uttar Pradesh"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:01:A:103",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/resources-and-development"
+      ],
+      "taxonomyChapterId": "social-science-10/resources-and-development",
+      "topic": "Resources and Development",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A soil test on a farm reports that the soil holds adequate proportions of potash, phosphoric acid and lime; which group of crops is ideal for growing in it? (A) calcite, soapstone and limestone (B) regur soil, Khadar and bangar (C) sugarcane, paddy and wheat (D) humus, silt and clay",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "sugarcane, paddy and wheat",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Mostly these soils contain adequate proportion\nof potash, phosphoric acid and lime which\nare ideal for the growth of sugarcane, paddy,\nwheat and other cereal and pulse crops. Due\nto its high fertility, regions of alluvial soils are"
+          ],
+          "objective": true,
+          "options": {
+            "A": "calcite, soapstone and limestone",
+            "B": "regur soil, Khadar and bangar",
+            "C": "sugarcane, paddy and wheat",
+            "D": "humus, silt and clay"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:01:A:104",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/resources-and-development"
+      ],
+      "taxonomyChapterId": "social-science-10/resources-and-development",
+      "topic": "Resources and Development",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A farmer has just bought a plot of black soil and wants to know the other name that is commonly given for it; which name should she look for? (A) alluvial soil (B) Khadar (C) regur soil (D) bangar",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "regur soil",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "These soils are black in colour and are also",
+            "known as regur soils. Black soil is ideal for"
+          ],
+          "objective": true,
+          "options": {
+            "A": "alluvial soil",
+            "B": "Khadar",
+            "C": "regur soil",
+            "D": "bangar"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:01:A:105",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/resources-and-development"
+      ],
+      "taxonomyChapterId": "social-science-10/resources-and-development",
+      "topic": "Resources and Development",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Before the soils of India can be sorted into types, a student must first note the factors on which the formation of soil depends; which set should the student note? (A) relief, parent rock or bed rock, climate, vegetation and time (B) sugarcane, paddy, wheat, other cereal and pulse crops (C) potash, phosphoric acid, lime, humus and industrial effluents (D) deforestation, over grazing, mining, quarrying and over irrigation",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "relief, parent rock or bed rock, climate, vegetation and time",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Relief, parent rock or bed rock, climate,\nvegetation and other forms of life and time are\nimportant factors in the formation of soil."
+          ],
+          "objective": true,
+          "options": {
+            "A": "relief, parent rock or bed rock, climate, vegetation and time",
+            "B": "sugarcane, paddy, wheat, other cereal and pulse crops",
+            "C": "potash, phosphoric acid, lime, humus and industrial effluents",
+            "D": "deforestation, over grazing, mining, quarrying and over irrigation"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:01:A:106",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/resources-and-development"
+      ],
+      "taxonomyChapterId": "social-science-10/resources-and-development",
+      "topic": "Resources and Development",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A town finds that both its land and its water are polluted, and scientists name one source that has recently become a major cause of this in many parts of the country; name that source. (A) dust from the grinding of limestone, calcite and soapstone (B) industrial effluents as waste (C) water logging left behind by over irrigation (D) dust from the deep scars left at abandoned mines",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "industrial effluents as waste",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "after it settles down on the land. In recent",
+            "years, industrial effluents as waste have\nbecome a major source of land and water\npollution in many parts of the country."
+          ],
+          "objective": true,
+          "options": {
+            "A": "dust from the grinding of limestone, calcite and soapstone",
+            "B": "industrial effluents as waste",
+            "C": "water logging left behind by over irrigation",
+            "D": "dust from the deep scars left at abandoned mines"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess1",
+    "chapters": [
+      1
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

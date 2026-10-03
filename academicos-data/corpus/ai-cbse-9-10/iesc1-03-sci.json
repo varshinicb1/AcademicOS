@@ -1,0 +1,627 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:03:B:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-3"
+      ],
+      "taxonomyChapterId": "science-9/chapter-3",
+      "topic": "Tissues in Action",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A farmer waters a row of young plants at their roots and finds that they grow well, while food made in the leaves reaches every other part of the plant. Name the two conducting tissues in a plant and state what each one transports.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Xylem transports water and minerals",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Phloem transports food",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Xylem transports water and minerals; phloem transports food.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In plants, conducting tissues, such as\nxylem transports water and minerals, while phloem transports food."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch3",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          29,
+          31,
+          33,
+          35,
+          37,
+          39,
+          41,
+          43,
+          45,
+          47
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:03:B:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-3"
+      ],
+      "taxonomyChapterId": "science-9/chapter-3",
+      "topic": "Tissues in Action",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "While playing in the park, a boy pulls his hand back the moment his fingers touch a hot dish, and the message of the burn is carried onwards to other parts of his body. Name the two animal tissues that act in such a response and state what each one does.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Muscle tissue enables movement",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Nervous tissue carries messages to different parts of the body",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Muscle tissue enables movement; nervous tissue carries messages to different parts of the body.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "in animals, muscle tissue enables movement and nervous tissue carries\nmessages to different parts of the body.",
+            "These cells gradually form the skin\n(protection), muscles (movement), bones (support), nerves (control"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch3",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          29,
+          31,
+          33,
+          35,
+          37,
+          39,
+          41,
+          43,
+          45,
+          47
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:03:B:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-3"
+      ],
+      "taxonomyChapterId": "science-9/chapter-3",
+      "topic": "Tissues in Action",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "In a school garden one group of students digs the beds, another sows the seeds and a third waters them, and the work gets finished far more quickly than if everyone tried to do every job. In a living body, cells are grouped in the same way so that different groups perform different functions. Name this arrangement and state what it does for the body.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The arrangement is called division of labour",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It increases the efficiency of the body and enables it to carry out complex life processes",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Division of labour; it increases the efficiency of the body and enables it to carry out complex life processes.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "leads to the division of labour, which increases the efficiency of the\nbody and enables it to carry out complex life processes.",
+            "and animals, different groups of cells perform different functions."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch3",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          29,
+          31,
+          33,
+          35,
+          37,
+          39,
+          41,
+          43,
+          45,
+          47
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:03:B:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-3"
+      ],
+      "taxonomyChapterId": "science-9/chapter-3",
+      "topic": "Animal Tissues",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A student studying a transverse section of a stem under a microscope finds that the xylem is made up mostly of tubular, thick-walled cells, with only one part of it still living. Name the living part of the xylem and state what kind of cells the thick-walled parts are.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Xylem parenchyma is the only living component of xylem",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Tracheids, vessels and xylem fibres are sclerenchymatous",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Xylem parenchyma is the only living component of xylem; tracheids, vessels and xylem fibres are sclerenchymatous.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Xylem parenchyma are the only living component of\nxylem while trachieds, vessels, and xylem fibres are",
+            "primarily sclerenchymatous.",
+            "fibres. Tracheids and vessels are tubular and thick-walled."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch3",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          29,
+          31,
+          33,
+          35,
+          37,
+          39,
+          41,
+          43,
+          45,
+          47
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:03:E:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-3"
+      ],
+      "taxonomyChapterId": "science-9/chapter-3",
+      "topic": "Tissues in Action",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A class held an exhibition on how living bodies are put together. One group's chart began at the bottom with a single cell and climbed upwards. At the first step the students wrote that cells of a similar kind doing a similar job come together; at the next step, that more than one type of tissue makes an organ; and at the step above that, that different organs join to make an organ system. A visitor looked at the chart for a long time and asked why a plant cannot be built as one single mass of similar cells. The teacher asked everyone to answer her using the three steps they had drawn.\n\nName, in order, the levels the chart shows, beginning with cells of a similar kind and ending with organ systems. (ii) Say what the cells at the first level have in common, and what is added at the level just above it. (iii) The visitor objected that the ladder was unnecessary, since a plant could be built as one single mass of similar cells. Using the chart, explain why a plant or an animal is built in levels instead, and name the arrangement.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Tissue, organ, organ system. (ii) Cells of a similar type performing similar function; more than one type of tissue. (iii) Cells of one kind make a tissue, different types of tissues make organs and different organs make organ systems, so the body follows a hierarchy of organisation in which each level takes its own share of the work.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "hierarchy of organisation. Cells of similar type performing similar",
+            "function group together to form a tissue, more than one type of tissues",
+            "form organs, different organs form organ systems and organ systems"
+          ],
+          "objective": false,
+          "passage": "A class held an exhibition on how living bodies are put together. One group's chart began at the bottom with a single cell and climbed upwards. At the first step the students wrote that cells of a similar kind doing a similar job come together; at the next step, that more than one type of tissue makes an organ; and at the step above that, that different organs join to make an organ system. A visitor looked at the chart for a long time and asked why a plant cannot be built as one single mass of similar cells. The teacher asked everyone to answer her using the three steps they had drawn."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch3",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          29,
+          31,
+          33,
+          35,
+          37,
+          39,
+          41,
+          43,
+          45,
+          47
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:03:E:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-3"
+      ],
+      "taxonomyChapterId": "science-9/chapter-3",
+      "topic": "Tissues in Action",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A girl fell off her bicycle and grazed her knee. Her mother tied a clean cloth over it, and told her that the skin over the scrape, the muscles that threw her arm out, and the warning she felt before she looked down were all the work of groups of cells. An amoeba drifts past in the garden pond, taking care of every job of life in a single cell. Her mother added that life begins when one cell divides itself again and again, and that what begins as one cell ends up as skin, muscles, bones and nerves. She asked the girl to say how all those cells come to share out the work.\n\nName what the dividing cell finally gave rise to, and state the job of the skin and of the muscles. (ii) Name the organism in the pond that gets on with a single cell, and say what that one cell manages to do. (iii) The mother says the cells share out the work between them. Explain how this sharing of work comes about and what it achieves for the body.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Skin, muscles, bones and nerves; the skin gives protection and the muscles bring about movement. (ii) Amoeba; its one cell performs all functions of life. (iii) The formation of different types of tissues leads to the division of labour, which increases the efficiency of the body and enables it to carry out complex life processes.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Life begins when a single cell divides itself several times to give\nrise to a large number of cells. These cells gradually form the skin\n(protection), muscles (movement), bones (support), nerves (control",
+            "form an organism. In unicellular organisms, such as amoeba, a single",
+            "leads to the division of labour, which increases the efficiency of the\nbody and enables it to carry out complex life processes."
+          ],
+          "objective": false,
+          "passage": "A girl fell off her bicycle and grazed her knee. Her mother tied a clean cloth over it, and told her that the skin over the scrape, the muscles that threw her arm out, and the warning she felt before she looked down were all the work of groups of cells. An amoeba drifts past in the garden pond, taking care of every job of life in a single cell. Her mother added that life begins when one cell divides itself again and again, and that what begins as one cell ends up as skin, muscles, bones and nerves. She asked the girl to say how all those cells come to share out the work."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch3",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          29,
+          31,
+          33,
+          35,
+          37,
+          39,
+          41,
+          43,
+          45,
+          47
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:03:E:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-3"
+      ],
+      "taxonomyChapterId": "science-9/chapter-3",
+      "topic": "Tissues in Action",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A boy grows a row of young plants on his terrace and waters them every evening. One evening he notices that the soft new shoot at the end of a stem is drooping, so he waters the soil again, and by next morning it stands up. Another afternoon he stubs his toe on a spade: his foot jerks back at once and the pain reaches him a moment later. His mother says that in the plants and in him, groups of cells are doing all of this, and that each group has a job of its own. She asks him to name them.\n\nName the two conducting tissues in the boy's plants and state what each one carries. (ii) His foot jerked back and then the pain reached him. Name the two tissues in his body that did this, and state what each one does. (iii) His mother says each group of cells has a job of its own. Using what a tissue is, explain why a body gets more done when its cells are grouped into tissues than when every cell tries to do every job.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Xylem carries water and minerals and phloem carries food. (ii) Muscle tissue enabled the movement and nervous tissue carried messages to different parts of the body. (iii) A tissue is a group of cells similar in structure that work together for one specific function, so each group is good at one job and the body gets them all done at once.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In plants, conducting tissues, such as\nxylem transports water and minerals, while phloem transports food.",
+            "in animals, muscle tissue enables movement and nervous tissue carries\nmessages to different parts of the body.",
+            "tissue is a group of cells (similar in structure) that work together to"
+          ],
+          "objective": false,
+          "passage": "A boy grows a row of young plants on his terrace and waters them every evening. One evening he notices that the soft new shoot at the end of a stem is drooping, so he waters the soil again, and by next morning it stands up. Another afternoon he stubs his toe on a spade: his foot jerks back at once and the pain reaches him a moment later. His mother says that in the plants and in him, groups of cells are doing all of this, and that each group has a job of its own. She asks him to name them."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch3",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          29,
+          31,
+          33,
+          35,
+          37,
+          39,
+          41,
+          43,
+          45,
+          47
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:03:E:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-3"
+      ],
+      "taxonomyChapterId": "science-9/chapter-3",
+      "topic": "Animal Tissues",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A grower who sells young plants wants to know why the stems of her cuttings never sag and yet stay alive. She has read that the xylem is the tissue that carries water and minerals from the roots to other parts of the plant, and that it also gives the plant strength. Looking closely she finds that the xylem is not one uniform mass: it is built of tracheids, vessels, xylem parenchyma and xylem fibres, and of these only the xylem parenchyma is still living. She wonders how a tissue that is largely made up of cells which are no longer alive can still do so much work.\n\nName the four kinds of cells the xylem is built of and say which one of them is still alive. (ii) Most of the xylem is no longer alive, yet it carries water and minerals to the rest of the plant and keeps the plant strong. Using the cells you have named, explain how the xylem manages to do both jobs.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Tracheids, vessels, xylem parenchyma and xylem fibres; xylem parenchyma is the only living one. (ii) Xylem is built of different types of cells working together: xylem parenchyma stays alive, while the other cells carry the water and minerals to the other parts of the plant and give the plant its strength.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "consists of tracheids, vessels, xylem parenchyma and xylem",
+            "Xylem parenchyma are the only living component of",
+            "transports water and minerals from the roots to other parts\nof the plant. It also provides strength to the plant."
+          ],
+          "objective": false,
+          "passage": "A grower who sells young plants wants to know why the stems of her cuttings never sag and yet stay alive. She has read that the xylem is the tissue that carries water and minerals from the roots to other parts of the plant, and that it also gives the plant strength. Looking closely she finds that the xylem is not one uniform mass: it is built of tracheids, vessels, xylem parenchyma and xylem fibres, and of these only the xylem parenchyma is still living. She wonders how a tissue that is largely made up of cells which are no longer alive can still do so much work."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch3",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          29,
+          31,
+          33,
+          35,
+          37,
+          39,
+          41,
+          43,
+          45,
+          47
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      3
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

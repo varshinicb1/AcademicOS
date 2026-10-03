@@ -1,0 +1,649 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:04:B:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-4"
+      ],
+      "taxonomyChapterId": "science-9/chapter-4",
+      "topic": "Motion in a Straight Line",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A train is running along a straight railway track and never turns back or takes a curve during its journey. Name the kind of motion the train shows and give the other name by which this same kind of motion is called.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the motion as linear motion",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that it is also called motion in a straight line",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Linear motion; it is also called motion in a straight line.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "You have learnt that when an object moves in a straight line, its motion is\ncalled linear motion. It can also be called motion in a straight line."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch4",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          49,
+          51,
+          53,
+          55,
+          57,
+          61,
+          63,
+          65,
+          67,
+          69,
+          71
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:04:B:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-4"
+      ],
+      "taxonomyChapterId": "science-9/chapter-4",
+      "topic": "Motion in a Straight Line",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Vikram wants to tell his class exactly how a ball that rolled across the floor and came to rest moved. State what he must describe first in order to discuss the motion of the ball.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Identifies that the position of the object is to be described",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that this is done at various instants of time",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The position of the ball at various instants of time.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "To discuss about the motion of an object, you first need to describe its\nposition at various instants of time."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch4",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          49,
+          51,
+          53,
+          55,
+          57,
+          61,
+          63,
+          65,
+          67,
+          69,
+          71
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:04:B:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-4"
+      ],
+      "taxonomyChapterId": "science-9/chapter-4",
+      "topic": "Motion in a Straight Line",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "Neha already knows about distance, time and speed. Name the three further physical quantities she must now learn in order to describe motion more fully.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names displacement and average velocity",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names average acceleration",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Displacement, average velocity and average acceleration.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "such as distance, time and speed. Now, you will learn",
+            "about some more physical quantities, such as displacement, average\nvelocity and average acceleration."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch4",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          49,
+          51,
+          53,
+          55,
+          57,
+          61,
+          63,
+          65,
+          67,
+          69,
+          71
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:04:B:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-4"
+      ],
+      "taxonomyChapterId": "science-9/chapter-4",
+      "topic": "Average speed and average velocity",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A bus is moving on a long straight highway with a velocity of 36 km/h. The driver presses the accelerator and the velocity of the bus increases to 54 km/h in a time interval of 10 s. State the direction of the average acceleration of the bus during this time interval.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States that the magnitude of velocity is increasing in this time interval",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the average acceleration is in the direction of the velocity",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "In the direction of the velocity of the bus.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "is increasing in a given time interval, the average acceleration is in the\ndirection of velocity (Fig. 4.8).",
+            "A bus is moving on a long straight highway (Fig. 4.9) with a\nvelocity of 36 km h . The driver presses the accelerator for a time interval",
+            "of 10 s and velocity of the bus increases to 54 km h ."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch4",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          49,
+          51,
+          53,
+          55,
+          57,
+          61,
+          63,
+          65,
+          67,
+          69,
+          71
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:04:E:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-4"
+      ],
+      "taxonomyChapterId": "science-9/chapter-4",
+      "topic": "Motion in a Straight Line",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "During the annual sports day, children took part in a swimming race, a ball was dropped from a balcony and a toy car was pushed along a straight corridor. Meera watched all three movements and said that they had one thing in common, since in each case the object went on moving along the same straight path without ever turning back. Her friend Ravi asked her how anybody could be sure of this. Meera replied that the position of the object has to be described again and again, and added that the same motion can also be shown with numbers, equations and graphs.\n\nName the kind of motion that Meera observed in all three movements and give the other name by which the same kind of motion is called. (ii) State what has to be described before the motion of an object can be discussed. (iii) Ravi points out that the ball fell downwards while the toy car moved sideways, and so he says these two cannot be showing the same kind of motion. Using what decides the name of this kind of motion, explain why his reasoning is not correct.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Linear motion, also called motion in a straight line. (ii) The position of the object at various instants of time. (iii) Only the straightness of the path matters, not its direction, so a ball falling vertically and a toy car moving along a corridor both show linear motion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "You have learnt that when an object moves in a straight line, its motion is\ncalled linear motion. It can also be called motion in a straight line.",
+            "To discuss about the motion of an object, you first need to describe its\nposition at various instants of time."
+          ],
+          "objective": false,
+          "passage": "During the annual sports day, children took part in a swimming race, a ball was dropped from a balcony and a toy car was pushed along a straight corridor. Meera watched all three movements and said that they had one thing in common, since in each case the object went on moving along the same straight path without ever turning back. Her friend Ravi asked her how anybody could be sure of this. Meera replied that the position of the object has to be described again and again, and added that the same motion can also be shown with numbers, equations and graphs."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch4",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          49,
+          51,
+          53,
+          55,
+          57,
+          61,
+          63,
+          65,
+          67,
+          69,
+          71
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:04:E:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-4"
+      ],
+      "taxonomyChapterId": "science-9/chapter-4",
+      "topic": "Motion in a Straight Line",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Arun is making a project on how objects move. He has already learnt about distance, time and speed, and now he wants to describe motion in a much more exact way. He decides to use displacement, average velocity and average acceleration in addition, and to show all his work with numbers, equations and graphs so that a reader can follow every step. He begins by noting the position of a moving object at different moments of time. On the last page Arun wants to compare this motion with the motion of something going round and round on a circle, and he is not sure what that second kind of motion is called.\n\nName the three further physical quantities that Arun decides to use in addition to distance, time and speed. (ii) State what Arun must first describe in order to discuss the motion of an object. (iii) Arun's project also shows an object going round and round on a circle. Explain, using the kind of motion that is described as the simplest, why this circular path cannot be put in the same category as the straight-line motion in his project.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Displacement, average velocity and average acceleration. (ii) The position of the object at various instants of time. (iii) The simplest kind of motion is the motion in a straight line, that is, linear motion. An object going round and round on a circle is not moving along a straight line, so its motion is a different kind.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "about some more physical quantities, such as displacement, average\nvelocity and average acceleration.",
+            "To discuss about the motion of an object, you first need to describe its\nposition at various instants of time.",
+            "You have learnt that when an object moves in a straight line, its motion is\ncalled linear motion. It can also be called motion in a straight line. It is the\nsimplest kind of motion."
+          ],
+          "objective": false,
+          "passage": "Arun is making a project on how objects move. He has already learnt about distance, time and speed, and now he wants to describe motion in a much more exact way. He decides to use displacement, average velocity and average acceleration in addition, and to show all his work with numbers, equations and graphs so that a reader can follow every step. He begins by noting the position of a moving object at different moments of time. On the last page Arun wants to compare this motion with the motion of something going round and round on a circle, and he is not sure what that second kind of motion is called."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch4",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          49,
+          51,
+          53,
+          55,
+          57,
+          61,
+          63,
+          65,
+          67,
+          69,
+          71
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:04:E:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-4"
+      ],
+      "taxonomyChapterId": "science-9/chapter-4",
+      "topic": "Motion in a Straight Line",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Ravi is preparing a wall chart on motion for his classroom. On it he has drawn a car moving along a straight stretch of a highway, a train on a straight track, children taking part in a swimming race and a ball falling vertically from a hand. Below the drawings he has written that motion can be shown in words as well as with numbers, equations and graphs, and added a note that the position of a moving object has to be noted again and again. His friend Meera reads the chart and says the four drawings look so different that they must need four different descriptions. Ravi asks her to look at what the four have in common.\n\nName the three things, other than words, with which Ravi can show motion on his chart. (ii) State what Ravi has to note again and again before the motion of an object can be discussed. (iii) Meera says the four drawings look so different from one another that each one needs a different description. Using the ways in which motion can be described, explain why she is mistaken.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Numbers, equations and graphs. (ii) The position of the object at various instants of time. (iii) All four drawings show an object moving along a straight line, and the same three ways of showing motion, with numbers, equations and graphs, work for every one of them, so different-looking drawings do not need different descriptions.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "not only in words, but also with numbers, equations and graphs.",
+            "To discuss about the motion of an object, you first need to describe its\nposition at various instants of time.",
+            "such as children\nin a swimming race, a vertically falling ball, a car moving along a straight\nstretch of a highway or a train moving on a straight track (Fig. 4.1)?"
+          ],
+          "objective": false,
+          "passage": "Ravi is preparing a wall chart on motion for his classroom. On it he has drawn a car moving along a straight stretch of a highway, a train on a straight track, children taking part in a swimming race and a ball falling vertically from a hand. Below the drawings he has written that motion can be shown in words as well as with numbers, equations and graphs, and added a note that the position of a moving object has to be noted again and again. His friend Meera reads the chart and says the four drawings look so different that they must need four different descriptions. Ravi asks her to look at what the four have in common."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch4",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          49,
+          51,
+          53,
+          55,
+          57,
+          61,
+          63,
+          65,
+          67,
+          69,
+          71
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:04:E:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-4"
+      ],
+      "taxonomyChapterId": "science-9/chapter-4",
+      "topic": "Average speed and average velocity",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Ravi goes out on a highway and watches a car driver closely. He notes that when a vehicle speeds up its average acceleration acts in the direction of its velocity, while when it slows down the acceleration acts in the opposite direction. He also learns that an average acceleration can come from a change in the magnitude of the velocity or from a change in its direction, or from both. On one trip a bus on a long straight highway moving at 36 km/h had its accelerator pressed for 10 s, so its velocity rose to 54 km/h. It then moved at a constant velocity, and the driver finally pressed the brake and the bus stopped in 5 s.\n\nState the direction of the average acceleration of a vehicle when the magnitude of its velocity is increasing, and when it is decreasing. (ii) Ravi says that because the bus travelled on a straight highway without turning, its acceleration must have been zero throughout the journey. Using what Ravi learns about what gives rise to an average acceleration, and what happened to the velocity of the bus, explain why this is not correct.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) When the magnitude of velocity increases the average acceleration is in the direction of velocity; when it decreases it is opposite to it. (ii) An average acceleration comes from a change in the magnitude of velocity. The velocity of the bus rose from 36 km/h to 54 km/h and later fell to zero, so the acceleration was not zero throughout.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "is increasing in a given time interval, the average acceleration is in the\ndirection of velocity (Fig. 4.8). Whereas, the average acceleration is opposite\nto the direction of velocity if the magnitude of velocity is decreasing.",
+            "The average acceleration can result from change in the magnitude of\nvelocity or change in its direction, or both.",
+            "moves at a constant velocity. Then, the driver notices an obstacle on the\nroad ahead and presses the brake. The bus comes to a stop in a time interval\nof 5 s."
+          ],
+          "objective": false,
+          "passage": "Ravi goes out on a highway and watches a car driver closely. He notes that when a vehicle speeds up its average acceleration acts in the direction of its velocity, while when it slows down the acceleration acts in the opposite direction. He also learns that an average acceleration can come from a change in the magnitude of the velocity or from a change in its direction, or from both. On one trip a bus on a long straight highway moving at 36 km/h had its accelerator pressed for 10 s, so its velocity rose to 54 km/h. It then moved at a constant velocity, and the driver finally pressed the brake and the bus stopped in 5 s."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch4",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          49,
+          51,
+          53,
+          55,
+          57,
+          61,
+          63,
+          65,
+          67,
+          69,
+          71
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -1,0 +1,173 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess4:01:A:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/power-sharing"
+      ],
+      "taxonomyChapterId": "social-science-10/power-sharing",
+      "topic": "Belgium and Sri Lanka",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Standing in Brussels, Meera is told that Dutch speakers form only a small minority of the capital's people; what share of Brussels's people speak Dutch? (A) 59 per cent (B) 80 per cent (C) 20 per cent (D) 40 per cent",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "20 per cent",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "capital city Brussels, 80 per cent\npeople speak French while 20 per\ncent are Dutch-speaking."
+          ],
+          "objective": true,
+          "options": {
+            "A": "59 per cent",
+            "B": "80 per cent",
+            "C": "20 per cent",
+            "D": "40 per cent"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess4 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "AR",
+      "qtype": "assertion_reason",
+      "topic": "Belgium and Sri Lanka",
+      "reason": "wrong-type",
+      "stem": "Nila's grandfather in Sri Lanka came from India to work on a plantation during the colonial period, and Nila's family sp"
+    },
+    {
+      "section": "AR",
+      "qtype": "assertion_reason",
+      "topic": "Belgium and Sri Lanka",
+      "reason": "wrong-type",
+      "stem": "Farmer Devan lives in Sri Lanka, where Tamil communities are gathered in two parts of the country rather than spread eve"
+    },
+    {
+      "section": "B",
+      "qtype": "very_short_answer",
+      "topic": "Belgium and Sri Lanka",
+      "reason": "wrong-type",
+      "stem": "A newspaper recalls that the Dutch-speaking and French-speaking communities of Belgium were in tension during the 1950s "
+    },
+    {
+      "section": "B",
+      "qtype": "very_short_answer",
+      "topic": "Belgium and Sri Lanka",
+      "reason": "wrong-type",
+      "stem": "Asha is studying the social composition of Sri Lanka. (a) Name the two major social groups of Sri Lanka with the share o"
+    },
+    {
+      "section": "B",
+      "qtype": "very_short_answer",
+      "topic": "Belgium and Sri Lanka",
+      "reason": "wrong-type",
+      "stem": "Rohan is collecting basic facts about Sri Lanka for a project. State where the country is located, how many people it ha"
+    },
+    {
+      "section": "C",
+      "qtype": "short_answer",
+      "topic": "Belgium and Sri Lanka",
+      "reason": "wrong-type",
+      "stem": "A student is comparing how Belgium and Sri Lanka are divided into language groups. Work out, step by step in about 75 wo"
+    },
+    {
+      "section": "C",
+      "qtype": "short_answer",
+      "topic": "Belgium and Sri Lanka",
+      "reason": "wrong-type",
+      "stem": "Although Dutch speakers are a majority in Belgium as a whole, they are a minority in the capital city of Brussels. Work "
+    },
+    {
+      "section": "C",
+      "qtype": "short_answer",
+      "topic": "Belgium and Sri Lanka",
+      "reason": "wrong-type",
+      "stem": "A researcher is writing about the Tamil communities of Sri Lanka. Show, step by step in about 75 words, how the Tamil-sp"
+    },
+    {
+      "section": "D",
+      "qtype": "long_answer",
+      "topic": "Belgium and Sri Lanka",
+      "reason": "evidence-not-in-text",
+      "stem": "Ravi is studying how power is shared in a democracy. Work out, step by step in about 75 words, what happens when Russia'"
+    },
+    {
+      "section": "D",
+      "qtype": "long_answer",
+      "topic": "Forms of power-sharing",
+      "reason": "wrong-type",
+      "stem": "(a) What share of Belgium's population lives in the Wallonia region, and which language do those people speak? (b) In th"
+    },
+    {
+      "section": "D",
+      "qtype": "long_answer",
+      "topic": "Forms of power-sharing",
+      "reason": "wrong-type",
+      "stem": "(a) What share of Sri Lanka's population speaks Tamil, and into how many sub-groups are Tamil-speakers divided? (b) Name"
+    },
+    {
+      "section": "D",
+      "qtype": "long_answer",
+      "topic": "Forms of power-sharing",
+      "reason": "wrong-type",
+      "stem": "(a) Which community in Belgium was relatively rich and powerful, and which community resented it? (b) During which perio"
+    },
+    {
+      "section": "E",
+      "qtype": "case_study",
+      "topic": "Belgium and Sri Lanka",
+      "reason": "stem-names-the-text",
+      "stem": "This question cannot be answered without the cartoon reproduced in the extract. (a) Name the two major parties of the co"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess4",
+    "chapters": [
+      1
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

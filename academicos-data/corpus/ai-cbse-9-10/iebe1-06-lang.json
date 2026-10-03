@@ -1,0 +1,1921 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iebe1:06:A:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "There are four children on stage playing in a\nroom that has a small rack and a wooden table\nstacked with books. On the wall are posters of\nfamous Indian flute players Pandit Hariprasad\nChaurasia and Shashank Subramanyam. The room\nbelongs to Iqbal, who is playing the flute. On the\ntabla is Avinash, Peter on the keyboard, and\nShruti on the violin. Soon they wind up their\nperformance and are packing up their musical\ninstruments. Shruti wears a look of distress on\nher face.\n\nAfter the rehearsal described in the passage, the keyboard has to be packed away; which of the four children is left to do it? (A) Iqbal (B) Avinash (C) Peter (D) Shruti",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Peter",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "belongs to Iqbal, who is playing the flute. On the",
+            "tabla is Avinash, Peter on the keyboard, and"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Iqbal",
+            "B": "Avinash",
+            "C": "Peter",
+            "D": "Shruti"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:A:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "the only kind of music that an artist\nof any worth should play. I don’t want\npapa to feel that I don’t care about his\nopinions, because I do. It’s just that I\nwant to give this a try too. I just don’t\nknow how to tell him in the right way!\n\nIn the passage, the girl's father holds one strong view about music and she wants to try something else; what does she say she does not want him to feel? (A) That she does not care about his opinion (B) That she is afraid of Hindustani classical music (C) That she has stopped listening to her elders (D) That she likes Western tunes better than ragas and aalaaps",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "That she does not care about his opinion",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "papa to feel that I don’t care about his",
+            "opinions, because I do."
+          ],
+          "objective": true,
+          "options": {
+            "A": "That she does not care about his opinion",
+            "B": "That she is afraid of Hindustani classical music",
+            "C": "That she has stopped listening to her elders",
+            "D": "That she likes Western tunes better than ragas and aalaaps"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:A:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "competency_based",
+      "stem": "Shruti, staring at the dosa is not going\nto make it disappear. I am afraid you\nwill have to eat it.\nShruti, why are you lost in thought,\nmy dear child? If you are trying to find\nthe right words to tell your dad that\nI make much better dosa than him,\nI suggest you abandon the mission.\nHe doesn’t have the strength to face\nthe truth.\nYes, actually I … er … was finding the\nright words to say something to you …\nto you papa. But please promise to not\nget too angry with me.\n\nIn the passage, the mother jokes that her daughter should give up the task of telling her father something; what does this show about the mother's view of her husband's temper? (A) She believes the disagreement over the dosa has already upset him (B) She believes he has no strength to face the truth (C) She believes he will change his mind as soon as he hears it (D) She believes he is eager to hear what her daughter has to say",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She believes he has no strength to face the truth",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I make much better dosa than him,",
+            "I suggest you abandon the mission.",
+            "He doesn’t have the strength to face\nthe truth."
+          ],
+          "objective": true,
+          "options": {
+            "A": "She believes the disagreement over the dosa has already upset him",
+            "B": "She believes he has no strength to face the truth",
+            "C": "She believes he will change his mind as soon as he hears it",
+            "D": "She believes he is eager to hear what her daughter has to say"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:B:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Your teacher asks you to fill in the blank in the instruction 'Given below ____ some stringed musical instruments.' Which verb form belongs there? (A) is given (B) are given (C) are giving (D) have given",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "are given",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Given below are some stringed musical instruments."
+          ],
+          "objective": true,
+          "options": {
+            "A": "is given",
+            "B": "are given",
+            "C": "are giving",
+            "D": "have given"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:B:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "When your classmate asks you 'If given a choice, which one ____?', which form completes the question correctly? (A) will choose (B) would chose (C) would choose (D) choose",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "would choose",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "If given a choice,\nwhich one would you choose and why?"
+          ],
+          "objective": true,
+          "options": {
+            "A": "will choose",
+            "B": "would chose",
+            "C": "would choose",
+            "D": "choose"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:B:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Your teacher asks the class '____ you play a musical instrument?' Which auxiliary correctly forms the question? (A) Does (B) Did (C) Are (D) Do",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Do",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Do you play a musical instrument?"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Does",
+            "B": "Did",
+            "C": "Are",
+            "D": "Do"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:C:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Sangeetika Music School is holding an Indo-Western fusion concert next week. Write a notice of about 100 words for the school notice board, giving the occasion, the day it will be held, the musicians with their instruments, and an invitation to attend.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: states that an Indo-Western fusion concert is being held next week.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: names the four musicians with their instruments — Iqbal on the flute, Avinash on the tabla, Peter on the keyboard and Shruti on the violin.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: opens with the word NOTICE and sets out the details in short clear lines, as a notice board notice must.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the occasion, the musicians and the invitation follow one another in an order a reader can follow at once.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling and punctuation, a polite and lively style, and a total of about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "NOTICE\nSangeetika Music School\n\nAn Indo-Western fusion concert will be held next week. Four young musicians will perform: Iqbal on the flute, Avinash on the tabla, Peter on the keyboard and Shruti on the violin. Their piece builds slowly to a thundering crescendo. They have rehearsed for weeks in Iqbal's room, a room with a small rack and a wooden table stacked with books, whose walls carry posters of Pandit Hariprasad Chaurasia and Shashank Subramanyam. All students of the school and their parents are cordially invited to attend and encourage the players.\n\nPrincipal",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The room\nbelongs to Iqbal, who is playing the flute. On the\ntabla is Avinash, Peter on the keyboard, and\nShruti on the violin.",
+            "The scene opens to the notes of a beautiful",
+            "Indo-Western fusion music piece in its crescendo."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:C:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Shruti has promised to raise the matter with her father at dinner. Write a letter of about 100 words from Shruti to Iqbal, thanking him and Avinash for their advice and telling Iqbal what she has decided to do.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: thanks Iqbal and Avinash for their advice about telling her father.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: states her decision to bring the matter up at dinner, after listening to the ragas and aalaaps her father loves.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: begins with 'Dear Iqbal' and closes with 'Yours sincerely' and the name Shruti.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the thanks, the reason she now agrees, and her decision come in a clear order in connected paragraphs.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling and punctuation, a warm and sincere tone, and a total of about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dear Iqbal,\n\nThank you for telling me that all ways are right ways, and for promising that my father will understand. Avinash is right too: by saying nothing I am only making matters worse for myself, and the worst that can happen is a little scolding. Tonight, at dinner, I am going to bring this up. I will listen first to the ragas and aalaaps that Papa loves, and then tell him about the concert next week. Thank you both for encouraging me again.\n\nYours sincerely,\nShruti",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "All ways are right ways, Shruti. He is",
+            "I agree. You are making matters worse",
+            "Tonight, at dinner, I promise to bring\nthis up."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:C:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a paragraph of about 100 words for your school magazine on the Indo-Western fusion rehearsal in Iqbal's room, naming the four musicians and the instruments they play and mentioning the concert to be held next week.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: names all four musicians with their instruments — Iqbal on the flute, Avinash on the tabla, Peter on the keyboard and Shruti on the violin.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: mentions the Indo-Western fusion concert to be held next week.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: uses at least one detail of the room, such as the small rack, the wooden table stacked with books, or the posters of Pandit Hariprasad Chaurasia and Shashank Subramanyam.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the paragraph runs as one connected piece, moving from who the musicians are to what they are preparing.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling and punctuation, a lively descriptive style, and a total of about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The four young musicians who rehearse in Iqbal's room are preparing an Indo-Western fusion concert for next week. Iqbal plays the flute in a room that has a small rack and a wooden table stacked with books, and whose walls carry posters of Pandit Hariprasad Chaurasia and Shashank Subramanyam. On the tabla is Avinash, Peter is on the keyboard, and Shruti plays the violin. Their piece opens in its crescendo, growing louder and louder. Shruti wears a look of distress, because she has still not told her strict father about the concert.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "belongs to Iqbal, who is playing the flute. On the\ntabla is Avinash, Peter on the keyboard, and\nShruti on the violin.",
+            "The scene opens to the notes of a beautiful",
+            "concert next week. I…"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:D:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "don’t know papa. He is very strict\nabout these things. He will think\nit a desecration of the violin to be\nplayed to Western tunes. Papa firmly\nbelieves that Classical Hindustani\nmusic, with its ragas and aalaaps, is\nthe only kind of music that an artist\nof any worth should play. I don’t want\n\nIn the extract, the girl says her father will think it a 'desecration of the violin' to play Western tunes; what does she fear he will accuse her of? (A) Choosing her friends over her father (B) Not respecting the classical tradition he holds sacred (C) Copying the fusion music her friends play (D) Refusing to learn ragas and aalaaps",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Not respecting the classical tradition he holds sacred",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "about these things. He will think",
+            "it a desecration of the violin to be",
+            "played to Western tunes. Papa firmly"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Choosing her friends over her father",
+            "B": "Not respecting the classical tradition he holds sacred",
+            "C": "Copying the fusion music her friends play",
+            "D": "Refusing to learn ragas and aalaaps"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:D:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "competency_based",
+      "stem": "All ways are right ways, Shruti. He is\nyour father, he will understand.\nI agree. You are making matters worse\nfor yourself by not talking to him.\nWhat’s the worst that can happen? He\nwill scold you a little, maybe. But he\nwill eventually come round.\n\nIn the extract, the speakers want the girl to tell her father at once; what is their reason for this advice? (A) They think the matter can wait until the next day (B) They want to tell him about the concert themselves (C) They believe he will not be angry at all (D) They are sure her father will understand her in the end",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "They are sure her father will understand her in the end",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "your father, he will understand.",
+            "will scold you a little, maybe. But he",
+            "will eventually come round."
+          ],
+          "objective": true,
+          "options": {
+            "A": "They think the matter can wait until the next day",
+            "B": "They want to tell him about the concert themselves",
+            "C": "They believe he will not be angry at all",
+            "D": "They are sure her father will understand her in the end"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:D:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "competency_based",
+      "stem": "Oh ho! Wow Shruti! You are a\nsensation now! The least you can do\nis throw a party!\nShruti Sharma for the win, sweating\non the vi-o-lin!\n(Shruti remains unaffected, lost in her thoughts.\nThe boys surround her trying to distract her.)\n\nIn the extract, the boys keep joking and cheering, yet the girl does not join in; what does this show about her state of mind? (A) She is upset about something and cannot be cheered up (B) She is angry with the boys for shouting her name (C) She is proud of being called a sensation (D) She is waiting for her father to arrive",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She is upset about something and cannot be cheered up",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Shruti Sharma for the win, sweating",
+            "on the vi-o-lin!",
+            "(Shruti remains unaffected, lost in her thoughts.\nThe boys surround her trying to distract her.)"
+          ],
+          "objective": true,
+          "options": {
+            "A": "She is upset about something and cannot be cheered up",
+            "B": "She is angry with the boys for shouting her name",
+            "C": "She is proud of being called a sensation",
+            "D": "She is waiting for her father to arrive"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:E:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A newspaper has praised Shruti's performance, yet she sits lost in thoughts and is afraid to tell her father about the concert. Why is she afraid?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He will think it a desecration of the violin to be played to Western tunes.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He firmly believes Classical Hindustani music, with its ragas and aalaaps, is the only kind of music an artist of any worth should play.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She does not want him to feel that she does not care about his opinions.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Shruti fears her father will think it a desecration of the violin to be played to Western tunes. He is very strict about these things and firmly believes that Classical Hindustani music, with its ragas and aalaaps, is the only kind of music an artist of any worth should play. She does not want him to feel that she does not care about his opinions.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "it a desecration of the violin to be",
+            "played to Western tunes. Papa firmly",
+            "papa to feel that I don’t care about his"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:E:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "short_answer",
+      "stem": "Why do the boys think Shruti should tell her father about the concert at once instead of waiting?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "They believe she is making matters worse for herself by not talking to her father.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The worst that can happen, they feel, is only a scolding, and even that will pass.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They are sure her father will understand and will eventually come round, because he is her father.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The boys believe her silence is already making matters worse for herself, because by not talking to her father she is only hurting herself. They feel the worst that can happen is a little scolding, and that even that will pass. Iqbal says her father is her father and will understand, and that all ways are right ways, so her father will eventually come round.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "You are making matters worse",
+            "will eventually come round.",
+            "your father, he will understand."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:E:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "At dinner, Shruti seems lost in thoughts and is trying to find the right words to say. What does the mother suggest, and what is her reason for it?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She notices that Shruti is lost in thought and trying to find the right words to tell her father something.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She suggests that Shruti abandon the mission.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Her reason is that Shruti's husband does not have the strength to face the truth.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The mother sees that Shruti is lost in thought and is trying to find the right words to tell her father that she makes much better dosa than him. She suggests that Shruti abandon the mission. Her reason is that her husband does not have the strength to face the truth, and so Shruti had better give up the attempt.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Shruti, why are you lost in thought,",
+            "I suggest you abandon the mission.",
+            "He doesn’t have the strength to face\nthe truth."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:F:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "Trace in steps how Shruti goes from sitting lost in her thoughts after the rehearsal to promising to speak to her father at dinner.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "The newspaper report and the boys' jokes leave her unaffected and lost in her thoughts.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She has still not told her father about the concert.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She expects him to treat it as a desecration of the violin and to hold that only Classical Hindustani music is fit for an artist of any worth.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She does not want him to feel that she does not care about his opinions.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Avinash warns that she is making matters worse by not talking, and that the worst that can happen is a little scolding.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Iqbal says her father will understand, so she decides it is time to bite the bullet and promises to bring it up at dinner.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. After the rehearsal in Iqbal's room, the newspaper report leaves Shruti lost in her thoughts; the boys cannot distract her.\n2. She has still not told her father about the concert, and her friends do not know how strict he is.\n3. She believes he will call it a desecration of the violin to play Western tunes, and that only Classical Hindustani music is fit for an artist.\n4. She does not want him to feel she does not care about his opinions, and does not know how to tell him.\n5. Avinash says she is making matters worse by not talking, and Iqbal says her father will understand.\n6. Shruti agrees it is time to bite the bullet and promises to bring it up at dinner.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "(Shruti remains unaffected, lost in her thoughts.",
+            "Oh god, don’t tell me you still haven’t",
+            "Tonight, at dinner, I promise to bring\nthis up."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:F:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "Shruti brings the matter up at dinner. Show in steps how her father first receives it and the rule he finally gives her.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Shruti asks her parents to promise not to be too angry with her.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He refuses to promise, becomes suddenly serious and sits down opposite to her in an upright formal manner, but tells her to speak up.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Shruti tells him that there is a concert next week.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He answers calmly but firmly that no is the answer.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "His rule is one performance in every six months.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He believes that more than that makes familiarity breed contempt.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Shruti tells her parents that she was finding the right words to say something, and asks them to promise not to be too angry with her.\n2. Her father does not promise. He becomes suddenly serious, sits down opposite to her in an upright formal manner, and says there will be no promises, but tells her to speak up.\n3. Shruti begins haltingly and tells him that there is a concert next week.\n4. He answers calmly but firmly that no is the answer.\n5. He gives his reason as a rule: one performance in every six months.\n6. He adds that more than that is wrong, because familiarity breeds contempt.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "No promises, child. But speak up.",
+            "concert next week. I…",
+            "You know my rule—one performance\nin every six months. More than that,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:06:F:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-6"
+      ],
+      "taxonomyChapterId": "english-9/chapter-6",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "The four friends react to the newspaper report in very different ways. Show in steps how each of them responds, and what advice he gives Shruti.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Iqbal reads out the Parbatpuri Daily Clarion report and repeats that melody runs in the veins of Miss Shruti Sharma.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Avinash calls her a sensation and says the least she can do is throw a party.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Peter jokes that she is for the win, sweating on the vi-o-lin.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Shruti stays unaffected and lost in her thoughts, and the boys try to distract her by calling her name louder and louder.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Avinash asks whether she has still not told Nabin sir about the concert.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Peter advises her to say she comes for the practice from 4 to 5, and Iqbal tells her to say she practises with them.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Iqbal picks up a newspaper and asks whether anyone has read what the Parbatpuri Daily Clarion wrote about Shruti's performance with her father the previous day.\n2. He quotes it: melody runs in the veins of Miss Shruti Sharma, daughter of the master violinist Nabin Sharma.\n3. Avinash calls her a sensation and says the least she can do is throw a party.\n4. Peter jokes that Shruti Sharma is for the win, sweating on the vi-o-lin.\n5. Shruti stays lost in her thoughts, so the boys surround her and call her name louder and louder.\n6. Peter advises her to say she comes for the practice from 4 to 5, and Iqbal tells her not to worry.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Did any of you guys read what they\nwrote about Shruti’s performance\nwith her father yesterday in the\nParbatpuri Daily Clarion?",
+            "sensation now! The least you can do\nis throw a party!",
+            "Just tell them you come for the\npractice from 4 to 5!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "iebe1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iebe1",
+    "chapters": [
+      6
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

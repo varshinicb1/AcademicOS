@@ -1,0 +1,636 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:09:B:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-9"
+      ],
+      "taxonomyChapterId": "science-9/chapter-9",
+      "topic": "Law of Conservation of Mass",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A group of students placed 4.0 g of calcium carbonate with 2.92 g of hydrochloric acid in a closed container. After the reaction was over they measured 1.76 g of carbon dioxide, 0.72 g of water and 4.44 g of calcium chloride. What was the total mass of the products?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States the total mass of the products as 6.92 g",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gets 6.92 g by adding 1.76 g, 0.72 g and 4.44 g",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "6.92 g",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Total mass of products: 1.76 g + 0.72 g + 4.44 g = 6.92 g",
+            "Mass of calcium chloride = 4.44 g"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch9",
+        "pages": [
+          1,
+          3,
+          4,
+          5,
+          7,
+          9,
+          11,
+          13,
+          17,
+          19,
+          21,
+          163,
+          165,
+          167,
+          169,
+          171,
+          173,
+          175,
+          177,
+          179,
+          183
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:09:B:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-9"
+      ],
+      "taxonomyChapterId": "science-9/chapter-9",
+      "topic": "Law of Conservation of Mass",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "A student mixes a solution of sodium sulfate with a solution of barium chloride in a conical flask and a white precipitate forms at once. Name the compound that forms as this white precipitate.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names barium sulfate as the white precipitate",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Identifies it as the solid formed while mixing the two solutions",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Barium sulfate",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "mixed, a white precipitate of barium sulfate is formed along",
+            "Sodium sulfate + Barium chloride\nBarium sulfate + Sodium chloride"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch9",
+        "pages": [
+          1,
+          3,
+          4,
+          5,
+          7,
+          9,
+          11,
+          13,
+          17,
+          19,
+          21,
+          163,
+          165,
+          167,
+          169,
+          171,
+          173,
+          175,
+          177,
+          179,
+          183
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:09:B:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-9"
+      ],
+      "taxonomyChapterId": "science-9/chapter-9",
+      "topic": "Law of Conservation of Mass",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A student weighs two conical flasks holding solutions of sodium sulfate and barium chloride, then transfers one solution into the other, mixes them and weighs the flasks again. The reading is the same both times. State what this shows about mass during a chemical reaction.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States that mass is conserved during a chemical change",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Links this to the weighing reading being unchanged after mixing",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Mass is conserved during a chemical change (chemical reaction)",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Based on the Activity 9.2, it was established that weight and",
+            "hence, mass is conserved during a chemical change (chemical",
+            "9. Do you observe any change in the reading after mixing\nthe solutions?"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch9",
+        "pages": [
+          1,
+          3,
+          4,
+          5,
+          7,
+          9,
+          11,
+          13,
+          17,
+          19,
+          21,
+          163,
+          165,
+          167,
+          169,
+          171,
+          173,
+          175,
+          177,
+          179,
+          183
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:09:B:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-9"
+      ],
+      "taxonomyChapterId": "science-9/chapter-9",
+      "topic": "How Atoms Combine?",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "A student is told that helium is found only as single atoms, while a hydrogen molecule is made up of two hydrogen atoms. Give the reason why helium exists only as atoms.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States that the atoms of helium are stable",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives the stability of helium's atoms as the reason it does not combine into molecules",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The atoms of helium are stable",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It should also be remembered that some elements, such as helium, exist\nonly as atoms because its atoms are stable.",
+            "For example, a hydrogen molecule consists of two hydrogen atoms."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch9",
+        "pages": [
+          1,
+          3,
+          4,
+          5,
+          7,
+          9,
+          11,
+          13,
+          17,
+          19,
+          21,
+          163,
+          165,
+          167,
+          169,
+          171,
+          173,
+          175,
+          177,
+          179,
+          183
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:09:E:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-9"
+      ],
+      "taxonomyChapterId": "science-9/chapter-9",
+      "topic": "Law of Conservation of Mass",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Rohan is preparing for a chemistry practical. He fills one conical flask with a solution of sodium sulfate and pours about 10 mL of 1 % m/v barium chloride solution into a second conical flask. He records the total mass of both flasks on a digital weighing balance, then transfers one solution into the other, mixes them and weighs again. A white precipitate appears and the reading is unchanged. He then repeats a check in a closed container: 4.0 g of calcium carbonate is placed with 2.92 g of hydrochloric acid, and after the reaction he measures 1.76 g of carbon dioxide, 0.72 g of water and 4.44 g of calcium chloride.\n\nAnswer these questions:\n1. Name the white precipitate that forms when the two solutions are mixed, and name the other substance formed along with it.\n2. The weighing balance reading is the same before and after the solutions are mixed. State what this shows about mass during a chemical change.\n3. Use Rohan's figures for the closed container to work out the total mass of the reactants and the total mass of the products, and say whether the Law of Conservation of Mass is obeyed.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) The white precipitate is barium sulfate; the other substance is sodium chloride. (2) Weight, and hence mass, is conserved during a chemical change. (3) Reactants: 4.0 g + 2.92 g = 6.92 g. Products: 1.76 g + 0.72 g + 4.44 g = 6.92 g. Both totals are equal, so the law is obeyed.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "mixed, a white precipitate of barium sulfate is formed along",
+            "Sodium sulfate + Barium chloride\nBarium sulfate + Sodium chloride",
+            "hence, mass is conserved during a chemical change (chemical"
+          ],
+          "objective": false,
+          "passage": "Rohan is preparing for a chemistry practical. He fills one conical flask with a solution of sodium sulfate and pours about 10 mL of 1 % m/v barium chloride solution into a second conical flask. He records the total mass of both flasks on a digital weighing balance, then transfers one solution into the other, mixes them and weighs again. A white precipitate appears and the reading is unchanged. He then repeats a check in a closed container: 4.0 g of calcium carbonate is placed with 2.92 g of hydrochloric acid, and after the reaction he measures 1.76 g of carbon dioxide, 0.72 g of water and 4.44 g of calcium chloride."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch9",
+        "pages": [
+          1,
+          3,
+          4,
+          5,
+          7,
+          9,
+          11,
+          13,
+          17,
+          19,
+          21,
+          163,
+          165,
+          167,
+          169,
+          171,
+          173,
+          175,
+          177,
+          179,
+          183
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:09:E:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-9"
+      ],
+      "taxonomyChapterId": "science-9/chapter-9",
+      "topic": "Law of Conservation of Mass",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "In a group activity, students placed 4.0 g of calcium carbonate with 2.92 g of hydrochloric acid in a closed container. After the reaction was over they measured 1.76 g of carbon dioxide, 0.72 g of water and 4.44 g of calcium chloride, and asked whether the Law of Conservation of Mass is obeyed. Adding the reactants gave 4.0 g + 2.92 g = 6.92 g. Adding the products gave 1.76 g + 0.72 g + 4.44 g = 6.92 g. The two totals matched, and the students wrote that mass of reactants equals mass of products.\n\nAnswer these questions:\n1. Write the total mass of the reactants and the total mass of the products.\n2. Which of the two totals is the larger one, if either is?\n3. A student says the law is obeyed here. Justify the student's statement from the two totals.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) Reactants 4.0 g + 2.92 g = 6.92 g; products 1.76 g + 0.72 g + 4.44 g = 6.92 g. (2) Neither is larger, as both are 6.92 g. (3) Mass of reactants equals mass of products, so nothing is gained or lost and the law is obeyed.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "4.0 g + 2.92 g = 6.92 g",
+            "Total mass of products: 1.76 g + 0.72 g + 4.44 g = 6.92 g",
+            "Hence, the Law of Conservation of Mass is obeyed."
+          ],
+          "objective": false,
+          "passage": "In a group activity, students placed 4.0 g of calcium carbonate with 2.92 g of hydrochloric acid in a closed container. After the reaction was over they measured 1.76 g of carbon dioxide, 0.72 g of water and 4.44 g of calcium chloride, and asked whether the Law of Conservation of Mass is obeyed. Adding the reactants gave 4.0 g + 2.92 g = 6.92 g. Adding the products gave 1.76 g + 0.72 g + 4.44 g = 6.92 g. The two totals matched, and the students wrote that mass of reactants equals mass of products."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch9",
+        "pages": [
+          1,
+          3,
+          4,
+          5,
+          7,
+          9,
+          11,
+          13,
+          17,
+          19,
+          21,
+          163,
+          165,
+          167,
+          169,
+          171,
+          173,
+          175,
+          177,
+          179,
+          183
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:09:E:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-9"
+      ],
+      "taxonomyChapterId": "science-9/chapter-9",
+      "topic": "Law of Conservation of Mass",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Two conical flasks, A and B, stood on a digital weighing balance and the total mass of both was recorded. About 10 mL of 1 % m/v barium chloride solution was poured into the conical flask marked B, and the solution from conical flask B was then transferred to conical flask A and the two were mixed carefully. Both conical flasks were placed on the weighing balance again and the reading was noted. When solutions of sodium sulfate and barium chloride are mixed, a white precipitate of barium sulfate is formed along with sodium chloride, and the change can be set out as sodium sulfate + barium chloride giving barium sulfate + sodium chloride.\n\nAnswer these questions:\n1. Name the product that appears as a white precipitate when the two solutions are mixed, and name the other product.\n2. Both conical flasks are weighed together before and after mixing. State what the comparison of the two readings shows about mass in a chemical change.\n3. Explain why the mass of the whole set-up is recorded, instead of the mass of the precipitate alone.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) The white precipitate is barium sulfate; the other product is sodium chloride. (2) The two readings are equal, so weight, and hence mass, is conserved during the chemical change. (3) The precipitate is only one product; the other product and the remaining solution must also be counted, so the whole set-up is weighed.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "When solutions of sodium sulfate and barium chloride are",
+            "Sodium sulfate + Barium chloride\nBarium sulfate + Sodium chloride",
+            "Based on the Activity 9.2, it was established that weight and"
+          ],
+          "objective": false,
+          "passage": "Two conical flasks, A and B, stood on a digital weighing balance and the total mass of both was recorded. About 10 mL of 1 % m/v barium chloride solution was poured into the conical flask marked B, and the solution from conical flask B was then transferred to conical flask A and the two were mixed carefully. Both conical flasks were placed on the weighing balance again and the reading was noted. When solutions of sodium sulfate and barium chloride are mixed, a white precipitate of barium sulfate is formed along with sodium chloride, and the change can be set out as sodium sulfate + barium chloride giving barium sulfate + sodium chloride."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch9",
+        "pages": [
+          1,
+          3,
+          4,
+          5,
+          7,
+          9,
+          11,
+          13,
+          17,
+          19,
+          21,
+          163,
+          165,
+          167,
+          169,
+          171,
+          173,
+          175,
+          177,
+          179,
+          183
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:09:E:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-9"
+      ],
+      "taxonomyChapterId": "science-9/chapter-9",
+      "topic": "How Atoms Combine?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Neha is filling gas jars for a school display. The technician hands her a jar of hydrogen and a jar of helium and asks her to label them. She is told that a hydrogen molecule is made up of two hydrogen atoms, and that one hydrogen atom and one chlorine atom join to form a molecule of hydrogen chloride. Neha also learns that an atom with eight electrons in its outermost, or valence, shell is stable, and that helium's atoms are already stable, so helium is found only as atoms. She wonders why one gas needs its atoms in pairs while the other does not.\n\nAnswer these questions:\n1. Give the reason why helium is found only as atoms and not as molecules.\n2. Neha says an atom whose valence shell holds fewer than eight electrons is not stable. Explain what such an atom does to become stable, and name the force that holds the joined atoms together.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) The atoms of helium are stable, so they do not join with other atoms and helium is found only as atoms. (2) Atoms with fewer than eight electrons in a valence shell share, gain or lose electrons to complete their valence shell and become stable. The force that holds atoms together is called a chemical bond.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It should also be remembered that some elements, such as helium, exist\nonly as atoms because its atoms are stable.",
+            "For example, a hydrogen molecule consists of two hydrogen atoms.",
+            "If the number of electrons in a valence shell\nis less than eight, then they may share, gain or lose electrons to complete\ntheir valence shell and become stable."
+          ],
+          "objective": false,
+          "passage": "Neha is filling gas jars for a school display. The technician hands her a jar of hydrogen and a jar of helium and asks her to label them. She is told that a hydrogen molecule is made up of two hydrogen atoms, and that one hydrogen atom and one chlorine atom join to form a molecule of hydrogen chloride. Neha also learns that an atom with eight electrons in its outermost, or valence, shell is stable, and that helium's atoms are already stable, so helium is found only as atoms. She wonders why one gas needs its atoms in pairs while the other does not."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch9",
+        "pages": [
+          1,
+          3,
+          4,
+          5,
+          7,
+          9,
+          11,
+          13,
+          17,
+          19,
+          21,
+          163,
+          165,
+          167,
+          169,
+          171,
+          173,
+          175,
+          177,
+          179,
+          183
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      9
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

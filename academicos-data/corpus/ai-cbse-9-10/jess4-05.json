@@ -1,0 +1,736 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess4:05:A:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/outcomes-of-democracy"
+      ],
+      "taxonomyChapterId": "social-science-10/outcomes-of-democracy",
+      "topic": "How do we assess democracy’s outcomes?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Neha's town holds regular elections and has an elected council, but she expects the council alone to fix every local problem while the people sit back and wait. (A) Neha is right to expect this, because a country with a formal constitution, elections, parties and guaranteed rights of citizens has already achieved all its goals. (B) Neha is right to expect this, because a democracy that is good in principle must be good in its practice as well. (C) Neha is mistaken, because democracy is just a form of government that can only create conditions for achieving something, and citizens have to take advantage of those conditions. (D) Neha is mistaken, because rule by a monarch or by military or religious leaders would settle local problems more quickly than an elected council.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Neha is mistaken, because democracy is just a form of government that can only create conditions for achieving something, and citizens have to take advantage of those conditions.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "that democracy is just a form\nof government. It can only create\nconditions for achieving something.",
+            "The citizens have to take advantage\nof those conditions and achieve\nthose goals."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Neha is right to expect this, because a country with a formal constitution, elections, parties and guaranteed rights of citizens has already achieved all its goals.",
+            "B": "Neha is right to expect this, because a democracy that is good in principle must be good in its practice as well.",
+            "C": "Neha is mistaken, because democracy is just a form of government that can only create conditions for achieving something, and citizens have to take advantage of those conditions.",
+            "D": "Neha is mistaken, because rule by a monarch or by military or religious leaders would settle local problems more quickly than an elected council."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess4 ch5",
+        "pages": [
+          63,
+          64,
+          65,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          100
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:05:AR:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/outcomes-of-democracy"
+      ],
+      "taxonomyChapterId": "social-science-10/outcomes-of-democracy",
+      "topic": "How do we assess democracy’s outcomes?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Riya's family supports democracy in principle, so Riya concludes that people must be satisfied with democracy in practice. Her cousin adds that a country which already has a constitution and parties need not bother with elections. Which option judges the two statements correctly?\n1. Most people around us are satisfied with the democracy in practice.\n2. A country that claims to practise some kind of democratic politics need not hold elections. (A) Both 1 and 2 are true, and 2 is the correct explanation of 1. (B) Both 1 and 2 are true, but 2 is not the correct explanation of 1. (C) 1 is true, but 2 is false. (D) Both 1 and 2 are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both 1 and 2 are false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "not so many of them would be\nsatisfied with the democracy in\npractice.",
+            "they have formal constitutions, they\nhold elections, they have parties and\nthey guarantee rights of citizens."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both 1 and 2 are true, and 2 is the correct explanation of 1.",
+            "B": "Both 1 and 2 are true, but 2 is not the correct explanation of 1.",
+            "C": "1 is true, but 2 is false.",
+            "D": "Both 1 and 2 are false."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess4 ch5",
+        "pages": [
+          63,
+          64,
+          65,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          100
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:05:B:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/outcomes-of-democracy"
+      ],
+      "taxonomyChapterId": "social-science-10/outcomes-of-democracy",
+      "topic": "How do we assess democracy’s outcomes?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Karan says that because his country has a formal constitution, holds elections and has parties, the government itself must now be able to solve every socio-economic and political problem. In one line, correct Karan: say what democracy alone can do, and who must do the rest.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Democracy can only create conditions for achieving something",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The citizens have to take advantage of those conditions and achieve those goals",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Democracy can only create conditions for achieving something; the citizens have to take advantage of those conditions and achieve those goals.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "that democracy is just a form\nof government. It can only create\nconditions for achieving something.",
+            "The citizens have to take advantage\nof those conditions and achieve\nthose goals."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess4 ch5",
+        "pages": [
+          63,
+          64,
+          65,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          100
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:05:B:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/outcomes-of-democracy"
+      ],
+      "taxonomyChapterId": "social-science-10/outcomes-of-democracy",
+      "topic": "How do we assess democracy’s outcomes?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Dev has read that over a hundred countries of the world claim and practise some kind of democratic politics, and he expects every one of them to have achieved the same things. In one line, give the reason why he should not expect that.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "These democracies are very much different from each other",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They differ in their social situations, their economic achievements and their cultures, so what is achieved or not achieved under each will be very different",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Because these democracies are very much different from each other in terms of their social situations, their economic achievements and their cultures.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Over a hundred countries of\nthe world today claim and practice\nsome kind of democratic politics:",
+            "these democracies are\nvery much different from each other\nin terms of their social situations,\ntheir economic achievements and\ntheir cultures."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess4 ch5",
+        "pages": [
+          63,
+          64,
+          65,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          100
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:05:C:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/outcomes-of-democracy"
+      ],
+      "taxonomyChapterId": "social-science-10/outcomes-of-democracy",
+      "topic": "How do we assess democracy’s outcomes?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Rohan's village has a newly elected village council, and the residents expect it to end every problem in the village by itself. In about 45 words, explain what a democracy can and cannot do, and what the citizens must do.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Democracy is just a form of government, so it cannot by itself solve every socio-economic and political problem",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It can only create conditions for achieving something",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The citizens have to take advantage of those conditions and achieve those goals",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Democracy is just a form of government. It cannot solve socio-economic and political problems by itself; it can only create conditions for achieving something. The citizens have to take advantage of those conditions and achieve those goals. This is the first step towards thinking carefully about the outcomes of democracy.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Our interest in and fascination\nfor democracy often pushes us into\ntaking a position that democracy\ncan address all socio-economic and\npolitical problems.",
+            "that democracy is just a form\nof government. It can only create\nconditions for achieving something.",
+            "The citizens have to take advantage\nof those conditions and achieve\nthose goals."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess4 ch5",
+        "pages": [
+          63,
+          64,
+          65,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          100
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:05:D:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/outcomes-of-democracy"
+      ],
+      "taxonomyChapterId": "social-science-10/outcomes-of-democracy",
+      "topic": "How do we assess democracy’s outcomes?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Dev claims that because over a hundred countries of the world claim and practise some kind of democratic politics, they must all have achieved the same things. Set out, in steps, what such countries share, and then show from the same information why Dev is wrong.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Over a hundred countries of the world today claim and practise some kind of democratic politics",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They have formal constitutions",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They hold elections",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They have parties and they guarantee rights of citizens",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "These democracies differ in their social situations, their economic achievements and their cultures, so results differ",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Over a hundred countries of the world today claim and practise some kind of democratic politics.\nStep 2: They have formal constitutions.\nStep 3: They hold elections.\nStep 4: They have parties and they guarantee rights of citizens.\nStep 5: While these features are common to most of them, these democracies are very much different from each other in their social situations, their economic achievements and their cultures, so what may be achieved or not achieved under each will be very different.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Over a hundred countries of\nthe world today claim and practice\nsome kind of democratic politics:",
+            "they have formal constitutions, they\nhold elections, they have parties and\nthey guarantee rights of citizens.",
+            "these democracies are\nvery much different from each other\nin terms of their social situations,\ntheir economic achievements and\ntheir cultures."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch5",
+        "pages": [
+          63,
+          64,
+          65,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          100
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:05:D:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/outcomes-of-democracy"
+      ],
+      "taxonomyChapterId": "social-science-10/outcomes-of-democracy",
+      "topic": "How do we assess democracy’s outcomes?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Ravi says that if some of his expectations of democracy are not met, he can blame the idea of democracy itself and even doubt whether he is living in a democracy. Set out, in steps, how he should think about the outcomes of democracy instead.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Our interest in and fascination for democracy pushes us into thinking that democracy can address all socio-economic and political problems",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "If expectations are not met we blame democracy itself or doubt that we live in a democracy",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The first step is to recognise that democracy is just a form of government",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It can only create conditions for achieving something",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The citizens have to take advantage of those conditions and achieve those goals",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Our interest in and fascination for democracy often pushes us into taking a position that democracy can address all socio-economic and political problems.\nStep 2: If some of our expectations are not met, we start blaming the idea of democracy, or we start doubting if we are living in a democracy.\nStep 3: The first step towards thinking carefully about the outcomes of democracy is to recognise that democracy is just a form of government.\nStep 4: It can only create conditions for achieving something.\nStep 5: The citizens have to take advantage of those conditions and achieve those goals.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Our interest in and fascination\nfor democracy often pushes us into\ntaking a position that democracy\ncan address all socio-economic and\npolitical problems.",
+            "If some of our\nexpectations are not met, we start\nblaming the idea of democracy. Or,\nwe start doubting if we are living in\na democracy.",
+            "The first step towards\nthinking carefully about the outcomes\nof democracy is to recognise"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch5",
+        "pages": [
+          63,
+          64,
+          65,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          100
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:05:E:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/outcomes-of-democracy"
+      ],
+      "taxonomyChapterId": "social-science-10/outcomes-of-democracy",
+      "topic": "How do we assess democracy’s outcomes?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Rohan's town holds regular elections and has an elected council. Rohan is sure that because the council is chosen by the people, it will fix every local problem on its own: the leaking taps, the unlit streets and the school roof. He tells his friend Meera that she should stop complaining and simply wait for democracy to deliver. Meera agrees that democracy deserves support, and yet she points out that her neighbours are not at all satisfied with democracy in practice, even though they prefer it to rule by a monarch or to military or religious leaders. She says a democracy can only create conditions, and asks Rohan who must then do the rest.\n\nRead the case below and answer the questions that follow. (a) Rohan believes the elected council will fix every local problem on its own. State what a democracy can do by itself, and who has to do the rest. (b) Meera says her neighbours prefer democracy to rule by a monarch or to military or religious leaders, and yet are not satisfied with it. Name the situation she is describing. (c) Rohan says that if the taps are still leaking after the election, democracy has failed. Using what Meera says, explain why this verdict is not justified and what Rohan should do instead.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) It can only create conditions for achieving something; the citizens have to take advantage of them. (b) A dilemma: democracy is good in principle but not so good in practice. (c) A democracy creates conditions only, so unrepaired taps are not proof that democracy has failed; citizens must use those conditions to reach their goals.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "that democracy is just a form\nof government. It can only create\nconditions for achieving something.",
+            "The citizens have to take advantage\nof those conditions and achieve\nthose goals.",
+            "not so many of them would be\nsatisfied with the democracy in\npractice."
+          ],
+          "objective": false,
+          "passage": "Rohan's town holds regular elections and has an elected council. Rohan is sure that because the council is chosen by the people, it will fix every local problem on its own: the leaking taps, the unlit streets and the school roof. He tells his friend Meera that she should stop complaining and simply wait for democracy to deliver. Meera agrees that democracy deserves support, and yet she points out that her neighbours are not at all satisfied with democracy in practice, even though they prefer it to rule by a monarch or to military or religious leaders. She says a democracy can only create conditions, and asks Rohan who must then do the rest."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess4 ch5",
+        "pages": [
+          63,
+          64,
+          65,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          100
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:05:E:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/outcomes-of-democracy"
+      ],
+      "taxonomyChapterId": "social-science-10/outcomes-of-democracy",
+      "topic": "How do we assess democracy’s outcomes?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Dev has read that over a hundred countries of the world claim and practise some kind of democratic politics. He lists what they share: formal constitutions, elections, parties and guaranteed rights of citizens. Then he reads that although these features are common to most of them, these democracies are very much different from each other in their social situations, their economic achievements and their cultures, so what is achieved or not achieved under each of them will be very different. Dev concludes that all democracies must therefore have achieved the same things, and that anyone disappointed in the results has simply misunderstood democracy.\n\nRead the case below and answer the questions that follow. (a) Name the features Dev lists as common to countries that claim to practise some kind of democratic politics. (b) Dev concludes that all democracies must have achieved the same things. Use what he reads about social situations, economic achievements and cultures to show why this is wrong. (c) Dev says a disappointed citizen has misunderstood democracy. Examine his claim and state what such a citizen must do.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Formal constitutions, elections, parties and guaranteed rights of citizens. (b) They differ in social situations, economic achievements and cultures, so results differ. (c) Democracy only creates conditions; citizens must take advantage of them to achieve their goals.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "they have formal constitutions, they\nhold elections, they have parties and\nthey guarantee rights of citizens.",
+            "these democracies are\nvery much different from each other\nin terms of their social situations,\ntheir economic achievements and\ntheir cultures.",
+            "that democracy is just a form\nof government. It can only create\nconditions for achieving something."
+          ],
+          "objective": false,
+          "passage": "Dev has read that over a hundred countries of the world claim and practise some kind of democratic politics. He lists what they share: formal constitutions, elections, parties and guaranteed rights of citizens. Then he reads that although these features are common to most of them, these democracies are very much different from each other in their social situations, their economic achievements and their cultures, so what is achieved or not achieved under each of them will be very different. Dev concludes that all democracies must therefore have achieved the same things, and that anyone disappointed in the results has simply misunderstood democracy."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess4 ch5",
+        "pages": [
+          63,
+          64,
+          65,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          100
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "C",
+      "qtype": "short_answer",
+      "topic": "How do we assess democracy’s outcomes?",
+      "reason": "figure-not-in-text:10",
+      "stem": "A Class 10 student is asked to explain to the class why students in a discussion felt democracy was a better form of gov"
+    },
+    {
+      "section": "C",
+      "qtype": "short_answer",
+      "topic": "How do we assess democracy’s outcomes?",
+      "reason": "figure-not-in-text:10",
+      "stem": "A group of Class 10 students says that democracy should be supported for moral reasons only. In about 45 words, state th"
+    },
+    {
+      "section": "D",
+      "qtype": "long_answer",
+      "topic": "How do we assess democracy’s outcomes?",
+      "reason": "figure-not-in-text:10",
+      "stem": "Students in a Class 10 discussion conclude that democracy is a better form of government when compared with dictatorship"
+    },
+    {
+      "section": "D",
+      "qtype": "long_answer",
+      "topic": "Reduction of inequality and poverty",
+      "reason": "figure-not-in-text:10",
+      "stem": "A Class 10 student has read that in a democracy all individuals have equal weight in electing representatives, and asks "
+    },
+    {
+      "section": "E",
+      "qtype": "case_study",
+      "topic": "How do we assess democracy’s outcomes?",
+      "reason": "figure-not-in-text:10",
+      "stem": "Read the case below and answer the questions that follow. (a) Aarav says democracy promotes equality among citizens and "
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess4",
+    "chapters": [
+      5
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

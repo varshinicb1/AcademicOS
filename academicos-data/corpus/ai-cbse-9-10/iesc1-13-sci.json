@@ -1,0 +1,621 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:13:B:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-13"
+      ],
+      "taxonomyChapterId": "science-9/chapter-13",
+      "topic": "Uneven Heating of the Earth",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Solar insolation over India drives one great seasonal weather system. Name it and state what it influences.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the southwest monsoon.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that it influences India’s climate and agriculture.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The southwest monsoon; it influences India’s climate and agriculture.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "abundant sunlight throughout the year. This makes solar insolation highly\nsignificant as it drives the southwest monsoon, which influences India’s\nclimate and agriculture. It also offers immense potential for harnessing"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch13",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          20,
+          253,
+          255,
+          257,
+          259,
+          261,
+          263,
+          265,
+          267,
+          269
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:13:B:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-13"
+      ],
+      "taxonomyChapterId": "science-9/chapter-13",
+      "topic": "Uneven Heating of the Earth",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "On a clear day the strongest sunlight reaching the ground measures about 1 kW/m². How much solar energy does a 1 m² area of the ground receive in one hour at this value?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Uses the relation E = intensity × area × time.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States 3600000 J = 3.6 × 10⁶ J.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "3600000 J, that is 3.6 × 10⁶ J.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Answer: E = Intensity × area × time",
+            "E = 1 × 1000 J s m × 1 m × 3600 s",
+            "E = 3600000 J = 3.6 × 10 J"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch13",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          20,
+          253,
+          255,
+          257,
+          259,
+          261,
+          263,
+          265,
+          267,
+          269
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:13:B:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-13"
+      ],
+      "taxonomyChapterId": "science-9/chapter-13",
+      "topic": "Uneven Heating of the Earth",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A colony must choose a surface for its internal road. Dark coloured roads and light coloured surfaces are both options. Which one stays comparatively cooler, and why?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Identifies the light coloured surface.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that it reflects more sunlight and stays comparatively cooler.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The light coloured surface, because it reflects more sunlight.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the soil. Dark surfaces absorb more sunlight, while\nlight coloured surfaces reflect more and remain",
+            "comparatively cooler. For example, dark coloured",
+            "roads heat up more quickly, while light coloured\nsurfaces remain comparatively cooler. You have"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch13",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          20,
+          253,
+          255,
+          257,
+          259,
+          261,
+          263,
+          265,
+          267,
+          269
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:13:B:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-13"
+      ],
+      "taxonomyChapterId": "science-9/chapter-13",
+      "topic": "Role of the atmosphere",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "All weather stays below the atmospheric layer, 12 – 50 km above the Earth’s surface, in which ozone absorbs UV rays so that temperature rises with height. Name this layer.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the stratosphere.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Identifies it as the layer where ozone absorbs UV rays, so temperature rises with height.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Stratosphere.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In the stratosphere (12 – 50 km), where",
+            "the ozone layer is located, ozone absorbs\nUV rays and heats up the atmosphere, so",
+            "due to the lack of vertical mixing of air, keeping weather confined"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch13",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          20,
+          253,
+          255,
+          257,
+          259,
+          261,
+          263,
+          265,
+          267,
+          269
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:13:E:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-13"
+      ],
+      "taxonomyChapterId": "science-9/chapter-13",
+      "topic": "Uneven Heating of the Earth",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Rohan’s family runs a shop in India. The shop’s rooftop solar panels work well all year, because India lies in the tropical and sub-tropical regions and so receives abundant sunlight throughout the year. Scientists take this into account when they study the solar constant, the quantity that helps them understand the Earth’s energy balance and climate. Less sunlight actually arrives at the ground, because gases, clouds and dust particles in the atmosphere absorb and scatter part of it on the way down. This is why the maximum insolation reaching the Earth’s surface is lower than the solar constant.\n\nName the things scientists study the solar constant in order to understand about the Earth.\n2. Name the things in the atmosphere that absorb and scatter sunlight before it reaches the Earth’s surface.\n3. A shop’s rooftop solar panels work well in every month of the year. Explain how India’s geographical location makes this possible, and name the seasonal weather system that solar insolation drives over India.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) The Earth’s energy balance, and its climate and weather patterns. (2) Gases, clouds and dust particles. (3) India lies in the tropical and sub-tropical regions, so it receives abundant sunlight throughout the year; this insolation drives the southwest monsoon, which influences India’s climate and agriculture.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The solar constant is important because it helps scientists understand\nthe Earth’s energy balance, climate and weather patterns. However, some",
+            "of this energy is absorbed and scattered by gases, clouds and dust particles\nin the atmosphere before reaching the surface of the Earth. As a result, the",
+            "its geographical location in the tropical and sub-tropical regions, receives\nabundant sunlight throughout the year. This makes solar insolation highly\nsignificant as it drives the southwest monsoon, which influences India’s\nclimate and agriculture. It also offers immense potential for harnessing"
+          ],
+          "objective": false,
+          "passage": "Rohan’s family runs a shop in India. The shop’s rooftop solar panels work well all year, because India lies in the tropical and sub-tropical regions and so receives abundant sunlight throughout the year. Scientists take this into account when they study the solar constant, the quantity that helps them understand the Earth’s energy balance and climate. Less sunlight actually arrives at the ground, because gases, clouds and dust particles in the atmosphere absorb and scatter part of it on the way down. This is why the maximum insolation reaching the Earth’s surface is lower than the solar constant."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch13",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          20,
+          253,
+          255,
+          257,
+          259,
+          261,
+          263,
+          265,
+          267,
+          269
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:13:E:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-13"
+      ],
+      "taxonomyChapterId": "science-9/chapter-13",
+      "topic": "Uneven Heating of the Earth",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "A physics teacher set her class a problem: how much solar energy is received by a 1 m² area of the ground in one hour, if the insolation at the Earth’s surface is 1 kW/m²? The students wrote energy equal to intensity multiplied by area and time, and arrived at 3600000 J. She then set a bigger question — how much of the Earth’s surface would need to be covered with solar panels to supply all the electric power that the country uses today. She suggested assuming some insolation and considering that some fraction of it is converted into electricity.\n\nCalculate the solar energy received in one hour by a 1 m² area of the ground when the insolation at the Earth’s surface is 1 kW/m².\n2. State the two everyday things that this amount of energy is equal to.\n3. Each square metre of ground collects as much energy in one hour as one unit of electricity used in a household. Explain what this tells you about the solar energy available in India, and what it implies about the land area that would have to be covered with solar panels.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) 1000 J/s/m² × 1 m² × 3600 s = 3600000 J = 3.6 × 10⁶ J. (2) Melting 5 kg of ice and heating the water to 100 °C; one unit of household electricity. (3) India gets abundant sunlight all year, so even a fraction of the Thar desert covered with panels could supply its electricity needs.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Answer: E = Intensity × area × time",
+            "E = 1 × 1000 J s m × 1 m × 3600 s",
+            "E = 3600000 J = 3.6 × 10 J"
+          ],
+          "objective": false,
+          "passage": "A physics teacher set her class a problem: how much solar energy is received by a 1 m² area of the ground in one hour, if the insolation at the Earth’s surface is 1 kW/m²? The students wrote energy equal to intensity multiplied by area and time, and arrived at 3600000 J. She then set a bigger question — how much of the Earth’s surface would need to be covered with solar panels to supply all the electric power that the country uses today. She suggested assuming some insolation and considering that some fraction of it is converted into electricity."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch13",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          20,
+          253,
+          255,
+          257,
+          259,
+          261,
+          263,
+          265,
+          267,
+          269
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:13:E:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-13"
+      ],
+      "taxonomyChapterId": "science-9/chapter-13",
+      "topic": "Uneven Heating of the Earth",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A builder in India compared two finishes for a school courtyard. The dark coloured road surface became uncomfortably hot under the midday Sun, while the light coloured concrete surface beside it stayed cooler. A student asked why colour made such a difference when both surfaces faced the same sunlight. The teacher explained that different materials absorb and heat up differently under sunlight, and that there is some variation due to the material forming the land and the colour of the soil. She then gave the students a word for the fraction of solar radiation that a surface reflects, and its Latin meaning.\n\nGive the reason why the dark coloured road surface became hotter than the light coloured concrete surface in the same sunlight.\n2. Name the word that stands for the fraction of solar radiation reflected by a surface, and give its Latin meaning.\n3. Two surfaces face the same sunlight for the whole day: one is dark coloured and the other is light coloured. Using the behaviour of surfaces under sunlight, decide which of the two will have the lower surface temperature, and justify your choice.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) Dark surfaces absorb more sunlight, while light coloured surfaces reflect more and stay comparatively cooler. (2) Albedo; the word comes from Latin and means whiteness. (3) The light coloured surface, because it reflects more sunlight and stays cooler, while the dark surface absorbs more and heats up faster.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the soil. Dark surfaces absorb more sunlight, while\nlight coloured surfaces reflect more and remain",
+            "The fraction of solar radiation reflected by\na surface is called its albedo (the word ‘albedo’",
+            "comes from Latin which means whiteness). High"
+          ],
+          "objective": false,
+          "passage": "A builder in India compared two finishes for a school courtyard. The dark coloured road surface became uncomfortably hot under the midday Sun, while the light coloured concrete surface beside it stayed cooler. A student asked why colour made such a difference when both surfaces faced the same sunlight. The teacher explained that different materials absorb and heat up differently under sunlight, and that there is some variation due to the material forming the land and the colour of the soil. She then gave the students a word for the fraction of solar radiation that a surface reflects, and its Latin meaning."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch13",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          20,
+          253,
+          255,
+          257,
+          259,
+          261,
+          263,
+          265,
+          267,
+          269
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:13:E:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-13"
+      ],
+      "taxonomyChapterId": "science-9/chapter-13",
+      "topic": "Role of the atmosphere",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "On a summer afternoon a science teacher drew a diagram of the Earth on the board, with the Sun striking the surface and arrows showing heat leaving the ground again. She asked the class why the air did not simply let that heat escape into space. ‘The Earth’s surface absorbs sunlight and re-radiates it in the infrared region,’ she said, and named carbon dioxide, methane and water vapour as the gases that take in this re-radiated heat and stop it escaping. She finished by asking why Venus is hotter than Mercury, even though Mercury is closer to the Sun.\n\nName the three gases that absorb the heat re-radiated by the Earth’s surface.\n2. State what would happen to the Earth if it had no atmosphere, and what excess carbon dioxide released by human activities does to its surface temperature.\n3. Venus is hotter than Mercury although Mercury is closer to the Sun. Using what happens to heat that cannot escape, explain how an atmosphere can make a planet hotter than a nearer one.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) Carbon dioxide, methane and water vapour. (2) Without the atmosphere the Earth would be too cold for life to survive; excess CO2 enhances the greenhouse effect, causing global warming. (3) Venus’s atmosphere traps outgoing heat that would otherwise escape into space, so it is hotter than Mercury, which is nearer the Sun.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The Earth’s surface absorbs sunlight and re-radiates it in the",
+            "infrared region. Greenhouse gases like CO , CH and water vapour",
+            "absorb this re-radiated heat, preventing it from escaping into"
+          ],
+          "objective": false,
+          "passage": "On a summer afternoon a science teacher drew a diagram of the Earth on the board, with the Sun striking the surface and arrows showing heat leaving the ground again. She asked the class why the air did not simply let that heat escape into space. ‘The Earth’s surface absorbs sunlight and re-radiates it in the infrared region,’ she said, and named carbon dioxide, methane and water vapour as the gases that take in this re-radiated heat and stop it escaping. She finished by asking why Venus is hotter than Mercury, even though Mercury is closer to the Sun."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch13",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          20,
+          253,
+          255,
+          257,
+          259,
+          261,
+          263,
+          265,
+          267,
+          269
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      13
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

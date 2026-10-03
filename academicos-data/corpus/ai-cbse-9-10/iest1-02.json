@@ -1,0 +1,1224 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iest1:02:A:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-2"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-2",
+      "topic": "Plate Tectonics",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Two tectonic plates are moving towards each other. One of them carries ocean floor and the other carries a continent; state what happens next. (A) Magma rises from below and forms new crust, creating features such as mid-ocean ridges. (B) The oceanic plate sinks beneath the continental plate, leading to volcanic activity and earthquakes. (C) The two plates slide past each other without creating or destroying crust. (D) The continental plate sinks beneath the oceanic plate, leading to volcanic activity and earthquakes.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The oceanic plate sinks beneath the continental plate, leading to volcanic activity and earthquakes.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the Himalaya. When an oceanic plate collides with a continental\nplate, the oceanic plate sinks beneath the continental plate, leading to\nvolcanic activity and earthquakes."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Magma rises from below and forms new crust, creating features such as mid-ocean ridges.",
+            "B": "The oceanic plate sinks beneath the continental plate, leading to volcanic activity and earthquakes.",
+            "C": "The two plates slide past each other without creating or destroying crust.",
+            "D": "The continental plate sinks beneath the oceanic plate, leading to volcanic activity and earthquakes."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "iest1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:02:AR:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-2"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-2",
+      "topic": "Plate Tectonics",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A marine survey ship is studying the floor of the Atlantic Ocean and reports that new crust is being added along a long ridge where two plates are moving away from each other. Consider the following statements. 1. The Mid-Atlantic Ridge is a good example of a divergent boundary, where plates move away from each other and magma rises from below and forms new crust. 2. At a divergent boundary the two plates slide past each other without creating or destroying crust. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The assertion is true but the reason is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "boundary, where plates move away from each other. In this case,\nmagma rises from below and forms new crust, creating features, such\nas mid-ocean ridges. The Mid-Atlantic Ridge is a good example.",
+            "third type is the transform boundary, where plates slide past each\nother without creating or destroying crust."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:02:B:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-2"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-2",
+      "topic": "Plate Tectonics",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A volcano and earthquakes have appeared where a plate carrying ocean floor meets a plate carrying a continent; name the type of plate boundary where this happens and say what becomes of the oceanic plate.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Convergent boundary, where two plates move towards each other (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The oceanic plate sinks beneath the continental plate (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Convergent boundary; the oceanic plate sinks beneath the continental plate.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "convergent boundary, where two plates move towards each other.",
+            "plate, the oceanic plate sinks beneath the continental plate, leading to"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iest1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:02:C:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-2"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-2",
+      "topic": "Plate Tectonics",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Explain how convection currents in the mantle make tectonic plates move.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Heat from the Earth’s core causes molten material in the mantle to rise, while cooler material sinks (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "This continuous movement creates convection currents (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The currents push and pull the tectonic plates, causing them to move in different directions (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Heat from the Earth’s core causes molten material in the mantle to rise, while cooler material sinks. This continuous movement creates convection currents, and these currents push and pull the tectonic plates, causing them to move in different directions.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "in the mantle. Heat from the Earth’s core causes molten material\nin the mantle to rise, while cooler material sinks. This continuous\nmovement creates convection currents that push and pull the\ntectonic plates, causing them to move in different directions."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:02:C:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-2"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-2",
+      "topic": "Plate Tectonics",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "short_answer",
+      "stem": "Compare a divergent plate boundary with a transform plate boundary, stating for each how the plates move and what becomes of the crust.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Divergent boundary: the plates move away from each other (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Magma rises from below and forms new crust, creating features such as mid-ocean ridges, and the Mid-Atlantic Ridge is a good example (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Transform boundary: the plates slide past each other without creating or destroying crust, and this movement mainly causes earthquakes (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "At a divergent boundary the plates move away from each other, so magma rises from below and forms new crust, creating features such as mid-ocean ridges; the Mid-Atlantic Ridge is a good example. At a transform boundary the plates slide past each other without creating or destroying crust, and this movement mainly causes earthquakes.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "boundary, where plates move away from each other. In this case,\nmagma rises from below and forms new crust, creating features, such\nas mid-ocean ridges. The Mid-Atlantic Ridge is a good example.",
+            "third type is the transform boundary, where plates slide past each\nother without creating or destroying crust. This type of movement\nmainly causes earthquakes, such as along the San Andreas Fault in\nthe United States."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:02:C:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-2"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-2",
+      "topic": "Plate Tectonics",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Explain what happens when an oceanic plate collides with a continental plate, and name the two natural disasters that follow.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The collision takes place at a convergent boundary, where two plates move towards each other (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The oceanic plate sinks beneath the continental plate (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "This leads to volcanic activity and earthquakes (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "This collision takes place at a convergent boundary, where two plates move towards each other. The oceanic plate sinks beneath the continental plate, and this sinking leads to volcanic activity and earthquakes.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "convergent boundary, where two plates move towards each other.",
+            "plate, the oceanic plate sinks beneath the continental plate, leading to\nvolcanic activity and earthquakes."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:02:D:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-2"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-2",
+      "topic": "Plate Tectonics",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Show, step by step, how heat from inside the Earth leads to tectonic plates moving in different directions.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "The movement of tectonic plates is caused by convection currents in the mantle (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Heat from the Earth’s core causes molten material in the mantle to rise (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Cooler material sinks (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "This continuous movement creates convection currents (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The currents push and pull the tectonic plates, causing them to move in different directions (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Note that the movement of tectonic plates is caused by convection currents in the mantle. Step 2: Heat from the Earth’s core causes molten material in the mantle to rise. Step 3: Cooler material sinks. Step 4: This continuous movement creates convection currents. Step 5: These currents push and pull the tectonic plates, causing them to move in different directions.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The movement of tectonic plates is caused by convection currents\nin the mantle. Heat from the Earth’s core causes molten material\nin the mantle to rise, while cooler material sinks. This continuous\nmovement creates convection currents that push and pull the\ntectonic plates, causing them to move in different directions."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:02:D:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-2"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-2",
+      "topic": "Plate Tectonics",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A hill station in the Himalaya wants to explain how its mountains were raised; show, step by step, what happens at a convergent boundary.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "At a convergent boundary two plates move towards each other (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "When continental plates collide they form fold mountains, such as the Himalaya (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "When an oceanic plate collides with a continental plate, the oceanic plate sinks beneath the continental plate (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "This sinking leads to volcanic activity (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It also leads to earthquakes (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: At a convergent boundary, two plates move towards each other. Step 2: When continental plates collide, they form fold mountains, such as the Himalaya. Step 3: When an oceanic plate collides with a continental plate instead, the oceanic plate sinks beneath the continental plate. Step 4: This sinking leads to volcanic activity. Step 5: It also leads to earthquakes.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "convergent boundary, where two plates move towards each other.",
+            "When continental plates collide, they form fold mountains, such as\nthe Himalaya. When an oceanic plate collides with a continental",
+            "plate, the oceanic plate sinks beneath the continental plate, leading to\nvolcanic activity and earthquakes."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:02:D:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-2"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-2",
+      "topic": "Plate Tectonics",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "long_answer",
+      "stem": "Set out the three main types of tectonic plate, saying what each one carries, and state how fast the plates move.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Tectonic plates are massive slabs of solid rock (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They move very slowly, usually a few centimetres per year (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Continental plates carry continents (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Oceanic plates carry ocean floors (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Mixed plates carry both continents and oceans (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Tectonic plates are massive slabs of solid rock. Step 2: They move very slowly, usually a few centimetres per year. Step 3: Continental plates carry continents. Step 4: Oceanic plates carry ocean floors. Step 5: Mixed plates carry both continents and oceans.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Tectonic plates are massive slabs of solid rock that move very slowly,\nusually a few centimetres per year. There are three main types\nof tectonic plates—continental plates, which carry continents;\noceanic plates, which carry ocean floors; and mixed plates, which\ncarry both continents and oceans."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:02:D:4",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-2"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-2",
+      "topic": "Erosion",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Show, step by step, why the theory of plate tectonics is important for a country that wants to identify earthquake-prone regions and manage the disasters that follow.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Plate tectonics plays a major role in shaping the Earth’s surface (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The movement of plates leads to the formation of mountains, valleys, ocean basins, volcanoes and earthquakes (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Most earthquakes and volcanoes occur along plate boundaries, especially around the Pacific Ocean, an area known as the Ring of Fire (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The theory explains the origin of many landforms and natural disasters (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The theory is very important for identification of earthquake and volcano-prone regions and managing disasters arising from them (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Plate tectonics plays a major role in shaping the Earth’s surface. Step 2: The movement of plates leads to the formation of mountains, valleys, ocean basins, volcanoes and earthquakes. Step 3: Most earthquakes and volcanoes occur along plate boundaries, especially around the Pacific Ocean, an area known as the Ring of Fire. Step 4: The theory explains the origin of many landforms and natural disasters. Step 5: It is therefore very important for identification of earthquake and volcano-prone regions and managing disasters arising from them.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Plate tectonics plays a major role in shaping the Earth’s surface.\nThe movement of plates leads to the formation of mountains,\nvalleys, ocean basins, volcanoes, and earthquakes.",
+            "earthquakes and volcanoes occur along plate boundaries, especially\naround the Pacific Ocean, an area known as the Ring of Fire.",
+            "many landforms and natural disasters. This theory is very important\nfor identification of earthquake and volcano-prone regions and"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:02:E:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-2"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-2",
+      "topic": "Plate Tectonics",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Meera’s geography club is studying the floor of the Atlantic Ocean. A survey ship has found a long ridge running along the sea bed where new rock keeps appearing, and instruments on board show that the sea floor on either side of the ridge is moving apart. The club’s teacher points out that this ridge is one of the best known examples of its kind anywhere in the world. Meera wonders why rock keeps forming along this line, and why the sea floor there is getting wider instead of narrower.\n\n(a) Name the type of plate boundary along which new crust is being formed in the Atlantic Ocean. (b) State what rises from below to form this new crust. (c) Explain why the sea floor along this ridge keeps widening instead of narrowing.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) A divergent boundary. (b) Magma rises from below and forms new crust. (c) The plates move away from each other, and as magma rises from below and forms new crust along the gap, fresh rock is added on both sides, so the sea floor keeps widening.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "boundary, where plates move away from each other. In this case,\nmagma rises from below and forms new crust, creating features, such\nas mid-ocean ridges. The Mid-Atlantic Ridge is a good example."
+          ],
+          "objective": false,
+          "passage": "Meera’s geography club is studying the floor of the Atlantic Ocean. A survey ship has found a long ridge running along the sea bed where new rock keeps appearing, and instruments on board show that the sea floor on either side of the ridge is moving apart. The club’s teacher points out that this ridge is one of the best known examples of its kind anywhere in the world. Meera wonders why rock keeps forming along this line, and why the sea floor there is getting wider instead of narrower."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:02:E:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-2"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-2",
+      "topic": "Plate Tectonics",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Arjun lives in the United States near the San Andreas Fault. He has learnt that this fault runs along a line where two tectonic plates meet, but the plates here do not push head-on and they do not drift apart. Instead one plate slides sideways past the other, and this sliding goes on day after day. Buildings along the line have been damaged again and again by shaking, and Arjun’s family keeps an emergency kit ready because the shaking can come at any time.\n\n(a) Name the type of plate boundary along the San Andreas Fault, where one plate slides past the other. (b) State what this type of movement does to the crust. (c) Explain why a boundary of this kind can cause earthquakes without creating or destroying any crust.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) A transform boundary. (b) The plates slide past each other without creating or destroying crust. (c) This type of movement mainly causes earthquakes, such as along the San Andreas Fault in the United States, and because the plates only slide past one another, no crust is formed or destroyed.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "third type is the transform boundary, where plates slide past each\nother without creating or destroying crust. This type of movement\nmainly causes earthquakes, such as along the San Andreas Fault in\nthe United States."
+          ],
+          "objective": false,
+          "passage": "Arjun lives in the United States near the San Andreas Fault. He has learnt that this fault runs along a line where two tectonic plates meet, but the plates here do not push head-on and they do not drift apart. Instead one plate slides sideways past the other, and this sliding goes on day after day. Buildings along the line have been damaged again and again by shaking, and Arjun’s family keeps an emergency kit ready because the shaking can come at any time."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:02:E:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-2"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-2",
+      "topic": "Plate Tectonics",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "The Himalaya has been rising for a very long time because two huge slabs of solid rock kept drifting towards each other and colliding. Slabs of this kind are called tectonic plates, and they move very slowly, only a few centimetres in a year. Not every collision works in the same way: where a plate carrying ocean floor meets a plate carrying a continent, the ocean plate is pushed down beneath the continent, and soon afterwards the ground begins to shake and a volcano may erupt.\n\n(a) Name the type of plate boundary at which two plates move towards each other. (b) State the landform that forms when two continental plates collide. (c) Explain what happens when an oceanic plate meets a continental plate, and name the two natural disasters that follow.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) A convergent boundary. (b) They form fold mountains, such as the Himalaya. (c) The oceanic plate sinks beneath the continental plate, and this leads to volcanic activity and earthquakes.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "convergent boundary, where two plates move towards each other.",
+            "When continental plates collide, they form fold mountains, such as\nthe Himalaya.",
+            "plate, the oceanic plate sinks beneath the continental plate, leading to\nvolcanic activity and earthquakes."
+          ],
+          "objective": false,
+          "passage": "The Himalaya has been rising for a very long time because two huge slabs of solid rock kept drifting towards each other and colliding. Slabs of this kind are called tectonic plates, and they move very slowly, only a few centimetres in a year. Not every collision works in the same way: where a plate carrying ocean floor meets a plate carrying a continent, the ocean plate is pushed down beneath the continent, and soon afterwards the ground begins to shake and a volcano may erupt."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "B",
+      "qtype": "very_short_answer",
+      "topic": "Plate Tectonics",
+      "reason": "stem-is-not-a-question",
+      "stem": "Name the type of tectonic plate that carries ocean floors, and the type that carries both continents and oceans."
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iest1",
+    "chapters": [
+      2
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -1,0 +1,1321 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iebe1:01:A:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-1"
+      ],
+      "taxonomyChapterId": "english-9/chapter-1",
+      "topic": "Reading for Meaning — I",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "I saw the determination on her face. Yet I laughed at her. ‘Avva, at this age of sixty-two you want to learn the alphabet? All your hair is grey, your hands are wrinkled, you wear spectacles and you work so much in the kitchen...’ Childishly I made fun of the old lady. But she just smiled.\n\nChoose the option that best completes this sentence: By teasing the old woman about learning the alphabet at that age, the young one was showing that she... (A) secretly admired the courage of an old learner (B) doubted that learning the alphabet at that age was possible (C) believed that money could buy a person independence (D) expected the old woman to refuse to learn altogether",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "doubted that learning the alphabet at that age was possible",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I saw the determination on her face. Yet I laughed at her.",
+            "All your hair is grey, your hands are wrinkled, you wear spectacles and you work so much in the kitchen...",
+            "Childishly I made fun of the old lady. But she just smiled."
+          ],
+          "objective": true,
+          "options": {
+            "A": "secretly admired the courage of an old learner",
+            "B": "doubted that learning the alphabet at that age was possible",
+            "C": "believed that money could buy a person independence",
+            "D": "expected the old woman to refuse to learn altogether"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "iebe1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:01:B:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-1"
+      ],
+      "taxonomyChapterId": "english-9/chapter-1",
+      "topic": "Reading for Meaning — I",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "Choose the option that correctly completes the sentence: By that time Kashi Yatre ________ as a novel. (A) had published (B) had been published (C) was publishing (D) has been publishing",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "had been published",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Secretly, I bought Kashi Yatre which had been published as a novel by that time.",
+            "In sentence 1, verb ‘bought’ is in simple past tense."
+          ],
+          "objective": true,
+          "options": {
+            "A": "had published",
+            "B": "had been published",
+            "C": "was publishing",
+            "D": "has been publishing"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "iebe1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:01:B:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-1"
+      ],
+      "taxonomyChapterId": "english-9/chapter-1",
+      "topic": "Reading for Meaning — I",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the punctuation mark that correctly completes the sentence: As a concerned citizen ________ I would like to draw your attention towards adult literacy camps in your area. (A) a full stop (B) a colon (C) a comma (D) a semicolon",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "a comma",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "As a concerned citizen I would like to draw your attention towards"
+          ],
+          "objective": true,
+          "options": {
+            "A": "a full stop",
+            "B": "a colon",
+            "C": "a comma",
+            "D": "a semicolon"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "iebe1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:01:C:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-1"
+      ],
+      "taxonomyChapterId": "english-9/chapter-1",
+      "topic": "Reading for Meaning — I",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your village has opened an evening class for adults who have never been to school, and an old woman in your area has just learnt to read for the first time. Write a notice for your village notice board announcing the class, who may join it and the request for volunteers. (100 words)",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the notice clearly gives the purpose of the class (adults who have never been to school), who may join, when it meets and the request for volunteers",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a capitalised heading, the body of the notice in clear short paragraphs, and the signature or designation of the person issuing it at the end",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the details are arranged in a sensible order, that is, what the class is, who it is for, when it meets and how to join",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, punctuation, capital letters and a formal and concise tone suitable for a notice board",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: simple sentences and suitable vocabulary that persuade people to join and to volunteer",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "VILLAGE NOTICE BOARD\nADULT EVENING CLASS\n\nAll residents are informed that an evening class for adults who have never been to school will begin in the village hall. The class will meet every evening after the day's work is over, and there is no age bar for learning. Adults who wish to join may enrol at the village office at any time during the week. Anyone who can read and write is requested to volunteer as a teacher, because an old woman of our own area, who is sixty-two years old, has just learnt to read and can now read any novel confidently. Her example should encourage every learner to come forward. Please spread this notice.\n\nSd/- Programme Officer",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "For learning there is no age bar.",
+            "I am touching the feet of a teacher, not my granddaughter",
+            "Avva was a wonderful student."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:01:C:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-1"
+      ],
+      "taxonomyChapterId": "english-9/chapter-1",
+      "topic": "Reading for Meaning — I",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "At your school assembly, students who have taught elderly people of the village to read are to speak. Write a speech of about 100 words on why it is never too late to learn, using the example of a grandmother in your own area who has just learnt to read.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the speech gives a clear view that age is no bar to learning and supports it with the example of a grandmother who learnt to read",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: the correct format of a speech, that is, a salutation to the audience, the body of the speech and a concluding thank you",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: a clear beginning, a middle part that gives the example and a short conclusion that sums up the message",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, punctuation and capital letters, and a formal tone suitable for a school assembly",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: simple sentences, suitable vocabulary and a style that holds the attention of the audience",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Honourable Principal, teachers and dear friends,\n\nI speak today on a subject many people believe is impossible. They say only the young can learn. But a grandmother in our own area is sixty-two years old. She never went to school and could not read. When she decided to learn the Kannada alphabet, many laughed at her. She answered that for learning there is no age bar. Every evening she did her homework, reading, repeating, writing and reciting. By Dassara she could read a novel on her own and felt independent at last. If she can do it, any of us can begin. It is never too late to learn.\n\nThank you.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "at this age of sixty-two you want to learn the alphabet?",
+            "For learning there is no age bar.",
+            "She would read, repeat, write, and recite."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:01:D:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-1"
+      ],
+      "taxonomyChapterId": "english-9/chapter-1",
+      "topic": "Reading for Meaning — I",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "She said, ‘I am touching the feet of a teacher, not my granddaughter; a teacher who taught me so well, with so much of affection that I can read any novel confidently in such a short period. Now I am independent.\n\nChoose the option that best explains why the speaker says she is touching the feet of a teacher and not of her granddaughter. (A) She believes the granddaughter has become older than she is. (B) She believes the granddaughter has earned the respect due to a teacher. (C) She believes elders must touch the feet of every youngster they meet. (D) She believes the granddaughter has already apologised for laughing at her.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She believes the granddaughter has earned the respect due to a teacher.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I am touching the feet of a teacher, not my granddaughter",
+            "a teacher who taught me so well, with so much of affection",
+            "Now I am independent. It is my duty to respect a teacher."
+          ],
+          "objective": true,
+          "options": {
+            "A": "She believes the granddaughter has become older than she is.",
+            "B": "She believes the granddaughter has earned the respect due to a teacher.",
+            "C": "She believes elders must touch the feet of every youngster they meet.",
+            "D": "She believes the granddaughter has already apologised for laughing at her."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "iebe1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:01:D:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-1"
+      ],
+      "taxonomyChapterId": "english-9/chapter-1",
+      "topic": "Reading for Meaning — I",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "‘For a good cause if you are determined, you can overcome any obstacle. I will work harder than anybody but I will do it. For learning there is no age bar.’\n\nChoose the word in the extract that names the difficulty the speaker is ready to face. (A) obstacle (B) age (C) cause (D) bar",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "obstacle",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "you can overcome any obstacle",
+            "For learning there is no age bar."
+          ],
+          "objective": true,
+          "options": {
+            "A": "obstacle",
+            "B": "age",
+            "C": "cause",
+            "D": "bar"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "iebe1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:01:E:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-1"
+      ],
+      "taxonomyChapterId": "english-9/chapter-1",
+      "topic": "Reading for Meaning — I",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why was the twelve-year-old narrator so surprised to find her grandmother crying when she returned from her cousins' wedding?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The narrator had never seen her grandmother cry before, even in the most difficult situations",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The grandmother had earlier nodded but said nothing, and the narrator had forgotten about it",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Therefore the tears after the week-long stay at the wedding were unexpected and worried her",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The narrator was surprised because she had never seen her grandmother cry, even in the most difficult situations. On the day she left, the grandmother had nodded and said nothing, and the narrator had forgotten about it. So the tears after her week away were unexpected, and she was worried about what had happened.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I was surprised, for I had never seen her cry even in the most difficult situations.",
+            "She nodded but did not reply.",
+            "I did not understand and forgot about it."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:01:E:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-1"
+      ],
+      "taxonomyChapterId": "english-9/chapter-1",
+      "topic": "Reading for Meaning — I",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "What did the grandmother decide to learn, which day did she fix as her deadline, and why?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She decided to learn the Kannada alphabet from the next day onwards",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She fixed Saraswati Puja day during Dassara as the deadline",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "By that day she hoped to read a novel on her own and to be independent",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She decided to learn the Kannada alphabet from the next day onwards and set Saraswati Puja day during Dassara as her deadline. She said that by that day she should be able to read a novel on her own. She wanted to be independent and not helpless, as she had felt while waiting for someone else to read for her.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I have decided I want to learn the Kannada alphabet from tomorrow onwards.",
+            "I will keep Saraswati Puja day during Dassara as the deadline.",
+            "That day I should be able to read a novel on my own. I want to be independent."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:01:E:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-1"
+      ],
+      "taxonomyChapterId": "english-9/chapter-1",
+      "topic": "Reading for Meaning — I",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "How did the grandmother show that she had become independent by the end of the story?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She could read any novel confidently in such a short period",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She opened the gift of frock material and read the title Kashi Yatre by Triveni and the publisher's name herself",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She touched the narrator's feet as a mark of respect for her teacher and said she was now independent",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She could read any novel confidently in such a short period that the narrator was surprised. When the narrator gave her frock material as a gift, she opened it herself and read the title Kashi Yatre by Triveni and the publisher's name at once. She then touched the narrator's feet and said she was now independent.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "that I can read any novel confidently in such a short period",
+            "She opened it and read immediately the title Kashi Yatre",
+            "Now I am independent."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:01:F:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-1"
+      ],
+      "taxonomyChapterId": "english-9/chapter-1",
+      "topic": "Reading for Meaning — I",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "Trace in steps how the grandmother went from being unable to read to reading a novel on her own by the Dassara festival.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "She had never gone to school and so could not read",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She decided to learn the Kannada alphabet from the next day onwards",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She kept Saraswati Puja day during Dassara as the deadline to read a novel on her own",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The narrator began tuition the next day and became her only teacher",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She read, repeated, wrote and recited and did a large amount of homework",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "By Dassara she read the title Kashi Yatre by Triveni and the publisher's name from the gift herself",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. She never went to school, so she could not read, and she felt dependent on others for the magazine. 2. She decided to learn the Kannada alphabet from the next day onwards. 3. She fixed Saraswati Puja day during Dassara as her deadline, so that by then she could read a novel on her own. 4. The next day the narrator started tuition for her; the narrator was her only teacher and she was the narrator's first student. 5. She worked hard, doing a surprising amount of homework: she would read, repeat, write and recite. 6. The Dassara festival came as usual, and when the narrator gave her frock material as a gift, she opened it and read the title Kashi Yatre by Triveni and the publisher's name at once.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The next day onwards I started my tuition.",
+            "I will keep Saraswati Puja day during Dassara as the deadline.",
+            "She would read, repeat, write, and recite."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "iebe1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:01:F:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/chapter-1"
+      ],
+      "taxonomyChapterId": "english-9/chapter-1",
+      "topic": "Reading for Meaning — I",
+      "difficulty": "medium",
+      "bloomLevel": "evaluate",
+      "type": "long_answer",
+      "stem": "How did the grandmother's wish to be respected as an independent learner get fulfilled at the Dassara festival? Work out the answer in steps.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "She had begun to learn the Kannada alphabet so that she would be independent",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She worked very hard, reading, repeating, writing and reciting every day",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She believed that for learning there is no age bar",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The narrator had secretly bought Kashi Yatre, which was by then published as a novel",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The grandmother gave the narrator frock material as a gift at the puja place",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She touched the narrator's feet and told her that she was touching the feet of a teacher and that she was now independent",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. The grandmother wanted the Kannada alphabet so that she would not be dependent on others, as she had felt helpless while the narrator was away. 2. She worked hard from the very next day of her decision, reading, repeating, writing and reciting. 3. She had told the narrator that for learning there is no age bar, and the narrator finally saw her determination. 4. The Dassara festival came as usual, and the narrator had bought Kashi Yatre, now published as a novel. 5. The grandmother called the narrator to the puja place, made her sit on a stool and gave her frock material as a gift. 6. She then touched the narrator's feet and said she was touching the feet of a teacher, not her granddaughter, and that she was now independent.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "For learning there is no age bar.",
+            "Secretly I bought Kashi Yatre which had been published as a novel by that time.",
+            "I am touching the feet of a teacher, not my granddaughter"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "iebe1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "Reading for Meaning — I",
+      "reason": "evidence-not-in-text",
+      "stem": "Choose the option that best explains why the speaker could not ask anybody in her own village to read to her."
+    },
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "Reading for Meaning — I",
+      "reason": "evidence-not-in-text",
+      "stem": "Choose the option that best completes this sentence: By bending down and touching the feet of the younger person, the gr"
+    },
+    {
+      "section": "B",
+      "qtype": "mcq",
+      "topic": "Reading for Meaning — I",
+      "reason": "evidence-not-in-text",
+      "stem": "Choose the correct form of the verb to complete the sentence: By the time I reached the party, everyone ________ eating."
+    },
+    {
+      "section": "C",
+      "qtype": "short_answer",
+      "topic": "Reading for Meaning — I",
+      "reason": "evidence-not-in-text",
+      "stem": "Write an e-mail of about 100 words to the head teacher of your school requesting permission to start teaching elderly pe"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "Reading for Meaning — I",
+      "reason": "evidence-not-in-text",
+      "stem": "Choose the option that best shows how the grandmother came to know the whole episode of the serial although she could no"
+    },
+    {
+      "section": "F",
+      "qtype": "long_answer",
+      "topic": "Reading for Meaning — I",
+      "reason": "evidence-not-in-text",
+      "stem": "Why did the grandmother call herself 'very dependent and helpless' even though the family was well-off? Work out the ans"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iebe1",
+    "chapters": [
+      1
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -1,0 +1,525 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:01:B:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "science-9/chapter-1",
+      "topic": "Exploration and Models",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Before a flight is fuelled, the ground crew records the fuel required only in kilograms per litre and never in pounds per litre. State what goes wrong if pounds are used instead.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The fuel required is miscalculated",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The aircraft is left short of fuel",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The fuel required is miscalculated and the aircraft is left short of fuel.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "since they used the density of fuel in pounds (lb) per litre rather than kilograms (kg) per litre.",
+            "Pounds and kilograms are very\ndifferent. Using standard (SI) units everywhere avoids conversions and errors.",
+            "The aircraft was about 15,000 litres short of fuel and luckily could glide to an emergency landing,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:01:B:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "science-9/chapter-1",
+      "topic": "Exploration and Models",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Students in a school football match want to know how far the ball will travel from a kick. Name the established ideas that make such a prediction possible before the kick is taken.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Well-established laws, theories and models",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They allow us to anticipate what will happen before an experiment",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Well-established laws, theories and models.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "When laws, theories, and models are well established, they",
+            "allow us to anticipate what will happen under new or different conditions,",
+            "Using ideas about motion, we can predict how far"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:01:B:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "science-9/chapter-1",
+      "topic": "Exploration and Models",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "Two weather apps give different forecasts for the same afternoon although both used measurements, because very tiny differences in conditions can grow over time. State the period for which such forecasts are usually reliable.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "A few hours or even a few days",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Less certain further into the future",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A few hours or even a few days, but less certain further into the future.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "can grow over time and lead to something completely different. This is why forecasts are",
+            "usually reliable for a few hours or even a few days, but less"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:01:B:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "science-9/chapter-1",
+      "topic": "Predictions and Evidence",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "Using well-established laws, theories and models, students can predict how far a football they kick will travel, before the experiment can be performed. Why is such a prediction not a guess?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "A reasoned expectation based on evidence",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Based on careful thinking",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A reasoned expectation based on evidence and careful thinking.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "are not guesses, they are reasoned expectations based on evidence and",
+            "careful thinking. When predictions match observations, confidence in the"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:01:E:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "science-9/chapter-1",
+      "topic": "Exploration and Models",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Meera's family buys rice and vegetables every week. At one shop, a kilogram of rice fills her mother's old tin measure to the brim. At a second shop the same tin is filled above the brim, and the shopkeeper adds a small extra handful on top. Her mother calls the handful a customary gift and says it should not be questioned. Meera has been reading that measurements must be based on agreed international standards and not on local objects or opinions, so she checks both purchases on a pan balance. The second shop's kilogram does not weigh the same as the first. She wonders why a kilogram cannot mean whatever a local pan balance shows.\n\n(a) Why should a kilogram mean the same amount in Meera's village as in every other place? (b) Meera finds that the two shops' kilograms do not weigh the same. State two benefits that the use of standard units brings. (c) Her mother accepts the extra handful as local custom. Using the idea of agreed international standards, explain how accepting such a custom works against fairness in trade.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Because measurements are based on agreed international standards, not local objects or opinions. (b) Standard units allow scientific results to be compared, and ensure fairness in daily life and trade. (c) A local custom makes the same kilogram mean different amounts in different shops, so one party gains at the other's expense.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "measurements are based on agreed\ninternational standards, not local objects or opinions.",
+            "Standard units allow scientific results to be compared,\nand ensure fairness in daily life and trade.",
+            "to mean the same amount everywhere (Fig. 1.1). Imagine"
+          ],
+          "objective": false,
+          "passage": "Meera's family buys rice and vegetables every week. At one shop, a kilogram of rice fills her mother's old tin measure to the brim. At a second shop the same tin is filled above the brim, and the shopkeeper adds a small extra handful on top. Her mother calls the handful a customary gift and says it should not be questioned. Meera has been reading that measurements must be based on agreed international standards and not on local objects or opinions, so she checks both purchases on a pan balance. The second shop's kilogram does not weigh the same as the first. She wonders why a kilogram cannot mean whatever a local pan balance shows."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:01:E:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "science-9/chapter-1",
+      "topic": "Exploration and Models",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Akash records every football kick he makes in the school ground, noting how hard he kicked and how far the ball travelled. Using ideas about motion, he works out in advance that a kick of the same hardness should carry the ball about the same distance. Again and again his prediction holds. Then one kick, made with the same hardness, carries the ball much further than he expected. Akash is disappointed and wants to throw his record away. His friend Kavya tells him that this is the most useful result in the whole set, because it shows him exactly what he must check next.\n\n(a) Akash works out how far the ball will travel before he performs the kick. State the reason why this is possible. (b) On the kick where the ball travels much further than he expected, what must Akash re-examine, and what does science gain from this? (c) Akash's record shows predictions that held and one prediction that failed. Explain what each of these two outcomes does to the confidence we place in the science behind the prediction.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Well-established laws, theories and models let us anticipate what will happen before an experiment is performed. (b) He must re-examine his assumptions, models or measurements, which drives further exploration. (c) A prediction that matches raises confidence in the science; one that fails forces assumptions, models or measurements to be checked.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "When laws, theories, and models are well established, they",
+            "scientists re-examine their assumptions, models, or measurements. In this",
+            "underlying science grows. But even more important, when they do not,"
+          ],
+          "objective": false,
+          "passage": "Akash records every football kick he makes in the school ground, noting how hard he kicked and how far the ball travelled. Using ideas about motion, he works out in advance that a kick of the same hardness should carry the ball about the same distance. Again and again his prediction holds. Then one kick, made with the same hardness, carries the ball much further than he expected. Akash is disappointed and wants to throw his record away. His friend Kavya tells him that this is the most useful result in the whole set, because it shows him exactly what he must check next."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:01:E:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "science-9/chapter-1",
+      "topic": "Exploration and Models",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Rhea's grandfather is fond of saying that atoms are only a guess made by scientists. Rhea's teacher disagrees. She explains that a law describes a regular pattern observed in nature, while a theory goes a step further and gives an explanation of why such patterns occur. As examples she names the laws of motion, which explain the jerk a passenger feels when a bus stops suddenly, and the atomic theory, which explains how molecules are formed. She adds that such ideas are always open to improvement and often change as new evidence becomes available, and that this openness is what makes science reliable.\n\n(a) How does a theory differ from a law? (b) Rhea's grandfather calls the atomic theory a guess. State why this description is wrong. (c) These ideas often change as new evidence becomes available. Explain why science can still be called reliable although its ideas keep changing.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) A law describes a regular pattern observed in nature; a theory explains why such patterns occur. (b) A theory is not a guess but an explanation based on careful testing and critical examination. (c) Ideas change on the basis of careful testing and new evidence, and this openness is the key feature that makes science reliable.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "in science. A law usually describes a regular pattern observed in nature,",
+            "A theory goes a step further and provides an explanation of why those",
+            "change as new evidence becomes available. This is a key feature of science"
+          ],
+          "objective": false,
+          "passage": "Rhea's grandfather is fond of saying that atoms are only a guess made by scientists. Rhea's teacher disagrees. She explains that a law describes a regular pattern observed in nature, while a theory goes a step further and gives an explanation of why such patterns occur. As examples she names the laws of motion, which explain the jerk a passenger feels when a bus stops suddenly, and the atomic theory, which explains how molecules are formed. She adds that such ideas are always open to improvement and often change as new evidence becomes available, and that this openness is what makes science reliable."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:01:E:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "science-9/chapter-1",
+      "topic": "Predictions and Evidence",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Nikhil saw dark clouds at noon and told his sister Pooja that it would rain that afternoon because the clouds looked dark. Pooja asked him some questions: what was the condition of the sky the last time it rained, what is the humidity today, was it above 80 per cent the last time it rained, what is today's wind speed and direction, and is the temperature dropping like it did before the recent rains? Nikhil realised he had only looked at the clouds. Weather, Pooja reminded him, depends on many changing factors such as temperature, pressure, humidity and wind, so a forecast uses measurements and models, and very tiny differences in conditions can grow over time.\n\n(a) Pooja's questions made Nikhil's prediction scientifically testable. State what her questions asked for that 'the clouds look dark' did not. (b) Weather depends on many changing factors and very tiny differences in conditions can grow over time. Explain why this limits how far ahead any forecast can be trusted.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) They ask for measurable data and past patterns, such as humidity, wind speed and direction, instead of guesswork from the look of clouds. (b) Because tiny differences in conditions can grow over time into something completely different, forecasts are reliable for a few hours or even a few days, but less certain further ahead.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Questions like these ask about measurable data",
+            "can grow over time and lead to something completely different. This is why forecasts are",
+            "usually reliable for a few hours or even a few days, but less"
+          ],
+          "objective": false,
+          "passage": "Nikhil saw dark clouds at noon and told his sister Pooja that it would rain that afternoon because the clouds looked dark. Pooja asked him some questions: what was the condition of the sky the last time it rained, what is the humidity today, was it above 80 per cent the last time it rained, what is today's wind speed and direction, and is the temperature dropping like it did before the recent rains? Nikhil realised he had only looked at the clouds. Weather, Pooja reminded him, depends on many changing factors such as temperature, pressure, humidity and wind, so a forecast uses measurements and models, and very tiny differences in conditions can grow over time."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      1
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

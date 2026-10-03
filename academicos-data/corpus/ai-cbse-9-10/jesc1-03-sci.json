@@ -1,0 +1,631 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:03:B:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/metals-and-non-metals"
+      ],
+      "taxonomyChapterId": "science-10/metals-and-non-metals",
+      "topic": "Physical Properties",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A gold worker draws a wire for a jeweller's order from a single gram of gold. About what length of wire can be drawn from that one gram of gold?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States the length as about 2 km",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that this length is drawn from one gram of gold",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "About 2 km",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Gold is the most ductile metal. You will be surprised to know that a wire\nof about 2 km length can be drawn from one gram of gold.",
+            "The ability of metals to be drawn into thin wires is called ductility."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch3",
+        "pages": [
+          1,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:03:B:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/metals-and-non-metals"
+      ],
+      "taxonomyChapterId": "science-10/metals-and-non-metals",
+      "topic": "Physical Properties",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "The bell in your school is made of a metal and gives a loud ring when it is struck. Name the property of metals that makes them the choice for making such bells.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names sonority as the property",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that it is the sound produced when the metal is struck hard",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Sonority — the sound a metal produces on striking a hard surface",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The metals that produce a sound on striking a hard surface\nare said to be sonorous. Can you now say why school bells are made of\nmetals?"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch3",
+        "pages": [
+          1,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:03:B:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/metals-and-non-metals"
+      ],
+      "taxonomyChapterId": "science-10/metals-and-non-metals",
+      "topic": "Physical Properties",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A student is handed two metal samples and is told that each one will melt if it is simply kept resting on an open palm. Name these two metals.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names gallium",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names caesium",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Gallium and caesium",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "points but gallium and caesium have very low melting points.\nThese two metals will melt if you keep them on your palm."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch3",
+        "pages": [
+          1,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:03:B:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/metals-and-non-metals"
+      ],
+      "taxonomyChapterId": "science-10/metals-and-non-metals",
+      "topic": "Occurrence of Metals",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "During the electrolytic refining of copper, the insoluble impurities of the anode settle down at its bottom. Name the residue that collects there.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the residue as anode mud",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that it is formed by the insoluble impurities settling at the bottom of the anode",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Anode mud — the insoluble impurities that settle at the bottom of the anode",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "impurities go into the solution, whereas, the insoluble impurities settle\ndown at the bottom of the anode and are known as anode mud."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch3",
+        "pages": [
+          1,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:03:E:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/metals-and-non-metals"
+      ],
+      "taxonomyChapterId": "science-10/metals-and-non-metals",
+      "topic": "Physical Properties",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Rahul's mother is choosing a pan for cooking and settles on a copper one. The shopkeeper explains that metals are used for making such vessels because they let heat pass into the food quickly and do not melt easily on the flame. Rahul asks whether all metals pass heat equally well, and the shopkeeper replies that silver and copper are the best and that lead and mercury are comparatively poor. At home Rahul sets up a simple electric circuit with a bulb and connects a metal strip between the two terminals. When he closes the circuit the bulb glows.\n\nName the two metals the shopkeeper calls the best conductors of heat, and name the two he calls comparatively poor conductors. (ii) What does the glowing bulb tell Rahul about the metal strip he connected between the two terminals? (iii) Rahul's mother chose a copper pan. Using what the shopkeeper said, explain why copper is a better choice for cooking than a comparatively poor conductor of heat would be.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Silver and copper are the best conductors; lead and mercury are comparatively poor. (ii) The glowing bulb shows that the metal strip is a good conductor of electricity. (iii) Copper passes heat into the food faster, so the food cooks sooner, while a poor conductor would pass on less of the heat.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "and have high melting points. The best conductors of heat are silver and\ncopper. Lead and mercury are comparatively poor conductors of heat.",
+            "Metals are good\nconductors of electricity."
+          ],
+          "objective": false,
+          "passage": "Rahul's mother is choosing a pan for cooking and settles on a copper one. The shopkeeper explains that metals are used for making such vessels because they let heat pass into the food quickly and do not melt easily on the flame. Rahul asks whether all metals pass heat equally well, and the shopkeeper replies that silver and copper are the best and that lead and mercury are comparatively poor. At home Rahul sets up a simple electric circuit with a bulb and connects a metal strip between the two terminals. When he closes the circuit the bulb glows."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch3",
+        "pages": [
+          1,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:03:E:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/metals-and-non-metals"
+      ],
+      "taxonomyChapterId": "science-10/metals-and-non-metals",
+      "topic": "Physical Properties",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Anita is showing her class how a jeweller works. She holds up a length of wire no thicker than a hair and tells them that gold is the most ductile of all metals, so that a wire of this thinness can be drawn from a single gram of gold. Her teacher adds that this ability to be drawn into thin wires is called ductility, and that together with malleability it lets metals be given different shapes to suit our needs. Anita then strikes a metal plate with a small hammer, and a clear ring is produced.\n\nHow long a wire can Anita's class expect to be drawn from a single gram of gold, and which metal is the most ductile? (ii) Name the ability that makes it possible to draw metals into thin wires, and name the other property that, together with it, lets metals be given different shapes. (iii) Anita's school bell is made of a metal and gives a clear ring when struck. Name the property of metals that this ring shows, and say why a metal is chosen for the bell.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) About 2 km; gold is the most ductile metal. (ii) Ductility lets metals be drawn into thin wires; with malleability it lets them be given different shapes according to our needs. (iii) Sonority — metals produce a sound on striking a hard surface, so a metal gives the ringing sound a bell must make.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Gold is the most ductile metal. You will be surprised to know that a wire\nof about 2 km length can be drawn from one gram of gold.",
+            "It is because of their malleability and ductility that metals can be\ngiven different shapes according to our needs.",
+            "The metals that produce a sound on striking a hard surface\nare said to be sonorous. Can you now say why school bells are made of\nmetals?"
+          ],
+          "objective": false,
+          "passage": "Anita is showing her class how a jeweller works. She holds up a length of wire no thicker than a hair and tells them that gold is the most ductile of all metals, so that a wire of this thinness can be drawn from a single gram of gold. Her teacher adds that this ability to be drawn into thin wires is called ductility, and that together with malleability it lets metals be given different shapes to suit our needs. Anita then strikes a metal plate with a small hammer, and a clear ring is produced."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch3",
+        "pages": [
+          1,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:03:E:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/metals-and-non-metals"
+      ],
+      "taxonomyChapterId": "science-10/metals-and-non-metals",
+      "topic": "Physical Properties",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Akash is sorting samples for his school's science display. He is told that all metals except one are solids at room temperature, and that two of the metals in his tray have very low melting points, low enough for them to melt if they are simply kept on the palm. On a second tray he is given carbon, sulphur and iodine, and told that non-metals too are either solids or gases, with just one exception among them. Akash wonders aloud whether elements can be sorted into metals and non-metals by physical properties alone.\n\nName the two metals in Akash's tray that will melt if they are kept on the palm. (ii) On his second tray he is given non-metals. Name the one non-metal that is a liquid, and state the two forms in which the remaining non-metals occur. (iii) Akash wonders whether elements can be sorted into metals and non-metals using physical properties alone. Answer him, giving the reason.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Gallium and caesium, the two metals whose melting points are low enough for them to melt on the palm. (ii) Bromine is the liquid; every other non-metal is either a solid or a gas. (iii) No. There are many exceptions, so elements cannot be grouped according to their physical properties alone.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "points but gallium and caesium have very low melting points.\nThese two metals will melt if you keep them on your palm.",
+            "sulphur, iodine, oxygen, hydrogen, etc. The non-metals are either solids\nor gases except bromine which is a liquid.",
+            "general physical properties of metals and non-metals in the class. You\nmust have concluded that we cannot group elements according to their"
+          ],
+          "objective": false,
+          "passage": "Akash is sorting samples for his school's science display. He is told that all metals except one are solids at room temperature, and that two of the metals in his tray have very low melting points, low enough for them to melt if they are simply kept on the palm. On a second tray he is given carbon, sulphur and iodine, and told that non-metals too are either solids or gases, with just one exception among them. Akash wonders aloud whether elements can be sorted into metals and non-metals by physical properties alone."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch3",
+        "pages": [
+          1,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:03:E:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/metals-and-non-metals"
+      ],
+      "taxonomyChapterId": "science-10/metals-and-non-metals",
+      "topic": "Occurrence of Metals",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Farhan's cycle is left out in the open during the rains, and by the end of the season the iron parts carry a brown flaky coating. His grandfather explains that iron acquires such a coating when it is exposed to moist air for a long time, and that rusting can be stopped in several ways. He then sets up three test tubes, each holding a clean iron nail. Into the first he pours water, into the second boiled distilled water with about 1 mL of oil floating on it, and into the third he puts anhydrous calcium chloride. He asks Farhan to say which nail will rust.\n\nFarhan's grandfather says that rusting of iron can be stopped in several ways. Name two methods he could use on the iron parts of the cycle. (ii) Of the three nails in his grandfather's test tubes, which one rusts? Explain why that nail rusts and why the other two do not.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Painting and oiling, or greasing, galvanising, chrome plating, anodising or making alloys. (ii) Only the nail in the first tube rusts, since it is exposed to both air and water; the second has no air dissolved in the water and the third has dry air.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The rusting of iron can be prevented by painting, oiling, greasing,\ngalvanising, chrome plating, anodising or making alloys.",
+            "You will observe that iron nails rust in test tube A,\nbut they do not rust in test tubes B and C. In the test",
+            "tube A, the nails are exposed to both air and water. In"
+          ],
+          "objective": false,
+          "passage": "Farhan's cycle is left out in the open during the rains, and by the end of the season the iron parts carry a brown flaky coating. His grandfather explains that iron acquires such a coating when it is exposed to moist air for a long time, and that rusting can be stopped in several ways. He then sets up three test tubes, each holding a clean iron nail. Into the first he pours water, into the second boiled distilled water with about 1 mL of oil floating on it, and into the third he puts anhydrous calcium chloride. He asks Farhan to say which nail will rust."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch3",
+        "pages": [
+          1,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      3
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

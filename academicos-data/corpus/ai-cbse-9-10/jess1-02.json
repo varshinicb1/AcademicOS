@@ -1,0 +1,987 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess1:02:A:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/forest-and-wildlife-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/forest-and-wildlife-resources",
+      "topic": "Introduction",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Deva is walking through a North-eastern hill district where most of the forest is neither reserved forest nor protected forest and is instead looked after by local communities; what is such forest land called? (A) a reserved forest (B) a protected forest (C) a permanent forest estate (D) an unclassed forest",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "an unclassed forest",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Unclassed Forests: These are other",
+            "high percentage of their forests as unclassed",
+            "forests managed by local communities."
+          ],
+          "objective": true,
+          "options": {
+            "A": "a reserved forest",
+            "B": "a protected forest",
+            "C": "a permanent forest estate",
+            "D": "an unclassed forest"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:02:B:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/forest-and-wildlife-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/forest-and-wildlife-resources",
+      "topic": "Introduction",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Meera reads in a report that almost one-third of the total forest area of her state is protected forest, declared by the Forest Department, and that this land is protected from any further depletion; name the category of forests this is and the department that declares it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the category as protected forests",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names the Forest Department as the authority that declares protected forest",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Protected forests; the Forest Department.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "(ii) Protected Forests: Almost one-third of the",
+            "declared by the Forest Department. This",
+            "forest land are protected from any further"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:02:B:2",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/forest-and-wildlife-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/forest-and-wildlife-resources",
+      "topic": "Introduction",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "A news report says that one state has the largest area under permanent forests in the country, and a student wants to check how much of that state's forest area this covers; which state does the report name, and what percentage of its total forest area do these permanent forests constitute?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names Madhya Pradesh",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives the share as 75 per cent of its total forest area",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Madhya Pradesh; 75 per cent.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Madhya Pradesh has the",
+            "largest area under permanent forests,",
+            "constituting 75 per cent of its total forest area."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:02:C:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/forest-and-wildlife-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/forest-and-wildlife-resources",
+      "topic": "Introduction",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Ravi's father works with a body that sorts the forest land of the country, and he tells Ravi that more than half of the total forest land has been declared reserved forests. State what reserved forests are regarded as being the most valuable for.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Reserved forests are regarded as the most valuable",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The value lies in the conservation of forest and wildlife resources",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "More than half of the total forest land has been declared reserved forests",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Reserved forests are regarded as the most valuable as far as the conservation of forest and wildlife resources are concerned. More than half of the total forest land has been declared reserved forests, which places them in that leading position for conservation work.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "(i) Reserved Forests: More than half of the",
+            "regarded as the most valuable as far as the\nconservation of forest and wildlife resources\nare concerned."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:02:C:2",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/forest-and-wildlife-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/forest-and-wildlife-resources",
+      "topic": "Introduction",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "While preparing a report on how forest land is spread across the states, a student finds that Bihar, Haryana, Punjab, Himachal Pradesh, Odisha and Rajasthan have one thing in common, while all North-eastern states and parts of Gujarat have another. State what each group has in common.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Bihar, Haryana, Punjab, Himachal Pradesh, Odisha and Rajasthan have a bulk of it under protected forests",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "All North-eastern states and parts of Gujarat have a very high percentage of their forests as unclassed forests",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The unclassed forests in those areas are managed by local communities",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Bihar, Haryana, Punjab, Himachal Pradesh, Odisha and Rajasthan have a bulk of it under protected forests. All North-eastern states and parts of Gujarat have a very high percentage of their forests as unclassed forests managed by local communities. So the first group is a protected-forest state and the second an unclassed-forest one.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "a bulk of it under protected forests. All North-",
+            "high percentage of their forests as unclassed",
+            "forests managed by local communities."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:02:C:3",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/forest-and-wildlife-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/forest-and-wildlife-resources",
+      "topic": "Introduction",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Meenakshi is a wildlife officer preparing the list of species that may not be harmed. She wants to add butterflies, moths, beetles and a dragonfly to it, and also to bring plants into it for the first time; name the law under whose notification the insects were added, give the year in which plants were added to the list, and state how many plant species that addition began with.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Insects are beginning to find a place in conservation planning",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The additions were made in the notification under the Wildlife Act of 1980 and 1986",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Plants were added in 1991, for the first time, starting with six species",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Increasingly even insects are beginning to find a place in conservation planning. The several hundred butterflies, moths, beetles and one dragonfly were added in the notification under the Wildlife Act of 1980 and 1986. In 1991, for the first time, plants were also added to the list, starting with six species.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "notification under Wildlife Act of 1980 and",
+            "the list of protected species. In 1991, for the",
+            "starting with six species."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:02:D:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/forest-and-wildlife-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/forest-and-wildlife-resources",
+      "topic": "Introduction",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Rohit's teacher asks him to explain to the class why certain forest land in the country cannot be used up by people. Set out, step by step, the term that covers reserved forests and protected forests together, and the two purposes for which such forest land is maintained.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Reserved and protected forests are also referred to as permanent forest estates",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They are maintained for the purpose of producing timber",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They are maintained for other forest produce",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They are also maintained for protective reasons",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The two purposes are set out separately as steps rather than in a single paragraph",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Reserved forests and protected forests are also referred to as permanent forest estates. Step 2: These permanent forest estates are maintained for the purpose of producing timber. Step 3: They are maintained for other forest produce as well. Step 4: They are also maintained for protective reasons. Step 5: Because they serve both a productive and a protective purpose, this forest land cannot simply be used up by people.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Reserved and protected forests are also",
+            "referred to as permanent forest estates\nmaintained for the purpose of producing\ntimber and other forest produce, and for",
+            "protective reasons. Madhya Pradesh has the"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:02:D:2",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/forest-and-wildlife-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/forest-and-wildlife-resources",
+      "topic": "Introduction",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A state government asks a student to work out how forest land is distributed across the states. Set out, step by step, which category of forest a bulk of the forest area lies under in Bihar, Haryana, Punjab, Himachal Pradesh, Odisha and Rajasthan, and which category of forest all North-eastern states have a very high percentage of.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Bihar, Haryana, Punjab, Himachal Pradesh, Odisha and Rajasthan have a bulk of it under protected forests",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Protected forests, and not reserved forests, are the bulk category in these states",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "All North-eastern states have a very high percentage of their forests as unclassed forests",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Unclassed forests are the dominant category in the North-eastern states",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Forest land is therefore distributed differently across the states",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Bihar, Haryana, Punjab, Himachal Pradesh, Odisha and Rajasthan have a bulk of it under protected forests. Step 2: So in these states protected forest, and not reserved forest, makes up the bulk of the forest area. Step 3: All North-eastern states have a very high percentage of their forests as unclassed forests. Step 4: The two groups therefore differ in the category of forest that dominates their forest land. Step 5: Forest land is not distributed in the same way across the states.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Himachal Pradesh, Odisha and Rajasthan have",
+            "a bulk of it under protected forests. All North-",
+            "high percentage of their forests as unclassed"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:02:D:3",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/forest-and-wildlife-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/forest-and-wildlife-resources",
+      "topic": "Introduction",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A conservation group's report says its projects now look at the whole variety of life instead of a few individual species, and it wants the shift spelled out. Set out, step by step, what the conservation projects are now focusing on, and what has recently begun to find a place in conservation planning.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "The conservation projects are now focusing on biodiversity",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The focus is on biodiversity rather than on a few of its components",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The whole range of life is taken into account, not only single components",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Increasingly, even insects are beginning to find a place in conservation planning",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Insects are now counted in conservation planning",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: The conservation projects are now focusing on biodiversity. Step 2: They are focusing on biodiversity rather than on a few of its components. Step 3: The whole range of life is therefore taken into account, and not only single well-known species. Step 4: Increasingly, even insects are beginning to find a place in conservation planning. Step 5: Insects are now counted in conservation work alongside the larger and better-known species.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The conservation projects are now focusing",
+            "on biodiversity rather than on a few of its",
+            "Increasingly, even insects are beginning to find"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:02:D:4",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/forest-and-wildlife-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/forest-and-wildlife-resources",
+      "topic": "Project Tiger",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A wildlife officer is preparing a short explanation for school visitors on why tigers nearly disappeared from India. Set out, step by step, the illegal trade that pushed the tiger population to the verge of extinction, the two nations for which this became the main danger and the share of the surviving tiger population of the world that they hold, and the kind of resource that conservation of tigers is also said to preserve.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "The trade of tiger skins and the use of their bones in traditional medicines, especially in the Asian countries",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "This left the tiger population on the verge of extinction",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "India and Nepal provide habitat to about two-thirds of the surviving tiger population in the world",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "These two nations became prime targets for poaching and illegal trading",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Conservation of tigers also preserves biotypes of sizeable magnitude",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: The illegal trade was in tiger skins and in the bones used in traditional medicines, especially in the Asian countries. Step 2: This left the tiger population on the verge of extinction. Step 3: India and Nepal provide habitat to about two-thirds of the surviving tiger population in the world. Step 4: These two nations became prime targets for poaching and illegal trading. Step 5: Conservation of tigers also preserves biotypes of sizeable magnitude.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "growing human population, etc. The trade\nof tiger skins and the use of their bones in\ntraditional medicines, especially in the\nAsian countries left the tiger population on",
+            "the verge of extinction. Since India and\nNepal provide habitat to about two-thirds\nof the surviving tiger population in the\nworld, these two nations became prime\ntargets for poaching and illegal trading.",
+            "preserving biotypes of sizeable magnitude."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:02:E:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/forest-and-wildlife-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/forest-and-wildlife-resources",
+      "topic": "Introduction",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "A forest surveyor has been asked to prepare a note on the forest land that cannot be used up casually. She observes that in her work reserved forests and protected forests are treated together, and that together they go by another name. She records that these lands are kept for more than one purpose: one has to do with what the forest yields, and the other has to do with safeguarding the forest itself. She notes that a single state, Madhya Pradesh, has the largest area of such land, accounting for 75 per cent of its total forest area.\n\n(a) What two categories of forest land together go to make up permanent forest estates? (b) Name the two purposes for which permanent forest estates are maintained. (c) A student says permanent forest estates exist only so that timber can be cut; use the two purposes to show why this is only half the case.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Reserved forests and protected forests. (b) For producing timber and other forest produce, and for protective reasons. (c) Timber is only one purpose; these estates are equally maintained for protective reasons, so cutting alone does not account for them.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Reserved and protected forests are also",
+            "referred to as permanent forest estates\nmaintained for the purpose of producing\ntimber and other forest produce, and for",
+            "protective reasons. Madhya Pradesh has the"
+          ],
+          "objective": false,
+          "passage": "A forest surveyor has been asked to prepare a note on the forest land that cannot be used up casually. She observes that in her work reserved forests and protected forests are treated together, and that together they go by another name. She records that these lands are kept for more than one purpose: one has to do with what the forest yields, and the other has to do with safeguarding the forest itself. She notes that a single state, Madhya Pradesh, has the largest area of such land, accounting for 75 per cent of its total forest area."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:02:E:2",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/forest-and-wildlife-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/forest-and-wildlife-resources",
+      "topic": "Introduction",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "A wildlife officer is revising the list of species that may not be harmed. She notes that conservation projects are now focusing on one thing rather than on a few of its components, and that this has brought a more intensive search for different conservation measures. She also records that, in the notification under the Wildlife Act of 1980 and 1986, several hundred butterflies, moths, beetles and one dragonfly were added to the list of protected species. She remarks that a list holding hundreds of butterfly, moth and beetle kinds but only a single dragonfly is far wider than any list of a few famous animals.\n\n(a) What are conservation projects now focusing on, and what are they no longer focusing on? (b) Three kinds of insect and one dragonfly were added to the list of protected species under a notification; name two of the insect kinds. (c) Explain what a list made up of hundreds of butterfly, moth and beetle kinds and only one dragonfly tells a reader about the range of life that conservation work now covers.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) They are focusing on biodiversity rather than on a few of its components. (b) Butterflies and moths; beetles also qualify. (c) Conservation work now covers a very wide range of life, from hundreds of butterfly, moth and beetle kinds to a single dragonfly, instead of a few familiar components.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The conservation projects are now focusing",
+            "on biodiversity rather than on a few of its",
+            "1986, several hundred butterflies, moths,"
+          ],
+          "objective": false,
+          "passage": "A wildlife officer is revising the list of species that may not be harmed. She notes that conservation projects are now focusing on one thing rather than on a few of its components, and that this has brought a more intensive search for different conservation measures. She also records that, in the notification under the Wildlife Act of 1980 and 1986, several hundred butterflies, moths, beetles and one dragonfly were added to the list of protected species. She remarks that a list holding hundreds of butterfly, moth and beetle kinds but only a single dragonfly is far wider than any list of a few famous animals."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:02:E:3",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/forest-and-wildlife-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/forest-and-wildlife-resources",
+      "topic": "Introduction",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A reporter visits a Himalayan area where villagers have taken forests into their own hands, and also a set of villages where local people are conserving their traditional habitats along with government officials. In the Himalayan area the reporter learns that a famous movement has not only successfully resisted deforestation in several areas but has also shown that community afforestation with indigenous species can be enormously successful. Elsewhere, the communities are struggling to conserve their habitats along with government officials, recognising that only this will secure their forest and wildlife resources.\n\n(a) Name the famous movement in the Himalayas that has successfully resisted deforestation in several areas. (b) Local communities in some areas are conserving their habitats along with government officials; what do they now recognise will secure their forest and wildlife resources? (c) A reader who credits only government departments for forest protection is missing part of the story; explain why the Himalayan movement and the recognition made by the villages both show that community effort matters.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The Chipko movement. (b) Only this - the community's own conservation effort. (c) Because efforts such as the Chipko movement have themselves successfully resisted deforestation in several areas, and the communities recognise that only their own effort will secure their forest and wildlife resources.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The famous Chipko movement in the",
+            "Himalayas has not only successfully resisted",
+            "recognising that only this will secure their"
+          ],
+          "objective": false,
+          "passage": "A reporter visits a Himalayan area where villagers have taken forests into their own hands, and also a set of villages where local people are conserving their traditional habitats along with government officials. In the Himalayan area the reporter learns that a famous movement has not only successfully resisted deforestation in several areas but has also shown that community afforestation with indigenous species can be enormously successful. Elsewhere, the communities are struggling to conserve their habitats along with government officials, recognising that only this will secure their forest and wildlife resources."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess1 ch2",
+        "pages": [
+          1,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "F",
+      "qtype": "map_based",
+      "topic": "",
+      "reason": "no-model-answer",
+      "stem": "Use the MAP OF INDIA on which the locations of the wildlife sanctuaries and national parks of India are to be cited - th"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess1",
+    "chapters": [
+      2
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

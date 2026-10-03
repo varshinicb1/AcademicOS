@@ -1,0 +1,986 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iest1:01:A:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-1",
+      "topic": "Understanding Social Science",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Rohan finds that the festivals, the market and the government of his colony all shape how people live there, and he wants a subject that studies human society and the connections within it; name that subject. (A) Biology (B) Physics (C) Chemistry (D) Social Science",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Social Science",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In simple words, Social Science is the systematic study of human\nsociety.",
+            "world, Social Science focuses on society, institutions, cultures, and\nhuman interactions."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Biology",
+            "B": "Physics",
+            "C": "Chemistry",
+            "D": "Social Science"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "iest1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:01:AR:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-1",
+      "topic": "Understanding Social Science",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A student says that learning why a festival in her town began, and who decided to keep it, belongs to the same subject as measuring the rainfall that the festival depends on. Consider the following statements. 1. Social Science does not only tell us what happened or where things are located, but also explains why events occur and how people live together. 2. Subjects like Physics, Chemistry and Biology study the natural world, while Social Science focuses on society, institutions, cultures and human interactions. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "society. It not only tells us what happened or where things are\nlocated, but also explains why events occur, how people live together,",
+            "While subjects like Physics, Chemistry, and Biology study the natural\nworld, Social Science focuses on society, institutions, cultures, and\nhuman interactions."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:01:C:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-1",
+      "topic": "Understanding Social Science",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A classmate says Social Science is only a record of what happened long ago and of where things are located; correct this idea in about 45 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "It is the systematic study of human society, and not only a record (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It also explains why events occur, how people live together and how environments influence life (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It covers how governments function, how economies operate and how the past and the present together shape the world (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Social Science is far more than a record. Along with telling us what happened and where things are located, it also explains why events occur, how people live together, how environments influence life, how governments function and how economies operate. It further shows how the past and the present together shape the world.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In simple words, Social Science is the systematic study of human\nsociety. It not only tells us what happened or where things are",
+            "located, but also explains why events occur, how people live together,\nhow environments influence life, how governments function, how",
+            "economies operate, and how the past and the present together shape\nthe world."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:01:C:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-1",
+      "topic": "Understanding Social Science",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Compare what subjects like Physics, Chemistry and Biology study with what Social Science focuses on.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Physics, Chemistry and Biology study the natural world (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Social Science focuses on society, institutions, cultures and human interactions (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It explains why things happen and how different aspects of life are interconnected (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Subjects like Physics, Chemistry and Biology study the natural world. Social Science, by contrast, focuses on society, institutions, cultures and human interactions. It helps us understand not only what happens in our social world, but also why it happens and how different aspects of life are interconnected.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "While subjects like Physics, Chemistry, and Biology study the natural\nworld, Social Science focuses on society, institutions, cultures, and",
+            "human interactions. It helps us understand not only what happens\nin our social world, but also why it happens and how different",
+            "aspects of life are interconnected."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:01:C:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-1",
+      "topic": "Understanding Social Science",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your teacher says that the connections between the environment, the institutions that govern us, economic activities and inherited traditions are the foundation of Social Science; explain in about 45 words why understanding these connections matters to you as you enter Grade 9.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Human beings live in societies and depend on each other in many ways (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The environment, the institutions that govern us, economic activities and inherited traditions shape lives (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Understanding these connections and their intricate patterns and influences is the foundation of Social Science (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Human beings live in societies and depend on each other in many ways, and these four forces shape their lives together. Because understanding these connections is the foundation of Social Science, the subject explains not only what happens in our social world but also why it happens, showing how different aspects of life are interconnected.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Human beings live in societies and depend on each other in many\nways. Our lives are shaped by the environment, the institutions",
+            "Understanding these connections is the foundation of Social Science,\nwhich seeks to understand their intricate patterns and influences."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:01:D:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-1",
+      "topic": "Understanding Social Science",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Your teacher asks you to show, step by step, what Social Science seeks to understand about the connections between the environment, the institutions that govern us, economic activities and traditions passed down through generations.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Human beings live in societies and depend on each other in many ways (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The environment and the institutions that govern us (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The economic activities that meet our needs and the traditions and ideas passed down through generations (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Understanding these connections is the foundation of Social Science (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Social Science explains why events occur, how people live together, how environments influence life, how governments function, how economies operate, and how the past and the present together shape the world (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Note that human beings live in societies and depend on each other in many ways. Step 2: List what shapes their lives: the environment; the institutions that govern us; the economic activities that meet our needs; the traditions and ideas passed down through generations. Step 3: Recall that understanding these connections is the foundation of Social Science. Step 4: State that it then explains why events occur, how people live together, how environments influence life, how governments function, how economies operate, and how the past and the present together shape the world.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Human beings live in societies and depend on each other in many\nways. Our lives are shaped by the environment, the institutions\nthat govern us, the economic activities that meet our needs,\nand the traditions and ideas passed down through generations.",
+            "Understanding these connections is the foundation of Social Science,\nwhich seeks to understand their intricate patterns and influences.",
+            "economies operate, and how the past and the present together shape\nthe world."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:01:D:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-1",
+      "topic": "Understanding Social Science",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A student claims that Physics, Chemistry, Biology and Social Science all study the same things; in steps, show what each group of subjects studies and how Social Science reaches further than the other three.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Physics, Chemistry and Biology study the natural world (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Social Science focuses on society, institutions, cultures and human interactions (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Social Science is the systematic study of human society (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It tells us what happened and where things are located (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It also explains why events occur, how people live together, how environments influence life, how governments function, how economies operate, and how the past and the present together shape the world (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Subjects like Physics, Chemistry and Biology study the natural world. Step 2: Social Science focuses on society, institutions, cultures and human interactions. Step 3: It is the systematic study of human society. Step 4: It tells us what happened and where things are located. Step 5: It also explains why events occur, how people live together, how environments influence life, how governments function, how economies operate, and how the past and the present together shape the world.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "While subjects like Physics, Chemistry, and Biology study the natural\nworld, Social Science focuses on society, institutions, cultures, and\nhuman interactions.",
+            "In simple words, Social Science is the systematic study of human\nsociety. It not only tells us what happened or where things are\nlocated, but also explains why events occur, how people live together,",
+            "economies operate, and how the past and the present together shape\nthe world."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:01:D:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-1",
+      "topic": "Understanding Social Science",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "In Grades 6 to 8 you met this subject through stories of people, places and events; in steps, set out what changes as you enter Grade 9 and why the change is needed.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "In Grades 6 to 8 Social Science was explored through stories of people, places and events (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "On entering Grade 9 the learner pauses to understand what Social Science truly means and why it matters (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Social Science is the systematic study of human society (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It focuses on society, institutions, cultures and human interactions (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It helps us understand not only what happens in our social world but also why it happens and how different aspects of life are interconnected (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: In Grades 6 to 8 you explored Social Science through stories of people, places and events. Step 2: As you enter Grade 9, it is time to pause and understand what Social Science truly means and why it matters. Step 3: You learn that it is the systematic study of human society. Step 4: You see that it focuses on society, institutions, cultures and human interactions. Step 5: This helps you understand not only what happens in our social world, but also why it happens and how different aspects of life are interconnected.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In Grades 6 to 8, we have explored Social Science through stories\nof people, places, and events. As you enter Grade 9, it is time to\npause and understand what ‘Social Science’ truly means and why\nit matters.",
+            "world, Social Science focuses on society, institutions, cultures, and\nhuman interactions.",
+            "aspects of life are interconnected."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:01:D:4",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-1",
+      "topic": "Social Science as a Study of Disciplines",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Rhea's history club wants to show that studying the past today is not the same as merely listening to stories; in steps, set out what History is, and how modern historians go about establishing timelines and understanding the past.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "History is the study of human past, through which societies seek to understand people’s experiences, values and changes over time (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Different historical traditions have utilised different methods (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Some traditions emphasise moral and philosophical insight, while others offer documentary verification (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Modern historiography, by contrast, increasingly relies on empirical evidence (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It uses tools such as observation, human genetics, carbon-14 dating, archaeology and other scientific experimentation to establish timelines and understand the past (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: History is the study of human past, through which societies seek to understand people’s experiences, values, and changes over time. Step 2: Different historical traditions have utilised different methods. Step 3: Some traditions emphasise moral and philosophical insight, while others offer documentary verification. Step 4: Modern historiography, by contrast, increasingly relies on empirical evidence. Step 5: It uses tools such as observation, human genetics, carbon-14 dating, archaeology and other scientific experimentation, by which timelines are established and the past understood.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "History is the study of human past, through which societies seek to\nunderstand people’s experiences, values, and changes over time.",
+            "offer documentary verification. Modern historiography, by contrast,",
+            "human genetics, carbon-14 dating, archaeology, and other scientific\nexperimentation.\nmethods to establish timelines and understand the past."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:01:E:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-1",
+      "topic": "Understanding Social Science",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Ananya's grandfather grows grain on a small plot where the river decides how much water reaches the crop. In the same village, a committee decides which festivals the village will keep, a trader buys the grain at the weekly market, and stories of an earlier harvest are retold every year. Ananya's grandmother says that nothing here can be understood on its own: the river, the committee, the market and the stories together have made the village what it is. Ananya decides to find out how these parts are joined.\n\n(a) Name the four things that shape the lives of the people in Ananya's village. (b) State two things, other than what happened and where things are located, that the systematic study of human society explains. (c) Ananya's grandmother says that nothing in the village can be understood on its own; explain why the connections between these four things are the foundation of Social Science.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The environment; the institutions that govern us; the economic activities that meet our needs; the traditions and ideas passed down through generations. (b) It explains why events occur and how people live together. (c) Human beings depend on each other, so these four forces shape lives together, and studying their intricate patterns and influences shows how different aspects of life are interconnected.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Human beings live in societies and depend on each other in many\nways. Our lives are shaped by the environment, the institutions\nthat govern us, the economic activities that meet our needs,\nand the traditions and ideas passed down through generations.",
+            "In simple words, Social Science is the systematic study of human\nsociety. It not only tells us what happened or where things are\nlocated, but also explains why events occur, how people live together,",
+            "Understanding these connections is the foundation of Social Science,\nwhich seeks to understand their intricate patterns and influences."
+          ],
+          "objective": false,
+          "passage": "Ananya's grandfather grows grain on a small plot where the river decides how much water reaches the crop. In the same village, a committee decides which festivals the village will keep, a trader buys the grain at the weekly market, and stories of an earlier harvest are retold every year. Ananya's grandmother says that nothing here can be understood on its own: the river, the committee, the market and the stories together have made the village what it is. Ananya decides to find out how these parts are joined."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:01:E:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-1",
+      "topic": "Understanding Social Science",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Kabir's class is doing a project on water. One group records how much of it reaches the fields and how the fields are laid out; another records who owns the wells, who repairs them, who decides how much water each household receives, and which older sayings about wells the village repeats. Kabir's classmates in another room are measuring the same water with instruments and writing down only what they measure. Their teacher asks both groups to say what each of them is studying, and Kabir notices that the two answers are not the same thing at all.\n\n(a) Name three subjects that study the natural world. (b) State what Social Science focuses on instead. (c) Both groups study the same water; explain why studying it as part of human society gives an answer that measuring only the natural world cannot give.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Physics, Chemistry and Biology. (b) Social Science focuses on society, institutions, cultures and human interactions. (c) It also explains how environments influence life, how governments function and how economies operate, so it shows not only how much water there is but why people live as they do.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "While subjects like Physics, Chemistry, and Biology study the natural\nworld, Social Science focuses on society, institutions, cultures, and\nhuman interactions.",
+            "human interactions. It helps us understand not only what happens\nin our social world, but also why it happens and how different",
+            "located, but also explains why events occur, how people live together,\nhow environments influence life, how governments function, how"
+          ],
+          "objective": false,
+          "passage": "Kabir's class is doing a project on water. One group records how much of it reaches the fields and how the fields are laid out; another records who owns the wells, who repairs them, who decides how much water each household receives, and which older sayings about wells the village repeats. Kabir's classmates in another room are measuring the same water with instruments and writing down only what they measure. Their teacher asks both groups to say what each of them is studying, and Kabir notices that the two answers are not the same thing at all."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:01:E:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/chapter-1"
+      ],
+      "taxonomyChapterId": "social-science-9/chapter-1",
+      "topic": "Understanding Social Science",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Meera's history club is preparing an exhibition on how people in her town live now. One member points out that the town's festivals, its market, the way its people arrange matters among themselves and the stories they tell about earlier times all belong together, so the club decides to look at the connections rather than at each item alone. A second member claims that Social Science should only tell the club what happened long ago. Meera disagrees and asks the club to write down what it is missing.\n\n(a) Name four forces that shape the lives of human beings. (b) Apart from what happened and where things are located, state two things that Social Science explains. (c) The second member claims that Social Science should only record what happened long ago; explain what the past and the present together shape, and why that settles the argument.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The environment; the institutions that govern us; the economic activities that meet our needs; the traditions and ideas passed down through generations. (b) It explains why events occur and how people live together. (c) The past and the present together shape the world, so Social Science explains how different aspects of life are interconnected, not merely what happened.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "ways. Our lives are shaped by the environment, the institutions\nthat govern us, the economic activities that meet our needs,\nand the traditions and ideas passed down through generations.",
+            "society. It not only tells us what happened or where things are\nlocated, but also explains why events occur, how people live together,",
+            "economies operate, and how the past and the present together shape\nthe world."
+          ],
+          "objective": false,
+          "passage": "Meera's history club is preparing an exhibition on how people in her town live now. One member points out that the town's festivals, its market, the way its people arrange matters among themselves and the stories they tell about earlier times all belong together, so the club decides to look at the connections rather than at each item alone. A second member claims that Social Science should only tell the club what happened long ago. Meera disagrees and asks the club to write down what it is missing."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "B",
+      "qtype": "very_short_answer",
+      "topic": "Understanding Social Science",
+      "reason": "stem-is-not-a-question",
+      "stem": "Name the four things that shape the lives of human beings."
+    },
+    {
+      "section": "B",
+      "qtype": "very_short_answer",
+      "topic": "Understanding Social Science",
+      "reason": "stem-is-not-a-question",
+      "stem": "Name three subjects that study the natural world."
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iest1",
+    "chapters": [
+      1
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

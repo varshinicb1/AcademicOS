@@ -1,0 +1,592 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:01:B:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/chemical-reactions-and-equations"
+      ],
+      "taxonomyChapterId": "science-10/chemical-reactions-and-equations",
+      "topic": "Chemical Equations",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Farhan begins balancing an unbalanced equation by choosing the compound that contains the maximum number of atoms, and then, inside that compound, the element that contains the maximum number of atoms. Which element does he take up first to balance?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names oxygen as the element taken up first",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives the reason: it is the element with the maximum number of atoms in the compound that has the maximum number of atoms",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Oxygen",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Step III: It is often convenient to start balancing with the compound\nthat contains the maximum number of atoms. It may be a reactant or a\nproduct. In that compound, select the element which has the maximum\nnumber of atoms.",
+            "oxygen in it. There are four oxygen atoms on the RHS and only one on\nthe LHS."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:01:B:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/chemical-reactions-and-equations"
+      ],
+      "taxonomyChapterId": "science-10/chemical-reactions-and-equations",
+      "topic": "Chemical Equations",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "Aarav wants the oxygen atoms of his unbalanced equation to be equal on both sides, so he starts rewriting the compound on the left in order to give it four oxygen atoms. Why is he not allowed to do this?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States that the formulae of the compounds or elements involved in the reaction cannot be altered",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Indicates that the change must be made with a coefficient in front of the compound, not by altering the formula",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The formulae of the compounds or elements in the reaction can never be altered",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "To equalise the number of atoms, it must be remembered that we\ncannot alter the formulae of the compounds or elements involved in the\nreactions."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:01:B:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/chemical-reactions-and-equations"
+      ],
+      "taxonomyChapterId": "science-10/chemical-reactions-and-equations",
+      "topic": "Chemical Equations",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "After putting the coefficient 4 in front of one compound in his unbalanced equation, Deep counts the hydrogen atoms once more and finds 8 of them on the left-hand side but only 2 on the right-hand side. How many molecules of hydrogen must he write on the right-hand side to equalise them?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Gives the number as four",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that four is the number of hydrogen molecules to be written on the right-hand side",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Four molecules of hydrogen",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "To equalise the number of H atoms, make the number of molecules\nof hydrogen as four on the RHS.",
+            "Step IV: Fe and H atoms are still not balanced. Pick any of these elements\nto proceed further. Let us balance hydrogen atoms in the partly balanced\nequation."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:01:B:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/chemical-reactions-and-equations"
+      ],
+      "taxonomyChapterId": "science-10/chemical-reactions-and-equations",
+      "topic": "Chemical Equations",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Isha has balanced the oxygen atoms and then the hydrogen atoms of her equation, and she reads the equation once more. She finds that only one element is still out of balance. Name that element.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names iron as the only element still left to balance",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Notes that iron is the third and last element that was not balanced",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Iron",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Step V: Examine the above equation and pick up the third element\nwhich is not balanced. You find that only one element is left to be\nbalanced, that is, iron."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:01:E:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/chemical-reactions-and-equations"
+      ],
+      "taxonomyChapterId": "science-10/chemical-reactions-and-equations",
+      "topic": "Chemical Equations",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Rohit has to balance a chemical equation for his practical record. He first lists the number of atoms of each element on the left-hand side and on the right-hand side of his unbalanced equation. His list shows iron: 1 on the left and 3 on the right; hydrogen: 2 on the left and 2 on the right; oxygen: 1 on the left and 4 on the right. Rohit tells his friend that he will first take up the compound in his equation that has the greatest number of atoms in it, whether it happens to be on the left or on the right, and then pick out the element with the greatest number of atoms inside that compound.\n\nAccording to Rohit's list, how many atoms of iron stand on the right-hand side, and how many atoms of oxygen on the left-hand side? (ii) Which one element on his list has the same number of atoms on both sides? (iii) Rohit picks the compound with the greatest number of atoms and then the element with the greatest number of atoms inside it. Applying this to his list, name the element he balances first, and say how many atoms of that element he must end up with on each side.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) 3 iron atoms on the right; 1 oxygen atom on the left. (ii) Hydrogen, 2 on each side. (iii) Oxygen, which has the most atoms in the compound holding the most atoms. One oxygen atom stands on the left against four on the right, so he multiplies and leaves 4 oxygen atoms on each side.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "in reactants (LHS)\nin products (RHS)\nFe\n1\n3\nH\n2\n2\nO\n1\n4",
+            "oxygen in it. There are four oxygen atoms on the RHS and only one on\nthe LHS.",
+            "Step III: It is often convenient to start balancing with the compound\nthat contains the maximum number of atoms. It may be a reactant or a\nproduct. In that compound, select the element which has the maximum\nnumber of atoms."
+          ],
+          "objective": false,
+          "passage": "Rohit has to balance a chemical equation for his practical record. He first lists the number of atoms of each element on the left-hand side and on the right-hand side of his unbalanced equation. His list shows iron: 1 on the left and 3 on the right; hydrogen: 2 on the left and 2 on the right; oxygen: 1 on the left and 4 on the right. Rohit tells his friend that he will first take up the compound in his equation that has the greatest number of atoms in it, whether it happens to be on the left or on the right, and then pick out the element with the greatest number of atoms inside that compound."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:01:E:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/chemical-reactions-and-equations"
+      ],
+      "taxonomyChapterId": "science-10/chemical-reactions-and-equations",
+      "topic": "Chemical Equations",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Ananya was asked to make the oxygen atoms equal on the two sides of an unbalanced equation. She found one oxygen atom on the left-hand side and four on the right-hand side. Her first idea was to change the compound on the left, and her teacher stopped her: the formulae of the compounds and elements taking part in a reaction can never be altered. The only permitted move, her teacher said, is to place a number in front of a compound, and to equalise oxygen Ananya put the coefficient '4' in front of the compound on the left. Her equation was then only partly balanced, since the iron and the hydrogen atoms still did not match.\n\nHow many oxygen atoms did Ananya find on each side of the unbalanced equation? (ii) Why did her teacher stop her from changing the compound on the left? (iii) Ananya placed a number in front of the compound on the left instead. Give that number, and name the two elements her partly balanced equation still needed.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) One oxygen atom on the left and four on the right. (ii) Because the formulae of the compounds and elements involved in a reaction can never be altered. (iii) She put the coefficient 4, and the iron and the hydrogen atoms were still not balanced.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "To equalise the number of atoms, it must be remembered that we\ncannot alter the formulae of the compounds or elements involved in the\nreactions.",
+            "oxygen in it. There are four oxygen atoms on the RHS and only one on\nthe LHS.",
+            "Step IV: Fe and H atoms are still not balanced. Pick any of these elements\nto proceed further. Let us balance hydrogen atoms in the partly balanced\nequation."
+          ],
+          "objective": false,
+          "passage": "Ananya was asked to make the oxygen atoms equal on the two sides of an unbalanced equation. She found one oxygen atom on the left-hand side and four on the right-hand side. Her first idea was to change the compound on the left, and her teacher stopped her: the formulae of the compounds and elements taking part in a reaction can never be altered. The only permitted move, her teacher said, is to place a number in front of a compound, and to equalise oxygen Ananya put the coefficient '4' in front of the compound on the left. Her equation was then only partly balanced, since the iron and the hydrogen atoms still did not match."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:01:E:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/chemical-reactions-and-equations"
+      ],
+      "taxonomyChapterId": "science-10/chemical-reactions-and-equations",
+      "topic": "Chemical Equations",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Dev had balanced the oxygen atoms and now looked at the hydrogen in his partly balanced equation. On the left-hand side there were 8 hydrogen atoms, sitting in the four molecules of the compound he had just multiplied; on the right-hand side there were only 2 hydrogen atoms. To equalise them he decided to make the number of molecules of hydrogen on the right as four. He wrote the equation out again with the coefficient 4 in front of the hydrogen, and read it once more. Iron, he saw, was the third element left, and now it was the only one still out of balance.\n\nHow many hydrogen atoms did Dev count on each side of the partly balanced equation? (ii) How many molecules of hydrogen did he write on the right-hand side? (iii) After balancing the hydrogen, Dev found that only one element was still out of balance. Name it, and say how he knew which element to take up next.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) 8 on the left and 2 on the right. (ii) Four. (iii) Iron: reading the equation again, Dev found that iron was the third element not balanced, so only iron was left to be taken up.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "hydrogen\n(i) Initial\n8 (in 4 H O)\n2 (in H )\n2\n2\n(ii) To balance\n8\n2 × 4",
+            "To equalise the number of H atoms, make the number of molecules\nof hydrogen as four on the RHS.",
+            "Step V: Examine the above equation and pick up the third element\nwhich is not balanced. You find that only one element is left to be\nbalanced, that is, iron."
+          ],
+          "objective": false,
+          "passage": "Dev had balanced the oxygen atoms and now looked at the hydrogen in his partly balanced equation. On the left-hand side there were 8 hydrogen atoms, sitting in the four molecules of the compound he had just multiplied; on the right-hand side there were only 2 hydrogen atoms. To equalise them he decided to make the number of molecules of hydrogen on the right as four. He wrote the equation out again with the coefficient 4 in front of the hydrogen, and read it once more. Iron, he saw, was the third element left, and now it was the only one still out of balance."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:01:E:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/chemical-reactions-and-equations"
+      ],
+      "taxonomyChapterId": "science-10/chemical-reactions-and-equations",
+      "topic": "Chemical Equations",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Meera's friend thought that an unbalanced equation must always be balanced from left to right, and he began with the element that happened to be written first. Meera told him the correct habit: while balancing, it is often convenient to start with the compound that contains the maximum number of atoms, and that compound may be a reactant or a product. Inside that compound one must then select the element which has the maximum number of atoms. She worked through his equation this way, wrote out each step, and called the equation she got at every stage a partly balanced equation. Only when iron was the single element left out of balance was her work finished.\n\nWhat did Meera tell her friend to begin with while balancing an equation, and what two choices follow from that rule? (ii) Her friend began with the element that happened to be written first. Explain, using what Meera told him, why that habit can leave more work to be done.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Start with the compound containing the maximum number of atoms; it may be a reactant or a product, and inside it choose the element with the maximum number of atoms. (ii) Beginning with the element written first can leave the element with the most atoms to the last, adding extra steps.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Step III: It is often convenient to start balancing with the compound\nthat contains the maximum number of atoms. It may be a reactant or a\nproduct. In that compound, select the element which has the maximum\nnumber of atoms.",
+            "Step V: Examine the above equation and pick up the third element\nwhich is not balanced. You find that only one element is left to be\nbalanced, that is, iron."
+          ],
+          "objective": false,
+          "passage": "Meera's friend thought that an unbalanced equation must always be balanced from left to right, and he began with the element that happened to be written first. Meera told him the correct habit: while balancing, it is often convenient to start with the compound that contains the maximum number of atoms, and that compound may be a reactant or a product. Inside that compound one must then select the element which has the maximum number of atoms. She worked through his equation this way, wrote out each step, and called the equation she got at every stage a partly balanced equation. Only when iron was the single element left out of balance was her work finished."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      1
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

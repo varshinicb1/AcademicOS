@@ -1,0 +1,634 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:04:B:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/carbon-and-its-compounds"
+      ],
+      "taxonomyChapterId": "science-10/carbon-and-its-compounds",
+      "topic": "Bonding in Carbon – the Covalent Bond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "A student is told that a carbon atom has four electrons in its outermost shell and cannot conveniently gain or lose four electrons. State what a carbon atom does instead, and say what that does for the two atoms concerned.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Carbon shares its valence electrons with other atoms of carbon or with atoms of other elements",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Both atoms attain the noble gas configuration",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Shares its valence electrons with other atoms; both atoms attain the noble gas configuration.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Carbon overcomes this problem by sharing its valence electrons with\nother atoms of carbon or with atoms of other elements.",
+            "the atoms and lead to both atoms attaining the noble gas configuration."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch4",
+        "pages": [
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:04:B:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/carbon-and-its-compounds"
+      ],
+      "taxonomyChapterId": "science-10/carbon-and-its-compounds",
+      "topic": "Bonding in Carbon – the Covalent Bond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Two hydrogen atoms join together to form one molecule of hydrogen gas. State how many electrons each hydrogen atom carries in its K shell before the sharing takes place, and name the bond that the shared pair of electrons forms between the two atoms.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Each hydrogen atom has one electron in its K shell",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A single covalent bond",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "One; a single covalent bond.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "hydrogen has one electron in its K shell and it requires one more electron\nto fill the K shell.",
+            "The shared pair of electrons is said to constitute a\nsingle covalent bond between the two hydrogen atoms."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch4",
+        "pages": [
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:04:B:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/carbon-and-its-compounds"
+      ],
+      "taxonomyChapterId": "science-10/carbon-and-its-compounds",
+      "topic": "Bonding in Carbon – the Covalent Bond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Methane is widely used as a fuel and is a major component of bio-gas and Compressed Natural Gas (CNG). In one molecule of methane, state with how many atoms of hydrogen a carbon atom shares its four valence electrons, and give the reason carbon is called tetravalent.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Carbon shares its electrons with four atoms of hydrogen",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Carbon is tetravalent because it has four valence electrons",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Four; carbon is tetravalent because it has four valence electrons.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In order to achieve noble gas configuration, carbon\nshares these electrons with four atoms of hydrogen as shown",
+            "valency of 1. Carbon is tetravalent because it has four valence\nelectrons."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch4",
+        "pages": [
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:04:B:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/carbon-and-its-compounds"
+      ],
+      "taxonomyChapterId": "science-10/carbon-and-its-compounds",
+      "topic": "Some Important Carbon Compounds – Ethanol and Ethanoic Acid",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A kitchen stove is heated by burning carbon in air. Name the gas that carbon gives off when it burns in oxygen, and state the two things that are released along with it in every allotropic form of carbon.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Carbon dioxide",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Heat and light",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Carbon dioxide; heat and light.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Carbon, in all its allotropic forms, burns in oxygen to give carbon dioxide\nalong with the release of heat and light. Most carbon compounds also"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch4",
+        "pages": [
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:04:E:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/carbon-and-its-compounds"
+      ],
+      "taxonomyChapterId": "science-10/carbon-and-its-compounds",
+      "topic": "Bonding in Carbon – the Covalent Bond",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A school chemistry laboratory stocks steel cylinders of oxygen and nitrogen. The teacher points out that the atomic number of nitrogen is 7 and that the atomic number of oxygen is eight. She asks the class to work out how each atom completes its outer shell when two atoms of the same element join. One pair of nitrogen atoms shares three electrons each and is joined by three shared pairs of electrons. A pair of oxygen atoms behaves differently: each oxygen atom has six electrons in its L shell and requires two more to complete its octet, so each shares two electrons.\n\nState how many electrons an oxygen atom has in its L shell and how many more it needs to complete its octet. (ii) State how many electrons each nitrogen atom contributes when the two nitrogen atoms join, and name the bond that is formed between them. (iii) Both elements form diatomic molecules in this way. Compare the two: state how many shared pairs of electrons each molecule contains and name the bond in each, and then explain what both kinds of atom gain by sharing electrons.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Six; two more to complete the octet. (ii) Three electrons each; a triple bond. (iii) Nitrogen has three shared pairs and a triple bond, oxygen has two shared pairs and a double bond; in both the shared electrons belong to the outermost shells of both atoms, so each atom attains the noble gas configuration.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "an atom of oxygen has six electrons\nin its L shell (the atomic number of oxygen is eight) and it requires two\nmore electrons to complete its octet.",
+            "nitrogen contributes three electrons giving rise to three shared\npairs of electrons. This is said to constitute a triple bond\nbetween the two atoms.",
+            "the atoms and lead to both atoms attaining the noble gas configuration."
+          ],
+          "objective": false,
+          "passage": "A school chemistry laboratory stocks steel cylinders of oxygen and nitrogen. The teacher points out that the atomic number of nitrogen is 7 and that the atomic number of oxygen is eight. She asks the class to work out how each atom completes its outer shell when two atoms of the same element join. One pair of nitrogen atoms shares three electrons each and is joined by three shared pairs of electrons. A pair of oxygen atoms behaves differently: each oxygen atom has six electrons in its L shell and requires two more to complete its octet, so each shares two electrons."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch4",
+        "pages": [
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:04:E:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/carbon-and-its-compounds"
+      ],
+      "taxonomyChapterId": "science-10/carbon-and-its-compounds",
+      "topic": "Bonding in Carbon – the Covalent Bond",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "In a school laboratory a student is asked to draw what happens when two hydrogen atoms meet. The atomic number of hydrogen is 1, so a hydrogen atom has a single electron in its K shell and needs one more to fill it. The two atoms therefore set their electrons in a shared pair, and the student is told that this shared pair of electrons constitutes a single covalent bond between the two hydrogen atoms. The teacher adds that the same bond can also be represented as a single straight line drawn between the two atoms.\n\nState how many electrons a hydrogen atom has in its K shell and how many more it needs to fill that shell. (ii) Name the bond that the shared pair of electrons forms between the two hydrogen atoms, and state how the same bond can also be represented. (iii) Both hydrogen atoms end up with the electronic configuration of the same noble gas. Name that noble gas and explain, in terms of shared electrons, what each hydrogen atom gains.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) One electron; it needs one more. (ii) A single covalent bond; also as a line between the two atoms. (iii) Helium, which has two electrons in its K shell; the shared electrons belong to the outermost shells of both atoms, so each hydrogen atom attains the configuration of helium.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "hydrogen has one electron in its K shell and it requires one more electron\nto fill the K shell.",
+            "The shared pair of electrons is said to constitute a\nsingle covalent bond between the two hydrogen atoms.",
+            "electronic configuration of the nearest noble gas,\nhelium, which has two electrons in its K shell."
+          ],
+          "objective": false,
+          "passage": "In a school laboratory a student is asked to draw what happens when two hydrogen atoms meet. The atomic number of hydrogen is 1, so a hydrogen atom has a single electron in its K shell and needs one more to fill it. The two atoms therefore set their electrons in a shared pair, and the student is told that this shared pair of electrons constitutes a single covalent bond between the two hydrogen atoms. The teacher adds that the same bond can also be represented as a single straight line drawn between the two atoms."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch4",
+        "pages": [
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:04:E:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/carbon-and-its-compounds"
+      ],
+      "taxonomyChapterId": "science-10/carbon-and-its-compounds",
+      "topic": "Bonding in Carbon – the Covalent Bond",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A city bus is fuelled by Compressed Natural Gas, and a kitchen in the same city burns methane on a gas stove. Both fuels depend on one of the simplest compounds formed by carbon. A student asks why carbon behaves so differently from the elements around it. The teacher explains that carbon has four electrons in its outermost shell, so it is tetravalent, and that in order to achieve noble gas configuration carbon shares these electrons with four atoms of hydrogen, whose valency is 1. Gaining or losing four electrons, the teacher adds, is not practical for carbon.\n\nState why carbon is called tetravalent, and give the valency of hydrogen. (ii) State with how many atoms of hydrogen a carbon atom shares its electrons in methane, and say what configuration the carbon atom thereby attains. (iii) The teacher says carbon could have gained four electrons or lost four electrons instead of sharing them, but that neither route works. Give the reason carbon cannot simply gain four electrons, and give the reason losing four electrons is not practical.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Carbon has four valence electrons; hydrogen has a valency of 1. (ii) Four atoms of hydrogen; it attains noble gas configuration. (iii) Its nucleus has six protons, so holding ten electrons would be difficult; removing four electrons would need a large amount of energy and would leave a carbon cation holding just two electrons.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "valency of 1. Carbon is tetravalent because it has four valence\nelectrons.",
+            "In order to achieve noble gas configuration, carbon\nshares these electrons with four atoms of hydrogen as shown",
+            "for the nucleus with six protons to hold on to ten electrons, that is,\nfour extra electrons."
+          ],
+          "objective": false,
+          "passage": "A city bus is fuelled by Compressed Natural Gas, and a kitchen in the same city burns methane on a gas stove. Both fuels depend on one of the simplest compounds formed by carbon. A student asks why carbon behaves so differently from the elements around it. The teacher explains that carbon has four electrons in its outermost shell, so it is tetravalent, and that in order to achieve noble gas configuration carbon shares these electrons with four atoms of hydrogen, whose valency is 1. Gaining or losing four electrons, the teacher adds, is not practical for carbon."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch4",
+        "pages": [
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:04:E:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/carbon-and-its-compounds"
+      ],
+      "taxonomyChapterId": "science-10/carbon-and-its-compounds",
+      "topic": "Some Important Carbon Compounds – Ethanol and Ethanoic Acid",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A student in a school chemistry laboratory is asked to name two carbon compounds. The first is a three-carbon chain carrying a ketone group; the student is told to delete the final ‘e’ of the chain name before adding the ending of the functional group. The second is an unsaturated three-carbon chain, and the student is told that the ending ‘ane’ must be replaced by ‘ene’ or ‘yne’ instead. The teacher then burns a sample of carbon in oxygen and reminds the class that most carbon compounds behave in the same way on burning.\n\nState the suffix used for a ketone group and give the name of the compound formed when a three-carbon chain carries that group, showing how the chain name changes. (ii) The teacher then burns a sample of carbon in oxygen and says most carbon compounds behave in the same way. State the gas that carbon gives off and the two things released along with it, and explain what this leads a student to expect when a carbon compound burns.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) The suffix is ‘one’; the final ‘e’ of propane is deleted to leave propan, and adding ‘one’ gives propanone. (ii) Carbon dioxide, with heat and light. Most carbon compounds also release a large amount of heat and light on burning, and these are oxidation reactions, so a compound gives off the same two things.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the name of the carbon chain is modified by deleting the final ‘e’ and\nadding the appropriate suffix. For example, a three-carbon chain\nwith a ketone group would be named in the following manner –\nPropane – ‘e’ = propan + ‘one’ = propanone.",
+            "Carbon, in all its allotropic forms, burns in oxygen to give carbon dioxide\nalong with the release of heat and light. Most carbon compounds also",
+            "release a large amount of heat and light on burning. These are the\noxidation reactions that you learnt about in the first Chapter –"
+          ],
+          "objective": false,
+          "passage": "A student in a school chemistry laboratory is asked to name two carbon compounds. The first is a three-carbon chain carrying a ketone group; the student is told to delete the final ‘e’ of the chain name before adding the ending of the functional group. The second is an unsaturated three-carbon chain, and the student is told that the ending ‘ane’ must be replaced by ‘ene’ or ‘yne’ instead. The teacher then burns a sample of carbon in oxygen and reminds the class that most carbon compounds behave in the same way on burning."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch4",
+        "pages": [
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

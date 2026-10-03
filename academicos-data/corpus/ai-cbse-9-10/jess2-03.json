@@ -1,0 +1,978 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess2:03:A:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/money-and-credit"
+      ],
+      "taxonomyChapterId": "social-science-10/money-and-credit",
+      "topic": "Money as a Medium of Exchange",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Ramu sells his oranges at the market and is paid in paper notes, and the rice seller across the lane then has to take those same notes for a bag of rice. (A) They are made of a precious metal such as gold. (B) They are authorised by the government of the country. (C) They are of everyday use to the person who holds them. (D) They may be issued by any individual who can afford to print them.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "They are authorised by the government of the country.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "as a medium of exchange because the\ncurrency is authorised by the\ngovernment of the country.",
+            "money earlier, modern currency is not",
+            "law, no other individual or"
+          ],
+          "objective": true,
+          "options": {
+            "A": "They are made of a precious metal such as gold.",
+            "B": "They are authorised by the government of the country.",
+            "C": "They are of everyday use to the person who holds them.",
+            "D": "They may be issued by any individual who can afford to print them."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess2 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:03:B:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/money-and-credit"
+      ],
+      "taxonomyChapterId": "social-science-10/money-and-credit",
+      "topic": "Money as a Medium of Exchange",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Long before coins were introduced, people in India needed something to pay with. Name two things that were used as money since the very early ages.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Grains",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Cattle",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Grains and cattle.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Indians used grains and cattle as\nmoney. Thereafter came the use of",
+            "example, since the very early ages,",
+            "the introduction of coins, a variety of"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess2 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:03:B:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/money-and-credit"
+      ],
+      "taxonomyChapterId": "social-science-10/money-and-credit",
+      "topic": "Money as a Medium of Exchange",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Rita's father is paid at the end of every month, and at the beginning of the next month he finds he has more cash in hand than he needs. Name the form in which he keeps this extra cash, and say what he must open to place it there.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Kept as deposits with banks",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Opens a bank account in his name",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "As deposits with banks, by opening a bank account in his name.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "their salaries at the end of each month",
+            "this extra cash? They deposit it with\nthe banks by opening a bank\naccount in their name.",
+            "money is as deposits with banks. At"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess2 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:03:C:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/money-and-credit"
+      ],
+      "taxonomyChapterId": "social-science-10/money-and-credit",
+      "topic": "Money as a Medium of Exchange",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Ramesh makes a pair of shoes and wants to buy a bag of wheat, but nobody in the market will trade wheat for his shoes. He sells the shoes for money instead and then buys the wheat with that money. Show how money helps him, and say what money is called when it stands between the two exchanges.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He finds a buyer for his shoes and exchanges the shoes for money",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He uses the money to purchase wheat, or any other commodity, in the market",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Money acts as an intermediate in the exchange process, so it is called a medium of exchange",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Ramesh first finds a buyer for his shoes and exchanges them for money. With that money he can purchase wheat, or any other commodity, in the market. Money is not spent on the shoes; it works as an intermediate in the exchange process. Money is therefore called a medium of exchange.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "wheat. All he has to do is find a buyer\nfor his shoes. Once he has exchanged",
+            "his shoes for money, he can purchase\nwheat or any other commodity in the",
+            "market. Since money acts as an\nintermediate in the exchange process,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess2 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:03:C:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/money-and-credit"
+      ],
+      "taxonomyChapterId": "social-science-10/money-and-credit",
+      "topic": "Money as a Medium of Exchange",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Modern currency is not made of a precious metal such as gold, silver and copper, and it is not of everyday use like grain and cattle were. Even so, a trader in India cannot turn down a note offered in payment. Give the two reasons.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The currency is authorised by the government of the country",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Indian law legalises the rupee as a medium of payment that cannot be refused in settling transactions",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "No individual in India can legally refuse a payment made in rupees",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A note is accepted as a medium of exchange because the currency is authorised by the government of the country. Indian law also legalises the use of the rupee as a medium of payment that cannot be refused in settling transactions in India. No individual in India can legally refuse a payment made in rupees.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "as a medium of exchange because the\ncurrency is authorised by the\ngovernment of the country.",
+            "currency. Moreover, the law legalises\nthe use of rupee as a medium of\npayment that cannot be refused in",
+            "individual in India can legally refuse\na payment made in rupees. Hence,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess2 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:03:C:3",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/money-and-credit"
+      ],
+      "taxonomyChapterId": "social-science-10/money-and-credit",
+      "topic": "Money as a Medium of Exchange",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "In India today currency means paper notes and coins. Compare it with the grains and cattle that Indians once used as money, and with the gold, silver and copper coins used before that. State what modern currency is made of and how much use it has of its own.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Modern currency is paper notes and coins, and is not made of precious metal such as gold, silver and copper",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Unlike grain and cattle, modern currency is not of everyday use",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The modern currency is without any use of its own",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Modern currency is paper notes and coins, and it is not made of a precious metal such as gold, silver and copper. Earlier, Indians used grains and cattle, which were of everyday use. Modern currency is neither of everyday use nor of any use at all: it is without any use of its own.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "money earlier, modern currency is not\nmade of precious metal such as gold,",
+            "silver and copper. And unlike grain",
+            "everyday use. The modern currency\nis without any use of its own."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess2 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:03:D:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/money-and-credit"
+      ],
+      "taxonomyChapterId": "social-science-10/money-and-credit",
+      "topic": "Money as a Medium of Exchange",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Ramesh has a pair of shoes and wants a bag of wheat, but no one at the market will exchange wheat for his shoes. Show, step by step, how using money gets him both things, and say what the term medium of exchange means in this case.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Step 1: He has a pair of shoes and wants wheat",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: He finds a buyer for his shoes and exchanges them for money",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: He uses the money to purchase wheat, or any other commodity, in the market",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: Money acts as an intermediate in the exchange process between the two exchanges",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Money is called a medium of exchange for this reason",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Ramesh makes a pair of shoes and wants wheat. Step 2: He finds a buyer for the shoes and exchanges them for money. Step 3: He takes the money and uses it to purchase wheat, or any other commodity, in the market. Step 4: The money is not spent on the shoes; it stands as an intermediate between giving away the shoes and getting the wheat. Money is therefore called a medium of exchange.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "wheat. All he has to do is find a buyer\nfor his shoes. Once he has exchanged",
+            "his shoes for money, he can purchase\nwheat or any other commodity in the",
+            "market. Since money acts as an\nintermediate in the exchange process,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess2 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:03:D:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/money-and-credit"
+      ],
+      "taxonomyChapterId": "social-science-10/money-and-credit",
+      "topic": "Money as a Medium of Exchange",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Grains and cattle were once used as money in India, and later gold, silver and copper coins were used instead. Trace, step by step, the change that has come over money itself, and then give the two reasons why a modern note is accepted in payment although it has no use of its own.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Step 1: Since the very early ages, Indians used grains and cattle as money",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: Then came metallic coins of gold, silver and copper",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: Modern currency came next, as paper notes and coins, which are not made of precious metal",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: Unlike grain and cattle, currency is neither of everyday use nor of any use of its own",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It is accepted because the currency is authorised by the government, and the law legalises the rupee as a payment that cannot be refused",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Since the very early ages Indians used grains and cattle as money. Step 2: Then came metallic coins of gold, silver and copper. Step 3: Modern currency came next, as paper notes and coins. Step 4: Unlike earlier money, currency is not made of precious metal and is not of everyday use; it is without any use of its own. Reason 1: it is accepted because the currency is authorised by the government of the country. Reason 2: the law legalises the rupee as a payment that cannot be refused.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Indians used grains and cattle as\nmoney. Thereafter came the use of",
+            "everyday use. The modern currency\nis without any use of its own.",
+            "as a medium of exchange because the\ncurrency is authorised by the\ngovernment of the country."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess2 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:03:D:3",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/money-and-credit"
+      ],
+      "taxonomyChapterId": "social-science-10/money-and-credit",
+      "topic": "Money as a Medium of Exchange",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Rita's father is paid at the end of every month, and at the beginning of the next month he has more cash than he needs. Name the two forms in which people hold money, and set out in steps what he does with the cash he does not need for day-to-day needs.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Form 1: currency, which is paper notes and coins and acts as a medium of exchange in transactions",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Form 2: deposits with banks",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "At a point of time people need only some currency for their day-to-day needs",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Workers receive their salaries at the end of each month and have extra cash at the beginning of the month",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They deposit this extra cash with banks by opening a bank account in their name",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: People hold money in two forms. Form 1 is currency, that is paper notes and coins, which acts as a medium of exchange in transactions. Form 2 is deposits with banks. Step 2: At a point of time people need only some currency for their day-to-day needs. Step 3: Workers paid at the end of each month have extra cash at the beginning of the month. Step 4: They deposit this extra cash with banks by opening a bank account in their name.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The other form in which people hold\nmoney is as deposits with banks. At",
+            "a point of time, people need only some\ncurrency for their day-to-day needs.",
+            "this extra cash? They deposit it with\nthe banks by opening a bank\naccount in their name."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess2 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:03:D:4",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/money-and-credit"
+      ],
+      "taxonomyChapterId": "social-science-10/money-and-credit",
+      "topic": "Two Different Credit Situations",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Two people each take credit, but they end in very different ways. Salim, a shoe manufacturer, gets an order from a large trader in town for 3,000 pairs of shoes to be delivered in a month; he hires more workers, buys raw materials and takes loans to finish it. Swapna, a small farmer, takes a loan from the moneylender for her groundnut crop on three acres of land, but pests hit the crop and it fails. Compare the two situations in steps: why each needed credit, what risk each faced, and how each of them ended.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Salim took credit to meet working capital needs of production: hiring more workers for stitching and pasting work and purchasing raw materials",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Salim's risk was small because he already had an order for 3,000 pairs of shoes, and he delivered it, made a good profit and repaid the money he had borrowed",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Swapna took credit to meet the expenses of cultivation of the groundnut crop on her three acres of land",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Swapna's risk was that the crop would fail; pests hit the crop, expensive pesticides made little difference and the harvest could not repay the loan",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Her outcome was bad: the debt grew into a large amount over the year and she had to sell a part of her land to pay off the debt",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Salim: (i) Credit met his working capital needs, that is hiring more workers for stitching and pasting work and purchasing raw materials. (ii) His risk was small, since the order was already placed. (iii) He delivered the order, made a good profit and repaid what he had borrowed. Swapna: (i) Credit met her expenses of cultivation. (ii) Her risk was that the crop would fail; pests hit it and pesticides made little difference. (iii) She could not repay, the debt grew into a large amount, and she sold a part of her land.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In this case, Salim obtains credit to meet the working\ncapital needs of production.",
+            "deliver the order, make a good profit, and",
+            "are not enough to cover the old loan.\nShe is caught in debt. She has to sell\na part of the land to pay off the debt."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess2 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:03:E:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/money-and-credit"
+      ],
+      "taxonomyChapterId": "social-science-10/money-and-credit",
+      "topic": "Money as a Medium of Exchange",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Nila's grandfather says that in his younger days people in the village paid in grains and cattle, and later in gold, silver and copper coins. Today Nila's shopkeeper takes only paper notes. Her father points out that the notes are of no use to anyone: you cannot eat them, wear them or feed them to cattle, and they are not made of a precious metal at all. Even so, nobody in India can turn them away, because the Reserve Bank of India issues currency notes on behalf of the central government, and Indian law allows no other individual or organisation to issue currency. Her father opens a bank account and keeps his extra cash there.\n\n(a) Name the two things people in the village used as money in the earlier days, and the two forms that modern currency takes. (b) Nila's father says a note is of no use to anyone, because it cannot be eaten, worn or fed to cattle and is not made of a precious metal. Why, then, can nobody in India refuse a note as payment? Give both reasons. (c) Why does Nila's father open a bank account and keep his extra monthly cash there instead of holding it as notes?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Grains and cattle earlier; modern currency is paper notes and coins. (b) The currency is authorised by the government of the country, and the law legalises the rupee as a payment that cannot be refused. (c) People need only some currency for day-to-day needs, and deposits with banks are the other form in which they hold money.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Indians used grains and cattle as\nmoney. Thereafter came the use of",
+            "as a medium of exchange because the\ncurrency is authorised by the\ngovernment of the country.",
+            "money is as deposits with banks. At\na point of time, people need only some"
+          ],
+          "objective": false,
+          "passage": "Nila's grandfather says that in his younger days people in the village paid in grains and cattle, and later in gold, silver and copper coins. Today Nila's shopkeeper takes only paper notes. Her father points out that the notes are of no use to anyone: you cannot eat them, wear them or feed them to cattle, and they are not made of a precious metal at all. Even so, nobody in India can turn them away, because the Reserve Bank of India issues currency notes on behalf of the central government, and Indian law allows no other individual or organisation to issue currency. Her father opens a bank account and keeps his extra cash there."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess2 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess2",
+    "chapters": [
+      3
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -1,0 +1,587 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:07:B:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/how-do-organisms-reproduce"
+      ],
+      "taxonomyChapterId": "science-10/how-do-organisms-reproduce",
+      "topic": "Do Organisms Create Exact Copies of Themselves?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A student is told that the germ-cells of a parent carry only half the number of chromosomes and half the amount of DNA of that parent's body cells. Name the cell division that produces such cells, and state what the fusion of germ-cells from two individuals achieves in the new generation.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The cell division that produces such cells is meiosis",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Fusion of germ-cells from two individuals re-establishes the number of chromosomes and the DNA content in the new generation",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Meiosis; it re-establishes the number of chromosomes and the DNA content in the new generation.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "This is achieved by a process of cell division\ncalled meiosis.",
+            "Thus, when these germ-cells from two individuals combine\nduring sexual reproduction to form a new individual, it results in re-\nestablishment of the number of chromosomes and the DNA content in\nthe new generation."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch7",
+        "pages": [
+          1,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:07:B:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/how-do-organisms-reproduce"
+      ],
+      "taxonomyChapterId": "science-10/how-do-organisms-reproduce",
+      "topic": "Do Organisms Create Exact Copies of Themselves?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A student brushes pollen from the stamen of one flower onto the stigma of another flower, and on a second occasion dusts a single flower with its own pollen. Name the type of pollination in each of the two cases, and name the agents by which pollen is carried from one flower to another.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "First case is cross-pollination and second case is self-pollination",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Pollen is carried from one flower to another by wind, water or animals",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Cross-pollination in the first case and self-pollination in the second; the agents are wind, water and animals.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "If this transfer of pollen occurs in the same flower, it is\nreferred to as self-pollination. On the other hand, if the pollen is\ntransferred from one flower to another, it is known as cross-\npollination.",
+            "This transfer of pollen from one flower to another is\nachieved by agents like wind, water or animals."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch7",
+        "pages": [
+          1,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:07:B:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/how-do-organisms-reproduce"
+      ],
+      "taxonomyChapterId": "science-10/how-do-organisms-reproduce",
+      "topic": "Do Organisms Create Exact Copies of Themselves?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "After fertilisation has taken place in a flower, the gardener watches the petals, sepals, stamens, style and stigma shrivel and fall away. Name the part of the flower that grows rapidly and ripens into a fruit, and name the structure in which the embryo forms and that is later converted into a seed.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The ovary grows rapidly and ripens to form the fruit",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The embryo forms within the ovule, which develops a tough coat and is converted into a seed",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The ovary grows rapidly and ripens to form the fruit; the ovule, in which the embryo forms, develops a tough coat and is converted into a seed.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "After fertilisation, the zygote divides several times to form an\nembryo within the ovule. The ovule develops a tough coat and is\ngradually converted into a seed. The ovary grows rapidly and ripens\nto form a fruit.",
+            "The swollen bottom part is the ovary, middle elongated part is the style\nand the terminal part which may be sticky is the stigma. The ovary\ncontains ovules and each ovule has an egg cell."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch7",
+        "pages": [
+          1,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:07:B:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/how-do-organisms-reproduce"
+      ],
+      "taxonomyChapterId": "science-10/how-do-organisms-reproduce",
+      "topic": "Do Organisms Create Exact Copies of Themselves?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "In a flowering plant one germ-cell is large and full of stored food while the other is small and able to move about. Name the conventional term for each of the two germ-cells, and state which of them is produced by the pollen grain.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The motile germ-cell is the male gamete and the germ-cell containing the stored food is the female gamete",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The male germ-cell is produced by the pollen grain",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The large food-storing germ-cell is the female gamete and the small motile one is the male gamete; the male germ-cell is produced by the pollen grain.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "One germ-cell is large and contains the food-stores while the\nother is smaller and likely to be motile. Conventionally, the motile germ-\ncell is called the male gamete and the germ-cell containing the stored\nfood is called the female gamete.",
+            "The male germ-cell\nproduced by pollen grain fuses with the female gamete present in\nthe ovule."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch7",
+        "pages": [
+          1,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:07:E:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/how-do-organisms-reproduce"
+      ],
+      "taxonomyChapterId": "science-10/how-do-organisms-reproduce",
+      "topic": "Do Organisms Create Exact Copies of Themselves?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A biology teacher explains to her class why a child does not end up with twice as much DNA as either parent. She says that sexual reproduction combines the DNA of two different individuals, and that if this happened generation after generation, each new generation would carry twice the DNA of the one before and the control of the cellular apparatus by the DNA would be upset. She adds that many multi-cellular organisms get around this by keeping special lineages of cells in specialised organs, and by a cell division that halves both the chromosome number and the DNA. The students ask her to name that division and to say what happens when two such cells unite.\n\nName the cell division that halves the number of chromosomes and the amount of DNA, and say in what kind of cells this halving is found. (ii) The teacher says each new generation would otherwise carry twice the DNA of the previous one. State what would happen to the control of the cellular apparatus by the DNA. (iii) When two such cells from different individuals unite during sexual reproduction, explain why the number of chromosomes and the DNA content of the new generation stays the same as before.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Meiosis, found in special lineages of cells in specialised organs. (ii) The control of the cellular apparatus by the DNA would be messed up. (iii) Each cell already carries half, so their fusion re-establishes the number of chromosomes and the DNA content in the new generation.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "One solution that many multi-cellular\norganisms have found for the problem mentioned above is to have special\nlineages of cells in specialised organs in which only half the number of\nchromosomes and half the amount of DNA as compared to the non-\nreproductive body cells. This is achieved by a process of cell division\ncalled meiosis.",
+            "each new generation will end up having twice the amount of DNA that\nthe previous generation had. This is likely to mess up the control of the\ncellular apparatus by the DNA.",
+            "Thus, when these germ-cells from two individuals combine\nduring sexual reproduction to form a new individual, it results in re-\nestablishment of the number of chromosomes and the DNA content in\nthe new generation."
+          ],
+          "objective": false,
+          "passage": "A biology teacher explains to her class why a child does not end up with twice as much DNA as either parent. She says that sexual reproduction combines the DNA of two different individuals, and that if this happened generation after generation, each new generation would carry twice the DNA of the one before and the control of the cellular apparatus by the DNA would be upset. She adds that many multi-cellular organisms get around this by keeping special lineages of cells in specialised organs, and by a cell division that halves both the chromosome number and the DNA. The students ask her to name that division and to say what happens when two such cells unite."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch7",
+        "pages": [
+          1,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:07:E:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/how-do-organisms-reproduce"
+      ],
+      "taxonomyChapterId": "science-10/how-do-organisms-reproduce",
+      "topic": "Do Organisms Create Exact Copies of Themselves?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A gardener plants mustard and papaya in the same garden and watches the flowers open. In the mustard flower she finds both stamens and a pistil, while the papaya flower seems to carry only one of the two. She also notices a faint yellowish powder on her fingers after she touches a stamen, and she wants to know which part of the flower it came from and how it reaches the ovules. A student in the class explains that the pollen must first land on a stigma, and that a tube then carries it down through the style to the ovary, where the female germ-cells lie.\n\nName the type of flower found in the mustard plant and in the papaya plant, and say which reproductive parts each of them contains. (ii) Name the three parts of the pistil in order from the swollen base upwards, and say which of them contains the ovules. (iii) Once the pollen has landed on a suitable stigma, explain how the male germ-cell reaches the ovule, and state what its fusion with the female gamete there produces.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Mustard is bisexual, with both stamens and pistil; papaya is unisexual, with either stamens or pistil. (ii) Ovary, style and stigma; the ovary holds the ovules. (iii) A tube grows out of the pollen grain and travels through the style to the ovary, where the male germ-cell fuses with the female gamete to form a zygote.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The flower may be unisexual (papaya,\nwatermelon) when it contains either stamens\nor pistil or bisexual (Hibiscus, mustard)\nwhen it contains both stamens and pistil.",
+            "The swollen bottom part is the ovary, middle elongated part is the style\nand the terminal part which may be sticky is the stigma. The ovary\ncontains ovules and each ovule has an egg cell. The male germ-cell\nproduced by pollen grain fuses with the female gamete present in\nthe ovule.",
+            "After the pollen lands on a suitable stigma, it has to reach the\nfemale germ-cells which are in the ovary. For this, a tube grows\nout of the pollen grain and travels through the style to reach the\novary."
+          ],
+          "objective": false,
+          "passage": "A gardener plants mustard and papaya in the same garden and watches the flowers open. In the mustard flower she finds both stamens and a pistil, while the papaya flower seems to carry only one of the two. She also notices a faint yellowish powder on her fingers after she touches a stamen, and she wants to know which part of the flower it came from and how it reaches the ovules. A student in the class explains that the pollen must first land on a stigma, and that a tube then carries it down through the style to the ovary, where the female germ-cells lie."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch7",
+        "pages": [
+          1,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:07:E:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/how-do-organisms-reproduce"
+      ],
+      "taxonomyChapterId": "science-10/how-do-organisms-reproduce",
+      "topic": "Do Organisms Create Exact Copies of Themselves?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "After pollen has been carried to the stigma of a flower, a grower tags it and returns a week later. The petals, sepals, stamens, style and stigma have all shrivelled and dropped off, but the base of the flower has swollen into something the family can eat, and inside it there are hard little structures each holding a miniature plant. The grower has read that the two germ-cells that met inside the flower came from the parents, one large enough to carry its own food and the other small and motile. She wants to know how those two cells produced what she is now holding.\n\nName the part of the flower that becomes the edible swelling, and name the hard structures found inside it. (ii) Starting from the fusion of the male germ-cell with the female gamete in the ovule, name the structure formed first and trace the changes that produce the seed and the fruit. (iii) Both germ-cells differ from one another, and the larger one carries stores the other does not. Name both germ-cells and say how these stores help the zygote to develop.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) The ovary becomes the fruit; the hard structures inside are seeds. (ii) Fertilisation gives a zygote, which divides to form an embryo in the ovule; the ovule turns into the seed. (iii) The larger germ-cell is the female gamete, whose food-stores give the zygote the energy to develop into an organism with specialised tissues and organs.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "After fertilisation, the zygote divides several times to form an\nembryo within the ovule. The ovule develops a tough coat and is\ngradually converted into a seed. The ovary grows rapidly and ripens\nto form a fruit.",
+            "One germ-cell is large and contains the food-stores while the\nother is smaller and likely to be motile. Conventionally, the motile germ-\ncell is called the male gamete and the germ-cell containing the stored\nfood is called the female gamete.",
+            "If the zygote is to grow and develop into an organism which has\nhighly specialised tissues and organs, then it has to have sufficient stores\nof energy for doing this."
+          ],
+          "objective": false,
+          "passage": "After pollen has been carried to the stigma of a flower, a grower tags it and returns a week later. The petals, sepals, stamens, style and stigma have all shrivelled and dropped off, but the base of the flower has swollen into something the family can eat, and inside it there are hard little structures each holding a miniature plant. The grower has read that the two germ-cells that met inside the flower came from the parents, one large enough to carry its own food and the other small and motile. She wants to know how those two cells produced what she is now holding."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch7",
+        "pages": [
+          1,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:07:E:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/how-do-organisms-reproduce"
+      ],
+      "taxonomyChapterId": "science-10/how-do-organisms-reproduce",
+      "topic": "Do Organisms Create Exact Copies of Themselves?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A student asks her teacher whether a baby is an exact copy of its parents. The teacher says DNA copying is accurate, and that if it were less accurate many of the copies made would not be able to work with the cellular apparatus and would die. A new variation, she adds, is made in a DNA copy that already carries variations gathered over earlier generations, so two individuals in a population have quite different patterns of accumulated variation, and since these variations sit in living individuals they do no real harm. Combining variations from two individuals therefore gives a novel combination, she says, and that is exactly what sexual reproduction does.\n\nState what would happen to many of the DNA copies produced if the copying mechanism were less accurate, and say where a new variation is made. (ii) Explain why the variations carried by different individuals in a population can be combined safely, and why each new combination of variants is novel.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) The copies would not work with the cellular apparatus and would die; a new variation arises in a DNA copy that already carries variations from earlier generations. (ii) All the variations sit in living individuals and so do no real harm; combining the variations of two different individuals creates a novel combination of variants.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "If the DNA copying mechanisms were to be less accurate, many\nof the resultant DNA copies would not be able to work with the cellular\napparatus, and would die.",
+            "Each new variation is made in a DNA copy that already\nhas variations accumulated from previous generations.",
+            "Since all of these variations are in living\nindividuals, it is assured that they do not have any really bad effects.\nCombining variations from two or more individuals would thus create\nnew combinations of variants. Each combination would be novel, since\nit would involve two different individuals."
+          ],
+          "objective": false,
+          "passage": "A student asks her teacher whether a baby is an exact copy of its parents. The teacher says DNA copying is accurate, and that if it were less accurate many of the copies made would not be able to work with the cellular apparatus and would die. A new variation, she adds, is made in a DNA copy that already carries variations gathered over earlier generations, so two individuals in a population have quite different patterns of accumulated variation, and since these variations sit in living individuals they do no real harm. Combining variations from two individuals therefore gives a novel combination, she says, and that is exactly what sexual reproduction does."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch7",
+        "pages": [
+          1,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      7
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

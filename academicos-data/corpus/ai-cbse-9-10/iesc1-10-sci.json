@@ -1,0 +1,660 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:10:B:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-10"
+      ],
+      "taxonomyChapterId": "science-9/chapter-10",
+      "topic": "Production of Sound",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Neha stretches a rubber band across the open side of a cardboard box and plucks it with a finger. She hears a sound at once, but a moment later the band lies still and the sound is gone. What must the rubber band be doing while the sound can be heard?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States that the rubber band is vibrating",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Links the sound to that vibration, so the sound lasts only as long as the band keeps vibrating",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Vibrating, that is, moving to and fro",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "You may have noticed that as long as the rubber band is stretched and\nvibrating, sound is produced. Once the vibration stops, so does the sound.",
+            "Vibration refers to the periodic to and fro motion (oscillations) of an object."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch10",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          185,
+          187,
+          189,
+          191,
+          193,
+          195,
+          197,
+          199,
+          201,
+          203,
+          205,
+          207
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:10:B:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-10"
+      ],
+      "taxonomyChapterId": "science-9/chapter-10",
+      "topic": "Production of Sound",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Farid blows into a bansuri (flute) in his music class. Inside its hollow pipe, what is it that vibrates and gives him the sound?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the air inside the hollow pipe of the bansuri",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that this vibrating air is what produces the sound",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The air inside the hollow pipe",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Likewise, when you blow through a bansuri (flute),\nvibration of the air inside the hollow pipe produces sound.",
+            "Sound can be produced by vibrating strings membranes, air\ncolumns, and many other vibrating objects."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch10",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          185,
+          187,
+          189,
+          191,
+          193,
+          195,
+          197,
+          199,
+          201,
+          203,
+          205,
+          207
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:10:B:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-10"
+      ],
+      "taxonomyChapterId": "science-9/chapter-10",
+      "topic": "Production of Sound",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "While Aditi is singing, she feels a vibration somewhere in her throat. Name the tightly stretched muscular flaps inside the voice box whose vibration produces the sound of her voice.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the vocal cords",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Places them inside the voice box or larynx in the throat",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The vocal cords, which lie inside the voice box or larynx in the throat",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "humans and some other animals, sound is\nproduced by the vibration of vocal cords,",
+            "which are tightly stretched muscular flaps\nlocated inside the voice box or larynx,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch10",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          185,
+          187,
+          189,
+          191,
+          193,
+          195,
+          197,
+          199,
+          201,
+          203,
+          205,
+          207
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:10:B:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-10"
+      ],
+      "taxonomyChapterId": "science-9/chapter-10",
+      "topic": "Sound needs a medium to propagate",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "In the science laboratory a piston at one end of a long tube filled with air is made to move to and fro again and again, and compressions and rarefactions travel along the tube. Do the air particles of the tube travel along with them?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States that the air particles do not travel along with the compressions and rarefactions",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the particles only oscillate about their mean positions",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "No; they only oscillate about their mean positions",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "air particles themselves do not travel with it.",
+            "particles themselves oscillate only about their mean positions.",
+            "rarefactions propagating through a medium, without the actual flow of the\nparticles of medium, is called a sound wave."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch10",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          185,
+          187,
+          189,
+          191,
+          193,
+          195,
+          197,
+          199,
+          201,
+          203,
+          205,
+          207
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:10:E:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-10"
+      ],
+      "taxonomyChapterId": "science-9/chapter-10",
+      "topic": "Production of Sound",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Riya's science period has a tray of old instruments on the desk. The first she picks up is a rubber band stretched across the open side of a cardboard box. When she plucks it with a finger, the band moves to and fro and sound comes out of the box. The moment the band stops moving, the sound stops too. Next she blows into a bansuri, and hears sound from the air inside the hollow pipe. She wonders what it is about the rubber band that makes the sound at all.\n\nAnswer these questions on the case:\n1. Riya hears a sound from the box the moment she plucks the rubber band, but the sound dies away a moment later. What must the rubber band have been doing while the sound could be heard?\n2. Riya blows into the bansuri next. What is it that vibrates inside the bansuri to give the sound?\n3. A rubber band across a box and the air inside a bansuri are very different things, yet both of them make sound. Using what Riya observes, explain what the two have in common as the cause of the sound she hears.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) The rubber band was vibrating, that is, moving to and fro. (2) The air inside the hollow pipe of the bansuri vibrates. (3) In both cases something is vibrating, and it is this vibration that produces the sound; as long as the object keeps vibrating the sound continues, and it stops when the vibration stops.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "You may have noticed that as long as the rubber band is stretched and\nvibrating, sound is produced. Once the vibration stops, so does the sound.",
+            "Likewise, when you blow through a bansuri (flute),\nvibration of the air inside the hollow pipe produces sound.",
+            "Vibration refers to the periodic to and fro motion (oscillations) of an object."
+          ],
+          "objective": false,
+          "passage": "Riya's science period has a tray of old instruments on the desk. The first she picks up is a rubber band stretched across the open side of a cardboard box. When she plucks it with a finger, the band moves to and fro and sound comes out of the box. The moment the band stops moving, the sound stops too. Next she blows into a bansuri, and hears sound from the air inside the hollow pipe. She wonders what it is about the rubber band that makes the sound at all."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch10",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          185,
+          187,
+          189,
+          191,
+          193,
+          195,
+          197,
+          199,
+          201,
+          203,
+          205,
+          207
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:10:E:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-10"
+      ],
+      "taxonomyChapterId": "science-9/chapter-10",
+      "topic": "Production of Sound",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "At the school assembly the choir is waiting for the signal to begin. The teacher asks Meera to say a few words, and as she speaks she puts her hand on her throat. She can feel a vibration there while she is still speaking. In humans and some other animals, the sound is produced by the vibration of the vocal cords, which are tightly stretched muscular flaps. The tongue, lips, mouth and nasal cavity then help in converting this sound into speech.\n\nAnswer these questions on the case:\n1. Which tightly stretched muscular flaps inside Meera's throat produce the sound of her voice, and in which organ do these flaps lie?\n2. Meera's voice becomes speech. Name the parts of the human body that help in converting this sound into speech or music.\n3. Meera can feel the vibration that makes her voice, yet she needs her tongue, lips, mouth and nasal cavity to turn it into words. Explain why the vocal cords alone do not make speech.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) The vocal cords, which lie inside the voice box or larynx in the throat. (2) The tongue, lips, mouth and nasal cavity. (3) The vocal cords produce the sound by their vibration, but turning that sound into speech or music is the work of the tongue, lips, mouth and nasal cavity, so speech needs all of them.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "humans and some other animals, sound is\nproduced by the vibration of vocal cords,",
+            "which are tightly stretched muscular flaps\nlocated inside the voice box or larynx,",
+            "mouth and nasal cavity in humans help in\nconverting sound into speech or music."
+          ],
+          "objective": false,
+          "passage": "At the school assembly the choir is waiting for the signal to begin. The teacher asks Meera to say a few words, and as she speaks she puts her hand on her throat. She can feel a vibration there while she is still speaking. In humans and some other animals, the sound is produced by the vibration of the vocal cords, which are tightly stretched muscular flaps. The tongue, lips, mouth and nasal cavity then help in converting this sound into speech."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch10",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          185,
+          187,
+          189,
+          191,
+          193,
+          195,
+          197,
+          199,
+          201,
+          203,
+          205,
+          207
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:10:E:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-10"
+      ],
+      "taxonomyChapterId": "science-9/chapter-10",
+      "topic": "Production of Sound",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "After dark one evening, the students cross the school ground on their way home. From the grass they hear repeated chirping, though nothing that is making the sound can be seen there. One boy insists that the sound must be coming from something hidden, but a girl kneels down and looks closely. She finds that grasshoppers and crickets are sitting quietly in the grass, and they make their sound without touching any instrument at all. When the students strike a metal object they have picked up, they hear sound coming from the metal itself.\n\nAnswer these questions on the case:\n1. How do grasshoppers and crickets make their sound, even though they have no instrument?\n2. The girl hears the chirping although she cannot see the insect making it. What is the object that produces a sound called?\n3. The crickets rub their wings or legs, the metal object sounds when it is struck, and a bansuri sounds when the air inside it vibrates. Explain what all of these have in common as the cause of sound.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) They rub their wings or legs, striking or rubbing certain body parts, and this produces the sound. (2) It is called the source of the sound. (3) In every case something is vibrating, and the vibration is what produces the sound. The rubbing wings, the struck metal and the air in a bansuri are simply different vibrating objects.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "striking or rubbing certain body parts.",
+            "their wings or legs to produce sound.",
+            "more than one vibrating part is involved in producing sound. The object\nthat produces sound is called the ‘source’ of the sound."
+          ],
+          "objective": false,
+          "passage": "After dark one evening, the students cross the school ground on their way home. From the grass they hear repeated chirping, though nothing that is making the sound can be seen there. One boy insists that the sound must be coming from something hidden, but a girl kneels down and looks closely. She finds that grasshoppers and crickets are sitting quietly in the grass, and they make their sound without touching any instrument at all. When the students strike a metal object they have picked up, they hear sound coming from the metal itself."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch10",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          185,
+          187,
+          189,
+          191,
+          193,
+          195,
+          197,
+          199,
+          201,
+          203,
+          205,
+          207
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:10:E:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/chapter-10"
+      ],
+      "taxonomyChapterId": "science-9/chapter-10",
+      "topic": "Sound needs a medium to propagate",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "A demonstration tube lies on the science laboratory table, closed at one end by a piston and open at the other. A student pushes the piston forward and pulls it back, over and over. When the piston moves forward it pushes the nearby air particles ahead, so the air in a small region close to it becomes denser than the average. When it moves backward, the air in that small region becomes less dense. The student marks a few air particles with dots on the glass and watches. She sees pulses of denser and thinner air travel the length of the tube, but every dot stays where it was.\n\nAnswer these questions on the case:\n1. As the piston moves to and fro, two regions of air are produced one after another, one of higher density and one of lower density than the average, while every dot the student marked on the glass stays in its own place. Name these two regions and state what the air particles themselves are doing.\n2. In a classroom the air is not confined in any tube, and yet a small sound made at one corner is heard at every corner. Explain what form the compressions and rarefactions take as they spread through open air, and why they can reach every corner.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) The denser region is a compression and the thinner region is a rarefaction; the particles only oscillate about their mean positions and do not travel with the wave. (2) The vibrating particles collide with the surrounding particles in all directions, so the compressions and rarefactions spread out in all directions as spherical waves and reach every corner.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "compressions and rarefactions are produced alternately (Fig. 10.9d).",
+            "particles themselves oscillate only about their mean positions.",
+            "compressions and rarefactions that spread\nthrough the surrounding medium in all\ndirections as spherical waves (Fig. 10.10)."
+          ],
+          "objective": false,
+          "passage": "A demonstration tube lies on the science laboratory table, closed at one end by a piston and open at the other. A student pushes the piston forward and pulls it back, over and over. When the piston moves forward it pushes the nearby air particles ahead, so the air in a small region close to it becomes denser than the average. When it moves backward, the air in that small region becomes less dense. The student marks a few air particles with dots on the glass and watches. She sees pulses of denser and thinner air travel the length of the tube, but every dot stays where it was."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch10",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          185,
+          187,
+          189,
+          191,
+          193,
+          195,
+          197,
+          199,
+          201,
+          203,
+          205,
+          207
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      10
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}
