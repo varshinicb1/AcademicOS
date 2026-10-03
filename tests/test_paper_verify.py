@@ -49,8 +49,8 @@ def _problems(mutate) -> list[str]:
     (lambda p: p["sections"][0]["questions"][0].update(
         stem="Find the value of the expression � in the figure shown." + OPTIONS), "replacement"),
     (lambda p: p["sections"][0]["questions"][1].update(questionId="q1"), "printed twice"),
-    (lambda p: p["sections"][0]["questions"][0].update(stem="Find the area of the triangle in the given figure."
-                                                       + OPTIONS), "does not print"),
+    (lambda p: p["sections"][0]["questions"][0].update(stem="Find the area of the triangle in the given figure."),
+     "does not print"),
     (lambda p: p["sections"][0]["questions"][0].update(
         stem="Which of the following is the value of the sum of two numbers shown?"), "options"),
     (lambda p: p["answerKey"].pop("1"), "no answer"),

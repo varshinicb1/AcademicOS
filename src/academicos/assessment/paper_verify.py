@@ -93,8 +93,10 @@ def verify(paper: dict, template: Any, *, language: str = "en",
             continue
         if "�" in stem:
             problems.append(f"{where}: the stem holds a replacement character (broken extraction)")
-        reason = bank_merge.source_reason({"stem": stem, "source": "ai_generated", "subject": "", "type": q.get("type")})
-        if reason in ("figure-referenced", "figure-unavailable", "figure-shown-below", "passage-unavailable"):
+        # The one gate for a bare stem (bank_merge.raw_extraction_reason): a figure the paper does not
+        # print, options the extraction destroyed, a stem that stops mid-sentence.
+        reason = bank_merge.raw_extraction_reason(stem)
+        if reason:
             problems.append(f"{where}: the stem needs something the paper does not print ({reason})")
         if qid in seen_ids:
             problems.append(f"{where}: question {qid} is printed twice")
