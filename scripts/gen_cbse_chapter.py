@@ -468,7 +468,7 @@ def _squash(text: str) -> str:
     Letters, combining marks (a Devanagari vowel sign is one) and digits of every script are
     kept; everything else, quotes and the danda included, is a space. Only ASCII used to be
     kept, which turned every Hindi line into nothing and refused every Hindi question."""
-    text = unicodedata.normalize("NFKC", text or "")
+    text = ho.repair_devanagari(unicodedata.normalize("NFKC", text or ""))
     kept = "".join(c if unicodedata.category(c)[0] in "LMN" else " " for c in text.lower())
     return re.sub(r"\s+", " ", kept).strip()
 
@@ -526,7 +526,9 @@ def ungrounded(item: dict, source: str, section=None) -> str | None:
     # A single digit is a count in most questions ("three states"), but not when it
     # is a rate or a share: "6 per 1,000", "9%".
     # "In about 45 words" and "(5 marks)" instruct the student; they are not facts.
-    asked = re.sub(r"\b\d+\s*(?:words?|marks?|minutes?|lines?|steps?|sentences?|points?)\b",
+    # The same limits in Hindi ("१२० शब्दों में"): the digits are Devanagari, which `\d` matches.
+    asked = re.sub(r"\b\d+\s*(?:words?|marks?|minutes?|lines?|steps?|sentences?|points?|"
+                   r"शब्दों?|अंकों?|मिनट|पंक्तियों?|पंक्ति|वाक्यों?|वाक्य|बिंदुओं?|बिंदु)(?!\w)",
                    " ", " ".join(parts), flags=re.I)
     figures = re.findall(r"\d[\d,]*\.?\d*\d|\d{2,}|\b\d(?=\s*(?:%|per\b|percent))", asked)
     for figure in figures:
@@ -556,13 +558,21 @@ def bridge_call(folder: Path, index: int, system: str, schema: dict, user: str,
 
 
 def prefer_ocr(chapter: cg.Chapter) -> cg.Chapter:
-    """A Hindi chapter whose PDF text layer is not Hindi (a legacy font), read from its OCR cache
-    instead. Anything else, and a chapter not yet OCR'd, is returned as it was: the batch then
-    skips it for its text, naming the reason, rather than set questions from the wrong characters."""
-    if chapter.language != "hi" or ho.devanagari_share(chapter.text) >= ho.DEVANAGARI_SHARE_MIN:
+    """A Hindi chapter read from its OCR cache when it has one. Without one, Unicode text has the
+    extraction's breakage mended, and a text layer that is not Hindi (a legacy font) is returned as it
+    was: the batch then skips it for its text, naming the reason, rather than set questions from the
+    wrong characters."""
+    if chapter.language != "hi":
         return chapter
     cached = ho.load(chapter.book_code, chapter.number)
-    return dataclasses.replace(chapter, pages=tuple(cached)) if cached else chapter
+    if cached:
+        # A chapter that has been read by OCR is set from that text, whatever its text layer holds: a
+        # layer that is Unicode can still be broken ("लिखन ा", "मज बूत") and OCR is not.
+        return dataclasses.replace(chapter, pages=tuple(cached))
+    if ho.devanagari_share(chapter.text) >= ho.DEVANAGARI_SHARE_MIN:
+        # Unicode already, but the extraction breaks some of it ("लिखन ा", "नहीीं"): mend what can be.
+        return dataclasses.replace(chapter, pages=tuple((p, ho.repair_devanagari(l)) for p, l in chapter.pages))
+    return chapter
 
 
 def generate_chapter(book_code: str, number: int, *, mark_budget: int,
@@ -701,6 +711,8 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
                 # merge serves a model-written record only with this label and these quotes.
                 quotes = item.get("evidence")
                 quotes = [quotes] if isinstance(quotes, str) else list(quotes or [])
+                if chapter.language == "hi":
+                    quotes = [ho.repair_devanagari(q) if isinstance(q, str) else q for q in quotes]
                 scheme = record.setdefault("answerScheme", {})
                 scheme["provenance"] = "textbook_grounded"
                 scheme.setdefault("metadata", {})["evidence"] = [q for q in quotes if isinstance(q, str)]

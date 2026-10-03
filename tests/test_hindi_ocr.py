@@ -97,12 +97,32 @@ def test_a_chapter_not_yet_read_stays_as_it_was(tmp_path, monkeypatch):
     assert mod.prefer_ocr(legacy) is legacy, "the batch skips it, naming the text as not Hindi"
 
 
-def test_real_hindi_text_and_other_languages_never_use_the_cache(tmp_path, monkeypatch):
+def test_unicode_hindi_without_a_cache_is_mended_and_with_one_is_read_from_it(tmp_path, monkeypatch):
     mod = _script()
     monkeypatch.setattr(ho, "DEFAULT_CACHE", tmp_path)
+    broken = _chapter("hi", ["आज सबका मन नहीीं लिखन ा होगा।"] * 30, book="ihga1")
+    assert mod.prefer_ocr(broken).pages[0][1] == "आज सबका मन नहीं लिखना होगा।"
+    correct = _chapter("hi", ["आज सबका मन चुआ होगा।"] * 30, book="ihga1")
+    assert mod.prefer_ocr(correct).pages == correct.pages
     ho.cache_path("ihga1", 1, tmp_path).write_text(json.dumps({"pages": [{"page": 1, "lines": ["x"]}]}),
                                                    encoding="utf-8")
-    unicode_hindi = _chapter("hi", ["आज सबका मन चुआ होगा।"] * 30, book="ihga1")
-    assert mod.prefer_ocr(unicode_hindi) is unicode_hindi
+    assert mod.prefer_ocr(correct).pages == ((1, "x"),)
+
+
+def test_other_languages_never_use_the_cache(tmp_path, monkeypatch):
+    mod = _script()
+    monkeypatch.setattr(ho, "DEFAULT_CACHE", tmp_path)
+    ho.cache_path("jess1", 1, tmp_path).write_text(json.dumps({"pages": [{"page": 1, "lines": ["x"]}]}),
+                                                   encoding="utf-8")
     english = _chapter("en", ["Resources and Development"] * 30, book="jess1")
     assert mod.prefer_ocr(english) is english
+
+
+def test_repair_devanagari_mends_what_extraction_broke_and_leaves_correct_text_alone():
+    from academicos.corpus.hindi_ocr import repair_devanagari as fix
+    assert fix("लिखन ा") == "लिखना"
+    assert fix("नहीीं") == "नहीं"
+    assert fix("उन्हो ोंने") == "उन्होंने"
+    assert fix("मिट् ट ी") == "मिट्टी"
+    for correct in ("में हम जाते हैं", "तुम हौ अति बड़भागी", "English words only", ""):
+        assert fix(correct) == correct

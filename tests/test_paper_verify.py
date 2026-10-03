@@ -102,3 +102,10 @@ def test_a_class_9_10_language_paper_is_held_to_the_kind_each_section_is_headed_
 def paper_templates_kinds(section):
     from academicos.assessment import paper_templates
     return paper_templates.section_kinds(section)
+
+
+def test_a_complete_stem_that_lists_its_choices_without_labels_is_not_called_truncated():
+    paper = _paper()
+    paper["sections"][1]["questions"][0]["stem"] = (
+        "Which of the following points lie on y-axis? A (1, 1), B (1, 0), C (0, 1), D (0, 0), E (0, 5).")
+    assert not any("truncated" in p for p in paper_verify.verify(paper, PRESET))

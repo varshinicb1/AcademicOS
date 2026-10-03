@@ -1213,3 +1213,53 @@ def test_a_map_pointing_question_is_kept_and_needs_no_copied_passage():
     record = cg.to_record(item, section, _chapter(), "t", chapter_id="c", topic_id="", model="m")
     assert record["stem"] == stem
     assert sum(p["marks"] for p in record["answerScheme"]["markingPoints"]) == 5
+
+
+def test_a_question_in_parts_keeps_its_first_label():
+    # Stripping the leading "(a)" left "Name the industries ... (b) Explain ...", a case study the
+    # stem gate refuses as a broken option list.
+    stem = "(a) Name the two industries. (b) Explain which soil process the dust retards."
+    assert cg.strip_question_number(stem) == stem
+    assert cg.strip_question_number("(a) Name the industry.") == "Name the industry."
+    assert cg.strip_question_number("1. Find the HCF of 6 and 72.") == "Find the HCF of 6 and 72."
+
+
+def test_a_writing_task_may_be_an_instruction_and_a_word_limit_in_devanagari_is_not_a_fact():
+    writing = next(s for s in bp.for_paper("Hindi", 10).sections if s.kind == "writing")
+    task = {"qtype": writing.qtype, "marks": writing.marks, "bloomLevel": "apply", "option": 1,
+            "stem": "अपने विद्यालय के प्रधानाचार्य को पुस्तकालय के लिए नई पुस्तकें मँगवाने हेतु पत्र लिखिए।",
+            "modelAnswer": "औपचारिक पत्र", "markingPoints": ["विषय", "प्रारूप", "भाषा"]}
+    assert cg.validate(task, writing) is None
+    assert cg.validate(task, _mcq_section()) != "stem-is-not-a-question"      # other sections unchanged
+    gen = _gen_script("gen_for_devanagari_limit")
+    item = {**task, "stem": "लगभग १२० शब्दों में अपने विद्यालय के वार्षिकोत्सव पर एक अनुच्छेद लिखिए।",
+            "evidence": ["विद्यालय का वार्षिकोत्सव हर वर्ष मनाया जाता है"]}
+    text = "विद्यालय का वार्षिकोत्सव हर वर्ष मनाया जाता है और सब उसमें भाग लेते हैं।"
+    assert gen.ungrounded(item, text, writing) is None
+    assert gen.ungrounded({**item, "stem": item["stem"].replace("१२०", "१९६०") + " (१९६०)"}, text,
+                          writing) == "figure-not-in-text:१९६०"
+
+
+def test_a_reading_question_is_typed_competency_based_and_still_prints_its_options():
+    from academicos.assessment.competency import is_competency_question
+    section = _english("A")
+    record = cg.to_record(_reading_item(), section, _chapter(), "t", chapter_id="c", topic_id="", model="m")
+    assert record["type"] == "competency_based" and is_competency_question(record)
+    assert "(A) They amuse her" in record["stem"] and "(D) They end early" in record["stem"]
+    extract = cg.to_record(_reading_item(), _english("D"), _chapter(), "t", chapter_id="c", topic_id="", model="m")
+    assert extract["type"] == "competency_based" and is_competency_question(extract)
+    grammar = cg.to_record(_good_mcq(), _english("B"), _chapter(), "t", chapter_id="c", topic_id="", model="m")
+    assert grammar["type"] == "mcq" and not is_competency_question(grammar)
+
+
+def test_a_hindi_record_is_mended_and_its_quote_still_matches_the_broken_text():
+    gen = _gen_script("gen_for_repair")
+    broken = "मुझे कोई साधारण निबंध नहीीं लिखन ा है। आज मुझे आदर्श निबंध लिखन ा होगा।"
+    section = next(s for s in bp.for_paper("Hindi", 10).sections if s.key == "B")
+    item = {"qtype": section.qtype, "marks": section.marks, "bloomLevel": "understand", "option": 1,
+            "passage": broken, "stem": "लेखक को क्या लिखन ा है?", "modelAnswer": "आदर्श निबंध लिखन ा",
+            "markingPoints": ["निबंध लिखन ा"], "evidence": ["मुझे कोई साधारण निबंध नहीं लिखना है।"]}
+    assert gen.ungrounded(item, broken, section) is None
+    record = cg.to_record(item, section, _chapter("hi"), "t", chapter_id="c", topic_id="", model="m")
+    assert "लिखना" in record["stem"] and "लिखन ा" not in record["stem"] and "नहीीं" not in record["stem"]
+    assert record["answerScheme"]["modelAnswer"] == "आदर्श निबंध लिखना"
