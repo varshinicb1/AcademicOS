@@ -1154,11 +1154,11 @@ def real_6_to_10_pools(tmp_path_factory):
 def test_mathematics_and_science_presets_reach_their_marks_on_the_real_bank(
         tmp_path, monkeypatch, real_6_to_10_pools):
     """D85/D18, through the builder's own calls (whole syllabus, three sets):
-    18 of these 40 presets reached their marks before; 36 do now. The four
-    that do not are class 9-10 Science half-yearly and annual, which keep the
-    board design: the bank has 2 and 1 keyed 2-mark questions for Section B's
-    six, and no 4-mark case-based question for Section E -- a bank gap, which
-    the paper names, never filled with anything else."""
+    18 of these 40 presets reached their marks, then 36 (class 9-10 Science
+    half-yearly and annual were short of 2-mark questions for Section B and
+    4-mark case-based ones for Section E). With the model-written, book-quoted
+    class 9-10 Science questions (corpus/ai-cbse-9-10) all 40 do. A paper that
+    could not would name the gap, never fill it with anything else."""
     for key, pool in real_6_to_10_pools.items():
         monkeypatch.setitem(pool_mod._CACHE, key, pool)
     short = {}
@@ -1177,10 +1177,7 @@ def test_mathematics_and_science_presets_reach_their_marks_on_the_real_bank(
                     assert {s["metadata"]["totalMarks"] for s in body["paper"]["sets"]} == {got}
                     if got != p.total_marks:
                         short[p.id] = sorted(g["title"] for g in body["gaps"])
-    assert short == {
-        f"preset:cbse:{g}:science:{e}": ["Section B - Very short answer",
-                                         "Section E - Source / case based"]
-        for g in (9, 10) for e in ("half_yearly", "annual")}
+    assert short == {}
 
 
 @needs_real_bank
@@ -1188,25 +1185,26 @@ def test_the_real_banks_competency_sections_warn_before_generating(real_class10_
     """A section that asks for competency-based questions is never quietly
     filled with something else -- the report says so before generating.
 
-    Re-measured after the question-bank merge (2026-09-23). Class 10 Science
-    now holds 504 questions but none at 4 marks at all (308 1-mark MCQ, 127
-    3-mark short answers, 51 5-mark long answers, 4+4+3 else), so Section E
-    reports a whole-section shortfall naming the kind it needs instead of the
-    competency-share note it carried when the pre-merge bank filled it from
-    5-mark source items. The share note only ever describes a section that
-    printed something, so the general guard below is the one that has to
-    hold whatever the bank looks like: short, or noted, never silent.
+    Re-measured with the class 9-10 question-bank additions (2026-10-04):
+    Class 10 Science Section E (4-mark case based) is now filled, and only
+    from case-study questions. Before them the bank held none at 4 marks and
+    the section reported a whole-section shortfall. The general guard below is
+    the one that has to hold whatever the bank looks like: short, or noted,
+    never silent.
     """
     from academicos.assessment.competency import is_competency_question
 
     report, _ = _real_plan(real_class10_pools, "preset:cbse:10:science:annual")
     e = next(s for s in report.sections if s.title.startswith("Section E"))
-    assert (e.available, e.shortfall, e.needed) == (0, 3, 3), e
-    assert "4-mark case study" in e.reason and "Class 10 Science" in e.reason, e.reason
+    assert e.shortfall == 0 and e.available >= e.needed, e
+    case_plan = next(p for p in _real_plan(real_class10_pools, "preset:cbse:10:science:annual")[1]
+                     if p.section.title.startswith("Section E"))
+    assert case_plan.picked and all(q.type == "case_study" and is_competency_question(q)
+                                    for q in case_plan.picked), case_plan.picked
 
     english, _ = _real_plan(real_class10_pools, "preset:cbse:10:english:annual")
     reading = next(s for s in english.sections if "Reading" in s.title)
-    assert reading.shortfall and reading.reason, reading
+    assert (reading.shortfall and reading.reason) or reading.notes, reading
 
     for preset in presets(grade=10):
         rep, plans = _real_plan(real_class10_pools, preset.id)
@@ -1221,31 +1219,17 @@ def test_the_real_banks_competency_sections_warn_before_generating(real_class10_
 
 
 @needs_real_bank
-def test_the_real_banks_social_science_gaps_name_their_binding_constraint(real_class10_pools):
-    """Re-measured after the question-bank merge (2026-09-23): Class 10 Social
-    Science is down to 14 served questions -- 12 one-mark MCQs and 2 three-mark
-    short answers -- from 375 before, so the 5-mark and 4-mark sections have
-    nothing of any kind rather than the wrong kind. What is checked is
-    unchanged: the reason names the binding constraint (the marks AND the
-    type the section needs), and a fix is only offered where the bank really
-    has something to switch to."""
+def test_the_real_banks_social_science_annual_fills_every_section(real_class10_pools):
+    """Re-measured with the class 9-10 question-bank additions (2026-10-04): Class
+    10 Social Science went from 14 served questions (12 one-mark MCQs and 2
+    three-mark short answers, so the 5-mark and 4-mark sections had nothing) to
+    every section of the annual preset filled, each from questions of its own
+    kind. How a gap names its binding constraint (the marks AND the type the
+    section needs) is pinned on the synthetic banks above (`_ss_bank`,
+    `_src_bank`), which keep a gap to name."""
     report, _ = _real_plan(real_class10_pools, SS10)
-    by_title = {s.title: s for s in report.sections}
-    d = by_title["Section D - Long answer"]
-    assert d.shortfall == d.needed
-    assert "5-mark long answer/very long answer" in d.reason, d.reason
-    assert "Class 10 Social Science" in d.reason, d.reason
-    e = by_title["Section E - Case based"]
-    assert e.shortfall == e.needed
-    assert "4-mark case study" in e.reason, e.reason
-    # Nothing of that kind at any mark value, so no "change the marks" fix is
-    # invented; the honest fix left is to shorten or drop the section.
-    assert not any(f.kind == "change_marks" for f in e.fixes), e.fixes
-    assert any(f.kind == "reduce_count" for f in e.fixes), e.fixes
-    # A section the bank can partly fill still says how far it gets.
-    c = by_title["Section C - Short answer"]
-    assert (c.available, c.shortfall) == (2, 3), c
-    assert "Only 2 3-mark questions are available; 3 short." in c.reason, c.reason
+    for s in report.sections:
+        assert s.shortfall == 0 and s.available >= s.needed, s
 
 
 # ---- presets checked against the real papers
@@ -1598,22 +1582,20 @@ def test_the_real_banks_map_and_case_sections_are_never_offered_the_other_kind(
     / case based" and Section E "the 3 4-mark question(s) that are map
     questions".
 
-    Re-measured after the question-bank merge (2026-09-23): Class 10 Social
-    Science now holds no map question at ANY mark value (14 questions: 12
-    1-mark MCQ, 2 3-mark short answers), where before it held three at 4
-    marks. So the "change the marks" fix that used to point at them is now
-    correctly not offered at all -- which is the same guard from the other
-    side: a fix is never invented out of the wrong kind of question."""
-    report, _ = _real_plan(real_class10_pools, SS10)
-    by_title = {s.title: s for s in report.sections}
-    f = by_title["Section F - Map skill"]
-    assert f.shortfall and "source" not in f.reason, f.reason
-    assert "5-mark map based" in f.reason, f.reason
-    assert not any(x.kind == "relax_type" for x in f.fixes), f.fixes
-    assert not any(x.kind == "change_marks" for x in f.fixes), f.fixes
-    e = by_title["Section E - Case based"]
-    assert e.shortfall and "map" not in e.reason, e.reason
-    assert not any("map" in x.label for x in e.fixes), e.fixes
+    Re-measured with the class 9-10 question-bank additions (2026-10-04): both
+    sections are now filled on the real bank, and each only from its own
+    kind -- the map section prints a map question and the case section prints
+    none. A gap's wording is pinned on the synthetic banks (`_ss_bank`)."""
+    from academicos.assessment.paper_templates import is_map_question
+
+    report, plans = _real_plan(real_class10_pools, SS10)
+    by_plan = {p.section.title: p for p in plans}
+    f = by_plan["Section F - Map skill"]
+    assert f.picked and all(is_map_question(q) for q in f.picked), f.picked
+    e = by_plan["Section E - Case based"]
+    assert e.picked and not any(is_map_question(q) for q in e.picked), e.picked
+    case = next(s for s in report.sections if s.title == "Section E - Case based")
+    assert not any("map" in x.label for x in case.fixes), case.fixes
     for s in report.sections:
         for x in s.fixes:
             if x.kind == "relax_type":
@@ -1652,11 +1634,11 @@ def test_the_real_banks_class_10_sets_are_distinct_papers(tmp_path, monkeypatch,
 
 def test_the_real_papers_instructions_match_the_ors_it_prints(
         tmp_path, monkeypatch, real_class10_pools):
-    """Social Science Section C pairs 0 of its 1 OR on the merged bank -- the
-    two 3-mark questions it has are both printed as compulsory, leaving none
-    to offer -- and the General Instructions printed on the paper must not
-    promise it. Before the question-bank merge the unpaired ORs were Section
-    D's 4, which the merged bank cannot fill at all (2026-09-23)."""
+    """The General Instructions printed on the paper must not promise an OR the
+    paper does not print. On the merged bank Social Science Section C paired 0
+    of its 1 OR (the two 3-mark questions it had were both compulsory); with
+    the class 9-10 additions it can pair it, so this holds for whatever the
+    bank pairs, section by section, below."""
     for subject, pool in real_class10_pools.items():
         monkeypatch.setitem(pool_mod._CACHE, (subject, "X"), pool)
     with _boot_client(tmp_path, monkeypatch) as client:
@@ -1666,7 +1648,7 @@ def test_the_real_papers_instructions_match_the_ors_it_prints(
         assert r.status_code == 200, r.text
         paper = r.json()["paper"]
     c = next(s for s in report["sections"] if s["title"] == "Section C - Short answer")
-    assert c["choicesNeeded"] > c["choicesFilled"] == 0
+    assert c["choicesNeeded"] >= c["choicesFilled"]
     for p in [paper] + paper["sets"]:
         lines = p["metadata"]["instructions"].splitlines()
         printed = [s for s in report["sections"] if s["filled"]]
