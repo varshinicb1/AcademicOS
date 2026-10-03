@@ -7,6 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../../../core/session/current_session.dart';
+import '../../guide/guide_page.dart';
 
 /// Drop into any page's `AppBar(leading: shellLeading(context), ...)`.
 ///
@@ -34,13 +35,16 @@ Widget? shellLeading(BuildContext context) {
 /// (E2E run on production's commit, 2026-10-01). A page pushed over a
 /// destination (a homework, an exam, a child's progress) keeps its back arrow
 /// by using a plain [AppBar].
+///
+/// Its last action is the Guide's question mark ([GuideButton]), for a
+/// signed-in role that has a guide; the Guide's own page passes [guide] false.
 AppBar destinationAppBar(BuildContext context,
-        {required Widget title, List<Widget>? actions, PreferredSizeWidget? bottom}) =>
+        {required Widget title, List<Widget>? actions, PreferredSizeWidget? bottom, bool guide = true}) =>
     AppBar(
       leading: forceShellLeading(context),
       automaticallyImplyLeading: false,
       title: title,
-      actions: actions,
+      actions: [...?actions, if (guide) const GuideButton()],
       bottom: bottom,
     );
 
@@ -131,6 +135,9 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           _item(Icons.library_books_outlined, Icons.library_books, 'Question bank', '/school/question-bank'),
         ]),
         (title: 'Setup', items: [
+          // The guided setup (onboarding/pages/setup_wizard_page.dart): the whole
+          // first-run in one flow, reopenable any time.
+          _item(Icons.auto_fix_high_outlined, Icons.auto_fix_high, 'Set up your school', '/school/setup'),
           // The principal's first task: teachers join only with a code issued here
           // (the admin console's Invite people). It was reachable only through
           // School insights or a bulk import (handover review, 2026-10-01).
@@ -237,6 +244,9 @@ int navIndexFor(List<NavItem> items, String location) {
 /// The signed-in role, or '' when there is no local store to read it from
 /// (a widget test that mounts the shell alone).
 String _signedInRole() => Hive.isBoxOpen('academicos_cache') ? CurrentSession.role : '';
+
+/// [_signedInRole] for the pages that sit beside the shell (the Guide).
+String signedInRole() => _signedInRole();
 
 /// The signed-in teacher's admin capabilities (`/my-grants`), loaded once per
 /// session; empty until they arrive, offline, and for every other role. A
@@ -360,6 +370,14 @@ class SideNav extends StatelessWidget {
       compact: compact,
       inDrawer: inDrawer,
     );
+    final guideRow = guideAvailableFor(_signedInRole())
+        ? _NavRow(
+            item: _item(Icons.help_outline, Icons.help, 'Guide', guidePath),
+            selected: GoRouterState.of(context).uri.path == guidePath,
+            compact: compact,
+            inDrawer: inDrawer,
+          )
+        : null;
     final body = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -380,6 +398,7 @@ class SideNav extends StatelessWidget {
           ),
         ),
         Expanded(child: ListView(padding: const EdgeInsets.symmetric(horizontal: 8), children: rows)),
+        if (guideRow != null) Padding(padding: const EdgeInsets.fromLTRB(8, 4, 8, 0), child: guideRow),
         Padding(padding: const EdgeInsets.fromLTRB(8, 4, 8, 12), child: settings),
       ],
     );

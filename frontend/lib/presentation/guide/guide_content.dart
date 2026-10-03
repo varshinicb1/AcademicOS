@@ -29,12 +29,11 @@ String guideRoleName(String role) => switch (role) {
       'teacher' => 'teacher',
       'student' => 'student',
       'parent' => 'parent',
-      'owner' => 'school group owner',
       _ => '',
     };
 
 /// The roles the Guide has jobs for.
-const guideRoles = ['principal', 'teacher', 'student', 'parent', 'owner'];
+const guideRoles = ['principal', 'teacher', 'student', 'parent'];
 
 /// The jobs for [role], most common first; empty for a role with no guide.
 List<GuideJob> guideJobsFor(String role) => switch (role) {
@@ -42,7 +41,6 @@ List<GuideJob> guideJobsFor(String role) => switch (role) {
       'teacher' => _teacher,
       'student' => _student,
       'parent' => _parent,
-      'owner' => _owner,
       _ => const [],
     };
 
@@ -68,18 +66,20 @@ const List<GuideJob> _principal = [
     id: 'setup',
     icon: Icons.school_outlined,
     title: 'Set up the school',
-    summary: 'Classes, the calendar, terms, books and the name on papers.',
+    summary: 'The whole first-run in one guided flow: name, classes, calendar, teachers, first paper.',
     steps: [
-      'In the menu, open Setup, then Invite people. This opens the School Admin Console.',
-      'A new school sees Set up your school year. Type the school name, the year (for example 2026-27), '
-          'the first and last day, and the sections per class. Press Set up classes.',
-      'Open the Calendar & Setup tab. Choose the weekly off day and the Saturday rule, then press Initialize Calendar.',
-      'On the same tab, under Terms, add your terms. Most CBSE schools use two.',
-      'Open the Roster tab. Under Book editions, choose one book for each subject.',
-      'Last, open School profile under Setup. Check the name and add the logo printed on every paper.',
+      'In the menu, under Setup, open Set up your school. A new school is offered it on the Overview page too.',
+      'Your school: type the name, address and affiliation line, and add the logo. They print on every paper.',
+      'Classes and sections: classes 9 and 10 are already chosen. Add a section with the plus button, '
+          'or tick classes 6 to 8 if you teach them.',
+      'Year, terms and bell: the usual CBSE year, terms and an 8-period day are filled in. Change only what '
+          'is different at your school, then press Set up my school.',
+      'Teachers: type each name and email and press Send invites. Each teacher joins with the code shown.',
+      'Subjects and periods: set how many periods a week each subject gets, and its teacher once that teacher '
+          'has joined. The last step makes your first paper: choose a class and subject.',
     ],
-    route: '/admin',
-    menu: 'Invite people',
+    route: '/school/setup',
+    menu: 'Set up your school',
   ),
   (
     id: 'invite',
@@ -369,22 +369,5 @@ const List<GuideJob> _parent = [
     ],
     route: '/school/family',
     menu: 'My children',
-  ),
-];
-
-const List<GuideJob> _owner = [
-  (
-    id: 'schools',
-    icon: Icons.domain_outlined,
-    title: 'Open one of your schools',
-    summary: 'Work in one school as its principal.',
-    steps: [
-      'All schools shows each of your schools side by side.',
-      'Press the school switcher at the top of the menu and choose a school.',
-      'You now work as that school\'s principal, and this Guide shows the principal\'s jobs.',
-      'To go back, choose All schools in the switcher.',
-    ],
-    route: '/owner',
-    menu: 'All schools',
   ),
 ];
