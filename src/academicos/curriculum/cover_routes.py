@@ -816,6 +816,15 @@ def _attendance(on: str, current: User, opened: Optional[list] = None) -> Attend
     return AttendanceResponse(date=on, rows=rows, substitutions=[_sub(s) for s in (opened or [])])
 
 
+def _own_row(day: str, current: User) -> AttendanceRow:
+    """The caller's row of the day's register. Someone who is not on it -- an owner
+    acting as a school's principal is not one of its staff -- has none; that is
+    'not marked', not a crash."""
+    rows = _attendance(day, current).rows
+    return next((r for r in rows if r.teacher_id == current.id),
+                AttendanceRow(teacher_id=current.id, name=current.name, status="unmarked"))
+
+
 @router.get("/teacher-attendance", response_model=AttendanceResponse)
 def teacher_attendance(on: Optional[str] = Query(default=None, alias="date"),
                        principal: User = Depends(require_admin("leave"))) -> AttendanceResponse:
@@ -859,7 +868,7 @@ def my_attendance(current: User = Depends(require_staff)) -> AttendanceRow:
     The register is the principal's, so My day could not tell a teacher who
     had checked in that they had: "I'm here" was offered again every time it
     opened (QA S-12)."""
-    return next(r for r in _attendance(_today(), current).rows if r.teacher_id == current.id)
+    return _own_row(_today(), current)
 
 
 @router.post("/my-attendance", response_model=AttendanceRow)
@@ -873,7 +882,7 @@ def check_in(current: User = Depends(require_staff)) -> AttendanceRow:
         year = _year_for(store, current.school_id, day)
         store.mark_attendance(school_id=current.school_id, academic_year_id=year.id, on=day, teacher_id=current.id,
                               status="present", marked_by=current.id)
-    return next(r for r in _attendance(day, current).rows if r.teacher_id == current.id)
+    return _own_row(day, current)
 
 
 @router.get("/academic-years/{academic_year_id}/cover-summary", response_model=CoverSummaryResponse)
