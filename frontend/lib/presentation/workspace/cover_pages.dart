@@ -331,8 +331,11 @@ class _MyDayPageState extends State<MyDayPage> {
   @override
   void initState() {
     super.initState();
-    TeachingContext.load().then((c) => setState(() => _ctx = c),
-        onError: (Object e) => setState(() => _ctxError = serverErrorMessage(e)));
+    TeachingContext.load().then((c) {
+      if (mounted) setState(() => _ctx = c);
+    }, onError: (Object e) {
+      if (mounted) setState(() => _ctxError = serverErrorMessage(e));
+    });
     _load();
   }
 
@@ -350,6 +353,7 @@ class _MyDayPageState extends State<MyDayPage> {
       if (mark != null && mark != 'unmarked' && mark != 'on_leave') {
         LocalStore.instance.setCheckIn(CurrentSession.userId, _today, mark);
       }
+      if (!mounted) return;
       setState(() {
         if (mark != null && mark != 'unmarked' && mark != 'on_leave') _checkedIn = mark;
         _rows = rows;
@@ -360,7 +364,7 @@ class _MyDayPageState extends State<MyDayPage> {
             (l['endDate'] as String).compareTo(_today) >= 0).toList();
       });
     } catch (e) {
-      setState(() => _error = serverErrorMessage(e));
+      if (mounted) setState(() => _error = serverErrorMessage(e));
     }
   }
 

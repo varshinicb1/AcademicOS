@@ -23,6 +23,7 @@ class _Server implements HttpClientAdapter {
   String? profileName;
   bool paperShort = false;
   bool setupFails = false;
+  bool checklistDone = false;
   static const _json = {Headers.contentTypeHeader: ['application/json']};
 
   ResponseBody _ok(Object? body) => ResponseBody.fromString(jsonEncode(body), 200, headers: _json);
@@ -43,6 +44,11 @@ class _Server implements HttpClientAdapter {
             {'id': 'ay_1', 'schoolId': 'school_1', 'label': '2026-27', 'startDate': '2026-04-01',
               'endDate': '2027-03-31', 'status': 'draft'},
         ]);
+      case ('GET', '/setup-status'):
+        return _ok({'percent': checklistDone ? 100 : 50, 'nextKey': null, 'steps': [
+          {'key': 'profile', 'title': 'School profile', 'detail': '', 'path': '/school/school-profile', 'done': true},
+          {'key': 'teachers', 'title': 'Teachers', 'detail': '', 'path': '/school/import', 'done': checklistDone},
+        ]});
       case ('GET', '/staff'):
         return _ok([
           {'id': 'p_1', 'name': 'Farida Khan', 'role': 'principal', 'email': 'farida@school.in'},
@@ -257,6 +263,19 @@ void main() {
     await pumpWizard(tester);
     expect(find.text('Teachers'), findsOneWidget);
     expect(find.text('Welcome'), findsNothing);
+  });
+
+  testWidgets('a school whose checklist is complete is told so, and can still change something', (tester) async {
+    server
+      ..profileName = 'Green Valley School'
+      ..classesExist = true
+      ..checklistDone = true;
+    await pumpWizard(tester);
+    expect(find.text('Your school is ready'), findsOneWidget);
+    expect(find.text('Teachers'), findsNothing, reason: 'not taken back through the teachers step');
+    await tap(tester, 'wizard-review-steps');
+    expect(find.text('Your school'), findsWidgets);
+    expect(find.text('Your school is ready'), findsNothing);
   });
 
   testWidgets('a short paper says which sections fell short', (tester) async {

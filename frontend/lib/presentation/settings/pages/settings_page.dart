@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -38,12 +39,8 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   String _appVersion = '';
-  // Real fix: these three used to reset to a hardcoded default every time
-  // Settings reopened -- toggling them and leaving the screen silently
-  // discarded the change. Now persisted to LocalStore like every other
-  // real setting on this page.
-  bool _notificationsEnabled = LocalStore.instance.box.get('pref_notifications', defaultValue: true) as bool;
-  bool _autoSync = LocalStore.instance.box.get('pref_auto_sync', defaultValue: true) as bool;
+  // Persisted to LocalStore, so leaving the screen does not discard it. Notifications and Auto
+  // Sync were toggles here until 2026-10-04: nothing read either, so they are gone.
   bool _biometricAuth = LocalStore.instance.box.get('pref_biometric_auth', defaultValue: false) as bool;
   String _selectedTheme = LocalStore.instance.themeModeName;
   // The one language setting: the School page's language button changes the
@@ -80,6 +77,10 @@ class _SettingsPageState extends State<SettingsPage> {
 
   SyncResult? _lastSyncResult;
 
+  /// A student or a parent has no classes to manage, no paper template and no assessments to
+  /// sync: those tiles opened pages the server refuses them.
+  bool get _isStaff => CurrentSession.role != 'student' && CurrentSession.role != 'parent';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,20 +91,12 @@ class _SettingsPageState extends State<SettingsPage> {
           _buildSection('Account', [
             _buildListTile(Icons.person, 'Profile', 'Manage your profile',
                 () => context.push('/settings/profile')),
-            _buildListTile(Icons.school, 'School branding', 'Logo, colors, and paper template',
-                () => context.push('/settings/template')),
-            _buildListTile(Icons.people, 'Classes', 'Manage classes & students',
-                () => context.push('/settings/classes')),
-            // Real fix: "Notifications" used to be a toggle with nothing behind
-            // it -- push notifications require a server to send them from, and
-            // this offline build has none. Removed rather than left to silently
-            // do nothing; a server-connected build could legitimately bring
-            // this back for real.
-            if (!_kOfflineBuild)
-              _buildSwitchTile(Icons.notifications, 'Notifications', 'Push notifications', _notificationsEnabled, (v) {
-                setState(() => _notificationsEnabled = v);
-                LocalStore.instance.box.put('pref_notifications', v);
-              }),
+            if (_isStaff) ...[
+              _buildListTile(Icons.school, 'School branding', 'Logo, colors, and paper template',
+                  () => context.push('/settings/template')),
+              _buildListTile(Icons.people, 'Classes', 'Manage classes & students',
+                  () => context.push('/settings/classes')),
+            ],
             // Real login, only meaningful for the server-connected build --
             // the offline build's identity is Settings > Profile above
             // instead (see login_page.dart's docstring for why). Drives
@@ -114,6 +107,8 @@ class _SettingsPageState extends State<SettingsPage> {
             if (!_kOfflineBuild && LocalStore.instance.authUser != null)
               _buildListTile(Icons.password, 'Change password', 'Choose a new password for this account',
                   _changePassword),
+            // The device lock is the phone's; a browser has no fingerprint to ask.
+            if (!kIsWeb)
             _buildSwitchTile(Icons.fingerprint, 'Biometric Auth', 'Lock the app behind your fingerprint or face', _biometricAuth, (v) async {
               if (v) {
                 final ok = await AppLock.confirmCanEnable();
@@ -148,14 +143,6 @@ class _SettingsPageState extends State<SettingsPage> {
               setState(() => _selectedLanguage = v);
               setUiLanguage(v);
             }, subtitle: hindiCoverage),
-            // Real fix: same problem as Notifications above -- "Auto Sync"
-            // toggled a preference nothing ever read, since there is no
-            // server for this offline build to sync to in the first place.
-            if (!_kOfflineBuild)
-              _buildSwitchTile(Icons.sync, 'Auto Sync', 'Automatically sync data', _autoSync, (v) {
-                setState(() => _autoSync = v);
-                LocalStore.instance.box.put('pref_auto_sync', v);
-              }),
             // Real fix: "Offline Mode" was a toggle with nothing behind it --
             // this exact build is offline-only at compile time
             // (ACADEMICOS_OFFLINE), so switching it "off" implied an online
@@ -200,20 +187,18 @@ class _SettingsPageState extends State<SettingsPage> {
           // localhost address shipped in every web bundle. The offline build
           // has no server to sync with until the teacher opts in (Task 405),
           // so it shows no sync section at all.
-          if (!_kOfflineBuild) ...[
+          if (!_kOfflineBuild && _isStaff) ...[
             _buildSection('Server & Sync', [
               _buildListTile(Icons.cloud_sync, 'Manual Sync', 'Sync now with server', _manualSync),
               if (_lastSyncResult != null)
-                _buildListTile(
-                  Icons.history,
+                _buildInfoTile(
                   'Sync History',
                   _lastSyncResult!.success
                       ? 'Last sync: ${_formatDateTime(_lastSyncResult!.timestamp)} — pushed ${_lastSyncResult!.pushedCount}, pulled ${_lastSyncResult!.pulledCount}'
                       : 'Last sync failed: ${_lastSyncResult!.error}',
-                  () {},
                 )
               else
-                _buildListTile(Icons.history, 'Sync History', 'No sync performed yet', () {}),
+                _buildInfoTile('Sync History', 'No sync performed yet'),
             ]),
             const SizedBox(height: 24),
           ],
@@ -240,7 +225,6 @@ class _SettingsPageState extends State<SettingsPage> {
             _buildInfoTile('Build', _kOfflineBuild ? 'Offline (on-device)' : 'Server-connected'),
             _buildInfoTile('Platform', 'Flutter'),
             _buildListTile(Icons.bug_report, 'Report a Bug', 'Send feedback', _reportBug),
-            _buildListTile(Icons.star_rate, 'Rate App', 'Rate us on store', _rateApp),
           ]),
         ],
       ),
@@ -636,14 +620,6 @@ class _SettingsPageState extends State<SettingsPage> {
         SnackBar(content: Text('Could not open email app: ${serverErrorMessage(e)}')),
       );
     }
-  }
-
-  void _rateApp() {
-    // Real, honest gap: this app isn't published on the Play Store yet, so
-    // a fake "opening store..." action would just be another dead-end.
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('AcademicOS isn\'t published on the Play Store yet -- check back after launch!')),
-    );
   }
 
   String _formatDateTime(DateTime dt) {

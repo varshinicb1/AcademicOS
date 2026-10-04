@@ -59,6 +59,9 @@ const _exempt = {
   // failed read leaves that copy in place, and a failed write is queued (no connection) or
   // is a bug of ours the person cannot act on. Neither should interrupt what they were doing.
   'lib/presentation/shared/user_progress.dart': 2,
+  // Whether the setup checklist is complete only decides if the wizard reopens on "ready" or at its
+  // teachers step; if it cannot be read the wizard resumes as it always did.
+  'lib/presentation/onboarding/pages/setup_wizard_page.dart': 1,
 };
 
 const _marker = '// not-a-failure:';

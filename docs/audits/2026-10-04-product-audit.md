@@ -14,21 +14,20 @@ build driven through its semantics tree. Nothing was run against production acco
 | `GET /qbank/review-queue` returned 500 whenever a model-written question carried string evidence | `api_smoke.py`, principal persona | #106 |
 | A parent could not change their own password or save Guide progress (403 "can see only their children's pages") | Test fails before the fix, passes after | #107 |
 
-## 2. UI dead ends and loopholes still open
+## 2. UI dead ends and loopholes (fixed in the follow-up PR, 2026-10-04)
 
-1. **No role guard in the router.** `authRedirect` only redirects `/home` by role. A student or parent who types an
-   admin URL reaches the screen and then meets 403s on every call, with no explanation. The API is correct
-   (it refuses); the UI should send them home.
-2. **Legacy routes still reachable.** The offline/unknown-role nav list in `shell.dart` still lists legacy routes that
-   the role-based navigation no longer shows. They should redirect, as `legacyCreateRedirect` already does for one.
-3. **Settings tiles that lead nowhere useful** for some roles (School branding, Classes, Notifications, Biometric).
-   Show only what the signed-in role can use.
-4. **Setup wizard has no completion state.** The checklist (`setup-status`) knows every step is done; the wizard
-   does not say so or step aside.
-5. **Duplicate requests.** Several screens fire the same GET twice on first load. Harmless, but it doubles load on a
-   single-instance backend.
-6. **Unconfirmed:** typing into the Flutter login after sign-out did not register until a page reload. Could be the
-   test driver or a real focus bug; needs a human check.
+1. **Role guard.** `pageForRole` in `app_router.dart` sends a student or parent away from pages the server refuses
+   them, a teacher away from `/admin`, `/owner` and `/school/grants`, and a principal away from `/owner`, to the
+   role's own home. Allow-lists are pinned by `test/routing/page_for_role_test.dart`.
+2. **Legacy routes.** `/syllabus`, `/planner`, `/planner/daily`, `/analytics`, `/analytics/gaps`, `/student/schedule`
+   and `/parent` redirect to their v3 replacements. Pages other roles still link to (mastery, scan, evaluation,
+   questions, my-schedule) are left alone.
+3. **Settings.** Students and parents no longer see School branding, Classes or Manual Sync. Removed: the Notifications
+   and Auto Sync toggles (nothing read either), Rate App, the dead Sync History tap, and the biometric tile on web.
+4. **Setup wizard.** A school whose checklist is complete reopens on "Your school is ready", with "Change something".
+5. **Duplicate requests.** `Ops.get` shares one in-flight request between identical reads; any write ends the sharing.
+6. **Still unconfirmed:** typing into the Flutter login after sign-out did not register until a reload. Not reproduced
+   outside the test driver; needs a human check.
 
 ## 3. Database, caching, security, compliance
 
@@ -81,8 +80,6 @@ Google sign-in rejects a malformed credential with 422; a datesheet cannot be pu
 
 ## 5. Suggested order
 
-1. Router role guard and legacy-route redirects (items 1 and 2): small, removes the most confusing screens.
-2. Retention job and an accurate privacy policy, then legal review.
-3. CSP with a real `script-src`, and decide whether the web local store should hold a key at all.
-4. Settings tiles, wizard completion state, request de-dupe.
-5. Move the SQLite-snapshot stores to Cloud SQL before raising `--max-instances`.
+1. Retention job and an accurate privacy policy, then legal review.
+2. CSP with a real `script-src`, and decide whether the web local store should hold a key at all.
+3. Move the SQLite-snapshot stores to Cloud SQL before raising `--max-instances`.
