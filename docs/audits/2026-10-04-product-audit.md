@@ -56,8 +56,8 @@ Compliance (DPDP)
 
 ## 4. Feature status (51 checks, local audit school)
 
-41 PASS, 5 NOTE, 5 initial FAIL. Every FAIL was a mistake in the audit's own call, and each feature was re-checked with
-the correct call and works:
+41 PASS, 4 NOTE, 6 initial FAIL. Every FAIL was a mistake in the audit's own call, and each feature was re-checked with
+the correct call and works (five in the table, homework below):
 
 | Initial FAIL | Cause | Re-check |
 |---|---|---|
