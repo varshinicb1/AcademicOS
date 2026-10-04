@@ -54,6 +54,9 @@ const _unreachable = "Couldn't reach the server — check your connection";
 ///  * anything that is not a DioException: its own text, minus Dart's
 ///    "Exception: " prefix (screens throw `Exception('<sentence>')`).
 String serverErrorMessage(Object e) {
+  // A StateError reads "Bad state: <sentence>" (the Google sign-in button's
+  // "could not load" showed so on the live sign-in page, 2026-10-04).
+  if (e is StateError) return e.message;
   if (e is! DioException) {
     final text = '$e';
     return text.startsWith('Exception: ') ? text.substring('Exception: '.length) : text;
