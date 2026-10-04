@@ -96,8 +96,11 @@ class Ops {
   static Future<dynamic> delete(String path) => _change(() => _dio.delete(path));
 
   static Future<dynamic> _change(Future<Response<dynamic>> Function() send) {
+    // Cleared when the write is sent and again when it ends: a read started
+    // while the write was in flight may hold what was there before it, and a
+    // reload right after `await post(...)` must not join that read.
     _reading.clear();
-    return _call(send);
+    return _call(send).whenComplete(_reading.clear);
   }
 
   static Future<List<Map<String, dynamic>>> list(String path, {Map<String, dynamic>? query}) async {
@@ -159,7 +162,7 @@ class Ops {
     _reading.clear();
     try {
       final data = await _call(() => _dio.request(path, data: body, queryParameters: query,
-          options: Options(method: method)));
+          options: Options(method: method))).whenComplete(_reading.clear);
       if (pending.value > 0) syncNow();
       return data;
     } on OpsError catch (e) {
@@ -269,7 +272,11 @@ class OpsError implements Exception {
         data = null; // not-a-failure: not JSON, so the generic sentence below
       }
     }
-    String msg = 'Something went wrong. Check your connection and try again.';
+    // With no sentence from the server: the connection only when nothing
+    // answered; a 500 or a bare 403 says what it was (serverErrorMessage).
+    String msg = e.response == null
+        ? 'Something went wrong. Check your connection and try again.'
+        : serverErrorMessage(e);
     Object? detail;
     if (data is Map && data['detail'] != null) {
       final d = data['detail'];

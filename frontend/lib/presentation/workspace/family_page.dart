@@ -34,7 +34,7 @@ class _FamilyPageState extends State<FamilyPage> {
         }
         if (snap.hasError) {
           return Scaffold(appBar: destinationAppBar(context, title: Text(tr('My children'))),
-              body: ErrorDisplay(message: snap.error.toString(),
+              body: ErrorDisplay(message: serverErrorMessage(snap.error!),
                   onRetry: () => setState(() { _future = Ops.list('/my-children'); })));
         }
         final kids = snap.data!;
@@ -46,7 +46,7 @@ class _FamilyPageState extends State<FamilyPage> {
         return DefaultTabController(
           length: kids.length,
           child: Scaffold(
-            appBar: destinationAppBar(context,
+            appBar: destinationAppBar(context,
               title: Text(tr('My children')),
               bottom: kids.length > 1
                   ? TabBar(tabs: [for (final k in kids) Tab(text: k['name'] as String)])
@@ -162,7 +162,7 @@ class _Week extends StatelessWidget {
       future: Ops.map('/children/$studentId/timetable'),
       builder: (context, snap) {
         if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
-        if (snap.hasError) return ErrorDisplay(message: snap.error.toString());
+        if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!));
         final entries = (snap.data!['entries'] as List).cast<Map>();
         if (entries.isEmpty) {
           return const EmptyState(icon: Icons.calendar_view_week, title: 'No timetable yet',
@@ -198,7 +198,7 @@ class _Today extends StatelessWidget {
       future: Ops.map('/children/$studentId/day', query: {'date': isoDate(DateTime.now())}),
       builder: (context, snap) {
         if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
-        if (snap.hasError) return ErrorDisplay(message: snap.error.toString());
+        if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!));
         final rows = (snap.data!['rows'] as List).cast<Map>();
         final names = Map<String, dynamic>.from(snap.data!['subjectNames'] as Map? ?? {});
         if (rows.isEmpty) {
@@ -237,7 +237,7 @@ class _Homework extends StatelessWidget {
       future: Ops.list('/children/$studentId/homework'),
       builder: (context, snap) {
         if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
-        if (snap.hasError) return ErrorDisplay(message: snap.error.toString());
+        if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!));
         final items = snap.data!;
         if (items.isEmpty) {
           return const EmptyState(icon: Icons.assignment_turned_in_outlined, title: 'No homework',

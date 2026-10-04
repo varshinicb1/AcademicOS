@@ -510,7 +510,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ? const SizedBox(
                                       width: 18,
                                       height: 18,
-                                      child: CircularProgressIndicator(strokeWidth: 2),
+                                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                                     )
                                   : Text(_registering ? 'Create account' : 'Sign in'),
                             ),

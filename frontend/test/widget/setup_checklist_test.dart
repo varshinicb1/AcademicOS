@@ -33,16 +33,18 @@ class _School implements HttpClientAdapter {
   bool hasTeacher = false;
   bool hasTimetable = false;
   bool failStatus = false;
+  int unmarked = 1;
+  List<Object> needingHelp = <Object>[];
   static const _json = {Headers.contentTypeHeader: ['application/json']};
 
   Map<String, dynamic> get _summary => {
         'date': '2026-10-02',
-        'cover': {'staff': hasTeacher ? 3 : 1, 'absent': 0, 'onLeave': 0, 'unmarked': 1, 'periodsToCover': 0,
+        'cover': {'staff': hasTeacher ? 3 : 1, 'absent': 0, 'onLeave': 0, 'unmarked': unmarked, 'periodsToCover': 0,
           'covered': 0, 'uncovered': 0},
         'homework': {'set': 0, 'submissionsExpected': 0, 'submitted': 0, 'marked': 0, 'waitingToMark': 0,
           'overdueHomework': 0},
         'exams': <Object>[],
-        'studentsNeedingHelp': <Object>[],
+        'studentsNeedingHelp': needingHelp,
       };
 
   /// GET /setup-status as the server builds it (operations/progress_routes.py).
@@ -244,6 +246,33 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Attendance not marked'), findsOneWidget);
     expect(find.text('Teachers who have joined'), findsNothing);
+  });
+
+  // Redesign 2026-10-04: every tile was orange or red whatever its value, so a calm day read as an alarm.
+  testWidgets('a day with nothing to do says so, and the date reads as a day', (tester) async {
+    school
+      ..hasTeacher = true
+      ..unmarked = 0;
+    await pumpPage(tester, const Scaffold(body: SingleChildScrollView(child: DashboardCard())), phoneScreen);
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 200)));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('dashboard-all-clear')), findsOneWidget);
+    expect(find.text('Friday 2 October'), findsOneWidget);
+    expectNoOverflow(tester);
+  });
+
+  testWidgets('an unmarked register is not all clear, and one chapter is one chapter', (tester) async {
+    school
+      ..hasTeacher = true
+      ..needingHelp = [
+        {'name': 'Asha Kumar', 'sectionName': '10-A', 'needsWork': 1, 'overdue': 0},
+      ];
+    await pumpPage(tester, const Scaffold(body: SingleChildScrollView(child: DashboardCard())), phoneScreen);
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 200)));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('dashboard-all-clear')), findsNothing);
+    expect(find.text('1 chapter needs work · 0 homework overdue'), findsOneWidget);
+    expectNoOverflow(tester);
   });
 
   testWidgets("a new school's School page fits a phone with the checklist, the dashboard and the tiles",

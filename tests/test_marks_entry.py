@@ -168,3 +168,30 @@ def test_marks_measure_each_questions_facility_without_naming_a_student(w, paper
             assert not {c for c in columns if "student" in c}, (table, columns)
             assert not any(w.ids[s] in str(tuple(row)) for row in store().conn.execute(f"SELECT * FROM {table}")
                            for s in ("s1", "s2", "s3"))
+
+
+def test_an_attempt_any_section_is_marked_out_of_its_printed_marks():
+    """Review 2026-10-04: an "attempt any 2 of 3" section was counted as 3, so the 80-mark English and
+    Hindi papers were graded out of 94, a perfect script read about 85%, and its row was never complete
+    until the unanswered question got a mark."""
+    from academicos.assessment.marks_routes import paper_score, paper_total
+    from academicos.assessment.schemas import (GeneratedPaper, GeneratedQuestionSchema, GeneratedSectionSchema,
+                                               PaperMetadataSchema)
+
+    def q(qid, n, marks):
+        return GeneratedQuestionSchema(question_id=qid, display_number=n, stem="s", marks=marks,
+                                       bloom_level="remember", difficulty="easy")
+    paper = GeneratedPaper(id="p", assessment_id="a", metadata=PaperMetadataSchema(
+        assessment_title="t", subject="English", grade=10, total_marks=8, duration_minutes=60,
+        generated_at=datetime.now(timezone.utc)), sections=[
+        GeneratedSectionSchema(section_id="A", label="A", name="Section A (attempt any 2 of 3)", total_marks=2,
+                               questions=[q("a1", 1, 1), q("a2", 2, 1), q("a3", 3, 1)]),
+        GeneratedSectionSchema(section_id="B", label="B", name="Section B", total_marks=6,
+                               questions=[q("b1", 4, 3), q("b2", 5, 3)]),
+    ])
+    assert paper_total(paper) == 8
+    assert paper_score(paper, {"a1": 1, "a2": 1, "b1": 3, "b2": 3}) == 8      # two answered: complete
+    assert paper_score(paper, {"a1": 1, "a2": 0, "a3": 1, "b1": 3, "b2": 3}) == 8  # best two of three
+    assert paper_score(paper, {"a1": 1, "b1": 3, "b2": 3}) is None           # one of the two missing
+    assert paper_score(paper, {"a1": 1, "a2": 1, "b1": 3}) is None           # a plain section needs every mark
+    assert paper_score(paper, {}) is None

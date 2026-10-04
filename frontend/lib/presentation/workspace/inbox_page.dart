@@ -78,7 +78,7 @@ class _InboxPageState extends State<InboxPage> {
         future: _future,
         builder: (context, snap) {
           if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
-          if (snap.hasError) return ErrorDisplay(message: snap.error.toString(), onRetry: _reload);
+          if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!), onRetry: _reload);
           final items = (snap.data!['items'] as List).cast<Map>();
           if (items.isEmpty) {
             return const EmptyState(icon: Icons.notifications_none, title: 'Nothing yet',

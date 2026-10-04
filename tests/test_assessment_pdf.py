@@ -950,3 +950,44 @@ def test_the_key_says_all_or_nothing_once_and_marks_the_rows(tmp_path):
 ])
 def test_a_mention_word_before_a_real_first_option_does_not_hide_the_options(stem, head, options):
     assert split_stem_and_options(stem) == (head, options)
+
+
+# ---- Hindi (review 2026-10-04): the production image had no Devanagari face, so every Hindi paper and
+# answer key printed as boxes; a Devanagari run is now set in a face that has it, shaped by uharfbuzz.
+
+def test_a_devanagari_run_is_set_in_a_face_that_has_it(monkeypatch):
+    from academicos.assessment import pdf as pdf_mod
+
+    monkeypatch.setattr(pdf_mod, "_DEVA_FONT", "AcademicDeva")
+    seen = {}
+    monkeypatch.setattr(pdf_mod, "_RLParagraph", lambda text, style, *a, **k: seen.setdefault("text", text))
+    pdf_mod.Paragraph("<b>1.</b> निम्नलिखित का अर्थ लिखिए: (A) नदी", None)
+    assert seen["text"] == ('<b>1.</b> <font name="AcademicDeva">निम्नलिखित का अर्थ लिखिए</font>: '
+                            '(A) <font name="AcademicDeva">नदी</font>')
+    seen.clear()
+    pdf_mod.Paragraph("Which of these is a gas?", None)
+    assert seen["text"] == "Which of these is a gas?", "English text is left alone"
+
+
+def test_a_hindi_paper_embeds_a_devanagari_font_and_reads_back(tmp_path):
+    from academicos.assessment import pdf as pdf_mod
+    import fitz
+
+    pdf_mod._register_devanagari_font()
+    if not pdf_mod._DEVA_FONT:
+        pytest.skip("no Devanagari font on this machine (the image installs fonts-lohit-deva)")
+    paper = _make_paper()
+    paper.metadata.subject = "Hindi"
+    paper.sections[0].questions[0].stem = "'कमल' शब्द का अर्थ लिखिए। (A) फूल (B) पेड़ (C) नदी (D) पहाड़"
+    paper.answer_key = {"1": "(A) फूल"}
+    for out in (export_pdf(paper, tmp_path / "hi"), pdf_mod.export_answer_key_pdf(paper, tmp_path / "hik")):
+        doc = fitz.open(str(out))
+        try:
+            fonts = {f[3] for page in doc for f in page.get_fonts()}
+            text = "".join(page.get_text() for page in doc)
+        finally:
+            doc.close()
+        # The embedded name is the face's own (NirmalaUI, Lohit-Devanagari): one besides the body font.
+        body = ("Segoe", "DejaVu", "Helvetica", "Arial")
+        assert any(not any(b in f for b in body) for f in fonts), fonts
+        assert "फूल" in text

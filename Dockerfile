@@ -21,11 +21,12 @@ FROM python:3.12-slim
 # fonts-dejavu-core: the Unicode TTF assessment/pdf.py registers on Linux
 # (/usr/share/fonts/truetype/dejavu/DejaVuSans{,-Bold}.ttf). Without it the
 # paper falls back to Helvetica, which is Latin-1 only, and subscripts,
-# Greek and arrows -- in 4.6% of stems -- print as boxes (audit 1.2). pdf.py
-# registers no Devanagari face, so none is installed. Startup logs the font
-# it registered ("PDF body font: ...").
+# Greek and arrows -- in 4.6% of stems -- print as boxes (audit 1.2).
+# fonts-lohit-deva: the Devanagari face pdf.py sets Hindi in (DejaVu has none,
+# so every Hindi paper and key printed as boxes; review 2026-10-04); uharfbuzz
+# (the api extra) shapes it. Startup logs both ("PDF body font: ...").
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgl1 libglib2.0-0 fonts-dejavu-core \
+    libgl1 libglib2.0-0 fonts-dejavu-core fonts-lohit-deva \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

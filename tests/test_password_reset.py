@@ -49,6 +49,12 @@ def test_who_may_reset_whom(w):
     assert w.c.post(f"/api/v1/auth/users/{s1}/password-reset", headers=w.ana).status_code == 200
     # Even with the grant, never the principal's account.
     assert w.c.post(f"/api/v1/auth/users/{principal}/password-reset", headers=w.ana).status_code == 403
+    # Nor a colleague's: their temporary password would let Ana sign in as them, with their grants
+    # (review 2026-10-04). Only the principal resets a staff member.
+    bala = _id(w, w.bala)
+    r = w.c.post(f"/api/v1/auth/users/{bala}/password-reset", headers=w.ana)
+    assert r.status_code == 403 and "principal" in r.json()["detail"]
+    assert w.c.post(f"/api/v1/auth/users/{bala}/password-reset", headers=w.p).status_code == 200
 
 
 def test_the_reset_is_audited_without_the_password(w):
@@ -61,6 +67,8 @@ def test_the_reset_is_audited_without_the_password(w):
     entries = log.for_action("password_reset")
     assert len(entries) == 1 and entries[0]["details"]["userId"] == ana
     assert temp not in repr(entries[0])
+    # Only the id: a name would outlive the person's erasure in the kept audit log.
+    assert "name" not in entries[0]["details"]
 
 
 def test_a_person_changes_their_own_password(w):
@@ -79,3 +87,19 @@ def test_a_person_changes_their_own_password(w):
     assert w.c.get("/api/v1/auth/me", headers=w.ana).status_code == 401    # other sessions end
     assert _signs_in(w, "ana@example.com", "a better password")
     assert not _signs_in(w, "ana@example.com", "correct horse battery")
+
+
+def test_wrong_current_passwords_are_counted(w, monkeypatch):
+    """A stolen session cannot guess the current password without limit (review 2026-10-04)."""
+    from academicos.api.rate_limit import account_failures
+    monkeypatch.setenv("ACOS_TEST_RATE_LIMIT", "1")
+    account_failures.reset()
+    codes = [w.c.post("/api/v1/auth/password", headers=w.ana,
+                      json={"currentPassword": f"guess {i}", "newPassword": "a better password"}).status_code
+             for i in range(15)]
+    assert codes[0] == 400 and codes[-1] == 429, codes
+    # The right password is refused too while locked, so a guesser cannot tell when they hit it.
+    r = w.c.post("/api/v1/auth/password", headers=w.ana,
+                 json={"currentPassword": "correct horse battery", "newPassword": "a better password"})
+    assert r.status_code == 429
+    account_failures.reset()

@@ -203,14 +203,18 @@ class _SettingsPageState extends State<SettingsPage> {
             const SizedBox(height: 24),
           ],
           _buildSection('Data & Privacy', [
-            // Local, so in every build.
-            _buildListTile(Icons.backup, 'Backup & Restore', 'Save all local data to a file', _backupData),
+            // The phone's own data: not on the web, where everything is on the
+            // school's server, the backup's file access does not exist, and
+            // Clear wiped only the browser's session (review 2026-10-04).
+            if (!kIsWeb)
+              _buildListTile(Icons.backup, 'Backup & Restore', 'Save all local data to a file', _backupData),
             // Real fix: "Delete Account" made no sense (there is no
             // account/auth system yet) and its old handler just showed a
             // fake "Account deleted" message without deleting anything.
             // Replaced with a real, working action against the one thing
             // that actually exists on this device: local data.
-            _buildListTile(Icons.delete_forever, 'Clear All Local Data',
+            if (!kIsWeb)
+              _buildListTile(Icons.delete_forever, 'Clear All Local Data',
                 'Permanently wipe every assessment, evaluation, and setting on this device',
                 _confirmClearAllData),
             _buildListTile(Icons.privacy_tip, 'Privacy Policy', 'Read our privacy policy',

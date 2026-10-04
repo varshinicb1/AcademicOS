@@ -67,7 +67,11 @@ class _CoverPageState extends State<CoverPage> {
   @override
   void initState() {
     super.initState();
-    TeachingContext.load().then((c) => setState(() => _ctx = c), onError: (Object e) => setState(() => _error = serverErrorMessage(e)));
+    TeachingContext.load().then((c) {
+      if (mounted) setState(() => _ctx = c);
+    }, onError: (Object e) {
+      if (mounted) setState(() => _error = serverErrorMessage(e));
+    });
     _load();
   }
 
@@ -76,6 +80,7 @@ class _CoverPageState extends State<CoverPage> {
       final a = await Ops.map('$_base/teacher-attendance', query: {'date': _date});
       final l = await Ops.list('$_base/leave-requests', query: {'status': 'pending'});
       final s = await Ops.list('$_base/substitutions', query: {'from': _date, 'to': _date});
+      if (!mounted) return;
       setState(() {
         _attendance = a;
         _leave = l;
@@ -84,7 +89,7 @@ class _CoverPageState extends State<CoverPage> {
         _error = null;
       });
     } catch (e) {
-      setState(() => _error = serverErrorMessage(e));
+      if (mounted) setState(() => _error = serverErrorMessage(e));
     }
   }
 
@@ -273,7 +278,7 @@ class _AssignDialogState extends State<_AssignDialog> {
           future: _cands,
           builder: (context, snap) {
             if (snap.connectionState != ConnectionState.done) return const SizedBox(height: 100, child: LoadingIndicator());
-            if (snap.hasError) return Text(snap.error.toString());
+            if (snap.hasError) return Text(serverErrorMessage(snap.error!));
             return Column(mainAxisSize: MainAxisSize.min, children: [
               if (_error != null) Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
               if (snap.data!.isEmpty) const Text('Nobody is free this period.'),

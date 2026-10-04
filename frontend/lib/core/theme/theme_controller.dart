@@ -10,7 +10,8 @@ import '../local_engine/local_store.dart';
 /// Dark visibly changed nothing.
 ///
 /// Before the local store is open (a widget test that mounts a page alone)
-/// the mode starts dark, the brand's default, and a change is not stored.
+/// the mode starts dark, as the widget tests were written, and a change is not
+/// stored. A signed-in person's default is light (LocalStore.themeModeName).
 class ThemeController {
   ThemeController._();
 

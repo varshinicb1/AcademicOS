@@ -222,7 +222,10 @@ class _SetupWizardPageState extends State<SetupWizardPage> {
     }
     out.sort((a, b) => a.grade.compareTo(b.grade));
     _classes = out;
-    _paperGrade = out.any((c) => c.grade == 10) ? 10 : (out.isEmpty ? 10 : out.last.grade);
+    // The first paper is a class 9 or 10 one (the step offers only those): a school of classes 6-8
+    // showed Class 10 in the list while the paper was made for class 8 (review 2026-10-04).
+    final senior = [for (final c in out) if (c.grade >= 9) c.grade];
+    _paperGrade = senior.contains(10) ? 10 : (senior.isEmpty ? 10 : senior.last);
   }
 
   Future<void> _run(Future<void> Function() action) async {
@@ -479,7 +482,7 @@ class _SetupWizardPageState extends State<SetupWizardPage> {
               style: phoneTapTarget(context),
               onPressed: _busy ? null : _onNext,
               child: _busy
-                  ? const SizedBox(height: 18, width: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                  ? const SizedBox(height: 18, width: 18, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
                   : Text(tr(_nextLabel)),
             ),
           ),
@@ -745,7 +748,8 @@ class _SetupWizardPageState extends State<SetupWizardPage> {
               title: tr('Your school is set up'),
               lines: [
                 for (final c in _classes)
-                  '${tr('Class')} ${c.grade}: ${c.sections.length} ${tr('section(s)')}, ${c.subjects.length} ${tr('subjects')}',
+                  '${tr('Class')} ${c.grade}: ${c.sections.length} ${tr(c.sections.length == 1 ? 'section' : 'sections')}, '
+                  '${c.subjects.length} ${tr(c.subjects.length == 1 ? 'subject' : 'subjects')}',
               ]),
         const Gap(12),
         Text(tr('Invite your teachers. Each gets an email-style code to join; you give subjects to them on the next step or later.'),

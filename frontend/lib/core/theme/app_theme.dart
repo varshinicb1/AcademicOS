@@ -4,9 +4,9 @@ import '../constants/app_constants.dart';
 import 'emergera.dart';
 
 /// The palette the whole app draws from, taken from the design system
-/// (design/tokens.json), which carries the Emergera brand (2026-10-01): dark
-/// by default -- ink page, night cards, ember accent -- and a light theme of
-/// white cards on an off-white canvas. The canvas is deliberately not #FFFFFF --
+/// (design/tokens.json), which carries the Emergera brand (2026-10-01): light
+/// by default (the owner's choice, 2026-10-04) -- white cards on an off-white
+/// canvas, ember accent -- and a dark theme of night cards on an ink page. The canvas is deliberately not #FFFFFF --
 /// tokens.json's `surface` note explains why a data-dense screen needs a
 /// resting surface between its white cards.
 ///

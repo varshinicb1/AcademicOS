@@ -1,5 +1,7 @@
 import '../../../data/datasources/api/api_error.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../../../core/session/current_session.dart';
 import '../../../core/theme/emergera.dart';
 
 import '../../../core/constants/app_constants.dart';
@@ -251,6 +253,100 @@ class ChipTag extends StatelessWidget {
   }
 }
 
+/// The sentences the server and the pages answer with when the school has no
+/// academic year, calendar, term or bell yet. A brand-new school met one of
+/// these as a red "Error" with a Retry on Term report, Exams, Timetable,
+/// Lesson plans and more (school's screenshots, 2026-10-01).
+const _notSetUpPhrases = [
+  'no academic year', // "... covers today", "... contains the exam's start date", "... of this school contains that date"
+  'academic year set up yet', // the pages' own "Your school has no academic year set up yet."
+  'set up an academic year first',
+  'no term of this school covers',
+  'today is in no term',
+  'no calendar configured for this academic year',
+  'create a calendar for this academic year first',
+];
+
+/// True when [message] says the school has not been set up yet.
+bool isSchoolNotSetUp(String message) {
+  final m = message.toLowerCase();
+  return _notSetUpPhrases.any(m.contains);
+}
+
+/// Where the setup wizard lives.
+const schoolSetupPath = '/school/setup';
+
+bool get _signedInAsPrincipal {
+  try {
+    return CurrentSession.role == 'principal';
+  } catch (_) {
+    // not-a-failure: no session store (a page mounted alone in a test): say what to do, without the button
+    return false;
+  }
+}
+
+/// What a page shows instead of an error when the school is not set up: one
+/// sentence, and for the principal the button to the setup wizard. Anyone else
+/// is told to ask the principal, the only one who can set it up.
+class SchoolNotSetUp extends StatelessWidget {
+  /// Null: read from the signed-in session.
+  final bool? isPrincipal;
+
+  /// What this place needs from the setup ("An exam goes inside the school
+  /// year, and there is none yet."). Null: the general sentence.
+  final String? why;
+
+  /// Called just before the wizard opens, so a dialog can close itself first.
+  final VoidCallback? beforeOpen;
+
+  const SchoolNotSetUp({super.key, this.isPrincipal, this.why, this.beforeOpen});
+
+  @override
+  Widget build(BuildContext context) {
+    final principal = isPrincipal ?? _signedInAsPrincipal;
+    final theme = Theme.of(context);
+    return Center(
+      key: const ValueKey('school-not-set-up'),
+      child: Padding(
+        padding: const EdgeInsets.all(AppConstants.largePadding),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            Icon(Icons.school_outlined, size: 44, color: theme.colorScheme.primary),
+            const SizedBox(height: 12),
+            Text("Your school isn't set up yet", style: theme.textTheme.titleMedium, textAlign: TextAlign.center),
+            const SizedBox(height: 6),
+            Text(
+              [
+                if (why != null) why!,
+                principal
+                    ? 'Set up the year, classes, terms and bell in a few steps.'
+                    : 'Ask your principal to set up the school.',
+              ].join(' '),
+              style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              textAlign: TextAlign.center,
+            ),
+            if (principal) ...[
+              const SizedBox(height: 20),
+              FilledButton.icon(
+                key: const ValueKey('school-not-set-up-action'),
+                style: phoneTapTarget(context),
+                onPressed: () {
+                  final router = GoRouter.maybeOf(context);
+                  beforeOpen?.call();
+                  router?.push(schoolSetupPath);
+                },
+                icon: const Icon(Icons.rocket_launch_outlined),
+                label: const Text('Set up your school'),
+              ),
+            ],
+          ]),
+        ),
+      ),
+    );
+  }
+}
+
 class ErrorDisplay extends StatelessWidget {
   final String message;
   final VoidCallback? onRetry;
@@ -260,6 +356,9 @@ class ErrorDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // A school with no year, term or bell is not a fault to show in red: it
+    // is the next thing to do.
+    if (isSchoolNotSetUp(message)) return const SchoolNotSetUp();
     // A feature that is not switched on yet is not a fault: calm, no Retry.
     if (isComingSoonMessage(message)) {
       final theme = Theme.of(context);
