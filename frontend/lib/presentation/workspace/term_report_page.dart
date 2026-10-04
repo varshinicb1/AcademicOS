@@ -223,7 +223,8 @@ class _TermReportPageState extends State<TermReportPage> {
       if (behind.isEmpty) Text(tr('Every class is on plan.')),
       for (final r in behind)
         ListTile(dense: true, title: Text('${r['sectionName'] ?? '${tr('Class')} ${r['grade']}'} · ${r['subject']}'),
-            subtitle: Text('${r['taughtToDate']} ${tr('of')} ${r['plannedToDate']} ${tr('lessons')} · ${r['variance']}')),
+            subtitle: Text('${r['taughtToDate']} ${tr('of')} ${r['plannedToDate']} ${tr('lessons')} · '
+                '${-((r['variance'] as num?) ?? 0)} ${tr('behind')}')),
       if (cannotFinish.isNotEmpty) ...[
         SectionHeader(
             key: const Key('term-report-cannot-finish'),

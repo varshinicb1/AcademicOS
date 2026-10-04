@@ -77,8 +77,12 @@ class DashboardCard extends StatelessWidget {
           else ...[
             _Stat('Absent / on leave', '${c['absent']} / ${c['onLeave']}', Icons.person_off_outlined,
                 absent > 0 ? Tone.attention : Tone.calm, '/school/cover'),
-            _Stat('Attendance not marked', '$unmarked', Icons.how_to_reg_outlined,
-                unmarked > 0 ? Tone.attention : Tone.good, '/school/cover'),
+            // A weekly off, a holiday or a closure expects no register.
+            if (c['schoolDay'] == false)
+              const _Stat('No school today', '—', Icons.event_busy_outlined, Tone.calm, '/school/cover')
+            else
+              _Stat('Attendance not marked', '$unmarked', Icons.how_to_reg_outlined,
+                  unmarked > 0 ? Tone.attention : Tone.good, '/school/cover'),
             _Stat('Periods needing cover', '$uncovered of ${c['periodsToCover']}', Icons.swap_horiz,
                 uncovered > 0 ? Tone.urgent : Tone.good, '/school/cover'),
           ],

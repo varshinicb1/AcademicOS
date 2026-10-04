@@ -372,7 +372,9 @@ class MainShell extends StatelessWidget {
         final sections = navSectionsFor(role, grants: role == 'teacher' ? grants : const {});
         final uri = GoRouterState.of(context).uri;
         final items = [for (final s in sections) ...s.items];
-        final selected = navIndexFor(items, uri.toString());
+        // The Guide has its own row at the foot of the menu; under '/school'
+        // it also matched Overview, and both were lit (guide shoot, 2026-10-04).
+        final selected = uri.path == guidePath ? -1 : navIndexFor(items, uri.toString());
         return _ShellDrawerScope(
           openDrawer: () => _scaffoldKey.currentState?.openDrawer(),
           child: Scaffold(

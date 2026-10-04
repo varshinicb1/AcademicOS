@@ -4007,6 +4007,11 @@
             "title": "Periodstocover",
             "type": "integer"
           },
+          "schoolDay": {
+            "default": true,
+            "title": "Schoolday",
+            "type": "boolean"
+          },
           "staff": {
             "title": "Staff",
             "type": "integer"

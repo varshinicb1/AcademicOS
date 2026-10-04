@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../shared/readable.dart';
+
 import '../../data/datasources/api/api_error.dart';
 import '../../core/session/current_session.dart';
 import '../shared/widgets/common_widgets.dart';
@@ -86,7 +88,7 @@ class _TeacherHomeworkPageState extends State<TeacherHomeworkPage> {
                   Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Text(h['title'], style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
                     const SizedBox(height: 4),
-                    Text('${h['subjectName']} · ${(h['sectionNames'] as List).join(', ')} · due ${h['dueDate']}',
+                    Text('${h['subjectName']} · ${(h['sectionNames'] as List).join(', ')} · due ${readableDate(h['dueDate'])}',
                         style: theme.textTheme.bodySmall),
                   ])),
                   ChipTag(label: '${h['submitted']}/${h['students']} in · ${h['graded']} marked'),
@@ -362,7 +364,7 @@ class _TeacherHomeworkDetailPageState extends State<TeacherHomeworkDetailPage> {
         ],
       ]),
       body: ListView(padding: const EdgeInsets.all(16), children: [
-        Text('${hw['subjectName']} · ${(hw['sectionNames'] as List).join(', ')} · due ${hw['dueDate']} · '
+        Text('${hw['subjectName']} · ${(hw['sectionNames'] as List).join(', ')} · due ${readableDate(hw['dueDate'])} · '
             '${hw['questionCount']} questions, ${hw['totalMarks']} marks · ${hw['status']}'),
         const SizedBox(height: 12),
         SingleChildScrollView(
