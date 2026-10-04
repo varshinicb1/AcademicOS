@@ -246,7 +246,8 @@ class _TermReportPageState extends State<TermReportPage> {
       SectionHeader(title: tr('Question bank gaps'), subtitle: tr('Chapters of your classes with no questions yet')),
       if (gaps.isEmpty) Text(tr('No gaps for these classes.')),
       for (final b in gaps)
-        ListTile(dense: true, title: Text('${tr('Class')} ${b['grade']} · ${b['subject']} · ${b['questions']} ${tr('questions')}'),
+        ListTile(dense: true, title: Text('${tr('Class')} ${b['grade']} · ${b['subject']} · ${b['questions']} '
+            '${tr(b['questions'] == 1 ? 'question' : 'questions')}'),
             subtitle: Text(b['chapters'] == 0
                 ? tr('No questions for this class yet')
                 : (b['chaptersWithoutQuestions'] as List).join(', '))),
