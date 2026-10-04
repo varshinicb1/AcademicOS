@@ -27,8 +27,22 @@ class Ops {
   /// server cannot be reached at all, the saved answer is returned instead
   /// (TA-8, SA-8: a phone without signal still shows today's timetable,
   /// homework and progress). Writes are never answered from the cache.
-  static Future<dynamic> get(String path, {Map<String, dynamic>? query}) async {
+  static Future<dynamic> get(String path, {Map<String, dynamic>? query}) {
     final key = _cacheKey(path, query);
+    return _reading.putIfAbsent(key, () => _fetchAndSave(path, query, key).whenComplete(() {
+          // A block, not `=> remove(key)`: remove returns this very future, and whenComplete waits
+          // for whatever its callback returns, so the read would wait on itself for ever.
+          _reading.remove(key);
+        }));
+  }
+
+  /// The reads under way, by what they ask. Two widgets asking for the same page in the same
+  /// moment (the School page and the checklist card both ask for setup-status; a page and its
+  /// header both ask for the profile) share one request instead of sending two. Any write
+  /// empties it first, so a read that follows a change never joins a read that began before it.
+  static final Map<String, Future<dynamic>> _reading = {};
+
+  static Future<dynamic> _fetchAndSave(String path, Map<String, dynamic>? query, String key) async {
     try {
       final data = await _call(() => _dio.get(path, queryParameters: query));
       _save(key, data);
@@ -72,14 +86,19 @@ class Ops {
   }
 
   static Future<dynamic> post(String path, {Object? body, Map<String, dynamic>? query}) =>
-      _call(() => _dio.post(path, data: body, queryParameters: query));
+      _change(() => _dio.post(path, data: body, queryParameters: query));
 
   static Future<dynamic> put(String path, {Object? body, Map<String, dynamic>? query}) =>
-      _call(() => _dio.put(path, data: body, queryParameters: query));
+      _change(() => _dio.put(path, data: body, queryParameters: query));
 
-  static Future<dynamic> patch(String path, {Object? body}) => _call(() => _dio.patch(path, data: body));
+  static Future<dynamic> patch(String path, {Object? body}) => _change(() => _dio.patch(path, data: body));
 
-  static Future<dynamic> delete(String path) => _call(() => _dio.delete(path));
+  static Future<dynamic> delete(String path) => _change(() => _dio.delete(path));
+
+  static Future<dynamic> _change(Future<Response<dynamic>> Function() send) {
+    _reading.clear();
+    return _call(send);
+  }
 
   static Future<List<Map<String, dynamic>>> list(String path, {Map<String, dynamic>? query}) async {
     final data = await get(path, query: query);
@@ -137,6 +156,7 @@ class Ops {
   /// A later change to the same thing replaces the waiting one.
   static Future<dynamic> send(String method, String path,
       {Object? body, Map<String, dynamic>? query, required String label}) async {
+    _reading.clear();
     try {
       final data = await _call(() => _dio.request(path, data: body, queryParameters: query,
           options: Options(method: method)));

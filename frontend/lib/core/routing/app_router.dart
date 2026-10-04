@@ -72,6 +72,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           signedIn: LocalStore.instance.authToken != null,
           offlineBuild: const bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false),
         ) ??
+        pageForRole(
+          state.matchedLocation,
+          role: LocalStore.instance.authToken != null ? CurrentSession.role : '',
+          offlineBuild: const bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false),
+        ) ??
         roleLanding(
           state.matchedLocation,
           role: LocalStore.instance.authToken != null ? CurrentSession.role : '',
@@ -457,6 +462,60 @@ String? authRedirect(String location,
       location == '/settings/login' ||
       location.startsWith('/settings/legal/');
   if (!signedIn) return isPublic ? null : '/login';
+  return null;
+}
+
+/// The v2 pages that have a v3 replacement, and where a signed-in person on the web build
+/// goes instead. They were not in any role's navigation but were open by address: the
+/// syllabus, planner and mastery pages ask for a demo student or an assessment id and
+/// show an error for a real school.
+const _replacedPages = {
+  '/syllabus': '/home',
+  '/planner': '/home',
+  '/planner/daily': '/home',
+  '/analytics': '/home',
+  '/analytics/gaps': '/home',
+  '/student/schedule': '/school/week',
+  '/parent': '/school/family',
+};
+
+/// Locations a student, and a parent, may open. Every other page is refused by the server
+/// for them, so opening one showed a screen of errors with no way to tell why.
+const _studentPages = [
+  '/school/today', '/school/week', '/school/my-homework', '/school/my-learning', '/school/my-exams',
+  '/school/my-report-card', '/school/inbox', '/school/guide', '/school/practice', '/practice', '/settings',
+];
+const _parentPages = [
+  '/school/family', '/school/inbox', '/school/guide', '/school/my-exams', '/school/my-homework', '/settings',
+];
+
+/// What a teacher is never offered: the owner's overview, the principal's invitations and
+/// the principal's staff permissions.
+const _principalOnly = ['/owner', '/admin', '/school/grants'];
+
+bool _under(String location, String page) => location == page || location.startsWith('$page/');
+
+/// Sends a signed-in person away from a page that is not theirs, or that a newer page replaced,
+/// to their own home ('/home', which [roleLanding] turns into the role's first page).
+/// Null leaves them where they are. Offline builds have no accounts and no roles; an owner and
+/// a signed-in person of unknown role are left alone.
+String? pageForRole(String location, {required String role, required bool offlineBuild}) {
+  if (offlineBuild || role.isEmpty) return null;
+  final base = location.split('?').first;
+  final replaced = _replacedPages[base];
+  if (replaced != null) return replaced;
+  switch (role) {
+    case 'student':
+      if (base == '/home' || base == '/school' || base == '/login') return null;
+      return _studentPages.any((p) => _under(base, p)) ? null : '/home';
+    case 'parent':
+      if (base == '/home' || base == '/school' || base == '/login') return null;
+      return _parentPages.any((p) => _under(base, p)) ? null : '/home';
+    case 'teacher':
+      return _principalOnly.any((p) => _under(base, p)) ? '/home' : null;
+    case 'principal':
+      return _under(base, '/owner') ? '/home' : null;
+  }
   return null;
 }
 

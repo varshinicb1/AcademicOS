@@ -75,6 +75,7 @@ class _SetupWizardPageState extends State<SetupWizardPage> {
   bool _loading = true;
   String? _error;
   String? _loadError;
+  bool _wasComplete = false;
 
   // school
   final _name = TextEditingController();
@@ -172,10 +173,23 @@ class _SetupWizardPageState extends State<SetupWizardPage> {
         await _loadClasses();
       }
       _staff = await Ops.list('/staff');
+      // A school whose checklist is complete is told so, not taken back through the teachers step.
+      // The checklist is a courtesy here: if it cannot be read the wizard resumes as before.
+      var complete = false;
+      try {
+        final status = await Ops.map('/setup-status');
+        final steps = (status['steps'] as List?) ?? const [];
+        complete = steps.isNotEmpty && steps.every((x) => (x as Map)['done'] == true);
+      } catch (_) {
+        // not-a-failure: the checklist only decides whether to open on "ready"; the steps themselves report their own failures.
+      }
       if (!mounted) return;
       setState(() {
         _loading = false;
-        if (_classes.isNotEmpty) {
+        _wasComplete = complete;
+        if (complete && _classes.isNotEmpty) {
+          _step = _Step.done;
+        } else if (_classes.isNotEmpty) {
           _step = _Step.teachers;
         } else if (_name.text.trim().isNotEmpty) {
           _step = _Step.classes;
@@ -881,5 +895,11 @@ class _SetupWizardPageState extends State<SetupWizardPage> {
           onPressed: () => context.go('/school/guide'),
           child: Text(tr('Open the Guide')),
         ),
+        if (_wasComplete)
+          TextButton(
+            key: const ValueKey('wizard-review-steps'),
+            onPressed: () => setState(() => _step = _Step.school),
+            child: Text(tr('Change something')),
+          ),
       ];
 }
