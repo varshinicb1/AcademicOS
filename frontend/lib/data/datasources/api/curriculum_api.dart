@@ -1097,6 +1097,9 @@ class HolidayInfo {
   final List<int>? grades;
   final int? timetableWeekday;
   final int? lessonsMoved;
+  // Lessons the day pushed past the year's last period: their topics have no
+  // day now (said, not dropped without a word; removing the day gives them back).
+  final int? lessonsDropped;
 
   HolidayInfo.fromJson(Map<String, dynamic> j)
       : id = j['id'] as String,
@@ -1108,7 +1111,21 @@ class HolidayInfo {
         lastPeriod = j['lastPeriod'] as int?,
         grades = (j['grades'] as List?)?.map((e) => e as int).toList(),
         timetableWeekday = j['timetableWeekday'] as int?,
-        lessonsMoved = j['lessonsMoved'] as int?;
+        lessonsMoved = j['lessonsMoved'] as int?,
+        lessonsDropped = j['lessonsDropped'] as int?;
+
+  /// What adding the day did to the lesson plans, as a sentence ('' when nothing).
+  String get planChange {
+    final moved = lessonsMoved ?? 0;
+    final dropped = lessonsDropped ?? 0;
+    return [
+      if (moved > 0) '$moved ${moved == 1 ? 'lesson' : 'lessons'} moved to fit it.',
+      if (dropped > 0)
+        '$dropped ${dropped == 1 ? 'lesson no longer fits' : 'lessons no longer fit'} before the year ends, '
+            'so ${dropped == 1 ? 'its topic has' : 'their topics have'} no day: add a period for the subject, '
+            'or remove a day off.',
+    ].join(' ');
+  }
 
   static const weekdayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 

@@ -7137,6 +7137,17 @@
             ],
             "title": "Lastperiod"
           },
+          "lessonsDropped": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lessonsdropped"
+          },
           "lessonsMoved": {
             "anyOf": [
               {
@@ -17539,6 +17550,11 @@
             "title": "Behind",
             "type": "integer"
           },
+          "cannotFinish": {
+            "default": 0,
+            "title": "Cannotfinish",
+            "type": "integer"
+          },
           "plannedToDate": {
             "title": "Plannedtodate",
             "type": "integer"
@@ -17668,6 +17684,11 @@
           },
           "totalLessons": {
             "title": "Totallessons",
+            "type": "integer"
+          },
+          "undatedSubtopics": {
+            "default": 0,
+            "title": "Undatedsubtopics",
             "type": "integer"
           },
           "variance": {

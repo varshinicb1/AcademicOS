@@ -272,3 +272,50 @@ def test_a_compensatory_day_must_be_an_off_day_with_a_timetable(w):
     assert span.status_code == 422
     assert _add(w, date="2026-06-14", label="Sunday class", kind="working_day", timetableWeekday=0).status_code == 200
     assert _add(w, date="2026-06-14", label="again", kind="working_day", timetableWeekday=1).status_code == 409
+
+
+YEAR_END_MONDAYS = ["2027-02-22", "2027-03-01", "2027-03-08", "2027-03-15", "2027-03-22", "2027-03-29"]
+
+
+def _plan_at_year_end(w) -> str:
+    """10-B's six Science lessons on the year's last six Mondays (the year ends 2027-03-31)."""
+    book = _science_book(w)
+    scheduling.schedule_book(w.store, school_id="school_1", academic_year_id=w.year, book_id=book,
+                             periods_per_week=1, from_date="2027-02-22", section_id=w.b10)
+    assert _dates(w, book, w.b10) == YEAR_END_MONDAYS
+    return book
+
+
+def test_a_half_day_that_pushes_a_lesson_past_the_year_end_says_so_and_gives_it_back(w):
+    """Lessons pushed past the year's last period were dropped without a word
+    (2e6326a audit) and stayed dayless when the day was removed."""
+    book = _plan_at_year_end(w)
+    r = _add(w, date="2027-03-01", label="Sports day", kind="half_day", lastPeriod=1)
+    assert r.status_code == 200, r.text
+    assert r.json()["lessonsDropped"] == 1
+    assert _dates(w, book, w.b10) == [d for d in YEAR_END_MONDAYS if d != "2027-03-01"]
+    gone = w.c.delete(f"{BASE}/academic-years/{w.year}/holidays/{r.json()['id']}", headers=w.p)
+    assert gone.status_code == 200, gone.text
+    assert gone.json()["lessonsDropped"] == 0
+    assert _dates(w, book, w.b10) == YEAR_END_MONDAYS, "the dropped lesson has its day back"
+
+
+def test_removing_a_holiday_lays_its_lessons_back_and_restores_the_dropped(w):
+    book = _plan_at_year_end(w)
+    r = _add(w, date="2027-03-01", label="Holi", kind="public")
+    assert r.status_code == 200, r.text
+    assert r.json()["lessonsDropped"] == 1
+    assert len(_dates(w, book, w.b10)) == 5
+    gone = w.c.delete(f"{BASE}/academic-years/{w.year}/holidays/{r.json()['id']}", headers=w.p)
+    assert gone.status_code == 200, gone.text
+    assert _dates(w, book, w.b10) == YEAR_END_MONDAYS
+
+
+def test_a_one_day_holiday_moves_a_weekly_plan_one_week(w):
+    """The push gave up the next teaching day as well as the holiday, which the
+    calendar had already taken off: a Monday holiday moved a weekly plan two
+    weeks on (found 2026-10-04)."""
+    book = _plan(w, w.b10)
+    r = _add(w, date="2026-06-08", label="Holi", kind="public")
+    assert r.status_code == 200, r.text
+    assert _dates(w, book, w.b10) == [MON] + MONDAYS[2:] + ["2026-07-13"]

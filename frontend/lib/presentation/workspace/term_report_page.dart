@@ -179,6 +179,10 @@ class _TermReportPageState extends State<TermReportPage> {
     final homework = d['homework'] as Map;
     final cover = d['cover'] as Map;
     final behind = (syllabus['rows'] as List).cast<Map>().where((r) => r['behind'] == true).toList();
+    // D35: a plan on too few periods leaves subtopics with no day; it is not
+    // behind yet, but it cannot finish.
+    final cannotFinish = (syllabus['rows'] as List).cast<Map>()
+        .where((r) => ((r['undatedSubtopics'] as num?) ?? 0) > 0).toList();
     final gaps = (d['bank'] as List).cast<Map>()
         .where((b) => b['questions'] == 0 || (b['chaptersWithoutQuestions'] as List).isNotEmpty).toList();
     Widget stat(String label, Object value) => SizedBox(
@@ -208,6 +212,7 @@ class _TermReportPageState extends State<TermReportPage> {
       Wrap(spacing: 8, runSpacing: 8, children: [
         stat(tr('Lessons taught / planned'), '${syllabus['taughtToDate']} / ${syllabus['plannedToDate']}'),
         stat(tr('Classes behind plan'), syllabus['behind']),
+        if (cannotFinish.isNotEmpty) stat(tr('Cannot finish this year'), cannotFinish.length),
         stat(tr('Papers set'), exams['papersSet']),
         stat(tr('Minutes saved (estimated)'), time['minutesTotal']),
         stat(tr('Homework handed in'), '${homework['handedIn']} / ${homework['expected']}'),
@@ -219,6 +224,20 @@ class _TermReportPageState extends State<TermReportPage> {
       for (final r in behind)
         ListTile(dense: true, title: Text('${r['sectionName'] ?? '${tr('Class')} ${r['grade']}'} · ${r['subject']}'),
             subtitle: Text('${r['taughtToDate']} ${tr('of')} ${r['plannedToDate']} ${tr('lessons')} · ${r['variance']}')),
+      if (cannotFinish.isNotEmpty) ...[
+        SectionHeader(
+            key: const Key('term-report-cannot-finish'),
+            title: tr('Plans that cannot finish'),
+            subtitle: tr('Subtopics with no day in this year\'s plan: the timetable gives too few periods')),
+        for (final r in cannotFinish)
+          ListTile(
+            dense: true,
+            leading: Icon(Icons.event_busy_outlined, color: theme.colorScheme.error),
+            title: Text('${r['sectionName'] ?? '${tr('Class')} ${r['grade']}'} · ${r['subject']}'),
+            subtitle: Text('${r['undatedSubtopics']} ${tr('subtopics have no day')}. '
+                '${tr('Add periods for the subject in the timetable, or trim the plan.')}'),
+          ),
+      ],
       SectionHeader(title: tr('Exams'), subtitle: tr('Scheduled this term, and classes with no paper yet')),
       for (final e in (exams['scheduled'] as List).cast<Map>())
         ListTile(dense: true, title: Text(e['name']), subtitle: Text('${e['startDate']} – ${e['endDate']} · ${e['status']}')),
