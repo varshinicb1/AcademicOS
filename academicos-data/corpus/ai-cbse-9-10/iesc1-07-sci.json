@@ -1,0 +1,595 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:07:B:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/work-energy-and-simple-machines"
+      ],
+      "taxonomyChapterId": "science-9/work-energy-and-simple-machines",
+      "topic": "Work Done by a Constant Force",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A shopkeeper lifts a single 5 kg bag of wheat to a height of 3 m. How does the work he does compare with the work needed to lift the same bag by 1 m?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States that the work done is 3 times more",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Makes the comparison with the work required to lift the same bag by 1 m",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "3 times more work",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "You would have carried out 3 times more work as compared",
+            "to the work required to lift the same bag by 1 m. Or if the same machine"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch7",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          117,
+          119,
+          121,
+          123,
+          125,
+          127,
+          129,
+          131,
+          133,
+          135,
+          137,
+          139
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:07:B:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/work-energy-and-simple-machines"
+      ],
+      "taxonomyChapterId": "science-9/work-energy-and-simple-machines",
+      "topic": "Work Done by a Constant Force",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A motor is used to lift bags of grain onto a shelf. How much fuel does it need to lift 3 bags to the same height, compared with the fuel it needs to lift 1 bag?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States that 3 times more fuel is required",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Answers for the case of 3 bags lifted to the same height",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "3 times more fuel",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "If the bag is lifted",
+            "to the same height by a machine using some fuel, it will require 3 times",
+            "more fuel to lift 3 bags."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch7",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          117,
+          119,
+          121,
+          123,
+          125,
+          127,
+          129,
+          131,
+          133,
+          135,
+          137,
+          139
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:07:B:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/work-energy-and-simple-machines"
+      ],
+      "taxonomyChapterId": "science-9/work-energy-and-simple-machines",
+      "topic": "Work Done by a Constant Force",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A boy pushes a crate across the floor and the crate moves in the direction of his push. In this case, is the work done equal to the force applied multiplied by the displacement? Give a reason.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States that the relation can be used when the force and displacement are both horizontal",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Adds that it holds for any other direction as well",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Yes, it can be used in a horizontal direction, or any other direction",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "however, Eq. (7.1) can be used even if the force and",
+            "displacement, both are in a horizontal direction, or",
+            "any other direction for that matter."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch7",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          117,
+          119,
+          121,
+          123,
+          125,
+          127,
+          129,
+          131,
+          133,
+          135,
+          137,
+          139
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:07:B:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/work-energy-and-simple-machines"
+      ],
+      "taxonomyChapterId": "science-9/work-energy-and-simple-machines",
+      "topic": "The Work-Energy Theorem",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A gardener raises a flowerpot to a height and leaves it near the edge of a shelf. The pot falls and damages the object below it. From where did the pot gain the capacity to do this work?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States that the pot gained energy from the work done in raising it",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Mentions the work done in raising the pot to a height",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "From the work done in raising it to a height",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "So, in each case, the ball or the pot has acquired",
+            "gained energy from the work done in raising it to a height."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch7",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          117,
+          119,
+          121,
+          123,
+          125,
+          127,
+          129,
+          131,
+          133,
+          135,
+          137,
+          139
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:07:E:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/work-energy-and-simple-machines"
+      ],
+      "taxonomyChapterId": "science-9/work-energy-and-simple-machines",
+      "topic": "Work Done by a Constant Force",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "At a warehouse, a worker lifts bags of grain onto a high shelf. He first lifts three bags one after the other to the same height, and later hoists all three together to the same height. The second way needs a force three times larger than lifting a single bag, yet the work done is three times the work of lifting one bag. A motor is also used to raise the bags, and it burns three times more fuel when it lifts three bags than when it lifts one. The worker calculates his work by multiplying the force he applies by the distance the load moves in the direction of that force, and records it in joules.\n\nAnswer these questions:\n1. How does the work done when the worker lifts three bags one after the other compare with the work done for one bag?\n2. Which two quantities does the worker multiply to find the work done, and in which unit does he record it?\n3. The worker can raise one bag to a height of 3 m in a single lift, or use the motor three times in succession to raise the bag by 1 m each time. Compare the work done and the fuel used in the two ways.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) Three times the work done in lifting one bag. (2) Force applied and displacement in the direction of the force; the unit is the joule (J). (3) Both ways need 3 times the work of raising the bag by 1 m, and the motor used three times in succession burns 3 times more fuel.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "If you lift 3 such bags one after the other to the same height (Fig. 7.2b),",
+            "you would have done 3 times more work than to lift 1 bag. If the bag is lifted",
+            "used three times in succession to lift the bag by 1 m each time, it would"
+          ],
+          "objective": false,
+          "passage": "At a warehouse, a worker lifts bags of grain onto a high shelf. He first lifts three bags one after the other to the same height, and later hoists all three together to the same height. The second way needs a force three times larger than lifting a single bag, yet the work done is three times the work of lifting one bag. A motor is also used to raise the bags, and it burns three times more fuel when it lifts three bags than when it lifts one. The worker calculates his work by multiplying the force he applies by the distance the load moves in the direction of that force, and records it in joules."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch7",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          117,
+          119,
+          121,
+          123,
+          125,
+          127,
+          129,
+          131,
+          133,
+          135,
+          137,
+          139
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:07:E:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/work-energy-and-simple-machines"
+      ],
+      "taxonomyChapterId": "science-9/work-energy-and-simple-machines",
+      "topic": "Work Done by a Constant Force",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Ravi pushes a heavy crate along a flat floor and the crate slides in the direction of his push. He finds the work done by multiplying the size of his push by the distance the crate travels. He wonders whether the same rule holds when the crate is moved sideways instead of being lifted. Ravi measures his push in newtons and the distance in metres, and remembers that one joule of work is done when a constant force of one newton is applied to an object and it is displaced by one metre in the direction of that force.\n\nAnswer these questions:\n1. How does Ravi find the work done on the crate?\n2. What must a constant force of 1 newton do to an object for 1 joule of work to be done?\n3. Ravi's friend says the rule Ravi uses works only when the crate is lifted upwards. Is the friend right? Give a reason.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) Work done = force applied × displacement in the direction of the force. (2) It must displace the object by 1 metre in the direction of the force. (3) The friend is wrong; the same rule can be used when the force and displacement are both horizontal, or in any other direction.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The work done by a constant force acting on an object in",
+            "displacement, both are in a horizontal direction, or",
+            "That is, 1 joule of work is done on an object when a constant force"
+          ],
+          "objective": false,
+          "passage": "Ravi pushes a heavy crate along a flat floor and the crate slides in the direction of his push. He finds the work done by multiplying the size of his push by the distance the crate travels. He wonders whether the same rule holds when the crate is moved sideways instead of being lifted. Ravi measures his push in newtons and the distance in metres, and remembers that one joule of work is done when a constant force of one newton is applied to an object and it is displaced by one metre in the direction of that force."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch7",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          117,
+          119,
+          121,
+          123,
+          125,
+          127,
+          129,
+          131,
+          133,
+          135,
+          137,
+          139
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:07:E:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/work-energy-and-simple-machines"
+      ],
+      "taxonomyChapterId": "science-9/work-energy-and-simple-machines",
+      "topic": "Work Done by a Constant Force",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Sita watches her father, a mason, at work. He lifts three cement bags one by one to a ledge, and then decides to hoist all three together with a rope. Sita asks him why the effort changes. Her father tells her that holding all three bags needs a force three times the force for one bag, and that over the same distance this lets him do three times the work. He adds that if he instead raised a single bag to a greater height, keeping the force the same, the work would again grow in proportion to the distance covered.\n\nAnswer these questions:\n1. What force must Sita's father apply to hoist all three bags together?\n2. Name the two quantities whose product gives the work done by a constant force.\n3. The father raises a single bag to a greater height without changing the force. How does the work done change, and why?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) A force 3 times larger than that required for a single bag. (2) The force applied and the displacement in the direction of the force. (3) The work done increases, because applying the same force over a larger distance allows proportionally more work.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Now, suppose you lift all the 3 bags together to the same height",
+            "You would need to apply a force 3 times larger than that",
+            "require 3 times more fuel. Thus, applying the same force over a larger"
+          ],
+          "objective": false,
+          "passage": "Sita watches her father, a mason, at work. He lifts three cement bags one by one to a ledge, and then decides to hoist all three together with a rope. Sita asks him why the effort changes. Her father tells her that holding all three bags needs a force three times the force for one bag, and that over the same distance this lets him do three times the work. He adds that if he instead raised a single bag to a greater height, keeping the force the same, the work would again grow in proportion to the distance covered."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch7",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          117,
+          119,
+          121,
+          123,
+          125,
+          127,
+          129,
+          131,
+          133,
+          135,
+          137,
+          139
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "E",
+      "qtype": "case_study",
+      "topic": "The Work-Energy Theorem",
+      "reason": "evidence-not-in-text",
+      "stem": "Answer these questions:\n1. Why does the moving ball have the capacity to knock the stumps over?\n2. Meera's brother says "
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      7
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

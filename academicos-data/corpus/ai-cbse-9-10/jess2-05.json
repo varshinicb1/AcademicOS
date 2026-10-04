@@ -1,0 +1,1040 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess2:05:A:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/consumer-rights"
+      ],
+      "taxonomyChapterId": "social-science-10/consumer-rights",
+      "topic": "The Consumer in the Marketplace",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A shopkeeper in the neighbourhood asks a customer more than the price printed on the packet. The customer wants to know what she is entitled to do. (A) Bargain with the manufacturer of the packet instead of with the seller (B) Accept the seller's price, since only the seller can fix a price (C) Bargain with the seller to sell the packet at less than the printed price (D) Complain that the packet has no expiry date printed on it",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Bargain with the seller to sell the packet at less than the printed price",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "one can protest and\ncomplain if someone sells a good at\nmore than the printed price on the\npacket.",
+            "consumers can bargain with the seller\nto sell at less than the MRP."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Bargain with the manufacturer of the packet instead of with the seller",
+            "B": "Accept the seller's price, since only the seller can fix a price",
+            "C": "Bargain with the seller to sell the packet at less than the printed price",
+            "D": "Complain that the packet has no expiry date printed on it"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess2 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:05:B:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/consumer-rights"
+      ],
+      "taxonomyChapterId": "social-science-10/consumer-rights",
+      "topic": "The Consumer in the Marketplace",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "An engineering graduate attends an interview for a job in a government department and then hears nothing about the result; the officials also refuse to answer her queries. Name the law she uses to find out, and say when the Government of India enacted it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The RTI (Right to Information) Act",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "October 2005",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The RTI (Right to Information) Act; October 2005.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In October 2005, the\nGovernment of India enacted a law,",
+            "popularly known as RTI (Right to\nInformation) Act, which ensures its\ncitizens all the information about the\nfunctions of government departments."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess2 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:05:B:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/consumer-rights"
+      ],
+      "taxonomyChapterId": "social-science-10/consumer-rights",
+      "topic": "The Consumer in the Marketplace",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A student joins a two-year professional course in New Delhi and pays the whole fee as a lump sum. She leaves after one year, and the District Consumer Disputes Redressal Commission directs the institute to refund her. How much had she paid as the lump sum, and how much was she directed to be refunded?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Rs 61,020",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Rs 28,000",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Rs 61,020 paid; Rs 28,000 refunded.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "she paid the fees Rs 61,020\nas lumpsum for the entire\ncourse of two years.",
+            "the Institute to refund Rs 28,000 saying"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess2 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:05:C:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/consumer-rights"
+      ],
+      "taxonomyChapterId": "social-science-10/consumer-rights",
+      "topic": "The Consumer in the Marketplace",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "An engineering graduate attends an interview for a job in a government department. Months pass, she gets no news of the result, and the officials refuse to answer her queries. Explain how she uses the RTI Act, and what she finally receives.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She filed an application using the RTI Act",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She said it was her right to know the result in a reasonable time so that she could plan her future",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She was informed about the reasons for delay and got her call letter for appointment",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She filed an application using the RTI Act, saying that it was her right to know the result in a reasonable time so that she could plan her future. She was informed about the reasons for delay in the declaration of results, and also got her call letter for appointment, as she performed well in the interview.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The officials also refused to comply\nwith her queries. She therefore filed\nan application using the RTI Act\nsaying that it was her right to know\nthe result in a reasonable time so\nthat she could plan her future.",
+            "was not only informed about the\nreasons for delay in the declaration\nof results but also got her call letter\nfor appointment as she performed\nwell in the interview."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess2 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:05:C:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/consumer-rights"
+      ],
+      "taxonomyChapterId": "social-science-10/consumer-rights",
+      "topic": "The Consumer in the Marketplace",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Sita buys a packet from a shop. The packet carries an expiry date and a printed price. Explain what she can do if the contents turn out to be defective, and what she can do if the shopkeeper asks more than the printed price.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "A product defective well within the expiry period can be replaced on request",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Selling above the printed price on the packet can be protested and complained about",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A consumer can bargain with the seller to sell at less than the MRP",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "If the product is defective and still well within the expiry period, Sita can ask for a replacement. If the shopkeeper sells the good above the printed price on the packet — the MRP, or maximum retail price — she can protest and complain. A consumer can also bargain with the seller to sell at less than the MRP.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "product and find it defective well\nwithin the expiry period, we can ask\nfor a replacement.",
+            "one can protest and\ncomplain if someone sells a good at\nmore than the printed price on the\npacket. This is indicated by ‘MRP’ —\nmaximum retail price. In fact\nconsumers can bargain with the seller\nto sell at less than the MRP."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess2 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:05:C:3",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/consumer-rights"
+      ],
+      "taxonomyChapterId": "social-science-10/consumer-rights",
+      "topic": "The Consumer in the Marketplace",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Abirami pays the entire fee for a two-year professional course in New Delhi as a lump sum. After one year she opts out, and the institute refuses to refund that year's fee. Explain what the commission that heard her case directed the institute to do, and give the reason it gave.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "It directed the institute to refund Rs 28,000 to her",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The reason it gave was that she had the right to choose",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She had paid the fees Rs 61,020 as a lump sum for the entire course of two years",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The Commission directed the institute to refund Rs 28,000 to Abirami. The reason it gave was that she had the right to choose. She had paid the fees Rs 61,020 as a lump sum for the entire course of two years.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "time of joining the course,\nshe paid the fees Rs 61,020\nas lumpsum for the entire\ncourse of two years.",
+            "the Institute to refund Rs 28,000 saying",
+            "that she had the right to choose. The"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess2 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:05:D:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/consumer-rights"
+      ],
+      "taxonomyChapterId": "social-science-10/consumer-rights",
+      "topic": "The Consumer in the Marketplace",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A shop in your locality sells packaged goods and medicines. Show, step by step, what happens when a customer finds a product defective well within its expiry period, when the expiry period is not printed on the pack at all, when the shop is selling medicines that have already expired, and when a good is sold for more than the price printed on the packet.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "A product defective well within the expiry period can be taken back and a replacement asked for",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "If the expiry period was not printed the manufacturer blames the shopkeeper and will not accept the responsibility",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Severe action can be taken against anyone selling medicines that have expired",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A consumer can protest and complain if a good is sold above the price printed on the packet",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The printed price is the MRP and a consumer can bargain with the seller to sell at less than it",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: A product defective well within the expiry period can be taken back and a replacement asked for. Step 2: If the expiry period was not printed, the manufacturer blames the shopkeeper and will not accept the responsibility. Step 3: Severe action can be taken against anyone selling medicines that have expired. Step 4: A consumer can protest and complain if a good is sold above the price printed on the packet. Step 5: That price is the MRP, and a consumer can bargain to be sold at less than it.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "product and find it defective well\nwithin the expiry period, we can ask\nfor a replacement. If the expiry period\nwas not printed, the manufacturer\nwould blame the shopkeeper and will\nnot accept the responsibility.",
+            "sell medicines that have expired\nsevere action can be taken against\nthem.",
+            "one can protest and\ncomplain if someone sells a good at\nmore than the printed price on the\npacket. This is indicated by ‘MRP’ —\nmaximum retail price. In fact\nconsumers can bargain with the seller\nto sell at less than the MRP."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess2 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:05:D:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/consumer-rights"
+      ],
+      "taxonomyChapterId": "social-science-10/consumer-rights",
+      "topic": "The Consumer in the Marketplace",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Abirami, a student of Ansari Nagar, joined a two-year course at a local coaching institute for professional courses in New Delhi. Show, step by step, what she paid and on what terms, when she decided to leave, and what the commission that heard her case directed the institute to do.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "She joined a two-year course at a local coaching institute for professional courses in New Delhi",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "At the time of joining the course she paid the fees Rs 61,020 as a lump sum for the entire course of two years",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She decided to opt out of the course at the end of one year",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The Commission directed the Institute to refund Rs 28,000",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It said this because she had the right to choose",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Abirami joined a two-year course at a local coaching institute for professional courses in New Delhi. Step 2: At the time of joining the course, she paid the fees Rs 61,020 as a lump sum for the entire course of two years. Step 3: She decided to opt out of the course at the end of one year. Step 4: The Commission directed the Institute to refund Rs 28,000. Step 5: It said this because she had the right to choose.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Abirami, a student of Ansari\nNagar, joined a two-year\ncourse at a local coaching\ninstitute for professional\ncourses in New Delhi. At the\ntime of joining the course,\nshe paid the fees Rs 61,020\nas lumpsum for the entire\ncourse of two years.\nHowever, she decided to opt\nout of the course at the end of one year",
+            "the Institute to refund Rs 28,000 saying",
+            "that she had the right to choose. The"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess2 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:05:D:3",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/consumer-rights"
+      ],
+      "taxonomyChapterId": "social-science-10/consumer-rights",
+      "topic": "The Consumer in the Marketplace",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "An engineering graduate attends an interview for a job in a government department and then gets no news of the result; the officials also refuse to answer her queries. Show, step by step, what she does about it, what she says is her right, and what she finally receives.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "She submitted all the certificates and attended the interview for a job in a government department",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She did not receive any news of the result and the officials refused to comply with her queries",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She filed an application using the RTI Act",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She said it was her right to know the result in a reasonable time so that she could plan her future",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She was informed about the reasons for delay and got her call letter for appointment",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Amritha submitted all the certificates and attended the interview for a job in a government department. Step 2: She did not receive any news of the result, and the officials refused to comply with her queries. Step 3: She filed an application using the RTI Act. Step 4: She said it was her right to know the result in a reasonable time so that she could plan her future. Step 5: She was informed about the reasons for delay in the declaration of results, and also got her call letter for appointment.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Amritha, an engineering graduate\nafter submitting all the certificates\nand attending the interview for a\njob in a government department, did\nnot receive any news of the result.",
+            "The officials also refused to comply\nwith her queries. She therefore filed\nan application using the RTI Act\nsaying that it was her right to know\nthe result in a reasonable time so\nthat she could plan her future.",
+            "was not only informed about the\nreasons for delay in the declaration\nof results but also got her call letter\nfor appointment as she performed\nwell in the interview."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess2 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:05:E:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/consumer-rights"
+      ],
+      "taxonomyChapterId": "social-science-10/consumer-rights",
+      "topic": "The Consumer in the Marketplace",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Ramesh buys a packet of biscuits from a shop near his colony. The packet carries a printed price and an expiry date, and the biscuits turn out to be broken. He also notices that the shopkeeper is asking customers more than the price printed on the packet. Across the road, another shop sells medicines, and Ramesh sees sealed packets whose expiry dates have already passed. The shopkeeper tells him there is nothing wrong with them, since they are still sealed.\n\n(a) Ramesh's biscuits are broken, but the expiry date on the packet has not passed. What can he ask the shop for? (b) The shopkeeper is asking more than the price printed on the packet. What can Ramesh do about that, and what is the printed price called? (c) Ramesh sees sealed medicine packets in the other shop whose expiry dates have already passed. Analyse how far a consumer's protection depends on what is actually printed on the packet.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) He can ask for a replacement, since the goods are defective well within the expiry period. (b) He can protest and complain, as the packet carries the MRP, the maximum retail price. (c) Where the expiry period is not printed the manufacturer blames the shopkeeper and refuses responsibility, while selling expired medicines invites severe action.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "product and find it defective well\nwithin the expiry period, we can ask\nfor a replacement.",
+            "complain if someone sells a good at\nmore than the printed price on the\npacket.",
+            "was not printed, the manufacturer\nwould blame the shopkeeper and will\nnot accept the responsibility."
+          ],
+          "objective": false,
+          "passage": "Ramesh buys a packet of biscuits from a shop near his colony. The packet carries a printed price and an expiry date, and the biscuits turn out to be broken. He also notices that the shopkeeper is asking customers more than the price printed on the packet. Across the road, another shop sells medicines, and Ramesh sees sealed packets whose expiry dates have already passed. The shopkeeper tells him there is nothing wrong with them, since they are still sealed."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess2 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:05:E:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/consumer-rights"
+      ],
+      "taxonomyChapterId": "social-science-10/consumer-rights",
+      "topic": "The Consumer in the Marketplace",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Amritha is an engineering graduate. She submits all her certificates and attends an interview for a job in a government department. Weeks pass and she receives no news of the result. When she goes back to ask, the officials refuse to comply with her queries. She decides that she has a right to know, and to plan her future, and she uses the law that the Government of India enacted in October 2005 to get all the information about the functions of government departments.\n\n(a) Why does Amritha go back to the government department, and how do the officials respond to her? (b) Name the law she uses, say when the Government of India enacted it, and say what it ensures citizens about the functions of government departments. (c) Analyse how her position changes once she uses that law, given that she also receives a call letter for appointment.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) She has had no news of the result of her interview; the officials refuse to comply with her queries. (b) The RTI (Right to Information) Act, enacted in October 2005, which ensures citizens all the information about the functions of government departments. (c) She learns the reasons for the delay and gets her call letter, so she can plan her future.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Amritha, an engineering graduate\nafter submitting all the certificates\nand attending the interview for a\njob in a government department, did\nnot receive any news of the result.",
+            "Government. In October 2005, the\nGovernment of India enacted a law,\npopularly known as RTI (Right to\nInformation) Act, which ensures its\ncitizens all the information about the\nfunctions of government departments.",
+            "She\nwas not only informed about the\nreasons for delay in the declaration\nof results but also got her call letter\nfor appointment as she performed\nwell in the interview."
+          ],
+          "objective": false,
+          "passage": "Amritha is an engineering graduate. She submits all her certificates and attends an interview for a job in a government department. Weeks pass and she receives no news of the result. When she goes back to ask, the officials refuse to comply with her queries. She decides that she has a right to know, and to plan her future, and she uses the law that the Government of India enacted in October 2005 to get all the information about the functions of government departments."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess2 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:05:E:3",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/consumer-rights"
+      ],
+      "taxonomyChapterId": "social-science-10/consumer-rights",
+      "topic": "The Consumer in the Marketplace",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Abirami is a student of Ansari Nagar. She joins a two-year course at a local coaching institute for professional courses in New Delhi, and at the time of joining pays the fees Rs 61,020 as a lump sum for the entire course of two years. After one year she decides to opt out, as she finds the quality of teaching is not up to the mark, and asks for a refund of the fee for one year. The institute denies it. She takes the matter to the District Consumer Disputes Redressal Commission.\n\n(a) How did Abirami pay for the course, and why did she decide to opt out after one year? (b) What did the Commission direct the institute to do, how much was it, and what reason did the commission give? (c) Analyse what that decision shows about a student's freedom to choose when an institute has already taken the whole fee for the course in advance.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) She paid Rs 61,020 as a lump sum for the entire two-year course, and left because the quality of teaching was not up to the mark. (b) It directed a refund of Rs 28,000, saying that she had the right to choose. (c) The institute cannot keep the whole fee once a student stops attending, so a student keeps the right to leave.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Abirami, a student of Ansari\nNagar, joined a two-year\ncourse at a local coaching\ninstitute for professional\ncourses in New Delhi. At the\ntime of joining the course,\nshe paid the fees Rs 61,020\nas lumpsum for the entire\ncourse of two years.",
+            "the Institute to refund Rs 28,000 saying",
+            "that she had the right to choose. The"
+          ],
+          "objective": false,
+          "passage": "Abirami is a student of Ansari Nagar. She joins a two-year course at a local coaching institute for professional courses in New Delhi, and at the time of joining pays the fees Rs 61,020 as a lump sum for the entire course of two years. After one year she decides to opt out, as she finds the quality of teaching is not up to the mark, and asks for a refund of the fee for one year. The institute denies it. She takes the matter to the District Consumer Disputes Redressal Commission."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess2 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess2",
+    "chapters": [
+      5
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

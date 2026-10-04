@@ -1,0 +1,419 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess1:05:A:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/minerals-and-energy-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/minerals-and-energy-resources",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A geology student in Rajasthan is sent to survey that state's major mica-producing area for a field report. Which area should the student report? (A) The Koderma Gaya – Hazaribagh belt (B) The northern edge of the Chota Nagpur plateau (C) The Nellore mica belt (D) The area around Ajmer",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The area around Ajmer",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In Rajasthan, the major mica producing",
+            "area is around Ajmer.",
+            "Mica deposits are found in the northern\nedge of the Chota Nagpur plateau."
+          ],
+          "objective": true,
+          "options": {
+            "A": "The Koderma Gaya – Hazaribagh belt",
+            "B": "The northern edge of the Chota Nagpur plateau",
+            "C": "The Nellore mica belt",
+            "D": "The area around Ajmer"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess1 ch5",
+        "pages": [
+          1,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:05:B:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/minerals-and-energy-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/minerals-and-energy-resources",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A scrap dealer and a factory owner are planning how to save the country's mineral wealth for the future. Name any two of the steps that will help them do so.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names recycling of metals",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names using scrap metals and other substitutes",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Recycling of metals; using scrap metals and other substitutes.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Recycling of metals, using scrap metals and\nother substitutes are steps in conserving our\nmineral resources for the future."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess1 ch5",
+        "pages": [
+          1,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:05:C:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/minerals-and-energy-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/minerals-and-energy-resources",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A mining company plans to start a coalmine close to a village and a stream. (a) Name the health risks that workers in such a mine face. (b) State what mining does to the water sources of the area and to its land and soil.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Names dust and noxious fumes as making miners vulnerable to pulmonary diseases",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names collapsing mine roofs, inundation and fires in coalmines as constant threats to miners",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the water sources of the region get contaminated and that dumping of waste and slurry degrades land and soil and increases stream and river pollution",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Dust and noxious fumes make miners vulnerable to pulmonary diseases; collapsing mine roofs, inundation and fires in coalmines are a constant threat. (b) The region's water sources get contaminated, and dumping of waste and slurry degrades land and soil and increases stream and river pollution.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The dust and noxious fumes inhaled by\nminers make them vulnerable to pulmonary\ndiseases.",
+            "The risk of collapsing mine roofs,\ninundation and fires in coalmines are a\nconstant threat to miners.",
+            "The water sources in the region get\ncontaminated due to mining. Dumping of waste\nand slurry leads to degradation of land, soil,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess1 ch5",
+        "pages": [
+          1,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:05:D:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/minerals-and-energy-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/minerals-and-energy-resources",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "The mineral resources department of a state has to explain to the public why its mineral deposits cannot last for ever, and what the state should do about it. (i) Give the reason why mineral deposits are not replaced as fast as they are used up. (ii) State what happens to the cost of extraction and to the quality of the ore as extraction continues. (iii) Suggest the steps the state should take to make its use of minerals planned and sustainable.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Explains that the geological processes of mineral formation are so slow that minerals required millions of years to be created and concentrated",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the rates of replenishment are infinitely small compared with the present rates of consumption",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that costs increase as mineral extraction comes from greater depths",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the quality of the ore decreases as extraction continues",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Suggests planned and sustainable use, improved technologies to allow the use of low grade ores at low costs, and recycling of metals with scrap metals and other substitutes",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) The geological processes of mineral formation are so slow, and minerals required millions of years to be created and concentrated, that the rates of replenishment are infinitely small compared with the present rates of consumption. (ii) Costs increase as mineral extraction comes from greater depths, and quality decreases. (iii) Use mineral resources in a planned and sustainable manner; evolve improved technologies to allow the use of low grade ores at low costs; recycle metals and use scrap metals and other substitutes.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "required millions of years to be created and\nconcentrated. The geological processes of\nmineral formation are so slow that the rates\nof replenishment are infinitely small in",
+            "Continued extraction of ores leads to\nincreasing costs as mineral extraction comes\nfrom greater depths along with decrease\nin quality.",
+            "A concerted effort has to be made in order\nto use our mineral resources in a planned\nand sustainable manner. Improved\ntechnologies need to be constantly evolved to\nallow use of low grade ores at low costs.\nRecycling of metals, using scrap metals and\nother substitutes are steps in conserving our\nmineral resources for the future."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess1 ch5",
+        "pages": [
+          1,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:05:E:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/minerals-and-energy-resources"
+      ],
+      "taxonomyChapterId": "social-science-10/minerals-and-energy-resources",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Ramesh's family has worked for years in the Koderma Gaya – Hazaribagh belt of Jharkhand, lying on the northern edge of the Chota Nagpur plateau, where mica occurs as plates or leaves that split easily into sheets so thin that a thousand of them are layered into a sheet a few centimeters high. This mica is used in electric and electronic industries. Lately Ramesh has noticed that the miners fall ill with chest trouble, the wells near the mine no longer give clean water, and the fields around the village have turned hard and barren. He has also heard that the ore is now being taken from greater depths.\n\n(a) Name the disease the miners around Ramesh's mine are vulnerable to, and the three risks that are a constant threat to workers in coalmines. (b) Ramesh finds the wells polluted and the fields hard and barren. Explain how mining is responsible for this, and name the two kinds of official safeguards that would help keep the damage under control.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The dust and noxious fumes make miners vulnerable to pulmonary diseases; collapsing mine roofs, inundation and fires in coalmines are a constant threat. (b) Mining contaminates the region's water sources and, through dumping of waste and slurry, degrades land and soil and increases stream and river pollution. Stricter safety regulations and implementation of environmental laws check this damage.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The dust and noxious fumes inhaled by\nminers make them vulnerable to pulmonary\ndiseases.",
+            "The risk of collapsing mine roofs,\ninundation and fires in coalmines are a\nconstant threat to miners.",
+            "implementation of environmental laws are\nessential to prevent mining from becoming a"
+          ],
+          "objective": false,
+          "passage": "Ramesh's family has worked for years in the Koderma Gaya – Hazaribagh belt of Jharkhand, lying on the northern edge of the Chota Nagpur plateau, where mica occurs as plates or leaves that split easily into sheets so thin that a thousand of them are layered into a sheet a few centimeters high. This mica is used in electric and electronic industries. Lately Ramesh has noticed that the miners fall ill with chest trouble, the wells near the mine no longer give clean water, and the fields around the village have turned hard and barren. He has also heard that the ore is now being taken from greater depths."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess1 ch5",
+        "pages": [
+          1,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess1",
+    "chapters": [
+      5
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

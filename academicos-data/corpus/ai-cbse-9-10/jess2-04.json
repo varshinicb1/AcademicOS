@@ -1,0 +1,1159 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess2:04:A:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/globalisation-and-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/globalisation-and-the-indian-economy",
+      "topic": "Production Across Countries",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "An oil trader in Chennai buys his entire stock from the firm that has taken over the four oil refineries of Parakh Foods and now makes 5 million pouches of edible oil every day. (A) Parakh Foods (B) Mahindra and Mahindra (C) Cargill (D) Ford Motors",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Cargill",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "had four oil refineries, whose control\nhas now shifted to Cargill. Cargill is",
+            "now the largest producer of edible oil\nin India, with a capacity to make 5\nmillion pouches daily!"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Parakh Foods",
+            "B": "Mahindra and Mahindra",
+            "C": "Cargill",
+            "D": "Ford Motors"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess2 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:04:B:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/globalisation-and-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/globalisation-and-the-indian-economy",
+      "topic": "Production Across Countries",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A student is putting up a poster on Ford Motors and wants to write down how many countries its production is spread over and which country the company belongs to.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "26 countries",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "an American company",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "26 countries; an American company.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Ford Motors, an American",
+            "manufacturers with\nproduction spread over 26",
+            "countries of the world."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess2 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:04:B:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/globalisation-and-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/globalisation-and-the-indian-economy",
+      "topic": "Production Across Countries",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "Mahindra and Mahindra agrees to join an American car maker as a partner in a new factory near Chennai, and its board wants to know how much that company spent on the plant when it came to India in 1995.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Rs 1700 crore",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "a large plant near Chennai",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Rs 1700 crore, to set up a large plant near Chennai.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Ford Motors came to India",
+            "in 1995 and spent Rs.",
+            "1700 crore to set up a"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess2 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:04:C:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/globalisation-and-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/globalisation-and-the-indian-economy",
+      "topic": "Production Across Countries",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Women in Ludhiana stitch footballs at home for a buyer in another country, and the balls reach shops under a brand name the stitchers have never heard of. Set out, in order, the steps by which their work reaches the customer.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Large MNCs in developed countries place orders for production with small producers",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Production is carried out by many small producers across the world, in industries such as garments, footwear and sports items",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The products are supplied to the MNCs, which sell them under their own brand names to customers",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Large MNCs in developed countries place orders for production with small producers. Step 2: Production is carried out by many small producers across the world, in industries such as garments, footwear and sports items. Step 3: The products are supplied to the MNCs, which sell them under their own brand names to customers.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "MNCs in developed countries place\norders for production with small\nproducers. Garments, footwear,",
+            "The products are supplied to the\nMNCs, which then sell these under\ntheir own brand names to the\ncustomers."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess2 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:04:C:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/globalisation-and-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/globalisation-and-the-indian-economy",
+      "topic": "Production Across Countries",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "short_answer",
+      "stem": "Meera's mother in Ludhiana sews footballs that are sold in other countries, and the big company that buys them decides what she will be paid for her work. Name the things that company has tremendous power to decide for producers working at such a distance.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "the price",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "the quality",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "the delivery and the labour conditions",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The large MNC has tremendous power to determine the price, the quality, the delivery and the labour conditions for these distant producers.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "tremendous power to determine price,\nquality, delivery, and labour\nconditions for these distant\nproducers.",
+            "Women at home in Ludhiana making footballs for large MNCs"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess2 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:04:C:3",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/globalisation-and-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/globalisation-and-the-indian-economy",
+      "topic": "Production Across Countries",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Ford Motors wants to develop India as a base for manufacturing car components for its factories in many parts of the world. Give the three factors that make India a suitable base for this work.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Cost of labour and other resources in India",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Presence of several local manufacturers who supply auto-parts to Ford Motors",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Closeness to a large number of buyers in India and China",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The cost of labour and other resources in India. (b) The presence of several local manufacturers who supply auto-parts to Ford Motors. (c) The closeness to a large number of buyers in India and China.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "(a) cost of labour and other resources in India",
+            "(b) the presence of several local manufacturers who supply auto-\nparts to Ford Motors",
+            "(c) closeness to a large number of buyers in India and China"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess2 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:04:D:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/globalisation-and-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/globalisation-and-the-indian-economy",
+      "topic": "Production Across Countries",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Parakh Foods was a well-known brand whose marketing network reached many parts of India and which owned four oil refineries of its own. Show, step by step, what has since happened to those refineries, and what the firm now in control of them is able to produce.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Parakh Foods had built a large marketing network in various parts of India, where its brand was well-reputed",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Parakh Foods also had four oil refineries",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Control of these refineries has now shifted to Cargill",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Cargill is now the largest producer of edible oil in India",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Cargill has a capacity to make 5 million pouches daily",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Parakh Foods had built a large marketing network in various parts of India, where its brand was well-reputed. Step 2: Parakh Foods also had four oil refineries. Step 3: Control of these refineries has now shifted to Cargill. Step 4: Cargill is now the largest producer of edible oil in India. Step 5: Cargill has a capacity to make 5 million pouches daily.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Parakh Foods. Parakh Foods had\nbuilt a large marketing network in\nvarious parts of India, where its brand\nwas well-reputed.",
+            "had four oil refineries, whose control\nhas now shifted to Cargill. Cargill is",
+            "now the largest producer of edible oil\nin India, with a capacity to make 5\nmillion pouches daily!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess2 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:04:D:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/globalisation-and-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/globalisation-and-the-indian-economy",
+      "topic": "Production Across Countries",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Suppose you are asked to trace how an MNC spreads its production across countries without building every plant itself. Show, step by step, the ways in which it deals with local companies in those distant places, and say what this does to production in them.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "MNCs set up partnerships with local companies",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They use the local companies for supplies",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They compete closely with the local companies or buy them up",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "MNCs exert a strong influence on production at these distant locations",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "production in these widely dispersed locations is getting interlinked",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: MNCs set up partnerships with local companies. Step 2: They use the local companies for supplies. Step 3: They compete closely with the local companies or buy them up. Step 4: In this way MNCs exert a strong influence on production at these distant locations. Step 5: As a result, production in these widely dispersed locations is getting interlinked.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "setting up partnerships with local\ncompanies, by using the local\ncompanies for supplies, by closely",
+            "competing with the local companies\nor buying them up, MNCs are exerting\na strong influence on production",
+            "dispersed locations is getting\ninterlinked."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess2 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:04:D:3",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/globalisation-and-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/globalisation-and-the-indian-economy",
+      "topic": "Production Across Countries",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A pair of jeans made in a developing country reaches an American shopper with a price tag of Rs 6500 ($145) and a label the makers have never seen. Show, step by step, how the jeans travel from the workshop to that shopper, and say who holds the power to decide their price.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Production is carried out by a large number of small producers in the developing countries",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The jeans are supplied to the MNCs",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The MNCs sell them under their own brand names to customers",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "sold in the USA for Rs 6500 ($145)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "These large MNCs have tremendous power to determine the price",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Production is carried out by a large number of small producers in the developing countries. Step 2: The jeans are supplied to the MNCs. Step 3: The MNCs sell them under their own brand names to customers. Step 4: Jeans produced in the developing countries are sold in the USA for Rs 6500 ($145). Step 5: These large MNCs have tremendous power to determine the price.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Jeans produced in developing countries being\nsold in USA for Rs 6500 ($145)",
+            "The products are supplied to the\nMNCs, which then sell these under\ntheir own brand names to the\ncustomers.",
+            "tremendous power to determine price,\nquality, delivery, and labour\nconditions for these distant\nproducers."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess2 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:04:D:4",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/globalisation-and-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/globalisation-and-the-indian-economy",
+      "topic": "What Is Globalisation?",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "In the past two to three decades more and more MNCs have been hunting for locations around the world where production will be cheap, and foreign investment and foreign trade between countries have both been rising. Show, step by step, how this has tied countries together, and name the process that has resulted.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "More and more MNCs look for locations around the world which would be cheap for their production",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Foreign investment by MNCs in these countries is rising",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Foreign trade between countries is rising rapidly, and a large part of it is controlled by MNCs",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The result is greater integration of production and markets across countries",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "This process of rapid integration or interconnection between countries is globalisation, in which MNCs play a major role",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: More and more MNCs look for locations around the world which would be cheap for their production. Step 2: Foreign investment by MNCs in these countries is rising. Step 3: Foreign trade between countries is rising rapidly, and a large part of it is controlled by MNCs. Step 4: The result is greater integration of production and markets across countries. Step 5: This process of rapid integration or interconnection between countries is globalisation, in which MNCs play a major role.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In the past two to three decades, more\nand more MNCs have been looking for\nlocations around the world which\nwould be cheap for their production.",
+            "The result of greater foreign\ninvestment and greater foreign trade\nhas been greater integration of\nproduction and markets across\ncountries.",
+            "process of rapid integration or\ninterconnection between countries.\nMNCs are playing a major role in\nthe globalisation process."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess2 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:04:E:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/globalisation-and-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/globalisation-and-the-indian-economy",
+      "topic": "Production Across Countries",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Farida sews footballs in her room in Ludhiana every day. An MNC in a developed country places orders for production with small producers like her, and the footballs leave her hands without her ever knowing the label they will carry, because the MNC sells them under its own brand name. Farida has no say in what her work is worth: the MNC has tremendous power to determine price, quality, delivery and labour conditions for producers working at such a distance. Meanwhile, Cargill now controls the four oil refineries that once belonged to Parakh Foods, and makes 5 million pouches of edible oil every day.\n\n(a) Farida sews footballs in her room in Ludhiana for a big company in another country. Why does a company in a developed country place orders for production with producers like Farida, and what happens to the footballs after they leave her hands? (b) Name the four things that company has tremendous power to determine for producers working at such a distance. (c) Farida never meets the firm that buys her footballs, and the label on them is not hers. Analyse what her experience shows about who really decides the price, the quality and the labour conditions of goods made thousands of kilometres away from the market.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Large MNCs in developed countries place orders for production with small producers, and the products are supplied to them and sold under their own brand names. (b) Price, quality, delivery and labour conditions. (c) The MNCs decide, because they place the orders and sell the goods under their own brand names, and they have tremendous power over these distant producers.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "MNCs in developed countries place\norders for production with small\nproducers. Garments, footwear,",
+            "The products are supplied to the\nMNCs, which then sell these under\ntheir own brand names to the\ncustomers.",
+            "tremendous power to determine price,\nquality, delivery, and labour\nconditions for these distant\nproducers."
+          ],
+          "objective": false,
+          "passage": "Farida sews footballs in her room in Ludhiana every day. An MNC in a developed country places orders for production with small producers like her, and the footballs leave her hands without her ever knowing the label they will carry, because the MNC sells them under its own brand name. Farida has no say in what her work is worth: the MNC has tremendous power to determine price, quality, delivery and labour conditions for producers working at such a distance. Meanwhile, Cargill now controls the four oil refineries that once belonged to Parakh Foods, and makes 5 million pouches of edible oil every day."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess2 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:04:E:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/globalisation-and-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/globalisation-and-the-indian-economy",
+      "topic": "Production Across Countries",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Until recently the edible oil on Indian shop shelves came from Parakh Foods, a firm that had built a large marketing network in various parts of India, where its brand was well-reputed. Control of its four oil refineries has now shifted elsewhere. The firm that has taken over is today the largest producer of edible oil in India, with a capacity to make 5 million pouches daily. Firms of this kind are among the top MNCs, and many of the top MNCs have wealth exceeding the entire budgets of the developing country governments.\n\n(a) Name the firm whose four oil refineries have changed hands, and say which firm controls them now and what that firm produces. (b) How many oil refineries did the first firm own, and what kind of business had it built in the different parts of India? (c) Anil has heard that many of the top MNCs have wealth exceeding the entire budgets of the developing country governments. Analyse what power and influence wealth of that kind lets them exercise over production in countries far from their own.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Parakh Foods; control has shifted to Cargill, now the largest producer of edible oil in India, making 5 million pouches daily. (b) Four oil refineries and a large marketing network in various parts of India. (c) Such wealth brings power and influence: they use local companies for supplies, compete closely with them or buy them up, and so influence production far away.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "had four oil refineries, whose control\nhas now shifted to Cargill. Cargill is",
+            "now the largest producer of edible oil\nin India, with a capacity to make 5\nmillion pouches daily!",
+            "competing with the local companies\nor buying them up, MNCs are exerting\na strong influence on production"
+          ],
+          "objective": false,
+          "passage": "Until recently the edible oil on Indian shop shelves came from Parakh Foods, a firm that had built a large marketing network in various parts of India, where its brand was well-reputed. Control of its four oil refineries has now shifted elsewhere. The firm that has taken over is today the largest producer of edible oil in India, with a capacity to make 5 million pouches daily. Firms of this kind are among the top MNCs, and many of the top MNCs have wealth exceeding the entire budgets of the developing country governments."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess2 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:04:E:3",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/globalisation-and-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/globalisation-and-the-indian-economy",
+      "topic": "Production Across Countries",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Mohan is an engineer working near Chennai. His American firm is one of the world's largest automobile manufacturers, with production spread over 26 countries of the world. It came to India in 1995 and spent Rs 1700 crore to set up a large plant near Chennai, and it did this in collaboration with an Indian company. Companies like his do not run every step of the work themselves. They set up partnerships with local companies, they use local companies for supplies, and they compete closely with local companies or buy them up.\n\n(a) When did the American car maker come to India, how much did it spend on the plant near Chennai, and what kind of Indian company did it work with? (b) Setting aside the partnership it made in India, name the other ways in which an MNC deals with local companies in countries far from its own. (c) Analyse what happens to production in these widely dispersed locations when MNCs work with local companies in all of these ways.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) It came in 1995 and spent Rs 1700 crore on a large plant near Chennai, in collaboration with an Indian company. (b) It uses local companies for supplies, and competes closely with local companies or buys them up. (c) MNCs exert a strong influence on production at these distant locations, so production in these widely dispersed locations is getting interlinked.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "in 1995 and spent Rs.",
+            "1700 crore to set up a",
+            "companies for supplies, by closely\ncompeting with the local companies\nor buying them up, MNCs are exerting"
+          ],
+          "objective": false,
+          "passage": "Mohan is an engineer working near Chennai. His American firm is one of the world's largest automobile manufacturers, with production spread over 26 countries of the world. It came to India in 1995 and spent Rs 1700 crore to set up a large plant near Chennai, and it did this in collaboration with an Indian company. Companies like his do not run every step of the work themselves. They set up partnerships with local companies, they use local companies for supplies, and they compete closely with local companies or buy them up."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess2 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess2",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -1,0 +1,829 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess2:01:A:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/development"
+      ],
+      "taxonomyChapterId": "social-science-10/development",
+      "topic": "What Development Promises — Different People, Different Goals",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Given Haryana with an infant mortality rate of 28 per 1,000 live births and a literacy rate of 82 per cent, Kerala with 6 and 94 per cent, and Bihar with 27 and 62 per cent, what infant mortality rate should a nurse report for the state with the highest literacy rate? (A) 28 (B) 82 (C) 6 (D) 27",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "6",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "TABLE 1.4 SOME COMPARATIVE DATA ON HARYANA, KERALA AND BIHAR State Infant Mortality",
+            "Haryana 28 82 Kerala 6 94 Bihar 27 62",
+            "Literacy Rate measures the proportion of literate population in the 7-and-above age group."
+          ],
+          "objective": true,
+          "options": {
+            "A": "28",
+            "B": "82",
+            "C": "6",
+            "D": "27"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess2 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:01:B:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/development"
+      ],
+      "taxonomyChapterId": "social-science-10/development",
+      "topic": "What Development Promises — Different People, Different Goals",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "Two countries report the same average income, yet in one country people are neither very rich nor extremely poor while in the other most citizens are poor and one person is extremely rich. What does the same average income fail to show?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "How the income is distributed among people",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "That most citizens in one country are poor while one person in it is extremely rich",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "How the income is distributed among people",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "other hand most citizens in country B are poor and one",
+            "person is extremely rich. Hence,",
+            "while average income is useful for comparison it does not tell us how this income is distributed among people."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess2 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:01:B:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/development"
+      ],
+      "taxonomyChapterId": "social-science-10/development",
+      "topic": "What Development Promises — Different People, Different Goals",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Among Haryana, Kerala and Bihar — infant mortality rate per 1,000 live births 28, 6 and 27, and literacy rate 82 per cent, 94 per cent and 62 per cent respectively — name the state with the highest literacy rate and state its infant mortality rate.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Kerala has the highest literacy rate",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Its infant mortality rate is 6 per 1,000 live births",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Kerala; 6 per 1,000 live births",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "TABLE 1.4 SOME COMPARATIVE DATA ON HARYANA, KERALA AND BIHAR State Infant Mortality",
+            "Haryana 28 82 Kerala 6 94 Bihar 27 62",
+            "Literacy Rate measures the proportion of literate population in the 7-and-above age group."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess2 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:01:C:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/development"
+      ],
+      "taxonomyChapterId": "social-science-10/development",
+      "topic": "What Development Promises — Different People, Different Goals",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Two countries report exactly the same average income. In one, people are neither very rich nor extremely poor; in the other, most citizens are poor and one person is extremely rich. A reporter concludes that the two countries are equally developed. Explain why average income alone does not support her conclusion.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Average income does not tell us how the income is distributed among people",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In the first country people are neither very rich nor extremely poor",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In the other country most citizens are poor while one person is extremely rich, so equal averages do not mean equal development",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Average income is useful for comparison but it does not tell us how that income is distributed among people. In the first country people are neither very rich nor extremely poor, so income is widely shared. In the other, most citizens are poor and one person is extremely rich. The same average therefore hides very different distributions, so equal averages do not mean equal development.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "country people are neither very",
+            "person is extremely rich. Hence,",
+            "while average income is useful for comparison it does not tell us how this income is distributed among people."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess2 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:01:C:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/development"
+      ],
+      "taxonomyChapterId": "social-science-10/development",
+      "topic": "What Development Promises — Different People, Different Goals",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A student survey first asks people about their own goals in life, and then about what matters for their nation or region. Explain, using the goals people keep in mind besides better income, why average income alone cannot be the only attribute used to judge how well a nation or a region is doing.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "People think of better income but also of security, respect for others, equal treatment and freedom",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "For a nation or a region too, we may think of other equally important attributes besides average income",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So average income alone is not enough to judge how well a nation or a region is doing",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "People do not think only of better income; they also keep in mind security, respect for others, equal treatment and freedom. In the same way, when we think of a nation or a region we may, besides average income, think of other equally important attributes. Average income therefore covers only one attribute, and using it alone ignores what people actually value.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "think of better income but also have goals such as",
+            "security, respect for others, equal treatment, freedom, etc.",
+            "we may, besides average income, think of other equally important attributes."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess2 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:01:C:3",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/development"
+      ],
+      "taxonomyChapterId": "social-science-10/development",
+      "topic": "What Development Promises — Different People, Different Goals",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Supplies for children's health are limited and must be sent first to the state where they will save the most young lives. Three states are under consideration — Haryana, Kerala and Bihar — with infant mortality rates per 1,000 live births of 28, 6 and 27 and literacy rates of 82 per cent, 94 per cent and 62 per cent. Which state should receive the supplies first, and which should receive them last?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Haryana should receive the supplies first — infant mortality rate 28 per 1,000 live births, the highest",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Kerala should receive them last — infant mortality rate 6 per 1,000 live births, the lowest",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Bihar, at 27 per 1,000 and with the lowest literacy rate of 62 per cent, also needs the help",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Supplies should go first to Haryana, which has the highest infant mortality rate at 28 per 1,000 live births, and last to Kerala, which has the lowest at 6. Bihar, at 27 per 1,000 and with the lowest literacy rate of 62 per cent, needs almost as much help as Haryana.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "TABLE 1.4 SOME COMPARATIVE DATA ON HARYANA, KERALA AND BIHAR State Infant Mortality",
+            "Haryana 28 82 Kerala 6 94 Bihar 27 62",
+            "Infant Mortality Rate (or IMR) indicates the number of children that die before the age of one"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess2 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:01:D:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/development"
+      ],
+      "taxonomyChapterId": "social-science-10/development",
+      "topic": "What Development Promises — Different People, Different Goals",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "A health survey team must choose the state where children are most likely to survive and where most people are able to read. Its figures are: infant mortality rate per 1,000 live births — Haryana 28, Kerala 6, Bihar 27; literacy rate — Haryana 82 per cent, Kerala 94 per cent, Bihar 62 per cent. Work out, step by step, which state is strongest on both counts and where the weakest state lies on each count.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Step 1: ranks infant mortality as Kerala 6 < Bihar 27 < Haryana 28, lower being better",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: ranks literacy as Kerala 94 > Haryana 82 > Bihar 62, higher being better",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: identifies Bihar as weakest on literacy at 62 per cent",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: identifies Haryana as weakest on child survival at 28 per 1,000 live births",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: concludes Kerala is strongest on both counts but no state is weakest on both",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 — Child survival: a lower infant mortality rate is better. Kerala 6 < Bihar 27 < Haryana 28, so Kerala is strongest and Haryana weakest. Step 2 — Ability to read: a higher literacy rate is better. Kerala 94 > Haryana 82 > Bihar 62, so Kerala is strongest again. Step 3 — Bihar is weakest on literacy at 62 per cent. Step 4 — Haryana is weakest on child survival at 28 per 1,000 live births, just above Bihar's 27. Step 5 — Conclusion: Kerala is strongest on both counts, but no single state is weakest on both, so the two counts must be reported separately.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "TABLE 1.4 SOME COMPARATIVE DATA ON HARYANA, KERALA AND BIHAR State Infant Mortality",
+            "Haryana 28 82 Kerala 6 94 Bihar 27 62",
+            "Infant Mortality Rate (or IMR) indicates the number of children that die before the age of one"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess2 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:01:E:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/development"
+      ],
+      "taxonomyChapterId": "social-science-10/development",
+      "topic": "What Development Promises — Different People, Different Goals",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "A school social science club decided to find out how developed three states are. They collected the per capita income of Haryana, Kerala and Bihar for 2023–24: Rs 3,25,759, Rs 2,81,001 and Rs 60,337. They also noted the infant mortality rate per 1,000 live births — Haryana 28, Kerala 6, Bihar 27 — and the literacy rate: Haryana 82 per cent, Kerala 94 per cent and Bihar 62 per cent. When they wrote up their findings, one group said Haryana was the most developed because its per capita income was the highest. Another group said Kerala was ahead, because it came first on two of the three measures. The club asked its teacher to settle the argument.\n\nOn per capita income alone, name the state that ranks first and the state that ranks last. (ii) On infant mortality rate per 1,000 live births, name the state with the lowest figure and the state with the highest figure. (iii) On all three measures together, which state comes out ahead, and why can per capita income alone not settle the argument?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Haryana first, Bihar last. (ii) Kerala lowest at 6, Haryana highest at 28. (iii) Kerala comes out ahead, leading on two of the three measures; per capita income is only one attribute and says nothing about how income is distributed among people.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "3,25,759 2,81,001 60,337",
+            "Haryana 28 82 Kerala 6 94 Bihar 27 62",
+            "while average income is useful for comparison it does not tell us how this income is distributed among people."
+          ],
+          "objective": false,
+          "passage": "A school social science club decided to find out how developed three states are. They collected the per capita income of Haryana, Kerala and Bihar for 2023–24: Rs 3,25,759, Rs 2,81,001 and Rs 60,337. They also noted the infant mortality rate per 1,000 live births — Haryana 28, Kerala 6, Bihar 27 — and the literacy rate: Haryana 82 per cent, Kerala 94 per cent and Bihar 62 per cent. When they wrote up their findings, one group said Haryana was the most developed because its per capita income was the highest. Another group said Kerala was ahead, because it came first on two of the three measures. The club asked its teacher to settle the argument."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess2 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:01:E:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/development"
+      ],
+      "taxonomyChapterId": "social-science-10/development",
+      "topic": "What Development Promises — Different People, Different Goals",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Two students argued about what counts as progress. One said a place is developed when its people earn more on average. The other said that people think of better income but also keep in mind security, respect for others, equal treatment and freedom, and that when we think of a nation or a region we may, besides average income, think of other equally important attributes. A class survey asked everyone to name one thing that would make their own area better. Few students named money; most named security, equal treatment, respect for others or freedom. The teacher asked the two students to settle their argument with these answers.\n\nWhich goals do people keep in mind besides better income? (ii) Apart from average income, what kind of attributes may we think about when we judge a nation or a region? (iii) Why does the class survey support the second student's claim, and how would you answer the first student?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Security, respect for others, equal treatment and freedom. (ii) Other equally important attributes, such as those goals. (iii) Few students named money and most named security, equal treatment, respect or freedom, so income is only one attribute and cannot by itself show how far a nation has developed.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "think of better income but also have goals such as",
+            "security, respect for others, equal treatment, freedom, etc.",
+            "we may, besides average income, think of other equally important attributes."
+          ],
+          "objective": false,
+          "passage": "Two students argued about what counts as progress. One said a place is developed when its people earn more on average. The other said that people think of better income but also keep in mind security, respect for others, equal treatment and freedom, and that when we think of a nation or a region we may, besides average income, think of other equally important attributes. A class survey asked everyone to name one thing that would make their own area better. Few students named money; most named security, equal treatment, respect for others or freedom. The teacher asked the two students to settle their argument with these answers."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess2 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:01:E:3",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/development"
+      ],
+      "taxonomyChapterId": "social-science-10/development",
+      "topic": "What Development Promises — Different People, Different Goals",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "A health worker visiting a village was asked to explain two numbers printed on a poster about three states. The first, she was told, gives the number of children who die before the age of one year as a proportion of 1000 live children born in that particular year. The second gives the proportion of the literate population in the 7-and-above age group. The poster listed, for Haryana, Kerala and Bihar, the figures 28 and 82, 6 and 94, and 27 and 62. The worker was asked which figure in each pair belonged to the first measure and which to the second, and which state looked best on the first one.\n\nName the measure described first and state the age group used by the measure described second. (ii) For which of the three states is the first measure the lowest, and what is its figure? (iii) Why must the two measures be read together instead of choosing whichever one flatters a state more?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Infant Mortality Rate, or IMR; the 7-and-above age group. (ii) Kerala, at 6 per 1,000 live births. (iii) A lower IMR shows children survive better while a higher literacy rate shows more people can read, so each measure tests only one part of development.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Infant Mortality Rate (or IMR) indicates the number of children that die before the age of one",
+            "Literacy Rate measures the proportion of literate population in the 7-and-above age group.",
+            "Haryana 28 82 Kerala 6 94 Bihar 27 62"
+          ],
+          "objective": false,
+          "passage": "A health worker visiting a village was asked to explain two numbers printed on a poster about three states. The first, she was told, gives the number of children who die before the age of one year as a proportion of 1000 live children born in that particular year. The second gives the proportion of the literate population in the 7-and-above age group. The poster listed, for Haryana, Kerala and Bihar, the figures 28 and 82, 6 and 94, and 27 and 62. The worker was asked which figure in each pair belonged to the first measure and which to the second, and which state looked best on the first one."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess2 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "D",
+      "qtype": "long_answer",
+      "topic": "What Development Promises — Different People, Different Goals",
+      "reason": "figure-not-in-text:60",
+      "stem": "A school is preparing a report on how far three states have developed. Its figures are: per capita income for 2023–24 — "
+    },
+    {
+      "section": "D",
+      "qtype": "long_answer",
+      "topic": "What Development Promises — Different People, Different Goals",
+      "reason": "premise-not-supported",
+      "stem": "Two countries are reported to have the same average income. In one of them most citizens are poor and one person is extr"
+    },
+    {
+      "section": "D",
+      "qtype": "long_answer",
+      "topic": "How to Compare Different Countries or States?",
+      "reason": "figure-not-in-text:60",
+      "stem": "Two classmates disagree about which of three states is more developed. One argues from income alone; the other says inco"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess2",
+    "chapters": [
+      1
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

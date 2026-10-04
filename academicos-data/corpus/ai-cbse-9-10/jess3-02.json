@@ -1,0 +1,1194 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess3:02:A:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/nationalism-in-india"
+      ],
+      "taxonomyChapterId": "social-science-10/nationalism-in-india",
+      "topic": "The First World War, Khilafat and Non-Cooperation",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A student is researching the peasant movement Gandhi backed in 1918, when crop failure and a plague epidemic left cultivators unable to pay the revenue they owed; in which district did this movement take place? (A) Champaran (B) Ahmedabad (C) Kheda (D) Amritsar",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Kheda",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the peasants of the Kheda district of Gujarat. Affected by crop",
+            "failure and a plague epidemic, the peasants of Kheda could not pay",
+            "the revenue, and were demanding that revenue collection be relaxed."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Champaran",
+            "B": "Ahmedabad",
+            "C": "Kheda",
+            "D": "Amritsar"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess3 ch2",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:02:B:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/nationalism-in-india"
+      ],
+      "taxonomyChapterId": "social-science-10/nationalism-in-india",
+      "topic": "The First World War, Khilafat and Non-Cooperation",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "A student is told that the nationwide satyagraha Gandhi began in 1919 was to be opened in a particular way; name that opening action and the date fixed for it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the hartal as the opening action",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives the date as 6 April",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A hartal on 6 April",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "nationwide satyagraha against the proposed Rowlatt Act (1919). This",
+            "such unjust laws, which would start with a hartal on 6 April."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess3 ch2",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:02:B:2",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/nationalism-in-india"
+      ],
+      "taxonomyChapterId": "social-science-10/nationalism-in-india",
+      "topic": "The First World War, Khilafat and Non-Cooperation",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "A student is told that Gandhi doubted any broad-based movement in India could be organised unless two communities were first brought closer together; name the two communities.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Hindus",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Muslims",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The Hindus and the Muslims",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "was certain that no such movement could be organised without",
+            "bringing the Hindus and Muslims closer together. One way of doing"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess3 ch2",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:02:C:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/nationalism-in-india"
+      ],
+      "taxonomyChapterId": "social-science-10/nationalism-in-india",
+      "topic": "The First World War, Khilafat and Non-Cooperation",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A student is told that a law of 1919 was hurriedly passed despite the united opposition of the Indian members; name the law and state the two harsh powers it handed to the government.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Names the Rowlatt Act of 1919",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gave the government enormous powers to repress political activities",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Allowed detention of political prisoners without trial for two years",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The Rowlatt Act of 1919. It gave the government enormous powers to repress political activities, and it allowed detention of political prisoners without trial for two years.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Act had been hurriedly passed through the Imperial Legislative",
+            "gave the government enormous powers to repress political activities,",
+            "and allowed detention of political prisoners without trial for two"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess3 ch2",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:02:C:2",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/nationalism-in-india"
+      ],
+      "taxonomyChapterId": "social-science-10/nationalism-in-india",
+      "topic": "The First World War, Khilafat and Non-Cooperation",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "On 13 April a large crowd was found inside the enclosed ground of Jallianwalla Bagh; a student asks why villagers from outside the city had gathered there, and what General Dyer then did.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Many were attending the annual Baisakhi fair, others were protesting the new repressive measures",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Villagers from outside the city were unaware that martial law had been imposed",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Dyer blocked the exit points and opened fire on the crowd, killing hundreds",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Many had come to attend the annual Baisakhi fair, while others had come to protest the government's new repressive measures. Being from outside the city, many villagers were unaware that martial law had been imposed. Dyer entered the area, blocked the exit points, and opened fire on the crowd, killing hundreds.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Others had come to attend the annual Baisakhi fair. Being",
+            "from outside the city, many villagers were unaware of the martial",
+            "points, and opened fire on the crowd, killing hundreds. His object,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess3 ch2",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:02:C:3",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/nationalism-in-india"
+      ],
+      "taxonomyChapterId": "social-science-10/nationalism-in-india",
+      "topic": "The First World War, Khilafat and Non-Cooperation",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "News of the firing at Jallianwalla Bagh sent crowds into the streets of many north Indian towns; a student asks how the government then responded, why Gandhi called the movement off, and what he judged a broader movement would have to achieve first.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Brutal repression meant to humiliate and terrorise: rubbing noses on the ground, crawling, salaam to all sahibs",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gandhi called the movement off when violence spread",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A broad-based movement could not be organised without bringing Hindus and Muslims closer together",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The government answered with brutal repression to humiliate and terrorise people: satyagrahis were forced to rub their noses on the ground, crawl on the streets and salaam all sahibs; people were flogged and villages were bombed. Gandhi called the movement off when he saw violence spread, and believed a broad-based movement could not be organised without bringing Hindus and Muslims closer together.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "responded with brutal repression, seeking to humiliate and terrorise",
+            "were bombed. Seeing violence spread, Mahatma Gandhi called off",
+            "bringing the Hindus and Muslims closer together. One way of doing"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess3 ch2",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:02:D:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/nationalism-in-india"
+      ],
+      "taxonomyChapterId": "social-science-10/nationalism-in-india",
+      "topic": "The First World War, Khilafat and Non-Cooperation",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A student is asked to trace the Rowlatt satyagraha from its launch to its withdrawal; in about 75 words, and in steps, set out (a) how Gandhi proposed to begin it, (b) the three forms the protest took in the towns, (c) what worried the British administration about it, and (d) why the movement was called off.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Non-violent civil disobedience, opening with a hartal on 6 April",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Rallies in cities, strikes in railway workshops, shops closed down",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Fear that railways and telegraph lines would be disrupted",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Local leaders picked up from Amritsar and Gandhi barred from Delhi",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Called off once brutal repression made violence spread",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Non-violent civil disobedience, opening with a hartal on 6 April. (b) Rallies were organised in various cities, workers went on strike in railway workshops, and shops closed down. (c) Lines of communication such as the railways and telegraph would be disrupted; local leaders were picked up from Amritsar, and Gandhi was barred from entering Delhi. (d) Brutal repression made violence spread, so Gandhi called the movement off.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "such unjust laws, which would start with a hartal on 6 April.",
+            "Rallies were organised in various cities, workers went on strike in",
+            "were bombed. Seeing violence spread, Mahatma Gandhi called off"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess3 ch2",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:02:D:2",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/nationalism-in-india"
+      ],
+      "taxonomyChapterId": "social-science-10/nationalism-in-india",
+      "topic": "The First World War, Khilafat and Non-Cooperation",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A student asks why Gandhi judged the Rowlatt satyagraha to be too narrow; in about 75 words, and in steps, explain (a) the limit he saw in it, (b) the condition he laid down for any broader movement, and (c) the issue he took up to meet that condition, together with the event that had made the issue urgent.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Widespread but still limited mostly to cities and towns",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gandhi felt the need for a more broad-based movement",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "No such movement without bringing Hindus and Muslims closer together",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Khilafat issue taken up as the way to bring them together",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "First World War ended in the defeat of Ottoman Turkey, with rumours of a harsh peace treaty",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Though it was a widespread movement, it was still limited mostly to cities and towns. (b) Gandhi wanted a more broad-based movement, but was certain none could be organised without bringing Hindus and Muslims closer together. (c) He took up the Khilafat issue, made urgent by the First World War ending in the defeat of Ottoman Turkey and rumours of a harsh peace treaty for it.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "was still limited mostly to cities and towns. Mahatma Gandhi now felt",
+            "bringing the Hindus and Muslims closer together. One way of doing",
+            "ended with the defeat of Ottoman Turkey. And there were rumours"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess3 ch2",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:02:D:3",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/nationalism-in-india"
+      ],
+      "taxonomyChapterId": "social-science-10/nationalism-in-india",
+      "topic": "The First World War, Khilafat and Non-Cooperation",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A student is studying what happened on 13 April at the enclosed ground where a crowd had gathered; in about 75 words, and in steps, set out (a) what Dyer said he wanted to achieve by opening fire, (b) how crowds reacted once the news spread, and (c) the three forms of humiliation the government forced on satyagrahis.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Dyer declared that his object was to produce a moral effect",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The effect intended was terror and awe in the minds of satyagrahis",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Crowds took to the streets in many north Indian towns",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Strikes, clashes with the police and attacks on government buildings",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Rubbing noses on the ground, crawling on the streets, salaam to all sahibs; flogging and bombing",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) To produce a moral effect, creating a feeling of terror and awe in the minds of satyagrahis. (b) Crowds took to the streets in many north Indian towns; there were strikes, clashes with the police and attacks on government buildings. (c) Satyagrahis were made to rub their noses on the ground, crawl on the streets, and do salaam (salute) to all sahibs; people were flogged and villages were bombed.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "as he declared later, was to ‘produce a moral effect’, to create in the",
+            "As the news of Jallianwalla Bagh spread, crowds took to the streets",
+            "in many north Indian towns. There were strikes, clashes with the"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess3 ch2",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:02:D:4",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/nationalism-in-india"
+      ],
+      "taxonomyChapterId": "social-science-10/nationalism-in-india",
+      "topic": "The Sense of Collective Belonging",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A student is putting together a display on the symbols that were used to build a national feeling; in about 75 words, and in steps, compare the tricolour designed during the Swadeshi movement in Bengal with the Swaraj flag designed by Gandhiji, giving (a) the colours of each, (b) the devices on each and what they stood for, and (c) what the Swaraj flag came to mean when it was carried in marches.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Swadeshi tricolour was red, green and yellow",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Swaraj flag was again a tricolour, in red, green and white",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Swadeshi flag had eight lotuses for the eight provinces and a crescent moon for Hindus and Muslims",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Swaraj flag had a spinning wheel in the centre, representing the Gandhian ideal of self-help",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Carrying the flag and holding it aloft during marches became a symbol of defiance",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The Swadeshi tricolour was red, green and yellow; the Swaraj flag was again a tricolour, in red, green and white. (b) The Swadeshi flag had eight lotuses standing for the eight provinces of British India and a crescent moon representing Hindus and Muslims. The Swaraj flag had a spinning wheel in the centre, representing the Gandhian ideal of self-help. (c) Carrying it and holding it aloft during marches became a symbol of defiance.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "designed. It had eight lotuses representing eight provinces of British",
+            "1921, Gandhiji had designed the Swaraj flag. It was again a tricolour",
+            "representing the Gandhian ideal of self-help. Carrying the flag,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess3 ch2",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:02:E:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/nationalism-in-india"
+      ],
+      "taxonomyChapterId": "social-science-10/nationalism-in-india",
+      "topic": "The First World War, Khilafat and Non-Cooperation",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "A law was passed in 1919 that gave the government enormous powers to repress political activities and allowed detention of political prisoners without trial for two years. It had been hurriedly passed despite the united opposition of the Indian members. Mahatma Gandhi decided to launch a nationwide satyagraha against it. He wanted non-violent civil disobedience, and the movement was to begin with a hartal on 6 April. Rallies were organised in various cities, workers went on strike in railway workshops, and shops closed down. Alarmed by the popular upsurge, and scared that lines of communication such as the railways and telegraph would be disrupted, the British administration decided to clamp down on nationalists.\n\nRead the case and answer the three questions below, each in one or two lines. (i) What two harsh powers did the law of 1919 hand to the government? (ii) Name the three forms the protest took in the towns. (iii) A trader complains that the hartal and the strikes were only a nuisance to business; explain why the administration nevertheless treated the movement as a threat.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Powers to repress political activities, and detention of political prisoners without trial for two years. (ii) Rallies in various cities, strikes in railway workshops, and shops closing down. (iii) The upsurge was popular and could disrupt the railways and telegraph, so the administration clamped down.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "gave the government enormous powers to repress political activities,",
+            "Rallies were organised in various cities, workers went on strike in",
+            "upsurge, and scared that lines of communication such as the railways"
+          ],
+          "objective": false,
+          "passage": "A law was passed in 1919 that gave the government enormous powers to repress political activities and allowed detention of political prisoners without trial for two years. It had been hurriedly passed despite the united opposition of the Indian members. Mahatma Gandhi decided to launch a nationwide satyagraha against it. He wanted non-violent civil disobedience, and the movement was to begin with a hartal on 6 April. Rallies were organised in various cities, workers went on strike in railway workshops, and shops closed down. Alarmed by the popular upsurge, and scared that lines of communication such as the railways and telegraph would be disrupted, the British administration decided to clamp down on nationalists."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess3 ch2",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:02:E:2",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/nationalism-in-india"
+      ],
+      "taxonomyChapterId": "social-science-10/nationalism-in-india",
+      "topic": "The First World War, Khilafat and Non-Cooperation",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "On 10 April the police in Amritsar fired upon a peaceful procession, provoking widespread attacks on banks, post offices and railway stations. Martial law was imposed and General Dyer took command. On 13 April the infamous Jallianwalla Bagh incident took place. A large crowd had gathered in the enclosed ground; some had come to protest the government's new repressive measures, while others had come to attend the annual Baisakhi fair. Being from outside the city, many villagers were unaware of the martial law that had been imposed. Dyer entered the area, blocked the exit points, and opened fire on the crowd, killing hundreds.\n\nRead the case and answer the three questions below, each in one or two lines. (i) What provoked the attacks on banks, post offices and railway stations? (ii) Why had the crowd gathered in the enclosed ground, and what did many of them not know? (iii) A historian notes that Dyer later declared the object of his action; state what that object was and what it reveals about his intention.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) The police firing on a peaceful procession on 10 April. (ii) Some came to protest the new repressive measures, others to attend the annual Baisakhi fair; many villagers did not know martial law had been imposed. (iii) His object was to produce a moral effect, creating terror and awe in the minds of satyagrahis.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "On 10 April, the police in Amritsar fired upon a peaceful procession,",
+            "Others had come to attend the annual Baisakhi fair. Being",
+            "as he declared later, was to ‘produce a moral effect’, to create in the"
+          ],
+          "objective": false,
+          "passage": "On 10 April the police in Amritsar fired upon a peaceful procession, provoking widespread attacks on banks, post offices and railway stations. Martial law was imposed and General Dyer took command. On 13 April the infamous Jallianwalla Bagh incident took place. A large crowd had gathered in the enclosed ground; some had come to protest the government's new repressive measures, while others had come to attend the annual Baisakhi fair. Being from outside the city, many villagers were unaware of the martial law that had been imposed. Dyer entered the area, blocked the exit points, and opened fire on the crowd, killing hundreds."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess3 ch2",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:02:E:3",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/nationalism-in-india"
+      ],
+      "taxonomyChapterId": "social-science-10/nationalism-in-india",
+      "topic": "The First World War, Khilafat and Non-Cooperation",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "As the news of Jallianwalla Bagh spread, crowds took to the streets in many north Indian towns. There were strikes, clashes with the police and attacks on government buildings. The government responded with brutal repression, seeking to humiliate and terrorise people: satyagrahis were forced to rub their noses on the ground, crawl on the streets, and do salaam to all sahibs; people were flogged and villages around Gujranwala in Punjab were bombed. Seeing violence spread, Mahatma Gandhi called off the movement. While the Rowlatt satyagraha had been a widespread movement, it was still limited mostly to cities and towns. Gandhi now felt the need to launch a more broad-based movement in India, but was certain that none could be organised without bringing Hindus and Muslims closer together.\n\nRead the case and answer the three questions below, each in one or two lines. (i) Name two forms of humiliation the government forced on satyagrahis. (ii) Why did Gandhi call the movement off, and what limit had he noticed in it? (iii) A student observes that the protests were strongest in towns; explain what this shows about the movement's reach, and what Gandhi believed had to be brought about before any broader movement could be organised.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Rubbing their noses on the ground, crawling on the streets, and salaam to all sahibs. (ii) Violence was spreading, and the movement stayed mostly in cities and towns. (iii) Its reach was limited; Gandhi believed Hindus and Muslims had to be brought closer together before a broad-based movement could be organised.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "people: satyagrahis were forced to rub their noses on the ground,",
+            "were bombed. Seeing violence spread, Mahatma Gandhi called off",
+            "bringing the Hindus and Muslims closer together. One way of doing"
+          ],
+          "objective": false,
+          "passage": "As the news of Jallianwalla Bagh spread, crowds took to the streets in many north Indian towns. There were strikes, clashes with the police and attacks on government buildings. The government responded with brutal repression, seeking to humiliate and terrorise people: satyagrahis were forced to rub their noses on the ground, crawl on the streets, and do salaam to all sahibs; people were flogged and villages around Gujranwala in Punjab were bombed. Seeing violence spread, Mahatma Gandhi called off the movement. While the Rowlatt satyagraha had been a widespread movement, it was still limited mostly to cities and towns. Gandhi now felt the need to launch a more broad-based movement in India, but was certain that none could be organised without bringing Hindus and Muslims closer together."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess3 ch2",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "F",
+      "qtype": "map_based",
+      "topic": "",
+      "reason": "stem-names-the-text",
+      "stem": "Fig. 7, The Dandi march (page 39), is the figure you need, and this question cannot be answered without it. In about 75 "
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess3",
+    "chapters": [
+      2
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -399,5 +399,8 @@ def test_the_served_class_6_to_10_signals():
     # and its key's Rs 8800 contradicts the stem's Rs 50 a metre) after the extraction
     # repair (dde445a, #78), and cbe:q:SCIENCE8JS41c is withheld (its key answers one
     # of three parts).
-    assert dict(by_dict) == {"cbeItemBank": 364, "assertionReasonLabels": 2}
+    # + 274 competencyType (2026-10-04): the model-written class 9-10 questions (corpus/ai-cbse-9-10)
+    # whose type a source-grounded generator printed -- case studies, assertion-reason items, and the
+    # passage-based reading and extract questions, which CBSE calls competency-based.
+    assert dict(by_dict) == {"cbeItemBank": 364, "assertionReasonLabels": 2, "competencyType": 274}
     assert not exemplar

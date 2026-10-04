@@ -1,0 +1,545 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:10:B:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/the-human-eye-and-the-colourful-world"
+      ],
+      "taxonomyChapterId": "science-10/the-human-eye-and-the-colourful-world",
+      "topic": "The Human Eye",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Riya can read a printed page most distinctly, without any strain in her eyes, only when she holds it at a certain minimum distance from her eyes. State this distance for a young adult with normal vision, and give the name for this distance.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States the minimum distance of distinct vision as 25 cm (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names it the least distance of distinct vision, or the near point of the eye (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "25 cm; the least distance of distinct vision, also called the near point of the eye.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "To see an object comfortably and distinctly, you\nmust hold it at about 25 cm from the eyes.",
+            "For a young adult with normal vision, the near point is about\n25 cm."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch10",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:10:B:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/the-human-eye-and-the-colourful-world"
+      ],
+      "taxonomyChapterId": "science-10/the-human-eye-and-the-colourful-world",
+      "topic": "The Human Eye",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A girl steps out of a dark classroom into glaring afternoon sunlight, and soon the objects around her no longer look blurred. Name the dark muscular diaphragm that lies behind the cornea and controls the size of the pupil.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the iris (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that it is the dark muscular diaphragm behind the cornea controlling the size of the pupil (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Iris; it controls the size of the pupil, and the pupil regulates the amount of light entering the eye.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Iris is a dark muscular diaphragm that controls the\nsize of the pupil. The pupil regulates and controls the amount of light"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch10",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:10:B:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/the-human-eye-and-the-colourful-world"
+      ],
+      "taxonomyChapterId": "science-10/the-human-eye-and-the-colourful-world",
+      "topic": "The Human Eye",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "An old man says that the world has become milky and hazy for him and that he can no longer make out faces clearly. Name the condition his eye lens has developed, and state how his vision can be restored.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the condition cataract (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that vision can be restored through a cataract surgery (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Cataract; vision can be restored through a cataract surgery.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Sometimes, the crystalline lens of people at old age becomes milky and\ncloudy. This condition is called cataract. This causes partial or complete\nloss of vision. It is possible to restore vision through a cataract surgery."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch10",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:10:B:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/the-human-eye-and-the-colourful-world"
+      ],
+      "taxonomyChapterId": "science-10/the-human-eye-and-the-colourful-world",
+      "topic": "Dispersion of White Light by a Glass Prism",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "On a sunny day a student looks at the sky through the spray of a water fountain with the Sun behind him, and coloured bands appear overhead. State what causes these coloured bands, and the direction in which they always appear.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States that the colours are caused by the dispersion of sunlight by tiny water droplets, which act like small prisms (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the rainbow is always formed in a direction opposite to that of the Sun (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dispersion of sunlight by tiny water droplets, which act like small prisms; the rainbow is always formed in a direction opposite to that of the Sun.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "A rainbow is a natural spectrum appearing in the sky\nafter a rain shower (Fig. 10.7).",
+            "small prisms. They refract and disperse the incident\nsunlight, then reflect it internally, and finally refract it\nagain when it comes out of the raindrop",
+            "A rainbow is always formed in a direction\nopposite to that of the Sun."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch10",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:10:E:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/the-human-eye-and-the-colourful-world"
+      ],
+      "taxonomyChapterId": "science-10/the-human-eye-and-the-colourful-world",
+      "topic": "The Human Eye",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Riya is reading a printed page in the evening. When she holds it very close to her eyes the letters look blurred and her eyes begin to strain, so she moves the page away until she can read it comfortably. She then looks out of the window at a tree far down the street and the leaves appear sharp. She notices that her eyes have made two different adjustments within a matter of seconds, and her brother tells her that a normal eye can see objects clearly only between a certain minimum distance and infinity.\n\nRead the case below and answer the three questions that follow.\nRiya is reading a printed page in the evening. When she holds it very close to her eyes the letters look blurred and her eyes begin to strain, so she moves the page away until she can read it comfortably. She then looks out of the window at a tree far down the street and the leaves appear sharp. She notices that her eyes have made two different adjustments within a matter of seconds, and her brother tells her that a normal eye can see objects clearly only between a certain minimum distance and infinity.\n(i) State what happens to the curvature, the thickness and the focal length of the eye lens when Riya looks at the nearby page.\n(ii) State the minimum distance at which a young adult with normal vision sees an object most distinctly without strain, and give the name for this distance.\n(iii) Using what happens in each case, explain how the same eye manages to focus both on the nearby page and on the distant tree, and state the term for this ability.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) The ciliary muscles contract, so the lens becomes more curved and thicker and its focal length decreases. (ii) 25 cm; the least distance of distinct vision, or near point. (iii) The lens alters its focal length for each distance, decreasing it for the near page and increasing it for the distant tree. This ability is accommodation.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "When you are\nlooking at objects closer to the eye, the ciliary muscles contract. This\nincreases the curvature of the eye lens. The eye lens then becomes thicker.\nConsequently, the focal length of the eye lens decreases.",
+            "To see an object comfortably and distinctly, you\nmust hold it at about 25 cm from the eyes.",
+            "The ability of the eye lens to adjust its focal length is called\naccommodation."
+          ],
+          "objective": false,
+          "passage": "Riya is reading a printed page in the evening. When she holds it very close to her eyes the letters look blurred and her eyes begin to strain, so she moves the page away until she can read it comfortably. She then looks out of the window at a tree far down the street and the leaves appear sharp. She notices that her eyes have made two different adjustments within a matter of seconds, and her brother tells her that a normal eye can see objects clearly only between a certain minimum distance and infinity."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch10",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:10:E:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/the-human-eye-and-the-colourful-world"
+      ],
+      "taxonomyChapterId": "science-10/the-human-eye-and-the-colourful-world",
+      "topic": "The Human Eye",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Riya holds an arrow-shaped bookmark in front of her eye and looks at it. She is told that the light from the bookmark is bent as it enters her eye and that the lens system inside forms an image of the bookmark on a delicate light-sensitive membrane at the back of the eyeball. She is surprised to learn that this image is upside down. She also learns that most of the bending happens not at the lens but at the outer surface of the transparent membrane at the front of the eyeball, and that the lens only makes the finer adjustment of focal length needed for objects at different distances.\n\nRead the case below and answer the three questions that follow.\nRiya holds an arrow-shaped bookmark in front of her eye and looks at it. She is told that the light from the bookmark is bent as it enters her eye and that the lens system inside forms an image of the bookmark on a delicate light-sensitive membrane at the back of the eyeball. She is surprised to learn that this image is upside down. She also learns that most of the bending happens not at the lens but at the outer surface of the transparent membrane at the front of the eyeball, and that the lens only makes the finer adjustment of focal length needed for objects at different distances.\n(i) Name the transparent membrane at the front of the eyeball at which most of the refraction of the entering light occurs, and state what the crystalline lens does.\n(ii) State the nature of the image that the eye lens forms on the light-sensitive membrane at the back of the eyeball.\n(iii) The image formed on that membrane is inverted, yet Riya sees the bookmark the right way up. Explain how this happens.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) The cornea; the crystalline lens provides the finer adjustment of focal length needed to focus objects at different distances. (ii) An inverted real image. (iii) The light-sensitive cells get activated and generate electrical signals which travel to the brain through the optic nerves, and the brain interprets them so that objects are perceived as they really are.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Most of the\nrefraction for the light rays entering the eye\noccurs at the outer surface of the cornea. The\ncrystalline lens merely provides the finer\nadjustment of focal length required to focus",
+            "The eye lens forms an inverted real image of the object\non the retina.",
+            "These signals are\nsent to the brain via the optic nerves. The brain interprets these signals,\nand finally, processes the information so that we perceive objects as\nthey are."
+          ],
+          "objective": false,
+          "passage": "Riya holds an arrow-shaped bookmark in front of her eye and looks at it. She is told that the light from the bookmark is bent as it enters her eye and that the lens system inside forms an image of the bookmark on a delicate light-sensitive membrane at the back of the eyeball. She is surprised to learn that this image is upside down. She also learns that most of the bending happens not at the lens but at the outer surface of the transparent membrane at the front of the eyeball, and that the lens only makes the finer adjustment of focal length needed for objects at different distances."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch10",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:10:E:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/the-human-eye-and-the-colourful-world"
+      ],
+      "taxonomyChapterId": "science-10/the-human-eye-and-the-colourful-world",
+      "topic": "The Human Eye",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Kamala is an elderly woman. Lately the objects around her look hazy and she says that the colours of the sky and of the green plants near her house have become difficult to tell apart. She can still manage to move about familiar rooms by touch and by the sounds they make, but she can no longer recognise her neighbours' faces. When she closes her eyes she can still tell what is on the table by its smell, but she cannot tell what colour anything is. Her family takes her to an eye doctor.\n\nRead the case below and answer the three questions that follow.\nKamala is an elderly woman. Lately the objects around her look hazy and she says that the colours of the sky and of the green plants near her house have become difficult to tell apart. She can still manage to move about familiar rooms by touch and by the sounds they make, but she can no longer recognise her neighbours' faces. When she closes her eyes she can still tell what is on the table by its smell, but she cannot tell what colour anything is. Her family takes her to an eye doctor.\n(i) Name the condition that has developed in Kamala's eye lens, and state what has happened to the lens.\n(ii) State the effect this condition has on vision, and the treatment that can restore it.\n(iii) Explain why Kamala can still identify things by their smell or by the sounds they make after her eyes have failed, but why she cannot identify colours.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Cataract; the crystalline lens has become milky and cloudy. (ii) It causes partial or complete loss of vision, which can be restored through a cataract surgery. (iii) Smell, taste, sound and touch still work without sight, but colours can be identified only by the eye, so no other sense can take over.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Sometimes, the crystalline lens of people at old age becomes milky and\ncloudy. This condition is called cataract. This causes partial or complete\nloss of vision. It is possible to restore vision through a cataract surgery.",
+            "closing the eyes, we can identify objects to some extent by their smell,\ntaste, sound they make or by touch. It is, however, impossible to identify\ncolours while closing the eyes."
+          ],
+          "objective": false,
+          "passage": "Kamala is an elderly woman. Lately the objects around her look hazy and she says that the colours of the sky and of the green plants near her house have become difficult to tell apart. She can still manage to move about familiar rooms by touch and by the sounds they make, but she can no longer recognise her neighbours' faces. When she closes her eyes she can still tell what is on the table by its smell, but she cannot tell what colour anything is. Her family takes her to an eye doctor."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch10",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:10:E:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/the-human-eye-and-the-colourful-world"
+      ],
+      "taxonomyChapterId": "science-10/the-human-eye-and-the-colourful-world",
+      "topic": "Dispersion of White Light by a Glass Prism",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Neel and his classmates set up an experiment for the school science exhibition. They made a narrow slit in a thick sheet of cardboard and allowed a narrow beam of sunlight to fall through it. A glass prism was then placed in the beam and turned slowly until the light coming out of it fell on a nearby screen. A band of seven colours appeared, and Neel wrote them down in order as Violet, Indigo, Blue, Green, Yellow, Orange and Red. A visitor asked him why the colours of sunlight should appear separate at all.\n\nRead the case below and answer the two questions that follow.\nNeel and his classmates set up an experiment for the school science exhibition. They made a narrow slit in a thick sheet of cardboard and allowed a narrow beam of sunlight to fall through it. A glass prism was then placed in the beam and turned slowly until the light coming out of it fell on a nearby screen. A band of seven colours appeared, and Neel wrote them down in order as Violet, Indigo, Blue, Green, Yellow, Orange and Red. A visitor asked him why the colours of sunlight should appear separate at all.\n(i) State the reason why the colours of sunlight appear separate after passing through the prism, and give the name for the band of coloured components of the light beam.\n(ii) A second identical prism is now placed in an inverted position with respect to the first prism. State what emerges from the other side of the second prism, and explain what this shows about sunlight.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Different colours bend through different angles as they pass through the prism, red the least and violet the most, so the rays take different paths and become distinct; the band is the spectrum. (ii) A beam of white light emerges, showing that sunlight is made up of seven colours.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Different colours\nof light bend through different angles with\nrespect to the incident ray, as they pass\nthrough a prism. The red light bends the least\nwhile the violet the most.",
+            "light beam is called its spectrum. You might\nnot be able to see all the colours separately.",
+            "He found a beam of white light emerging\nfrom the other side of the second prism."
+          ],
+          "objective": false,
+          "passage": "Neel and his classmates set up an experiment for the school science exhibition. They made a narrow slit in a thick sheet of cardboard and allowed a narrow beam of sunlight to fall through it. A glass prism was then placed in the beam and turned slowly until the light coming out of it fell on a nearby screen. A band of seven colours appeared, and Neel wrote them down in order as Violet, Indigo, Blue, Green, Yellow, Orange and Red. A visitor asked him why the colours of sunlight should appear separate at all."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch10",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      10
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

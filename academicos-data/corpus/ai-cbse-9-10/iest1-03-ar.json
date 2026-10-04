@@ -1,0 +1,249 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iest1:03:AR:101",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/atmosphere-and-climate"
+      ],
+      "taxonomyChapterId": "social-science-9/atmosphere-and-climate",
+      "topic": "Composition and Structure of the Atmosphere",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "On a flight over the Arabian Sea one year, Kabir watched the clouds gather below the aircraft and wondered why the rain always ends up over the land and not over the sea. Consider the following statements. 1. Winds move from high-pressure areas to low-pressure areas, so moist winds blow from the ocean towards the land and bring rainfall. 2. During summer the landmass of India heats up faster than the surrounding oceans, which creates a low-pressure area over the Indian subcontinent. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "from high-pressure areas to low-pressure areas, so moist winds blow",
+            "from the ocean towards the land, bringing rainfall.",
+            "of India heats up faster than the surrounding oceans. This creates"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch3",
+        "pages": [
+          1,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:03:AR:102",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/atmosphere-and-climate"
+      ],
+      "taxonomyChapterId": "social-science-9/atmosphere-and-climate",
+      "topic": "Composition and Structure of the Atmosphere",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Nisha's grandmother in India gets her woollen clothes out in the months when the north-east monsoon arrives, and Nisha has heard someone say that these winter winds blow in from the ocean just as the summer winds do. Consider the following statements. 1. The winter monsoon, also known as the north-east monsoon, occurs in India from October to February, and during this season the Indian landmass cools faster than the surrounding oceans, creating a high-pressure area over the land and low pressure over the seas. 2. The winter monsoon blows moist winds from the ocean towards the land, because during these months the landmass of India heats up faster than the surrounding oceans. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The assertion is true but the reason is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The winter monsoon, also known as the north-east monsoon, occurs\nin India from October to February. During this season, the Indian\nlandmass cools faster than the surrounding oceans, creating a\nhigh-pressure area over the land and low pressure over the seas.",
+            "from high-pressure areas to low-pressure areas, so moist winds blow",
+            "from the ocean towards the land, bringing rainfall."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch3",
+        "pages": [
+          1,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:03:AR:103",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/atmosphere-and-climate"
+      ],
+      "taxonomyChapterId": "social-science-9/atmosphere-and-climate",
+      "topic": "Composition and Structure of the Atmosphere",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Vikram's uncle grows a crop in India and times his sowing to the monsoon, and Vikram has read somewhere that the south-west monsoon alone is responsible for most of the rain in the country. Consider the following statements. 1. The south-west monsoon accounts for most of the rainfall in the country throughout the year. 2. Even today, a large number of farming practices in India are based on these ancient methods. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "bringing rainfall. It accounts for\nmost of the rainfall in the country throughout the year.",
+            "Even today, a large number of farming practices in India",
+            "are based on these ancient methods."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch3",
+        "pages": [
+          1,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iest1",
+    "chapters": [
+      3
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

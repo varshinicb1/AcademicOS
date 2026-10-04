@@ -1,0 +1,1186 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess4:03:A:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/gender-religion-and-caste"
+      ],
+      "taxonomyChapterId": "social-science-10/gender-religion-and-caste",
+      "topic": "Gender and politics",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Ravi reads that the country now has only 919 girl children for every thousand boys. Which practice does this number point to? (A) Parents spending their resources on the education of their boys rather than spending equally on their sons and daughters (B) Women being paid less than men even when both do exactly the same work (C) Parents finding ways to have the girl child aborted before she is born (D) Girl children dropping out of school because of parental preference",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Parents finding ways to have the girl child aborted before she is born",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "not work, what\nwomen among the highly paid and\nprefer to have sons and find ways to\nelse is work?\nvalued jobs, is still very small. On\nhave the girl child aborted before\nan average, an Indian woman works\nshe is born. Such sex-selective",
+            "abortion led to a decline in child sex\nevery day. Yet much of her work\nratio (number of girl children per\nis not paid and therefore, often\nthousand boys) in the country to\nnot valued.\nmerely 919. As the map shows, this"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Parents spending their resources on the education of their boys rather than spending equally on their sons and daughters",
+            "B": "Women being paid less than men even when both do exactly the same work",
+            "C": "Parents finding ways to have the girl child aborted before she is born",
+            "D": "Girl children dropping out of school because of parental preference"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess4 ch3",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:03:AR:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/gender-religion-and-caste"
+      ],
+      "taxonomyChapterId": "social-science-10/gender-religion-and-caste",
+      "topic": "Gender and politics",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Read the two statements given below and answer the question that follows.\nStatement: The proportion of women among the highly paid and valued jobs in the country is still very small.\nReason: In almost all areas of work, from sports and cinema to factories and fields, women are paid less than men, even when both do exactly the same work.\nWhich of the following options is correct? (A) The statement is true but the reason is false. (B) Both the statement and the reason are true but the reason does not explain the statement. (C) Both the statement and the reason are false. (D) Both the statement and the reason are true and the reason correctly explains the statement.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the statement and the reason are true and the reason correctly explains the statement.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "not work, what\nwomen among the highly paid and\nprefer to have sons and find ways to\nelse is work?\nvalued jobs, is still very small. On",
+            "factories and fields, women are paid\nrather than spending equally on their\nworking non-stop\nless than men, even when both do\nall the time. If\nsons and daughters.\nexactly the same work."
+          ],
+          "objective": true,
+          "options": {
+            "A": "The statement is true but the reason is false.",
+            "B": "Both the statement and the reason are true but the reason does not explain the statement.",
+            "C": "Both the statement and the reason are false.",
+            "D": "Both the statement and the reason are true and the reason correctly explains the statement."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess4 ch3",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:03:B:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/gender-religion-and-caste"
+      ],
+      "taxonomyChapterId": "social-science-10/gender-religion-and-caste",
+      "topic": "Gender and politics",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Kavita's mother cooks, cleans, washes, fetches water and looks after the children and the elders through the whole day, yet tells every visitor that she does not work. What is the system called that gives men more power over women?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the system as patriarchy",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that it is literally rule by father, a system that gives men more power over women",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Patriarchy - literally rule by father, the system that gives men more power over women.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Patriarchy: Literally,\nwashing, fetching water, looking after children or elders, etc.),\nrule by father, this\nreading and recreation, talking/gossiping, self-care, taking rest\nconcept is used to\nor sleeping. If necessary make new categories. Add up the time\nrefer to a system that\ntaken on each activity for a week and calculate the daily average\nvalues men more and\nfor each activity for each member. Do women work more in your\ngives them power\nfamily as well?\nover women."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess4 ch3",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:03:B:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/gender-religion-and-caste"
+      ],
+      "taxonomyChapterId": "social-science-10/gender-religion-and-caste",
+      "topic": "Gender and politics",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "Sameer and Anjali have worked for the same number of hours on exactly the same job, but Sameer has been paid more. Name the law, and the year it was made, that says equal wages should be paid to equal work.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The Equal Remuneration Act",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "1976, the year in which it was made",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The Equal Remuneration Act, 1976.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            " The Equal Remuneration Act,\nMummy always\n1976 provides that equal wages\nas well as boys, if not better in\nsays to outsiders:\nshould be paid to equal work."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess4 ch3",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:03:C:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/gender-religion-and-caste"
+      ],
+      "taxonomyChapterId": "social-science-10/gender-religion-and-caste",
+      "topic": "Gender and politics",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Farhan's mother tells every visitor that she is only a housewife, yet she cooks, cleans, washes, fetches water and looks after the children and elders from morning to night. Explain why the work she does is not counted as work.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Much of her work is not paid and therefore, often not valued",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She lives under a system that gives men more power over women",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "On an average an Indian woman works one hour more than an average man every day, yet this work goes unrecorded",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Her work is not paid, and work that is not paid is often not valued. She lives under a system in which men hold more power over women, so her effort carries no price. On an average an Indian woman works one hour more than an average man every day, and even this extra work goes unrecorded.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Patriarchy: Literally,\nwashing, fetching water, looking after children or elders, etc.),\nrule by father, this\nreading and recreation, talking/gossiping, self-care, taking rest\nconcept is used to\nor sleeping. If necessary make new categories. Add up the time\nrefer to a system that\ntaken on each activity for a week and calculate the daily average\nvalues men more and\nfor each activity for each member. Do women work more in your\ngives them power\nfamily as well?\nover women.",
+            "every day. Yet much of her work\nratio (number of girl children per\nis not paid and therefore, often\nthousand boys) in the country to\nnot valued."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess4 ch3",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:03:C:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/gender-religion-and-caste"
+      ],
+      "taxonomyChapterId": "social-science-10/gender-religion-and-caste",
+      "topic": "Gender and politics",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "In Meera's school the girls bring home marks as high as the boys, and in some classes even higher. Yet very few girls from the school go on to higher studies. Explain what stands between the two.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Parents prefer to spend resources on their boys' education rather than spending equally on their sons and daughters",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Girls drop out even though they perform as well as boys, if not better in some places",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The literacy rate among women is only 54 per cent compared with 76 per cent among men, and a smaller proportion of girl students go for higher studies",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Parents prefer to spend their resources on their boys' education rather than spending equally on their sons and daughters, so girls drop out after they have proved themselves at school. The result shows elsewhere too: the literacy rate among women is only 54 per cent compared with 76 per cent among men, and a smaller proportion of girl students go for higher studies.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "look at school results, girls perform\n The Equal Remuneration Act,\nMummy always\n1976 provides that equal wages\nas well as boys, if not better in\nsays to outsiders:\nshould be paid to equal work.\nsome places. But they drop out",
+            "because parents prefer to spend their\nam a housewife.”\nwork, from sports and cinema, to\nresources for their boys’ education\nBut I see her\nfactories and fields, women are paid\nrather than spending equally on their\nworking non-stop\nless than men, even when both do\nall the time. If\nsons and daughters."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess4 ch3",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:03:C:3",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/gender-religion-and-caste"
+      ],
+      "taxonomyChapterId": "social-science-10/gender-religion-and-caste",
+      "topic": "Gender and politics",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "In almost every workplace Kavya visits - a stadium, a film studio, a factory and a farm - women are paid less than men for exactly the same work. What does the law say about this, and why are so few women found among the highly paid and valued jobs?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The Equal Remuneration Act, 1976 provides that equal wages should be paid to equal work",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Women are paid less than men even when both do exactly the same work, in almost all areas of work",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So the proportion of women among the highly paid and valued jobs is still very small",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The Equal Remuneration Act, 1976 provides that equal wages should be paid to equal work. In practice, in almost all areas of work, from sports and cinema to factories and fields, women are paid less than men, even when both do exactly the same work. No wonder the proportion of women among the highly paid and valued jobs is still very small.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            " The Equal Remuneration Act,\nMummy always\n1976 provides that equal wages\nas well as boys, if not better in\nsays to outsiders:\nshould be paid to equal work.",
+            "However in almost all areas of\nbecause parents prefer to spend their\nam a housewife.”\nwork, from sports and cinema, to\nresources for their boys’ education\nBut I see her\nfactories and fields, women are paid\nrather than spending equally on their\nworking non-stop\nless than men, even when both do\nall the time. If\nsons and daughters.\nexactly the same work.",
+            " No wonder the proportion of\n In many parts of India, parents\nnot work, what\nwomen among the highly paid and\nprefer to have sons and find ways to\nelse is work?\nvalued jobs, is still very small. On"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess4 ch3",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:03:D:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/gender-religion-and-caste"
+      ],
+      "taxonomyChapterId": "social-science-10/gender-religion-and-caste",
+      "topic": "Gender and politics",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Karan's family decides to find out for itself who really does the work at home. Set out the steps Karan should follow to carry out the week's study of activities, and the steps by which he reaches a conclusion about whether women work more than men.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Lists all the activities, including household related work, reading and recreation, talking or gossiping, self-care, and taking rest or sleeping",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Notes the time taken on each activity by each family member for a week",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Adds up the time taken on each activity",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Calculates the daily average for each activity for each member and compares the women with the men",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Concludes that on an average an Indian woman works one hour more than an average man every day, and that much of this work is not paid and therefore, often not valued",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: List every activity - household related activity such as cooking, cleaning, washing, fetching water and looking after children or elders, and also reading and recreation, talking or gossiping, self-care, and taking rest or sleeping. Make new categories if necessary.\nStep 2: Note the time taken on each activity by each member of the family for one week.\nStep 3: Add up the time taken on each activity, then calculate the daily average for each activity for each member.\nStep 4: Compare the totals for the women and the men. On an average an Indian woman works one hour more than an average man every day, yet much of her work is not paid and therefore, often not valued.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "or field, etc.), household related activity (cooking, cleaning,\nPatriarchy: Literally,\nwashing, fetching water, looking after children or elders, etc.),\nrule by father, this\nreading and recreation, talking/gossiping, self-care, taking rest\nconcept is used to\nor sleeping. If necessary make new categories. Add up the time\nrefer to a system that\ntaken on each activity for a week and calculate the daily average\nvalues men more and\nfor each activity for each member. Do women work more in your\ngives them power\nfamily as well?\nover women.",
+            "have the girl child aborted before\nan average, an Indian woman works\nshe is born. Such sex-selective\none hour more than an average man\nabortion led to a decline in child sex\nevery day. Yet much of her work\nratio (number of girl children per\nis not paid and therefore, often\nthousand boys) in the country to\nnot valued."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch3",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:03:D:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/gender-religion-and-caste"
+      ],
+      "taxonomyChapterId": "social-science-10/gender-religion-and-caste",
+      "topic": "Gender and politics",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A labour officer visits a stadium, a film studio, a factory and a farm, and finds women doing exactly the same work as men but drawing a smaller pay packet in every one of them. Show, step by step, what the law promises, what she will actually observe, and what that means for women in the highly paid and valued jobs.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "The Equal Remuneration Act, 1976 provides that equal wages should be paid to equal work",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In almost all areas of work, from sports and cinema to factories and fields, women are paid less than men",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "This happens even when both do exactly the same work",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So the proportion of women among the highly paid and valued jobs is still very small",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "An Indian woman also works one hour more than an average man every day, much of that work being unpaid and not valued",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: The promise - the Equal Remuneration Act, 1976 provides that equal wages should be paid to equal work.\nStep 2: The practice - in almost all areas of work, from sports and cinema to factories and fields, women are paid less than men, even when both do exactly the same work.\nStep 3: The result - no wonder the proportion of women among the highly paid and valued jobs is still very small.\nStep 4: The unpaid share - on an average an Indian woman works one hour more than an average man every day, and much of her work is not paid and therefore, often not valued.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            " The Equal Remuneration Act,\nMummy always\n1976 provides that equal wages\nas well as boys, if not better in\nsays to outsiders:\nshould be paid to equal work.",
+            "However in almost all areas of\nbecause parents prefer to spend their\nam a housewife.”\nwork, from sports and cinema, to\nresources for their boys’ education\nBut I see her\nfactories and fields, women are paid\nrather than spending equally on their\nworking non-stop\nless than men, even when both do\nall the time. If\nsons and daughters.\nexactly the same work.",
+            " No wonder the proportion of\n In many parts of India, parents\nnot work, what\nwomen among the highly paid and\nprefer to have sons and find ways to\nelse is work?\nvalued jobs, is still very small. On"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch3",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:03:D:3",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/gender-religion-and-caste"
+      ],
+      "taxonomyChapterId": "social-science-10/gender-religion-and-caste",
+      "topic": "Gender and politics",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A student reads that the country now has only 919 girl children for every thousand boys, and is told that the number is not the same everywhere. Show, step by step, what this ratio counts, what has brought it down, and how the student should use a map of the country to find out more.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "The child sex ratio is the number of girl children per thousand boys",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It has declined in the country to merely 919",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Parents prefer to have sons and find ways to have the girl child aborted before she is born",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Such sex-selective abortion led to the decline in the child sex ratio",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It varies from State to State; identify your own State, compare it with others of a different colour, and find the States which have child sex ratio below 900",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: The count - the child sex ratio is the number of girl children per thousand boys. It has declined in the country to merely 919.\nStep 2: The cause - in many parts of India parents prefer to have sons and find ways to have the girl child aborted before she is born; such sex-selective abortion led to the decline.\nStep 3: The pattern - as the map shows, this varies from State to State.\nStep 4: Using the map - identify your own State and its child sex ratio, compare it with others shown in a different colour, identify the States which have child sex ratio below 900, and compare the map with the poster.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            " In many parts of India, parents\nnot work, what\nwomen among the highly paid and\nprefer to have sons and find ways to\nelse is work?\nvalued jobs, is still very small. On\nhave the girl child aborted before\nan average, an Indian woman works\nshe is born. Such sex-selective",
+            "abortion led to a decline in child sex\nevery day. Yet much of her work\nratio (number of girl children per\nis not paid and therefore, often\nthousand boys) in the country to\nnot valued.\nmerely 919. As the map shows, this",
+            "Can you identify\nyour State on this\nmap? What is the\nchild sex ratio in\nit? How is it\ndifferent from\nothers with a\ndifferent colour?\nIdentify the States\nwhich have child\nsex ratio below\n900.\nCompare this map\nwith the poster"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch3",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:03:D:4",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/gender-religion-and-caste"
+      ],
+      "taxonomyChapterId": "social-science-10/gender-religion-and-caste",
+      "topic": "Gender and politics",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Aaravi's father decides that the cooking, cleaning, washing, fetching of water and the care of the elders are his wife's duty alone, and that her work needs no pay because she stays at home. Aaravi asks you to work out, step by step, what such an arrangement rests on, and why the wife's effort goes unrecorded.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "The arrangement rests on patriarchy, literally rule by father",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Patriarchy is a system that gives men more power over women",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So the wife's household work carries no price and is dismissed, and she is called only a housewife",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "On an average an Indian woman works one hour more than an average man every day",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Much of that work is not paid and therefore, often not valued, and the same pattern leads parents to spend on their boys' education rather than on their sons and daughters",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: The arrangement rests on patriarchy - literally rule by father.\nStep 2: Patriarchy is a system that gives men more power over women, so the wife's household work carries no price and is dismissed as no work at all. That is why she tells outsiders she is only a housewife, even as she works non-stop.\nStep 3: She is not idle. On an average an Indian woman works one hour more than an average man every day, and much of her work is not paid and therefore, often not valued.\nStep 4: The same pattern runs outside the home - parents prefer to spend their resources for their boys' education rather than spending equally on their sons and daughters, so girls drop out after performing as well as boys.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Patriarchy: Literally,\nwashing, fetching water, looking after children or elders, etc.),\nrule by father, this\nreading and recreation, talking/gossiping, self-care, taking rest\nconcept is used to\nor sleeping. If necessary make new categories. Add up the time\nrefer to a system that\ntaken on each activity for a week and calculate the daily average\nvalues men more and\nfor each activity for each member. Do women work more in your\ngives them power\nfamily as well?\nover women.",
+            "“I don’t work. I\nHowever in almost all areas of\nbecause parents prefer to spend their\nam a housewife.”\nwork, from sports and cinema, to\nresources for their boys’ education\nBut I see her\nfactories and fields, women are paid\nrather than spending equally on their\nworking non-stop\nless than men, even when both do\nall the time. If\nsons and daughters.\nexactly the same work.\nwhat she does is",
+            "every day. Yet much of her work\nratio (number of girl children per\nis not paid and therefore, often\nthousand boys) in the country to\nnot valued."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch3",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:03:E:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/gender-religion-and-caste"
+      ],
+      "taxonomyChapterId": "social-science-10/gender-religion-and-caste",
+      "topic": "Gender and politics",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Kavita's mother is at some task from morning to night. She cooks, cleans, washes, fetches water, looks after the children and the elders, and only sits down when everyone has eaten. When visitors ask her what she does, she says she is only a housewife and does not work. Kavita has begun to add up her mother's hours and is surprised to find that they exceed her father's. She wants to know why so many hours of effort add up to no work at all.\n\nRead the case below and answer the questions that follow. (a) Name the system in which the father rules and men hold more power over women. (b) Why does the mother's long working day add up to no work? (c) Kavita says that work which brings no salary cannot be work. Using the idea of patriarchy, explain why this reasoning is misleading.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Patriarchy. (b) Much of her work is not paid, and work that is not paid is often not valued; on an average an Indian woman works one hour more than an average man every day. (c) Patriarchy gives men more power over women, so her unpaid household work carries no price and is dismissed, even though she works non-stop.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Patriarchy: Literally,\nwashing, fetching water, looking after children or elders, etc.),\nrule by father, this\nreading and recreation, talking/gossiping, self-care, taking rest\nconcept is used to\nor sleeping. If necessary make new categories. Add up the time\nrefer to a system that\ntaken on each activity for a week and calculate the daily average\nvalues men more and\nfor each activity for each member. Do women work more in your\ngives them power\nfamily as well?\nover women.",
+            "every day. Yet much of her work\nratio (number of girl children per\nis not paid and therefore, often\nthousand boys) in the country to\nnot valued."
+          ],
+          "objective": false,
+          "passage": "Kavita's mother is at some task from morning to night. She cooks, cleans, washes, fetches water, looks after the children and the elders, and only sits down when everyone has eaten. When visitors ask her what she does, she says she is only a housewife and does not work. Kavita has begun to add up her mother's hours and is surprised to find that they exceed her father's. She wants to know why so many hours of effort add up to no work at all."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess4 ch3",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:03:E:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/gender-religion-and-caste"
+      ],
+      "taxonomyChapterId": "social-science-10/gender-religion-and-caste",
+      "topic": "Gender and politics",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Reema and Suresh have worked in the same factory for the same number of hours, doing exactly the same work. At the end of the month Reema's pay packet is the smaller one. Reema knows that a law exists to decide what is due in such a case. At home, her parents never question spending on her brother's schooling, but hesitate when the same sum is needed for her sister. Reema's sister tops the class and yet leaves school after the tenth class.\n\nRead the case below and answer the questions that follow. (a) Name the law and the year that decide what Reema is due. (b) State what the law promises and what Reema actually receives at the factory. (c) Explain why, in Reema's family, a girl who tops the class still leaves school while the family spends on the boy.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The Equal Remuneration Act, 1976. (b) It provides that equal wages should be paid to equal work, but women are paid less than men even when both do exactly the same work. (c) Parents prefer to spend their resources on their boys' education rather than spending equally on their sons and daughters, so a smaller proportion of girl students go for higher studies.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            " The Equal Remuneration Act,\nMummy always\n1976 provides that equal wages\nas well as boys, if not better in\nsays to outsiders:\nshould be paid to equal work.",
+            "However in almost all areas of\nbecause parents prefer to spend their\nam a housewife.”\nwork, from sports and cinema, to\nresources for their boys’ education\nBut I see her\nfactories and fields, women are paid\nrather than spending equally on their\nworking non-stop\nless than men, even when both do\nall the time. If\nsons and daughters.\nexactly the same work.",
+            " The literacy rate among women\nis only 54 per cent compared with\n76 per cent among men. Similarly, a\nsmaller proportion of girl students\ngo for higher studies. When we"
+          ],
+          "objective": false,
+          "passage": "Reema and Suresh have worked in the same factory for the same number of hours, doing exactly the same work. At the end of the month Reema's pay packet is the smaller one. Reema knows that a law exists to decide what is due in such a case. At home, her parents never question spending on her brother's schooling, but hesitate when the same sum is needed for her sister. Reema's sister tops the class and yet leaves school after the tenth class."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess4 ch3",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:03:E:3",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/gender-religion-and-caste"
+      ],
+      "taxonomyChapterId": "social-science-10/gender-religion-and-caste",
+      "topic": "Gender and politics",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "In his colony Anil hears families say, after the birth of a girl child, that they will wait for another time. A poster on the wall states that the country now has 919 girl children for every thousand boys. Anil's teacher says the number is not the same everywhere in the country, and asks the class to work out which States have fallen further still, to 900 or below, and to set what they find against the poster on the wall.\n\nRead the case below and answer the questions that follow. (a) What does the child sex ratio count, and to what has it fallen in the country? (b) Name the practice that the families in Anil's colony are following. (c) Why is a single country-wide number not enough to judge the situation, and what four things should the class work out from the State-wise information?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) It counts the number of girl children per thousand boys, and has declined in the country to merely 919. (b) Sex-selective abortion - parents prefer to have sons and find ways to have the girl child aborted before she is born. (c) The number varies from State to State, so identify your own State, compare it with others of a different colour, find the States below 900, and compare the map with the poster.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            " In many parts of India, parents\nnot work, what\nwomen among the highly paid and\nprefer to have sons and find ways to\nelse is work?\nvalued jobs, is still very small. On\nhave the girl child aborted before\nan average, an Indian woman works\nshe is born. Such sex-selective",
+            "abortion led to a decline in child sex\nevery day. Yet much of her work\nratio (number of girl children per\nis not paid and therefore, often\nthousand boys) in the country to\nnot valued.\nmerely 919. As the map shows, this",
+            "Can you identify\nyour State on this\nmap? What is the\nchild sex ratio in\nit? How is it\ndifferent from\nothers with a\ndifferent colour?\nIdentify the States\nwhich have child\nsex ratio below\n900.\nCompare this map\nwith the poster"
+          ],
+          "objective": false,
+          "passage": "In his colony Anil hears families say, after the birth of a girl child, that they will wait for another time. A poster on the wall states that the country now has 919 girl children for every thousand boys. Anil's teacher says the number is not the same everywhere in the country, and asks the class to work out which States have fallen further still, to 900 or below, and to set what they find against the poster on the wall."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess4 ch3",
+        "pages": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess4",
+    "chapters": [
+      3
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

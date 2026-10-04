@@ -1,0 +1,628 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:11:B:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/reproduction-how-life-continues"
+      ],
+      "taxonomyChapterId": "science-9/reproduction-how-life-continues",
+      "topic": "Asexual Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Vikram wants to see whether yeast is duplicating. He has a test tube, some sugar solution and a pinch of yeast granules with him. State what must be placed at the mouth of the test tube and where the test tube must be kept.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "A cotton plug is placed at the mouth of the test tube",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The test tube is kept undisturbed in a warm place",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A cotton plug at the mouth of the test tube; the test tube must be kept undisturbed in a warm place.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "2. Add a pinch of yeast granules to it and then place a cotton plug on the\nmouth of the test tube.",
+            "3. Keep it undisturbed in a warm place to allow the yeast to become active."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch11",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          209,
+          211,
+          213,
+          215,
+          217,
+          219,
+          221,
+          223,
+          225,
+          227
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:11:B:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/reproduction-how-life-continues"
+      ],
+      "taxonomyChapterId": "science-9/reproduction-how-life-continues",
+      "topic": "Asexual Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "A hydra taken from a pond shows small, round outgrowths on its body. Name the process by which it reproduces and state what happens to each outgrowth.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The process is budding",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The bud enlarges and separates from the parent to live independently",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Budding; the bud enlarges and separates from the parent to live independently.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In organisms, such as hydra (a multicellular animal), repeated cell\ndivision at a specific site on the parent body produces a small outgrowth",
+            "called a bud (Fig. 11.7). The bud enlarges and separates from the parent",
+            "to live independently. This process is called budding. In hydra, one can"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch11",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          209,
+          211,
+          213,
+          215,
+          217,
+          219,
+          221,
+          223,
+          225,
+          227
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:11:B:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/reproduction-how-life-continues"
+      ],
+      "taxonomyChapterId": "science-9/reproduction-how-life-continues",
+      "topic": "Asexual Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Cooked food left on a warm kitchen counter for a day begins to smell and grows fuzzy patches. Name the scientist whose experiments settled where these microorganisms come from, and state the theory he found.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Louis Pasteur",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The germ theory of disease",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Louis Pasteur; the germ theory of disease.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "For long, people thought living things arose spontaneously\nfrom non-living matter. Experiments by Louis Pasteur proved that new life\nalways comes from pre-existing life. He found the germ theory of disease,",
+            "cooked food on the kitchen counter for a day in warm weather, it starts to\nsmell and may even grow fuzzy patches."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch11",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          209,
+          211,
+          213,
+          215,
+          217,
+          219,
+          221,
+          223,
+          225,
+          227
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:11:B:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/reproduction-how-life-continues"
+      ],
+      "taxonomyChapterId": "science-9/reproduction-how-life-continues",
+      "topic": "How does meiosis help create variations in sexual reproduction?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A plant breeder wants the flowers of one variety to be fertilised only by pollen from a chosen parent plant and not by the variety's own pollen. Name the breeding method used and state the steps by which this is brought about.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "It is artificial hybridisation, in which the stamens are removed from the flowers and a bagging is used to prevent self-pollination",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Pollen with the desired characters is manually transferred to the flower",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Artificial hybridisation: the stamens are removed from the flower, it is covered with a bagging to prevent self-pollination, and pollen with the desired characters is transferred manually to it.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "methods of plant breeding, such as selective breeding, artificial hybridisation, genetically\nengineered crops, and more.",
+            "Process of artificial hybridisation involves removal of the stamens from the flowers,\ncovering it with a bagging to prevent self-pollination, and manual transfer of the pollens with\ndesired characters."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch11",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          209,
+          211,
+          213,
+          215,
+          217,
+          219,
+          221,
+          223,
+          225,
+          227
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:11:E:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/reproduction-how-life-continues"
+      ],
+      "taxonomyChapterId": "science-9/reproduction-how-life-continues",
+      "topic": "Asexual Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Ananya's class wanted to watch yeast duplicating. The teacher placed 20 mL of sugar solution (1 g in 10 mL) in a test tube, added a pinch of yeast granules and plugged the mouth of the test tube with cotton. The test tube was kept undisturbed in a warm place. After 1 to 2 hours, Ananya placed a small drop of the yeast mixture on a glass slide and mounted it with a coverslip. Under the compound microscope at different magnifications she saw small, round outgrowths emerging from the parent yeast cells and drew a diagram of what she observed.\n\n(a) State what was placed at the mouth of the test tube and the condition under which the test tube was kept. (b) What did Ananya see emerging from the parent yeast cells, and what do these features indicate? (c) A hydra often carries many buds on its body at the same time, and every bud separates from the parent to live independently. Explain why this is able to increase the number of hydras quickly.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) A cotton plug; the test tube was kept undisturbed in a warm place. (b) Small, round outgrowths, or buds; they indicate that the yeast is duplicating. (c) Every bud that separates lives independently, so the many buds on one parent become many new individuals at the same time.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "2. Add a pinch of yeast granules to it and then place a cotton plug on the\nmouth of the test tube.\n3. Keep it undisturbed in a warm place to allow the yeast to become active.",
+            "Do you observe any small, round outgrowths (buds) emerging from the\nparent yeast cells as shown in Fig. 11.6? Do these features indicate that the\nyeast is duplicating?",
+            "to live independently. This process is called budding. In hydra, one can\nhydra\noften see many buds growing on the parent’s body at the same time."
+          ],
+          "objective": false,
+          "passage": "Ananya's class wanted to watch yeast duplicating. The teacher placed 20 mL of sugar solution (1 g in 10 mL) in a test tube, added a pinch of yeast granules and plugged the mouth of the test tube with cotton. The test tube was kept undisturbed in a warm place. After 1 to 2 hours, Ananya placed a small drop of the yeast mixture on a glass slide and mounted it with a coverslip. Under the compound microscope at different magnifications she saw small, round outgrowths emerging from the parent yeast cells and drew a diagram of what she observed."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch11",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          209,
+          211,
+          213,
+          215,
+          217,
+          219,
+          221,
+          223,
+          225,
+          227
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:11:E:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/reproduction-how-life-continues"
+      ],
+      "taxonomyChapterId": "science-9/reproduction-how-life-continues",
+      "topic": "Asexual Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Farhan's grandmother keeps bread and roti in a plastic box on the shelf. One warm day she left the box untouched and, after three days, fuzzy patches had spread over the food. Farhan carried a little of the mould on a needle to a microscope slide and added cotton blue stain so that he could see it better. His teacher then told him that fungi grow very fast by spore formation, degrade organic wastes and pollutants, and that many antibiotics, including penicillin and amoxicillin, are derived from fungi.\n\n(a) What did Farhan add to the mould on the slide, and what was that addition meant to do? (b) State how fungi manage to grow so quickly, and name two antibiotics that are derived from them. (c) Farhan's family wants to throw away the bread on which these fungi grew. Using his teacher's account, explain why fungi are useful to society, giving two reasons.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) He added cotton blue stain, a coloured dye that helps him see the mould better. (b) Fungi grow very fast by spore formation; penicillin and amoxicillin. (c) They degrade organic wastes and pollutants and remove heavy metals from industrial wastes, and the antibiotics derived from them save countless lives from bacterial infections.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the guidance of your teacher, add cotton blue\nstain — a coloured dye to help see it better.",
+            "Moulds on bread may look unpleasant but fungi benefit society greatly. Fungi grow very\nfast by spore formation and degrade organic wastes and pollutants.",
+            "important role in removal of heavy metals from industrial wastes. Many antibiotics are\nderived from fungi (penicillin and amoxicillin), saving countless lives from bacterial\ninfections."
+          ],
+          "objective": false,
+          "passage": "Farhan's grandmother keeps bread and roti in a plastic box on the shelf. One warm day she left the box untouched and, after three days, fuzzy patches had spread over the food. Farhan carried a little of the mould on a needle to a microscope slide and added cotton blue stain so that he could see it better. His teacher then told him that fungi grow very fast by spore formation, degrade organic wastes and pollutants, and that many antibiotics, including penicillin and amoxicillin, are derived from fungi."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch11",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          209,
+          211,
+          213,
+          215,
+          217,
+          219,
+          221,
+          223,
+          225,
+          227
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:11:E:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/reproduction-how-life-continues"
+      ],
+      "taxonomyChapterId": "science-9/reproduction-how-life-continues",
+      "topic": "Asexual Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Over the monsoon break, Riya's family left cooked food out in the kitchen for a day in warm weather, and it began to smell and grow fuzzy patches. Her uncle said the food had made these microbes on its own, because for long people thought living things arose spontaneously from non-living matter. Her aunt disagreed. She reminded the family that experiments by Louis Pasteur proved that new life always comes from pre-existing life. Pasteur found the germ theory of disease and strengthened the cell theory, that all cells arise from pre-existing cells, and his work led to practices like food and instrument sterilisation.\n\n(a) State what Pasteur's experiments proved about where new life comes from. (b) Name the germ theory he found and the theory he strengthened, stating what each one says. (c) Riya's uncle is certain that the stale food produced these microbes by itself. Using what Pasteur proved, explain why he is wrong, and state the two practices his work led to.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) That new life always comes from pre-existing life. (b) The germ theory of disease, and the cell theory, that all cells arise from pre-existing cells. (c) The food is non-living, so it cannot give rise to life on its own; the microbes came from pre-existing life, so food and instruments should be sterilised.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "For long, people thought living things arose spontaneously\nfrom non-living matter. Experiments by Louis Pasteur proved that new life\nalways comes from pre-existing life.",
+            "He found the germ theory of disease,\nstrengthened the cell theory (all cells arise from pre-existing cells), and led\nto practices like food and instrument sterilisation.",
+            "cooked food on the kitchen counter for a day in warm weather, it starts to\nsmell and may even grow fuzzy patches."
+          ],
+          "objective": false,
+          "passage": "Over the monsoon break, Riya's family left cooked food out in the kitchen for a day in warm weather, and it began to smell and grow fuzzy patches. Her uncle said the food had made these microbes on its own, because for long people thought living things arose spontaneously from non-living matter. Her aunt disagreed. She reminded the family that experiments by Louis Pasteur proved that new life always comes from pre-existing life. Pasteur found the germ theory of disease and strengthened the cell theory, that all cells arise from pre-existing cells, and his work led to practices like food and instrument sterilisation."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch11",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          209,
+          211,
+          213,
+          215,
+          217,
+          219,
+          221,
+          223,
+          225,
+          227
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:11:E:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/reproduction-how-life-continues"
+      ],
+      "taxonomyChapterId": "science-9/reproduction-how-life-continues",
+      "topic": "How does meiosis help create variations in sexual reproduction?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Wheat has been grown on Nandita's family farm for generations, and her grandfather chose each year's seed stock from the plants with the most desirable characters. When a disease began to damage the crop, Nandita's father removed the stamens from flowers of the crop plant, tied a bagging around them so that the plant's own pollen could not reach them, and carried pollen by hand from a plant that already resisted the disease. This year the farm also grew a new variety whose DNA carries the genetic material of a desired character placed there by scientists, and the plants that grew from it were high yielding and resisted the disease.\n\n(a) Name the plant breeding method Nandita's father used and state why he removed the stamens and tied a bagging around the flowers. (b) Nandita's grandfather chose the seed stock, her father transferred pollen and scientists altered the DNA. Explain how these three approaches each bring a desired character into the crop grown on the farm.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Artificial hybridisation; removing the stamens and bagging the flower prevents self-pollination, so only the transferred pollen fertilises it. (b) Selective breeding works by choosing which plants reproduce, artificial hybridisation by hand-transferring pollen from a chosen plant, and genetic engineering by inserting the desired character into the DNA, so each changes what the next crop inherits.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In selective breeding, farmers select plants of desirable characters for\nreproduction.",
+            "Process of artificial hybridisation involves removal of the stamens from the flowers,\ncovering it with a bagging to prevent self-pollination, and manual transfer of the pollens with\ndesired characters.",
+            "Genetic engineering is also applied by inserting the genetic material of desired\ncharacters into the DNA of the selected varieties."
+          ],
+          "objective": false,
+          "passage": "Wheat has been grown on Nandita's family farm for generations, and her grandfather chose each year's seed stock from the plants with the most desirable characters. When a disease began to damage the crop, Nandita's father removed the stamens from flowers of the crop plant, tied a bagging around them so that the plant's own pollen could not reach them, and carried pollen by hand from a plant that already resisted the disease. This year the farm also grew a new variety whose DNA carries the genetic material of a desired character placed there by scientists, and the plants that grew from it were high yielding and resisted the disease."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch11",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          209,
+          211,
+          213,
+          215,
+          217,
+          219,
+          221,
+          223,
+          225,
+          227
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      11
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

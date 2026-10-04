@@ -1,0 +1,581 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:02:B:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/cell-the-building-block-of-life"
+      ],
+      "taxonomyChapterId": "science-9/cell-the-building-block-of-life",
+      "topic": "How to Study Cells?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "In a school laboratory the diameter of the circular field of view of a light microscope is measured as 5 mm. State this same diameter in micrometres.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Convert the millimetre value to micrometres by multiplying by 1000",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "5 × 1000 = 5000 µm",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "5000 µm",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "(µm). Suppose the diameter of the visible field\nis 5 mm, meaning 5 × 1000 = 5000 µm.",
+            "3. Convert the diameter from mm to micrometre"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch2",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          25,
+          27
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:02:B:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/cell-the-building-block-of-life"
+      ],
+      "taxonomyChapterId": "science-9/cell-the-building-block-of-life",
+      "topic": "How to Study Cells?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A biologist has to reveal the fine details of a cell structure that a school light microscope cannot show. Name the instrument used and state what it uses in place of light.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Electron microscope",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It uses a beam of electrons instead of light",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "An electron microscope; a beam of electrons.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "scientists also use powerful electron",
+            "microscopes that reveal the fine details",
+            "use a beam of electrons instead of light"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch2",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          25,
+          27
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:02:B:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/cell-the-building-block-of-life"
+      ],
+      "taxonomyChapterId": "science-9/cell-the-building-block-of-life",
+      "topic": "How to Study Cells?",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "A student's project states that the first person to observe a cell did so in 1665, using a self-designed microscope. State the name of that person.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Robert Hooke",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He was the first person to observe a cell, in 1665",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Robert Hooke",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Robert Hooke was the first",
+            "person to observe a cell in 1665",
+            "using a self-designed microscope"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch2",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          25,
+          27
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:02:B:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/cell-the-building-block-of-life"
+      ],
+      "taxonomyChapterId": "science-9/cell-the-building-block-of-life",
+      "topic": "Cell wall — The outer covering of cells",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "An onion peel kept in a concentrated sugar solution loses water, yet its cells keep the same size and do not shrink. Name the cell part that keeps them firm, and state how it does this.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Cell wall",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Its rigid nature maintains the shape of the cell, so the cell does not shrink",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The cell wall; its rigidity maintains the shape of the cell.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "solution the plant cells lose water due to osmosis. However, the cells do not\nshrink in size because their rigid cell wall maintains their shape.",
+            "This shows that the cell wall helps plant cells remain firm in their original"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch2",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          25,
+          27
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:02:E:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/cell-the-building-block-of-life"
+      ],
+      "taxonomyChapterId": "science-9/cell-the-building-block-of-life",
+      "topic": "How to Study Cells?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A Class 9 student is helping to write labels for a school exhibit on cells. One label reads that in 1665 a man examined a thin slice of cork with a self-designed microscope capable of about 200–300X magnification, saw small box-like compartments, and named them ‘cells’. The student also learns that a convex lens, or a combination of an objective lens and an eyepiece, is used for the magnification of an object so that it appears larger. They wonder how a lens can make visible things that are much smaller than the limit of resolution of the human eye.\n\n(a) State the name of the person who named the box-like compartments ‘cells’, and the year in which this was done. (b) State what magnification does to an object, and name the lens or lens combination that brings this about. (c) Cells exist that are much smaller than the limit of resolution of the human eye. Using the instruments available to a biologist, explain how such cells can nevertheless be studied.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Robert Hooke, in 1665. (b) It makes the object appear larger; a convex lens, or a combination of an objective lens and an eyepiece. (c) A lens combination magnifies the object so that it appears larger, and powerful electron microscopes use a beam of electrons instead of light to reveal the fine details of a cell structure.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Robert Hooke was the first",
+            "the magnification of an object (Fig. 2.1) to\nmake it appear larger.",
+            "use a beam of electrons instead of light"
+          ],
+          "objective": false,
+          "passage": "A Class 9 student is helping to write labels for a school exhibit on cells. One label reads that in 1665 a man examined a thin slice of cork with a self-designed microscope capable of about 200–300X magnification, saw small box-like compartments, and named them ‘cells’. The student also learns that a convex lens, or a combination of an objective lens and an eyepiece, is used for the magnification of an object so that it appears larger. They wonder how a lens can make visible things that are much smaller than the limit of resolution of the human eye."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch2",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          25,
+          27
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:02:E:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/cell-the-building-block-of-life"
+      ],
+      "taxonomyChapterId": "science-9/cell-the-building-block-of-life",
+      "topic": "How to Study Cells?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A biology teacher hands a student a transparent ruler with millimetre markings and asks for the actual size of an onion peel cell. The ruler is placed on the stage of the microscope and focused on with the adjustment knob, and the diameter of the circular field of view through the eyepiece is found to be 5 mm. This diameter is converted to micrometres. The ruler is then removed, an onion peel slide is placed on the stage, and the cells present along the diameter of the field of view are counted in one straight line, so that the real size of the cell can be estimated using the formula.\n\n(a) State the value of the field of view diameter in micrometres and the conversion used to obtain it. (b) State what is counted on the onion peel slide, and what is then estimated from that count. (c) The field of view diameter is measured in millimetres while a single cell is far too small to measure directly. Using the steps that were followed, explain how the real size of a cell can still be estimated.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) 5000 µm; 5 × 1000 = 5000 µm. (b) The cells present along the diameter of the field of view in one straight line; the real size of the cell is then estimated using the formula. (c) The field’s diameter is measured and converted to micrometres; the cells along that same diameter are counted, and the formula gives the real size of one cell.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the eyepiece and measure it in mm.\n3. Convert the diameter from mm to micrometre\n(µm). Suppose the diameter of the visible field\nis 5 mm, meaning 5 × 1000 = 5000 µm.",
+            "6. Estimate the real size of the cell using the",
+            "present along the diameter of the field of view in"
+          ],
+          "objective": false,
+          "passage": "A biology teacher hands a student a transparent ruler with millimetre markings and asks for the actual size of an onion peel cell. The ruler is placed on the stage of the microscope and focused on with the adjustment knob, and the diameter of the circular field of view through the eyepiece is found to be 5 mm. This diameter is converted to micrometres. The ruler is then removed, an onion peel slide is placed on the stage, and the cells present along the diameter of the field of view are counted in one straight line, so that the real size of the cell can be estimated using the formula."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch2",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          25,
+          27
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:02:E:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/cell-the-building-block-of-life"
+      ],
+      "taxonomyChapterId": "science-9/cell-the-building-block-of-life",
+      "topic": "How to Study Cells?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A school science lab is being set up for the new term. The teacher tells the students that they will begin with light microscopes, using different objective lenses such as 10X and 40X to achieve better magnification and resolution under visible light, and so observe fine structures of various materials. She then shows them a photograph taken using an electron microscope and explains that scientists also use these powerful instruments, which use a beam of electrons instead of light to reveal the fine details of a cell structure.\n\n(a) State the two objective lens magnifications the students will use with the light microscope, and what using them is meant to achieve. (b) State what an electron microscope uses in place of light, and what this allows it to do. (c) Some cells are much smaller than the limit of resolution of the human eye. Using what the teacher says about the two kinds of instrument, explain why a school light microscope on its own may not be enough to study them.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) 10X and 40X; they achieve better magnification and resolution under visible light. (b) A beam of electrons instead of light, producing highly magnified images that reveal the fine details of a cell structure. (c) Light microscopes work under visible light, while electron microscopes use electrons to produce highly magnified images and reveal fine details.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "different objective lenses (e.g., 10X, 40X) to achieve",
+            "better magnification and resolution under visible",
+            "use a beam of electrons instead of light"
+          ],
+          "objective": false,
+          "passage": "A school science lab is being set up for the new term. The teacher tells the students that they will begin with light microscopes, using different objective lenses such as 10X and 40X to achieve better magnification and resolution under visible light, and so observe fine structures of various materials. She then shows them a photograph taken using an electron microscope and explains that scientists also use these powerful instruments, which use a beam of electrons instead of light to reveal the fine details of a cell structure."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch2",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          25,
+          27
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:02:E:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/cell-the-building-block-of-life"
+      ],
+      "taxonomyChapterId": "science-9/cell-the-building-block-of-life",
+      "topic": "Cell wall — The outer covering of cells",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A Class 9 student places a piece of onion peel and some cheek cells in separate beakers of concentrated sugar solution. After some time the cheek cells shrink, but the onion peel cells keep their size and shape, and the membrane inside each plant cell pulls away from the wall. The teacher explains that the covering outside the cell membrane in plant cells is rigid, and that although it is rigid, water and some dissolved minerals can pass through it, which together with the cell membrane helps plant roots absorb water and nutrients from the soil. She asks the class to name what the plant cell wall is mainly made of.\n\n(a) State what the cell wall of a plant cell is primarily made of, and the kind of substance it is. (b) Both the onion peel cells and the cheek cells were placed in concentrated sugar solution, but only the cheek cells shrank. Using the presence or absence of a cell wall, explain this difference.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Cellulose, a carbohydrate formed by many glucose units linked together. (b) Cheek cells are animal cells and have no cell wall, so they lose water and shrink. Onion peel cells also lose water due to osmosis, but their rigid cell wall maintains their shape, so only the inner content shrinks.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The plant cell wall is primarily made of cellulose, a type of carbohydrate\nformed by many glucose units linked together.",
+            "solution the plant cells lose water due to osmosis. However, the cells do not\nshrink in size because their rigid cell wall maintains their shape. The inner",
+            "Animal cells, such as cheek cells do not have a cell wall. Therefore,"
+          ],
+          "objective": false,
+          "passage": "A Class 9 student places a piece of onion peel and some cheek cells in separate beakers of concentrated sugar solution. After some time the cheek cells shrink, but the onion peel cells keep their size and shape, and the membrane inside each plant cell pulls away from the wall. The teacher explains that the covering outside the cell membrane in plant cells is rigid, and that although it is rigid, water and some dissolved minerals can pass through it, which together with the cell membrane helps plant roots absorb water and nutrients from the soil. She asks the class to name what the plant cell wall is mainly made of."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch2",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          25,
+          27
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      2
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

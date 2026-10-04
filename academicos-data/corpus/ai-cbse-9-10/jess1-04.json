@@ -1,0 +1,398 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess1:04:A:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/agriculture"
+      ],
+      "taxonomyChapterId": "social-science-10/agriculture",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A buyer placing a large order of vegetables with Indian suppliers wants to know which vegetables the country is an important producer of. (A) Tea, coffee, jute and rubber (B) Mangoes, oranges, bananas and lichi (C) Pea, cauliflower, onion, cabbage, tomato, brinjal and potato (D) Apples, pears, apricots and walnuts",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Pea, cauliflower, onion, cabbage, tomato, brinjal and potato",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "India is an important producer of pea,\nMaharashtra, Gujarat, Madhya Pradesh,\ncauliflower, onion, cabbage, tomato, brinjal\nKarnataka, Andhra Pradesh, Telangana, Tamil\nand potato."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Tea, coffee, jute and rubber",
+            "B": "Mangoes, oranges, bananas and lichi",
+            "C": "Pea, cauliflower, onion, cabbage, tomato, brinjal and potato",
+            "D": "Apples, pears, apricots and walnuts"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess1 ch4",
+        "pages": [
+          1,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:04:B:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/agriculture"
+      ],
+      "taxonomyChapterId": "social-science-10/agriculture",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A cafe chain buys only Arabica coffee for its blend. Name the hills in India where this variety, first brought from Yemen, is grown today, and the states in which those hills lie.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the Nilgiri as the place where the variety is now grown",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives the states as Karnataka, Kerala and Tamil Nadu",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The Nilgiri, in Karnataka, Kerala and Tamil Nadu.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "initially brought from Yemen is produced in",
+            "today its cultivation is confined to the Nilgiri",
+            "in Karnataka, Kerala and Tamil Nadu."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess1 ch4",
+        "pages": [
+          1,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:04:C:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/agriculture"
+      ],
+      "taxonomyChapterId": "social-science-10/agriculture",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A tea company wants to know where in India it can buy leaf and how India's standing compares with the rest of the world. (a) Name the major tea-producing states. (b) Name the states that also grow tea, and state where India stood among the producers of tea in 2020.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Names Assam, the hills of Darjeeling and Jalpaiguri districts in West Bengal, Tamil Nadu and Kerala as the major tea-producing states",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names Himachal Pradesh, Uttarakhand, Meghalaya, Andhra Pradesh and Tripura as states that also grow tea",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that in 2020 India was the second largest producer of tea after China",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The major tea-producing states are Assam, the hills of Darjeeling and Jalpaiguri districts in West Bengal, Tamil Nadu and Kerala. (b) Himachal Pradesh, Uttarakhand, Meghalaya, Andhra Pradesh and Tripura also grow tea. In 2020 India was the second largest producer of tea after China.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "its freshness. Major tea-\nproducing states are Assam, hills of Darjeeling\nHorticulture Crops: In 2020, India was\nand Jalpaiguri districts, West Bengal, Tamil\nthe second largest producer of fruits and\nNadu and Kerala. Apart from these, Himachal",
+            "vegetables in the world after China. India is\nPradesh, Uttarakhand, Meghalaya, Andhra\na producer of tropical as well as temperate\nPradesh and Tripura are also tea-producing",
+            "states in the country. In 2020 India was the\nPradesh, Telangana, Uttar Pradesh and West\nsecond largest producer of tea after China."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess1 ch4",
+        "pages": [
+          1,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:04:D:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/agriculture"
+      ],
+      "taxonomyChapterId": "social-science-10/agriculture",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A jute mill in Assam must write up its raw material plan in steps before the season begins. Set out, in steps: (i) the name by which jute is known and the kind of land and soil it grows well in, (ii) the temperature condition it needs while growing, (iii) the states where jute is grown most, and (iv) the items made from jute.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Calls jute the golden fibre",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives the growing conditions as well-drained fertile soils in the flood plains where soils are renewed every year",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that high temperature is required during the time of growth",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names the five major jute producing states: West Bengal, Bihar, Assam, Odisha and Meghalaya",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Lists the jute goods as gunny bags, mats, ropes, yarn, carpets and other artefacts",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Jute is known as the golden fibre. It grows well on well-drained fertile soils in the flood plains where soils are renewed every year. 2. High temperature is required during the time of growth. 3. The major jute producing states are West Bengal, Bihar, Assam, Odisha and Meghalaya. 4. It is used in making gunny bags, mats, ropes, yarn, carpets and other artefacts.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Jute: It is known as the golden fibre. Jute\nNon-Food Crops\ngrows well on well-drained fertile soils in the\nRubber: It is an equatorial crop, but under\nflood plains where soils are renewed every year.",
+            "High temperature is required during the time\nand sub-tropical areas. It requires moist and\nof growth. West Bengal, Bihar, Assam, Odisha\nhumid climate with rainfall of more than 200\nand Meghalaya are the major jute producing",
+            "states. It is used in making gunny bags, mats,\nRubber is an important industrial raw\nropes, yarn, carpets and other artefacts."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess1 ch4",
+        "pages": [
+          1,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:04:E:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/agriculture"
+      ],
+      "taxonomyChapterId": "social-science-10/agriculture",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Ramesh has been hired to run a fruit and vegetable warehouse. His new boss tells him that in 2020 India was the second largest producer of fruits and vegetables in the world after China, and that India grows both tropical and temperate fruits. Ramesh must label every crate by place of origin. Mangoes arrive from Maharashtra, Andhra Pradesh, Telangana, Uttar Pradesh and West Bengal, while oranges come from Nagpur and Cherrapunjee in Meghalaya, and bananas from Kerala, Mizoram, Maharashtra and Tamil Nadu. Apples, pears, apricots and walnuts arrive from Jammu and Kashmir and Himachal Pradesh.\n\n(a) Ramesh has to record India's standing among world producers. Name the country India comes after, the year in which this position was measured, and the two kinds of fruit India grows. (b) Check the places of origin given for the fruit in the warehouse. Which four fruits can be supplied from exactly the same two places, and name those two places.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) China; 2020; tropical fruits and temperate fruits. (b) Apples, pears, apricots and walnuts — all four come from exactly the same two places, Jammu and Kashmir and Himachal Pradesh.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Horticulture Crops: In 2020, India was\nand Jalpaiguri districts, West Bengal, Tamil\nthe second largest producer of fruits and\nNadu and Kerala. Apart from these, Himachal\nvegetables in the world after China. India is\nPradesh, Uttarakhand, Meghalaya, Andhra\na producer of tropical as well as temperate",
+            "Telangana and Maharashtra, apples, pears,\nall over the world. Initially its cultivation was\napricots and walnuts of Jammu and Kashmir\nintroduced on the Baba Budan Hills and even\nand Himachal Pradesh are in great demand"
+          ],
+          "objective": false,
+          "passage": "Ramesh has been hired to run a fruit and vegetable warehouse. His new boss tells him that in 2020 India was the second largest producer of fruits and vegetables in the world after China, and that India grows both tropical and temperate fruits. Ramesh must label every crate by place of origin. Mangoes arrive from Maharashtra, Andhra Pradesh, Telangana, Uttar Pradesh and West Bengal, while oranges come from Nagpur and Cherrapunjee in Meghalaya, and bananas from Kerala, Mizoram, Maharashtra and Tamil Nadu. Apples, pears, apricots and walnuts arrive from Jammu and Kashmir and Himachal Pradesh."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess1 ch4",
+        "pages": [
+          1,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess1",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess2:04:AR:101",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/globalisation-and-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/globalisation-and-the-indian-economy",
+      "topic": "Production Across Countries",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Rohit has noticed that the footballs stitched at home by women in Ludhiana reach the shops carrying the name of a large company and not the name of the women who make them. Consider the following statements.\n1. In industries such as garments, footwear and sports items, the goods made by a large number of small producers reach the customers under the brand names of the large MNCs that ordered them.\n2. Large MNCs in developed countries place orders for production with small producers, and whatever these producers supply is then sold by the MNCs under their own brand names.\nChoose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Large\nMNCs in developed countries place\norders for production with small\nproducers.",
+            "The products are supplied to the\nMNCs, which then sell these under\ntheir own brand names to the\ncustomers."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess2 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:04:AR:102",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/globalisation-and-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/globalisation-and-the-indian-economy",
+      "topic": "Production Across Countries",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Neha is trying to understand why an order placed by a company in one country can affect the work done by a factory thousands of kilometres away. Consider the following statements.\n1. Production in the widely dispersed locations where MNCs spread their operations is getting interlinked.\n2. Many of the top MNCs have wealth exceeding the entire budgets of the developing country governments.\nChoose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "production in these widely\ndispersed locations is getting\ninterlinked.",
+            "have wealth exceeding the entire\nbudgets of the developing country\ngovernments."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess2 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:04:AR:103",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/globalisation-and-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/globalisation-and-the-indian-economy",
+      "topic": "Production Across Countries",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A household in India buys its cooking oil from a company that also owns the four refineries of a well-reputed Indian brand. Consider the following statements.\n1. Cargill is now the largest producer of edible oil in India, with a capacity to make 5 million pouches daily.\n2. Cargill is the largest producer of edible oil in India because Cargill itself had built a large marketing network in various parts of India where its brand is well reputed.\nChoose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The assertion is true but the reason is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "now the largest producer of edible oil\nin India, with a capacity to make 5\nmillion pouches daily!",
+            "Parakh Foods. Parakh Foods had\nbuilt a large marketing network in\nvarious parts of India, where its brand"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess2 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess2",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

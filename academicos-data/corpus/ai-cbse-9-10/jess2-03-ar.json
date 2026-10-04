@@ -1,0 +1,229 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess2:03:AR:101",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/money-and-credit"
+      ],
+      "taxonomyChapterId": "social-science-10/money-and-credit",
+      "topic": "Money as a Medium of Exchange",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Ramesh repairs shoes for a living and needs to buy a bag of wheat from the market. Consider the following statements.\n1. Money is called a medium of exchange because it acts as an intermediate in the exchange process.\n2. Money allows Ramesh to exchange his shoes for money first and then purchase wheat or any other commodity with that money.\nChoose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Since money acts as an\nintermediate in the exchange process,\nit is called a medium of exchange.",
+            "wheat. All he has to do is find a buyer\nfor his shoes. Once he has exchanged\nhis shoes for money, he can purchase"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess2 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:03:AR:102",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/money-and-credit"
+      ],
+      "taxonomyChapterId": "social-science-10/money-and-credit",
+      "topic": "Money as a Medium of Exchange",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Dev's grandfather kept a collection of old metallic coins of gold, silver and copper, while Dev now carries only paper notes and coins. Dev wonders why notes with no metal in them are accepted in place of those coins. Consider the following statements.\n1. Modern currency, that is paper notes and coins, is not made of a precious metal such as gold, silver and copper, unlike the metallic coins used as money earlier.\n2. Modern currency is accepted as a medium of exchange because it is authorised by the government of the country.\nChoose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Unlike the things that were used as\nmoney earlier, modern currency is not\nmade of precious metal such as gold,",
+            "silver and copper. And unlike grain",
+            "as a medium of exchange because the\ncurrency is authorised by the\ngovernment of the country."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess2 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:03:AR:103",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/money-and-credit"
+      ],
+      "taxonomyChapterId": "social-science-10/money-and-credit",
+      "topic": "Money as a Medium of Exchange",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Sita is a vegetable seller who keeps every rupee she earns in a cash box at home and has never opened a bank account. Consider the following statements.\n1. People hold their money only as currency notes and coins, because modern currency is without any use of its own.\n2. The rupee is widely accepted as a medium of exchange because currency notes are made of a precious metal such as gold and silver.\nChoose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The other form in which people hold\nmoney is as deposits with banks.",
+            "everyday use. The modern currency\nis without any use of its own."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess2 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess2",
+    "chapters": [
+      3
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

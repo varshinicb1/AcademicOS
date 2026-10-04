@@ -1,0 +1,569 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:12:B:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/magnetic-effects-of-electric-current"
+      ],
+      "taxonomyChapterId": "science-10/magnetic-effects-of-electric-current",
+      "topic": "Magnetic Field and Field Lines",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A student keeps a compass needle at a fixed point near a straight copper wire and then increases the current flowing in the wire. State how the magnitude of the magnetic field at that point changes.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The magnitude of the magnetic field at that point increases",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The increase in the field follows the increase in the current through the wire",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The magnitude of the magnetic field increases.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In fact, if the current is increased, the deflection also increases.",
+            "It indicates that the magnitude of the magnetic field produced at a given\npoint increases as the current through the wire increases."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch12",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:12:B:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/magnetic-effects-of-electric-current"
+      ],
+      "taxonomyChapterId": "science-10/magnetic-effects-of-electric-current",
+      "topic": "Magnetic Field and Field Lines",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "A student keeps the current in a straight copper wire unchanged but moves the compass needle to a point farther away from the wire. State how the magnitude of the magnetic field at the needle changes.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The magnitude of the magnetic field at the needle decreases",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The decrease happens because the distance from the conductor has increased",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The magnitude of the magnetic field decreases.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "that the deflection in the needle decreases. Thus the magnetic field",
+            "produced by a given current in the conductor decreases as the distance\nfrom it increases."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch12",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:12:B:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/magnetic-effects-of-electric-current"
+      ],
+      "taxonomyChapterId": "science-10/magnetic-effects-of-electric-current",
+      "topic": "Magnetic Field and Field Lines",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A current flows through a horizontal power line from east to west. Viewed from the west end of the line, state the direction in which the magnetic field turns at a point directly above the line.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Anti-clockwise, in a plane perpendicular to the wire",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The direction is found by applying the right-hand thumb rule to the east to west current",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Anti-clockwise, in a plane perpendicular to the wire.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Imagine that you are holding a current-carrying straight\nconductor in your right hand such that the thumb points towards\nthe direction of current.",
+            "The current is in the east-west direction. Applying the right-hand\nthumb rule, we get that the magnetic field (at any point below or\nabove the wire) turns clockwise in a plane perpendicular to the wire,\nwhen viewed from the east end, and anti-clockwise, when viewed\nfrom the west end."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch12",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:12:B:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/magnetic-effects-of-electric-current"
+      ],
+      "taxonomyChapterId": "science-10/magnetic-effects-of-electric-current",
+      "topic": "Domestic Electric Circuits",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "In a house the insulation of a wire is damaged so that the live wire and the neutral wire come into direct contact. State why the fuse melts and breaks the circuit.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The current in the circuit increases abruptly",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The Joule heating in the fuse melts it, breaking the electric circuit",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The current increases abruptly, and the Joule heating in the fuse melts it.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In such a situation, the current in the circuit abruptly\nincreases. This is called short-circuiting.",
+            "The Joule heating\nthat takes place in the fuse melts it to break the electric circuit."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch12",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:12:E:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/magnetic-effects-of-electric-current"
+      ],
+      "taxonomyChapterId": "science-10/magnetic-effects-of-electric-current",
+      "topic": "Magnetic Field and Field Lines",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Ananya and her father are testing the magnetic field around a current-carrying straight copper wire in the school laboratory. They join the wire to a battery and place a compass needle on a small stand at a marked point close to the wire. Ananya notes the deflection of the needle. Her father then asks her to do two things: first, to increase the current in the wire, and then, keeping the current the same, to move the compass to a farther point Q on the table. Ananya observes the needle each time and tries to explain what she sees. A visitor then asks her whether the pattern around the wire would be the same everywhere.\n\nRead the case below and answer the three questions that follow.\nAnanya and her father are testing the magnetic field around a current-carrying straight copper wire in the school laboratory. They join the wire to a battery and place a compass needle on a small stand at a marked point close to the wire. Ananya notes the deflection of the needle. Her father then asks her to do two things: first, to increase the current in the wire, and then, keeping the current the same, to move the compass to a farther point Q on the table. Ananya observes the needle each time and tries to explain what she sees. A visitor then asks her whether the pattern around the wire would be the same everywhere.\n(i) State what happens to the deflection of the compass needle when the current in the copper wire is increased, and name the relationship this shows between the current and the magnetic field at a point.\n(ii) State what happens to the deflection of the needle when the compass is moved to the farther point Q while the current stays the same, and state how the concentric circles drawn around the wire change as one moves away from it.\n(iii) A visitor claims that because the deflection changed twice, the field around the wire must be the same at every point. Analysing the two observations together, comment on the visitor's claim and state the general pattern of the field lines around a current-carrying straight wire.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) The deflection increases; the magnitude of the field at a point increases as the current increases. (ii) The deflection decreases, and the concentric circles grow larger away from the wire. (iii) The claim is false: the field is strong near the wire and weak far from it, and the field lines are concentric circles centred on the wire.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It indicates that the magnitude of the magnetic field produced at a given\npoint increases as the current through the wire increases.",
+            "produced by a given current in the conductor decreases as the distance\nfrom it increases.",
+            "the concentric\ncircles representing the magnetic field around a current-carrying straight\nwire become larger and larger as we move away from it."
+          ],
+          "objective": false,
+          "passage": "Ananya and her father are testing the magnetic field around a current-carrying straight copper wire in the school laboratory. They join the wire to a battery and place a compass needle on a small stand at a marked point close to the wire. Ananya notes the deflection of the needle. Her father then asks her to do two things: first, to increase the current in the wire, and then, keeping the current the same, to move the compass to a farther point Q on the table. Ananya observes the needle each time and tries to explain what she sees. A visitor then asks her whether the pattern around the wire would be the same everywhere."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch12",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:12:E:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/magnetic-effects-of-electric-current"
+      ],
+      "taxonomyChapterId": "science-10/magnetic-effects-of-electric-current",
+      "topic": "Magnetic Field and Field Lines",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Ravi is sitting beside a long straight copper wire through which current is flowing. He grips the wire in his right hand with his thumb pointing in the direction of the current and finds that his fingers wrap round the wire in a definite direction. On the terrace above him, a power line runs across the sky. His father, an electrician, tells him that the current in that line flows from east to west, and asks him what a compass needle placed at a point directly below the line would do, and what one placed directly above the line would do. Ravi wonders whether he can work out both answers without going up to the line.\n\nRead the case below and answer the three questions that follow.\nRavi is sitting beside a long straight copper wire through which current is flowing. He grips the wire in his right hand with his thumb pointing in the direction of the current and finds that his fingers wrap round the wire in a definite direction. On the terrace above him, a power line runs across the sky. His father, an electrician, tells him that the current in that line flows from east to west, and asks him what a compass needle placed at a point directly below the line would do, and what one placed directly above the line would do. Ravi wonders whether he can work out both answers without going up to the line.\n(i) State the rule that fixes the direction in which Ravi's fingers wrap round the wire, and name the part of the hand that must point along the current.\n(ii) State the direction in which the magnetic field turns at a point directly below the power line when it is viewed from the east end, and when it is viewed from the west end.\n(iii) Ravi says the field below the line and the field above the line must turn in opposite senses. Analysing what the rule says about a plane perpendicular to the wire, comment on his claim and state the direction of the magnetic field at a point below and at a point above the line.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) The right-hand thumb rule; the thumb points along the current. (ii) Clockwise from the east end, anti-clockwise from the west end, in a plane perpendicular to the wire. (iii) The rule works for any current-carrying straight conductor, and at both points the field turns clockwise seen from the east end and anti-clockwise seen from the west end, so Ravi need not climb up.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Imagine that you are holding a current-carrying straight\nconductor in your right hand such that the thumb points towards\nthe direction of current. Then your fingers will wrap around the\nconductor in the direction of the field lines of the magnetic field, as\nshown in Fig. 12.7. This is known as the right-hand thumb rule*.",
+            "The current is in the east-west direction. Applying the right-hand\nthumb rule, we get that the magnetic field (at any point below or\nabove the wire) turns clockwise in a plane perpendicular to the wire,\nwhen viewed from the east end, and anti-clockwise, when viewed\nfrom the west end."
+          ],
+          "objective": false,
+          "passage": "Ravi is sitting beside a long straight copper wire through which current is flowing. He grips the wire in his right hand with his thumb pointing in the direction of the current and finds that his fingers wrap round the wire in a definite direction. On the terrace above him, a power line runs across the sky. His father, an electrician, tells him that the current in that line flows from east to west, and asks him what a compass needle placed at a point directly below the line would do, and what one placed directly above the line would do. Ravi wonders whether he can work out both answers without going up to the line."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch12",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:12:E:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/magnetic-effects-of-electric-current"
+      ],
+      "taxonomyChapterId": "science-10/magnetic-effects-of-electric-current",
+      "topic": "Magnetic Field and Field Lines",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Meera's teacher bends a long straight copper wire into a circular loop and passes a current through it. She asks the class to imagine the pattern of magnetic field lines all around the loop, and reminds them of what they had seen for a straight wire. She then holds up a circular coil wound with many turns and asks how the field of this coil compares with the field of a single turn carrying the same current. Two students disagree: one says the coil is stronger only because the wire is longer, the other says it is stronger because the turns act one upon another.\n\nRead the case below and answer the three questions that follow.\nMeera's teacher bends a long straight copper wire into a circular loop and passes a current through it. She asks the class to imagine the pattern of magnetic field lines all around the loop, and reminds them of what they had seen for a straight wire. She then holds up a circular coil wound with many turns and asks how the field of this coil compares with the field of a single turn carrying the same current. Two students disagree: one says the coil is stronger only because the wire is longer, the other says it is stronger because the turns act one upon another.\n(i) State how the pattern of magnetic field lines around a current-carrying circular loop compares with the pattern around a current-carrying straight wire.\n(ii) State the shape in which the field lines appear at the centre of the circular loop, and give the reason.\n(iii) Meera's coil has n turns and carries the same current as a single turn. Analysing why the field due to each turn adds up, state how much larger the field of the coil is than that of the single turn, and comment on the claim that the coil is stronger only because the wire is longer.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Concentric circles growing larger away from the wire, as for a straight wire. (ii) Straight lines at the centre, where the arcs of the big circles appear straight. (iii) The field is n times that of a single turn, since each turn carries current in the same direction and the fields add up; the extra strength comes from the turns, not the wire length.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Similarly at every point of a current-carrying\ncircular loop, the concentric circles representing the magnetic\nfield around it would become larger and larger as we move\naway from the wire (Fig. 12.8).",
+            "By the time we reach at the\ncentre of the circular loop, the arcs of these big circles would\nappear as straight lines.",
+            "Therefore, if there is a circular coil having n turns, the field produced is\nn times as large as that produced by a single turn. This is because the\ncurrent in each circular turn has the same direction, and the field due to\neach turn then just adds up."
+          ],
+          "objective": false,
+          "passage": "Meera's teacher bends a long straight copper wire into a circular loop and passes a current through it. She asks the class to imagine the pattern of magnetic field lines all around the loop, and reminds them of what they had seen for a straight wire. She then holds up a circular coil wound with many turns and asks how the field of this coil compares with the field of a single turn carrying the same current. Two students disagree: one says the coil is stronger only because the wire is longer, the other says it is stronger because the turns act one upon another."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch12",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:12:E:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/magnetic-effects-of-electric-current"
+      ],
+      "taxonomyChapterId": "science-10/magnetic-effects-of-electric-current",
+      "topic": "Domestic Electric Circuits",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Mr Khan's house receives its supply on three wires. He is rewiring a socket and notices that one wire has red insulation, one has black insulation and the third has green insulation. His electrician friend reminds him that the supply in every home is alternating current. Mr Khan is about to connect a new metallic water heater to the green wire, but his friend stops him and explains that this wire is not connected to any appliance in the house; it runs on to a metallic body deep inside the earth.\n\nRead the case below and answer the two questions that follow.\nMr Khan's house receives its supply on three wires. He is rewiring a socket and notices that one wire has red insulation, one has black insulation and the third has green insulation. His electrician friend reminds him that the supply in every home is alternating current. Mr Khan is about to connect a new metallic water heater to the green wire, but his friend stops him and explains that this wire is not connected to any appliance in the house; it runs on to a metallic body deep inside the earth.\n(i) Name the live wire, the neutral wire and the earth wire with their colours of insulation, and state the potential difference between the live wire and the neutral wire.\n(ii) Mr Khan's friend stops him from joining the heater to the green wire. Analysing where the green wire goes and the purpose it serves, explain why the friend is right and state the effect this wire prevents.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Live wire, red; neutral wire, black; earth wire, green; the potential difference between the live and the neutral wire is 220 V. (ii) The earth wire is connected to a metallic body deep inside earth, so current leaking to a metallic body passes to earth instead of through the user, preventing any severe shock.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "of the wires in this supply is with red insulation, called live wire. The other one is of\nblack insulation, which is a neutral wire. The potential difference between the two\nis 220 V.",
+            "The third is the earth wire that has green insulation and this is connected\nto a metallic body deep inside earth. It is used as a safety measure to ensure that\nany leakage of current to a metallic body does not give any severe shock to a user."
+          ],
+          "objective": false,
+          "passage": "Mr Khan's house receives its supply on three wires. He is rewiring a socket and notices that one wire has red insulation, one has black insulation and the third has green insulation. His electrician friend reminds him that the supply in every home is alternating current. Mr Khan is about to connect a new metallic water heater to the green wire, but his friend stops him and explains that this wire is not connected to any appliance in the house; it runs on to a metallic body deep inside the earth."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch12",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      12
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

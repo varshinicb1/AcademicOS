@@ -1,0 +1,1170 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess2:02:A:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/sectors-of-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/sectors-of-the-indian-economy",
+      "topic": "Sectors of Economic Activities",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Gopal's family converts earth into bricks in a workshop at home and sells the surplus bricks in the market, while his neighbour Neha buys them to build houses. Which one of these activities belongs to the tertiary sector? (A) Spinning cotton fibre from the plant into yarn and weaving it into cloth (B) Converting sugarcane into sugar or gur (C) Selling the surplus bricks in the market (D) Converting earth into bricks for houses and buildings",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Selling the surplus bricks in the market",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Transport,\nstorage, communication, banking,\ntrade are some examples of tertiary",
+            "by trucks or trains and then sold in\nwholesale and retail shops. At times,\nit may be necessary to store these in\ngodowns.",
+            "spin yarn and weave cloth. Using\nsugarcane as a raw material, we make\nsugar or gur. We convert earth into\nbricks and use bricks to make houses"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Spinning cotton fibre from the plant into yarn and weaving it into cloth",
+            "B": "Converting sugarcane into sugar or gur",
+            "C": "Selling the surplus bricks in the market",
+            "D": "Converting earth into bricks for houses and buildings"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess2 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:02:B:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/sectors-of-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/sectors-of-the-indian-economy",
+      "topic": "Sectors of Economic Activities",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "Gopal's family converts earth into bricks in a workshop at home and uses the bricks to build houses and buildings. Name the sector this work belongs to, and the other name that this sector is known by.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The work belongs to the secondary sector",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It is also called the industrial sector",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Secondary sector; the industrial sector",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "product is not produced by nature\nbut has to be made and therefore\nsome process of manufacturing is",
+            "different kinds of industries that came\nup, it is also called as industrial sector.",
+            "sugar or gur. We convert earth into\nbricks and use bricks to make houses\nand buildings."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess2 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:02:B:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/sectors-of-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/sectors-of-the-indian-economy",
+      "topic": "Sectors of Economic Activities",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A town needs people to treat the sick, teach children, cut hair and keep the accounts, although none of them makes a good. Name the sector these services belong to, and name the new services that information technology has made important.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "They belong to the tertiary sector, which is also called the service sector",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "New services based on information technology: internet cafe, ATM booths, call centres and software companies",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The tertiary sector, also called the service sector; internet cafe, ATM booths, call centres and software companies",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Service sector also includes some\nessential services that may not directly\nhelp in the production of goods. For",
+            "and those who provide personal\nservices such as washermen, barbers,\ncobblers, lawyers, and people to do\nadministrative and accounting works.",
+            "as internet cafe, ATM booths, call\ncentres, software companies etc have\nbecome important."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess2 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:02:C:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/sectors-of-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/sectors-of-the-indian-economy",
+      "topic": "Sectors of Economic Activities",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "In one district farmers refused to sell sugarcane to the only sugar mill in the area. Explain what happened to that mill, and say which sector had to depend on which.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The mill will have to shut down",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "This shows the secondary or industrial sector dependent on the primary",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Sugarcane growing belongs to the primary sector while the sugar mill belongs to the secondary sector",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The mill will have to shut down. This is an example of the secondary or industrial sector being dependent on the primary. Farmers grow sugarcane in the primary sector and the mill manufactures sugar from it in the secondary, so the mill cannot go on without the farmers' cane.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "refuse to sell sugarcane to a particular",
+            "sugar mill. The mill will have to shut",
+            "industrial sector being dependent on"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess2 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:02:C:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/sectors-of-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/sectors-of-the-indian-economy",
+      "topic": "Sectors of Economic Activities",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "short_answer",
+      "stem": "Garment companies in another country decided to buy no cotton from the Indian market and to import all the cotton they need from other countries. Explain what this would do to cotton cultivation in India and to the farmers who depend on it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Indian cotton cultivation will become less profitable",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The farmers may even go bankrupt",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Growing cotton is primary work while the buying and manufacturing companies are secondary, and the sectors are interdependent",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Indian cotton cultivation will become less profitable, and the farmers may even go bankrupt. Cotton growing is primary work, while the companies buying the crop and manufacturing cloth from it are secondary. As the three categories of economic activities are highly interdependent, a decision taken in one sector immediately harms the other.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "buy from the Indian market and import\nall cotton they need from other\ncountries.",
+            "become less profitable and the farmers\nmay even go bankrupt, if they cannot",
+            "Economic activities, though, are grouped into three different categories,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess2 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:02:C:3",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/sectors-of-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/sectors-of-the-indian-economy",
+      "topic": "Sectors of Economic Activities",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A town now has an ATM booth where customers withdraw money, an internet cafe where students go online, and a company that answers customers' calls and writes software. Explain in about 45 words why all three belong to the tertiary sector rather than to manufacturing work.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "ATM booths, internet cafes, call centres and software companies are new services based on information technology",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "These activities generate services rather than goods",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Tertiary activities do not produce a good themselves but are an aid or a support for the production process",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "An ATM booth, an internet cafe, a call centre and a software company are new services based on information technology, and each generates a service rather than a good. Tertiary activities do not produce a good themselves; they are an aid or a support for production, so they are not manufacturing work.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In recent times, certain new services\nbased on information technology such\nas internet cafe, ATM booths, call\ncentres, software companies etc have\nbecome important.",
+            "generate services rather than goods,\nthe tertiary sector is also called the\nservice sector.",
+            "These activities, by themselves, do not\nproduce a good but they are an aid\nor a support for the production"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess2 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:02:D:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/sectors-of-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/sectors-of-the-indian-economy",
+      "topic": "Sectors of Economic Activities",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Ramesh takes sugarcane from farmers, presses out the juice and boils it into gur, then stores the packed gur in a godown and sells it in a weekly market. Show, step by step, which sector each of his two stages belongs to, and why the last stage is not manufacturing work.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Step 1: places pressing sugarcane and boiling it into gur in the secondary sector, since the product has to be made and not produced by nature",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: states that this sector is also called the industrial sector",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: places storing the gur in a godown and selling it in a weekly market in the tertiary sector",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: explains that tertiary activities do not produce a good by themselves",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: explains that they are an aid or a support for the production process, so the last stage is not manufacturing",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 — Pressing sugarcane and boiling it into gur: the product is not produced by nature but has to be made, so this is secondary sector work. Step 2 — This sector is also called the industrial sector. Step 3 — Storing the gur in a godown and selling it in a market is tertiary work. Step 4 — Not manufacturing, because tertiary activities do not produce a good by themselves. Step 5 — They are an aid or a support for production and trade.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "product is not produced by nature\nbut has to be made and therefore\nsome process of manufacturing is",
+            "different kinds of industries that came\nup, it is also called as industrial sector.",
+            "These activities, by themselves, do not\nproduce a good but they are an aid\nor a support for the production"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess2 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:02:D:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/sectors-of-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/sectors-of-the-indian-economy",
+      "topic": "Sectors of Economic Activities",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "A factory that weaves cloth from cotton has shut down, and the farmers who grew that cotton for it now have nobody to sell to. Show, step by step, how each group is hit by what the other group does, using the sugarcane and cotton cases.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Step 1: places sugarcane and cotton growing in the primary sector and the sugar mill and cloth factory in the secondary or industrial sector",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: states that economic activities grouped into three categories are highly interdependent",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: explains that if the mill or factory will not buy, Indian cotton cultivation becomes less profitable and farmers may even go bankrupt",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: explains that if farmers refuse to sell sugarcane, the mill will have to shut down",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: concludes that a change in one sector shows up at once in the other",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 — Farmers growing sugarcane or cotton are primary sector; the sugar mill and cloth factory that buy their crop are secondary or industrial. Step 2 — The three categories of economic activities are highly interdependent. Step 3 — If the mill or factory will not buy, Indian cotton cultivation becomes less profitable and farmers may even go bankrupt. Step 4 — If farmers refuse to sell sugarcane, the mill will have to shut down. Step 5 — A change in one sector thus hits the other at once.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "This is an example of the secondary or",
+            "sugar mill. The mill will have to shut",
+            "become less profitable and the farmers\nmay even go bankrupt, if they cannot"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess2 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:02:D:3",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/sectors-of-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/sectors-of-the-indian-economy",
+      "topic": "Sectors of Economic Activities",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "In a district a hospital treats patients, a school teaches children, a shop cuts hair, a bank lends money, and an office answers customer calls and writes software for other firms. Show, step by step, how these jobs divide between the sectors, and say which of them are new services that information technology has made important.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Step 1: places doctors, teachers, washermen, barbers, cobblers, lawyers and administrative and accounting work in the tertiary or service sector",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: notes that these essential services may not directly help in the production of goods",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: places a bank lending money among tertiary activities such as transport, storage, communication, banking and trade",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: identifies call centres and software companies as new services based on information technology",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: concludes that all of these activities generate services rather than goods",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 — Teachers, doctors, washermen, barbers, cobblers, lawyers and administrative and accounting work are essential services in the tertiary, or service, sector. Step 2 — They may not directly help in producing goods, yet they belong to it. Step 3 — A bank lending money is tertiary too, since borrowing money from banks helps production and trade. Step 4 — Answering calls and writing software are new services based on information technology. Step 5 — All of them generate services rather than goods.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "and those who provide personal\nservices such as washermen, barbers,\ncobblers, lawyers, and people to do\nadministrative and accounting works.",
+            "In recent times, certain new services\nbased on information technology such\nas internet cafe, ATM booths, call\ncentres, software companies etc have\nbecome important.",
+            "generate services rather than goods,\nthe tertiary sector is also called the\nservice sector."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess2 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:02:D:4",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/sectors-of-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/sectors-of-the-indian-economy",
+      "topic": "Division of Sectors as Organised and Unorganised",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Laxmi has a two-hectare plot of unirrigated land. A government scheme or a bank loan pays for a well on her family's land, so that she can irrigate the plot and take a second crop, wheat. Taking one hectare of wheat to provide employment to two people for 50 days, show step by step how many family members the second crop alone can put to work.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Step 1: notes that Laxmi has a two-hectare plot of unirrigated land and that the well lets her irrigate it",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: notes that she can then take a second crop, wheat",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: states that one hectare of wheat provides employment to two people for 50 days, including sowing, watering, fertiliser application and harvesting",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: works out 2 hectares x 2 people = 4 people, so two more members of the family can be employed in her own field",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: explains that this employment is generated within the agricultural sector itself, reducing the problem of underemployment",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 — The well lets Laxmi irrigate her two-hectare plot. Step 2 — With water she can take a second crop, wheat. Step 3 — One hectare of wheat provides employment to two people for 50 days, counting sowing, watering, fertiliser application and harvesting. Step 4 — Two hectares therefore put 2 x 2 = 4 people to work. Step 5 — So two more members of the family can be employed in her own field, within the agricultural sector itself, reducing underemployment.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Take the case of Laxmi with her\ntwo-hectare plot of unirrigated land.",
+            "hectare of wheat can provide\nemployment to two people for 50 days",
+            "application and harvesting). So, two\nmore members of the family can be\nemployed in her own field."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess2 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:02:E:1",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/sectors-of-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/sectors-of-the-indian-economy",
+      "topic": "Sectors of Economic Activities",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Bhoolanpur has a single sugar mill. This season the mill asked farmers in the villages around it for more sugarcane than usual. The farmers, who had already signed an agreement with a mill in the next district, refused to sell to Bhoolanpur. Left with no cane to crush, the mill had to shut down. Cotton cultivation in the same area felt the effect as well: when companies decided to buy no cotton from the Indian market and to import all the cotton they needed from other countries, Indian cotton cultivation became less profitable and the farmers there might even go bankrupt.\n\nName the sector the sugar mill's work belongs to, and the sector the farmers' sugarcane growing belongs to. (ii) Why did the mill have to shut down, and what does this show about the two sectors? (iii) If the companies buy no cotton from the Indian market and import all the cotton they need, what happens to Indian cotton cultivation and to the farmers?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) The mill is secondary, or industrial; sugarcane growing is primary. (ii) Farmers refused to sell sugarcane, so the mill had nothing to crush and shut down; the secondary sector was dependent on the primary. (iii) Indian cotton cultivation becomes less profitable and the farmers may even go bankrupt.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "This is an example of the secondary or",
+            "sugar mill. The mill will have to shut",
+            "become less profitable and the farmers\nmay even go bankrupt, if they cannot"
+          ],
+          "objective": false,
+          "passage": "Bhoolanpur has a single sugar mill. This season the mill asked farmers in the villages around it for more sugarcane than usual. The farmers, who had already signed an agreement with a mill in the next district, refused to sell to Bhoolanpur. Left with no cane to crush, the mill had to shut down. Cotton cultivation in the same area felt the effect as well: when companies decided to buy no cotton from the Indian market and to import all the cotton they needed from other countries, Indian cotton cultivation became less profitable and the farmers there might even go bankrupt."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess2 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:02:E:2",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/sectors-of-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/sectors-of-the-indian-economy",
+      "topic": "Sectors of Economic Activities",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Rehan's father grows cotton and sells it to a spinning mill, which weaves it into cloth. The cloth is packed and sent by truck to a godown in the city, where it waits until a wholesale trader buys it. Rehan's mother keeps the family's accounts and sometimes speaks to suppliers on the telephone. A new ATM booth has opened near their house, and Rehan uses an internet cafe to check prices before selling. The family also borrows money from a bank when the cotton crop is ready to be bought.\n\nSort Rehan's mother's work into sectors. (ii) Which of it is an essential service that may not directly help in producing goods? (iii) Rehan's father says his family grows, makes and sells everything itself, so it needs no service sector. Why is he wrong?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Keeping accounts and telephoning suppliers are tertiary activities, like transport, storage, banking and trade. (ii) Both are essential services that may not directly help in producing goods. (iii) The sectors are interdependent and tertiary work only supports production and trade, so even a family that grows and makes its own goods still needs transport, storage, communication, banking and trade.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Transport,\nstorage, communication, banking,\ntrade are some examples of tertiary",
+            "or borrow money\nfrom banks (banking) to help\nproduction and trade.",
+            "Service sector also includes some\nessential services that may not directly\nhelp in the production of goods. For"
+          ],
+          "objective": false,
+          "passage": "Rehan's father grows cotton and sells it to a spinning mill, which weaves it into cloth. The cloth is packed and sent by truck to a godown in the city, where it waits until a wholesale trader buys it. Rehan's mother keeps the family's accounts and sometimes speaks to suppliers on the telephone. A new ATM booth has opened near their house, and Rehan uses an internet cafe to check prices before selling. The family also borrows money from a bank when the cotton crop is ready to be bought."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess2 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:02:E:3",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/sectors-of-the-indian-economy"
+      ],
+      "taxonomyChapterId": "social-science-10/sectors-of-the-indian-economy",
+      "topic": "Sectors of Economic Activities",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Nandini's town has no factory; the mill closed years ago and most people now farm, sell in the market or drive vehicles. Last year an internet cafe opened in the market, a bank put in an ATM booth, and a company started taking calls from customers all day. Some farmers now send their produce to a city depot and take a bank loan to buy seeds for the season. The town council has asked everyone to say which sector they belong to.\n\nPut the farmer, the vehicle drivers, the internet cafe and the ATM booth into sectors. (ii) Why would a farmer who takes a bank loan be recorded in more than one sector? (iii) If the ATM booth and the internet cafe shut down, which part of the town's work stops first, and why?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) The farmer is primary; the vehicle drivers, the internet cafe and the ATM booth are tertiary. (ii) Borrowing money from a bank is itself a tertiary service, so a farmer is primary by his farming and tertiary by the loan. (iii) Banking and communication stop first, because tertiary activities support production and trade instead of producing goods of their own.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "or borrow money\nfrom banks (banking) to help\nproduction and trade.",
+            "as internet cafe, ATM booths, call\ncentres, software companies etc have\nbecome important.",
+            "These activities, by themselves, do not\nproduce a good but they are an aid\nor a support for the production"
+          ],
+          "objective": false,
+          "passage": "Nandini's town has no factory; the mill closed years ago and most people now farm, sell in the market or drive vehicles. Last year an internet cafe opened in the market, a bank put in an ATM booth, and a company started taking calls from customers all day. Some farmers now send their produce to a city depot and take a bank loan to buy seeds for the season. The town council has asked everyone to say which sector they belong to."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess2 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "F",
+      "qtype": "map_based",
+      "topic": "",
+      "reason": "stem-names-the-text",
+      "stem": "Study Table 2.2, \"Share of Primary Sector in GDP and Employment\", in your textbook together with Graphs 2 and 3, from wh"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess2",
+    "chapters": [
+      2
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

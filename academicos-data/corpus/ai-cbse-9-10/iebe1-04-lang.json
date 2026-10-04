@@ -1,0 +1,2042 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iebe1:04:A:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "Grandpa had got very upset when his daughter, Ravi’s mother, insisted that he shouldn’t go out alone again. “I’ll have you know, Vidya, my dear,” he had told his daughter with a trace of the firmness that had been a natural part of his job as a lawyer, “that I’ve been looking after myself for the better part of my seventy-five years. After your mother died ten years ago, I took over her duties as well and have been cooking, shopping and keeping house too.\n\nChoose the option that best completes this sentence: The firmness of the old man in the passage comes from his belief that... (A) his daughter has forgotten the difficulties his wife faced ten years ago (B) the small flat in the city is far too small for three people to live in (C) he has always looked after himself and took on his wife’s duties as well (D) Ravi spends the whole day playing chess with him instead of taking him out",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "he has always looked after himself and took on his wife’s duties as well",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "he had told his daughter with a trace of the firmness that had been a natural part of his job as a lawyer",
+            "I’ve been looking after myself for the better part of my seventy-five years.",
+            "I took over her duties as well and have been cooking, shopping and keeping house too."
+          ],
+          "objective": true,
+          "options": {
+            "A": "his daughter has forgotten the difficulties his wife faced ten years ago",
+            "B": "the small flat in the city is far too small for three people to live in",
+            "C": "he has always looked after himself and took on his wife’s duties as well",
+            "D": "Ravi spends the whole day playing chess with him instead of taking him out"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:A:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "“I hope you’re not going to be as tiresome as your mother, Ravi. Treating me like a baby! Has she told you not to let me go out on my own? Told you to keep me a prisoner here, has she?” Grandpa looked suspicious at this thought. Ravi felt guilty for a moment, then quickly recovered to say loyally, “Of course not, Grandpa. Mamma would never treat you like a baby … or a prisoner.” “Good,” said Grandpa craftily, “then you’ll have no objection to my going out.”\n\nChoose the option that best completes this sentence: By turning the boy’s reassurance into permission to leave, the grandfather in the passage is shown to be... (A) grateful that the boy has offered to bring the newspaper for him (B) angry that the boy has spoken to him in his mother’s over-loud tone (C) decided to stay at home and play another game of chess (D) suspicious, and ready to use the boy’s own words to get his way",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "suspicious, and ready to use the boy’s own words to get his way",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Grandpa looked suspicious at this thought.",
+            "Ravi felt guilty for a moment, then quickly recovered to say loyally,",
+            "“Good,” said Grandpa craftily, “then you’ll have no objection to my going out.”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "grateful that the boy has offered to bring the newspaper for him",
+            "B": "angry that the boy has spoken to him in his mother’s over-loud tone",
+            "C": "decided to stay at home and play another game of chess",
+            "D": "suspicious, and ready to use the boy’s own words to get his way"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:A:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "“Such a wonderful place…! With that big mango tree in the garden! It is so quiet that at dusk you can even hear a leaf fall!” But then Grandpa had slipped and fallen in the garden late one evening while he was pottering around and lain outside all night because there was no one at home to help him up. That was a month ago and it made Ravi’s mother lock up the tiny brick house and bring Grandpa to live with them.\n\nChoose the option that best completes this sentence: The writer’s account of the night the old man lay outside in his garden shows that living alone had become... (A) a comfortable choice, because nobody in the quiet house needed to worry about him (B) dangerous, because there was nobody there to help him up when he fell (C) impossible, because his daughter had already told him never to step outside (D) expensive, because the tiny brick house had to be locked up every single night",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "dangerous, because there was nobody there to help him up when he fell",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Grandpa had slipped and fallen in the garden late one evening while he was pottering around and lain outside all night because there was no one at home to help him up.",
+            "it made Ravi’s mother lock up the tiny brick house and bring Grandpa to live with them."
+          ],
+          "objective": true,
+          "options": {
+            "A": "a comfortable choice, because nobody in the quiet house needed to worry about him",
+            "B": "dangerous, because there was nobody there to help him up when he fell",
+            "C": "impossible, because his daughter had already told him never to step outside",
+            "D": "expensive, because the tiny brick house had to be locked up every single night"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:B:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that correctly expands the shortened phrase “the points written in the organiser” into a full clause. (A) the points are writing in the organiser (B) the points which are written in the organiser (C) the points which were wrote in the organiser (D) the points that are writing in the organiser",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "the points which are written in the organiser",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Now, discuss the points written in the organiser with your classmates and teacher."
+          ],
+          "objective": true,
+          "options": {
+            "A": "the points are writing in the organiser",
+            "B": "the points which are written in the organiser",
+            "C": "the points which were wrote in the organiser",
+            "D": "the points that are writing in the organiser"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:B:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "You write about a family recipe that has been handed down from one generation to the next; which phrase correctly completes the sentence “It is a recipe …”? (A) passing down by grandparents (B) passing down to grandparents (C) passed down by grandparents (D) passed down to grandparents",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "passed down by grandparents",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Think of a tradition, story, or recipe passed down by grandparents or an elderly relative in your family."
+          ],
+          "objective": true,
+          "options": {
+            "A": "passing down by grandparents",
+            "B": "passing down to grandparents",
+            "C": "passed down by grandparents",
+            "D": "passed down to grandparents"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:B:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "Choose the option that gives the punctuation mark required at the end of the opening words in a one-sentence version of the instruction beginning “From your experience with an elderly person at home or in your neighbourhood”. (A) a comma (B) a semicolon (C) a colon (D) a full stop",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "a comma",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "From your experience with an elderly person at home or in your neighbourhood, complete the following graphic organiser."
+          ],
+          "objective": true,
+          "options": {
+            "A": "a comma",
+            "B": "a semicolon",
+            "C": "a colon",
+            "D": "a full stop"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:C:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Your cousin Ravi has brought his grandfather to live with his family. Write a letter of 100 words to Ravi suggesting three ways of looking after an elderly person at home so that he keeps his independence and does not feel bored.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Begins with a greeting and states the purpose of the letter in the opening lines",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives three clear, practical ways of looking after an elderly person at home",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Includes at least one way that protects the elderly person’s independence and self-respect",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organises the three ideas in a sensible order and links them smoothly",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Uses accurate spelling, grammar and punctuation, and stays within 100 words",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dear Ravi,\n\nNow that your grandfather lives with you, here are three ideas.\n\nFirst, let him help you at home. He has been cooking, shopping and keeping house all his life, so a small job will stop him feeling useless.\n\nSecond, play chess with him. He is very good at it and can tell you the moves his famous players made.\n\nThird, do not decide everything for him. Ask what he wants to do, and warn him only when it is truly dangerous.\n\nWith love,\nYour cousin",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I took over her duties as well and have been cooking, shopping and keeping house too.",
+            "Grandpa played a great game of chess, very cool and cunning, and Ravi found that his own game had improved greatly ever since Grandpa had come to live with them.",
+            "Why should we care for the elderly?"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:C:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school is holding an activity in which students spend time with elderly people in their neighbourhood. Write a notice of 100 words for the school notice board announcing the activity and asking interested students to give their names to their teacher.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Gives the notice a clear heading naming the theme of the activity",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States what the activity is, where it is held and who may take part",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains clearly how interested students are to sign up",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Uses the layout of a notice — short clear lines with the key details, and no unnecessary sentences",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Uses accurate spelling, grammar and punctuation, and stays within 100 words",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "NOTICE\n\nCaring for the Elderly\n\nOur school will hold an Elderly Day in the school hall. Students are invited to sit with the elderly people of our neighbourhood and listen to the stories, memories and advice they wish to share with us.\n\nAll students who wish to join must write their names in the list kept at the school gate.\n\nPlease note that each of us will be asked to write down one thing we learnt from an older person.\n\nTeacher-in-charge",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "How can we take care of the elderly?",
+            "Now, discuss the points written in the organiser with your classmates and teacher.",
+            "Think of a tradition, story, or recipe passed down by grandparents or an elderly relative in your family."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:C:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school is holding an assembly on the theme “Caring for the Elderly”. Write a speech of 100 words for your classmates in which you suggest three things students can begin doing at home for an elderly member of their family.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Greets the audience and states the theme of the speech in the opening lines",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives three clear, practical suggestions about caring for an elderly family member",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Includes at least one suggestion that protects the elderly person’s independence",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Keeps a clear order — opening, main points and conclusion — joined by linking words",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Uses accurate spelling, grammar and punctuation with a suitable speaking style, within 100 words",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Good morning, everyone. Today I want to talk about three things we can all do at home for the elderly.\n\nFirst, listen to them. They may know the stories and the recipes of our own family.\n\nSecond, give them a small job in the house. A person who has cooked and shopped for a lifetime hates to sit idle.\n\nThird, ask them before you decide for them. Treat them as grown-ups, not as babies.\n\nIf we do these three things every day, our homes will be happier places for all of us.\n\nThank you.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Think of a tradition, story, or recipe passed down by grandparents or an elderly relative in your family.",
+            "I took over her duties as well and have been cooking, shopping and keeping house too.",
+            "How can we take care of the elderly?"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:D:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "“I wish,” said Ravi’s mother, hurriedly putting some green, red and orange tablets on a saucer, “that somebody would invent a memory — Vitamin-M, they could call it, and we could give it to old people to help them improve their memories.”\n\nChoose the option that best completes this sentence: The speaker in the extract wishes for a “Vitamin-M” because she is sure that it would... (A) help old people recall the names of the people they meet often (B) show that green, red and orange tablets are useless (C) make tablets unnecessary for anyone who is getting old (D) help old people improve their memories",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "help old people improve their memories",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "that somebody would invent a memory — Vitamin-M, they could call it, and we could give it to old people to help them improve their memories."
+          ],
+          "objective": true,
+          "options": {
+            "A": "help old people recall the names of the people they meet often",
+            "B": "show that green, red and orange tablets are useless",
+            "C": "make tablets unnecessary for anyone who is getting old",
+            "D": "help old people improve their memories"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:D:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "“That’s the opening move Karpov made when he played against the computer,” he would tell Ravi as he moved a piece, or, “You’re making the same mistake that Bobby Fischer made in his historic match against Spassky.” “How can he remember all those thousands of chess games and still forget the names of people he meets often!” Ravi wondered.\n\nChoose the option that best completes this sentence: Ravi’s question at the end of the extract shows that he finds it strange that his grandfather... (A) remembers all those chess games but forgets the names of people he meets often (B) remembers the names of people he meets often but forgets all his chess games (C) can play chess very well but can no longer read a newspaper (D) has never told anybody about the chess games he has seen",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "remembers all those chess games but forgets the names of people he meets often",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“How can he remember all those thousands of chess games and still forget the names of people he meets often!” Ravi wondered.",
+            "“That’s the opening move Karpov made when he played against the computer,” he would tell Ravi as he moved a piece"
+          ],
+          "objective": true,
+          "options": {
+            "A": "remembers all those chess games but forgets the names of people he meets often",
+            "B": "remembers the names of people he meets often but forgets all his chess games",
+            "C": "can play chess very well but can no longer read a newspaper",
+            "D": "has never told anybody about the chess games he has seen"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:D:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "The stranger grinned pleasantly and told Ravi that a kind old gentleman in the barber shop had insisted that he take his cap because it was such a hot day. That was typical of Grandpa, always generous. But where was Grandpa?\n\nChoose the option that best completes this sentence: The writer’s remark that the old man in the barber shop behaved in the way his grandfather always did shows that the grandfather is... (A) a careful man who never takes risks on the road (B) annoyed whenever a stranger asks him for help (C) a kind man who gives things away to others without being asked (D) so generous that he forgets what he is supposed to look after",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "a kind man who gives things away to others without being asked",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The stranger grinned pleasantly and told Ravi that a kind old gentleman in the barber shop had insisted that he take his cap because it was such a hot day.",
+            "That was typical of Grandpa, always generous."
+          ],
+          "objective": true,
+          "options": {
+            "A": "a careful man who never takes risks on the road",
+            "B": "annoyed whenever a stranger asks him for help",
+            "C": "a kind man who gives things away to others without being asked",
+            "D": "so generous that he forgets what he is supposed to look after"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:E:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why was the old man brought to live with Ravi’s family instead of being left in his small brick house in town?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He was getting too old to live on his own",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He fell in the garden while pottering around and lay outside all night because there was no one at home to help him up",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "His daughter locked up the tiny brick house and brought him to live with the family",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The old man was brought to live with them because he was getting too old to live on his own. He had slipped and fallen in the garden while pottering around and lain outside all night, because there was no one at home to help him up. His daughter therefore locked up the tiny brick house and brought him to live with them.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It was only last month that Ravi’s Grandpa had come to live with them because he was getting too old to live on his own.",
+            "That was a month ago and it made Ravi’s mother lock up the tiny brick house and bring Grandpa to live with them."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:E:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "The old man insists on walking to the corner shop by himself, and Ravi goes after him without letting him know. Why does Ravi choose to follow him in this way?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "His grandfather would feel hurt if he insisted on accompanying him",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "His mother would be furious if she knew he had let the old man go out on his own",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So he followed his grandfather secretly, at a safe distance, to make sure he came to no harm",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Ravi knew that his grandfather would feel hurt if he insisted on accompanying him, and that his mother would be furious if she learnt he had let the old man go out alone. So he hid his real intention and followed his grandfather secretly, at a safe distance, to make sure he came to no harm.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "His grandfather would feel hurt if he insisted",
+            "furious if she knew Ravi had let him go out on",
+            "Ravi decided he would follow Grandpa secretly, at a safe distance, to make sure he came to no harm."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:E:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "How did the old man’s coming to live with the family change the way Ravi played chess?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The old man played a great game of chess, very cool and cunning",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Ravi’s own game improved greatly after he came to live with the family",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He explained his moves by naming Karpov and Bobby Fischer, who played against Spassky",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The old man played a great game of chess, very cool and cunning, and Ravi found that his own game had improved greatly ever since he had come to live with them. He explained his moves by naming Karpov, who played against the computer, and Bobby Fischer, who made a mistake in his historic match against Spassky.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Grandpa played a great game of chess, very cool and cunning, and Ravi found that his own game had improved greatly ever since Grandpa had come to live with them.",
+            "“That’s the opening move Karpov made when he played against the computer,” he would tell Ravi as he moved a piece"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:F:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Trace the route taken by the old man after he leaves the flat, and state what happens to Ravi at each stop.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "The children’s park is the first stop, where Ravi hides behind a bush trimmed in the shape of an elephant",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "At the tea stall Ravi hides behind a banyan tree and is surrounded by the vendors, while the old man eats tea, two bananas and an ice cream",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The old man enters the barber shop and Ravi is thrown out of the Ladies’ Hairdressing Salon next door",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "At the bus stop the old man boards the first bus and Ravi jumps on after him",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The yellow cap turns out to belong to a total stranger and not to his grandfather",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives the stops in the order in which they happen, one clear step for each",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Children’s park: he buys a paper-cone of peanuts and watches the children play. Ravi crouches behind a bush trimmed in the shape of an elephant, and a child’s mother accuses him of shooing her child.\n2. Tea stall: Ravi hides behind a big banyan tree, but the vendors surround him and he concedes defeat. The old man has tea, two bananas and an ice cream.\n3. Barber shop: he crosses the road and goes in. Ravi ducks into the shop next door and is thrown out of a Ladies’ Hairdressing Salon.\n4. Bus stop: the old man boards the first bus. Ravi jumps on, sees the yellow cap taken off to reveal a full head of grey hair, and finds a total stranger wearing his grandfather’s cap.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "bush trimmed in the shape of an elephant to avoid being seen.",
+            "Grandpa’s next stop was the tea stall, and this time Ravi took position behind a big banyan tree to watch him",
+            "he spotted Grandpa making his way briskly towards the bus stop, and, oh no, boarding the first bus that stopped there."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:F:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Ravi’s mother and Ravi both want to keep the old man safe, yet they look after him in very different ways. Compare how each of them behaves with him, and state what each one believes is best for him.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "The mother locks up the tiny brick house and brings her father to live with them",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She has his medicines given after lunch and forbids him to go out alone",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She speaks to him in an over-loud tone, as though she were speaking to a child",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She believes her father can no longer keep himself safe on his own",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Ravi plays chess with him and lets him explain the moves, so the old man feels useful",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Ravi follows him secretly at a safe distance and believes this keeps him safe without hurting his feelings",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Ravi’s mother: She locks up the brick house and brings her father to live with them. She has his medicines given after lunch, tells Ravi that the old man must not go out alone, and speaks to him in an over-loud tone, as though she were speaking to a child. She believes he can no longer keep himself safe.\n\nRavi: He plays chess with his grandfather and lets him explain the moves, so the old man feels useful and valued. Yet when the old man insists on going to the corner shop, Ravi hides his real intention, lies to him about his mother’s orders and follows him secretly at a safe distance. He believes this keeps his grandfather safe without hurting his feelings.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“Whatever happens, Ravi, you’re not to let Grandpa go out on his own. It’s too dangerous,” she instructed, adding details of medicines to be given to Grandpa after lunch.",
+            "Ravi found that his own game had improved greatly ever since Grandpa had come to live with them.",
+            "Ravi decided he would follow Grandpa secretly, at a safe distance, to make sure he came to no harm."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:04:F:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/vitamin-m",
+        "english-9/i-cannot-remember-my-mother"
+      ],
+      "taxonomyChapterId": "english-9/vitamin-m",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "The old man believes that he has looked after himself for the better part of his seventy-five years, while his daughter believes that he can no longer go out alone. Set out, step by step, how this disagreement leads to Ravi having to follow his grandfather secretly.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "After his wife died ten years ago he took over her duties too, cooking, shopping and keeping house",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He slipped and fell in the garden while pottering around and lay outside all night with no one there to help him up",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "His daughter locked up the tiny brick house, brought him to live with them and told Ravi he must not go out alone",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The old man felt very upset at being stopped and said he had looked after himself for seventy-five years",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Ravi knew his grandfather would feel hurt if he insisted on accompanying him",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So Ravi followed him secretly at a safe distance to make sure he came to no harm",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. After his wife died ten years ago he took over her duties too, cooking, shopping and keeping house, so he is sure he is capable.\n2. He slipped and fell in the garden while pottering around and lay outside all night, with no one there to help him up.\n3. His daughter became frightened, locked up the tiny brick house, brought him to live with them and told Ravi he must not go out alone.\n4. The old man felt very upset at being stopped, and said he had looked after himself for seventy-five years.\n5. Ravi knew his grandfather would feel hurt if he insisted on accompanying him.\n6. So Ravi followed him secretly, at a safe distance, to make sure he came to no harm.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I took over her duties as well and have been cooking, shopping and keeping house too.",
+            "That was a month ago and it made Ravi’s mother lock up the tiny brick house and bring Grandpa to live with them.",
+            "Ravi decided he would follow Grandpa secretly, at a safe distance, to make sure he came to no harm."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "iebe1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iebe1",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

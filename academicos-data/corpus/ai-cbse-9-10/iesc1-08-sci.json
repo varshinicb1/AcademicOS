@@ -1,0 +1,643 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:08:B:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/journey-inside-the-atom"
+      ],
+      "taxonomyChapterId": "science-9/journey-inside-the-atom",
+      "topic": "Rediscovering the Roots of Atomic Theory",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A student is told that if matter (dravya) is divided again and again, it finally breaks up into particles that can no longer be divided. What did Acharya Kanada call these particles?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the particles parmanus",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Answers for the smallest particles that can no longer be divided",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Parmanus",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Acharya Kanada suggested that if matter (dravya) is divided repeatedly,",
+            "that can no longer be divided. He called these particles parmanus. His ideas"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch8",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          141,
+          143,
+          145,
+          147,
+          149,
+          151,
+          153,
+          155,
+          157,
+          159,
+          161
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:08:B:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/journey-inside-the-atom"
+      ],
+      "taxonomyChapterId": "science-9/journey-inside-the-atom",
+      "topic": "Rediscovering the Roots of Atomic Theory",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Leucippus and Democritus gave a Greek name to the indivisible particles of matter. What was that name?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Gives the name atomos",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Identifies it as the name given by Leucippus and Democritus",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Atomos",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The Greek philosophers Leucippus and Democritus also proposed",
+            "a similar idea. They called these indivisible particles atomos (in Greek,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch8",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          141,
+          143,
+          145,
+          147,
+          149,
+          151,
+          153,
+          155,
+          157,
+          159,
+          161
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:08:B:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/journey-inside-the-atom"
+      ],
+      "taxonomyChapterId": "science-9/journey-inside-the-atom",
+      "topic": "Rediscovering the Roots of Atomic Theory",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A museum display states that the first scientific description of how matter is made was published in 1808. What did the scientist of that year state that all matter is composed of?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States that all matter is composed of indivisible particles",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names these particles atoms",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Indivisible particles called atoms",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Many centuries later, in 1808, John Dalton proposed his atomic theory.",
+            "matter is composed of indivisible particles called atoms. That is, the atoms"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch8",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          141,
+          143,
+          145,
+          147,
+          149,
+          151,
+          153,
+          155,
+          157,
+          159,
+          161
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:08:B:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/journey-inside-the-atom"
+      ],
+      "taxonomyChapterId": "science-9/journey-inside-the-atom",
+      "topic": "Testing Thomson’s model: The gold foil experiment",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Riya is holding a 0.1 mm thick sheet of paper and wonders how many atoms must be stacked together to make it. About how many are needed?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States that about one million atoms are needed",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Answers for a sheet 0.1 mm thick",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "About one million atoms",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Can you calculate how many atoms would be needed to make a sheet of paper that\nis 0.1 mm thick, like the one in your textbook?",
+            "That is about one million atoms need to be stacked together! When these"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch8",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          141,
+          143,
+          145,
+          147,
+          149,
+          151,
+          153,
+          155,
+          157,
+          159,
+          161
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:08:E:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/journey-inside-the-atom"
+      ],
+      "taxonomyChapterId": "science-9/journey-inside-the-atom",
+      "topic": "Rediscovering the Roots of Atomic Theory",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Riya visits a school exhibition on how people first thought about matter. One panel is on Acharya Kanada, who said that if matter (dravya) is divided again and again, it finally breaks up into the smallest particles that can no longer be divided; he called them parmanus and recorded his ideas in the Sanskrit text Vaisesika Sutras. Another panel is on Leucippus and Democritus, who called the same indivisible particles atomos, a Greek word meaning indivisible. Riya notes that these two thinkers lived more than 2,000 years ago, and that a parmanu is too small to be seen by the senses.\n\nAnswer these questions:\n1. What did Acharya Kanada call the smallest particles of matter?\n2. Which name did Leucippus and Democritus give to these particles, and what does that name mean?\n3. Riya says both men were only guessing, because no experiment had yet been done. What does the origin of the idea of the atom tell us about her claim?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) He called them parmanus. (2) They called them atomos, which in Greek means indivisible. (3) The concept of the atom originated as an imaginary idea and not from experimental observations, so Riya is right that the two men reasoned it out without experiments.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "that can no longer be divided. He called these particles parmanus. His ideas",
+            "a similar idea. They called these indivisible particles atomos (in Greek,",
+            "You must remember that the concept of ‘atom’ originated as an\nimaginary idea rather than from experimental observations."
+          ],
+          "objective": false,
+          "passage": "Riya visits a school exhibition on how people first thought about matter. One panel is on Acharya Kanada, who said that if matter (dravya) is divided again and again, it finally breaks up into the smallest particles that can no longer be divided; he called them parmanus and recorded his ideas in the Sanskrit text Vaisesika Sutras. Another panel is on Leucippus and Democritus, who called the same indivisible particles atomos, a Greek word meaning indivisible. Riya notes that these two thinkers lived more than 2,000 years ago, and that a parmanu is too small to be seen by the senses."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch8",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          141,
+          143,
+          145,
+          147,
+          149,
+          151,
+          153,
+          155,
+          157,
+          159,
+          161
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:08:E:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/journey-inside-the-atom"
+      ],
+      "taxonomyChapterId": "science-9/journey-inside-the-atom",
+      "topic": "Rediscovering the Roots of Atomic Theory",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Aarav reads that in 1808 John Dalton put forward an atomic theory based on the scientific experiments of that time. Dalton proposed that all matter is composed of indivisible particles called atoms, and that these atoms are the fundamental building blocks of matter that cannot be broken down into smaller parts. Aarav learns that this was the first scientific description of how matter is made, and the starting point for the current understanding of atomic structure. He then finds the questions scientists asked next: what are atoms made up of, what would atoms look like if we could see them, and what makes the atoms of one element different from those of another.\n\nAnswer these questions:\n1. What did Dalton propose all matter is composed of, and what did he call these particles?\n2. How did the earlier idea of the atom, held before 1808, differ from Dalton's atomic theory?\n3. Aarav says Dalton settled everything about the atom. Use the questions that scientists asked after him to judge whether he is right.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) Indivisible particles, which he called atoms. (2) Dalton's theory rested on the scientific experiments of that time, while the earlier idea of the atom was imaginary and not based on experimental observations. (3) Not true — scientists still asked what atoms are made of, what they look like, and how atoms of two elements differ.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "matter is composed of indivisible particles called atoms. That is, the atoms",
+            "You must remember that the concept of ‘atom’ originated as an\nimaginary idea rather than from experimental observations.",
+            "What makes the atoms of one element different from the atoms of\nanother element?"
+          ],
+          "objective": false,
+          "passage": "Aarav reads that in 1808 John Dalton put forward an atomic theory based on the scientific experiments of that time. Dalton proposed that all matter is composed of indivisible particles called atoms, and that these atoms are the fundamental building blocks of matter that cannot be broken down into smaller parts. Aarav learns that this was the first scientific description of how matter is made, and the starting point for the current understanding of atomic structure. He then finds the questions scientists asked next: what are atoms made up of, what would atoms look like if we could see them, and what makes the atoms of one element different from those of another."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch8",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          141,
+          143,
+          145,
+          147,
+          149,
+          151,
+          153,
+          155,
+          157,
+          159,
+          161
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:08:E:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/journey-inside-the-atom"
+      ],
+      "taxonomyChapterId": "science-9/journey-inside-the-atom",
+      "topic": "Rediscovering the Roots of Atomic Theory",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Meera watches her grandmother draw a pattern on the floor with coloured powder. Meera learns that long ago Acharya Kanada said that if matter (dravya) is divided again and again, it finally breaks up into particles that can no longer be divided, and he called these particles parmanus. A parmanu is infinitely small and cannot be perceived by the senses. Groups of two parmanus are called dyads and groups of three are called triads, and it is out of such combinations that the whole material universe, including the bodies of living beings, is created. Meera asks her grandmother how this account explains the proportions in which parmanus combine to form different substances.\n\nAnswer these questions:\n1. What are a group of two parmanus and a group of three parmanus called?\n2. Why could Acharya Kanada's description not fully account for the substances around us?\n3. Meera's grandmother says that because a parmanu cannot be seen, it cannot exist. How would Acharya Kanada's account answer her?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) Two parmanus form a dyad and three form a triad. (2) His description does not specify the proportions in which parmanus combine to form different substances. (3) Though a parmanu cannot be perceived by the senses, he said the whole material universe, including the bodies of living beings, is created out of combinations of them.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "dyads (groups of two parmanus) and triads (groups of three parmanus),",
+            "description does not specify the proportions in which parmanus combine",
+            "and so on. It is out of these combinations that the whole of the material\nuniverse, including the bodies of living beings, is created. However, this"
+          ],
+          "objective": false,
+          "passage": "Meera watches her grandmother draw a pattern on the floor with coloured powder. Meera learns that long ago Acharya Kanada said that if matter (dravya) is divided again and again, it finally breaks up into particles that can no longer be divided, and he called these particles parmanus. A parmanu is infinitely small and cannot be perceived by the senses. Groups of two parmanus are called dyads and groups of three are called triads, and it is out of such combinations that the whole material universe, including the bodies of living beings, is created. Meera asks her grandmother how this account explains the proportions in which parmanus combine to form different substances."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch8",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          141,
+          143,
+          145,
+          147,
+          149,
+          151,
+          153,
+          155,
+          157,
+          159,
+          161
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:08:E:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/journey-inside-the-atom"
+      ],
+      "taxonomyChapterId": "science-9/journey-inside-the-atom",
+      "topic": "Testing Thomson’s model: The gold foil experiment",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Rutherford's atomic model has the electrons revolving around a nucleus, rather like planets orbiting the Sun, so it is called the planetary model. Rutherford found that the nucleus is extremely small, about one lakh times smaller than the atom. His model explained the results of the gold foil experiment better than Thomson's, but it left one big question unanswered: why are atoms stable? A particle moving in a circular path is accelerating, and an accelerating electron should lose energy, spiral inward and fall into the nucleus. If that happened, atoms would collapse and would not exist, yet in reality atoms are stable.\n\nAnswer these questions:\n1. Why is Rutherford's model of the atom called the planetary model?\n2. A student argues that atoms are stable, so the accelerating electron must be losing energy and falling into the nucleus. Why does the model fail to explain this?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) Because the electrons revolve around the nucleus like planets orbiting the Sun. (2) The model cannot explain stability: if the accelerating electron lost energy it would spiral inward and fall into the nucleus, so atoms would collapse, yet in reality atoms are stable and matter around us stays intact.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The electrons revolve around the nucleus, somewhat like planets\norbiting the Sun. Hence, this model is called the planetary model of",
+            "Rutherford’s model could not explain why atoms are stable.",
+            "energy. Losing energy would make it spiral inward and eventually"
+          ],
+          "objective": false,
+          "passage": "Rutherford's atomic model has the electrons revolving around a nucleus, rather like planets orbiting the Sun, so it is called the planetary model. Rutherford found that the nucleus is extremely small, about one lakh times smaller than the atom. His model explained the results of the gold foil experiment better than Thomson's, but it left one big question unanswered: why are atoms stable? A particle moving in a circular path is accelerating, and an accelerating electron should lose energy, spiral inward and fall into the nucleus. If that happened, atoms would collapse and would not exist, yet in reality atoms are stable."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch8",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          141,
+          143,
+          145,
+          147,
+          149,
+          151,
+          153,
+          155,
+          157,
+          159,
+          161
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      8
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

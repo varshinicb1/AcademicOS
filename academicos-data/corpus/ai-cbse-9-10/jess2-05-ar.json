@@ -1,0 +1,237 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess2:05:AR:101",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/consumer-rights"
+      ],
+      "taxonomyChapterId": "social-science-10/consumer-rights",
+      "topic": "The Consumer in the Marketplace",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A packaged good bought from a shop is charged at more than the maximum retail price printed on the packet. Consider the following statements. 1. The buyer can protest and complain about the overcharging. 2. The letters ‘MRP’ printed on the packet stand for maximum retail price, that is, the highest price at which the good may be sold. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Similarly, one can protest and\ncomplain if someone sells a good at\nmore than the printed price on the\npacket. This is indicated by ‘MRP’ —\nmaximum retail price. In fact\nconsumers can bargain with the seller\nto sell at less than the MRP."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess2 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:05:AR:102",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/consumer-rights"
+      ],
+      "taxonomyChapterId": "social-science-10/consumer-rights",
+      "topic": "The Consumer in the Marketplace",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Amritha, an engineering graduate, has submitted all her certificates and attended an interview for a job in a government department, but she receives no news of the result and the officials refuse to comply with her queries. Consider the following statements. 1. Amritha may file an application under the Right to Information Act, because that law, enacted by the Government of India in October 2005, ensures its citizens all the information about the functions of government departments. 2. This law entitles a citizen to the names of government departments and nothing more, and not to the reasons for a delay in declaring the result of an interview. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The assertion is true but the reason is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In recent times, the right to\ninformation has been expanded to\ncover various services provided by the\nGovernment. In October 2005, the\nGovernment of India enacted a law,\npopularly known as RTI (Right to\nInformation) Act, which ensures its\ncitizens all the information about the\nfunctions of government departments.",
+            "The officials also refused to comply\nwith her queries. She therefore filed\nan application using the RTI Act\nsaying that it was her right to know\nthe result in a reasonable time so\nthat she could plan her future. She\nwas not only informed about the\nreasons for delay in the declaration\nof results but also got her call letter\nfor appointment as she performed\nwell in the interview."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess2 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess2:05:AR:103",
+      "questionBankId": "ai-cbse:jess2",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/consumer-rights"
+      ],
+      "taxonomyChapterId": "social-science-10/consumer-rights",
+      "topic": "The Consumer in the Marketplace",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Abirami joined a two-year professional course at a local coaching institute in New Delhi and paid the fees Rs 61,020 as lumpsum for the entire course. She opted out at the end of one year, asked for a refund of the fee for that year, and was denied. She then filed a case in the District Consumer Disputes Redressal Commission. Consider the following statements. 1. The Commission could order the institute to pay back part of the Rs 61,020 lump sum already collected. 2. Consumers can bargain with a seller to sell a good at less than the maximum retail price printed on the packet. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Abirami, a student of Ansari\nNagar, joined a two-year\ncourse at a local coaching\ninstitute for professional\ncourses in New Delhi. At the\ntime of joining the course,\nshe paid the fees Rs 61,020\nas lumpsum for the entire\ncourse of two years.",
+            "the Institute to refund Rs 28,000 saying",
+            "consumers can bargain with the seller\nto sell at less than the MRP."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess2 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess2",
+    "chapters": [
+      5
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

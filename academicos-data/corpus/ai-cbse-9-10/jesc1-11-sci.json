@@ -1,0 +1,658 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:11:B:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/electricity"
+      ],
+      "taxonomyChapterId": "science-10/electricity",
+      "topic": "Electric Current and Circuit",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "In a torch, the bulb stops glowing the moment the switch is turned off. State the reason why the current stops flowing.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The switch breaks the circuit",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "No continuous and closed path is left, so the current stops flowing",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The switch breaks the circuit, so there is no continuous and closed path and the current stops flowing.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "A switch makes a conducting link between the cell and\nthe bulb.",
+            "electric circuit. Now, if the circuit is broken anywhere (or the switch of the\ntorch is turned off ), the current stops flowing and the bulb does not glow."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch11",
+        "pages": [
+          1,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:11:B:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/electricity"
+      ],
+      "taxonomyChapterId": "science-10/electricity",
+      "topic": "Electric Current and Circuit",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "In a circuit built from a cell, an electric bulb, an ammeter and a plug key, state the direction in which the electric current is taken to flow.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "From the positive terminal of the cell to the negative terminal",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It flows through the bulb and the ammeter",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "From the positive terminal of the cell to the negative terminal, through the bulb and the ammeter.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Note that the electric current flows in the circuit\nfrom the positive terminal of the cell to the negative\nterminal of the cell through the bulb and ammeter."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch11",
+        "pages": [
+          1,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:11:B:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/electricity"
+      ],
+      "taxonomyChapterId": "science-10/electricity",
+      "topic": "Electric Current and Circuit",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A filament of an electric bulb draws a current of 0.5 A and is switched on for 10 minutes. State the amount of electric charge that passes through the circuit.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "10 minutes is taken as 600 s",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Q = I × t = 0.5 A × 600 s = 300 C",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "300 C (300 coulomb).",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "We are given, I = 0.5 A; t = 10 min = 600 s.",
+            "Q\n= It\n= 0.5 A × 600 s\n= 300 C"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch11",
+        "pages": [
+          1,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:11:B:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/electricity"
+      ],
+      "taxonomyChapterId": "science-10/electricity",
+      "topic": "Ohm’s Law",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "In the school laboratory, students connect a nichrome wire in a circuit and note the ammeter reading. The wire is then replaced by another nichrome wire of the same thickness but twice the length. State how the ammeter reading changes.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The ammeter reading decreases",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It falls to one-half of the earlier reading",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The ammeter reading decreases, falling to one-half of its earlier value.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It is observed that the ammeter reading decreases to one-half when\nthe length of the wire is doubled.",
+            "resistance of the conductor depends (i) on its length, (ii) on its area of\ncross-section, and (iii) on the nature of its material."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jesc1 ch11",
+        "pages": [
+          1,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:11:E:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/electricity"
+      ],
+      "taxonomyChapterId": "science-10/electricity",
+      "topic": "Electric Current and Circuit",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Rohan repairs an old torch. He finds that the bulb glows only when the switch is pressed and stays dark when the switch is released, though the cell inside is new. Rohan removes the bulb and connects an ammeter in its place, leaving the switch in the circuit. The meter reads 0.5 A while the switch is pressed and zero while it is released. A friend then tells Rohan that the electrons in the wires are negative charges, and that the current must therefore run the other way round the circuit. Rohan cannot decide whether his friend is right.\n\n(a) State how electric current is expressed, in terms of charge and time. (b) State how the ammeter must be joined in a circuit so that it measures the current correctly. (c) The meter reads 0.5 A while the switch is pressed and zero while it is released, with the same cell in both cases. Analysing the two readings together with the idea of a continuous and closed path, explain why the current does not depend on the cell alone.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Charge flowing through an area in unit time, that is, the rate of flow of charges. (b) In series with the circuit being measured. (c) A cell alone gives no current: charge flows only along a continuous, closed path, so releasing the switch stops the current although the cell is unchanged.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Electric current is expressed by\nthe amount of charge flowing through a particular area in unit time. In\nother words, it is the rate of flow of electric charges.",
+            "An instrument called ammeter measures electric\ncurrent in a circuit. It is always connected in series\nin a circuit through which the current is to be\nmeasured.",
+            "electric circuit. Now, if the circuit is broken anywhere (or the switch of the\ntorch is turned off ), the current stops flowing and the bulb does not glow."
+          ],
+          "objective": false,
+          "passage": "Rohan repairs an old torch. He finds that the bulb glows only when the switch is pressed and stays dark when the switch is released, though the cell inside is new. Rohan removes the bulb and connects an ammeter in its place, leaving the switch in the circuit. The meter reads 0.5 A while the switch is pressed and zero while it is released. A friend then tells Rohan that the electrons in the wires are negative charges, and that the current must therefore run the other way round the circuit. Rohan cannot decide whether his friend is right."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch11",
+        "pages": [
+          1,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:11:E:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/electricity"
+      ],
+      "taxonomyChapterId": "science-10/electricity",
+      "topic": "Electric Current and Circuit",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Ravi is measuring the current in a torch circuit in the school laboratory. His teacher reminds him that the amount of charge is always measured in a fixed unit, and that the charges moving in a wire of metallic conductor are electrons. She then names the unit in which current itself is measured, after the French scientist whose name students find difficult to spell, and explains that one of this unit stands for a definite amount of charge passing every second. She adds that when the current is very small, students are asked to write it in one of two smaller units instead.\n\n(a) State the SI unit of electric charge and say what one ampere stands for in terms of that unit. (b) Name the unit in which electric current is expressed, the country and the scientist after whom it is named. (c) Ravi argues that a current written in a smaller unit must be a different current from one written in ampere. Using what one ampere stands for, explain why he is wrong.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The SI unit of charge is the coulomb (C); one ampere is one coulomb per second, 1 A = 1 C/1 s. (b) The ampere (A), named after the French scientist Andre-Marie Ampere. (c) The two smaller units only change how the same flow of charge is written down; the current does not change.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The SI unit of electric charge is coulomb (C), which is equivalent to\nthe charge contained in nearly 6 × 10 electrons.",
+            "current is expressed by a unit called ampere (A), named after the\nFrench scientist, Andre-Marie Ampere (1775–1836). One ampere is\nconstituted by the flow of one coulomb of charge per second, that is,\n1 A = 1 C/1 s.",
+            "Small quantities of current are expressed in milliampere"
+          ],
+          "objective": false,
+          "passage": "Ravi is measuring the current in a torch circuit in the school laboratory. His teacher reminds him that the amount of charge is always measured in a fixed unit, and that the charges moving in a wire of metallic conductor are electrons. She then names the unit in which current itself is measured, after the French scientist whose name students find difficult to spell, and explains that one of this unit stands for a definite amount of charge passing every second. She adds that when the current is very small, students are asked to write it in one of two smaller units instead."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch11",
+        "pages": [
+          1,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:11:E:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/electricity"
+      ],
+      "taxonomyChapterId": "science-10/electricity",
+      "topic": "Electric Current and Circuit",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Mr Das keeps a demonstration circuit ready on the bench, built from a cell, an electric bulb, an ammeter and a plug key. Before switching on, he asks the class to settle one question: in which direction does the current travel round the loop? Some students say from the positive terminal of the cell to the negative terminal, and others say the other way. Mr Das reminds them that the charge which actually moves in a wire of metallic conductor is the electron, and asks them to remember when electricity was first studied.\n\n(a) State the direction in which the electric current flows in this circuit, and the direction in which the electrons move. (b) Using the time at which electricity was first observed, explain why the direction of the current was fixed in that way. (c) Mr Das says the students who trace the current along the electron path are also right. Analysing the convention that has been fixed, comment on this statement and state how the current must be marked on any such circuit.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) From the positive terminal to the negative terminal, through bulb and ammeter; electrons move the opposite way. (b) Electrons were unknown when electricity was first observed, so current was taken as the flow of positive charges. (c) Current is conventionally opposite to electron flow, so it is marked from the positive terminal to the negative terminal.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Note that the electric current flows in the circuit\nfrom the positive terminal of the cell to the negative\nterminal of the cell through the bulb and ammeter.",
+            "However, electrons\nwere not known at the time when the phenomenon of electricity was first\nobserved. So, electric current was considered to be the flow of positive\ncharges and the direction of flow of positive charges was taken to be the\ndirection of electric current.",
+            "Conventionally, in an electric circuit the\ndirection of electric current is taken as opposite to the direction of the\nflow of electrons, which are negative charges."
+          ],
+          "objective": false,
+          "passage": "Mr Das keeps a demonstration circuit ready on the bench, built from a cell, an electric bulb, an ammeter and a plug key. Before switching on, he asks the class to settle one question: in which direction does the current travel round the loop? Some students say from the positive terminal of the cell to the negative terminal, and others say the other way. Mr Das reminds them that the charge which actually moves in a wire of metallic conductor is the electron, and asks them to remember when electricity was first studied."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch11",
+        "pages": [
+          1,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:11:E:104",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/electricity"
+      ],
+      "taxonomyChapterId": "science-10/electricity",
+      "topic": "Ohm’s Law",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Four students in the school laboratory each set up a circuit with a cell, a plug key and an ammeter, but each uses a different wire. The first uses a nichrome wire of length l. The second uses a nichrome wire of the same thickness but twice that length. The third uses a thicker nichrome wire of the same length. The fourth replaces the nichrome wire with a copper wire of the same length and cross-sectional area. The teacher asks the class to explain why the four meters do not read alike, and then to suggest, for an electric iron and for an overhead transmission line, which material would be the better choice.\n\n(a) State the three factors on which the resistance of a conductor depends. (b) State what happens to the ammeter reading when the length of the nichrome wire is doubled, and when a thicker wire of the same material and length is used. (c) Using what is said about alloys and about the way metals and alloys behave, justify the choice of material for an electric iron and for a transmission line.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Length, area of cross-section and nature of the material. (b) The reading falls to one-half when the length is doubled, and rises with a thicker wire. (c) An alloy suits an electric iron as it does not oxidise readily and has higher resistivity; copper and aluminium suit transmission lines.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "resistance of the conductor depends (i) on its length, (ii) on its area of\ncross-section, and (iii) on the nature of its material.",
+            "It is observed that the ammeter reading decreases to one-half when\nthe length of the wire is doubled. The ammeter reading is increased when\na thicker wire of the same material and of the same length is used in the\ncircuit.",
+            "Alloys do not oxidise (burn) readily\nat high temperatures. For this reason, they are commonly used in\nelectrical heating devices, like electric iron, toasters etc. Tungsten is used\nalmost exclusively for filaments of electric bulbs, whereas copper and\naluminium are generally used for electrical transmission lines."
+          ],
+          "objective": false,
+          "passage": "Four students in the school laboratory each set up a circuit with a cell, a plug key and an ammeter, but each uses a different wire. The first uses a nichrome wire of length l. The second uses a nichrome wire of the same thickness but twice that length. The third uses a thicker nichrome wire of the same length. The fourth replaces the nichrome wire with a copper wire of the same length and cross-sectional area. The teacher asks the class to explain why the four meters do not read alike, and then to suggest, for an electric iron and for an overhead transmission line, which material would be the better choice."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jesc1 ch11",
+        "pages": [
+          1,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      11
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

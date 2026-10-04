@@ -1,0 +1,254 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess3:04:AR:101",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-age-of-industrialisation"
+      ],
+      "taxonomyChapterId": "social-science-10/the-age-of-industrialisation",
+      "topic": "Before the Industrial Revolution",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Nikhil's family has taken over a cotton mill, and he is showing a visitor round it and explaining why every stage of the work is now done inside one building. Consider the following statements. 1. Once Richard Arkwright created the cotton mill and all the processes were brought together under one roof and management, a more careful supervision over the production process, a watch over quality and the regulation of labour became possible. 2. These had all been difficult to achieve while production was carried out in village households in the countryside. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "processes were brought together under one roof and management.",
+            "This allowed a more careful supervision over the production process,\na watch over quality, and the regulation of labour, all of which had",
+            "been difficult to do when production was in the countryside."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess3 ch4",
+        "pages": [
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:04:AR:102",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-age-of-industrialisation"
+      ],
+      "taxonomyChapterId": "social-science-10/the-age-of-industrialisation",
+      "topic": "Before the Industrial Revolution",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Aarav is building a timeline for a school project on British industry and is checking his notes about which sector led the way at each stage. Consider the following statements. 1. Cotton was the leading sector in the first phase of industrialisation in Britain up to the 1840s, and after that the iron and steel industry led the way. 2. Iron and steel took the lead because railway expansion in the colonies began only in the 1840s. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The assertion is true but the reason is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "cotton was the leading sector in the\nfirst phase of industrialisation up to the 1840s. After that the iron\nand steel industry led the way.",
+            "With the expansion of railways, in\nEngland from the 1840s and in the colonies from the 1860s, the\ndemand for iron and steel increased rapidly."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess3 ch4",
+        "pages": [
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:04:AR:103",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-age-of-industrialisation"
+      ],
+      "taxonomyChapterId": "social-science-10/the-age-of-industrialisation",
+      "topic": "Before the Industrial Revolution",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Meera is helping her cousin draw a flowchart of how cloth was produced in England before factories came up, and has to correct two of the boxes he has filled in. Consider the following statements. 1. Cloth production was already being carried out inside large mills, with all the processes brought together under one roof. 2. The merchants who controlled the cloth trade were themselves the spinners, weavers, fullers and dyers, and did that work in their own homes. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "production was spread all over the countryside and carried out within",
+            "It was controlled by merchants and the goods\nwere produced by a vast number of producers working within\ntheir family farms, not in factories.",
+            "purchased wool from a wool stapler, and carried it to the spinners;\nthe yarn (thread) that was spun was taken in subsequent stages\nof production to weavers, fullers, and then to dyers."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess3 ch4",
+        "pages": [
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess3",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

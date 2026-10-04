@@ -1,0 +1,1547 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iest1:04:A:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/early-humans-and-beginning-of-civilisation"
+      ],
+      "taxonomyChapterId": "social-science-9/early-humans-and-beginning-of-civilisation",
+      "topic": "The Invention of Writing: Before and After",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Ravi digs out an ancient settlement in which people left behind tools, implements and other material objects, but not a single written record; which sources must he treat as the major ones for reconstructing how people lived there? (A) Both material remains and written documents (B) Tools, implements, and other material objects made by humans (artefacts) (C) Literature that provides information about names and events (D) Written documents that mention specific dates of events such as coronation and wars",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Tools, implements, and other material objects made by humans (artefacts)",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Tools, implements, and\nother material objects\nmade by humans (artefacts)\nare the major sources for",
+            "Both material remains and\nwritten documents are\nsources for reconstructing\nthe lives of people and\nsociety."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both material remains and written documents",
+            "B": "Tools, implements, and other material objects made by humans (artefacts)",
+            "C": "Literature that provides information about names and events",
+            "D": "Written documents that mention specific dates of events such as coronation and wars"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "iest1 ch4",
+        "pages": [
+          1,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:04:AR:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/early-humans-and-beginning-of-civilisation"
+      ],
+      "taxonomyChapterId": "social-science-9/early-humans-and-beginning-of-civilisation",
+      "topic": "The Invention of Writing: Before and After",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Read the two statements given below and answer the question that follows.\nStatement: Before writing was invented, tools, implements, and other material objects made by humans (artefacts) were the major sources for reconstructing people’s ways of living.\nReason: Once writing existed, written documents alone became the major source, and artefacts were no longer used to reconstruct ways of living.\nWhich of the following options is correct? (A) Both the statement and the reason are true and the reason is a correct explanation of the statement. (B) Both the statement and the reason are true but the reason is not a correct explanation of the statement. (C) The statement is true but the reason is false. (D) Both the statement and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The statement is true but the reason is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Tools, implements, and\nother material objects\nmade by humans (artefacts)\nare the major sources for\nreconstructing people’s",
+            "Both material remains and\nwritten documents are\nsources for reconstructing\nthe lives of people and\nsociety."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the statement and the reason are true and the reason is a correct explanation of the statement.",
+            "B": "Both the statement and the reason are true but the reason is not a correct explanation of the statement.",
+            "C": "The statement is true but the reason is false.",
+            "D": "Both the statement and the reason are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch4",
+        "pages": [
+          1,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:04:B:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/early-humans-and-beginning-of-civilisation"
+      ],
+      "taxonomyChapterId": "social-science-9/early-humans-and-beginning-of-civilisation",
+      "topic": "The Invention of Writing: Before and After",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Meera's project is on the long stretch of time from about 3 million years ago to 5000 years ago; state the share of human history that falls under this period, and name the objects that are the major sources for reconstructing ways of living in it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States that more than 99 per cent of human history falls under this period (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names tools, implements, and other material objects made by humans (artefacts) as the major sources (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "More than 99 per cent; tools, implements, and other material objects made by humans (artefacts).",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "More than 99 per cent of\nhuman history falls under\nthis period (from about 3\nmillion years ago to 5000\nyears ago).",
+            "Tools, implements, and\nother material objects\nmade by humans (artefacts)\nare the major sources for"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iest1 ch4",
+        "pages": [
+          1,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:04:B:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/early-humans-and-beginning-of-civilisation"
+      ],
+      "taxonomyChapterId": "social-science-9/early-humans-and-beginning-of-civilisation",
+      "topic": "The Invention of Writing: Before and After",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "A curator finds that the dating of events and cultures has become relatively accurate; state what makes this possible, and name the two kinds of event for which written documents mention specific dates.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "States that dating becomes relatively accurate because written documents mention specific dates of events (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names coronation and wars as the two kinds of event (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Written documents mention specific dates of events; coronation and wars.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Dating of cultures and\nevents becomes relatively\naccurate because written",
+            "documents mention specific\ndates of events such as\ncoronation, wars, etc."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iest1 ch4",
+        "pages": [
+          1,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:04:C:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/early-humans-and-beginning-of-civilisation"
+      ],
+      "taxonomyChapterId": "social-science-9/early-humans-and-beginning-of-civilisation",
+      "topic": "The Invention of Writing: Before and After",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A researcher sets out to reconstruct the lives of people who lived in the period from about 3 million years ago to 5000 years ago; explain why it is generally difficult for her to understand their thoughts and ideas, and name the major sources she must work with.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that it is generally difficult to understand the thoughts and ideas of people (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names tools, implements, and other material objects made by humans (artefacts) as the major sources (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Notes that artefacts are sources for reconstructing people’s ways of living (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "It is generally difficult to understand the thoughts and ideas of people. The major sources for this period are tools, implements, and other material objects made by humans (artefacts). These are sources for reconstructing people’s ways of living, not for recovering what people were thinking.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It is generally difficult to\nunderstand the thoughts\nand ideas of people.",
+            "Tools, implements, and\nother material objects\nmade by humans (artefacts)\nare the major sources for\nreconstructing people’s"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch4",
+        "pages": [
+          1,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:04:C:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/early-humans-and-beginning-of-civilisation"
+      ],
+      "taxonomyChapterId": "social-science-9/early-humans-and-beginning-of-civilisation",
+      "topic": "The Invention of Writing: Before and After",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "short_answer",
+      "stem": "Compare the way events and cultures were dated before writing was invented with the way they are dated for the last 5000 years, and give the reason for the change.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that measurement of time before writing was approximate (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that dating events and cultures was only approximate in that period (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that dating becomes relatively accurate because written documents mention specific dates of events such as coronation and wars (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Before writing, measurement of time was approximate, that is, dating events and cultures was only approximate. For the last 5000 years, dating of cultures and events becomes relatively accurate, because written documents mention specific dates of events such as coronation and wars.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Measurement of time is\napproximate, that is, dating\nevents and cultures is only\napproximate.",
+            "Dating of cultures and\nevents becomes relatively\naccurate because written\ndocuments mention specific\ndates of events such as\ncoronation, wars, etc."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch4",
+        "pages": [
+          1,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:04:C:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/early-humans-and-beginning-of-civilisation"
+      ],
+      "taxonomyChapterId": "social-science-9/early-humans-and-beginning-of-civilisation",
+      "topic": "The Invention of Writing: Before and After",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A student wants to divide human history into the period before writing was invented and the period after it; state the span of years that each period covers, and the share of human history that falls in each.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The first period runs from about 3 million years ago to 5000 years ago (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "More than 99 per cent of human history falls under the first period (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The second period is the last 5000 years, including the present, and less than 1 per cent of human history falls under it (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The first period runs from about 3 million years ago to 5000 years ago, and more than 99 per cent of human history falls under it. The second period is the last 5000 years, including the present, and less than 1 per cent of human history falls under it.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "this period (from about 3\nmillion years ago to 5000\nyears ago).",
+            "More than 99 per cent of\nhuman history falls under",
+            "Less than 1 per cent of\nhuman history falls under\nthis period, the last 5000\nyears, including the present."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch4",
+        "pages": [
+          1,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:04:D:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/early-humans-and-beginning-of-civilisation"
+      ],
+      "taxonomyChapterId": "social-science-9/early-humans-and-beginning-of-civilisation",
+      "topic": "The Invention of Writing: Before and After",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Set out, step by step, what a historian can reconstruct about the people who lived before writing was invented, and what makes this reconstruction difficult.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "The period runs from about 3 million years ago to 5000 years ago, and holds more than 99 per cent of human history (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The major sources are tools, implements, and other material objects made by humans (artefacts) (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "These are used for reconstructing people’s ways of living (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The thoughts and ideas of people remain generally difficult to understand (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Measurement of time is approximate, so dating events and cultures is only approximate (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: The period runs from about 3 million years ago to 5000 years ago, and holds more than 99 per cent of human history. Step 2: The major sources are tools, implements, and other material objects made by humans (artefacts). Step 3: These are used for reconstructing people’s ways of living. Step 4: The thoughts and ideas of people remain generally difficult to understand. Step 5: Measurement of time is approximate, so dating events and cultures is only approximate.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Tools, implements, and\nother material objects\nmade by humans (artefacts)\nare the major sources for",
+            "It is generally difficult to\nunderstand the thoughts\nand ideas of people.",
+            "Measurement of time is\napproximate, that is, dating\nevents and cultures is only\napproximate."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch4",
+        "pages": [
+          1,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:04:D:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/early-humans-and-beginning-of-civilisation"
+      ],
+      "taxonomyChapterId": "social-science-9/early-humans-and-beginning-of-civilisation",
+      "topic": "The Invention of Writing: Before and After",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "Show, step by step, how writing changed both what a historian can learn about people and how precisely events and cultures can be dated.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Before writing, only artefacts were available, so the thoughts and ideas of people were generally difficult to understand (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "After writing, both material remains and written documents are sources for reconstructing the lives of people and society (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Literature (written documents) provides information about names; events; and social, political, and cultural life (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Written documents mention specific dates of events such as coronation and wars (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Dating of cultures and events therefore becomes relatively accurate (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: Before writing, only artefacts were available, so the thoughts and ideas of people were generally difficult to understand. Step 2: After writing, both material remains and written documents are sources for reconstructing the lives of people and society. Step 3: Literature (written documents) provides information about names; events; and social, political, and cultural life. Step 4: Written documents mention specific dates of events such as coronation and wars. Step 5: Dating of cultures and events therefore becomes relatively accurate.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Both material remains and\nwritten documents are\nsources for reconstructing\nthe lives of people and\nsociety.",
+            "Literature (written\ndocuments) provides\ninformation about names;\nevents; and social, political,\nand cultural life.",
+            "Dating of cultures and\nevents becomes relatively\naccurate because written\ndocuments mention specific\ndates of events such as\ncoronation, wars, etc."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch4",
+        "pages": [
+          1,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:04:D:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/early-humans-and-beginning-of-civilisation"
+      ],
+      "taxonomyChapterId": "social-science-9/early-humans-and-beginning-of-civilisation",
+      "topic": "The Invention of Writing: Before and After",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A researcher wants to know the names, the events and the social, political and cultural life of people in the last 5000 years; show, step by step, which sources she must use, what each one gives her, and how precisely she can date what she finds.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "This period is the last 5000 years, including the present, and less than 1 per cent of human history falls under it (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Both material remains and written documents are sources for reconstructing the lives of people and society (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Literature (written documents) provides information about names; events; and social, political, and cultural life (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Written documents mention specific dates of events such as coronation and wars (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Dating of cultures and events becomes relatively accurate (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: This period is the last 5000 years, including the present, and less than 1 per cent of human history falls under it. Step 2: Both material remains and written documents are sources for reconstructing the lives of people and society. Step 3: Literature (written documents) provides information about names; events; and social, political, and cultural life. Step 4: Written documents mention specific dates of events such as coronation and wars. Step 5: Dating of cultures and events becomes relatively accurate.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Less than 1 per cent of\nhuman history falls under\nthis period, the last 5000\nyears, including the present.",
+            "Literature (written\ndocuments) provides\ninformation about names;\nevents; and social, political,\nand cultural life.",
+            "Dating of cultures and\nevents becomes relatively\naccurate because written\ndocuments mention specific\ndates of events such as\ncoronation, wars, etc."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch4",
+        "pages": [
+          1,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:04:D:4",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/early-humans-and-beginning-of-civilisation"
+      ],
+      "taxonomyChapterId": "social-science-9/early-humans-and-beginning-of-civilisation",
+      "topic": "Palaeolithic Hunter–Gatherers",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Show, step by step, how early humans in the Indian subcontinent progressed from the large cutting tools of the Palaeolithic to smaller stone tools that made hunting more efficient.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "The oldest human settlement in the Indian subcontinent dates back to about 2 million years ago (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Attirampakkam in Tamil Nadu is dated to about 1.5–1.7 million years ago, and Isampur in Karnataka to 1.2 million years ago (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Animal fossils and large cutting tools were found, including handaxes and cleavers, and other tools such as stone scrapers and choppers made of quartzite and limestone (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "These tools were used to chop animal meat, dig out tubers, scrape animal skin, and cleave animal bones to extract protein-rich marrow (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Further progress in hunting and gathering was reflected in smaller stone tools — scrapers, borers, and points — which developed projectiles tipped with sharp points (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: The oldest human settlement in the Indian subcontinent dates back to about 2 million years ago. Step 2: Attirampakkam in Tamil Nadu is dated to about 1.5–1.7 million years ago; Isampur in Karnataka to 1.2 million years ago. Step 3: Animal fossils and large cutting tools were found there — handaxes and cleavers, plus stone scrapers and choppers made of quartzite and limestone. Step 4: These were used to chop animal meat, dig out tubers, scrape animal skin, and cleave animal bones to extract protein-rich marrow. Step 5: Further progress in hunting and gathering was reflected in smaller stone tools — scrapers, borers, and points — which developed projectiles tipped with sharp points.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the oldest human settlement dates back\nto about 2 million years ago. Attirampakkam in Tamil Nadu is dated\nto about 1.5–1.7 million years ago, and Isampur in Karnataka is\ndated to 1.2 million years ago. At these sites, animal fossils and large",
+            "cutting tools, including handaxes and cleavers, and other tools, such\nas stone scrapers and choppers made of quartzite and limestone,\nrespectively, have been found. These tools were used to chop animal\nmeat, dig out tubers, scrape animal skin, and cleave animal bones to\nextract protein-rich marrow.",
+            "Further progress in hunting and gathering was reflected in the\nmaking of smaller stone tools. The main types of stone tools included\nscrapers, borers, and points. These indicate improved efficiency in\nhunting by developing projectiles which were tipped with sharp\npoints."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch4",
+        "pages": [
+          1,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:04:E:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/early-humans-and-beginning-of-civilisation"
+      ],
+      "taxonomyChapterId": "social-science-9/early-humans-and-beginning-of-civilisation",
+      "topic": "The Invention of Writing: Before and After",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A school museum has opened a new corner on life before writing was invented. In the display case lie stone tools, implements and other material objects made by people long ago, and there is no written record of any kind beside them. A student who visits the corner asks the guide two things: how can anyone know how these people lived if nobody wrote anything down, and how old are the objects? The guide replies that the objects themselves must carry the answer, and that measuring time has always been a problem. The student is not satisfied and wants to know what would change if written documents had existed.\n\n(a) Name the major sources a historian must use to reconstruct the ways of living of people from this period. (b) Explain why the thoughts and ideas of these people are generally difficult to understand. (c) Writing came later. Explain how the arrival of written documents changed the study of people and the dating of events.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Tools, implements, and other material objects made by humans (artefacts). (b) Artefacts reconstruct people’s ways of living, so the thoughts and ideas of people remain difficult to understand. (c) Both material remains and written documents then became sources, literature giving names, events, and social, political and cultural life, and dating became relatively accurate.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Tools, implements, and\nother material objects\nmade by humans (artefacts)\nare the major sources for\nreconstructing people’s",
+            "It is generally difficult to\nunderstand the thoughts\nand ideas of people.",
+            "Dating of cultures and\nevents becomes relatively\naccurate because written"
+          ],
+          "objective": false,
+          "passage": "A school museum has opened a new corner on life before writing was invented. In the display case lie stone tools, implements and other material objects made by people long ago, and there is no written record of any kind beside them. A student who visits the corner asks the guide two things: how can anyone know how these people lived if nobody wrote anything down, and how old are the objects? The guide replies that the objects themselves must carry the answer, and that measuring time has always been a problem. The student is not satisfied and wants to know what would change if written documents had existed."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch4",
+        "pages": [
+          1,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:04:E:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/early-humans-and-beginning-of-civilisation"
+      ],
+      "taxonomyChapterId": "social-science-9/early-humans-and-beginning-of-civilisation",
+      "topic": "The Invention of Writing: Before and After",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A history club is planning an exhibition with two equal halves. The left half is labelled ‘before writing’ and covers the long stretch from about 3 million years ago to 5000 years ago. The right half is labelled ‘after writing’ and covers only the last 5000 years, including the present. A member points out that the left half is far longer than the right, and the two members of the club disagree about how much of human history each half actually covers. They also argue about the best sources for each half. The teacher asks them to settle both arguments with figures and with named sources.\n\n(a) State the share of human history that falls under each of the two periods. (b) Name the major sources for reconstructing the ways of living of people in the first period. (c) Compare the sources of the second period with those of the first, and explain what a historian can now know that was out of reach before.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) First: more than 99 per cent. Second: less than 1 per cent. (b) Tools, implements, and other material objects made by humans (artefacts). (c) In the second period both material remains and written documents are sources, and literature gives names, events, and social, political and cultural life, so thoughts and ideas come within reach.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "More than 99 per cent of\nhuman history falls under",
+            "Less than 1 per cent of\nhuman history falls under",
+            "Both material remains and\nwritten documents are\nsources for reconstructing\nthe lives of people and\nsociety."
+          ],
+          "objective": false,
+          "passage": "A history club is planning an exhibition with two equal halves. The left half is labelled ‘before writing’ and covers the long stretch from about 3 million years ago to 5000 years ago. The right half is labelled ‘after writing’ and covers only the last 5000 years, including the present. A member points out that the left half is far longer than the right, and the two members of the club disagree about how much of human history each half actually covers. They also argue about the best sources for each half. The teacher asks them to settle both arguments with figures and with named sources."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch4",
+        "pages": [
+          1,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:04:E:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/early-humans-and-beginning-of-civilisation"
+      ],
+      "taxonomyChapterId": "social-science-9/early-humans-and-beginning-of-civilisation",
+      "topic": "The Invention of Writing: Before and After",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A local historian is writing the timeline of a kingdom. She has an old written record that mentions the coronation of a ruler and a war, and it gives a date for each. Her colleague, working on an earlier age, has only stone tools and other objects made by people, and no written record at all, so he can only guess at the order of events. The historian wonders whether her dates are as trustworthy as her colleague’s guesses, and she asks a teacher to explain why the two situations are so different. The teacher points out that one kind of evidence carries exact dates and the other does not.\n\n(a) State how precisely events and cultures could be dated before writing was invented. (b) Explain why a written record that mentions the coronation of a ruler and a war makes dating more accurate. (c) Setting dating aside, state one further gain that writing brought to the study of people, and explain it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Only approximate, because measurement of time was approximate. (b) Because written documents mention specific dates of events such as coronation and wars, so dating becomes relatively accurate. (c) Literature provides information about names; events; and social, political, and cultural life, so the thoughts and ideas of people can now be understood.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Measurement of time is\napproximate, that is, dating\nevents and cultures is only\napproximate.",
+            "documents mention specific\ndates of events such as\ncoronation, wars, etc.",
+            "Literature (written\ndocuments) provides\ninformation about names;"
+          ],
+          "objective": false,
+          "passage": "A local historian is writing the timeline of a kingdom. She has an old written record that mentions the coronation of a ruler and a war, and it gives a date for each. Her colleague, working on an earlier age, has only stone tools and other objects made by people, and no written record at all, so he can only guess at the order of events. The historian wonders whether her dates are as trustworthy as her colleague’s guesses, and she asks a teacher to explain why the two situations are so different. The teacher points out that one kind of evidence carries exact dates and the other does not."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch4",
+        "pages": [
+          1,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:04:F:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/early-humans-and-beginning-of-civilisation"
+      ],
+      "taxonomyChapterId": "social-science-9/early-humans-and-beginning-of-civilisation",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "map_based",
+      "stem": "On an outline map of the world, locate and label the following:\n(a) Mesopotamia, the “land in between” drained by the Euphrates and Tigris rivers in West Asia.\n(b) The Euphrates River.\n(c) The Nile River, along which the Egyptian civilisation grew.\n(d) The Huang He, in the basin in northern China where the Chinese civilisation grew.\n(e) The Zagros mountains, whose crescent-shaped foothills are known as the fertile crescent.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Mesopotamia — the “land in between” in West Asia, drained by the Euphrates and Tigris rivers (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Euphrates River — in West Asia, draining Mesopotamia together with the Tigris (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Nile River — Egypt, along which the Egyptian civilisation grew (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Huang He — northern China, in the basin where the Chinese civilisation grew (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Zagros mountains — their crescent-shaped foothills are known as the fertile crescent (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Mesopotamia — the “land in between” in West Asia, drained by the Euphrates and Tigris rivers; in modern times this region includes mainly Iraq and Kuwait, with some parts of Turkey and southwestern Iran.\n(b) Euphrates River — West Asia.\n(c) Nile River — Egypt.\n(d) Huang He — northern China.\n(e) Zagros mountains — their crescent-shaped foothills, stretching from the Mediterranean in the west to the Persian Gulf in the east, are known as the ‘fertile crescent’.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "city-based civilisation emerged in Mesopotamia. Mesopotamia,\nmeaning the “land in between,” is the Greek name for the land\ndrained by the Euphrates and Tigris rivers in West Asia (Fig. 4.21).\nIn modern times, this region includes mainly Iraq and Kuwait, with\nsome parts of Turkey and southwestern Iran.",
+            "the Egyptian civilisation\nalong the Nile River, and the Chinese civilisation in the Huang He\nbasin in northern China.",
+            "The crescent-shaped\nfoothills of the Zagros and Taurus, stretching from the Mediterranean\nin the west to the Persian Gulf in the east, are known as the ‘fertile\ncrescent’, due to their high agricultural potential."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Map Based",
+        "chapter": "iest1 ch4",
+        "pages": [
+          1,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iest1",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

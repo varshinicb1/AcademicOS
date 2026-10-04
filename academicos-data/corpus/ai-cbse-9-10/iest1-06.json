@@ -1,0 +1,1294 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iest1:06:A:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Tracing Democratic Traditions from Early Times",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "In Canada a representative of the Monarch takes office on the advice of the Prime Minister, who heads the government. Name the post that this representative holds. (A) President (B) Prime Minister (C) Governor-General (D) Monarch",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Governor-General",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Canada\nRepresentative\nExecutive\nGovernor-General",
+            "with the Prime\nthe Monarch\nsystem",
+            "power remains\non the advice\nwith union\nof the Prime"
+          ],
+          "objective": true,
+          "options": {
+            "A": "President",
+            "B": "Prime Minister",
+            "C": "Governor-General",
+            "D": "Monarch"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:06:AR:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Tracing Democratic Traditions from Early Times",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion: Canada has a Governor-General who is appointed by the Monarch.\nReason: The appointment is made on the advice of the Prime Minister. (A) Both the assertion and the reason are true, and the reason explains the assertion. (B) Both the assertion and the reason are true, but the reason does not explain the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true, and the reason explains the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Canada\nRepresentative\nExecutive\nGovernor-General",
+            "with the Prime\nthe Monarch\nsystem",
+            "on the advice\nwith union\nof the Prime"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true, and the reason explains the assertion.",
+            "B": "Both the assertion and the reason are true, but the reason does not explain the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:06:B:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Tracing Democratic Traditions from Early Times",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A news report says that in Canada a new representative of the Monarch will take office on the advice of the Prime Minister. Name the post that this representative holds.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the post as Governor-General (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Recognises that the post is the Monarch's, filled on the Prime Minister's advice (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Governor-General.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Canada\nRepresentative\nExecutive\nGovernor-General",
+            "with the Prime\nthe Monarch\nsystem",
+            "on the advice\nwith union\nof the Prime"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:06:B:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Tracing Democratic Traditions from Early Times",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "Ishaan is filling in a single row of a chart that applies equally to India, Canada and the United Kingdom. Write the form of government that belongs in that row, giving both of its names.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names Representative Democracy (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives Parliamentary Democracy as the second name (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Representative Democracy, also called Parliamentary Democracy.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Representative",
+            "(Parliamentary",
+            "Sovereignty:\nKingdom\nDemocracy\nConstitutional"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:06:C:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Tracing Democratic Traditions from Early Times",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Riya is making a chart that compares India, Canada and the United Kingdom. For each of the three countries, name the official who holds the post of head of state.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "India — the President holds the post of Head of State (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Canada — the Governor-General holds the post (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "United Kingdom — the Monarch holds the post of Head of State (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "India: the President, who is named as the Head of State, while the Prime Minister heads the government. Canada: the Governor-General, who is appointed by the Monarch on the advice of the Prime Minister. United Kingdom: the Monarch, who is named as the Head of State.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Executive\nPresident (Head",
+            "Canada\nRepresentative\nExecutive\nGovernor-General",
+            "Monarch (Head\nUnwritten\nSovereignty:\nKingdom"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:06:C:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Tracing Democratic Traditions from Early Times",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Kabir wants to know on whose advice the Governor-General of Canada is appointed, who actually makes the appointment, and which post the adviser holds.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that the Monarch makes the appointment (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the appointment follows the Prime Minister's advice (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Says that the Prime Minister is the Head of Government (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The Governor-General of Canada is appointed by the Monarch. The appointment is made on the advice of the Prime Minister, and the Prime Minister holds the post of Head of Government. So the Monarch makes the choice, but the advice on which it rests comes from the head of the government.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "with the Prime\nthe Monarch\nsystem",
+            "on the advice\nwith union\nof the Prime",
+            "government.\nMinister (Head of\nGovernment)"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:06:C:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Tracing Democratic Traditions from Early Times",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Anil is listing the constitutional features recorded for India. Name the feature that decides how authority is divided, and name the two lists of obligations the constitution carries.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Names Federalism as the feature that divides authority (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Places Federalism among the union and the states (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names the Fundamental Rights and the Fundamental Duties (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The feature that decides how authority is divided is Federalism, which the record sets alongside the union and the states. The two lists of obligations that the constitution carries are the Fundamental Rights and the Fundamental Duties, set out in the constitution of India.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Fundamental\ngovernments\nPrime Minister\nRights and",
+            "as expressed\nDuties,\nin the union,",
+            "state and\nFederalism\nconcurrent"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:06:D:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Tracing Democratic Traditions from Early Times",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Kabir must brief his class on how Canada is governed at the very top, and on the one form of government that Canada shares with India and the United Kingdom. Write the briefing in steps.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Canada — the Governor-General is the representative of the Monarch, the Head of State (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The Governor-General is appointed by the Monarch (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The appointment is made on the advice of the Prime Minister (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The Prime Minister is named as the Head of Government (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "All three countries are Representative Democracies (Parliamentary Democracies) (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 — Canada has a Governor-General, who is appointed by the Monarch, the Head of State.\nStep 2 — The appointment is made on the advice of the Prime Minister.\nStep 3 — The Prime Minister is named as the Head of Government, so the advice comes from the head of the government.\nStep 4 — India, Canada and the United Kingdom all follow one form of government.\nStep 5 — That form is Representative Democracy, also called Parliamentary Democracy.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Canada\nRepresentative\nExecutive\nGovernor-General",
+            "with the Prime\nthe Monarch\nsystem",
+            "on the advice\nwith union\nof the Prime\ngovernment.\nMinister (Head of"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:06:D:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Tracing Democratic Traditions from Early Times",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Rhea is making a wall chart with one row for each of the three countries she is studying, and in each row she must name the official who holds the post of head of state. Write the three entries in steps, naming the country each time.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "India — the President holds the post of Head of State (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Canada — the Governor-General holds the post (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The Governor-General is appointed by the Monarch on the advice of the Prime Minister (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "United Kingdom — the Monarch holds the post of Head of State (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The constitution of the United Kingdom is Unwritten (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 — India: the President, who is named as the Head of State.\nStep 2 — India: the Prime Minister heads the government, so the two posts are kept apart.\nStep 3 — Canada: the Governor-General, who is appointed by the Monarch on the advice of the Prime Minister.\nStep 4 — United Kingdom: the Monarch, who is named as the Head of State.\nStep 5 — The constitution of the United Kingdom is Unwritten, while the constitution of India is a written one.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Executive\nPresident (Head",
+            "Canada\nRepresentative\nExecutive\nGovernor-General",
+            "Monarch (Head\nUnwritten\nSovereignty:\nKingdom"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:06:D:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Tracing Democratic Traditions from Early Times",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Anil is preparing revision notes on India. In steps, write the constitutional features that are recorded for the country: the type of constitution, the way political parties work, how the state governments are headed, and the two lists of obligations.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "India is recorded as having a written constitution (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "India is recorded as a multi-party democracy (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The state governments are headed by the Prime Minister (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The Fundamental Rights are recorded (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The Fundamental Duties are recorded (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 — India is recorded as having a written constitution.\nStep 2 — It is a multi-party democracy, so more than one party competes for power.\nStep 3 — The state governments are headed by the Prime Minister.\nStep 4 — The constitution carries the Fundamental Rights of citizens.\nStep 5 — It also carries the Fundamental Duties.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Written\nunion and\nDemocracy)\nof ministers\nGovernment)\nconstitution,",
+            "Multi-party\nresponsibilities\nDemocracy",
+            "governments\nPrime Minister\nRights and\nas expressed\nDuties,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:06:D:4",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Rule of Law",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Riya's father disagrees with the rent his landlord has charged and the landlord proposes to settle it privately between the two of them. In steps, explain what the rule of law requires in this situation, and say where that requirement is written into the Constitution.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "The Rule of Law is a fundamental principle of any democratic society (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It ensures equality before the law and equal protection of the law (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Disputes are settled in a court of law through procedures established by law, not by force or personal influence (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "No citizen is punished without following the procedure, and all get a fair chance to defend their rights (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The principle is enshrined in Article 21, and the rights are enforceable in courts (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 — The Rule of Law is a fundamental principle of any democratic society.\nStep 2 — It ensures equality before the law and equal protection of the law, and that no one is above the law.\nStep 3 — So a dispute like this one is resolved in a court of law through procedures established by law, not by force or personal influence.\nStep 4 — No citizen can be punished without following that procedure, and everyone is given a fair opportunity to defend their rights.\nStep 5 — The principle is enshrined in Article 21, and the rights it safeguards are enforceable in courts of law.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The Rule of Law is a fundamental principle of any democratic",
+            "violated, disputes are resolved in a court of law through procedures",
+            "Fundamental Rights\nin Article\n21 of the"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:06:E:1",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Tracing Democratic Traditions from Early Times",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Aarav has just moved to Canada for a school exchange year. His host family explains that Canada has no president. At the top of the country stands a representative whom the Monarch appoints, and that appointment follows the advice given by the head of the government. Aarav finds it strange that someone living in another country can make this choice, so he asks his teacher whether the same arrangement exists in India and in the United Kingdom. His teacher reminds him that the three countries are grouped together under one common form of government, which is why a comparison between them is possible at all.\n\nAnswer the three questions below.\n1. Name the post that the representative holds in Canada.\n2. Say who makes the appointment to that post, and on whose advice it is made.\n3. Aarav wonders whether Canada alone is arranged this way. Using the one form of government that Canada shares with India and the United Kingdom, explain why all three can be compared on this point.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Governor-General. (1)\n2. Appointed by the Monarch, on the advice of the Prime Minister. (2)\n3. All three are Representative Democracies (Parliamentary Democracies), so their heads of state work inside the same form of government. (2)",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Canada\nRepresentative\nExecutive\nGovernor-General",
+            "with the Prime\nthe Monarch\nsystem",
+            "on the advice\nwith union\nof the Prime"
+          ],
+          "objective": false,
+          "passage": "Aarav has just moved to Canada for a school exchange year. His host family explains that Canada has no president. At the top of the country stands a representative whom the Monarch appoints, and that appointment follows the advice given by the head of the government. Aarav finds it strange that someone living in another country can make this choice, so he asks his teacher whether the same arrangement exists in India and in the United Kingdom. His teacher reminds him that the three countries are grouped together under one common form of government, which is why a comparison between them is possible at all."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:06:E:2",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Tracing Democratic Traditions from Early Times",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Sarita's class is preparing a display on different heads of state, and she has been given three cards to lay out. The first card belongs to India and shows a President. The second card belongs to Canada and names a person who is not elected at all, but is appointed by the Monarch. The third card belongs to the United Kingdom and shows a Monarch, and beside it Sarita writes that the country is placed under a Constitutional Monarchy. The display supervisor then asks her to add one more line explaining why the three cards may be shown side by side.\n\nAnswer the three questions below.\n1. Name the official who holds the post of head of state in India.\n2. Say how that post is filled in Canada, and name the person who fills it.\n3. Adding the Constitutional Monarchy note and the shared form of government, explain what the display is showing about the three countries.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. The President, the Head of State. (1)\n2. The post is filled by appointment, not election; the holder is the Governor-General, appointed by the Monarch. (2)\n3. All three are Representative Democracies (Parliamentary Democracies), so the same kind of government applies even though the head of state differs. (2)",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Executive\nPresident (Head",
+            "Canada\nRepresentative\nExecutive\nGovernor-General",
+            "Monarch (Head\nUnwritten\nSovereignty:\nKingdom"
+          ],
+          "objective": false,
+          "passage": "Sarita's class is preparing a display on different heads of state, and she has been given three cards to lay out. The first card belongs to India and shows a President. The second card belongs to Canada and names a person who is not elected at all, but is appointed by the Monarch. The third card belongs to the United Kingdom and shows a Monarch, and beside it Sarita writes that the country is placed under a Constitutional Monarchy. The display supervisor then asks her to add one more line explaining why the three cards may be shown side by side."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:06:E:3",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Tracing Democratic Traditions from Early Times",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Ved is revising the constitutional framework before his annual test. He makes a card for each point he must remember. The first card says that India has a written constitution. The second card says that more than one political party competes for power. The third card says that authority is divided between the union and the states, and it names this Federalism. Two further cards list the Fundamental Rights and the Fundamental Duties that every citizen of India holds. Ved then meets a friend who studies Canada, where Federalism also appears, but where the power that is left over stays with the union government.\n\nAnswer the three questions below.\n1. Name the type of constitution on Ved's first card.\n2. Name the feature on his third card, and say between which two levels of government it divides authority.\n3. Ved's friend studies Canada, which also has Federalism. Compare the two countries: what feature do they share, and how does the power that is left over compare between them?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. A written constitution. (1)\n2. Federalism, dividing authority between the union and the states. (2)\n3. Both share Federalism. India's list runs to the union, the state and a concurrent list, while Canada records that the power which remains stays with the union government. (2)",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Written\nunion and\nDemocracy)\nof ministers\nGovernment)",
+            "state and\nFederalism\nconcurrent",
+            "power remains\non the advice\nwith union\nof the Prime\ngovernment."
+          ],
+          "objective": false,
+          "passage": "Ved is revising the constitutional framework before his annual test. He makes a card for each point he must remember. The first card says that India has a written constitution. The second card says that more than one political party competes for power. The third card says that authority is divided between the union and the states, and it names this Federalism. Two further cards list the Fundamental Rights and the Fundamental Duties that every citizen of India holds. Ved then meets a friend who studies Canada, where Federalism also appears, but where the power that is left over stays with the union government."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iest1",
+    "chapters": [
+      6
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

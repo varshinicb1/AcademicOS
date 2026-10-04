@@ -1,0 +1,644 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:05:B:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/exploring-mixtures-and-their-separation"
+      ],
+      "taxonomyChapterId": "science-9/exploring-mixtures-and-their-separation",
+      "topic": "How Can We Classify Mixtures?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Meena adds one spatula of common salt to 50 mL of water in a beaker and stirs it well. The mixture is just as sweet in the first sip as in the last. Name the type of mixture she has made and give the other name for it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Homogeneous mixture",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It is also called a solution",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A homogeneous mixture; it is also called a solution.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "is equally sweet in the first and the last sip. Such a\nmixture is called a homogeneous mixture (Fig. 5.1) or\na solution.",
+            "soda (carbon dioxide in water), etc. A solution always\nremains homogeneous."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch5",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          73,
+          77,
+          79,
+          81,
+          83,
+          85,
+          87,
+          89,
+          91,
+          93,
+          100
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:05:B:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/exploring-mixtures-and-their-separation"
+      ],
+      "taxonomyChapterId": "science-9/exploring-mixtures-and-their-separation",
+      "topic": "How Can We Classify Mixtures?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Rohan stirs sand into water in a beaker and leaves it standing for a while. He can see the sand grains in the water and they collect at the bottom. Name the type of mixture he has made and state the property of the particles that shows this.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Heterogeneous mixture",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The particles are visible in the water and settle with time",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A heterogeneous mixture; its particles are visible in the water and settle with time.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "On the other hand, a stirred mixture of sand and water",
+            "is not uniform. The sand particles are easily visible in\nthe water and settle with time. Such a mixture is called a\nheterogeneous mixture (Fig. 5.2)."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch5",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          73,
+          77,
+          79,
+          81,
+          83,
+          85,
+          87,
+          89,
+          91,
+          93,
+          100
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:05:B:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/exploring-mixtures-and-their-separation"
+      ],
+      "taxonomyChapterId": "science-9/exploring-mixtures-and-their-separation",
+      "topic": "How Can We Classify Mixtures?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "While a laser pointer is being used to test a mixture in the laboratory, a student is told to view it from the side of the beaker. State the precaution the student must follow and the harm that follows if it is ignored.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Do not look directly into the laser beam",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It can cause irreversible eye damage",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Do not look directly into the laser beam; it can cause irreversible eye damage.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Safety first: Do not look directly into the",
+            "laser beam. It can cause irreversible eye\ndamage."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch5",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          73,
+          77,
+          79,
+          81,
+          83,
+          85,
+          87,
+          89,
+          91,
+          93,
+          100
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:05:B:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/exploring-mixtures-and-their-separation"
+      ],
+      "taxonomyChapterId": "science-9/exploring-mixtures-and-their-separation",
+      "topic": "How do we express concentration?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A pharmacist has to state how much glucose a patient receives in a fixed volume of medicine, so she measures the volume of the liquid instead of weighing it. Name the method of expressing concentration she should use and state how many grams of glucose 100 millilitres of a 5% glucose solution contains.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Mass by volume percentage (% m/v or % w/v)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "5 g of glucose in 100 millilitres of the solution",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Mass by volume percentage (% m/v or % w/v); 5 g of glucose in 100 millilitres of the solution.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "B. Mass by volume percentage (% m/v or % w/v)\nThis method is used where measuring the volume of a liquid is easier\nthan weighing it, for example, in medicines and laboratories.",
+            "example is 5% glucose solution (Fig. 5.4b). It tells us how many grams of the\nsolute is present in 100 millilitres of the solution.",
+            "Example 5.2: If 5 g of glucose is dissolved in water to make 100 mL of\nsolution, calculate its concentration in mass by volume percentage."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "iesc1 ch5",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          73,
+          77,
+          79,
+          81,
+          83,
+          85,
+          87,
+          89,
+          91,
+          93,
+          100
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:05:E:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/exploring-mixtures-and-their-separation"
+      ],
+      "taxonomyChapterId": "science-9/exploring-mixtures-and-their-separation",
+      "topic": "How Can We Classify Mixtures?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "In a science period, Ravi stirred one spatula of common salt into 50 mL of water in a 100 mL beaker, Neha stirred one spatula of chalk powder into 50 mL of water, and Imran added a few drops of milk to 50 mL of water and stirred. Their teacher passed laser light through each beaker and asked the class to view it from the side, in a direction perpendicular to the beam, warning them never to look straight into it. They then filtered each mixture. Two beakers, one of sugar in water and one of sand in water, stood on the desk, and the teacher asked why these two do not belong to one group.\n\nState the direction from which the class must view the laser beam and the safety precaution the teacher insists on. (ii) Name the type of mixture in the beaker of sugar in water, giving its other name, and name the type of mixture in the beaker of sand and water. (iii) Ravi says that since both beakers hold a solid mixed with water, one name should serve for both. Using what the class can observe in the two beakers, explain why he is wrong.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) From the side of the beaker, perpendicular to the beam; never look directly into it, as it can cause irreversible eye damage. (ii) Sugar in water: a homogeneous mixture, also called a solution. Sand in water: a heterogeneous mixture. (iii) The sugar mixture stays uniform, equally sweet in the first sip and the last, while the sand particles are visible and settle with time.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "and observe it from the side",
+            "perpendicular to the laser beam.",
+            "laser beam. It can cause irreversible eye\ndamage."
+          ],
+          "objective": false,
+          "passage": "In a science period, Ravi stirred one spatula of common salt into 50 mL of water in a 100 mL beaker, Neha stirred one spatula of chalk powder into 50 mL of water, and Imran added a few drops of milk to 50 mL of water and stirred. Their teacher passed laser light through each beaker and asked the class to view it from the side, in a direction perpendicular to the beam, warning them never to look straight into it. They then filtered each mixture. Two beakers, one of sugar in water and one of sand in water, stood on the desk, and the teacher asked why these two do not belong to one group."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch5",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          73,
+          77,
+          79,
+          81,
+          83,
+          85,
+          87,
+          89,
+          91,
+          93,
+          100
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:05:E:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/exploring-mixtures-and-their-separation"
+      ],
+      "taxonomyChapterId": "science-9/exploring-mixtures-and-their-separation",
+      "topic": "How Can We Classify Mixtures?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "At a school exhibition, a Class 9 student named Diya stood beside a table of glass beakers. One beaker held vinegar, which she said was acetic acid in water. A second held soda, an aerated drink with carbon dioxide dissolved in water. A third held sand stirred into water, and Diya pointed out that the grains could easily be seen and that they settled with time. A visitor asked about sugar, and Diya answered that a well-stirred mixture of sugar and water is just as sweet in the first sip as in the last, and that it keeps a uniform composition throughout. The visitor then asked whether the sand beaker could be given the same name as the sugar beaker.\n\nState the type of mixture in the vinegar beaker, in the soda beaker and in the beaker of stirred sand and water. (ii) Name the type of mixture in the sugar beaker and give its other name. (iii) Diya says the sand beaker cannot be given the same name as the sugar beaker. Using the observations she describes, explain why the two cannot share one name.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Vinegar and soda are homogeneous mixtures; the stirred sand and water is a heterogeneous mixture. (ii) A homogeneous mixture, also called a solution. (iii) The sugar mixture keeps a uniform composition throughout, while in the sand and water mixture the grains are visible and settle with time, so it is not uniform.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "are vinegar (acetic acid in water), aerated drinks like\nsoda (carbon dioxide in water), etc.",
+            "is equally sweet in the first and the last sip. Such a\nmixture is called a homogeneous mixture (Fig. 5.1) or\na solution.",
+            "is not uniform. The sand particles are easily visible in\nthe water and settle with time. Such a mixture is called a\nheterogeneous mixture (Fig. 5.2)."
+          ],
+          "objective": false,
+          "passage": "At a school exhibition, a Class 9 student named Diya stood beside a table of glass beakers. One beaker held vinegar, which she said was acetic acid in water. A second held soda, an aerated drink with carbon dioxide dissolved in water. A third held sand stirred into water, and Diya pointed out that the grains could easily be seen and that they settled with time. A visitor asked about sugar, and Diya answered that a well-stirred mixture of sugar and water is just as sweet in the first sip as in the last, and that it keeps a uniform composition throughout. The visitor then asked whether the sand beaker could be given the same name as the sugar beaker."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch5",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          73,
+          77,
+          79,
+          81,
+          83,
+          85,
+          87,
+          89,
+          91,
+          93,
+          100
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:05:E:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/exploring-mixtures-and-their-separation"
+      ],
+      "taxonomyChapterId": "science-9/exploring-mixtures-and-their-separation",
+      "topic": "How Can We Classify Mixtures?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Three groups prepared mixtures in a science period. Group A added one spatula of common salt to 50 mL of water. Group B added one spatula of chalk powder to 50 mL of water, and Group C added a few drops of milk to 50 mL of water. Each group looked at its beaker and recorded whether the particles were visible. Each group then set up a filtration apparatus and filtered its mixture separately, noting any residue left on the filter paper. The teacher asked them to predict what they would see if the beakers stood undisturbed for a few minutes. At the end they agreed the mixtures were not all of one type.\n\nState what each group recorded after looking at its beaker and what it noted after filtering its mixture. (ii) Name the two types into which mixtures are classified. (iii) The three groups agreed that the mixtures they prepared were not all of one type. Using the observations that decide this, explain how a mixture whose particles are visible and settle with time differs from one whose composition is uniform throughout.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Whether the particles were visible, and whether any residue was left on the filter paper. (ii) Homogeneous mixtures and heterogeneous mixtures. (iii) A mixture whose particles are visible and settle with time is not uniform, so it is heterogeneous; one with a uniform composition throughout is homogeneous.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "7. Set up a filtration apparatus and filter each mixture separately. Is\nthere any residue left on the filter paper?",
+            "mixture is called a homogeneous mixture (Fig. 5.1) or\na solution.",
+            "is not uniform. The sand particles are easily visible in\nthe water and settle with time. Such a mixture is called a\nheterogeneous mixture (Fig. 5.2)."
+          ],
+          "objective": false,
+          "passage": "Three groups prepared mixtures in a science period. Group A added one spatula of common salt to 50 mL of water. Group B added one spatula of chalk powder to 50 mL of water, and Group C added a few drops of milk to 50 mL of water. Each group looked at its beaker and recorded whether the particles were visible. Each group then set up a filtration apparatus and filtered its mixture separately, noting any residue left on the filter paper. The teacher asked them to predict what they would see if the beakers stood undisturbed for a few minutes. At the end they agreed the mixtures were not all of one type."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch5",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          73,
+          77,
+          79,
+          81,
+          83,
+          85,
+          87,
+          89,
+          91,
+          93,
+          100
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:05:E:104",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/exploring-mixtures-and-their-separation"
+      ],
+      "taxonomyChapterId": "science-9/exploring-mixtures-and-their-separation",
+      "topic": "How do we express concentration?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Rhea works in the dispensary of a small clinic. Instead of weighing every solid she mixes, she measures the volume of the liquid, because that is easier for her. A doctor asks her what a bottle labelled 5% glucose solution contains, and she explains that the percentage tells how many grams of the solute are present in 100 millilitres of the solution. Rhea also has to make a pesticide spray for a rice crop: she mixes 1 mL of liquid pesticide with sufficient water to form 100 mL of spray solution. Her friend asks her about the saline drip used in hospitals, which is 0.9 % m/v sodium chloride, or common salt, in water.\n\nName the method of expressing concentration that suits Rhea's situation of measuring the volume of a liquid instead of weighing it, and give the two symbols by which it is written. (ii) State what the label on the 5% glucose solution bottle tells the doctor about the amount of glucose. (iii) Rhea's friend points out that the perfumes and cosmetics in the shop next door are liquids too, and asks why they are not labelled in the same way as the glucose solution. Using the situations in which the methods are used, explain.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Mass by volume percentage (% m/v or % w/v). (ii) It shows how many grams of the solute are present in 100 millilitres of the solution. (iii) Perfumes, cosmetics and vinegar are made by mixing two miscible liquids, which is the case volume by volume percentage is meant for; a glucose solution in a clinic is a case where measuring the volume of the liquid is easier than weighing it.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "B. Mass by volume percentage (% m/v or % w/v)\nThis method is used where measuring the volume of a liquid is easier\nthan weighing it, for example, in medicines and laboratories.",
+            "example is 5% glucose solution (Fig. 5.4b). It tells us how many grams of the\nsolute is present in 100 millilitres of the solution.",
+            "This method is used when two miscible liquids are mixed,\nfor example, in perfumes, cosmetics and vinegar (Fig. 5.4c)."
+          ],
+          "objective": false,
+          "passage": "Rhea works in the dispensary of a small clinic. Instead of weighing every solid she mixes, she measures the volume of the liquid, because that is easier for her. A doctor asks her what a bottle labelled 5% glucose solution contains, and she explains that the percentage tells how many grams of the solute are present in 100 millilitres of the solution. Rhea also has to make a pesticide spray for a rice crop: she mixes 1 mL of liquid pesticide with sufficient water to form 100 mL of spray solution. Her friend asks her about the saline drip used in hospitals, which is 0.9 % m/v sodium chloride, or common salt, in water."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "iesc1 ch5",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          73,
+          77,
+          79,
+          81,
+          83,
+          85,
+          87,
+          89,
+          91,
+          93,
+          100
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      5
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

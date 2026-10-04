@@ -1,0 +1,1273 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess3:03:A:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-making-of-a-global-world"
+      ],
+      "taxonomyChapterId": "social-science-10/the-making-of-a-global-world",
+      "topic": "The Pre-modern World",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "In the mid-1840s a disease destroyed a crop in Ireland and hundreds of thousands of people died of starvation, because the poorest peasants had become completely dependent on it; which crop was it? (A) maize (B) soya (C) groundnuts (D) potato",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "potato",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Ireland’s poorest peasants",
+            "became so dependent on potatoes that when disease destroyed the",
+            "potato crop in the mid-1840s, hundreds of thousands died"
+          ],
+          "objective": true,
+          "options": {
+            "A": "maize",
+            "B": "soya",
+            "C": "groundnuts",
+            "D": "potato"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess3 ch3",
+        "pages": [
+          1,
+          2,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:03:B:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-making-of-a-global-world"
+      ],
+      "taxonomyChapterId": "social-science-10/the-making-of-a-global-world",
+      "topic": "The Pre-modern World",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "Legends of a city of gold spread across Europe in the seventeenth century, and many expeditions set off to find it; name that fabled city and the continent whose wealth it was believed to lie in.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the fabled city as El Dorado",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Places it in South America",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "El Dorado, in South America",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "its trade with Asia. Legends spread in seventeenth-century Europe",
+            "about South America’s fabled wealth. Many expeditions set off in",
+            "search of El Dorado, the fabled city of gold."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess3 ch3",
+        "pages": [
+          1,
+          2,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:03:B:2",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-making-of-a-global-world"
+      ],
+      "taxonomyChapterId": "social-science-10/the-making-of-a-global-world",
+      "topic": "The Pre-modern World",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "A historian maps the trade networks that tied vast regions of Asia together and linked Asia with Europe and northern Africa, and finds they did not follow a single path; name the two ways in which these routes ran.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Over land",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "By sea",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Over land and by sea",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "along this route. Historians have identified several silk routes, over",
+            "land and by sea, knitting together vast regions of Asia, and linking"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess3 ch3",
+        "pages": [
+          1,
+          2,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:03:C:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-making-of-a-global-world"
+      ],
+      "taxonomyChapterId": "social-science-10/the-making-of-a-global-world",
+      "topic": "The Pre-modern World",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A student is tracing the trade that criss-crossed Asia over land and by sea, on routes known to have existed since before the Christian Era; name what Asia sent along these routes, and what Europe sent back in return.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that Chinese pottery travelled the route",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that textiles and spices came from India and Southeast Asia",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that gold and silver flowed in return from Europe to Asia",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Along these routes Asia sent Chinese pottery, as did textiles and spices from India and Southeast Asia. In return, precious metals – gold and silver – flowed from Europe to Asia. The routes themselves ran over land and by sea, knitting together vast regions of Asia.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "along this route. Historians have identified several silk routes, over\nland and by sea, knitting together vast regions of Asia, and linking",
+            "fifteenth century. But Chinese pottery also travelled the same route,",
+            "as did textiles and spices from India and Southeast Asia. In return,\nprecious metals – gold and silver – flowed from Europe to Asia."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess3 ch3",
+        "pages": [
+          1,
+          2,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:03:C:2",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-making-of-a-global-world"
+      ],
+      "taxonomyChapterId": "social-science-10/the-making-of-a-global-world",
+      "topic": "The Pre-modern World",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A student is told that the Spanish conquerors of America owed much of their success not to superior firepower but to disease; name the disease they carried, and explain why the people they met had no defence against it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Names smallpox as the disease the conquerors carried",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Notes that the germs were carried on their person rather than by conventional weapons",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that long isolation left the original inhabitants with no immunity",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The disease was smallpox, whose germs they carried on their person; this, and not a conventional military weapon, was their most powerful one. Because of their long isolation, America's original inhabitants had no immunity against these diseases.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "conventional military weapon at all. It was the germs such as those",
+            "of smallpox that they carried on their person. Because of their long",
+            "isolation, America’s original inhabitants had no immunity against"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess3 ch3",
+        "pages": [
+          1,
+          2,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:03:C:3",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-making-of-a-global-world"
+      ],
+      "taxonomyChapterId": "social-science-10/the-making-of-a-global-world",
+      "topic": "The Pre-modern World",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A student wonders where spaghetti and pasta came from, and learns of two stories: that noodles travelled west from China to become spaghetti, and that Arab traders took pasta to fifth-century Sicily, an island now in Italy. Why can the truth about their origins never be known?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Notes that similar foods were also known in India and Japan",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the truth about their origins may never be known",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that such guesswork suggests only the possibilities of long-distance cultural contact",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Because similar foods were also known in India and Japan, several explanations fit the evidence equally well. Such guesswork suggests only the possibilities of long-distance cultural contact, even in the pre-modern world, without settling which route these foods actually took.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Similar foods were also known in India",
+            "and Japan, so the truth about their origins may",
+            "never be known. Yet such guesswork suggests"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess3 ch3",
+        "pages": [
+          1,
+          2,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:03:D:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-making-of-a-global-world"
+      ],
+      "taxonomyChapterId": "social-science-10/the-making-of-a-global-world",
+      "topic": "The Pre-modern World",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A student is studying the silk routes as a clear case of trade and cultural exchange going hand in hand; name the three different groups or movements that travelled or spread along these routes, and say what their use of the routes suggests.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Names Christian missionaries as having travelled the route to Asia",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names early Muslim preachers as having travelled it a few centuries later",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Places the emergence of Buddhism in eastern India",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Notes that Buddhism spread in several directions through intersecting points on the silk routes",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Concludes that trade and cultural exchange went hand in hand, so the routes carried religion and ideas as well as goods",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Christian missionaries almost certainly travelled the route to Asia, and early Muslim preachers travelled it a few centuries later. Much before all of them, Buddhism emerged from eastern India and spread in several directions through intersecting points on the silk routes. Their use of the routes shows that trade and cultural exchange went hand in hand: these were not merely trading roads, but routes along which religion travelled and spread too.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Trade and cultural exchange always went hand in hand. Early",
+            "Christian missionaries almost certainly travelled this route to Asia, as",
+            "did early Muslim preachers a few centuries later. Much before all\nthis, Buddhism emerged from eastern India and spread in several\ndirections through intersecting points on the silk routes."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess3 ch3",
+        "pages": [
+          1,
+          2,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:03:D:2",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-making-of-a-global-world"
+      ],
+      "taxonomyChapterId": "social-science-10/the-making-of-a-global-world",
+      "topic": "The Pre-modern World",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "A student is asked to explain, step by step, why the pre-modern world shrank greatly in the sixteenth century; give (a) what European sailors achieved, (b) what the trade in the Indian Ocean had already been like for centuries before, and (c) what the entry of Europeans did to those flows.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "States that European sailors found a sea route to Asia",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that they also successfully crossed the western ocean to America",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Describes the Indian Ocean's centuries of bustling trade, with goods, people, knowledge and customs criss-crossing its waters",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Places the Indian subcontinent at the centre of these flows and as a crucial point in their networks",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the entry of the Europeans helped expand or redirect some of these flows towards Europe",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) European sailors found a sea route to Asia and also successfully crossed the western ocean to America.\n(b) For centuries before, the Indian Ocean had known a bustling trade, with goods, people, knowledge and customs criss-crossing its waters. The Indian subcontinent was central to these flows and a crucial point in their networks.\n(c) The entry of the Europeans helped expand or redirect some of these flows towards Europe, so that the pre-modern world shrank greatly.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The pre-modern world shrank greatly in the sixteenth century after\nEuropean sailors found a sea route to Asia and also successfully\ncrossed the western ocean to America. For centuries before, the",
+            "Indian Ocean had known a bustling trade, with goods, people,\nknowledge, customs, etc. criss-crossing its waters. The Indian\nsubcontinent was central to these flows and a crucial point in their",
+            "networks. The entry of the Europeans helped expand or redirect\nsome of these flows towards Europe."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess3 ch3",
+        "pages": [
+          1,
+          2,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:03:D:3",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-making-of-a-global-world"
+      ],
+      "taxonomyChapterId": "social-science-10/the-making-of-a-global-world",
+      "topic": "The Pre-modern World",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A student is asked why European conquest of America cannot be put down to superior firepower alone; show in steps (a) what the most powerful weapon of the Spanish conquerors actually was, (b) how it reached the people they conquered, and (c) why those people were unable to resist it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "States that the most powerful weapon was not a conventional military weapon at all",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Identifies germs such as those of smallpox as the weapon",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Notes that the germs were carried on the conquerors' persons",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that because of their long isolation, America's original inhabitants had no immunity against these diseases",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Concludes that conquest therefore owed as much to disease as to superior firepower",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The most powerful weapon of the Spanish conquerors was not a conventional military weapon at all.\n(b) It was germs such as those of smallpox, which they carried on their person.\n(c) Because of their long isolation, America's original inhabitants had no immunity against these diseases. This is why European conquest was not just a result of superior firepower, but of disease spreading ahead of the conquerors.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "conventional military weapon at all. It was the germs such as those",
+            "of smallpox that they carried on their person. Because of their long",
+            "isolation, America’s original inhabitants had no immunity against"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess3 ch3",
+        "pages": [
+          1,
+          2,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:03:D:4",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-making-of-a-global-world"
+      ],
+      "taxonomyChapterId": "social-science-10/the-making-of-a-global-world",
+      "topic": "Rebuilding a World Economy: The Post-war Era",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "A student is tracing why the Bretton Woods system of fixed exchange rates could no longer be maintained; show in steps (a) how the system originally worked, (b) what went wrong with the US dollar, and (c) what system replaced it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "States that national currencies, for example the Indian rupee, were pegged to the dollar at a fixed exchange rate",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the dollar itself was anchored to gold at a fixed price of $35 per ounce of gold",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Notes that from the 1960s the rising costs of the US's overseas involvements weakened its finances and competitive strength",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the US dollar no longer commanded confidence as the world's principal currency and could not maintain its value in relation to gold",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that this led to the collapse of the system of fixed exchange rates and the introduction of a system of floating exchange rates",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) National currencies, for example the Indian rupee, were pegged to the dollar at a fixed exchange rate, and the dollar was anchored to gold at a fixed price of $35 per ounce.\n(b) From the 1960s the rising costs of the US's overseas involvements weakened its finances and competitive strength; the US dollar no longer commanded confidence and could not maintain its value in relation to gold.\n(c) This led to the collapse of the system of fixed exchange rates and the introduction of a system of floating exchange rates.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "currencies and monetary system. The Bretton Woods system was\nbased on fixed exchange rates. In this system, national currencies,",
+            "for example the Indian rupee, were pegged to the dollar at a fixed",
+            "Despite years of stable and rapid growth, not all was well in\nthis post-war world. From the 1960s the rising costs of its\noverseas involvements weakened the US’s finances and competitive\nstrength. The US dollar now no longer commanded confidence\nas the world’s principal currency. It could not maintain its value\nin relation to gold. This eventually led to the collapse of the\nsystem of fixed exchange rates and the introduction of a system\nof floating exchange rates."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess3 ch3",
+        "pages": [
+          1,
+          2,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:03:E:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-making-of-a-global-world"
+      ],
+      "taxonomyChapterId": "social-science-10/the-making-of-a-global-world",
+      "topic": "The Pre-modern World",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Historians have identified several silk routes, over land and by sea, knitting together vast regions of Asia and linking Asia with Europe and northern Africa. They are known to have existed since before the Christian Era and thrived almost till the fifteenth century. Chinese pottery also travelled the same route, as did textiles and spices from India and Southeast Asia. In return, precious metals – gold and silver – flowed from Europe to Asia. Christian missionaries almost certainly travelled this route to Asia, and early Muslim preachers a few centuries later.\n\nRead the case and answer the three questions below, each in one line. (i) Name the two ways in which the routes described here were used. (ii) Which regions sent textiles and spices along them, and what came back the other way? (iii) A trader argues that these were only roads for buying and selling. Explain why the journeys of the missionaries and preachers show otherwise.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Over land and by sea. (ii) India and Southeast Asia sent textiles and spices; precious metals – gold and silver – flowed in return from Europe to Asia. (iii) Because missionaries and preachers travelled the same routes to spread religion, trade and cultural exchange went hand in hand, so these were not merely trading roads.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "along this route. Historians have identified several silk routes, over\nland and by sea, knitting together vast regions of Asia, and linking",
+            "as did textiles and spices from India and Southeast Asia. In return,\nprecious metals – gold and silver – flowed from Europe to Asia.",
+            "Christian missionaries almost certainly travelled this route to Asia, as\ndid early Muslim preachers a few centuries later. Much before all"
+          ],
+          "objective": false,
+          "passage": "Historians have identified several silk routes, over land and by sea, knitting together vast regions of Asia and linking Asia with Europe and northern Africa. They are known to have existed since before the Christian Era and thrived almost till the fifteenth century. Chinese pottery also travelled the same route, as did textiles and spices from India and Southeast Asia. In return, precious metals – gold and silver – flowed from Europe to Asia. Christian missionaries almost certainly travelled this route to Asia, and early Muslim preachers a few centuries later."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess3 ch3",
+        "pages": [
+          1,
+          2,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:03:E:2",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-making-of-a-global-world"
+      ],
+      "taxonomyChapterId": "social-science-10/the-making-of-a-global-world",
+      "topic": "The Pre-modern World",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Many of our common foods such as potatoes, soya, groundnuts, maize, tomatoes, chillies and sweet potatoes were not known to our ancestors until about five centuries ago. These foods were only introduced in Europe and Asia after Christopher Columbus accidentally discovered the vast continent that would later become known as the Americas. Europe’s poor began to eat better and live longer with the introduction of the humble potato. Ireland’s poorest peasants became so dependent on potatoes that when disease destroyed the potato crop in the mid-1840s, hundreds of thousands died of starvation.\n\nRead the case and answer the three questions below, each in one line. (i) Name the people from whom many of these foods came. (ii) State the two changes the humble potato brought to Europe. (iii) A student says the new foods were a simple benefit; use the Irish experience in the case to explain why that is not the whole story.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) America’s original inhabitants, the American Indians. (ii) Europe’s poor began to eat better, and they lived longer. (iii) Ireland’s poorest peasants became so dependent on potatoes that when disease destroyed the crop in the mid-1840s, hundreds of thousands died of starvation, so one new crop could carry great risk as well as great gain.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In fact, many of our common foods\ncame from America’s original inhabitants – the American Indians.",
+            "Europe’s poor began to eat better and live longer with",
+            "Ireland’s poorest peasants\nbecame so dependent on potatoes that when disease destroyed the\npotato crop in the mid-1840s, hundreds of thousands died"
+          ],
+          "objective": false,
+          "passage": "Many of our common foods such as potatoes, soya, groundnuts, maize, tomatoes, chillies and sweet potatoes were not known to our ancestors until about five centuries ago. These foods were only introduced in Europe and Asia after Christopher Columbus accidentally discovered the vast continent that would later become known as the Americas. Europe’s poor began to eat better and live longer with the introduction of the humble potato. Ireland’s poorest peasants became so dependent on potatoes that when disease destroyed the potato crop in the mid-1840s, hundreds of thousands died of starvation."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess3 ch3",
+        "pages": [
+          1,
+          2,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:03:E:3",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-making-of-a-global-world"
+      ],
+      "taxonomyChapterId": "social-science-10/the-making-of-a-global-world",
+      "topic": "The Pre-modern World",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "The Portuguese and Spanish conquest and colonisation of America was decisively under way by the mid-sixteenth century. European conquest was not just a result of superior firepower. The most powerful weapon of the Spanish conquerors was not a conventional military weapon at all: it was germs such as those of smallpox that they carried on their person. Because of their long isolation, America’s original inhabitants had no immunity against these diseases. Before its ‘discovery’, America had been cut off from regular contact with the rest of the world for millions of years.\n\nRead the case and answer the three questions below, each in one or two lines. (i) Name the weapon the Spanish conquerors really relied on, and say how it reached the people they met. (ii) Why were those people unable to resist it? (iii) A historian argues that isolation, rather than any weakness, explains why conquest succeeded so quickly; explain what in the case supports that argument.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Germs such as those of smallpox, which they carried on their own persons. (ii) Because of their long isolation, America’s original inhabitants had no immunity against these diseases. (iii) So conquest was not merely a result of superior firepower: the germs reached people who had never before been exposed to such disease.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "conventional military weapon at all. It was the germs such as those",
+            "of smallpox that they carried on their person. Because of their long",
+            "isolation, America’s original inhabitants had no immunity against"
+          ],
+          "objective": false,
+          "passage": "The Portuguese and Spanish conquest and colonisation of America was decisively under way by the mid-sixteenth century. European conquest was not just a result of superior firepower. The most powerful weapon of the Spanish conquerors was not a conventional military weapon at all: it was germs such as those of smallpox that they carried on their person. Because of their long isolation, America’s original inhabitants had no immunity against these diseases. Before its ‘discovery’, America had been cut off from regular contact with the rest of the world for millions of years."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess3 ch3",
+        "pages": [
+          1,
+          2,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "F",
+      "qtype": "map_based",
+      "topic": "",
+      "reason": "stem-names-the-text",
+      "stem": "Fig. 18, A distant view of Surat and its river (page 66), is the figure you need, and this question cannot be answered w"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess3",
+    "chapters": [
+      3
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

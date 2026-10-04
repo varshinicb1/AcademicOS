@@ -1,0 +1,1173 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess4:02:A:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/federalism"
+      ],
+      "taxonomyChapterId": "social-science-10/federalism",
+      "topic": "What is federalism?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Neha compares two constitutions. In the first, either there is only one level of government or the sub-units are subordinate to the central government, which can pass on orders to the provincial or the local government. In the second, the central government cannot order the state government to do something, and the state government holds powers of its own for which it is not answerable to the central government. Name the system followed in the second country. (A) A system in which there is only one level of government (B) A system in which the sub-units are subordinate to the central government (C) A system in which power is divided between a central authority and various constituent units of the country (D) A system in which the central government takes orders from the state government",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A system in which power is divided between a central authority and various constituent units of the country",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Federalism is a system of\ngovernment in which the power is\ndivided between a central authority\nand various constituent units of the\ncountry.",
+            "But in a federal system, the central\nsome rules of power-sharing. They\nworks only in\ngovernment cannot order the state\nshould also trust that each would\nbig countries,\ngovernment to do something. State"
+          ],
+          "objective": true,
+          "options": {
+            "A": "A system in which there is only one level of government",
+            "B": "A system in which the sub-units are subordinate to the central government",
+            "C": "A system in which power is divided between a central authority and various constituent units of the country",
+            "D": "A system in which the central government takes orders from the state government"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess4 ch2",
+        "pages": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:02:AR:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/federalism"
+      ],
+      "taxonomyChapterId": "social-science-10/federalism",
+      "topic": "What is federalism?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Rohan compares several federations and finds that the share of power held by the central government is not the same in any two of them. Consider the following statements. 1. The exact balance of power between the central and the state government is the same in every federation. 2. This balance depends on the size of the country. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The exact balance of power\nanswerable to the people.\nbetween the central and the state\nLet us look at some of the key\ngovernment\nvaries\nfrom\none\nfeatures of federalism :\nfederation to another. This balance",
+            "federation to another. This balance\n1 There are two or more levels (or\ndepends mainly on the historical\ntiers) of government.\ncontext in which the federation was\n2 Different tiers of government\nformed. There are two kinds of routes"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jess4 ch2",
+        "pages": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:02:B:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/federalism"
+      ],
+      "taxonomyChapterId": "social-science-10/federalism",
+      "topic": "What is federalism?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Members of a community in Sri Lanka have asked the government to divide power between a central authority and various constituent units of the country, so that each unit looks after the day-to-day administering of its own state. Name the system they are asking for.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Named federalism, or a federal system",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Linked it to power being divided between a central authority and constituent units of the country",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Federalism, that is, a federal system.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Tamil leaders want Sri Lanka to\nbecome a federal system.",
+            "Federalism is a system of\ngovernment in which the power is\ndivided between a central authority\nand various constituent units of the\ncountry."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess4 ch2",
+        "pages": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:02:B:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/federalism"
+      ],
+      "taxonomyChapterId": "social-science-10/federalism",
+      "topic": "What is federalism?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "In Vanya's federation the central government and the governments of provinces or states each hold powers of their own, and neither level is answerable to the other. To whom are both these governments separately answerable?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Answered: to the people",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Noted that both levels of government are separately answerable to the people",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "To the people.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "these governments are separately\nThe exact balance of power\nanswerable to the people."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess4 ch2",
+        "pages": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:02:C:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/federalism"
+      ],
+      "taxonomyChapterId": "social-science-10/federalism",
+      "topic": "What is federalism?",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Kabir's federation is facing a demand from some of its states for much greater freedom, while other states fear that too much freedom will break the country apart. In about 45 words, state the two objectives that a federal system has to serve at the same time.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The first objective is to safeguard and promote unity of the country",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The second objective is, at the same time, to accommodate regional diversity",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Stated that both objectives are to be pursued together, as the dual objectives of a federal system",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A federal system has dual objectives. The first is to safeguard and promote unity of the country. The second, pursued at the same time, is to accommodate regional diversity. A federation that serves only one of them cannot hold together states that differ from one another.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "7 The federal system thus has dual\ncontrasted with unitary governments.\nobjectives: to safeguard and promote\nUnder the unitary system, either\nunity of the country, while at the\nthere is only one level of government\nsame time accommodate regional\nor the sub-units are subordinate to\ndiversity."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess4 ch2",
+        "pages": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:02:C:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/federalism"
+      ],
+      "taxonomyChapterId": "social-science-10/federalism",
+      "topic": "What is federalism?",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Ravi is preparing a note on how a federation is arranged. In about 45 words, state how many levels of government a federation has, and explain how the different tiers stand in relation to the same citizens.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "A federation has two or more levels, or tiers, of government",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The different tiers of government govern the same citizens",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Each tier has its own jurisdiction in specific matters of legislation, taxation and administration",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A federation has two or more levels, or tiers, of government. The different tiers of government govern the same citizens, but each tier has its own jurisdiction in specific matters of legislation, taxation and administration. So every tier acts on the same people, but within its own field of authority.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "1 There are two or more levels (or\ndepends mainly on the historical\ntiers) of government.",
+            "2 Different tiers of government\nformed. There are two kinds of routes\ngovern the same citizens, but\nthrough which federations have been\neach tier has its own\njurisdiction\nformed. The first route involves\nin specific matters of legislation,\nindependent States coming together\ntaxation and administration."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess4 ch2",
+        "pages": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:02:C:3",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/federalism"
+      ],
+      "taxonomyChapterId": "social-science-10/federalism",
+      "topic": "What is federalism?",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Rohan's federation is in dispute: the central government and the state governments cannot agree on how power is to be shared, and each side accuses the other of breaking its word. In about 45 words, explain the two aspects that are crucial for the institutions and practice of federalism, and say what an ideal federal system has.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Governments at different levels should agree to some rules of power-sharing",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They should also trust that each would abide by its part of the agreement",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "An ideal federal system has both aspects: mutual trust and agreement to live together",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Governments at different levels should agree to some rules of power-sharing. They should also trust that each would abide by its part of the agreement. An ideal federal system therefore has both aspects: mutual trust and agreement to live together.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "practice of federalism. Governments\nprovincial or the local government.\nat different levels should agree to\nIf federalism\nBut in a federal system, the central\nsome rules of power-sharing. They\nworks only in\ngovernment cannot order the state\nshould also trust that each would\nbig countries,\ngovernment to do something. State\nabide by its part of the agreement.",
+            "An ideal federal system has both\nadopt it?\nfor which it is not answerable\naspects : mutual trust and agreement\nto the central government. Both\nto live together."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess4 ch2",
+        "pages": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:02:D:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/federalism"
+      ],
+      "taxonomyChapterId": "social-science-10/federalism",
+      "topic": "What is federalism?",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Ila is told that her country has a government for the entire country and also governments for its provinces and states, each with powers of its own. In about 75 words, and in steps, explain what a federal system is, how many levels of government it usually has, what each level does, and to whom each level is answerable.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Power is divided between a central authority and various constituent units of the country",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A federation usually has two levels of government",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "One level is the government for the entire country, responsible for a few subjects of common national interest",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The other level is the government of provinces or states, which looks after much of the day-to-day administering of its state",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Both these levels of governments enjoy their power independent of the other and are separately answerable to the people",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: A federal system is one in which power is divided between a central authority and various constituent units of the country. Step 2: Usually a federation has two levels of government. Step 3: One is the government for the entire country, responsible for a few subjects of common national interest. Step 4: The other is the government at the level of provinces or states, which looks after much of the day-to-day administering of its state. Step 5: Both these levels enjoy their power independent of the other, and both are separately answerable to the people.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Federalism is a system of\ngovernment in which the power is\ndivided between a central authority\nand various constituent units of the\ncountry. Usually, a federation has\ntwo levels of government. One is the\ngovernment for the entire country\nthat is usually responsible for a\nfew subjects of common national\ninterest.",
+            "Both these levels of governments\nenjoy their power independent of\nthe other.",
+            "to the central government. Both\nto live together.\nthese governments are separately\nThe exact balance of power\nanswerable to the people."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch2",
+        "pages": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:02:D:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/federalism"
+      ],
+      "taxonomyChapterId": "social-science-10/federalism",
+      "topic": "What is federalism?",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Nandini is asked to place two countries on a chart. In the first country the central government can pass on orders to the provincial or the local government. In the second country the central government cannot order the state government to do something, and the state government holds powers of its own. In about 75 words, and in steps, name the system each country follows and give the reason from the arrangement of power in each.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "The first country is unitary, with either one level of government or sub-units subordinate to the central government, which can pass on orders to the provincial or the local government",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The second country is federal, with power divided between a central authority and various constituent units of the country",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In the federal country the central government cannot order the state government to do something",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The state government has powers of its own for which it is not answerable to the central government",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In a federation both these governments are separately answerable to the people",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: The first country follows a unitary system, where either there is only one level of government or the sub-units are subordinate to the central government. Step 2: In it the central government can pass on orders to the provincial or the local government, so the centre directs the units. Step 3: The second country follows a federal system, in which power is divided between a central authority and various constituent units of the country. Step 4: There the central government cannot order the state government to do something. Step 5: The state government has powers of its own for which it is not answerable to the central government, and both these governments are separately answerable to the people.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Under the unitary system, either\nunity of the country, while at the\nthere is only one level of government\nsame time accommodate regional\nor the sub-units are subordinate to\ndiversity. Therefore, two aspects\nthe central government. The central\nare crucial for the institutions and\ngovernment can pass on orders to the\npractice of federalism. Governments\nprovincial or the local government.",
+            "But in a federal system, the central\nsome rules of power-sharing. They\nworks only in\ngovernment cannot order the state\nshould also trust that each would\nbig countries,\ngovernment to do something. State",
+            "these governments are separately\nThe exact balance of power\nanswerable to the people."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch2",
+        "pages": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:02:D:3",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/federalism"
+      ],
+      "taxonomyChapterId": "social-science-10/federalism",
+      "topic": "What is federalism?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "Neel and Poorvi are both federations, but the share of power held by the central government is not the same in the two. In about 75 words, and in steps, explain why the exact balance of power between the central and the state government is not the same in every federation, and describe what happens when independent States come together on their own to form a bigger unit.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "The exact balance of power between the central and the state government varies from one federation to another",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The balance depends mainly on the historical context in which the federation was formed",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "There are two kinds of routes through which federations have been formed",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The first route involves independent States coming together on their own to form a bigger unit",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They do this by pooling their sovereignty and retaining their identity",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: The exact balance of power between the central and the state government varies from one federation to another. Step 2: This balance depends mainly on the historical context in which the federation was formed, so federations formed in different circumstances share power differently. Step 3: There are two kinds of routes through which federations have been formed. Step 4: In the first route independent States come together on their own to form a bigger unit. Step 5: They do so by pooling their sovereignty and retaining their identity, so the unit grows larger while the States keep their own identity.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The exact balance of power\nanswerable to the people.\nbetween the central and the state\nLet us look at some of the key\ngovernment\nvaries\nfrom\none\nfeatures of federalism :\nfederation to another. This balance",
+            "federation to another. This balance\n1 There are two or more levels (or\ndepends mainly on the historical\ntiers) of government.\ncontext in which the federation was\n2 Different tiers of government\nformed. There are two kinds of routes",
+            "independent States coming together\ntaxation and administration.\non their own to form a bigger unit,\n3 The jurisdictions of the respective\nso that by pooling sovereignty and\nlevels or tiers of government are\nretaining identity, they can increase"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch2",
+        "pages": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:02:D:4",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/federalism"
+      ],
+      "taxonomyChapterId": "social-science-10/federalism",
+      "topic": "Decentralisation in India",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "Priya reads that in the city of Porto Alegre in Brazil, local inhabitants take real decisions about their own city through meetings held in every sector, and that about 20,000 people join in this decision making every year. In about 75 words, and in steps, explain how the city combines decentralisation with participative democracy, and state the changes this method has brought about.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "A parallel organisation operates alongside the municipal council, enabling local inhabitants to take real decisions for their city",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The city is divided into sectors or wards, and each sector has a meeting, like that of the gram sabha, in which anyone living in that area can participate",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Any citizen can participate in the meetings that discuss issues affecting the entire city, and the budget of the city is discussed in these meetings",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "About 20,000 people participate in this decision making exercise every year",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Money can no longer be spent only for the benefit of the colonies where rich people live; buses run to the poor colonies and builders cannot evict slum-dwellers without resettling them",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: A parallel organisation works alongside the municipal council, so that local inhabitants take real decisions for their city. Step 2: The city is divided into sectors or wards, and each sector has a meeting, like that of the gram sabha, in which anyone living in that area can participate. Step 3: Any citizen can also join the meetings that discuss issues affecting the entire city, where the budget of the city is discussed. Step 4: About 20,000 people take part in this decision making exercise every year. Step 5: Money can no longer be spent only for the colonies where rich people live; buses run to the poor colonies and builders cannot evict slum-dwellers without resettling them.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "A city called Porto Alegre in Brazil has carried out an extraordinary experiment\nin combining decentralisation with participative democracy. The city has set up\na parallel organisation operating alongside the municipal council, enabling local\ninhabitants to take real decisions for their city.",
+            "city get to participate in making the budget for their own city. The city is divided\ninto many sectors or what we call wards. Each sector has a meeting, like that of\nthe gram sabha, in which anyone living in that area can participate.",
+            "About 20,000 people participate in this decision making exercise every year.\nThis method has ensured that the money cannot be spent only for the benefit\nof the colonies where rich people live. Buses now run to the poor colonies and\nbuilders cannot evict slum-dwellers without resettling them."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch2",
+        "pages": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:02:E:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/federalism"
+      ],
+      "taxonomyChapterId": "social-science-10/federalism",
+      "topic": "What is federalism?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Nikhil is comparing the way decisions are taken in two countries. In the first, the government for the entire country is responsible for a few subjects of common national interest, and governments at the level of provinces or states look after much of the day-to-day administering of their state. Each of these levels holds its power independently of the other, and each is separately answerable to the people. In the second country there is only one level of government, and the sub-units obey whatever the central government decides.\n\nRead the case below and answer the questions that follow. (a) Name the two levels of government that Nikhil finds in the first country. (b) In which of the two countries can the central government pass on orders to the provincial or the local government? (c) Explain why, in the first country, neither of the two levels can simply order the other to act.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The government for the entire country, and the governments at the level of provinces or states. (b) The second country, where there is only one level of government or the sub-units are subordinate to the central government. (c) Both levels of government enjoy their power independent of the other, so neither is answerable to the other and neither can command it.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "government for the entire country\nthat is usually responsible for a\nfew subjects of common national\ninterest. The others are governments\nat the level of provinces or states\nthat look after much of the day-\nto-day administering of their state.\nBoth these levels of governments\nenjoy their power independent of\nthe other.",
+            "these governments are separately\nThe exact balance of power\nanswerable to the people.",
+            "Under the unitary system, either\nunity of the country, while at the\nthere is only one level of government\nsame time accommodate regional\nor the sub-units are subordinate to\ndiversity. Therefore, two aspects\nthe central government. The central\nare crucial for the institutions and\ngovernment can pass on orders to the\npractice of federalism. Governments\nprovincial or the local government."
+          ],
+          "objective": false,
+          "passage": "Nikhil is comparing the way decisions are taken in two countries. In the first, the government for the entire country is responsible for a few subjects of common national interest, and governments at the level of provinces or states look after much of the day-to-day administering of their state. Each of these levels holds its power independently of the other, and each is separately answerable to the people. In the second country there is only one level of government, and the sub-units obey whatever the central government decides."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess4 ch2",
+        "pages": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:02:E:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/federalism"
+      ],
+      "taxonomyChapterId": "social-science-10/federalism",
+      "topic": "What is federalism?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Farhan's country is a federation. Some of its states want much greater freedom in running their own affairs, while others fear that too much freedom will break the country apart. A committee advises that governments at different levels should agree to some rules of power-sharing, and should also trust one another to keep to those rules. Farhan notes that a written agreement already exists between the levels, and wonders why a federation needs trust as well, and not just the agreement.\n\nRead the case below and answer the questions that follow. (a) State the two objectives of a federal system that Farhan's situation reflects. (b) What two things should governments at different levels in a federation do? (c) Farhan already has the written agreement in place. Explain why an ideal federal system cannot do without the second thing as well.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) To safeguard and promote unity of the country, and at the same time to accommodate regional diversity. (b) They should agree to some rules of power-sharing, and should trust that each would abide by its part of the agreement. (c) An ideal federal system has both aspects, mutual trust and agreement to live together; an agreement that nobody trusts is not kept.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "7 The federal system thus has dual\ncontrasted with unitary governments.\nobjectives: to safeguard and promote\nUnder the unitary system, either\nunity of the country, while at the\nthere is only one level of government\nsame time accommodate regional\nor the sub-units are subordinate to\ndiversity.",
+            "practice of federalism. Governments\nprovincial or the local government.\nat different levels should agree to\nIf federalism\nBut in a federal system, the central\nsome rules of power-sharing. They\nworks only in\ngovernment cannot order the state\nshould also trust that each would\nbig countries,\ngovernment to do something. State\nabide by its part of the agreement.",
+            "An ideal federal system has both\nadopt it?\nfor which it is not answerable\naspects : mutual trust and agreement\nto the central government. Both\nto live together."
+          ],
+          "objective": false,
+          "passage": "Farhan's country is a federation. Some of its states want much greater freedom in running their own affairs, while others fear that too much freedom will break the country apart. A committee advises that governments at different levels should agree to some rules of power-sharing, and should also trust one another to keep to those rules. Farhan notes that a written agreement already exists between the levels, and wonders why a federation needs trust as well, and not just the agreement."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess4 ch2",
+        "pages": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:02:E:3",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/federalism"
+      ],
+      "taxonomyChapterId": "social-science-10/federalism",
+      "topic": "What is federalism?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Leela compares two federations. In both, independent States came together on their own to form a bigger unit, pooling sovereignty while retaining their identity. Yet in Leela's federation the central government handles many subjects, while in the other the states keep most of the day-to-day administering of their own areas. Students in both countries are taught that their country has two or more tiers of government. Leela thinks the answer to their question must lie in the way those tiers are arranged.\n\nRead the case below and answer the questions that follow. (a) Describe the route by which independent States came together on their own to form a bigger unit in both countries. (b) State why the exact balance of power between the central and the state government is not the same in every federation. (c) Using the features of federalism, explain what these two very different federations still have in common.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Independent States came together on their own to form a bigger unit, pooling sovereignty and retaining identity. (b) The exact balance of power varies from one federation to another, and depends mainly on the historical context in which the federation was formed. (c) Both have two or more tiers of government, all governing the same citizens, and each tier has its own jurisdiction in legislation, taxation and administration.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "independent States coming together\ntaxation and administration.\non their own to form a bigger unit,\n3 The jurisdictions of the respective\nso that by pooling sovereignty and\nlevels or tiers of government are\nretaining identity, they can increase",
+            "The exact balance of power\nanswerable to the people.\nbetween the central and the state\nLet us look at some of the key\ngovernment\nvaries\nfrom\none\nfeatures of federalism :\nfederation to another. This balance\n1 There are two or more levels (or\ndepends mainly on the historical\ntiers) of government.\ncontext in which the federation was\n2 Different tiers of government\nformed. There are two kinds of routes",
+            "2 Different tiers of government\nformed. There are two kinds of routes\ngovern the same citizens, but\nthrough which federations have been\neach tier has its own\njurisdiction\nformed. The first route involves\nin specific matters of legislation,\nindependent States coming together\ntaxation and administration."
+          ],
+          "objective": false,
+          "passage": "Leela compares two federations. In both, independent States came together on their own to form a bigger unit, pooling sovereignty while retaining their identity. Yet in Leela's federation the central government handles many subjects, while in the other the states keep most of the day-to-day administering of their own areas. Students in both countries are taught that their country has two or more tiers of government. Leela thinks the answer to their question must lie in the way those tiers are arranged."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess4 ch2",
+        "pages": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess4",
+    "chapters": [
+      2
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

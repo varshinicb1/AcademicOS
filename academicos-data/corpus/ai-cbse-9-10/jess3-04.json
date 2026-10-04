@@ -1,0 +1,1216 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess3:04:A:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-age-of-industrialisation"
+      ],
+      "taxonomyChapterId": "social-science-10/the-age-of-industrialisation",
+      "topic": "Before the Industrial Revolution",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A student follows a bolt of cloth made in England for export and finds that after the yarn was spun it passed in stages to weavers, then to fullers and then to dyers, and that the finishing was done before the export merchant sold it; name the city where that finishing was done. (A) Manchester (B) Lancashire (C) London (D) India",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "London",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "of production to weavers, fullers, and then to dyers. The finishing\nwas done in London before the export merchant sold the cloth in",
+            "the international market. London in fact came to be known as a\nfinishing centre."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Manchester",
+            "B": "Lancashire",
+            "C": "London",
+            "D": "India"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess3 ch4",
+        "pages": [
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:04:B:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-age-of-industrialisation"
+      ],
+      "taxonomyChapterId": "social-science-10/the-age-of-industrialisation",
+      "topic": "Before the Industrial Revolution",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A student reading Britain's trade statistics finds that in 1760 the country was importing 2.5 million pounds of raw cotton to feed its cotton industry; name the industry this raw cotton was imported for, and give the year by which that import had soared to 22 million pounds.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Names the cotton industry as the one the raw cotton was imported to feed",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives the year as 1787",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The cotton industry; 1787",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "in the late nineteenth century. In 1760 Britain was importing 2.5\nmillion pounds of raw cotton to feed its cotton industry. By 1787\nthis import soared to 22 million pounds."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess3 ch4",
+        "pages": [
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:04:B:2",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-age-of-industrialisation"
+      ],
+      "taxonomyChapterId": "social-science-10/the-age-of-industrialisation",
+      "topic": "Before the Industrial Revolution",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "A student is shown the earliest factories in England and told they had come up by a certain decade, while their number multiplied only later; name the decade by which the earliest factories came up, and the century in which their number multiplied.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Gives the decade as the 1730s",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives the century in which the number multiplied as the late eighteenth century",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The 1730s; the late eighteenth century",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The earliest factories in England came up by the 1730s. But it\nwas only in the late eighteenth century that the number of\nfactories multiplied."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess3 ch4",
+        "pages": [
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:04:C:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-age-of-industrialisation"
+      ],
+      "taxonomyChapterId": "social-science-10/the-age-of-industrialisation",
+      "topic": "Before the Industrial Revolution",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A student's family in an English village spins yarn that a merchant clothier buys, and he then sends the yarn on to weavers, fullers and dyers, with the finishing done in London before it is exported; explain how this arrangement linked town and countryside, and say how many workers a merchant employed at each stage of production.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that merchants were based in towns while the work was done mostly in the countryside, so a close relationship developed between town and countryside",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that producers worked within their family farms, not in factories, and that merchants controlled the system",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that 20 to 25 workers were employed at each stage of production, so each clothier was controlling hundreds of workers",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Merchants were based in towns but the work was done mostly in the countryside, so a close relationship developed between the two. Producers worked within their family farms, not in factories, and merchants controlled the system. At each stage of production a merchant employed 20 to 25 workers, so each clothier was controlling hundreds of workers.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Within this system a close relationship developed between the town",
+            "were produced by a vast number of producers working within\ntheir family farms, not in factories. At each stage of production 20\nto 25 workers were employed by each merchant. This meant that\neach clothier was controlling hundreds of workers."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess3 ch4",
+        "pages": [
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:04:C:2",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-age-of-industrialisation"
+      ],
+      "taxonomyChapterId": "social-science-10/the-age-of-industrialisation",
+      "topic": "Before the Industrial Revolution",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A student visits a cotton mill where carding, twisting and spinning, and rolling are all carried out under one roof; explain what the eighteenth-century inventions did for the output of each worker, and say what gathering the processes under one roof made possible.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that the inventions increased the efficacy of each step of production – carding, twisting and spinning, and rolling",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that they enhanced output per worker and made stronger threads and yarn possible",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that one roof and management allowed more careful supervision, a watch over quality and the regulation of labour",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The inventions increased the efficacy of each step of production – carding, twisting and spinning, and rolling – so output per worker rose, enabling each worker to produce more, and stronger threads and yarn became possible. Bringing the processes together under one roof and management allowed more careful supervision, a watch over quality and the regulation of labour.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "A series of inventions in the eighteenth century increased the efficacy\nof each step of the production process (carding, twisting and\nspinning, and rolling). They enhanced the output per worker, enabling\neach worker to produce more, and they made possible the",
+            "production of stronger threads and yarn. Then Richard Arkwright",
+            "This allowed a more careful supervision over the production process,\na watch over quality, and the regulation of labour, all of which had"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess3 ch4",
+        "pages": [
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:04:C:3",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-age-of-industrialisation"
+      ],
+      "taxonomyChapterId": "social-science-10/the-age-of-industrialisation",
+      "topic": "Before the Industrial Revolution",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A student asks why the imposing new mills are so far better known today than the small workshops where cloth was still being made; say what contemporaries found so dazzling about the mills, and what they consequently almost forgot.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that the new mills were imposing and so visible that factories had become an intimate part of the English landscape",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that contemporaries were dazzled by the power of the new technology",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that they concentrated their attention on the mills and almost forgot the bylanes and the workshops where production still continued",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Factories had become an intimate part of the English landscape, and the new mills were so visible and imposing, while the power of the new technology seemed so magical, that contemporaries were dazzled. They concentrated their attention on the mills, almost forgetting the bylanes and the workshops where production still continued.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "intimate part of the English landscape. So visible were the imposing",
+            "that contemporaries were dazzled. They concentrated their attention",
+            "production still continued."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess3 ch4",
+        "pages": [
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:04:D:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-age-of-industrialisation"
+      ],
+      "taxonomyChapterId": "social-science-10/the-age-of-industrialisation",
+      "topic": "Before the Industrial Revolution",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A student is asked to trace how cloth production in England moved out of village households and into factories; show in steps (a) when the earliest factories came up and when their number multiplied, (b) what the eighteenth-century inventions did at each step of production, and (c) what became possible once all the processes were brought under one roof and management.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "States that the earliest factories in England came up by the 1730s",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that only in the late eighteenth century did the number of factories multiply",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names the steps of production the inventions improved – carding, twisting and spinning, and rolling",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the inventions enhanced the output per worker, enabling each worker to produce more",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that one roof and management allowed more careful supervision, a watch over quality and the regulation of labour",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The earliest factories in England came up by the 1730s, but it was only in the late eighteenth century that their number multiplied.\n(b) A series of eighteenth-century inventions increased the efficacy of each step of the production process – carding, twisting and spinning, and rolling – enhanced the output per worker, and made stronger threads and yarn possible.\n(c) This allowed more careful supervision over the production process, a watch over quality and the regulation of labour.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The earliest factories in England came up by the 1730s. But it\nwas only in the late eighteenth century that the number of\nfactories multiplied.",
+            "A series of inventions in the eighteenth century increased the efficacy\nof each step of the production process (carding, twisting and\nspinning, and rolling). They enhanced the output per worker, enabling\neach worker to produce more, and they made possible the",
+            "This allowed a more careful supervision over the production process,\na watch over quality, and the regulation of labour, all of which had"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess3 ch4",
+        "pages": [
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:04:D:2",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-age-of-industrialisation"
+      ],
+      "taxonomyChapterId": "social-science-10/the-age-of-industrialisation",
+      "topic": "Before the Industrial Revolution",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A student follows one merchant clothier's wool from purchase to export and wants to show how production worked before factories came up; show in steps (a) the route the wool and the spun yarn took, (b) how merchants and the countryside fitted together in this system, and (c) how many workers a merchant employed at each stage of production and what that made him.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Traces the route: wool bought from a wool stapler, carried to the spinners, then the spun yarn to weavers, fullers and then dyers",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the finishing was done in London before the export merchant sold the cloth in the international market",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that merchants were based in towns while the work was done mostly in the countryside, so a close relationship developed between the two",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that merchants controlled the system and that goods were produced by producers working within their family farms, not in factories",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that 20 to 25 workers were employed at each stage of production, so each clothier was controlling hundreds of workers",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The merchant clothier purchased wool from a wool stapler and carried it to the spinners; the spun yarn was then taken in subsequent stages of production to weavers, fullers and then dyers, and the finishing was done in London before the export merchant sold the cloth in the international market.\n(b) Merchants were based in towns while the work was done mostly in the countryside, so a close relationship developed between town and countryside; merchants controlled the system and producers worked within their family farms, not in factories.\n(c) At each stage of production 20 to 25 workers were employed by each merchant, so each clothier was controlling hundreds of workers.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "purchased wool from a wool stapler, and carried it to the spinners;\nthe yarn (thread) that was spun was taken in subsequent stages\nof production to weavers, fullers, and then to dyers. The finishing\nwas done in London before the export merchant sold the cloth in\nthe international market. London in fact came to be known as a\nfinishing centre.",
+            "Within this system a close relationship developed between the town",
+            "commercial exchanges. It was controlled by merchants and the goods\nwere produced by a vast number of producers working within\ntheir family farms, not in factories. At each stage of production 20\nto 25 workers were employed by each merchant. This meant that\neach clothier was controlling hundreds of workers."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess3 ch4",
+        "pages": [
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:04:D:3",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-age-of-industrialisation"
+      ],
+      "taxonomyChapterId": "social-science-10/the-age-of-industrialisation",
+      "topic": "Before the Industrial Revolution",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A student is comparing Britain's industrial growth across two phases and then follows the demand for iron and steel; show in steps (a) which industry led the first phase of industrialisation and up to when, (b) which industry led the way after that and when and where railways began to expand, and (c) the value of the iron and steel Britain was exporting by 1873.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Names cotton as the leading sector in the first phase of industrialisation",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives the end of that first phase as the 1840s",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that after that the iron and steel industry led the way",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that railways expanded in England from the 1840s and in the colonies from the 1860s, so demand for iron and steel increased rapidly",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that by 1873 Britain was exporting iron and steel worth about £ 77 million",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Cotton, growing at a rapid pace, was the leading sector in the first phase of industrialisation up to the 1840s.\n(b) After that the iron and steel industry led the way; with the expansion of railways, in England from the 1840s and in the colonies from the 1860s, the demand for iron and steel increased rapidly.\n(c) By 1873 Britain was exporting iron and steel worth about £ 77 million.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "metals. Growing at a rapid pace, cotton was the leading sector in the\nfirst phase of industrialisation up to the 1840s. After that the iron\nand steel industry led the way. With the expansion of railways, in",
+            "England from the 1840s and in the colonies from the 1860s, the\ndemand for iron and steel increased rapidly.",
+            "exporting iron and steel worth about £ 77 million"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess3 ch4",
+        "pages": [
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:04:D:4",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-age-of-industrialisation"
+      ],
+      "taxonomyChapterId": "social-science-10/the-age-of-industrialisation",
+      "topic": "Factories Come Up",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A student is examining why Indian businessmen who supplied the capital for many industries had so little say in how those industries were run; show in steps (a) which three European Managing Agencies were the biggest, (b) how these Agencies operated, and (c) who provided the capital, who took the decisions, and what Indian businessmen were not allowed to join.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "States that European Managing Agencies controlled a large sector of Indian industries",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names the three biggest as Bird Heiglers & Co., Andrew Yule, and Jardine Skinner",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the Agencies mobilised capital, set up joint-stock companies and managed them",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that in most instances Indian financiers provided the capital while the European Agencies made all investment and business decisions",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the European merchant-industrialists had their own chambers of commerce which Indian businessmen were not allowed to join",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Three of the biggest were Bird Heiglers & Co., Andrew Yule, and Jardine Skinner.\n(b) The Agencies mobilised capital, set up joint-stock companies and managed them.\n(c) In most instances Indian financiers provided the capital while the European Agencies made all investment and business decisions, and the European merchant-industrialists had their own chambers of commerce which Indian businessmen were not allowed to join.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "controlled a large sector of Indian industries. Three of the biggest",
+            "ones were Bird Heiglers & Co., Andrew Yule, and Jardine Skinner",
+            "and managed them. In most instances Indian financiers provided\nthe capital while the European Agencies made all investment and\nbusiness decisions. The European merchant-industrialists had their\nown chambers of commerce which Indian businessmen were not\nallowed to join."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess3 ch4",
+        "pages": [
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:04:E:1",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-age-of-industrialisation"
+      ],
+      "taxonomyChapterId": "social-science-10/the-age-of-industrialisation",
+      "topic": "Before the Industrial Revolution",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Merchants were based in towns but the work was done mostly in the countryside, so a close relationship developed between the two. A merchant clothier in England purchased wool from a wool stapler and carried it to the spinners; the yarn that was spun was taken in subsequent stages of production to weavers, fullers, and then to dyers. The finishing was done in London before the export merchant sold the cloth in the international market. This system was controlled by merchants, and the goods were produced by a vast number of producers working within their family farms, not in factories.\n\nRead the case and answer the three questions below, each in one line. (i) Name the person from whom the merchant clothier bought wool. (ii) Trace where the spun yarn went, in order, and where the finishing was done. (iii) A student claims the workers in this system worked in factories under one roof; use the case to explain why that is not so.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) A wool stapler. (ii) To weavers, then fullers, then dyers, with the finishing done in London before export. (iii) Producers worked within their family farms, not in factories; merchants controlled the system, but the work was done mostly in the countryside.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "purchased wool from a wool stapler, and carried it to the spinners;\nthe yarn (thread) that was spun was taken in subsequent stages\nof production to weavers, fullers, and then to dyers. The finishing\nwas done in London before the export merchant sold the cloth in",
+            "was done mostly in the countryside. A merchant clothier in England",
+            "were produced by a vast number of producers working within\ntheir family farms, not in factories."
+          ],
+          "objective": false,
+          "passage": "Merchants were based in towns but the work was done mostly in the countryside, so a close relationship developed between the two. A merchant clothier in England purchased wool from a wool stapler and carried it to the spinners; the yarn that was spun was taken in subsequent stages of production to weavers, fullers, and then to dyers. The finishing was done in London before the export merchant sold the cloth in the international market. This system was controlled by merchants, and the goods were produced by a vast number of producers working within their family farms, not in factories."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess3 ch4",
+        "pages": [
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:04:E:2",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-age-of-industrialisation"
+      ],
+      "taxonomyChapterId": "social-science-10/the-age-of-industrialisation",
+      "topic": "Before the Industrial Revolution",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "case_study",
+      "stem": "Till this time, cloth production was spread all over the countryside and carried out within village households. Then Richard Arkwright created the cotton mill. The costly new machines could be purchased, set up and maintained in the mill, and within the mill all the processes were brought together under one roof and management. This allowed a more careful supervision over the production process, a watch over quality, and the regulation of labour, all of which had been difficult to do when production was in the countryside. So visible were the imposing new mills, so magical seemed to be the power of new technology, that contemporaries were dazzled.\n\nRead the case and answer the three questions below, each in one line. (i) Name the person who created the cotton mill. (ii) State three things that supervision inside the mill made possible, which had been difficult when production was in the countryside. (iii) A visitor says the case shows that everyone stopped working in small workshops; use the case to explain why that conclusion is wrong.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Richard Arkwright. (ii) More careful supervision over the production process, a watch over quality, and the regulation of labour. (iii) Contemporaries concentrated their attention on the mills, almost forgetting the bylanes and the workshops where production still continued.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "created the cotton mill. Till this time, as you have seen, cloth",
+            "This allowed a more careful supervision over the production process,\na watch over quality, and the regulation of labour, all of which had",
+            "that contemporaries were dazzled. They concentrated their attention"
+          ],
+          "objective": false,
+          "passage": "Till this time, cloth production was spread all over the countryside and carried out within village households. Then Richard Arkwright created the cotton mill. The costly new machines could be purchased, set up and maintained in the mill, and within the mill all the processes were brought together under one roof and management. This allowed a more careful supervision over the production process, a watch over quality, and the regulation of labour, all of which had been difficult to do when production was in the countryside. So visible were the imposing new mills, so magical seemed to be the power of new technology, that contemporaries were dazzled."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess3 ch4",
+        "pages": [
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess3:04:E:3",
+      "questionBankId": "ai-cbse:jess3",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/the-age-of-industrialisation"
+      ],
+      "taxonomyChapterId": "social-science-10/the-age-of-industrialisation",
+      "topic": "Before the Industrial Revolution",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "The most dynamic industries in Britain were clearly cotton and metals. Growing at a rapid pace, cotton was the leading sector in the first phase of industrialisation up to the 1840s. After that the iron and steel industry led the way. With the expansion of railways, in England from the 1840s and in the colonies from the 1860s, the demand for iron and steel increased rapidly. By 1873 Britain was exporting iron and steel worth about £ 77 million.\n\nRead the case and answer the three questions below, each in one line. (i) Name the two industries that were the most dynamic in Britain. (ii) State which industry led the first phase of industrialisation, up to when, and which industry led the way after that. (iii) A student claims Britain's industrialisation depended only on cotton; use the case to explain why that is not a fair reading.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Cotton and metals. (ii) Cotton led the first phase up to the 1840s; after that iron and steel led the way. (iii) Iron and steel became the leading sector after the 1840s, and expanding railways from the 1840s in England and the 1860s in the colonies sent demand for it soaring, so cotton was not the whole of industrialisation.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "metals. Growing at a rapid pace, cotton was the leading sector in the\nfirst phase of industrialisation up to the 1840s. After that the iron\nand steel industry led the way. With the expansion of railways, in",
+            "England from the 1840s and in the colonies from the 1860s, the\ndemand for iron and steel increased rapidly.",
+            "exporting iron and steel worth about £ 77 million"
+          ],
+          "objective": false,
+          "passage": "The most dynamic industries in Britain were clearly cotton and metals. Growing at a rapid pace, cotton was the leading sector in the first phase of industrialisation up to the 1840s. After that the iron and steel industry led the way. With the expansion of railways, in England from the 1840s and in the colonies from the 1860s, the demand for iron and steel increased rapidly. By 1873 Britain was exporting iron and steel worth about £ 77 million."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess3 ch4",
+        "pages": [
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "F",
+      "qtype": "map_based",
+      "topic": "",
+      "reason": "stem-names-the-text",
+      "stem": "Fig. 13, The English factory at Surat, a seventeenth-century drawing (page 90), is the figure you need, and this questio"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess3",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

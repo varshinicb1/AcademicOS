@@ -1,0 +1,405 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jess1:01:A:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/resources-and-development"
+      ],
+      "taxonomyChapterId": "social-science-10/resources-and-development",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A cement factory grinds limestone all day, and the dust that settles on the land around it slows down one soil process; name that process. (A) the formation of soil upto a few cm in depth (B) the development of various types of soils (C) the infiltration of water into the soil (D) the weathering of parent rock material",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "the infiltration of water into the soil",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The mineral processing like grinding of\nlimestone for cement industry and calcite and\nsoapstone for ceramic industry generate huge\nquantity of dust in the atmosphere. It retards\nthe process of infiltration of water into the soil"
+          ],
+          "objective": true,
+          "options": {
+            "A": "the formation of soil upto a few cm in depth",
+            "B": "the development of various types of soils",
+            "C": "the infiltration of water into the soil",
+            "D": "the weathering of parent rock material"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Objective",
+        "chapter": "jess1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:01:B:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/resources-and-development"
+      ],
+      "taxonomyChapterId": "social-science-10/resources-and-development",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "A farmer in Haryana keeps flooding his fields season after season, and the land is slowly going out of use. Name the two changes that over irrigation has brought about in the soil.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Water logging of the land",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "An increase in salinity and alkalinity in the soil",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Water logging, leading to an increase in salinity and alkalinity in the soil.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the states of Punjab, Haryana, western Uttar\nPradesh, over irrigation is responsible for land",
+            "degradation due to water logging leading to\nincrease in salinity and alkalinity in the soil."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:01:C:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/resources-and-development"
+      ],
+      "taxonomyChapterId": "social-science-10/resources-and-development",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "While digging a well, a student finds that the material being dug changes at four different depths. (a) Name the four layers of the soil profile in the order in which they are met, from the surface downwards. (b) State what each of those four layers is made of.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Top soil, the upper soil layer",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Subsoil, made of weathered rocks, sand and silt and clay; Substratum, made of weathered parent rock material",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Unweathered parent bed rock, the bottom layer",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "From the surface downwards: Top soil, which is the upper soil layer; Subsoil, made of weathered rocks, sand and silt and clay; Substratum, made of weathered parent rock material; and Unweathered parent bed rock, the bottom layer.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Top soil\nthe upper soil layer\nSubsoil weathered\nrocks sand and\nsilt clay",
+            "Substratum\nweathered parent\nrock material\nUnweathered\nparent bed rock"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:01:D:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/resources-and-development"
+      ],
+      "taxonomyChapterId": "social-science-10/resources-and-development",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A government has to plan the repair of damaged land and must first decide which human activity is causing the damage where. In steps, (a) name the human activities that have contributed significantly in land degradation, (b) state which one of them lies behind the severe land degradation in Jharkhand, Chhattisgarh, Madhya Pradesh and Odisha and what has caused it there, (c) name the states where over irrigation, and not overgrazing, is responsible for land degradation, and (d) state the two changes that over irrigation brings about in the soil.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Names deforestation, over grazing, mining and quarrying as the human activities responsible.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names Jharkhand, Chhattisgarh, Madhya Pradesh and Odisha.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that deforestation due to mining has caused severe land degradation in those states.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names Punjab, Haryana and western Uttar Pradesh as the states where over irrigation is responsible.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that over irrigation causes water logging, which then increases the salinity and alkalinity of the soil.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: The human activities are deforestation, over grazing, mining and quarrying.\nStep 2: Jharkhand, Chhattisgarh, Madhya Pradesh and Odisha.\nStep 3: There, deforestation due to mining has caused severe land degradation.\nStep 4: Punjab, Haryana and western Uttar Pradesh are the states where over irrigation is responsible.\nStep 5: Over irrigation causes land degradation due to water logging, and the water logging leads to an increase in salinity and alkalinity in the soil.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Some human activities such as\ndeforestation, over grazing, mining and\nquarrying too have contributed significantly in\nland degradation.",
+            "like Jharkhand, Chhattisgarh, Madhya\nPradesh and Odisha deforestation due to\nmining have caused severe land degradation.",
+            "the states of Punjab, Haryana, western Uttar\nPradesh, over irrigation is responsible for land\ndegradation due to water logging leading to\nincrease in salinity and alkalinity in the soil."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess1:01:E:1",
+      "questionBankId": "ai-cbse:jess1",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/resources-and-development"
+      ],
+      "taxonomyChapterId": "social-science-10/resources-and-development",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "A cement plant in Madhya Pradesh grinds limestone all day and a ceramic unit nearby grinds calcite and soapstone. Both send huge quantities of dust into the air, and the dust settles on the land around them. Farmers report that once the dust has settled, rain water no longer soaks into the soil but runs off instead. Elsewhere in the state a mine has been shut after excavation work was complete, and the site is left with deep scars and traces of over-burdening. In the same state, deforestation due to mining has caused severe land degradation, and overgrazing is one of the main reasons for land degradation in Madhya Pradesh as well as in Gujarat, Rajasthan and Maharashtra.\n\n(a) Name the two industries whose mineral processing sends this dust into the air over the farmland. (b) Once the dust has settled on the land, explain which soil process it retards and what this means for the rain falling on the farmer's field.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The cement industry, which grinds limestone, and the ceramic industry, which grinds calcite and soapstone. (b) The dust retards the process of infiltration of water into the soil, so rain water no longer soaks into the soil and runs off the field instead.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The mineral processing like grinding of\nlimestone for cement industry and calcite and\nsoapstone for ceramic industry generate huge\nquantity of dust in the atmosphere. It retards",
+            "the process of infiltration of water into the soil\nafter it settles down on the land.",
+            "Mining sites are abandoned after\nexcavation work is complete leaving deep\nscars and traces of over-burdening."
+          ],
+          "objective": false,
+          "passage": "A cement plant in Madhya Pradesh grinds limestone all day and a ceramic unit nearby grinds calcite and soapstone. Both send huge quantities of dust into the air, and the dust settles on the land around them. Farmers report that once the dust has settled, rain water no longer soaks into the soil but runs off instead. Elsewhere in the state a mine has been shut after excavation work was complete, and the site is left with deep scars and traces of over-burdening. In the same state, deforestation due to mining has caused severe land degradation, and overgrazing is one of the main reasons for land degradation in Madhya Pradesh as well as in Gujarat, Rajasthan and Maharashtra."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "F",
+      "qtype": "map_based",
+      "topic": "",
+      "reason": "no-model-answer",
+      "stem": "Use FIG. 1.5 'SOIL PROFILE', which stands on page 6 of your textbook and shows the four layers of soil from the surface "
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jess1",
+    "chapters": [
+      1
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

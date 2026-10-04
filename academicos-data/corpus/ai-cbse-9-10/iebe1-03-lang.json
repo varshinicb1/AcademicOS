@@ -1,0 +1,1827 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iebe1:03:A:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "In modern times, the use of pankhas has been restricted to decorative purposes, and they have become traditional craft items in India. The structure of each fan reflects the cultural core of the region that crafts it. For instance, the appliqué hand fan of Rajasthan is an antique pankha made of pieces of fabric in different shapes and patterns sewn onto another cloth with the use of ornamental needlework.\n\nChoose the option that best completes this sentence: Fans made in one part of India can be told apart from fans made in another because... (A) every region of the country follows a single national design for its fans (B) the price of the fan alone decides which design is used (C) artisans use only the materials that are easy to find near them (D) the structure and design of each fan reflect the cultural core of its region",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "the structure and design of each fan reflect the cultural core of its region",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The structure of each fan reflects the cultural core of the region that crafts it.",
+            "In modern times, the use of pankhas has been restricted to decorative purposes, and they have become traditional craft items in India."
+          ],
+          "objective": true,
+          "options": {
+            "A": "every region of the country follows a single national design for its fans",
+            "B": "the price of the fan alone decides which design is used",
+            "C": "artisans use only the materials that are easy to find near them",
+            "D": "the structure and design of each fan reflect the cultural core of its region"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:A:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "The adjoining state of Gujarat has its own indigenous take on pankhas. These hand fans are elegant pure cotton-based fans embellished with mirror work. The beads hand fan is covered with colourful beads and has a silver handle. Gujarat is the centre for bead craft in India and these dainty pankhas are commonly used as wall decorations.\n\nChoose the option that best completes this sentence: The writer's mention that Gujarat is the centre for bead craft in India suggests that these fans... (A) are so well liked in the state that they are put up as wall decorations (B) were made only for the kings and deities of ancient India (C) are still exported to other countries as rare imports (D) can be bought only at fairs that are held outside the state",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "are so well liked in the state that they are put up as wall decorations",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Gujarat is the centre for bead craft in India and these dainty pankhas are commonly used as wall decorations."
+          ],
+          "objective": true,
+          "options": {
+            "A": "are so well liked in the state that they are put up as wall decorations",
+            "B": "were made only for the kings and deities of ancient India",
+            "C": "are still exported to other countries as rare imports",
+            "D": "can be bought only at fairs that are held outside the state"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:A:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "Bamboo, cane, palm leaf, silk, brass, leather, and silver pankhas, with decorative beads and stones were used depending on geographies, cultures, and traditional rituals. In modern times, the use of pankhas has been restricted to decorative purposes, and they have become traditional craft items in India. The structure of each fan reflects the cultural core of the region that crafts it.\n\nChoose the option that best completes this sentence: The extract suggests that the pankha has moved from being an everyday object used for fanning to being... (A) an expensive machine-made product that is brought in from abroad (B) a decorative item that carries the culture of the region which makes it (C) a tool reserved for kings in royal courts and priests in temples (D) a cheap toy that children make for themselves out of grass",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "a decorative item that carries the culture of the region which makes it",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In modern times, the use of pankhas has been restricted to decorative purposes, and they have become traditional craft items in India.",
+            "The structure of each fan reflects the cultural core of the region that crafts it."
+          ],
+          "objective": true,
+          "options": {
+            "A": "an expensive machine-made product that is brought in from abroad",
+            "B": "a decorative item that carries the culture of the region which makes it",
+            "C": "a tool reserved for kings in royal courts and priests in temples",
+            "D": "a cheap toy that children make for themselves out of grass"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:B:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "Choose the word that correctly completes the sentence: The exhibition invoked a sense of respect for the initiatives ________ by the government to showcase them. (A) taking (B) took (C) taken (D) take",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "taken",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It invoked a sense of respect for the initiatives taken by the government to showcase them."
+          ],
+          "objective": true,
+          "options": {
+            "A": "taking",
+            "B": "took",
+            "C": "taken",
+            "D": "take"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:B:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the word that correctly completes the instruction: Work in pairs, study the pictures given below carefully and complete ________ information. (A) an (B) a (C) many (D) the",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "the",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Study the pictures given below carefully and complete the information."
+          ],
+          "objective": true,
+          "options": {
+            "A": "an",
+            "B": "a",
+            "C": "many",
+            "D": "the"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:B:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the preposition that correctly completes the instruction: Match the underlined words in Column 1 ________ their meanings in Column 2. (A) by (B) with (C) on (D) of",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "with",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Match the underlined words in Column 1 with their meanings in Column 2"
+          ],
+          "objective": true,
+          "options": {
+            "A": "by",
+            "B": "with",
+            "C": "on",
+            "D": "of"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:C:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your Art Club is going to hold a pankha exhibition-cum-workshop in the school, in which fans from different states will be on show and students may try their hand at making one. Write a notice for your school notice board announcing it. (100 words)",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the notice announces a pankha exhibition-cum-workshop, names the states whose fans will be on show and says that students may try making a fan",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a capitalised heading such as NOTICE, the title of the event, the body of the notice in clear short paragraphs and the issuing body's signature at the end",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the details are arranged in a sensible order, that is, what the event is, what will be on show, what visitors can do and why it is useful",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, punctuation, capital letters and a formal and concise tone suitable for a notice board",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: simple sentences and suitable vocabulary that invite every student to attend and to take part in the workshop",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "NOTICE\nPANKHA EXHIBITION-CUM-WORKSHOP\n\nAll students are invited to a Pankha Exhibition-cum-Workshop being held by the Art Club of our school. Come and see the hand fans of Rajasthan, Gujarat, Bengal, Uttar Pradesh, Odisha and Bihar, and find out how each one is made. Fans of bamboo, cane, palm leaf, silk, brass, leather and silver, with decorative beads and stones, will be on show. Artisans will also guide you as you try your hand at making a fan yourself. Pankha-making workshops like this one help spread awareness about the beauty and importance of this craft. Everyone is welcome.\n\nSd/- Art Club",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Initiatives such as pankha-making workshops, both within and outside the handicraft exhibitions help spread awareness about the beauty and importance of this craft in India’s culture.",
+            "Bamboo, cane, palm leaf, silk, brass, leather, and silver pankhas, with decorative beads and stones were used depending on geographies, cultures, and traditional rituals.",
+            "cross-stitch embroidery in different shapes and sizes."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:C:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a letter of about 100 words to the Principal of your school requesting permission to hold a pankha exhibition-cum-workshop for the students of the school, and giving your reasons for the request. (100 words)",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the letter clearly requests permission to hold a pankha exhibition-cum-workshop and gives reasons for the request",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a formal letter with the addressee, a subject line, a polite opening, the body and a courteous closing with the writer's designation",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the request comes first, followed by the fans to be shown and then the reasons why the event is useful",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, punctuation, capital letters and a polite formal tone throughout the letter",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: clear sentences and suitable vocabulary that persuade the Principal to agree, and fans of different states named correctly",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "To: The Principal\nSubject: Permission to hold a pankha exhibition-cum-workshop\n\nRespected Sir,\nWe, the students of this school, request you to allow us to hold a pankha exhibition-cum-workshop in the school premises. Fans from different states will be on show, such as the appliqué hand fan of Rajasthan, the mirror work and beads fans of Gujarat, the leather fans of Kutch, sola hand fans of West Bengal and the Phadh hand fans of Uttar Pradesh. We would also like artisans to demonstrate how each fan is made. Such workshops, held within and outside handicraft exhibitions, spread awareness about the beauty and importance of this craft, and the demand they create gives our artisans a livelihood. We therefore request you kindly to grant us permission.\n\nYours obediently,\nA student",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the handicraft exhibitions help spread awareness about the beauty and importance of this craft in India’s culture.",
+            "form of livelihood to India’s artisans.",
+            "Kutch is recognised for its hand-stitched leather hand fans decorated with thread and wool at its seams."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:C:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "An exhibition of hand fans is being arranged in your town, in which fans from different states will be shown and artisans will demonstrate how they are made. Design an advertisement of about 100 words for it, giving it a catchy slogan. (100 words)",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the advertisement gives a catchy slogan and states what will be on show and that artisans will demonstrate how the fans are made",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a bold headline or slogan followed by short paragraphs that catch the reader's eye and invite visitors to the exhibition",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the fans are listed state by state and the details of the demonstration and the visit come last, as in a real advertisement",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, punctuation and capital letters, with the names of the states and the fans spelled correctly",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: attractive and persuasive language that makes the reader want to visit the exhibition and buy a fan",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "PANKHA: WHERE THE WIND CARRIES A STORY\n\nCome and see the hand fans of India! On show are the appliqué hand fan of Rajasthan, its zardozi hand fan worked in gold threadwork, and temple hand fans made by engraving brass, with a long handle. Gujarat brings pure cotton fans embellished with mirror work and fans covered with colourful beads and a silver handle, while Kutch shows hand-stitched leather fans decorated with thread and wool at their seams. The Phadh hand fans of Uttar Pradesh will be there too. Watch artisans at work, try a fan yourself, and learn why the pankha was once called a cultural good. Come in, look, and take home a piece of our tradition.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "by engraving brass and have a long handle.",
+            "These hand fans are elegant pure cotton-based fans embellished with mirror work.",
+            "Kutch is recognised for its hand-stitched leather hand fans decorated with thread and wool at its seams."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:D:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "In ancient times, pankhas were used in temples to fan deities. They were also used in royal courts to fan kings. Pankhas varied in size from a tiny two inch one to large ones requiring a person’s full arm strength to move them.\n\nChoose the option that best completes this sentence: The extract suggests that in ancient times the person who held a pankha was most likely... (A) a painter who decorated the walls of a temple (B) an attendant serving a king or a deity (C) a merchant who sold fans along the trade routes (D) a traveller who carried a fan from state to state",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "an attendant serving a king or a deity",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In ancient times, pankhas were used in temples to fan deities. They were also used in royal courts to fan kings.",
+            "Pankhas varied in size from a tiny two inch one to large ones requiring a person’s full arm strength to move them."
+          ],
+          "objective": true,
+          "options": {
+            "A": "a painter who decorated the walls of a temple",
+            "B": "an attendant serving a king or a deity",
+            "C": "a merchant who sold fans along the trade routes",
+            "D": "a traveller who carried a fan from state to state"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:D:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "The word punkha or pankha originates from the word ‘pankh’, which means feather of a bird. Pankha is used to refer to all fans, whereas the word pankhi denotes a small plumed fan used in ancient India. Evidence of the existence and use of pankhi in India can be found in Buddhist wall paintings at Ajanta. These wall paintings date back to the 2nd century CE.\n\nChoose the option that best completes this sentence: The writer mentions the wall paintings at Ajanta in order to show that... (A) fans in India are still made only from feathers (B) Buddhist monks were the first people to paint fans (C) the small plumed fan has been used in India since ancient times (D) the Ajanta caves are famous for their bead craft",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "the small plumed fan has been used in India since ancient times",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Evidence of the existence and use of pankhi in India can be found in Buddhist wall paintings at Ajanta.",
+            "These wall paintings date back to the 2nd century CE."
+          ],
+          "objective": true,
+          "options": {
+            "A": "fans in India are still made only from feathers",
+            "B": "Buddhist monks were the first people to paint fans",
+            "C": "the small plumed fan has been used in India since ancient times",
+            "D": "the Ajanta caves are famous for their bead craft"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:D:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "Other states in India have their own variations of fans as well. The Phadh hand fans of Uttar Pradesh are adorned with pure gold, silver zari, silk, and satin frills. The large palm leaf fans of Odisha as well as Bihar’s colourful and sturdy bamboo hand fans, are all recognised across India\n\nChoose the option that best completes this sentence: The extract shows that the fans of Uttar Pradesh, Odisha and Bihar are each different from one another because... (A) each state uses its own materials and its own decoration for them (B) all of them are made from bamboo and from nothing else (C) they are all made by the same artisans in Kutch (D) they are all put to one single use as wall decorations",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "each state uses its own materials and its own decoration for them",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Other states in India have their own variations of fans as well.",
+            "The Phadh hand fans of Uttar Pradesh are adorned with pure gold, silver zari, silk, and satin frills.",
+            "The large palm leaf fans of Odisha as well as Bihar’s colourful and sturdy"
+          ],
+          "objective": true,
+          "options": {
+            "A": "each state uses its own materials and its own decoration for them",
+            "B": "all of them are made from bamboo and from nothing else",
+            "C": "they are all made by the same artisans in Kutch",
+            "D": "they are all put to one single use as wall decorations"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:E:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why are the pankhas of India described as traditional?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Pankhas have been made and used in India for centuries",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Evidence of their use can be found in the Buddhist wall paintings at Ajanta, which date back to the 2nd century CE",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Different villages and towns developed their own varieties with distinct materials or intricate designs",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Pankhas are called traditional because they have been made and used in India for centuries. Evidence of their use can be found in the Buddhist wall paintings at Ajanta, which date back to the 2nd century CE. Different villages and towns developed their own varieties of traditional pankhas, each with distinct materials or intricate designs of its own.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Evidence of the existence and use of pankhi in India can be found in Buddhist wall paintings at Ajanta.",
+            "These wall paintings date back to the 2nd century CE.",
+            "different villages and towns developed their own varieties of traditional pankhas."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:E:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why does the writer say that the culture of pankhas runs the risk of losing its presence among Indians?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The advent of technology and innovative creations threatens the culture of pankhas",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Pankhas, once made for personal use, have transformed into a commercial business",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Their use is now restricted to decorative purposes",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The writer says this because of the advent of technology and innovative creations. Pankhas were once made for personal use, but over time the handicraft has transformed into a commercial business. Their use has now been restricted to decorative purposes, so the fans are bought as traditional craft items instead of being used every day.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "With time and the advent of technology and innovative creations, the beautiful culture of pankhas runs the risk of slowly losing its presence",
+            "Once made for personal use, over time this handicraft has transformed into a commercial business",
+            "In modern times, the use of pankhas has been restricted to decorative purposes, and they have become traditional craft items in India."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:E:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why does every place make its own kind of pankha instead of copying the fan made anywhere else?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The structure of each fan reflects the cultural core of the region that crafts it",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Materials such as bamboo, cane, palm leaf, silk, brass, leather and silver were used depending on geographies, cultures and traditional rituals",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Each place developed pankhas with distinct materials or a variety of intricate designs that set them apart from one another",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Every place makes its own pankha because the structure of each fan reflects the cultural core of the region that crafts it. Materials such as bamboo, cane, palm leaf, silk, brass, leather and silver were used depending on geographies, cultures and traditional rituals. So each village or town developed pankhas with distinct materials or intricate designs of its own.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The structure of each fan reflects the cultural core of the region that crafts it.",
+            "Bamboo, cane, palm leaf, silk, brass, leather, and silver pankhas, with decorative beads and stones were used depending on geographies, cultures, and traditional rituals.",
+            "variety of intricate designs, that set them apart"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:F:101",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "In about 120 words, work out in steps what the title ‘Winds of Change’ suggests about the journey of the pankha and the craft behind it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "‘Winds’ points to the pankha, the fan that was used to fan deities in temples and kings in royal courts",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Pankhas varied in size from a tiny two inch one to large ones requiring a person’s full arm strength",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "‘Change’ points to fans made for personal use transforming into a commercial business that provides a livelihood to artisans",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Pankhas became significant cultural goods distributed through trade routes and were considered exotic and stylish",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Each region developed its own varieties with distinct materials and intricate designs, so the fan reflects the cultural core of its region",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Change is also a warning that the culture of pankhas runs the risk of slowly losing its presence among Indians",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. ‘Winds’ points to the fan, for pankha comes from ‘pankh’, meaning feather of a bird, and the fan makes a breeze. 2. In ancient times pankhas fanned deities in temples and kings in royal courts, and they ranged from a tiny two inch one to large ones needing a person’s full arm strength. 3. ‘Change’ points to the craft’s journey: fans made for personal use have transformed into a commercial business that gives a livelihood to India’s artisans. 4. They became significant cultural goods distributed through trade routes. 5. Each region developed its own varieties with distinct materials and intricate designs, so the fan carries the cultural core of its region. 6. Change is also a warning: with the advent of technology the culture of pankhas risks losing its presence among Indians.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In ancient times, pankhas were used in temples to fan deities. They were also used in royal courts to fan kings.",
+            "Once made for personal use, over time this handicraft has transformed into a commercial business",
+            "With time and the advent of technology and innovative creations, the beautiful culture of pankhas runs the risk of slowly losing its presence"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:F:102",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Support the statement ‘The structure and design of pankhas are testimony to the cultural identity of the region’ with any two relevant examples. Work out the answer in steps.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "The appliqué hand fan of Rajasthan is an antique pankha of fabric pieces in different shapes and patterns sewn on with ornamental needlework",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Its zardozi hand fan uses gold threadwork, and its temple hand fans are made by engraving brass and have a long handle",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The painted hand fan, a cardboard pankha featuring various images, is usually offered to gods",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gujarat's hand fans are elegant pure cotton-based fans embellished with mirror work, and the beads hand fan has a silver handle",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Kutch is recognised for its hand-stitched leather hand fans decorated with thread and wool at their seams",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "These differences in material, decoration and use show that the fan carries the culture of the region that makes it",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Rajasthan is the first example: its appliqué hand fan is an antique pankha of fabric pieces in different shapes and patterns sewn onto another cloth with ornamental needlework. 2. Its zardozi hand fan uses gold threadwork, and its temple hand fans, made by engraving brass, have a long handle. 3. The painted hand fan of the same state, a cardboard pankha featuring various images, is usually offered to gods. 4. Gujarat is the second example: its hand fans are elegant pure cotton-based fans embellished with mirror work. 5. The beads hand fan is covered with colourful beads and has a silver handle, and Kutch is recognised for hand-stitched leather hand fans decorated with thread and wool at their seams. 6. Such differences in material, decoration and use show that a fan carries the culture of the place that makes it.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "For instance, the appliqué hand fan of Rajasthan is an antique pankha made of pieces of fabric in different shapes and patterns sewn onto another cloth with the use of ornamental needlework.",
+            "These hand fans are elegant pure cotton-based fans embellished with mirror work.",
+            "Kutch is recognised for its hand-stitched leather hand fans decorated with thread and wool at its seams."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:03:F:103",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/winds-of-change",
+        "english-9/canvas-of-soil"
+      ],
+      "taxonomyChapterId": "english-9/winds-of-change",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "evaluate",
+      "type": "long_answer",
+      "stem": "How might initiatives such as pankha-making workshops contribute to the preservation of this traditional craft? Work out the answer in steps.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Celebrating pankhas and appreciating the culture, stories and artistry that the handicraft invokes is the first step in preserving the craft",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "This allows contemporary pankha makers to demonstrate their craft and regain its popularity",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It also helps provide them with a commercial platform to create a sustainable livelihood",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Pankha-making workshops, both within and outside the handicraft exhibitions, help spread awareness about the beauty and importance of this craft in India’s culture",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The increase in demand is significantly factored by the different versions of the pankha being crafted",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Rising demand means more sales for artisans, so the craft continues to provide a livelihood",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. One of the first steps to preserve the essence of the craft is by celebrating pankhas, and appreciating the culture, stories, and artistry that this handicraft invokes. 2. This allows contemporary pankha makers to demonstrate their craft and regain its popularity. 3. It also helps provide them with a commercial platform to create a sustainable livelihood. 4. Initiatives such as pankha-making workshops, both within and outside the handicraft exhibitions, help spread awareness about the beauty and importance of this craft in India’s culture. 5. The slight increase in popularity and demand is significantly factored by the different versions of the pankha being crafted. 6. So more fans are bought, more artisans earn a living, and the craft survives instead of losing its presence.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "One of the first steps to preserve the essence of the craft is by celebrating pankhas, and appreciating the culture, stories, and artistry that this handicraft invokes.",
+            "It also helps provide them with a commercial platform to create a sustainable livelihood.",
+            "the handicraft exhibitions help spread awareness about the beauty and importance of this craft in India’s culture."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "iebe1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iebe1",
+    "chapters": [
+      3
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

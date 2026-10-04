@@ -1213,3 +1213,97 @@ def test_a_map_pointing_question_is_kept_and_needs_no_copied_passage():
     record = cg.to_record(item, section, _chapter(), "t", chapter_id="c", topic_id="", model="m")
     assert record["stem"] == stem
     assert sum(p["marks"] for p in record["answerScheme"]["markingPoints"]) == 5
+
+
+def test_a_question_in_parts_keeps_its_first_label():
+    # Stripping the leading "(a)" left "Name the industries ... (b) Explain ...", a case study the
+    # stem gate refuses as a broken option list.
+    stem = "(a) Name the two industries. (b) Explain which soil process the dust retards."
+    assert cg.strip_question_number(stem) == stem
+    assert cg.strip_question_number("(a) Name the industry.") == "Name the industry."
+    assert cg.strip_question_number("1. Find the HCF of 6 and 72.") == "Find the HCF of 6 and 72."
+
+
+def test_a_writing_task_may_be_an_instruction_and_a_word_limit_in_devanagari_is_not_a_fact():
+    writing = next(s for s in bp.for_paper("Hindi", 10).sections if s.kind == "writing")
+    task = {"qtype": writing.qtype, "marks": writing.marks, "bloomLevel": "apply", "option": 1,
+            "stem": "अपने विद्यालय के प्रधानाचार्य को पुस्तकालय के लिए नई पुस्तकें मँगवाने हेतु पत्र लिखिए।",
+            "modelAnswer": "औपचारिक पत्र", "markingPoints": ["विषय", "प्रारूप", "भाषा"]}
+    assert cg.validate(task, writing) is None
+    assert cg.validate(task, _mcq_section()) != "stem-is-not-a-question"      # other sections unchanged
+    gen = _gen_script("gen_for_devanagari_limit")
+    item = {**task, "stem": "लगभग १२० शब्दों में अपने विद्यालय के वार्षिकोत्सव पर एक अनुच्छेद लिखिए।",
+            "evidence": ["विद्यालय का वार्षिकोत्सव हर वर्ष मनाया जाता है"]}
+    text = "विद्यालय का वार्षिकोत्सव हर वर्ष मनाया जाता है और सब उसमें भाग लेते हैं।"
+    assert gen.ungrounded(item, text, writing) is None
+    assert gen.ungrounded({**item, "stem": item["stem"].replace("१२०", "१९६०") + " (१९६०)"}, text,
+                          writing) == "figure-not-in-text:१९६०"
+
+
+def test_a_reading_question_is_typed_competency_based_and_still_prints_its_options():
+    from academicos.assessment.competency import is_competency_question
+    section = _english("A")
+    record = cg.to_record(_reading_item(), section, _chapter(), "t", chapter_id="c", topic_id="", model="m")
+    assert record["type"] == "competency_based" and is_competency_question(record)
+    assert "(A) They amuse her" in record["stem"] and "(D) They end early" in record["stem"]
+    extract = cg.to_record(_reading_item(), _english("D"), _chapter(), "t", chapter_id="c", topic_id="", model="m")
+    assert extract["type"] == "competency_based" and is_competency_question(extract)
+    grammar = cg.to_record(_good_mcq(), _english("B"), _chapter(), "t", chapter_id="c", topic_id="", model="m")
+    assert grammar["type"] == "mcq" and not is_competency_question(grammar)
+
+
+def test_a_hindi_record_is_mended_and_its_quote_still_matches_the_broken_text():
+    gen = _gen_script("gen_for_repair")
+    broken = "मुझे कोई साधारण निबंध नहीीं लिखन ा है। आज मुझे आदर्श निबंध लिखन ा होगा।"
+    section = next(s for s in bp.for_paper("Hindi", 10).sections if s.key == "B")
+    item = {"qtype": section.qtype, "marks": section.marks, "bloomLevel": "understand", "option": 1,
+            "passage": broken, "stem": "लेखक को क्या लिखन ा है?", "modelAnswer": "आदर्श निबंध लिखन ा",
+            "markingPoints": ["निबंध लिखन ा"], "evidence": ["मुझे कोई साधारण निबंध नहीं लिखना है।"]}
+    assert gen.ungrounded(item, broken, section) is None
+    record = cg.to_record(item, section, _chapter("hi"), "t", chapter_id="c", topic_id="", model="m")
+    assert "लिखना" in record["stem"] and "लिखन ा" not in record["stem"] and "नहीीं" not in record["stem"]
+    assert record["answerScheme"]["modelAnswer"] == "आदर्श निबंध लिखना"
+
+
+def test_a_class_9_book_with_no_per_file_tree_is_filed_under_the_class_trees_chapters(tmp_path, monkeypatch):
+    gen = _gen_script("gen_for_tree")
+    import json as _json
+    tax = tmp_path / "taxonomy"
+    tax.mkdir()
+
+    def tree(subject, names):
+        (tax / f"{subject}_9.json").write_text(_json.dumps({"chapters": [
+            {"number": i + 1, "name": n, "id": f"{subject.lower()}-9/{n.lower().replace(' ', '-')}",
+             "topics": [{"name": f"{n} topic"}]} for i, n in enumerate(names)]}), encoding="utf-8")
+
+    tree("Science", ["Cells", "Tissues", "Motion"])
+    tree("English", ["Lesson A", "Lesson B", "Lesson C", "Lesson D"])
+    books = tmp_path / "books"
+    for code, count in (("iesc1", 3), ("iebe1", 2)):
+        (books / code).mkdir(parents=True)
+        for n in range(1, count + 1):
+            (books / code / f"{code}{n:02d}.pdf").write_bytes(b"")
+    monkeypatch.setattr(gen, "TAXONOMY", tax)
+    monkeypatch.setattr(gen, "BOOKS", books)
+    one_to_one, also = gen.tree_chapter_for("Science", 9, "iesc1", 2)
+    assert (one_to_one["name"], also) == ("Tissues", [])
+    first, also = gen.tree_chapter_for("English", 9, "iebe1", 2)       # unit 2 = lessons C and D
+    assert (first["name"], also) == ("Lesson C", ["english-9/lesson-d"])
+    assert gen.tree_chapter_for("Science", 9, "iebe1", 1) == ({}, [])    # counts that fit neither: not guessed
+    record = cg.to_record(_good_mcq(), _mcq_section(), _chapter(), "t", chapter_id="english-9/lesson-c",
+                          topic_id="", model="m", also_chapter_ids=("english-9/lesson-d",))
+    assert record["chapterIds"] == ["english-9/lesson-c", "english-9/lesson-d"]
+
+
+def test_a_topic_named_like_the_chapter_is_not_kept_as_a_label():
+    # A label equal to the chapter's name made the bank's topic search read the chapter's name as that
+    # label alone: 8 of Science 9 "Tissues in Action"'s 52 questions.
+    chapter = _chapter()
+    same = cg.to_record(_good_mcq(), _mcq_section(), chapter, chapter.title.upper(), chapter_id="c",
+                        topic_id="", model="m")
+    assert same["topic"] == ""
+    other = cg.to_record(_good_mcq(), _mcq_section(), chapter, "Animal Tissues", chapter_id="c", topic_id="",
+                         model="m")
+    assert other["topic"] == "Animal Tissues"
+    assert cg.to_record(_good_mcq(), _mcq_section(), chapter, "", chapter_id="c", topic_id="",
+                        model="m")["topic"] == ""
