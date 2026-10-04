@@ -80,6 +80,7 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/health/errors"): _p(PUBLIC, "NFR-7: error counts only, never a message"),
     ("POST", "/api/v1/client-errors"): _p(PUBLIC, "NFR-7: the apps report what they caught, signed in or not; scrubbed, rate-limited"),
     ("GET", "/api/v1/ops/errors"): _p(PUBLIC, "NFR-7: operator key checked in the handler; 404 unless ACOS_OPS_KEY is set"),
+    ("GET", "/api/v1/ops/usage"): _p(PUBLIC, "NFR-7: per-school counts; operator key checked in the handler; 404 unless ACOS_OPS_KEY is set"),
     # INT-2: a person's own number and SMS/WhatsApp consent; the handler admits
     # staff and parents only (a student is a minor: their parent is messaged).
     ("GET", "/api/v1/me/contact"): _p(ANY_USER, "the caller's own number only; students refused in the handler"),

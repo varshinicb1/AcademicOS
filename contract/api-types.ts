@@ -4771,6 +4771,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/ops/usage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Usage
+         * @description Each school's use of AcademicOS, most recently active first.
+         */
+        get: operations["usage_api_v1_ops_usage_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/owner-links": {
         parameters: {
             query?: never;
@@ -11989,6 +12009,35 @@ export interface components {
              * @default
              */
             tagline: string;
+        };
+        /** SchoolUsage */
+        SchoolUsage: {
+            /** Homeworklast30Days */
+            homeworkLast30Days: number;
+            /** Lastactivity */
+            lastActivity?: string | null;
+            /** Lessonsmarkedlast30Days */
+            lessonsMarkedLast30Days: number;
+            /** Name */
+            name?: string | null;
+            /** Paperslast30Days */
+            papersLast30Days: number;
+            /** Paperslast7Days */
+            papersLast7Days: number;
+            /** Paperstotal */
+            papersTotal: number;
+            /** Parents */
+            parents: number;
+            /** Pilotagreementacceptedat */
+            pilotAgreementAcceptedAt?: string | null;
+            /** Principals */
+            principals: number;
+            /** Schoolid */
+            schoolId: string;
+            /** Students */
+            students: number;
+            /** Teachers */
+            teachers: number;
         };
         /** Scope */
         Scope: {
@@ -22360,6 +22409,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ErrorGroupResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    usage_api_v1_ops_usage_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Ops-Key"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SchoolUsage"][];
                 };
             };
             /** @description Validation Error */
