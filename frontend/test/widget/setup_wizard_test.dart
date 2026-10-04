@@ -196,7 +196,7 @@ void main() {
     // Teachers: one invite, sent for real (dryRun=false), its code shown.
     expect(find.text('Teachers'), findsOneWidget);
     expect(find.byKey(const ValueKey('wizard-setup-result')), findsOneWidget);
-    expect(find.textContaining('Class 10: 2 section(s), 3 subjects'), findsOneWidget);
+    expect(find.textContaining('Class 10: 2 sections, 3 subjects'), findsOneWidget);
     await type(tester, 'wizard-teacher-name-0', 'Anita Rao');
     await type(tester, 'wizard-teacher-email-0', 'Anita@School.in');
     await tap(tester, 'wizard-next');
