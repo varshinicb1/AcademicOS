@@ -18,7 +18,6 @@
 // screenshot. It asserts nothing: the report is the output, read by a person.
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:academicos/core/di/service_locator.dart';
@@ -44,7 +43,6 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
-import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import '../test/support/real_di.dart' show FakePathProvider;
 
@@ -122,6 +120,7 @@ void main() {
     Hive.init(tmp.path);
     await Hive.openBox('academicos_cache');
     PathProviderPlatform.instance = FakePathProvider(tmp);
+    // ignore: invalid_use_of_visible_for_testing_member
     PackageInfo.setMockInitialValues(
         appName: 'AcademicOS', packageName: 'app', version: '1.0.0', buildNumber: '1', buildSignature: '');
     final loader = FontLoader('Inter');
@@ -186,6 +185,12 @@ void main() {
     // Real I/O needs real time; the widgets then need frames to show what came back.
     for (var i = 0; i < 4; i++) {
       await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 600)));
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    // A screen still showing a spinner has not finished loading (the shared local backend can be slow):
+    // give it up to 20 more seconds so the screenshot shows the screen, not its loading state.
+    for (var i = 0; i < 20 && find.byType(CircularProgressIndicator).evaluate().isNotEmpty; i++) {
+      await tester.runAsync(() => Future<void>.delayed(const Duration(seconds: 1)));
       await tester.pump(const Duration(milliseconds: 100));
     }
     await tester.pump(const Duration(milliseconds: 400));
