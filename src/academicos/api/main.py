@@ -43,7 +43,7 @@ from ..curriculum import routes as curriculum_routes
 from ..curriculum import school_model_routes
 from ..curriculum import teaching_group_routes
 from ..curriculum import school_setup_routes
-from ..curriculum import cover_routes
+from ..curriculum import cover_routes, staff_policy_routes
 from ..assessment import api_key_routes
 from ..assessment import marks_routes
 from ..assessment import paper_review_routes
@@ -276,6 +276,7 @@ app.include_router(school_model_routes.router)
 app.include_router(teaching_group_routes.router)
 app.include_router(school_setup_routes.router)
 app.include_router(cover_routes.router)
+app.include_router(staff_policy_routes.router)
 app.include_router(operations_routes.router)
 app.include_router(homework_routes.router)
 app.include_router(learning_routes.router)

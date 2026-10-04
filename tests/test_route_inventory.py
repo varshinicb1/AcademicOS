@@ -214,6 +214,10 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/curriculum/teacher-attendance"),
     ("GET", "/api/v1/curriculum/my-attendance"),
     ("POST", "/api/v1/curriculum/my-attendance"),
+    ("GET", "/api/v1/curriculum/staff-policy"),
+    ("PUT", "/api/v1/curriculum/staff-policy"),
+    ("GET", "/api/v1/curriculum/my-leave-balance"),
+    ("GET", "/api/v1/curriculum/leave-balances"),
     ("GET", "/api/v1/notifications"),
     ("POST", "/api/v1/notifications/{notification_id}/read"),
     ("POST", "/api/v1/notifications/read-all"),
@@ -582,6 +586,10 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/curriculum/teacher-attendance"),
     ("GET", "/api/v1/curriculum/my-attendance"),
     ("POST", "/api/v1/curriculum/my-attendance"),
+    ("GET", "/api/v1/curriculum/staff-policy"),
+    ("PUT", "/api/v1/curriculum/staff-policy"),
+    ("GET", "/api/v1/curriculum/my-leave-balance"),
+    ("GET", "/api/v1/curriculum/leave-balances"),
     ("GET", "/api/v1/notifications"),
     ("POST", "/api/v1/notifications/{notification_id}/read"),
     ("POST", "/api/v1/notifications/read-all"),
@@ -1079,7 +1087,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 349: SA-6 a parent's view of their child's school calendar.
     # 351: the Phase 1 pilot agreement (read, accept).
     # 352: NFR-7 per-school usage for the operator.
-    assert len(API_ROUTES) == 352
+    # 356: staff rules and leave balances (read, set, mine, everyone's).
+    assert len(API_ROUTES) == 356
 
 
 def test_docs_routes_present():

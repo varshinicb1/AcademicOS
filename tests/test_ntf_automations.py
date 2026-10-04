@@ -73,11 +73,11 @@ def test_a_holiday_moves_the_lessons_on_it_and_tells_who_is_affected(principal_w
     assert all(after[i].date != day for i in on_day), "nothing is left on the holiday"
     inbox = w.client.get("/api/v1/notifications", headers={"Authorization": f"Bearer {stu['token']}"}).json()["items"]
     [told] = [i for i in inbox if i["kind"] == "holiday_declared"]
-    assert told["title"] == "Holiday: Rain closure" and "lessons for 10-A move to the next teaching days" in told["body"]
+    assert told["title"] == "Holiday: Rain closure" and "10-A move to the next teaching days" in told["body"] and told["body"].count("Lessons for") == 1
     # N-8-7: the child's parent hears the same notice, once.
     inbox = w.client.get("/api/v1/notifications", headers={"Authorization": f"Bearer {dad['token']}"}).json()["items"]
     [told] = [i for i in inbox if i["kind"] == "holiday_declared"]
-    assert "lessons for 10-A move to the next teaching days" in told["body"] and told["link"] == "/my-children"
+    assert "10-A move to the next teaching days" in told["body"] and told["body"].count("Lessons for") == 1 and told["link"] == "/my-children"
 
     quiet = w.client.post(f"{BASE}/academic-years/{book.year}/holidays",
                           json={"date": "2027-01-26", "label": "Republic Day", "moveLessons": False}, headers=w.auth)

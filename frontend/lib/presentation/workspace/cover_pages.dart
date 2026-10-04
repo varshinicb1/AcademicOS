@@ -62,6 +62,10 @@ class _CoverPageState extends State<CoverPage> {
   final Map<String, String> _pending = {};
   String? _error;
   bool _saving = false;
+  // The school's leave and check-in rules, and each teacher's leave left
+  // (staff_policy.py). Optional: the page works without them.
+  Map<String, dynamic>? _policy;
+  List<Map<String, dynamic>> _balances = [];
 
   String get _date => isoDate(_day);
 
@@ -81,11 +85,22 @@ class _CoverPageState extends State<CoverPage> {
       final a = await Ops.map('$_base/teacher-attendance', query: {'date': _date});
       final l = await Ops.list('$_base/leave-requests', query: {'status': 'pending'});
       final s = await Ops.list('$_base/substitutions', query: {'from': _date, 'to': _date});
+      Map<String, dynamic>? policy;
+      var balances = <Map<String, dynamic>>[];
+      try {
+        policy = await Ops.map('$_base/staff-policy');
+        balances = await Ops.list('$_base/leave-balances');
+      } catch (e) {
+        // An older server, or a teacher without the leave permission: no rules card.
+        debugPrint('leave rules not shown: ${serverErrorMessage(e)}');
+      }
       if (!mounted) return;
       setState(() {
         _attendance = a;
         _leave = l;
         _subs = s;
+        _policy = policy;
+        _balances = balances;
         _pending.clear();
         _error = null;
       });
@@ -208,21 +223,33 @@ class _CoverPageState extends State<CoverPage> {
                     ),
                   if (_leave.isNotEmpty) ...[
                     const SectionHeader(title: 'Leave waiting for you'),
+                    // The text takes the whole row and the buttons sit under it: beside it, on a
+                    // phone, they squeezed the request into a column five lines tall.
                     for (final l in _leave)
-                      ListTile(
-                        title: Text('${_name(l['teacherId'])}: ${l['startDate']}'
-                            '${l['endDate'] != l['startDate'] ? ' to ${l['endDate']}' : ''} (${leaveKindLabel(l)})'),
-                        subtitle: Text(l['reason'] ?? ''),
-                        trailing: Wrap(spacing: 8, children: [
-                          if (l['document'] != null)
-                            IconButton(
-                              key: Key('leave-document-${l['id']}'),
-                              tooltip: 'Open ${(l['document'] as Map)['name']}',
-                              icon: const Icon(Icons.attach_file),
-                              onPressed: () => _openDocument(l),
-                            ),
-                          OutlinedButton(onPressed: () => _decide(l['id'], false), child: const Text('Reject')),
-                          FilledButton(onPressed: () => _decide(l['id'], true), child: const Text('Approve')),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                          ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: Text('${_name(l['teacherId'])}: ${readableDate(l['startDate'] as String)}'
+                                '${l['endDate'] != l['startDate'] ? ' to ${readableDate(l['endDate'] as String)}' : ''}'
+                                ' (${leaveKindLabel(l)})'),
+                            subtitle: Text([
+                              if ((l['reason'] as String?)?.isNotEmpty == true) l['reason'] as String,
+                              if (_leftOf(l['teacherId'] as String) != null) _leftOf(l['teacherId'] as String)!,
+                            ].join(' · ')),
+                          ),
+                          Wrap(alignment: WrapAlignment.end, spacing: 8, children: [
+                            if (l['document'] != null)
+                              IconButton(
+                                key: Key('leave-document-${l['id']}'),
+                                tooltip: 'Open ${(l['document'] as Map)['name']}',
+                                icon: const Icon(Icons.attach_file),
+                                onPressed: () => _openDocument(l),
+                              ),
+                            OutlinedButton(onPressed: () => _decide(l['id'], false), child: const Text('Reject')),
+                            FilledButton(onPressed: () => _decide(l['id'], true), child: const Text('Approve')),
+                          ]),
                         ]),
                       ),
                   ],
@@ -244,9 +271,135 @@ class _CoverPageState extends State<CoverPage> {
                           ? null
                           : TextButton(onPressed: () => _assign(s), child: const Text('Assign')),
                     ),
+                  if (_policy != null) ...[
+                    const SectionHeader(title: 'Leave and check-in rules',
+                        subtitle: 'What happens to a request, and when a check-in is late'),
+                    Card(
+                      child: ListTile(
+                        key: const Key('staff-rules'),
+                        leading: Icon(_policy!['autoApprove'] == true ? Icons.bolt : Icons.rule,
+                            color: theme.colorScheme.primary),
+                        title: Text(_policy!['autoApprove'] == true
+                            ? 'Leave of up to ${_num(_policy!['maxAutoDays'])} days, asked '
+                                '${plural((_policy!['minNoticeDays'] as num).toInt(), 'day')} ahead, is approved at once'
+                            : 'You decide every leave request'),
+                        subtitle: Text('${_num(_policy!['annualAllowanceDays'])} days of leave a year. A check-in after '
+                            '${_policy!['firstBell'] ?? 'the first bell'} plus ${_policy!['checkInGraceMinutes']} minutes '
+                            'is late. ${_policy!['checkInReminder'] == true ? 'Teachers not in by 9:00 are reminded, '
+                                'and you are told.' : 'No check-in reminder.'}'),
+                        trailing: TextButton(onPressed: _editRules, child: const Text('Change')),
+                      ),
+                    ),
+                  ],
+                  if (_balances.isNotEmpty) ...[
+                    const SectionHeader(title: 'Leave left this year', subtitle: 'Least left first'),
+                    for (final b in _balances)
+                      ListTile(
+                        dense: true,
+                        title: Text(b['name'] as String),
+                        subtitle: Text('${_num(b['used'])} used'
+                            '${(b['pending'] as num) > 0 ? ' · ${_num(b['pending'])} waiting' : ''}'),
+                        trailing: Text('${_num(b['left'])} of ${_num(b['allowance'])} left',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: (b['left'] as num) <= 0 ? theme.colorScheme.error : null)),
+                      ),
+                  ],
                 ]),
     );
   }
+
+  String? _leftOf(String teacherId) {
+    final b = _balances.where((b) => b['teacherId'] == teacherId);
+    return b.isEmpty ? null : '${_num(b.first['left'])} of ${_num(b.first['allowance'])} days left';
+  }
+
+  /// The principal's leave and check-in rules, in one dialog.
+  Future<void> _editRules() async {
+    final p = Map<String, dynamic>.from(_policy!);
+    var auto = p['autoApprove'] == true;
+    var reminder = p['checkInReminder'] == true;
+    final maxDays = TextEditingController(text: _num(p['maxAutoDays']));
+    final notice = TextEditingController(text: '${p['minNoticeDays']}');
+    final allowance = TextEditingController(text: _num(p['annualAllowanceDays']));
+    final grace = TextEditingController(text: '${p['checkInGraceMinutes']}');
+    String? error;
+    final saved = await showDialog<bool>(context: context, builder: (ctx) => StatefulBuilder(builder: (ctx, set) {
+      Widget field(TextEditingController c, String label, String suffix) => Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: TextField(controller: c, keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(labelText: label, suffixText: suffix)),
+          );
+      return AlertDialog(
+        title: const Text('Leave and check-in rules'),
+        content: SizedBox(width: 440, child: SingleChildScrollView(child: Column(mainAxisSize: MainAxisSize.min, children: [
+          SwitchListTile(
+            key: const Key('rule-auto'),
+            contentPadding: EdgeInsets.zero,
+            value: auto,
+            onChanged: (v) => set(() => auto = v),
+            title: const Text('Approve short leave automatically'),
+            subtitle: const Text('Cover is proposed for every period, as when you approve, and you are told.'),
+          ),
+          if (auto) ...[
+            field(maxDays, 'Longest leave approved automatically', 'days'),
+            field(notice, 'Asked at least', 'days ahead'),
+          ],
+          field(allowance, 'Leave a teacher has a year', 'days'),
+          field(grace, 'Check-in counts as late after the first bell plus', 'minutes'),
+          SwitchListTile(
+            key: const Key('rule-reminder'),
+            contentPadding: EdgeInsets.zero,
+            value: reminder,
+            onChanged: (v) => set(() => reminder = v),
+            title: const Text('Remind teachers not in by 9:00'),
+            subtitle: const Text('And tell you who they are, once a day.'),
+          ),
+          if (error != null) Text(error!, style: TextStyle(color: Theme.of(ctx).colorScheme.error)),
+        ]))),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+          FilledButton(
+            key: const Key('rule-save'),
+            onPressed: () async {
+              final days = double.tryParse(maxDays.text.trim());
+              final ahead = int.tryParse(notice.text.trim());
+              final year = double.tryParse(allowance.text.trim());
+              final late = int.tryParse(grace.text.trim());
+              if (days == null || ahead == null || year == null || late == null) {
+                set(() => error = 'Type numbers: days may be a half, as 0.5.');
+                return;
+              }
+              try {
+                await Ops.put('$_base/staff-policy', body: {
+                  'autoApprove': auto,
+                  'maxAutoDays': days,
+                  'minNoticeDays': ahead,
+                  'annualAllowanceDays': year,
+                  'checkInGraceMinutes': late,
+                  'checkInReminder': reminder,
+                });
+                if (ctx.mounted) Navigator.pop(ctx, true);
+              } catch (e) {
+                set(() => error = serverErrorMessage(e));
+              }
+            },
+            child: const Text('Save'),
+          ),
+        ],
+      );
+    }));
+    if (saved == true) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Rules saved')));
+      _load();
+    }
+  }
+}
+
+/// 2 -> "2", 0.5 -> "0.5".
+String _num(Object? v) {
+  final n = (v as num?) ?? 0;
+  return n == n.roundToDouble() ? n.toInt().toString() : n.toString();
 }
 
 class _AssignDialog extends StatefulWidget {
@@ -410,6 +563,14 @@ class _MyDayPageState extends State<MyDayPage> {
       };
       return bell.isNotEmpty ? (bell.toList()..sort()) : [for (var p = 1; p <= 8; p++) p];
     }
+    // What will happen to the request (staff_policy.py), said before it is sent.
+    Map<String, dynamic>? balance;
+    try {
+      balance = await Ops.map('$_base/my-leave-balance');
+    } catch (e) {
+      // An older server: the form works without it.
+      debugPrint('leave balance not shown: ${serverErrorMessage(e)}');
+    }
     // An optional supporting document (N-3-17), sent once the request exists.
     String? docName;
     Uint8List? docBytes;
@@ -418,6 +579,17 @@ class _MyDayPageState extends State<MyDayPage> {
     final ok = await showDialog<bool>(context: context, builder: (ctx) => StatefulBuilder(builder: (ctx, set) => AlertDialog(
       title: Text(tr('Apply for leave')),
       content: SizedBox(width: 440, child: Column(mainAxisSize: MainAxisSize.min, children: [
+        if (balance != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Text(
+              key: const Key('leave-balance'),
+              '${_num(balance['left'])} ${tr('of')} ${_num(balance['allowance'])} ${tr('days of leave left this year.')} '
+              '${balance['autoApprove'] == true ? '${tr('Leave of up to')} ${_num(balance['maxAutoDays'])} ${tr('days, asked')} '
+                  '${balance['minNoticeDays']} ${tr('day(s) ahead, is approved at once.')}' : tr('Your principal decides each request.')}',
+              style: Theme.of(ctx).textTheme.bodySmall,
+            ),
+          ),
         Wrap(spacing: 8, runSpacing: 8, children: [
           ChoiceChip(
             key: const Key('leave-today'),
@@ -547,7 +719,9 @@ class _MyDayPageState extends State<MyDayPage> {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
       return;
     }
-    var said = tr('Leave applied; the principal has been asked');
+    var said = leave['decidedAutomatically'] == true
+        ? tr('Leave approved by the school\'s rule. Cover for your periods is being arranged.')
+        : tr('Leave applied; the principal has been asked');
     if (docBytes != null && leave['id'] != null) {
       final type = leaveDocumentType(docName!)!.split('/');
       try {
@@ -643,7 +817,9 @@ class _MyDayPageState extends State<MyDayPage> {
                         child: Text(
                           _checkedIn == null
                               ? tr('Tell the school you are in today.')
-                              : tr('Your attendance for today is in.'),
+                              : _checkedIn == 'late'
+                                  ? tr('Checked in after the first bell: recorded as late.')
+                                  : tr('Your attendance for today is in.'),
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
                         ),
