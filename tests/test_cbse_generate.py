@@ -1295,11 +1295,15 @@ def test_a_class_9_book_with_no_per_file_tree_is_filed_under_the_class_trees_cha
     assert record["chapterIds"] == ["english-9/lesson-c", "english-9/lesson-d"]
 
 
-def test_a_record_with_no_plan_topic_carries_no_topic_label_equal_to_its_chapter():
-    # The chapter's title as a "topic" made the bank's topic search read the chapter's name as that label
-    # alone: 8 of Science 9 "Tissues in Action"'s 52 questions.
-    record = cg.to_record(_good_mcq(), _mcq_section(), _chapter(), "", chapter_id="c", topic_id="", model="m")
-    assert record["topic"] == ""
-    with_topic = cg.to_record(_good_mcq(), _mcq_section(), _chapter(), "Reading", chapter_id="c", topic_id="",
-                              model="m")
-    assert with_topic["topic"] == "Reading"
+def test_a_topic_named_like_the_chapter_is_not_kept_as_a_label():
+    # A label equal to the chapter's name made the bank's topic search read the chapter's name as that
+    # label alone: 8 of Science 9 "Tissues in Action"'s 52 questions.
+    chapter = _chapter()
+    same = cg.to_record(_good_mcq(), _mcq_section(), chapter, chapter.title.upper(), chapter_id="c",
+                        topic_id="", model="m")
+    assert same["topic"] == ""
+    other = cg.to_record(_good_mcq(), _mcq_section(), chapter, "Animal Tissues", chapter_id="c", topic_id="",
+                         model="m")
+    assert other["topic"] == "Animal Tissues"
+    assert cg.to_record(_good_mcq(), _mcq_section(), chapter, "", chapter_id="c", topic_id="",
+                        model="m")["topic"] == ""

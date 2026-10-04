@@ -910,10 +910,10 @@ def to_record(item: dict, section: bp.Section, chapter: Chapter, topic: str,
         "grade": chapter.grade,
         "chapterIds": [chapter_id, *also_chapter_ids],
         "taxonomyChapterId": chapter_id,
-        # No topic label when the plan had none: the chapter's own title as a "topic" is a label equal to
-        # the chapter's name, which the bank's topic search reads as that label alone (8 of the chapter's
-        # 52 questions) instead of the chapter (`qbank_engine._on_topic`, rule 2 before rule 3).
-        "topic": topic or "",
+        # A topic named like the chapter is no topic label: a label equal to the chapter's name is read by
+        # the bank's topic search as that label alone (8 of Science 9 "Tissues in Action"'s 52 questions)
+        # instead of as the chapter (`qbank_engine._on_topic`, rule 2 before rule 3).
+        "topic": "" if (topic or "").strip().lower() == (chapter.title or "").strip().lower() else (topic or ""),
         "difficulty": "medium",
         "bloomLevel": item.get("bloomLevel") or "understand",
         # A passage-based reading or extract question is what CBSE calls competency-based (source
