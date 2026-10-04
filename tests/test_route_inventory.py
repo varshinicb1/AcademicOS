@@ -398,6 +398,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/health/errors"),
     ("POST", "/api/v1/client-errors"),
     ("GET", "/api/v1/ops/errors"),
+    ("GET", "/api/v1/ops/usage"),
     # --- operations/messaging_routes.py (INT-2) ---
     ("GET", "/api/v1/me/contact"),
     ("PUT", "/api/v1/me/contact"),
@@ -1077,7 +1078,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 348: saved Guide/setup progress (read, write) and the principal's setup level.
     # 349: SA-6 a parent's view of their child's school calendar.
     # 351: the Phase 1 pilot agreement (read, accept).
-    assert len(API_ROUTES) == 351
+    # 352: NFR-7 per-school usage for the operator.
+    assert len(API_ROUTES) == 352
 
 
 def test_docs_routes_present():
@@ -1152,6 +1154,7 @@ def test_gated_routes_return_503_without_startup():
                 ("GET", "/health/errors"),
                 ("POST", "/api/v1/client-errors"),
                 ("GET", "/api/v1/ops/errors"),
+                ("GET", "/api/v1/ops/usage"),
                 ("POST", "/api/v1/blueprints/generate"),
                 # Which ways in are set up: read from the environment, so it
                 # answers before startup.

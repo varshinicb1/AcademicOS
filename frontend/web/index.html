@@ -34,6 +34,14 @@
 
   <title>AcademicOS</title>
   <link rel="manifest" href="manifest.json">
+  <!-- The app's typeface starts downloading with the app's code, not after
+       it has started (they were 3.7 s behind it on Slow 4G, 2026-10-04). The
+       engine's own fetch of the same files takes them from this download. -->
+  <link rel="preload" href="assets/assets/fonts/Inter-Regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/assets/fonts/Inter-Medium.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/assets/fonts/Inter-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/assets/fonts/Inter-Bold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
   <style>
     /* The app takes a few seconds to load on a school's connection: until it
        draws, the brand and a word, not a blank page. flutter_bootstrap.js

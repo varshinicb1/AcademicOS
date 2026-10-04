@@ -25,6 +25,10 @@
         "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
       },
       {
+        "regex": "^/(assets/assets/fonts/Inter-[A-Za-z]+\\.ttf|icons/[A-Za-z0-9_-]+\\.png)$",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }]
+      },
+      {
         "source": "/index.html",
         "headers": [{ "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }]
       }

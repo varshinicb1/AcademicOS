@@ -14775,6 +14775,97 @@
         "title": "SchoolTemplate",
         "type": "object"
       },
+      "SchoolUsage": {
+        "properties": {
+          "homeworkLast30Days": {
+            "title": "Homeworklast30Days",
+            "type": "integer"
+          },
+          "lastActivity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastactivity"
+          },
+          "lessonsMarkedLast30Days": {
+            "title": "Lessonsmarkedlast30Days",
+            "type": "integer"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "papersLast30Days": {
+            "title": "Paperslast30Days",
+            "type": "integer"
+          },
+          "papersLast7Days": {
+            "title": "Paperslast7Days",
+            "type": "integer"
+          },
+          "papersTotal": {
+            "title": "Paperstotal",
+            "type": "integer"
+          },
+          "parents": {
+            "title": "Parents",
+            "type": "integer"
+          },
+          "pilotAgreementAcceptedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pilotagreementacceptedat"
+          },
+          "principals": {
+            "title": "Principals",
+            "type": "integer"
+          },
+          "schoolId": {
+            "title": "Schoolid",
+            "type": "string"
+          },
+          "students": {
+            "title": "Students",
+            "type": "integer"
+          },
+          "teachers": {
+            "title": "Teachers",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "schoolId",
+          "principals",
+          "teachers",
+          "students",
+          "parents",
+          "papersTotal",
+          "papersLast7Days",
+          "papersLast30Days",
+          "homeworkLast30Days",
+          "lessonsMarkedLast30Days"
+        ],
+        "title": "SchoolUsage",
+        "type": "object"
+      },
       "Scope": {
         "properties": {
           "asOf": {
@@ -32837,6 +32928,57 @@
           }
         },
         "summary": "List Errors"
+      }
+    },
+    "/api/v1/ops/usage": {
+      "get": {
+        "description": "Each school's use of AcademicOS, most recently active first.",
+        "operationId": "usage_api_v1_ops_usage_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-Ops-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Ops-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SchoolUsage"
+                  },
+                  "title": "Response Usage Api V1 Ops Usage Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Usage"
       }
     },
     "/api/v1/owner-links": {
