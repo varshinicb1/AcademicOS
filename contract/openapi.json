@@ -22232,6 +22232,67 @@
         "summary": "Catalog Chapters"
       }
     },
+    "/api/v1/children/{student_id}/calendar": {
+      "get": {
+        "description": "The child's school calendar from today, as the child sees it on\n/my-calendar: holidays, half days, exam windows and papers, homework due\n(SA-6). A parent had no way to see a holiday: /my-calendar refused them\nand the day page only said \"a holiday, a weekly off, or no timetable\"\n(2026-10-04).",
+        "operationId": "child_calendar_api_v1_children__student_id__calendar_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "days",
+            "required": false,
+            "schema": {
+              "default": 42,
+              "maximum": 60,
+              "minimum": 1,
+              "title": "Days",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CalendarItem"
+                  },
+                  "title": "Response Child Calendar Api V1 Children  Student Id  Calendar Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Child Calendar"
+      }
+    },
     "/api/v1/children/{student_id}/consent": {
       "delete": {
         "description": "Withdraw consent. The school then cannot mark or process the child's\nwork until it is given again.",

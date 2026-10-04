@@ -896,6 +896,30 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/children/{student_id}/calendar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Child Calendar
+         * @description The child's school calendar from today, as the child sees it on
+         *     /my-calendar: holidays, half days, exam windows and papers, homework due
+         *     (SA-6). A parent had no way to see a holiday: /my-calendar refused them
+         *     and the day page only said "a holiday, a weekly off, or no timetable"
+         *     (2026-10-04).
+         */
+        get: operations["child_calendar_api_v1_children__student_id__calendar_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/children/{student_id}/consent": {
         parameters: {
             query?: never;
@@ -15521,6 +15545,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ChapterEntry"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    child_calendar_api_v1_children__student_id__calendar_get: {
+        parameters: {
+            query?: {
+                days?: number;
+            };
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CalendarItem"][];
                 };
             };
             /** @description Validation Error */

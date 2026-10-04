@@ -100,3 +100,29 @@ def test_the_feeds_weekly_periods_skip_the_days_the_school_is_closed(w):
         exdates = next(line for line in ev.splitlines() if line.startswith("EXDATE"))
         assert "20260615T" in exdates
         assert "20260608T" not in exdates and "20260622T" not in exdates
+
+
+def test_a_parent_sees_their_childs_calendar_and_no_one_elses(w):
+    """SA-6 (2026-10-04): /my-calendar refused a parent and the family day page only said "a holiday,
+    a weekly off, or no timetable", so a parent could not see a holiday or an exam coming."""
+    closed = w.c.post(f"{BASE}/academic-years/{w.year}/closures", json={"date": "2026-06-05", "reason": "Sports day"},
+                      headers=w.p)
+    assert closed.status_code == 200, closed.text
+    _exam_with_bala_invigilating(w)
+    child = w.c.get("/api/v1/auth/me", headers=w.stu).json()["id"]
+    invite = w.c.post(f"/api/v1/students/{child}/guardian-invites", json={"relation": "mother"}, headers=w.p)
+    assert invite.status_code == 200, invite.text
+    reg = w.c.post("/api/v1/auth/register", json={"inviteCode": invite.json()["code"], "name": "Meena",
+                                                  "email": "meena@example.com", "password": "correct horse battery"})
+    assert reg.status_code == 200, reg.text
+    mum = {"Authorization": f"Bearer {reg.json()['token']}"}
+
+    r = w.c.get(f"/api/v1/children/{child}/calendar", headers=mum)
+    assert r.status_code == 200, r.text
+    seen = [(i["kind"], i["date"]) for i in r.json()]
+    assert ("holiday", "2026-06-05") in seen and ("exam", "2026-06-08") in seen
+    assert seen == [(i["kind"], i["date"]) for i in w.c.get("/api/v1/my-calendar", headers=w.stu).json()], \
+        "the parent sees what the child sees"
+    assert w.c.get("/api/v1/children/someone-else/calendar", headers=mum).status_code == 404
+    assert w.c.get(f"/api/v1/children/{child}/calendar", headers=w.t["bala"]).status_code == 403
+    assert w.c.get("/api/v1/my-calendar", headers=mum).status_code == 403

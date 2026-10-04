@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
+import 'dashboard_card.dart' show friendlyDate, shortDate;
 import 'ops_api.dart';
 import 'report_cards_page.dart';
 import 'student_pages.dart';
@@ -72,7 +73,7 @@ class _ChildView extends StatelessWidget {
   Widget build(BuildContext context) {
     final id = child['studentId'] as String;
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Column(children: [
         ListTile(
           title: Text(child['name'] as String, style: Theme.of(context).textTheme.titleMedium),
@@ -93,11 +94,13 @@ class _ChildView extends StatelessWidget {
           key: const ValueKey('child-tabs'),
           isScrollable: true,
           tabAlignment: TabAlignment.start,
-          tabs: [Tab(text: tr('Week')), Tab(text: tr('Today')), Tab(text: tr('Homework')), Tab(text: tr('Progress'))],
+          tabs: [Tab(text: tr('Week')), Tab(text: tr('Today')), Tab(text: tr('Calendar')), Tab(text: tr('Homework')),
+            Tab(text: tr('Progress'))],
         ),
         Expanded(child: TabBarView(children: [
           _Week(studentId: id),
           _Today(studentId: id),
+          _Calendar(studentId: id),
           _Homework(studentId: id, name: child['name'] as String,
               young: (child['grade'] as int?) != null && (child['grade'] as int) <= 5),
           LearningView(path: '/children/$id/learning'),
@@ -217,6 +220,54 @@ class _Today extends StatelessWidget {
               title: Text(names[r['subjectId']]?.toString() ?? ''),
               trailing: ChipTag(label: kinds[r['kind']] ?? r['kind']),
               subtitle: r['note'] != null ? Text(r['note']) : null,
+            ),
+        ]);
+      },
+    );
+  }
+}
+
+/// What is coming at school for the child: holidays, half days, exams and
+/// homework due, as the child sees them (SA-6). Parents had no way to see a
+/// holiday or an exam coming (2026-10-04).
+class _Calendar extends StatelessWidget {
+  final String studentId;
+  const _Calendar({required this.studentId});
+
+  static const _icons = <String, IconData>{
+    'holiday': Icons.beach_access_outlined,
+    'half_day': Icons.timelapse_outlined,
+    'exam_window': Icons.event_note_outlined,
+    'exam': Icons.edit_note_outlined,
+    'compensatory': Icons.event_available_outlined,
+    'homework': Icons.assignment_outlined,
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: Ops.list('/children/$studentId/calendar'),
+      builder: (context, snap) {
+        if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
+        if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!));
+        final items = snap.data!;
+        if (items.isEmpty) {
+          return const EmptyState(icon: Icons.event_available_outlined, title: 'Nothing coming up',
+              message: 'Holidays, exams and homework due in the next six weeks appear here.');
+        }
+        final muted = Theme.of(context).colorScheme.onSurfaceVariant;
+        return ListView(padding: const EdgeInsets.all(16), children: [
+          for (final i in items)
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: Icon(_icons[i['kind']] ?? Icons.event_outlined, color: muted),
+              title: Text('${i['title']}'),
+              subtitle: Text([
+                i['endDate'] != null && i['endDate'] != i['date']
+                    ? '${shortDate('${i['date']}')} to ${shortDate('${i['endDate']}')}'
+                    : friendlyDate('${i['date']}'),
+                if (i['startTime'] != null) '${i['startTime']}${i['endTime'] != null ? '-${i['endTime']}' : ''}',
+              ].join(' · ')),
             ),
         ]);
       },
