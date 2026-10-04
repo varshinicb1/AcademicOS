@@ -278,7 +278,7 @@ class _AssignDialogState extends State<_AssignDialog> {
           future: _cands,
           builder: (context, snap) {
             if (snap.connectionState != ConnectionState.done) return const SizedBox(height: 100, child: LoadingIndicator());
-            if (snap.hasError) return Text(snap.error.toString());
+            if (snap.hasError) return Text(serverErrorMessage(snap.error!));
             return Column(mainAxisSize: MainAxisSize.min, children: [
               if (_error != null) Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
               if (snap.data!.isEmpty) const Text('Nobody is free this period.'),

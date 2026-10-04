@@ -329,6 +329,11 @@ class _Grants {
 
   static void ensureLoaded(String role) {
     final user = Hive.isBoxOpen('academicos_cache') ? CurrentSession.userId : '';
+    if (_loadedFor != null && _loadedFor != user) {
+      // Someone else signed in on this browser: the last teacher's admin pages are not theirs.
+      caps.value = const {};
+      _loadedFor = null;
+    }
     if (role != 'teacher' || user.isEmpty || _loadedFor == user || !GetIt.I.isRegistered<Dio>()) return;
     _loadedFor = user;
     GetIt.I<Dio>().get('/my-grants').then((r) {

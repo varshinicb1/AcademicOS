@@ -71,7 +71,7 @@ class _TeacherHomeworkPageState extends State<TeacherHomeworkPage> {
         future: _future,
         builder: (context, snap) {
           if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
-          if (snap.hasError) return ErrorDisplay(message: snap.error.toString(), onRetry: _reload);
+          if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!), onRetry: _reload);
           final items = snap.data!;
           if (items.isEmpty) {
             return const EmptyState(icon: Icons.assignment_outlined, title: 'No homework yet',

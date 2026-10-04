@@ -1,6 +1,7 @@
 // The router's role guard: a person is not left on a page the server will refuse them, and the
 // v2 pages with a v3 replacement send a signed-in person to it (audit 2026-10-04).
 import 'package:academicos/core/routing/app_router.dart';
+import 'package:academicos/presentation/workspace/app_mode.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 String? go(String loc, String role, {bool offline = false}) =>
@@ -77,5 +78,20 @@ void main() {
     }
     expect(go('/school/week', 'student'), isNull);
     expect(go('/school/family', 'parent'), isNull);
+  });
+
+  test('in either app, where a person lands is a page the guard lets them stay on', () {
+    // A student or parent in the teacher app landed on My day, was sent back to /home, and round again.
+    for (final mode in [AppMode.teacher, AppMode.student, AppMode.console]) {
+      for (final role in ['student', 'parent', 'teacher', 'principal']) {
+        final landed = roleLanding('/home', role: role, offlineBuild: false, mode: mode) ?? '/home';
+        final next = pageForRole(landed, role: role, offlineBuild: false);
+        expect(next == null || next == '/home' && landed == '/home', isTrue,
+            reason: '$role in the $mode app lands on $landed and is sent to $next');
+      }
+    }
+    expect(roleLanding('/home', role: 'student', offlineBuild: false, mode: AppMode.teacher), '/school/today');
+    expect(roleLanding('/home', role: 'parent', offlineBuild: false, mode: AppMode.teacher), '/school/family');
+    expect(roleLanding('/home', role: 'teacher', offlineBuild: false, mode: AppMode.teacher), '/school/my-day');
   });
 }

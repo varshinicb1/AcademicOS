@@ -526,7 +526,14 @@ String? roleLanding(String location,
     {required String role, required bool offlineBuild, AppMode mode = AppMode.console}) {
   if (offlineBuild || location != '/home') return null;
   // The teacher and student apps open on their own first page.
-  if (mode != AppMode.console && role.isNotEmpty) return appHome(mode, role: role);
+  if (mode != AppMode.console && role.isNotEmpty) {
+    // Each app opens on its own first page for its own people. A student or parent in the teacher
+    // app opened on My day, which [pageForRole] refuses them, back to /home, and round again
+    // (review 2026-10-04); they open on their own first page instead, and staff likewise.
+    final learner = role == 'student' || role == 'parent';
+    final ownApp = (mode == AppMode.student) == learner;
+    return appHome(ownApp ? mode : (learner ? AppMode.student : AppMode.teacher), role: role);
+  }
   if (role == 'parent') return '/school/family';
   // An owner that has not opened one of its schools sees them all (ROLE-4).
   if (role == 'owner') return '/owner';

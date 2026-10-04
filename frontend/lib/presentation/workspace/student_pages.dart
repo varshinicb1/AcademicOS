@@ -33,7 +33,7 @@ class _MyHomeworkPageState extends State<MyHomeworkPage> {
         builder: (context, snap) {
           if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
           if (snap.hasError) {
-            return ErrorDisplay(message: snap.error.toString(),
+            return ErrorDisplay(message: serverErrorMessage(snap.error!),
                 onRetry: () => setState(() { _future = Ops.list('/my-homework'); }));
           }
           final items = snap.data!;
@@ -314,7 +314,7 @@ class _LearningViewState extends State<LearningView> {
       builder: (context, snap) {
         if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
         if (snap.hasError) {
-          return ErrorDisplay(message: snap.error.toString(),
+          return ErrorDisplay(message: serverErrorMessage(snap.error!),
               onRetry: () => setState(() { _future = Ops.map(widget.path); }));
         }
         final d = snap.data!;
@@ -407,7 +407,7 @@ class MyExamsPage extends StatelessWidget {
         future: Ops.map('/my-exams'),
         builder: (context, snap) {
           if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
-          if (snap.hasError) return ErrorDisplay(message: snap.error.toString());
+          if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!));
           final exams = (snap.data!['exams'] as List).cast<Map>();
           if (exams.isEmpty) {
             return const EmptyState(icon: Icons.event_available_outlined, title: 'No exams published',

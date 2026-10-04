@@ -535,7 +535,7 @@ class _GrantsPageState extends State<GrantsPage> {
         future: _future,
         builder: (context, snap) {
           if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
-          if (snap.hasError) return ErrorDisplay(message: snap.error.toString(), onRetry: _reload);
+          if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!), onRetry: _reload);
           final (teachers, grants, caps) = snap.data!;
           // ROLE-4: the school's own principal links an owner here. An owner
           // acting in the school does not: the server refuses it.
