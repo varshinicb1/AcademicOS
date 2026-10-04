@@ -1,11 +1,11 @@
 {
-    "name": "academicos",
-    "short_name": "academicos",
+    "name": "AcademicOS",
+    "short_name": "AcademicOS",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#07080F",
-    "theme_color": "#07080F",
-    "description": "A new Flutter project.",
+    "background_color": "#FFFFFF",
+    "theme_color": "#FFFFFF",
+    "description": "Question papers, timetables, lesson plans, homework and reports for CBSE schools, from the NCERT books.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
