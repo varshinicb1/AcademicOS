@@ -311,3 +311,23 @@ def test_a_closure_keeps_a_make_up_already_booked(s):
     s.declare_closure(w.year, MON, reason="rain")
     made_up = s.lost_periods_for_year(w.year, "compensated")
     assert [(l.section_id, l.period, l.compensation_date) for l in made_up] == [(owed.section_id, owed.period, day)]
+
+
+def test_leave_applied_again_after_a_cancelled_one_is_its_own(s):
+    """Re-measure 2026-10-04: a second leave on a day whose first leave was cancelled reused the
+    cancelled cover rows with the old leave id. Cancelling it then left its duties live, and naming a
+    replacement for it found no periods."""
+    w = _school(s)
+    first, _ = s.decide_leave(_leave(s, w, "ana").id, approve=True, decided_by="p1")
+    s.cancel_leave(first.id, today=MON)
+    second, subs = s.decide_leave(_leave(s, w, "ana").id, approve=True, decided_by="p1")
+    assert set(_by_slot(subs)) == {(w.a10, 1), (w.b10, 2)}
+    assert all(x.leave_id == second.id and x.status != "cancelled" for x in subs)
+    # A replacement takes over this leave's periods.
+    s.set_leave_replacement(second.id, "dev", today=MON)
+    taken = [x for x in s._subs_where("leave_id=?", (second.id,)) if x.substitute_id == "dev"]
+    assert taken, "the replacement found the second leave's periods"
+    # Cancelling the second leave cancels all of its cover.
+    s.cancel_leave(second.id, today=MON)
+    live = s._subs_where("date=? AND status NOT IN ('cancelled','resolved')", (MON,))
+    assert live == [], [(x.section_id, x.period, x.status, x.leave_id) for x in live]
