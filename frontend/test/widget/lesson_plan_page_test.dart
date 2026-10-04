@@ -31,6 +31,10 @@ class _Backend implements HttpClientAdapter {
   List<Map<String, dynamic>> lessons = [];
   ({int status, Object body})? estimatesAnswer;
   Map<String, dynamic>? plansAnswer;
+  // Which chapters have their proposed topics approved. The fake starts as the school was seeded:
+  // the first chapter approved, the second not.
+  bool approved1 = true;
+  bool approved2 = false;
 
   static const _json = {Headers.contentTypeHeader: ['application/json']};
   ResponseBody _ok(Object body) => ResponseBody.fromString(jsonEncode(body), 200, headers: _json);
@@ -75,7 +79,17 @@ class _Backend implements HttpClientAdapter {
           {'id': 'ch_1', 'canonicalId': 'c1', 'unitId': 'u1', 'name': 'Chemical Reactions and Equations', 'seq': 1},
           {'id': 'ch_2', 'canonicalId': 'c2', 'unitId': 'u1', 'name': 'Light - Reflection and Refraction', 'seq': 2},
         ]);
+      case ('POST', '/curriculum/chapters/ch_1/topics/approve-all'):
+      case ('POST', '/curriculum/chapters/ch_2/topics/approve-all'):
+        if (path.contains('ch_1')) {
+          approved1 = true;
+        } else {
+          approved2 = true;
+        }
+        return _ok({'chapterId': path.contains('ch_1') ? 'ch_1' : 'ch_2', 'runsApproved': 1, 'topicsCreated': 1,
+          'subtopicsCreated': 1, 'topicIds': <String>[], 'subtopicIds': <String>[]});
       case ('GET', '/curriculum/chapters/ch_1/topics'):
+        if (!approved1) return _ok([]);
         return _ok([
           {'id': 't_1', 'canonicalId': 't1', 'chapterId': 'ch_1', 'name': 'Chemical equations', 'seq': 1,
             'sourceType': 'template', 'subtopics': [
@@ -86,7 +100,14 @@ class _Backend implements HttpClientAdapter {
             ]},
         ]);
       case ('GET', '/curriculum/chapters/ch_2/topics'):
-        return _ok([]);
+        if (!approved2) return _ok([]);
+        return _ok([
+          {'id': 't_2', 'canonicalId': 't2', 'chapterId': 'ch_2', 'name': 'Reflection of light', 'seq': 1,
+            'sourceType': 'template', 'subtopics': [
+              {'id': 'st_3', 'canonicalId': 's3', 'topicId': 't_2', 'name': 'Laws of reflection', 'seq': 1,
+                'sourceType': 'template'},
+            ]},
+        ]);
       case ('GET', '/curriculum/books/book_sci/schedule'):
         return _ok(lessons);
       case ('POST', '/curriculum/books/book_sci/teaching-time-estimates'):
@@ -188,8 +209,16 @@ void main() {
   }
 
   Future<void> tapKey(WidgetTester tester, String key) async {
-    await tester.ensureVisible(find.byKey(ValueKey(key)));
-    await tester.tap(find.byKey(ValueKey(key)));
+    final target = find.byKey(ValueKey(key));
+    await tester.ensureVisible(target);
+    await tester.pumpAndSettle();
+    // With a taller page the button can still sit under the bottom edge after ensureVisible.
+    final viewHeight = tester.view.physicalSize.height / tester.view.devicePixelRatio;
+    if (tester.getCenter(target).dy > viewHeight - 24) {
+      await tester.scrollUntilVisible(target, 200, scrollable: find.byType(Scrollable).first);
+      await tester.pumpAndSettle();
+    }
+    await tester.tap(target);
     await tester.pumpAndSettle();
   }
 
@@ -258,9 +287,50 @@ void main() {
     expect(find.text('6 periods a week, from the allocation'), findsOneWidget);
     expect(find.text('Chapters (1 of 2 ready to plan)'), findsOneWidget);
     expect(find.text('1 topics · 2 subtopics'), findsOneWidget);
-    expect(find.text('no approved subtopics'), findsOneWidget);
-    expect(find.textContaining('chapters have no approved subtopics'), findsOneWidget);
+    // Calm, not an error: the chapter's topics are waiting, and the principal can approve them here.
+    expect(find.text('topics not approved yet'), findsOneWidget);
+    expect(find.byKey(const ValueKey('plan-topics-waiting')), findsOneWidget);
+    expect(find.textContaining('chapters have topics waiting to be approved'), findsOneWidget);
+    expect(find.textContaining('admin console'), findsNothing, reason: 'nobody is sent to another tab');
     expect(find.text('Make the plan'), findsOneWidget);
+  });
+
+  testWidgets('the principal approves the proposed topics from the page, for the chapters that have none',
+      (tester) async {
+    await pumpPage(tester, const LessonPlanPage(), _narrow);
+    await pickScience(tester);
+    await tapKey(tester, 'plan-approve-topics');
+    expect(backend.sent.map((c) => '${c.$1} ${c.$2}'), ['POST /curriculum/chapters/ch_2/topics/approve-all'],
+        reason: 'only the chapter without approved topics');
+    expect(find.text('Chapters (2 of 2 ready to plan)'), findsOneWidget);
+    expect(find.byKey(const ValueKey('plan-topics-waiting')), findsNothing);
+    expect(find.text('topics not approved yet'), findsNothing);
+  });
+
+  testWidgets('a book with nothing approved is planned in one step: approve, then make the plan', (tester) async {
+    backend.approved1 = false;
+    await pumpPage(tester, const LessonPlanPage(), _narrow);
+    await pickScience(tester);
+    expect(find.text('Chapters (0 of 2 ready to plan)'), findsOneWidget);
+    expect(find.text('Approve the topics and make the plan'), findsOneWidget);
+    expect(tester.widget<FilledButton>(find.byKey(const ValueKey('plan-make'))).onPressed, isNotNull,
+        reason: 'not a dead end');
+    await tapKey(tester, 'plan-make');
+    expect(backend.sent.map((c) => '${c.$1} ${c.$2}'), [
+      'POST /curriculum/chapters/ch_1/topics/approve-all',
+      'POST /curriculum/chapters/ch_2/topics/approve-all',
+      'POST /curriculum/books/book_sci/teaching-time-estimates',
+      'POST /curriculum/books/book_sci/schedule',
+    ]);
+    expect(find.text('12 lessons dated, 2026-10-01 to 2026-10-12.'), findsOneWidget);
+  });
+
+  testWidgets('a teacher is not offered the approval, and is told who does it', (tester) async {
+    LocalStore.instance.authUser = {'id': 't_ana', 'schoolId': 'school_1', 'role': 'teacher', 'name': 'Ana'};
+    await pumpPage(tester, const LessonPlanPage(), _narrow);
+    await pickScience(tester);
+    expect(find.byKey(const ValueKey('plan-approve-topics')), findsNothing);
+    expect(find.textContaining('Your principal approves'), findsOneWidget);
   });
 
   testWidgets('making the plan times the subtopics from the allocation, then dates the section\'s lessons',
