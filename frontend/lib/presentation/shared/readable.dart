@@ -53,6 +53,17 @@ String humanWord(String raw) {
   return t.isEmpty ? t : t[0].toUpperCase() + t.substring(1);
 }
 
+/// A seeded book's title without the source note the seed puts after it:
+/// "CBSE Class 10 Science — official curriculum (CBSE Curriculum 2025-26,
+/// Science_Sec_2025-26.pdf, ...)" -> "CBSE Class 10 Science — official
+/// curriculum". The stored title keeps the note (re-seeding finds the book by
+/// it); a school's own book titles come back as they were.
+String bookName(String title) {
+  const mark = '— official curriculum (';
+  final at = title.indexOf(mark);
+  return at < 0 || !title.endsWith(')') ? title : title.substring(0, at + mark.length - 2);
+}
+
 /// A leave request's kind, as the leave form names it.
 String leaveKind(String kind) => switch (kind) {
       'full_day' => 'Full day',
