@@ -41,7 +41,7 @@ class LegalPage extends StatelessWidget {
             'that a teacher enters or scans on this device. In offline mode, all of this is '
             'stored locally on the device, encrypted at rest, in a database only this app can '
             'read. Nothing is uploaded anywhere unless you explicitly turn on sync to a school '
-            'server, or add an optional third-party OCR API key in Settings.'),
+            'server.'),
         _section(theme, 'Student data and minors',
             'Every CBSE student using or being assessed through this app is a minor. Indiaʼs '
             'DPDP Act 2023 requires verifiable parental/guardian consent before a school '

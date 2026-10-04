@@ -51,7 +51,6 @@ class _SettingsPageState extends State<SettingsPage> {
   // which nothing read, and offered English only while the School page
   // offered Hindi (QA S-16).
   String _selectedLanguage = uiHindi ? 'hi' : 'en';
-  String _sarvamApiKey = LocalStore.instance.sarvamApiKey ?? '';
 
   // Only what is translated is offered. This once listed 13 languages that
   // no string was translated into; Hindi now covers the School pages and
@@ -196,29 +195,6 @@ class _SettingsPageState extends State<SettingsPage> {
             ],
           ]),
           const SizedBox(height: 24),
-          // The optional Sarvam key upgrades OCR over the internet, which the
-          // release APK cannot reach; on-device OCR needs no setting.
-          if (_kOfflineBuild && kOfflineBuildHasInternet) ...[
-            _buildSection('Scan & Grade', [
-              _buildTextFieldTile(
-                Icons.document_scanner,
-                'Sarvam API Key (optional)',
-                _sarvamApiKey,
-                (v) {
-                  setState(() => _sarvamApiKey = v);
-                  LocalStore.instance.sarvamApiKey = v;
-                },
-              ),
-              _buildInfoTile(
-                'What this does',
-                'Scan & Grade always works offline with an on-device OCR model. '
-                'Adding your own Sarvam API key here upgrades accuracy on genuinely '
-                'messy handwriting when you have internet -- get a key at sarvam.ai. '
-                'Leave blank to keep everything fully offline.',
-              ),
-            ]),
-            const SizedBox(height: 24),
-          ],
           // No "Server URL" field: nothing ever read it (SyncService takes its
           // base from the ACADEMICOS_API dart-define), and its default was a
           // localhost address shipped in every web bundle. The offline build
@@ -371,17 +347,6 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildTextFieldTile(IconData icon, String title, String value, ValueChanged<String> onChanged) {
-    return ListTile(
-      leading: Icon(icon, color: Theme.of(context).colorScheme.primary),
-      title: Text(title),
-      subtitle: Text(value, style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontFamily: 'monospace')),
-      trailing: const Icon(Icons.edit, size: 18),
-      onTap: () => _editTextField(title, value, onChanged),
-      contentPadding: EdgeInsets.zero,
-    );
-  }
-
   // Real overflow bug: `value` used to be crammed into ListTile.trailing,
   // which forces a single unbounded-width line -- fine for "Flutter" or
   // "1.0.0+1", but two real call sites pass a full sentence ("Always on --
@@ -396,17 +361,6 @@ class _SettingsPageState extends State<SettingsPage> {
       subtitle: Text(value, style: const TextStyle(fontFamily: 'monospace', fontWeight: FontWeight.w500)),
       contentPadding: EdgeInsets.zero,
     );
-  }
-
-  void _editTextField(String title, String value, ValueChanged<String> onChanged) {
-    final controller = TextEditingController(text: value);
-    // The dialog's own context pops the dialog; this page's would pop the
-    // page beneath it inside the shell (the QA S-01 mistake).
-    showDialog(context: context, builder: (dialog) => AlertDialog(
-      title: Text(title),
-      content: TextField(controller: controller, autofocus: true, decoration: const InputDecoration(hintText: 'Enter value')),
-      actions: [TextButton(onPressed: () => Navigator.pop(dialog), child: const Text('Cancel')), FilledButton(onPressed: () { onChanged(controller.text); Navigator.pop(dialog); }, child: const Text('Save'))],
-    ));
   }
 
   /// The signed-in person's own password (QA S-05). The server ends every

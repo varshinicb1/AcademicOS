@@ -291,8 +291,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(path: 'reviews', builder: (context, state) => const ReviewsPage()),
               GoRoute(path: 'import', builder: (context, state) => const ImportPage()),
               // Question-bank API keys and their webhooks are the operator's, not a school's:
-              // there is no school route to them. ApiKeysPage and WebhooksPage stay for an
-              // operator console (admin_pages.dart, webhooks_page.dart).
+              // there is no school route to them. They are managed by the operator
+              // through the server, not in this app.
               GoRoute(path: 'grants', builder: (context, state) => const GrantsPage()),
               GoRoute(path: 'timetable', builder: (context, state) => const TimetableAdminPage()),
               GoRoute(path: 'lesson-plans', builder: (context, state) => const LessonPlanPage()),

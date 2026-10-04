@@ -118,7 +118,6 @@ class _WorkspacePageState extends State<WorkspacePage> {
           (icon: Icons.event_note_outlined, title: tr('Exams'), subtitle: tr('Datesheets and invigilation'), path: '/school/exams'),
           (icon: Icons.rate_review_outlined, title: tr('Paper reviews'), subtitle: tr('Papers waiting for review or approval'), path: '/school/reviews'),
           (icon: Icons.upload_file_outlined, title: tr('Import & export'), subtitle: tr('Sections, people, allocations, holidays'), path: '/school/import'),
-          (icon: Icons.key_outlined, title: tr('API keys'), subtitle: tr('Question bank API access'), path: '/school/api-keys'),
           (icon: Icons.admin_panel_settings_outlined, title: tr('Staff permissions'), subtitle: tr('Make a teacher an admin for one area'), path: '/school/grants'),
           inbox,
         ];

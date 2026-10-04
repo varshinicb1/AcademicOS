@@ -55,7 +55,6 @@ const _hi = <String, String>{
   'Papers others asked you to review': 'जिन प्रश्नपत्रों की समीक्षा आपसे माँगी गई',
   'Import & export': 'आयात और निर्यात',
   'Sections, people, allocations, holidays': 'कक्षाएँ, लोग, आवंटन, छुट्टियाँ',
-  'API keys': 'API कुंजियाँ',
   'Question bank API access': 'प्रश्न बैंक API पहुँच',
   'Staff permissions': 'स्टाफ़ अनुमतियाँ',
   'Make a teacher an admin for one area': 'किसी शिक्षक को एक क्षेत्र का व्यवस्थापक बनाएँ',

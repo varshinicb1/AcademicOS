@@ -1,11 +1,9 @@
-// Staff and access, API keys and the forgotten-password card (QA 2026-10-01).
+// Staff and access and the forgotten-password card (QA 2026-10-01).
 //
 // S-05: nobody could reset a forgotten password; the principal now resets it
 // from a teacher's ⋮ (or anyone's, on the admin console's card) and is shown
 // the one-time password plainly, with a Copy that says it copied.
-// S-18: revoking an API key and taking an admin area away were one tap with
-// no question asked. S-07 / S-23: the new key was not visible, and the list
-// read "last used 2026-10-01T21:27:20.432778+00:00" and "(classes 10)".
+// S-18: taking an admin area away was one tap with no question asked.
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -49,11 +47,6 @@ class _Server implements HttpClientAdapter {
         {'userId': 't_meera', 'name': 'Meera Iyer', 'temporaryPassword': 'k7mq-x2rw-9tpd'},
       ('POST', '/auth/users/s_asha/password-reset') =>
         {'userId': 's_asha', 'name': 'Asha Kumar', 'temporaryPassword': 'ab3d-ef4h-jk5m'},
-      ('GET', '/api-keys') => [
-          {'id': 'k1', 'label': 'Tuition partner app', 'prefix': 'aos_ab12', 'scopes': ['questions:read'],
-            'grades': [10], 'active': true, 'lastUsedAt': '2026-09-28T21:27:20.432778+00:00', 'quotaPerMinute': 60},
-        ],
-      ('POST', '/api-keys') => {'id': 'k2', 'key': 'aos_secret_key_value_123'},
       ('DELETE', _) => {'ok': true},
       _ => null,
     };
@@ -159,40 +152,6 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('confirm-action')));
     await settle(tester);
     expect(server.calls, contains('DELETE /admin/grants/gr_1'));
-  });
-
-  testWidgets('API keys: readable last use, a confirmed revoke, and a new key shown whole', (tester) async {
-    await pump(tester, const ApiKeysPage());
-    // The page shows the device's local day: 21:27 UTC is the 29th in India, so the
-    // expectation is derived the same way instead of hard-coding the UTC day.
-    final usedOn = DateTime.parse('2026-09-28T21:27:20.432778+00:00').toLocal().day;
-    expect(find.textContaining('last used $usedOn Sep 2026 at'), findsOneWidget);
-    expect(find.textContaining('T21:27'), findsNothing);
-    expect(find.textContaining('class 10'), findsOneWidget);
-    expect(find.textContaining('Search and fetch questions'), findsOneWidget);
-
-    await tester.tap(find.text('Revoke'));
-    await tester.pumpAndSettle();
-    expect(find.text('Revoke "Tuition partner app"?'), findsOneWidget);
-    await tester.tap(find.byKey(const ValueKey('confirm-action')));
-    await settle(tester);
-    expect(server.calls, contains('DELETE /api-keys/k1'));
-
-    await tester.tap(find.text('New key'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Create'));
-    await settle(tester);
-    expect(find.text('Copy the key now'), findsOneWidget);
-    expect(tester.widget<SelectableText>(find.byKey(const ValueKey('copyable-value'))).data,
-        'aos_secret_key_value_123');
-    await tester.tap(find.byKey(const ValueKey('copyable-copy')));
-    await tester.pump();
-    expect(clipboard, ['aos_secret_key_value_123']);
-    expect(find.text('API key copied.'), findsOneWidget);
-    await tester.tap(find.text('Done'));
-    await settle(tester);
-    expect(find.text('Copy the key now'), findsNothing);
-    expect(find.text('API keys'), findsOneWidget, reason: 'Done closes the dialog, not the page');
   });
 
   testWidgets('the forgotten-passwords card finds a student and resets theirs', (tester) async {

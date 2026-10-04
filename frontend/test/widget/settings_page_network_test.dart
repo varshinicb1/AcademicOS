@@ -80,7 +80,7 @@ void main() {
     // Both need INTERNET, which the release manifest does not declare.
     // Neither was ever offered by the web build.
     expect(find.text('Download Data'), kOfflineBuild && kOfflineBuildHasInternet ? findsOneWidget : findsNothing);
-    expect(find.text('Sarvam API Key (optional)'),
-        kOfflineBuild && kOfflineBuildHasInternet ? findsOneWidget : findsNothing);
+    // A Sarvam key was a field here until 2026-10-04: keys are the operator's, not a school's.
+    expect(find.text('Sarvam API Key (optional)'), findsNothing);
   });
 }

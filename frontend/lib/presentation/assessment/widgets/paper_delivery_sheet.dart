@@ -226,8 +226,8 @@ class _PaperDeliverySheetState extends State<PaperDeliverySheet> {
                   ),
                 const Gap(6),
                 Text(
-                  'Set COMPOSIO_API_KEY (or SMTP_*) in config/secrets.env and '
-                  'restart the server. You can still preview and print above.',
+                  'Email delivery is coming soon for your school. You can still '
+                  'preview and print above.',
                   style: theme.textTheme.bodySmall,
                 ),
               ],
