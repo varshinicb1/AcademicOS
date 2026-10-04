@@ -11,6 +11,7 @@ import '../../core/local_engine/local_store.dart';
 import '../../core/session/current_session.dart';
 
 import '../../data/datasources/api/api_error.dart';
+import '../shared/readable.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'calendar_day_notice.dart';
 import 'ops_api.dart';
@@ -153,7 +154,9 @@ class _CoverPageState extends State<CoverPage> {
       'second_half_absent': 'Absent 2nd half',
     };
     return Scaffold(
-      appBar: destinationAppBar(context, title: Text(tr('Attendance & cover')), actions: [
+      appBar: destinationAppBar(context,
+          // On a phone the date and three actions leave room for one word.
+          title: Text(MediaQuery.sizeOf(context).width < 520 ? tr('Cover') : tr('Attendance & cover')), actions: [
         // A period run as "Lose the period" is owed; this is where it is paid back.
         IconButton(
           tooltip: tr('Periods owed'),
@@ -162,7 +165,8 @@ class _CoverPageState extends State<CoverPage> {
         ),
         TextButton.icon(
           icon: const Icon(Icons.calendar_today),
-          label: Text(_date),
+          // Short ("6 Oct") so the title is not cut to "Att..." on a phone.
+          label: Text(readableDate(_date).split(' ').take(2).join(' ')),
           onPressed: () async {
             final d = await showDatePicker(context: context, initialDate: _day,
                 firstDate: DateTime.now().subtract(const Duration(days: 60)),
@@ -222,7 +226,7 @@ class _CoverPageState extends State<CoverPage> {
                         ]),
                       ),
                   ],
-                  SectionHeader(title: 'Cover on $_date', subtitle: '${_subs.length} periods'),
+                  SectionHeader(title: 'Cover on ${readableDate(_date)}', subtitle: plural(_subs.length, 'period')),
                   if (_subs.isEmpty) Text('No periods need cover.', style: theme.textTheme.bodySmall),
                   for (final s in _subs)
                     ListTile(

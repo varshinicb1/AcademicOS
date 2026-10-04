@@ -722,6 +722,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         title: const Text('School Admin Console'),
         bottom: TabBar(
           isScrollable: true,
+          tabAlignment: TabAlignment.start,
           controller: _tabController,
           tabs: [
             for (final tab in _AdminTab.values) Tab(text: tab.label, icon: Icon(tab.icon)),
