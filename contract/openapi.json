@@ -39,6 +39,91 @@
         "title": "AcademicYearResponse",
         "type": "object"
       },
+      "AcceptRequest": {
+        "properties": {
+          "agree": {
+            "const": true,
+            "title": "Agree",
+            "type": "boolean"
+          },
+          "designation": {
+            "maxLength": 80,
+            "minLength": 2,
+            "title": "Designation",
+            "type": "string"
+          },
+          "schoolLegalName": {
+            "maxLength": 160,
+            "minLength": 2,
+            "title": "Schoollegalname",
+            "type": "string"
+          },
+          "sha256": {
+            "maxLength": 64,
+            "minLength": 64,
+            "title": "Sha256",
+            "type": "string"
+          },
+          "signatoryName": {
+            "maxLength": 120,
+            "minLength": 2,
+            "title": "Signatoryname",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "version",
+          "sha256",
+          "schoolLegalName",
+          "signatoryName",
+          "designation",
+          "agree"
+        ],
+        "title": "AcceptRequest",
+        "type": "object"
+      },
+      "Acceptance": {
+        "properties": {
+          "acceptedAt": {
+            "title": "Acceptedat",
+            "type": "string"
+          },
+          "acceptedEmail": {
+            "title": "Acceptedemail",
+            "type": "string"
+          },
+          "designation": {
+            "title": "Designation",
+            "type": "string"
+          },
+          "schoolLegalName": {
+            "title": "Schoollegalname",
+            "type": "string"
+          },
+          "signatoryName": {
+            "title": "Signatoryname",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "schoolLegalName",
+          "signatoryName",
+          "designation",
+          "acceptedEmail",
+          "acceptedAt",
+          "version"
+        ],
+        "title": "Acceptance",
+        "type": "object"
+      },
       "ActiveSchoolRequest": {
         "additionalProperties": false,
         "properties": {
@@ -10580,6 +10665,55 @@
           "questionId"
         ],
         "title": "PickRequest",
+        "type": "object"
+      },
+      "PilotAgreementResponse": {
+        "properties": {
+          "accepted": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Acceptance"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "schoolName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Schoolname"
+          },
+          "sha256": {
+            "title": "Sha256",
+            "type": "string"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "version",
+          "title",
+          "text",
+          "sha256"
+        ],
+        "title": "PilotAgreementResponse",
         "type": "object"
       },
       "PlanBuiltResponse": {
@@ -21209,7 +21343,7 @@
     },
     "/api/v1/auth/code/request": {
       "post": {
-        "description": "Email a sign-in code to a student or parent account. The answer is\nthe same whether or not the email has one.",
+        "description": "Email a sign-in code to a principal, student or parent account. The\nanswer is the same whether or not the email has one.",
         "operationId": "request_code_api_v1_auth_code_request_post",
         "requestBody": {
           "content": {
@@ -33811,6 +33945,74 @@
           }
         ],
         "summary": "Swap Paper Question"
+      }
+    },
+    "/api/v1/pilot-agreement": {
+      "get": {
+        "description": "The agreement and whether this school's principal has accepted it.",
+        "operationId": "get_pilot_agreement_api_v1_pilot_agreement_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PilotAgreementResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Pilot Agreement"
+      }
+    },
+    "/api/v1/pilot-agreement/accept": {
+      "post": {
+        "description": "The principal accepts the agreement for the school. 409 when the text\nshown is not the current one (reload and read it again).",
+        "operationId": "accept_pilot_agreement_api_v1_pilot_agreement_accept_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PilotAgreementResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Accept Pilot Agreement"
       }
     },
     "/api/v1/practice/generate": {

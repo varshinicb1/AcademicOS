@@ -217,6 +217,10 @@ class _SettingsPageState extends State<SettingsPage> {
               _buildListTile(Icons.delete_forever, 'Clear All Local Data',
                 'Permanently wipe every assessment, evaluation, and setting on this device',
                 _confirmClearAllData),
+            if (!_kOfflineBuild && _isStaff && LocalStore.instance.authUser != null)
+              _buildListTile(Icons.handshake_outlined, 'Phase 1 pilot agreement',
+                  'Pilot terms, confidentiality and data sharing, and who accepted them',
+                  () => context.push('/settings/pilot-agreement')),
             _buildListTile(Icons.privacy_tip, 'Privacy Policy', 'Read our privacy policy',
                 () => context.push('/settings/legal/privacy')),
             _buildListTile(Icons.description, 'Terms of Service', 'Read terms of service',

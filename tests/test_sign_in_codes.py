@@ -1,6 +1,7 @@
-"""Sign in with an emailed code (ROLE-2): for students and parents only, the
-same answer whether or not an email has an account, one use, ten minutes,
-five tries, and nothing without the school's email set up."""
+"""Sign in with an emailed code (ROLE-2): for principals, students and
+parents (not teachers), the same answer whether or not an email has an
+account, one use, ten minutes, five tries, thirty a day, and nothing without
+the school's email set up."""
 from __future__ import annotations
 
 import pytest
@@ -15,6 +16,7 @@ def mail(monkeypatch):
     from academicos.operations import notifications, sign_in_codes
     sign_in_codes._request_limiter.reset()
     sign_in_codes._verify_limiter.reset()
+    sign_in_codes._daily_verify_limiter.reset()
     sent: list[tuple[str, str]] = []
     monkeypatch.setattr(mailer, "available_backends", lambda: {"smtp": {"configured": True, "reason": ""}})
     monkeypatch.setattr(notifications, "send_email", lambda to, title, body: (sent.append((to, body)) or ("sent", None)))
@@ -39,11 +41,33 @@ def test_a_student_signs_in_with_a_code(w, mail):
     assert again.status_code == 401, "a code works once"
 
 
-def test_no_account_and_staff_look_the_same_and_get_nothing(w, mail):
+def test_no_account_and_teachers_look_the_same_and_get_nothing(w, mail):
     a = w.c.post("/api/v1/auth/code/request", json={"email": "nobody@example.com"})
     b = w.c.post("/api/v1/auth/code/request", json={"email": "ana@example.com"})
-    assert a.status_code == b.status_code == 200 and a.json() == b.json()
-    assert mail == [], "staff sign in with their password; unknown emails get nothing"
+    c = w.c.post("/api/v1/auth/code/request", json={"email": "p1@example.com"})
+    assert a.status_code == b.status_code == c.status_code == 200 and a.json() == b.json() == c.json()
+    assert [to for to, _ in mail] == ["p1@example.com"], "teachers use their password; unknown emails get nothing"
+
+
+def test_a_principal_signs_in_with_a_code(w, mail):
+    assert w.c.post("/api/v1/auth/code/request", json={"email": "p1@example.com"}).status_code == 200
+    ok = w.c.post("/api/v1/auth/code/verify", json={"email": "p1@example.com", "code": _code(mail)})
+    assert ok.status_code == 200, ok.text
+    assert ok.json()["user"]["role"] == "principal"
+    assert w.c.get("/api/v1/setup-status", headers={"Authorization": f"Bearer {ok.json()['token']}"}).status_code == 200
+
+
+def test_tries_per_email_are_capped_per_day(w, mail, monkeypatch):
+    from academicos.api.rate_limit import RateLimiter
+    from academicos.operations import sign_in_codes
+    monkeypatch.setenv("ACOS_TEST_RATE_LIMIT", "1")
+    monkeypatch.setattr(sign_in_codes, "_daily_verify_limiter", RateLimiter(max_requests=3, window_seconds=86400))
+    w.c.post("/api/v1/auth/code/request", json={"email": "p1@example.com"})
+    code = _code(mail)
+    wrong = "000000" if code != "000000" else "111111"
+    for _ in range(3):
+        assert w.c.post("/api/v1/auth/code/verify", json={"email": "p1@example.com", "code": wrong}).status_code == 401
+    assert w.c.post("/api/v1/auth/code/verify", json={"email": "p1@example.com", "code": code}).status_code == 429
 
 
 def test_five_wrong_tries_burn_the_code(w, mail):

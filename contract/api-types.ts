@@ -397,8 +397,8 @@ export interface paths {
         put?: never;
         /**
          * Request Code
-         * @description Email a sign-in code to a student or parent account. The answer is
-         *     the same whether or not the email has one.
+         * @description Email a sign-in code to a principal, student or parent account. The
+         *     answer is the same whether or not the email has one.
          */
         post: operations["request_code_api_v1_auth_code_request_post"];
         delete?: never;
@@ -5218,6 +5218,47 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/pilot-agreement": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Pilot Agreement
+         * @description The agreement and whether this school's principal has accepted it.
+         */
+        get: operations["get_pilot_agreement_api_v1_pilot_agreement_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/pilot-agreement/accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Accept Pilot Agreement
+         * @description The principal accepts the agreement for the school. 409 when the text
+         *     shown is not the current one (reload and read it again).
+         */
+        post: operations["accept_pilot_agreement_api_v1_pilot_agreement_accept_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/practice/generate": {
         parameters: {
             query?: never;
@@ -6443,6 +6484,39 @@ export interface components {
             startDate: string;
             /** Status */
             status: string;
+        };
+        /** AcceptRequest */
+        AcceptRequest: {
+            /**
+             * Agree
+             * @constant
+             */
+            agree: true;
+            /** Designation */
+            designation: string;
+            /** Schoollegalname */
+            schoolLegalName: string;
+            /** Sha256 */
+            sha256: string;
+            /** Signatoryname */
+            signatoryName: string;
+            /** Version */
+            version: string;
+        };
+        /** Acceptance */
+        Acceptance: {
+            /** Acceptedat */
+            acceptedAt: string;
+            /** Acceptedemail */
+            acceptedEmail: string;
+            /** Designation */
+            designation: string;
+            /** Schoollegalname */
+            schoolLegalName: string;
+            /** Signatoryname */
+            signatoryName: string;
+            /** Version */
+            version: string;
         };
         /** ActiveSchoolRequest */
         ActiveSchoolRequest: {
@@ -10421,6 +10495,20 @@ export interface components {
         PickRequest: {
             /** Questionid */
             questionId: string;
+        };
+        /** PilotAgreementResponse */
+        PilotAgreementResponse: {
+            accepted?: components["schemas"]["Acceptance"] | null;
+            /** Schoolname */
+            schoolName?: string | null;
+            /** Sha256 */
+            sha256: string;
+            /** Text */
+            text: string;
+            /** Title */
+            title: string;
+            /** Version */
+            version: string;
         };
         /** PlanBuiltResponse */
         PlanBuiltResponse: {
@@ -23001,6 +23089,59 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PaperEditResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_pilot_agreement_api_v1_pilot_agreement_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PilotAgreementResponse"];
+                };
+            };
+        };
+    };
+    accept_pilot_agreement_api_v1_pilot_agreement_accept_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AcceptRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PilotAgreementResponse"];
                 };
             };
             /** @description Validation Error */

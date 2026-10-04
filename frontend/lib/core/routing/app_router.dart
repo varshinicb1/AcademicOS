@@ -30,6 +30,7 @@ import '../../presentation/settings/pages/template_maker_page.dart';
 import '../../presentation/settings/pages/profile_page.dart';
 import '../../presentation/settings/pages/classes_page.dart';
 import '../../presentation/settings/pages/legal_page.dart';
+import '../../presentation/pilot/pilot_agreement_page.dart';
 import '../../presentation/auth/pages/login_page.dart';
 import '../../presentation/shared/widgets/shell.dart';
 import '../../presentation/guide/guide_page.dart';
@@ -93,12 +94,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       ShellRoute(
         // The teacher and student app builds get a phone shell (app_mode.dart).
-        // GuideWelcome greets a person the first time they sign in here.
-        builder: (context, state, child) => GuideWelcome(
-          child: appMode == AppMode.console
-              ? MainShell(child: child)
-              : AppModeShell(mode: appMode, role: CurrentSession.role, child: child),
-        ),
+        // GuideWelcome greets a person the first time they sign in here. On
+        // the web console a principal whose school has not accepted the
+        // Phase 1 pilot agreement sees it first (pilot_agreement_page.dart).
+        builder: (context, state, child) {
+          final welcome = GuideWelcome(
+            child: appMode == AppMode.console
+                ? MainShell(child: child)
+                : AppModeShell(mode: appMode, role: CurrentSession.role, child: child),
+          );
+          return appMode == AppMode.console ? PilotAgreementGate(child: welcome) : welcome;
+        },
         routes: [
           GoRoute(
             path: '/home',
@@ -381,6 +387,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: 'legal/:doc',
                 name: 'legal',
                 builder: (context, state) => LegalPage(doc: state.pathParameters['doc']!),
+              ),
+              GoRoute(
+                path: 'pilot-agreement',
+                name: 'pilot-agreement',
+                builder: (context, state) => const PilotAgreementPage(),
               ),
               // Its own name: two routes named 'login' fail go_router's
               // duplicate-name assertion, so a debug build (and any test

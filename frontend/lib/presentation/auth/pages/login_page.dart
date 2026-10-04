@@ -135,7 +135,11 @@ class _LoginPageState extends State<LoginPage> {
             const Text('Sign in with the one-time password, then choose your own under Settings, '
                 'Change password.'),
             const SizedBox(height: 8),
-            Text('Principals: your password is reset by AcademicOS. Contact them.',
+            Text(
+                _emailCode
+                    ? 'Principals, students and parents can sign in with a code sent to their email instead '
+                        'of a password.'
+                    : 'Principals: your password is reset by AcademicOS. Contact them.',
                 style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
           ]),
         ),
@@ -181,47 +185,149 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  /// Sign in with a one-time code sent by email (students and parents).
+  /// Sign in with a one-time code sent by email (principals, students and
+  /// parents): ask for a code, type it, signed in. The code field takes the
+  /// focus once it is sent, Enter moves on at each step, and a code that did
+  /// not arrive can be sent again or sent to another address.
   Future<void> _signInWithCode() async {
     final email = TextEditingController(text: _email.text.trim());
     final code = TextEditingController();
     var sent = false;
+    var busy = false;
     String? message;
+    var isError = false;
     final result = await showDialog<Map<String, dynamic>>(context: context, builder: (ctx) => StatefulBuilder(
-      builder: (ctx, set) => AlertDialog(
-        title: const Text('Sign in with a code'),
-        content: Column(mainAxisSize: MainAxisSize.min, children: [
-          TextField(controller: email, enabled: !sent, keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(labelText: 'Email')),
-          if (sent)
-            TextField(controller: code, keyboardType: TextInputType.number, maxLength: 6,
-                decoration: const InputDecoration(labelText: '6-digit code from the email')),
-          if (message != null) Padding(padding: const EdgeInsets.only(top: 8), child: Text(message!)),
-        ]),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
-          FilledButton(
-            onPressed: () async {
-              final dio = GetIt.I<Dio>();
-              try {
-                if (!sent) {
-                  final r = await dio.post('/auth/code/request', data: {'email': email.text.trim()});
-                  set(() {
-                    sent = true;
-                    message = (r.data as Map)['detail'] as String?;
-                  });
-                } else {
-                  final r = await dio.post('/auth/code/verify', data: {'email': email.text.trim(), 'code': code.text.trim()});
-                  if (ctx.mounted) Navigator.pop(ctx, Map<String, dynamic>.from(r.data as Map));
-                }
-              } on DioException catch (e) {
-                set(() => message = serverErrorMessage(e));
-              }
-            },
-            child: Text(sent ? 'Sign in' : 'Send code'),
+      builder: (ctx, set) {
+        final theme = Theme.of(ctx);
+        // A request still out when the dialog closes must not rebuild it.
+        void update(VoidCallback change) {
+          if (ctx.mounted) set(change);
+        }
+
+        Future<void> send() async {
+          if (busy) return;
+          final address = email.text.trim();
+          if (!address.contains('@')) {
+            update(() {
+              message = 'Type the email address of your AcademicOS account.';
+              isError = true;
+            });
+            return;
+          }
+          update(() => busy = true);
+          try {
+            final r = await GetIt.I<Dio>().post('/auth/code/request', data: {'email': address});
+            update(() {
+              sent = true;
+              code.clear();
+              message = (r.data as Map)['detail'] as String?;
+              isError = false;
+            });
+          } on DioException catch (e) {
+            update(() {
+              message = serverErrorMessage(e);
+              isError = true;
+            });
+          } finally {
+            update(() => busy = false);
+          }
+        }
+
+        Future<void> verify() async {
+          if (busy) return;
+          if (!RegExp(r'^\d{6}$').hasMatch(code.text.trim())) {
+            update(() {
+              message = 'The code is the 6 digits in the email.';
+              isError = true;
+            });
+            return;
+          }
+          update(() => busy = true);
+          try {
+            final r = await GetIt.I<Dio>()
+                .post('/auth/code/verify', data: {'email': email.text.trim(), 'code': code.text.trim()});
+            if (ctx.mounted) Navigator.pop(ctx, Map<String, dynamic>.from(r.data as Map));
+          } on DioException catch (e) {
+            update(() {
+              message = serverErrorMessage(e);
+              isError = true;
+              busy = false;
+            });
+          }
+        }
+
+        return AlertDialog(
+          title: const Text('Sign in with a code'),
+          content: SizedBox(
+            width: 400,
+            child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              Text(
+                sent
+                    ? 'Check the inbox of ${email.text.trim()} (and its spam folder) for an email from AcademicOS.'
+                    : 'We email you a 6-digit code. It works once, for 10 minutes. For principals, students '
+                        'and parents.',
+                style: theme.textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                key: const Key('code-email'),
+                controller: email,
+                enabled: !sent && !busy,
+                autofocus: !sent,
+                keyboardType: TextInputType.emailAddress,
+                autofillHints: const [AutofillHints.email],
+                textInputAction: TextInputAction.send,
+                onSubmitted: (_) => send(),
+                decoration: const InputDecoration(labelText: 'Email'),
+              ),
+              if (sent) ...[
+                const SizedBox(height: 8),
+                TextField(
+                  key: const Key('code-digits'),
+                  controller: code,
+                  autofocus: true,
+                  enabled: !busy,
+                  keyboardType: TextInputType.number,
+                  autofillHints: const [AutofillHints.oneTimeCode],
+                  maxLength: 6,
+                  textInputAction: TextInputAction.done,
+                  onSubmitted: (_) => verify(),
+                  decoration: const InputDecoration(labelText: '6-digit code from the email', counterText: ''),
+                ),
+                Wrap(spacing: 4, children: [
+                  TextButton(onPressed: busy ? null : send, child: const Text('Send a new code')),
+                  TextButton(
+                    onPressed: busy
+                        ? null
+                        : () => set(() {
+                              sent = false;
+                              message = null;
+                            }),
+                    child: const Text('Use another email'),
+                  ),
+                ]),
+              ],
+              if (message != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Text(message!,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                          color: isError ? theme.colorScheme.error : theme.colorScheme.onSurfaceVariant)),
+                ),
+            ]),
           ),
-        ],
-      ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+            FilledButton(
+              key: const Key('code-submit'),
+              onPressed: busy ? null : (sent ? verify : send),
+              child: busy
+                  ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                  : Text(sent ? 'Sign in' : 'Send code'),
+            ),
+          ],
+        );
+      },
     ));
     if (result == null || !mounted) return;
     LocalStore.instance.signIn(result['token'] as String, Map<String, dynamic>.from(result['user'] as Map));
@@ -581,9 +687,11 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     if (_emailCode)
                       TextButton(
-                        // Students and parents may sign in without a password (ROLE-2).
+                        // Principals, students and parents may sign in without a password
+                        // (ROLE-2; principals since the Phase 1 pilot). Teachers use theirs.
+                        key: const Key('email-code'),
                         onPressed: _submitting ? null : _signInWithCode,
-                        child: const Text('Student or parent? Email me a sign-in code'),
+                        child: const Text('Email me a sign-in code'),
                       ),
                   ]),
                 ],
