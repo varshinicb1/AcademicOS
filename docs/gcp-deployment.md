@@ -251,7 +251,8 @@ Change the policy in the same commit as any of these, or the app goes blank or a
   and `img-src`.
 - **Google sign-in switched on** (`GET /auth/providers` returns a `google` client id): add Google's four Identity
   Services entries, `script-src https://accounts.google.com/gsi/client`, `frame-src https://accounts.google.com/gsi/`,
-  `connect-src https://accounts.google.com/gsi/` and `style-src https://accounts.google.com/gsi/style`. It is off in
+  `connect-src https://accounts.google.com/gsi/` and `style-src https://accounts.google.com/gsi/style`. They are in the
+  policy since 2026-10-04, so setting `ACOS_GOOGLE_CLIENT_ID` is all Sign in with Google needs. It was off in
   production today, so they are absent.
 - **A `printing` upgrade** that moves pdf.js to another version: change the pinned folder (the bundle names it:
   search `main.dart.js` for `pdfjs-dist@`). Better, self-host pdf.js and set `dartPdfJsBaseUrl`, which removes the
