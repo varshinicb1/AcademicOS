@@ -748,7 +748,8 @@ class _SetupWizardPageState extends State<SetupWizardPage> {
               title: tr('Your school is set up'),
               lines: [
                 for (final c in _classes)
-                  '${tr('Class')} ${c.grade}: ${c.sections.length} ${tr('section(s)')}, ${c.subjects.length} ${tr('subjects')}',
+                  '${tr('Class')} ${c.grade}: ${c.sections.length} ${tr(c.sections.length == 1 ? 'section' : 'sections')}, '
+                  '${c.subjects.length} ${tr(c.subjects.length == 1 ? 'subject' : 'subjects')}',
               ]),
         const Gap(12),
         Text(tr('Invite your teachers. Each gets an email-style code to join; you give subjects to them on the next step or later.'),

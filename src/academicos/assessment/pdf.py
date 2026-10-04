@@ -47,6 +47,7 @@ from .duration import format_duration
 from .paper import ALL_OR_NOTHING_NOTE
 from .schemas import GeneratedPaper, GeneratedSectionSchema, SchoolTemplate
 from .template_presets import instructions_for_paper, reads_as_generated
+from .wording import counted
 
 log = logging.getLogger(__name__)
 
@@ -783,8 +784,8 @@ def _section_block(section: GeneratedSectionSchema, styles: _Styles,
     note = _section_note(section)
     story: list = [
         Paragraph(f"SECTION {section.label}", styles.section),
-        Paragraph(f"({section.name} — {len(section.questions)} questions, "
-                  f"{section.total_marks} marks. This section {note})", styles.section_note),
+        Paragraph(counted(f"({section.name} — {len(section.questions)} question(s), "
+                          f"{section.total_marks} mark(s). This section {note})"), styles.section_note),
     ]
     for gq in section.questions:
         flowables = _question_flowables(gq, styles, content_width, gutter, marks_col)
