@@ -22,6 +22,21 @@ def _checked(qid, topic, *, provenance="textbook_grounded", source="ai_generated
     return r
 
 
+def test_a_model_written_question_with_string_evidence_is_in_the_queue(w, monkeypatch):
+    """The generator stores its quotes as plain strings (that is what the merge's grounding gate reads);
+    the queue used to answer 500 for every such question."""
+    from academicos.assessment import qbank_routes
+    from academicos.assessment.qbank_engine import QuestionBank
+
+    rec = _checked("g9", "Reflection")
+    rec["answerScheme"]["metadata"] = {"evidence": ["Light travels in straight lines.", "  ", "It bounces off a mirror."]}
+    monkeypatch.setattr(qbank_routes, "_bank", QuestionBank([rec]))
+    r = w.c.get("/api/v1/qbank/review-queue", params={"grade": 10}, headers=w.p)
+    assert r.status_code == 200, r.text
+    assert [e["quote"] for e in r.json()["items"][0]["evidence"]] == [
+        "Light travels in straight lines.", "It bounces off a mirror."]
+
+
 @pytest.fixture
 def bank(monkeypatch):
     from academicos.assessment import qbank_routes
