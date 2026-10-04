@@ -349,6 +349,10 @@ class ChapterTopicProposals {
         return 'a CBSE school\'s approved Class 10 decomposition';
       case 'template:ncert-textbook-headings':
         return 'the NCERT textbook\'s own numbered section headings';
+      case 'template:ncert-textbook-contents':
+        return 'the sections the NCERT textbook\'s contents list';
+      case 'template:ncert-book-chapter':
+        return 'the NCERT book\'s chapter, whole: the book does not divide it';
       default:
         return provenance.startsWith('template:') ? provenance : 'an AI draft';
     }

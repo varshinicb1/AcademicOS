@@ -95,3 +95,56 @@ def test_a_rebuild_adds_topics_and_never_drops_a_listed_chapter():
     assert (evs[0]["id"], evs[0]["name"]) == ("evs-3/family-and-friends", "Family and Friends")
     assert evs[0]["topics"] == [{"id": "t1", "title": "Playing Together"}]
     assert merged["Science|6"]["chapters"][0]["id"] == "science-6/x"
+
+
+def test_a_class_3_school_gets_a_dated_plan_for_every_evs_chapter(tmp_path, monkeypatch, listed):
+    """Classes 1-5 seeded chapters and nothing below them: no topic was
+    proposed ("a separate decision") and timing refused a book with no marks
+    ("seed real Unit.marks first"), so no plan could be made. Each chapter is
+    now proposed whole and the year's periods are shared evenly."""
+    from _auth_helpers import register_invited
+    from test_assessment_routes_auth import _boot_client, _register
+    from test_web_school_setup import BASE, PRINCIPAL_KEY, _session
+
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal = _register(client, "school_1", "head@school1.test", "Head", principal_key=PRINCIPAL_KEY)
+        auth = {"Authorization": f"Bearer {principal['token']}"}
+        from academicos.curriculum.routes import _school_today
+        label, start, end = _session(_school_today())
+        seeded = client.post(f"{BASE}/seed/cbse", headers=auth, json={
+            "grade": 3, "academicYearLabel": label, "startDate": start, "endDate": end}).json()
+        evs = next(t for t in seeded["topicTemplates"] if t["subject"] == "EVS")
+        assert (evs["chaptersWithTopics"], evs["topicsProposed"], evs["subtopicsProposed"]) == (12, 12, 12)
+        assert evs["provenance"] == ["template:ncert-book-chapter"]
+
+        year = client.get(f"{BASE}/academic-years", params={"school_id": "school_1"}, headers=auth).json()[0]["id"]
+        client.post(f"{BASE}/academic-years/{year}/calendar", headers=auth,
+                    json={"weeklyOffDays": ["sunday"], "alternateSaturdayRule": "none"})
+        slots = [{"start": f"{8 + i:02d}:00", "end": f"{8 + i:02d}:40"} for i in range(6)]
+        client.post(f"{BASE}/academic-years/{year}/bell-schedules", headers=auth, json={"name": "Main", "slots": slots})
+        grade = client.get(f"{BASE}/academic-years/{year}/grades", headers=auth).json()[0]["id"]
+        section = client.get(f"{BASE}/academic-years/{year}/sections", headers=auth).json()[0]["id"]
+        subject = next(s["id"] for s in client.get(f"{BASE}/grades/{grade}/subjects", headers=auth).json()
+                       if s["name"] == "EVS")
+        teacher = register_invited(client, "school_1", "asha@school1.test", name="Asha", role="teacher")["user"]["id"]
+        r = client.put(f"{BASE}/sections/{section}/allocations/{subject}", headers=auth,
+                       json={"teacherId": teacher, "periodsPerWeek": 5})
+        assert r.status_code == 200, r.text
+
+        # The year began in April; a school joining mid-year fits the book into the periods left (D35).
+        built = client.post(f"{BASE}/academic-years/{year}/lesson-plans", headers=auth,
+                            json={"approveProposedTopics": True, "fitToPeriodsLeft": True}).json()
+        assert built["notPlanned"] == [], built
+        plan = built["plans"][0]
+        assert plan["subjectName"] == "EVS" and plan["chaptersWithoutSubtopics"] == []
+        assert plan["lessonsCreated"] > 100 and plan["subtopicsWithoutEstimate"] == 0, plan
+
+        book = client.get(f"{BASE}/subjects/{subject}/selected-book", headers=auth).json()["id"]
+        lessons = client.get(f"{BASE}/books/{book}/schedule", headers=auth,
+                             params={"academic_year_id": year, "sectionId": section}).json()
+        dated = {l["subtopicId"] for l in lessons}
+        assert len(dated) == 12, "every chapter has days"
+        per = {}
+        for l in lessons:
+            per[l["subtopicId"]] = per.get(l["subtopicId"], 0) + 1
+        assert max(per.values()) - min(per.values()) <= 1, "the periods are shared evenly"
