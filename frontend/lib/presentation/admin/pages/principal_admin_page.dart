@@ -628,14 +628,15 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     }
     setState(() => _addingHoliday = true);
     try {
-      await GetIt.I<CurriculumApi>().addHoliday(
+      final h = await GetIt.I<CurriculumApi>().addHoliday(
         _academicYearId!,
         date: date,
         label: label,
         kind: _holidayKind,
         endDate: end.isEmpty ? null : end,
       );
-      _showMessage('Holiday "$label" added.');
+      final change = h.planChange;
+      _showMessage('Holiday "$label" added.${change.isEmpty ? '' : ' $change'}');
       _holidayLabelController.clear();
       _loadCalendarSetup();
     } catch (e) {

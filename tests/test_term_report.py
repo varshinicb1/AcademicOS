@@ -126,3 +126,34 @@ def test_the_downloads_carry_the_schools_name_and_address(w):
     x = w.c.get("/api/v1/dashboard/term/export", params={"format": "xlsx"}, headers=w.p)
     sheet = zipfile.ZipFile(io.BytesIO(x.content)).read("xl/worksheets/sheet1.xml").decode()
     assert sheet.index("Sunrise Public School") < sheet.index("Term report")
+
+
+def test_a_plan_that_cannot_finish_is_said_even_when_not_behind(w):
+    """D35: a section's plan laid on fewer periods than its syllabus needs left
+    subtopics with no date, and the report said "behind: no". Each row now
+    counts the subtopics with no day in the year's plan, and the summary the
+    class-subjects that cannot finish."""
+    _term(w)
+    s = w.store
+    board = s.create_board(name="CBSE", code="CBSE")
+    book = s.create_book(subject_id=w.sci10, board_id=board.id, title="Science 10")
+    unit = s.create_unit(book_id=book.id, canonical_id="d35-u1", unit_no="1", name="Unit 1")
+    chapter = s.create_chapter(canonical_id="d35-ch1", unit_id=unit.id, name="Light")
+    topic = s.create_topic(chapter_id=chapter.id, canonical_id="d35-tp1", name="Reflection")
+    subs = [s.create_subtopic(topic_id=topic.id, canonical_id=f"d35-st{i}", name=f"Part {i}") for i in range(5)]
+    # 10-A: two subtopics taught on time, one dated later, one lost its day, one never placed.
+    for st, day, status in ((subs[0], "2026-05-20", "completed"), (subs[1], "2026-05-25", "completed"),
+                            (subs[2], "2026-08-10", "scheduled"), (subs[3], "2026-08-11", "unscheduled")):
+        s.create_scheduled_lesson(school_id="school_1", academic_year_id=w.year, book_id=book.id,
+                                  subtopic_id=st.id, date=day, status=status, section_id=w.a10)
+    # 10-B: every subtopic has a day.
+    for i, st in enumerate(subs):
+        s.create_scheduled_lesson(school_id="school_1", academic_year_id=w.year, book_id=book.id,
+                                  subtopic_id=st.id, date=f"2026-08-{12 + i}", section_id=w.b10)
+
+    d = w.c.get("/api/v1/dashboard/term", headers=w.p).json()["syllabus"]
+    rows = {r["sectionName"]: r for r in d["rows"]}
+    assert rows["10-A"]["behind"] is False, "taught everything planned so far"
+    assert rows["10-A"]["undatedSubtopics"] == 2, "one lost its day, one was never placed"
+    assert rows["10-B"]["undatedSubtopics"] == 0
+    assert d["cannotFinish"] == 1 and d["rows"][0]["sectionName"] == "10-A", "the plan that cannot finish leads"

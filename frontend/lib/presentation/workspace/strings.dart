@@ -214,6 +214,13 @@ const _hi = <String, String>{
   'Behind the plan': 'योजना से पीछे',
   'Lessons taught against the plan to date': 'आज तक की योजना के सामने पढ़ाए गए पाठ',
   'Every class is on plan.': 'हर कक्षा योजना के अनुसार है।',
+  'Plans that cannot finish': 'योजनाएँ जो पूरी नहीं हो सकतीं',
+  'Cannot finish this year': 'इस वर्ष पूरा नहीं हो सकता',
+  'Subtopics with no day in this year\'s plan: the timetable gives too few periods':
+      'इस वर्ष की योजना में बिना दिन वाले उप-विषय: समय-सारणी में कालांश कम हैं',
+  'subtopics have no day': 'उप-विषयों का कोई दिन नहीं',
+  'Add periods for the subject in the timetable, or trim the plan.':
+      'समय-सारणी में विषय के कालांश बढ़ाएँ, या योजना छोटी करें।',
   'Scheduled this term, and classes with no paper yet': 'इस सत्र में निर्धारित, और जिन कक्षाओं का प्रश्नपत्र अभी नहीं बना',
   'No paper yet': 'अभी प्रश्नपत्र नहीं',
   'Time saved is an estimate': 'बचाया गया समय अनुमान है',

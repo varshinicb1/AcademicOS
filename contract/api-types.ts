@@ -9129,6 +9129,8 @@ export interface components {
             label: string;
             /** Lastperiod */
             lastPeriod?: number | null;
+            /** Lessonsdropped */
+            lessonsDropped?: number | null;
             /** Lessonsmoved */
             lessonsMoved?: number | null;
             /** Notmoved */
@@ -13135,6 +13137,11 @@ export interface components {
         Syllabus: {
             /** Behind */
             behind: number;
+            /**
+             * Cannotfinish
+             * @default 0
+             */
+            cannotFinish: number;
             /** Plannedtodate */
             plannedToDate: number;
             /** Rows */
@@ -13184,6 +13191,11 @@ export interface components {
             taughtToDate: number;
             /** Totallessons */
             totalLessons: number;
+            /**
+             * Undatedsubtopics
+             * @default 0
+             */
+            undatedSubtopics: number;
             /** Variance */
             variance: number;
         };

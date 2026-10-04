@@ -95,9 +95,8 @@ class _CalendarDaysCardState extends State<CalendarDaysCard> {
         grades: _kind == 'exam_window' ? (_grades.toList()..sort()) : null,
         timetableWeekday: _kind == 'working_day' ? _weekday : null,
       );
-      final moved = h.lessonsMoved ?? 0;
-      widget.onMessage('"$label" added (${h.describe}).'
-          '${moved > 0 ? ' $moved lessons moved to fit it.' : ''}');
+      final change = h.planChange;
+      widget.onMessage('"$label" added (${h.describe}).${change.isEmpty ? '' : ' $change'}');
       _label.clear();
       _end.clear();
       widget.onChanged?.call();
