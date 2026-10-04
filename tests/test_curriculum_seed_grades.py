@@ -451,19 +451,22 @@ def test_seeding_grade_10_proposes_template_topics_pending_approval(client, prin
 
 def test_the_seed_reports_which_chapters_got_no_template_and_why(client, principal):
     """Item 5c: grades/subjects with neither source stay chapter-only and are
-    REPORTED. Class 7 Social Science's syllabus JSON lists chapter names the
-    textbook tree does not print, so nothing matches -- the route has to say
-    so rather than look like a successful full setup. Class 7 Science is
-    seeded from the book's own chapters since D118, and their topics come
-    from the book's contents."""
-    body = _seed(client, _bearer(principal), 7).json()
+    REPORTED, rather than look like a successful full setup. Class 11 Physics
+    has no source. Class 7 Science (D118) and, since 2026-10-04, class 7
+    Social Science are seeded from the current book's own chapters, and their
+    topics come from that book's contents: until then Social Science 7 seeded
+    Our Pasts, whose chapter names the Exploring Society tree does not print,
+    and got no topics at all."""
+    body = _seed(client, _bearer(principal), 11).json()
     assert body["chaptersWithoutTopics"] > 0
-    social = next(t for t in body["topicTemplates"] if t["subject"] == "Social Science")
-    assert social["chaptersWithTopics"] == 0
-    assert social["note"], "no reason given for a subject with no topics at all"
-    science = next(t for t in body["topicTemplates"] if t["subject"] == "Science")
-    assert science["chaptersWithTopics"] == science["chapters"] == 12
-    assert science["provenance"] == ["template:ncert-textbook-contents"] and science["note"] is None
+    physics = next(t for t in body["topicTemplates"] if t["subject"] == "Physics")
+    assert physics["chaptersWithTopics"] == 0
+    assert physics["note"], "no reason given for a subject with no topics at all"
+    body = _seed(client, _bearer(principal), 7).json()
+    for subject, chapters in (("Science", 12), ("Social Science", 20)):
+        report = next(t for t in body["topicTemplates"] if t["subject"] == subject)
+        assert report["chaptersWithTopics"] == report["chapters"] == chapters, report
+        assert report["provenance"] == ["template:ncert-textbook-contents"] and report["note"] is None
 
 
 def test_a_partly_covered_subject_is_not_told_that_nothing_matched():

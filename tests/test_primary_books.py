@@ -32,6 +32,8 @@ PRINTED = {
     "Mathematics|1": 13, "Mathematics|2": 11, "Mathematics|3": 14, "Mathematics|4": 14, "Mathematics|5": 15,
     "EVS|3": 12, "EVS|4": 10, "EVS|5": 10,
 }
+# Classes 6-9 Hindi (Malhar, Ganga): their contents trees are missing or garbled.
+PRINTED_HINDI_6_9 = {"Hindi|6": 13, "Hindi|7": 10, "Hindi|8": 10, "Hindi|9": 12}
 
 
 @pytest.fixture
@@ -45,6 +47,7 @@ def listed():
 
 def test_every_class_1_to_5_book_is_listed_whole(listed):
     assert {k: len(v["chapters"]) for k, v in listed.items() if int(k.split("|")[1]) <= 5} == PRINTED
+    assert {k: len(v["chapters"]) for k, v in listed.items() if int(k.split("|")[1]) > 5} == PRINTED_HINDI_6_9
     for key, book in listed.items():
         chapters = book["chapters"]
         assert [c["number"] for c in chapters] == list(range(1, len(chapters) + 1)), key
@@ -55,10 +58,12 @@ def test_every_class_1_to_5_book_is_listed_whole(listed):
     assert listed["Hindi|2"]["chapters"][-1]["name"] == "बादल"
 
 
-def test_classes_6_to_9_are_not_listed_from_a_partial_build(listed):
-    """A class whose syllabus file has units and no chapters seeds the book's
-    chapters (D118): a partial list there would seed a fraction of the book."""
-    assert all(int(k.split("|")[1]) <= 5 for k in listed)
+def test_classes_6_to_9_are_listed_only_where_no_contents_tree_holds_the_book(listed):
+    """A class 6-9 subject seeds the book's chapters from this list before its
+    contents tree: a partial list here would seed a fraction of the book, so
+    only whole books are listed, and only where the tree cannot be used."""
+    assert {k for k in listed if int(k.split("|")[1]) > 5} == set(PRINTED_HINDI_6_9)
+    assert listed["Hindi|9"]["chapters"][2]["name"] == "संवादहीन", "the tree reads 'संवा दहीन'"
 
 
 def test_no_class_1_to_5_subject_is_missing(listed):
