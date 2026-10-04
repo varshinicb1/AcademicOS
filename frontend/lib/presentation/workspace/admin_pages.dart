@@ -97,19 +97,25 @@ class _ReviewsPageState extends State<ReviewsPage> {
   @override
   Widget build(BuildContext context) {
     final principal = CurrentSession.role == 'principal';
+    final toggle = SegmentedButton<String>(
+      segments: const [ButtonSegment(value: 'pending', label: Text('Waiting')),
+        ButtonSegment(value: '', label: Text('All'))],
+      selected: {_state},
+      onSelectionChanged: (s) => setState(() {
+        _state = s.first;
+        _future = _fetch();
+      }),
+    );
+    // On a phone the toggle sits under the title: beside it, it left the title no room at all.
+    final narrow = MediaQuery.sizeOf(context).width < 600;
     return Scaffold(
-      appBar: destinationAppBar(context, title: Text(tr('Paper reviews')), actions: [
-        SegmentedButton<String>(
-          segments: const [ButtonSegment(value: 'pending', label: Text('Waiting')),
-            ButtonSegment(value: '', label: Text('All'))],
-          selected: {_state},
-          onSelectionChanged: (s) => setState(() {
-            _state = s.first;
-            _future = _fetch();
-          }),
-        ),
-        const SizedBox(width: 12),
-      ]),
+      appBar: destinationAppBar(context, title: Text(tr('Paper reviews')),
+          actions: narrow ? null : [toggle, const SizedBox(width: 12)],
+          bottom: narrow
+              ? PreferredSize(preferredSize: const Size.fromHeight(52),
+                  child: Padding(padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                      child: Align(alignment: Alignment.centerLeft, child: toggle)))
+              : null),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _future,
         builder: (context, snap) {

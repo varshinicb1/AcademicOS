@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/session/current_session.dart';
 import '../../data/datasources/api/api_error.dart';
+import '../shared/readable.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'notice.dart';
 import 'ops_api.dart';
@@ -344,7 +345,7 @@ class _PlanPanelState extends State<_PlanPanel> {
         return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           AppCard(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(book['title'] as String, style: theme.textTheme.titleSmall),
+              Text(bookName(book['title'] as String), style: theme.textTheme.titleSmall),
               if (book['publisher'] != null) Text(book['publisher'] as String, style: theme.textTheme.bodySmall),
               const Gap(8),
               Text(key: const ValueKey('plan-current'),
