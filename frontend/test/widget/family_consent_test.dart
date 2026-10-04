@@ -39,6 +39,11 @@ class _Server implements HttpClientAdapter {
           {'studentId': 's1', 'name': 'Asha', 'sectionName': '10-A', 'grade': 10, 'consent': consent},
         ],
       '/children/s1/timetable' => {'entries': <Object>[], 'subjectNames': <String, Object>{}},
+      '/children/s1/calendar' => [
+          {'kind': 'holiday', 'title': 'Gandhi Jayanti', 'date': '2026-10-02'},
+          {'kind': 'exam', 'title': 'Science, Half-yearly', 'date': '2026-10-08', 'startTime': '09:30',
+            'endTime': '12:30'},
+        ],
       _ => <Object>[],
     };
     return ResponseBody.fromString(jsonEncode(answer), 200, headers: _json);
@@ -146,11 +151,22 @@ void main() {
   testWidgets('at 375 px every tab label is whole', (tester) async {
     await pumpFamily(tester);
     expect(tester.takeException(), isNull);
-    for (final label in ['Week', 'Today', 'Homework', 'Progress']) {
+    for (final label in ['Week', 'Today', 'Calendar', 'Homework', 'Progress']) {
       final text = tester.renderObject<RenderParagraph>(
           find.descendant(of: find.byKey(const ValueKey('child-tabs')), matching: find.text(label)));
       expect(text.didExceedMaxLines, isFalse, reason: label);
       expect(text.size.width, greaterThanOrEqualTo(text.getMaxIntrinsicWidth(double.infinity) - 0.5), reason: label);
     }
+  });
+
+  testWidgets("the Calendar tab shows the child's holidays and exams (SA-6)", (tester) async {
+    await pumpFamily(tester);
+    await tester.tap(find.descendant(of: find.byKey(const ValueKey('child-tabs')), matching: find.text('Calendar')));
+    await settle(tester);
+    expect(find.text('Gandhi Jayanti'), findsOneWidget);
+    expect(find.text('Friday 2 October'), findsOneWidget);
+    expect(find.text('Science, Half-yearly'), findsOneWidget);
+    expect(find.text('Thursday 8 October · 09:30-12:30'), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 }

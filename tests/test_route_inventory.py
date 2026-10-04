@@ -279,6 +279,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/my-children"),
     ("GET", "/api/v1/children/{student_id}/timetable"),
     ("GET", "/api/v1/children/{student_id}/day"),
+    ("GET", "/api/v1/children/{student_id}/calendar"),
     ("GET", "/api/v1/children/{student_id}/homework"),
     ("GET", "/api/v1/children/{student_id}/homework/{homework_id}"),
     ("POST", "/api/v1/children/{student_id}/homework/{homework_id}/submit"),
@@ -636,6 +637,7 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/my-children"),
     ("GET", "/api/v1/children/{student_id}/timetable"),
     ("GET", "/api/v1/children/{student_id}/day"),
+    ("GET", "/api/v1/children/{student_id}/calendar"),
     ("GET", "/api/v1/children/{student_id}/homework"),
     ("GET", "/api/v1/children/{student_id}/homework/{homework_id}"),
     ("POST", "/api/v1/children/{student_id}/homework/{homework_id}/submit"),
@@ -1065,7 +1067,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 344: QA S-12 a teacher's own row of today's register.
     # 345: the setup wizard's one-call school setup (year, classes, calendar, terms, bell).
     # 348: saved Guide/setup progress (read, write) and the principal's setup level.
-    assert len(API_ROUTES) == 348
+    # 349: SA-6 a parent's view of their child's school calendar.
+    assert len(API_ROUTES) == 349
 
 
 def test_docs_routes_present():
