@@ -283,7 +283,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
       // checkboxes above work regardless.
       //
       // What is stored is the sentence serverErrorMessage makes of the
-      // failure ("The server had a problem (HTTP 500)...", "You don't have
+      // failure ("The server had a problem — try again shortly", "You don't have
       // access to that"), not bare membership: a row that only says
       // "something went wrong" is the same silence Task 802 removed, and
       // no_swallowed_errors_test.dart requires every catch under

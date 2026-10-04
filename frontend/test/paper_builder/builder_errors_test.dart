@@ -242,7 +242,7 @@ void main() {
     testWidgets('500: the server failed, and it is worth trying again', (tester) async {
       await pump(tester, _Refusing(status: 500));
       await reachTemplates(tester);
-      expectTemplatesSay(tester, 'The server had a problem (HTTP 500) — try again shortly', retry: true);
+      expectTemplatesSay(tester, 'The server had a problem — try again shortly', retry: true);
     });
 
     testWidgets('no answer at all: the connection, said only here', (tester) async {
@@ -257,7 +257,7 @@ void main() {
     final adapter = _Refusing(status: 500, times: 1);
     await pump(tester, adapter);
     await reachTemplates(tester);
-    expectTemplatesSay(tester, 'The server had a problem (HTTP 500) — try again shortly', retry: true);
+    expectTemplatesSay(tester, 'The server had a problem — try again shortly', retry: true);
 
     await tester.tap(find.widgetWithText(OutlinedButton, 'Try again'));
     await tester.pumpAndSettle();
@@ -361,7 +361,7 @@ void main() {
       await useHalfYearly(tester);
 
       await tester.scrollUntilVisible(
-          find.text('Could not load chapters: The server had a problem (HTTP 500) — try again shortly'),
+          find.text('Could not load chapters: The server had a problem — try again shortly'),
           200,
           scrollable: find.byType(Scrollable).first);
       await tapVisible(tester, find.widgetWithText(OutlinedButton, 'Try again'));
@@ -408,7 +408,7 @@ void main() {
       final adapter = _Refusing(status: 500, times: 1);
       await pumpPicker(tester, adapter);
       expect(
-          find.text('Could not search the bank: The server had a problem (HTTP 500) — try again shortly'),
+          find.text('Could not search the bank: The server had a problem — try again shortly'),
           findsOneWidget);
 
       await tester.tap(find.widgetWithText(TextButton, 'Try again'));
@@ -474,7 +474,7 @@ void main() {
       final c = await downloaded(tester, _Refusing(status: 500, where: (p) => p.contains('/export/')));
       expect(c.downloadRetryable, isTrue);
       expect(
-          find.text('Download failed: The server had a problem (HTTP 500) — try again shortly. '
+          find.text('Download failed: The server had a problem — try again shortly. '
               'Tap Download to try again.'),
           findsOneWidget);
       expect(tester.takeException(), isNull);
@@ -543,7 +543,7 @@ void main() {
       await settle(tester, c.saveTemplate(draft(), asNew: false, ownerId: fixtureTeacherId));
 
       expect(adapter.refusals, 1, reason: 'the save succeeded; only the refresh behind it failed');
-      expect(find.text('Could not load templates: The server had a problem (HTTP 500) — try again shortly'),
+      expect(find.text('Could not load templates: The server had a problem — try again shortly'),
           findsOneWidget);
       // Still there: the groups, and the templates the step already held.
       expect(find.text('My templates'), findsOneWidget);

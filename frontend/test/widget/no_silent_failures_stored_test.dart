@@ -136,7 +136,7 @@ void main() {
 
       expect(find.byType(ErrorDisplay), findsOneWidget);
       expect(find.textContaining('Could not load parent portal data'), findsOneWidget);
-      expect(find.textContaining('HTTP 500'), findsOneWidget);
+      expect(find.textContaining('The server had a problem'), findsOneWidget);
       expect(find.text('Retry'), findsOneWidget);
       expect(find.text('No progress recorded'), findsNothing);
       expect(find.text('No class linked yet'), findsNothing);
@@ -191,7 +191,7 @@ void main() {
 
       expect(server.requests, ['POST /consent'], reason: 'the save must actually be attempted');
       expect(find.textContaining('Consent for $studentName was not saved'), findsOneWidget);
-      expect(find.textContaining('HTTP 500'), findsOneWidget);
+      expect(find.textContaining('The server had a problem'), findsOneWidget);
       expect(find.textContaining('Grading stays blocked'), findsOneWidget);
       expect(find.textContaining('Consent recorded'), findsNothing);
       expect(LocalStore.instance.hasConsent(studentId), isFalse,

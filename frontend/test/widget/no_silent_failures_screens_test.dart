@@ -104,7 +104,7 @@ void main() {
           reason: 'picking a grade must actually ask for its subjects');
       expect(find.byType(SnackBar), findsOneWidget);
       expect(find.textContaining('Could not load subjects'), findsOneWidget);
-      expect(find.textContaining('HTTP 500'), findsOneWidget);
+      expect(find.textContaining('The server had a problem'), findsOneWidget);
     });
 
     testWidgets('a dropped connection blames the connection', (tester) async {
@@ -159,7 +159,7 @@ void main() {
     testWidgets('a 500 names the server fault and offers Retry', (tester) async {
       await pumpSchedule(tester, (500, null));
 
-      expect(find.textContaining('HTTP 500'), findsOneWidget);
+      expect(find.textContaining('The server had a problem'), findsOneWidget);
       expect(find.textContaining('check your connection'), findsNothing);
       expect(find.text('Retry'), findsOneWidget);
     });

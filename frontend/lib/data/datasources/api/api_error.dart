@@ -36,6 +36,9 @@ const _signedOut = "You're signed out — sign in again";
 const _noAccess = "You don't have access to that";
 const _unreachable = "Couldn't reach the server — check your connection";
 
+/// What [serverErrorMessage] says when no answer came back at all.
+const unreachableMessage = _unreachable;
+
 /// What to show for [e], most specific first:
 ///
 ///  * 401: the session is over. Always this sentence, even with a `detail`:
@@ -50,7 +53,10 @@ const _unreachable = "Couldn't reach the server — check your connection";
 ///  * 403 with no detail: the account lacks access.
 ///  * no response at all (connection error, any timeout): the connection.
 ///    Said only then -- a server that answered 500 is not a connection fault.
-///  * any other status: what it was, so a support report can name it.
+///  * any other status: a sentence for the few a person can act on (too
+///    large, too many tries, too slow), else a plain "it didn't go through".
+///    Until 2026-10-04 these read "The server refused the request (HTTP 405)":
+///    a status code means nothing to a principal, and the server's log has it.
 ///  * anything that is not a DioException: its own text, minus Dart's
 ///    "Exception: " prefix (screens throw `Exception('<sentence>')`).
 String serverErrorMessage(Object e) {
@@ -79,8 +85,11 @@ String serverErrorMessage(Object e) {
   if (status == 403) return _noAccess;
   if (response == null || status == null) return _unreachable;
   if (status == 404) return 'The server has no record of it — it may have been removed';
-  if (status >= 500) return 'The server had a problem (HTTP $status) — try again shortly';
-  return 'The server refused the request (HTTP $status)';
+  if (status == 408 || status == 504) return 'The server took too long to answer — try again';
+  if (status >= 500) return 'The server had a problem — try again shortly';
+  if (status == 413) return 'That is too large to send — try a smaller file';
+  if (status == 429) return 'Too many tries at once — wait a minute and try again';
+  return "That didn't go through — try again, and tell us if it keeps happening";
 }
 
 /// True when sending the same request again could succeed: no answer came
