@@ -560,12 +560,12 @@ console.log(homework.count, homework.shortfall);
 ### Webhooks: `questions.added` (API-6)
 
 Instead of polling `/v1/questions`, a partner can be told when there is
-something new to fetch. A webhook belongs to one API key: the school's
-principal registers the partner's URL for that key on the web console's
-**API keys** page (or `POST /api/v1/api-keys/{key_id}/webhooks` with
-`{"url": "https://...", "events": ["questions.added"]}`), copies the secret it
-shows once, and hands both to the partner. The same page lists each webhook's
-deliveries: status, attempts, and the receiver's last answer or the error.
+something new to fetch. A webhook belongs to one API key: AcademicOS, the key's issuer, registers
+the partner's URL for that key (`POST /api/v1/api-keys/{key_id}/webhooks` with
+`{"url": "https://...", "events": ["questions.added"]}`), and hands the
+partner the secret it shows once. `GET .../webhooks/{webhook_id}/deliveries`
+lists each webhook's deliveries: status, attempts, and the receiver's last
+answer or the error. (A school's console has no API keys page since #104.)
 
 **When an event is sent.** Whenever the questions the key may read grow: a
 bank load or reload that serves new answer-keyed questions, or the school's
