@@ -89,13 +89,17 @@ class _StudentTodayPageState extends State<StudentTodayPage> {
     final theme = Theme.of(context);
     final isToday = isoDate(_day) == isoDate(DateTime.now());
     return Scaffold(
+      // One way to switch days, named in words. Until 2026-10-04 tomorrow's
+      // page had two identical back arrows: the left one left the page
+      // altogether, the right one went back to today.
       appBar: AppBar(
-        leading: isToday ? forceShellLeading(context) : null,
-        automaticallyImplyLeading: !isToday,
+        leading: forceShellLeading(context),
+        automaticallyImplyLeading: false,
         title: Text(isToday ? tr('Today') : tr('Tomorrow')), actions: [
-        IconButton(
-          tooltip: isToday ? 'Tomorrow' : 'Today',
-          icon: Icon(isToday ? Icons.arrow_forward : Icons.arrow_back),
+        TextButton.icon(
+          key: const ValueKey('switch-day'),
+          icon: Icon(isToday ? Icons.arrow_forward : Icons.today_outlined, size: 18),
+          label: Text(isToday ? tr('Tomorrow') : tr('Today')),
           onPressed: () {
             setState(() {
               _day = isToday ? DateTime.now().add(const Duration(days: 1)) : DateTime.now();
