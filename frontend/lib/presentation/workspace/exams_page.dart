@@ -6,6 +6,7 @@ import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'teacher_homework.dart' show TeachingContext;
 import 'strings.dart';
+import '../shared/readable.dart';
 import '../shared/widgets/shell.dart';
 
 /// The principal's exam planning (EX-7): exams, each one's datesheet, the
@@ -54,9 +55,9 @@ class _ExamsPageState extends State<ExamsPage> {
                 child: ListTile(
                   contentPadding: EdgeInsets.zero,
                   title: Text(e['name']),
-                  subtitle: Text('${e['startDate']} to ${e['endDate']} · classes ${(e['grades'] as List).join(', ')} · '
-                      '${(e['papers'] as List).length} papers'),
-                  trailing: ChipTag(label: e['status']),
+                  subtitle: Text('${readableDate(e['startDate'])} to ${readableDate(e['endDate'])} · '
+                      '${classesLabel(e['grades'] as List)} · ${plural((e['papers'] as List).length, 'paper')}'),
+                  trailing: ChipTag(label: humanWord(e['status'] as String)),
                 ),
               ),
           ]);
@@ -326,7 +327,7 @@ class _ExamDetailPageState extends State<ExamDetailPage> {
         if (e['status'] != 'published') TextButton(onPressed: papers.isEmpty ? null : _publish, child: const Text('Publish')),
       ]),
       body: ListView(padding: const EdgeInsets.all(16), children: [
-        SectionHeader(title: 'Datesheet', subtitle: '${e['startDate']} to ${e['endDate']}',
+        SectionHeader(title: 'Datesheet', subtitle: '${readableDate(e['startDate'])} to ${readableDate(e['endDate'])}',
             action: OutlinedButton.icon(onPressed: _addPaper, icon: const Icon(Icons.add), label: const Text('Paper'))),
         if (papers.isEmpty) Text('No papers yet.', style: theme.textTheme.bodySmall),
         for (final p in papers)

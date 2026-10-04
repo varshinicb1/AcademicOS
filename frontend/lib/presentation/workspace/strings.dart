@@ -214,6 +214,7 @@ const _hi = <String, String>{
   'Behind the plan': 'योजना से पीछे',
   'Lessons taught against the plan to date': 'आज तक की योजना के सामने पढ़ाए गए पाठ',
   'Every class is on plan.': 'हर कक्षा योजना के अनुसार है।',
+  'behind': 'पीछे',
   'Plans that cannot finish': 'योजनाएँ जो पूरी नहीं हो सकतीं',
   'Cannot finish this year': 'इस वर्ष पूरा नहीं हो सकता',
   'Subtopics with no day in this year\'s plan: the timetable gives too few periods':

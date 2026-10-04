@@ -75,3 +75,19 @@ def test_written_work_as_photos_waits_for_the_teacher(w):
     assert got.status_code == 200 and got.content == PNG
     assert w.c.get(f"/api/v1/homework/{hw['id']}/submissions/{w.ids['s1']}/photos/{pid}",
                    headers=w.bala).status_code == 403
+
+
+def test_no_register_is_expected_on_a_day_the_school_is_shut(w, monkeypatch):
+    """A Sunday showed "8 attendance not marked" (guide shoot, 2026-10-04)."""
+    from datetime import date
+
+    from academicos.curriculum import routes as cr
+    r = w.c.post(f"/api/v1/curriculum/academic-years/{w.year}/calendar",
+                 json={"weeklyOffDays": ["sunday"], "alternateSaturdayRule": "none"}, headers=w.p)
+    assert r.status_code in (200, 409), r.text
+    monkeypatch.setattr(cr, "_school_today", lambda: date(2026, 6, 7))      # a Sunday
+    shut = w.c.get("/api/v1/dashboard/summary", headers=w.p).json()["cover"]
+    assert shut["schoolDay"] is False and shut["unmarked"] == 0
+    monkeypatch.setattr(cr, "_school_today", lambda: date(2026, 6, 8))      # the Monday after
+    open_ = w.c.get("/api/v1/dashboard/summary", headers=w.p).json()["cover"]
+    assert open_["schoolDay"] is True and open_["unmarked"] == 3

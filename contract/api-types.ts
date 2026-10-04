@@ -8013,6 +8013,11 @@ export interface components {
             onLeave: number;
             /** Periodstocover */
             periodsToCover: number;
+            /**
+             * Schoolday
+             * @default true
+             */
+            schoolDay: boolean;
             /** Staff */
             staff: number;
             /** Uncovered */

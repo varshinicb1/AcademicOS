@@ -47,7 +47,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
         // A destination of the side navigation: the menu on a phone and no
         // back arrow (shell.dart's forceShellLeading).
         leading: forceShellLeading(context),
-        title: const Text('School Intelligence'),
+        title: const Text('School insights'),
         actions: [
           // §14/§18's missing piece: real assignment/enrollment, so the
           // teacher and student schedule screens this session built have
@@ -120,7 +120,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('${sub.subject} — Grade ${sub.grade}',
+                        Text('${sub.subject} · Class ${sub.grade}',
                             style: const TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 15)),
                         const SizedBox(height: 10),
