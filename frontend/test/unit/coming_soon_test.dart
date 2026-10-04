@@ -47,15 +47,15 @@ void main() {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(body: ErrorDisplay(message: comingSoonMessage(code: 'llm_not_enabled'), onRetry: () {}))));
     expect(find.byKey(const ValueKey('coming-soon')), findsOneWidget);
-    expect(find.text('Error'), findsNothing);
+    expect(find.text(errorDisplayTitle), findsNothing);
     expect(find.byType(FilledButton), findsNothing);
     expect(find.textContaining('AI marking and scan reading'), findsOneWidget);
   });
 
-  testWidgets('a real error keeps its red card and its Retry', (tester) async {
+  testWidgets('a real error keeps its card and its Retry', (tester) async {
     await tester.pumpWidget(
         MaterialApp(home: Scaffold(body: ErrorDisplay(message: 'The server had a problem', onRetry: () {}))));
-    expect(find.text('Error'), findsOneWidget);
+    expect(find.text(errorDisplayTitle), findsOneWidget);
     expect(find.text('Retry'), findsOneWidget);
   });
 }

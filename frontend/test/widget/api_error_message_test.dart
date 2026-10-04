@@ -130,7 +130,7 @@ void main() {
 
     test("a plain Exception shows its message without Dart's 'Exception: ' prefix", () {
       expect(serverErrorMessage(Exception('Question bank is empty')), 'Question bank is empty');
-      expect(serverErrorMessage(StateError('offline')), StateError('offline').toString());
+      expect(serverErrorMessage(StateError('offline')), 'offline'); // a StateError reads as its sentence (#116)
     });
   });
 
