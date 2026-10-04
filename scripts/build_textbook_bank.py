@@ -46,6 +46,24 @@ def chapter_ref(subject: str, grade: int, title: str) -> str:
     return (names.get(name_key(title)) if name_key(title) else None) or tb.chapter_id(subject, grade, title)
 
 
+def merge_books(listed: dict, built: dict) -> dict:
+    """The committed book chapters with this build's laid over them, by book and
+    chapter number. A build only knows the chapters it has a transcription of
+    (on 2026-09-29, 1 to 7 of a class 1-5 book's 9 to 26), while the committed
+    classes 1-5 come from each book's contents page and are complete: a build
+    adds a chapter or its topics and never drops one."""
+    out: dict = {}
+    for key in sorted(set(listed) | set(built)):
+        by = {(str(c["book"]), int(c["number"] or 0)): c for c in listed.get(key, {}).get("chapters", [])}
+        for c in built.get(key, []):
+            was = by.get((str(c["book"]), int(c["number"] or 0)))
+            # The contents page's name and id stay: the chapter may already be seeded under that id.
+            by[(str(c["book"]), int(c["number"] or 0))] = (
+                {**was, "topics": c["topics"] or was.get("topics", [])} if was else c)
+        out[key] = {"chapters": [by[k] for k in sorted(by)]}
+    return out
+
+
 def build(src: Path, text_dir: Path):
     records, refused, report, topics = [], [], [], {}
     for f in sorted(src.glob("*.json")):
@@ -119,12 +137,14 @@ def main() -> int:
     }
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
-    books = {"source": "NCERT textbooks, 2026-27 catalogue: each chapter's title and topics as the book prints them",
-             "builtAt": payload["builtAt"],
-             "classes": {key: {"chapters": chapters} for key, chapters in sorted(topics.items())}}
+    listed = json.loads(a.books_out.read_text(encoding="utf-8")) if a.books_out.exists() else {}
+    classes = merge_books(listed.get("classes", {}), topics)
+    books = {"source": listed.get("source") or ("NCERT textbooks, 2026-27 catalogue: each chapter's title and "
+                                                "topics as the book prints them"),
+             "builtAt": payload["builtAt"], "classes": classes}
     a.books_out.parent.mkdir(parents=True, exist_ok=True)
-    a.books_out.write_text(json.dumps(books, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"wrote {sum(len(c) for c in topics.values())} book chapters for {len(topics)} class subjects")
+    a.books_out.write_text(json.dumps(books, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    print(f"wrote {sum(len(c['chapters']) for c in classes.values())} book chapters for {len(classes)} class subjects")
     print(f"wrote {a.out.relative_to(REPO) if a.out.is_relative_to(REPO) else a.out}")
     return 0
 

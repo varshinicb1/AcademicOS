@@ -5,9 +5,10 @@
 /// section called "a") are tested without a widget tree.
 library;
 
-/// The classes the setup can make. 9 and 10 are what this release is for; 6-8
-/// are offered because a school usually has them too and the server seeds them.
-const wizardGrades = [6, 7, 8, 9, 10];
+/// The classes the setup can make. 9 and 10 are what the question bank is for;
+/// 1-8 are offered because a school usually has them too and the server seeds
+/// their books' chapters (classes 1-5 from 2026-10-04).
+const wizardGrades = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const wizardDefaultGrades = [9, 10];
 const maxSectionsPerClass = 8;
 
@@ -205,7 +206,8 @@ String allocationsCsv(List<AllocationRow> rows, Map<int, List<String>> sectionsB
 /// principal edits. Maths, Science, English and Social Science are taught most.
 int defaultPeriodsPerWeek(String subject) {
   final s = subject.toLowerCase();
-  if (s.contains('social') || s.contains('hindi')) return 5; // before 'science': "Social Science"
+  // Before 'science': "Social Science". EVS is classes 3-5's science and social studies in one.
+  if (s.contains('social') || s.contains('hindi') || s == 'evs') return 5;
   if (s.contains('math') || s.contains('science') || s.contains('english')) return 6;
   return 2;
 }
