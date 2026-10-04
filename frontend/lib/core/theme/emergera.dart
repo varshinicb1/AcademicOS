@@ -203,11 +203,15 @@ class EmSurfaces {
       BoxShadow(color: Color(0x0D101220), offset: Offset(0, 1), blurRadius: 2),
       BoxShadow(color: Color(0x12101220), offset: Offset(0, 6), blurRadius: 20),
     ],
-    auroraCore: const Color(0xFFFFF0E3),
+    // The dawn wash, as visible as the dark theme's night glow (owner,
+    // 2026-10-04: "add the gradient colors to white theme as well"): the
+    // brand's 20% glows multiplied over white all but vanished. Cards stay
+    // white glass over it, so text keeps its contrast.
+    auroraCore: const Color(0xFFFFE6D3),
     auroraBase: const Color(0xFFFFFFFF),
-    auroraOpacity: .20,
+    auroraOpacity: .55,
     auroraBlend: BlendMode.multiply,
-    pageAuroraOpacity: .6,
+    pageAuroraOpacity: .8,
   );
 }
 
@@ -373,7 +377,10 @@ class _EmBackdropState extends State<EmBackdrop> with SingleTickerProviderStateM
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final still = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
+    // Phones and small tablets get the aurora too, painted once and held
+    // still: the drift is the costly part the brand turns off there.
+    final narrow = (MediaQuery.maybeSizeOf(context)?.width ?? 1000) <= 820;
+    final still = (MediaQuery.maybeDisableAnimationsOf(context) ?? false) || narrow;
     if (still) {
       _drift.stop();
     } else if (!_drift.isAnimating) {
@@ -415,12 +422,12 @@ class _AuroraPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
-    // .page-aurora (site.css): the whole layer at 42% (60% light) over the
+    // .page-aurora (site.css): the whole layer at 42% (80% light) over the
     // page colour, its horizon below the window (--aurora-y: 115%), so the
-    // glow rises from the bottom edge; phones and touch screens (<= 820 px)
-    // get the plain page, as the brand turns the costly layer off there.
+    // glow rises from the bottom edge. Phones and touch screens (<= 820 px)
+    // get it still (the drift stops in didChangeDependencies), not the plain
+    // page the brand gives them.
     canvas.drawRect(rect, Paint()..color = s.auroraBase);
-    if (size.width <= 820) return;
     final horizon = size.height * 1.15;
     canvas.saveLayer(rect, Paint()..color = Color.fromRGBO(0, 0, 0, s.pageAuroraOpacity));
     canvas.drawRect(

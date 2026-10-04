@@ -173,7 +173,9 @@ class _InvitesPanelState extends State<InvitesPanel> {
   static String _date(String iso) {
     final d = DateTime.tryParse(iso)?.toLocal();
     if (d == null) return iso;
-    return '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+    // "4 Oct 2026", as people read a date (was 2026-10-04).
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return '${d.day} ${months[d.month - 1]} ${d.year}';
   }
 
   Widget _childPicker(ThemeData theme) {
@@ -233,6 +235,8 @@ class _InvitesPanelState extends State<InvitesPanel> {
             children: [
               SegmentedButton<String>(
                 key: const ValueKey('invite-role'),
+                // Without the tick, "Teacher" fits a phone's third of the row.
+                showSelectedIcon: false,
                 segments: [
                   for (final e in _roleNames.entries) ButtonSegment(value: e.key, label: Text(e.value)),
                 ],

@@ -119,7 +119,7 @@ void main() {
 
     expect(server.calls, ['GET /auth/invites']);
     expect(find.textContaining('open-code-1234567890ab'), findsOneWidget);
-    expect(find.textContaining('Used 2026-09-21'), findsOneWidget);
+    expect(find.textContaining('Used 21 Sep 2026'), findsOneWidget);
     // Only the open invite can be withdrawn.
     expect(find.text('Withdraw'), findsOneWidget);
 
@@ -137,6 +137,6 @@ void main() {
 
     expect(server.calls, contains('DELETE /auth/invites/open-code-1234567890ab'));
     expect(find.text('Withdraw'), findsNothing);
-    expect(find.textContaining('Withdrawn 2026-09-22'), findsOneWidget);
+    expect(find.textContaining('Withdrawn 22 Sep 2026'), findsOneWidget);
   });
 }

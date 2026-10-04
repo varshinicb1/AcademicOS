@@ -42,6 +42,7 @@ const _hi = <String, String>{
   'My children': 'मेरे बच्चे',
   'Timetable, homework, progress and consent': 'समय-सारणी, गृहकार्य, प्रगति और सहमति',
   'Attendance & cover': 'उपस्थिति और स्थानापन्न',
+  'Cover': 'स्थानापन्न',
   'Mark absences, leave and substitutions': 'अनुपस्थिति, छुट्टी और स्थानापन्न',
   'Homework': 'गृहकार्य',
   'Set, mark and follow up': 'दें, जाँचें और पूछें',

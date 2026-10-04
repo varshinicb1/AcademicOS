@@ -90,9 +90,10 @@ class _TimetableAdminPageState extends State<TimetableAdminPage> {
     return DefaultTabController(
       length: 7,
       child: Scaffold(
-        appBar: destinationAppBar(context,
+        appBar: destinationAppBar(context,
+
           title: Text(tr('Timetable')),
-          bottom: TabBar(isScrollable: true, tabs: [
+          bottom: TabBar(isScrollable: true, tabAlignment: TabAlignment.start, tabs: [
             Tab(text: tr('Allocations')),
             Tab(text: tr('Groups')),
             Tab(text: tr('Rooms')),
