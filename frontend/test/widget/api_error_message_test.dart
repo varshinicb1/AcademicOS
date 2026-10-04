@@ -110,12 +110,22 @@ void main() {
 
     test('a 5xx with no detail says the server failed, never the connection', () {
       final message = serverErrorMessage(_refused(500, null));
-      expect(message, contains('HTTP 500'));
+      expect(message, 'The server had a problem — try again shortly');
       expect(message, isNot(contains('connection')));
     });
 
-    test('an answer the server gave with no usable body still names its status', () {
-      expect(serverErrorMessage(_refused(409, '<html>conflict</html>')), contains('HTTP 409'));
+    // Until 2026-10-04 these named the status ("HTTP 409"), which tells a
+    // principal nothing; the server's log has it.
+    test('an answer with no usable body is a sentence, never a status code', () {
+      for (final status in [400, 405, 409, 413, 429, 408, 504, 500, 503]) {
+        final message = serverErrorMessage(_refused(status, '<html>conflict</html>'));
+        expect(message, isNot(contains('HTTP')), reason: '$status');
+        expect(message, isNot(contains('$status')), reason: '$status');
+      }
+      expect(serverErrorMessage(_refused(409, '<html>conflict</html>')),
+          "That didn't go through — try again, and tell us if it keeps happening");
+      expect(serverErrorMessage(_refused(429, null)), contains('wait a minute'));
+      expect(serverErrorMessage(_refused(413, null)), contains('too large'));
     });
 
     test("a plain Exception shows its message without Dart's 'Exception: ' prefix", () {
