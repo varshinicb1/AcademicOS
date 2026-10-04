@@ -2270,6 +2270,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/leave-balances": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Leave Balances
+         * @description Every teacher's leave this year, least left first.
+         */
+        get: operations["leave_balances_api_v1_curriculum_leave_balances_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/leave-requests": {
         parameters: {
             query?: never;
@@ -2505,6 +2525,26 @@ export interface paths {
          *     periods on leave marked away); a student's section's day.
          */
         get: operations["my_day_api_v1_curriculum_my_day_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/my-leave-balance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * My Leave Balance
+         * @description The caller's leave this year, and what will happen to a new request.
+         */
+        get: operations["my_leave_balance_api_v1_curriculum_my_leave_balance_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3092,6 +3132,30 @@ export interface paths {
          *     an arbitrary school_id string.
          */
         post: operations["seed_cbse10_api_v1_curriculum_seed_cbse10_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/staff-policy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Staff Policy
+         * @description The school's leave and check-in rules.
+         */
+        get: operations["get_staff_policy_api_v1_curriculum_staff_policy_get"];
+        /**
+         * Set Staff Policy
+         * @description Set the school's leave and check-in rules. Audited with before and after.
+         */
+        put: operations["set_staff_policy_api_v1_curriculum_staff_policy_put"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -7018,6 +7082,21 @@ export interface components {
             fillFromOutsideScope: boolean;
             scope?: components["schemas"]["TemplateScope"] | null;
         };
+        /** BalanceResponse */
+        BalanceResponse: {
+            /** Allowance */
+            allowance: number;
+            /** Left */
+            left: number;
+            /** Name */
+            name: string;
+            /** Pending */
+            pending: number;
+            /** Teacherid */
+            teacherId: string;
+            /** Used */
+            used: number;
+        };
         /** BankChapter */
         BankChapter: {
             /** Chapterid */
@@ -9570,8 +9649,15 @@ export interface components {
             academicYearId: string;
             /** Createdby */
             createdBy: string;
+            /**
+             * Decidedautomatically
+             * @default false
+             */
+            decidedAutomatically: boolean;
             /** Decidedby */
             decidedBy?: string | null;
+            /** Decisionnote */
+            decisionNote?: string | null;
             document?: components["schemas"]["LeaveDocumentResponse"] | null;
             /** Enddate */
             endDate: string;
@@ -9724,6 +9810,27 @@ export interface components {
             checked: number;
             /** Missing */
             missing: string[];
+        };
+        /** MyBalanceResponse */
+        MyBalanceResponse: {
+            /** Allowance */
+            allowance: number;
+            /** Autoapprove */
+            autoApprove: boolean;
+            /** Left */
+            left: number;
+            /** Maxautodays */
+            maxAutoDays: number;
+            /** Minnoticedays */
+            minNoticeDays: number;
+            /** Name */
+            name: string;
+            /** Pending */
+            pending: number;
+            /** Teacherid */
+            teacherId: string;
+            /** Used */
+            used: number;
         };
         /** MyClassScheduleEntryResponse */
         MyClassScheduleEntryResponse: {
@@ -12740,6 +12847,76 @@ export interface components {
             name: string;
             /** Role */
             role: string;
+        };
+        /** StaffPolicyBody */
+        StaffPolicyBody: {
+            /**
+             * Annualallowancedays
+             * @default 12
+             */
+            annualAllowanceDays: number;
+            /**
+             * Autoapprove
+             * @default false
+             */
+            autoApprove: boolean;
+            /**
+             * Checkingraceminutes
+             * @default 10
+             */
+            checkInGraceMinutes: number;
+            /**
+             * Checkinreminder
+             * @default true
+             */
+            checkInReminder: boolean;
+            /**
+             * Maxautodays
+             * @default 2
+             */
+            maxAutoDays: number;
+            /**
+             * Minnoticedays
+             * @default 1
+             */
+            minNoticeDays: number;
+        };
+        /** StaffPolicyResponse */
+        StaffPolicyResponse: {
+            /**
+             * Annualallowancedays
+             * @default 12
+             */
+            annualAllowanceDays: number;
+            /**
+             * Autoapprove
+             * @default false
+             */
+            autoApprove: boolean;
+            /**
+             * Checkingraceminutes
+             * @default 10
+             */
+            checkInGraceMinutes: number;
+            /**
+             * Checkinreminder
+             * @default true
+             */
+            checkInReminder: boolean;
+            /** Firstbell */
+            firstBell?: string | null;
+            /**
+             * Maxautodays
+             * @default 2
+             */
+            maxAutoDays: number;
+            /**
+             * Minnoticedays
+             * @default 1
+             */
+            minNoticeDays: number;
+            /** Updatedat */
+            updatedAt?: string | null;
         };
         /** StudentConcern */
         StudentConcern: {
@@ -18121,6 +18298,26 @@ export interface operations {
             };
         };
     };
+    leave_balances_api_v1_curriculum_leave_balances_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BalanceResponse"][];
+                };
+            };
+        };
+    };
     list_leave_api_v1_curriculum_leave_requests_get: {
         parameters: {
             query?: {
@@ -18552,6 +18749,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    my_leave_balance_api_v1_curriculum_my_leave_balance_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyBalanceResponse"];
                 };
             };
         };
@@ -19542,6 +19759,59 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SeedCbse10Response"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_staff_policy_api_v1_curriculum_staff_policy_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StaffPolicyResponse"];
+                };
+            };
+        };
+    };
+    set_staff_policy_api_v1_curriculum_staff_policy_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StaffPolicyBody"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StaffPolicyResponse"];
                 };
             };
             /** @description Validation Error */

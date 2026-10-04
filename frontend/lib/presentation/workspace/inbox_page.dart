@@ -47,7 +47,8 @@ class _InboxPageState extends State<InboxPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: destinationAppBar(context, title: Text(tr('Notifications')), actions: [
+      // "Inbox", as the menu and the app's tab say: "Notifications" was cut to "Notific..." on a phone.
+      appBar: destinationAppBar(context, title: Text(tr('Inbox')), actions: [
         TextButton(
           onPressed: () async {
             final messenger = ScaffoldMessenger.of(context);

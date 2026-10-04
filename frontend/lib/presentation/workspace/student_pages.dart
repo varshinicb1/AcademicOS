@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/session/current_session.dart';
 import '../../data/datasources/api/api_error.dart';
+import '../shared/readable.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'practice_page.dart';
@@ -77,7 +78,7 @@ class HomeworkStatusTile extends StatelessWidget {
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(item['title'] ?? '', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
             const SizedBox(height: 4),
-            Text('${item['subjectName']} · due ${item['dueDate']}', style: theme.textTheme.bodySmall),
+            Text('${item['subjectName']} · due ${readableDate(item['dueDate'] as String)}', style: theme.textTheme.bodySmall),
           ]),
         ),
         ChipTag(label: label, color: color),
@@ -169,7 +170,7 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
           Padding(padding: const EdgeInsets.only(bottom: 8), child: Text(
               'Do this together: read each question to ${widget.childName ?? 'your child'}, let them answer, and hand it in.',
               style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.primary))),
-        Text('${hw['subjectName']} · due ${hw['dueDate']} · ${hw['totalMarks']} marks', style: theme.textTheme.bodyMedium),
+        Text('${hw['subjectName']} · due ${readableDate(hw['dueDate'] as String)} · ${hw['totalMarks']} marks', style: theme.textTheme.bodyMedium),
         if ((hw['instructions'] as String? ?? '').isNotEmpty)
           Padding(padding: const EdgeInsets.only(top: 8), child: Text(hw['instructions'])),
         if (graded)

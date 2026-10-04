@@ -1491,6 +1491,44 @@
         "title": "AvailabilityRequest",
         "type": "object"
       },
+      "BalanceResponse": {
+        "properties": {
+          "allowance": {
+            "title": "Allowance",
+            "type": "number"
+          },
+          "left": {
+            "title": "Left",
+            "type": "number"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "pending": {
+            "title": "Pending",
+            "type": "number"
+          },
+          "teacherId": {
+            "title": "Teacherid",
+            "type": "string"
+          },
+          "used": {
+            "title": "Used",
+            "type": "number"
+          }
+        },
+        "required": [
+          "teacherId",
+          "name",
+          "allowance",
+          "used",
+          "pending",
+          "left"
+        ],
+        "title": "BalanceResponse",
+        "type": "object"
+      },
       "BankChapter": {
         "properties": {
           "chapterId": {
@@ -8231,6 +8269,11 @@
             "title": "Createdby",
             "type": "string"
           },
+          "decidedAutomatically": {
+            "default": false,
+            "title": "Decidedautomatically",
+            "type": "boolean"
+          },
           "decidedBy": {
             "anyOf": [
               {
@@ -8241,6 +8284,17 @@
               }
             ],
             "title": "Decidedby"
+          },
+          "decisionNote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decisionnote"
           },
           "document": {
             "anyOf": [
@@ -8668,6 +8722,59 @@
           "missing"
         ],
         "title": "MissingConsentResponse",
+        "type": "object"
+      },
+      "MyBalanceResponse": {
+        "properties": {
+          "allowance": {
+            "title": "Allowance",
+            "type": "number"
+          },
+          "autoApprove": {
+            "title": "Autoapprove",
+            "type": "boolean"
+          },
+          "left": {
+            "title": "Left",
+            "type": "number"
+          },
+          "maxAutoDays": {
+            "title": "Maxautodays",
+            "type": "number"
+          },
+          "minNoticeDays": {
+            "title": "Minnoticedays",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "pending": {
+            "title": "Pending",
+            "type": "number"
+          },
+          "teacherId": {
+            "title": "Teacherid",
+            "type": "string"
+          },
+          "used": {
+            "title": "Used",
+            "type": "number"
+          }
+        },
+        "required": [
+          "teacherId",
+          "name",
+          "allowance",
+          "used",
+          "pending",
+          "left",
+          "autoApprove",
+          "maxAutoDays",
+          "minNoticeDays"
+        ],
+        "title": "MyBalanceResponse",
         "type": "object"
       },
       "MyClassScheduleEntryResponse": {
@@ -16416,6 +16523,118 @@
           "role"
         ],
         "title": "StaffMember",
+        "type": "object"
+      },
+      "StaffPolicyBody": {
+        "additionalProperties": false,
+        "properties": {
+          "annualAllowanceDays": {
+            "default": 12,
+            "maximum": 365.0,
+            "minimum": 0.0,
+            "title": "Annualallowancedays",
+            "type": "number"
+          },
+          "autoApprove": {
+            "default": false,
+            "title": "Autoapprove",
+            "type": "boolean"
+          },
+          "checkInGraceMinutes": {
+            "default": 10,
+            "maximum": 180.0,
+            "minimum": 0.0,
+            "title": "Checkingraceminutes",
+            "type": "integer"
+          },
+          "checkInReminder": {
+            "default": true,
+            "title": "Checkinreminder",
+            "type": "boolean"
+          },
+          "maxAutoDays": {
+            "default": 2,
+            "maximum": 30.0,
+            "minimum": 0.5,
+            "title": "Maxautodays",
+            "type": "number"
+          },
+          "minNoticeDays": {
+            "default": 1,
+            "maximum": 30.0,
+            "minimum": 0.0,
+            "title": "Minnoticedays",
+            "type": "integer"
+          }
+        },
+        "title": "StaffPolicyBody",
+        "type": "object"
+      },
+      "StaffPolicyResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "annualAllowanceDays": {
+            "default": 12,
+            "maximum": 365.0,
+            "minimum": 0.0,
+            "title": "Annualallowancedays",
+            "type": "number"
+          },
+          "autoApprove": {
+            "default": false,
+            "title": "Autoapprove",
+            "type": "boolean"
+          },
+          "checkInGraceMinutes": {
+            "default": 10,
+            "maximum": 180.0,
+            "minimum": 0.0,
+            "title": "Checkingraceminutes",
+            "type": "integer"
+          },
+          "checkInReminder": {
+            "default": true,
+            "title": "Checkinreminder",
+            "type": "boolean"
+          },
+          "firstBell": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Firstbell"
+          },
+          "maxAutoDays": {
+            "default": 2,
+            "maximum": 30.0,
+            "minimum": 0.5,
+            "title": "Maxautodays",
+            "type": "number"
+          },
+          "minNoticeDays": {
+            "default": 1,
+            "maximum": 30.0,
+            "minimum": 0.0,
+            "title": "Minnoticedays",
+            "type": "integer"
+          },
+          "updatedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updatedat"
+          }
+        },
+        "title": "StaffPolicyResponse",
         "type": "object"
       },
       "StudentConcern": {
@@ -26330,6 +26549,34 @@
         "summary": "List Subjects"
       }
     },
+    "/api/v1/curriculum/leave-balances": {
+      "get": {
+        "description": "Every teacher's leave this year, least left first.",
+        "operationId": "leave_balances_api_v1_curriculum_leave_balances_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/BalanceResponse"
+                  },
+                  "title": "Response Leave Balances Api V1 Curriculum Leave Balances Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Leave Balances"
+      }
+    },
     "/api/v1/curriculum/leave-requests": {
       "get": {
         "description": "The principal sees the current year's requests; a teacher their own.",
@@ -26993,6 +27240,30 @@
           }
         ],
         "summary": "My Day"
+      }
+    },
+    "/api/v1/curriculum/my-leave-balance": {
+      "get": {
+        "description": "The caller's leave this year, and what will happen to a new request.",
+        "operationId": "my_leave_balance_api_v1_curriculum_my_leave_balance_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyBalanceResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Leave Balance"
       }
     },
     "/api/v1/curriculum/my-progress": {
@@ -28482,6 +28753,72 @@
           }
         ],
         "summary": "Seed Cbse10"
+      }
+    },
+    "/api/v1/curriculum/staff-policy": {
+      "get": {
+        "description": "The school's leave and check-in rules.",
+        "operationId": "get_staff_policy_api_v1_curriculum_staff_policy_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffPolicyResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Staff Policy"
+      },
+      "put": {
+        "description": "Set the school's leave and check-in rules. Audited with before and after.",
+        "operationId": "set_staff_policy_api_v1_curriculum_staff_policy_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StaffPolicyBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffPolicyResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set Staff Policy"
       }
     },
     "/api/v1/curriculum/student-enrollments": {

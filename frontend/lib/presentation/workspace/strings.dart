@@ -216,6 +216,15 @@ const _hi = <String, String>{
   'Lessons taught against the plan to date': 'आज तक की योजना के सामने पढ़ाए गए पाठ',
   'Every class is on plan.': 'हर कक्षा योजना के अनुसार है।',
   'behind': 'पीछे',
+  'Checked in after the first bell: recorded as late.': 'पहली घंटी के बाद उपस्थिति: देर से दर्ज।',
+  'days of leave left this year.': 'दिन का अवकाश इस वर्ष शेष।',
+  'Leave of up to': 'अधिकतम',
+  'days, asked': 'दिन का अवकाश,',
+  'day(s) ahead, is approved at once.': 'दिन पहले माँगने पर तुरंत स्वीकृत होता है।',
+  'Your principal decides each request.': 'हर अनुरोध पर प्रधानाचार्य निर्णय लेते हैं।',
+  'Leave approved by the school\'s rule. Cover for your periods is being arranged.':
+      'विद्यालय के नियम से अवकाश स्वीकृत। आपके पीरियड की व्यवस्था की जा रही है।',
+  'of': 'में से',
   'About ten minutes, and your school will be ready to make question papers for the classes you teach, from 6 to 10.':
       'लगभग दस मिनट में आपका विद्यालय, कक्षा 6 से 10 में जो कक्षाएँ आप पढ़ाते हैं, उनके प्रश्न पत्र बनाने के लिए तैयार होगा।',
   'Plans that cannot finish': 'योजनाएँ जो पूरी नहीं हो सकतीं',
