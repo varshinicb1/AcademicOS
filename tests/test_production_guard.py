@@ -498,10 +498,10 @@ def test_firebase_hosting_is_an_spa_with_security_headers():
     assert everywhere["Referrer-Policy"] == "strict-origin-when-cross-origin"
     csp = everywhere["Content-Security-Policy"]
     assert "frame-ancestors 'none'" in csp
-    # Flutter web needs wasm compilation and blob: workers in some renderers;
-    # a script-src/default-src here would have to allow them, and getting it
-    # wrong blanks the app. The header restricts framing only.
-    assert "script-src" not in csp and "default-src" not in csp
+    # The rest of the policy (script-src, connect-src ...) is held by tests/test_hosting_csp.py. Until
+    # 2026-10-04 this header restricted framing only, because a wrong script-src blanks the app; the
+    # policy now there was tried against the built app in a browser first.
+    assert "script-src" in csp
 
 
 def test_bootstrap_creates_cloud_sql_on_the_enterprise_edition():
