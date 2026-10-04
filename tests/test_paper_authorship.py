@@ -77,6 +77,39 @@ def test_a_colleague_cannot_change_or_take_a_paper_but_reads_its_questions(
         assert client.get(f"/api/v1/assessments/{aid}", headers=ana).json()["title"] == asm["title"]
 
 
+def test_no_other_route_lets_a_colleague_change_or_send_a_paper(tmp_path, monkeypatch, seeded):
+    """Review 2026-10-04: generate-from-ids replaced any named assessment's paper, /papers/generate
+    had no author check, and the mail route sent a colleague's paper and key."""
+    with _boot_client(tmp_path, monkeypatch) as client:
+        ana, ana_id = _join(client, "ana@example.com")
+        bob, bob_id = _join(client, "bob@example.com")
+        paper = _generate(client, ana)
+        pid, aid = paper["id"], paper["assessmentId"]
+        qids = [q["questionId"] for s in paper["sections"] for q in s["questions"]][:3]
+
+        r = client.post("/api/v1/papers/generate-from-ids", headers=bob,
+                        json={"assessmentId": aid, "subject": "Science", "grade": 10, "questionIds": qids})
+        assert r.status_code == 403 and "author" in r.json()["detail"], r.text
+        asm = client.get(f"/api/v1/assessments/{aid}", headers=ana).json()
+        assert asm["generatedPaperId"] == pid, "Bob's request did not replace Ana's paper"
+
+        r = client.post("/api/v1/papers/generate", headers=bob, json={
+            "assessmentId": aid, "blueprint": asm["blueprint"], "selectedQuestions": [{"id": "x"}],
+            "template": {}})
+        assert r.status_code in (403, 422), r.text  # refused, whichever check answers first
+        r = client.post("/api/v1/mail/send-paper", headers=bob, json={
+            "paperId": pid, "paperTitle": "t", "schoolName": "s", "subjectName": "Science", "grade": 10,
+            "recipients": ["someone@example.com"]})
+        assert r.status_code == 403, r.text
+
+        # A PUT that creates is the caller's own paper, whatever teacherId the body names.
+        planted = {**asm, "id": "asm_planted", "teacherId": ana_id, "status": "draft",
+                   "generatedPaperId": None, "title": "Planted"}
+        r = client.put("/api/v1/assessments/asm_planted", json=planted, headers=bob)
+        assert r.status_code == 200, r.text
+        assert r.json()["teacherId"] == bob_id
+
+
 def test_the_principal_and_an_exams_admin_may_change_and_take_it(tmp_path, monkeypatch, seeded):
     with _boot_client(tmp_path, monkeypatch) as client:
         ana, _ = _join(client, "ana@example.com")
