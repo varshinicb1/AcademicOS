@@ -101,7 +101,7 @@ void main() {
 
   testWidgets('the principal is shown the next step, not an error, and it opens the wizard', (tester) async {
     await pump(tester, const Scaffold(body: ErrorDisplay(message: termReport)));
-    expect(find.text('Error'), findsNothing);
+    expect(find.text(errorDisplayTitle), findsNothing);
     expect(find.text("Your school isn't set up yet"), findsOneWidget);
     await tester.tap(find.byKey(const ValueKey('school-not-set-up-action')));
     await tester.pumpAndSettle();
@@ -117,7 +117,7 @@ void main() {
 
   testWidgets('a real failure is still an error', (tester) async {
     await pump(tester, const Scaffold(body: ErrorDisplay(message: 'Something went wrong (500).')));
-    expect(find.text('Error'), findsOneWidget);
+    expect(find.text(errorDisplayTitle), findsOneWidget);
     expect(find.byKey(const ValueKey('school-not-set-up')), findsNothing);
   });
 

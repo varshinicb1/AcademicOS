@@ -347,6 +347,9 @@ class SchoolNotSetUp extends StatelessWidget {
   }
 }
 
+/// The heading [ErrorDisplay] puts over a failure's sentence.
+const errorDisplayTitle = "This didn't load";
+
 class ErrorDisplay extends StatelessWidget {
   final String message;
   final VoidCallback? onRetry;
@@ -378,22 +381,39 @@ class ErrorDisplay extends StatelessWidget {
         ),
       );
     }
+    // Until 2026-10-04 this was a 64 px red icon over a red "Error": a page
+    // that could not load looked broken, whatever the sentence under it said.
+    // Now one calm heading that says what happened, the sentence, and Retry.
+    final theme = Theme.of(context);
+    final offline = message == unreachableMessage;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppConstants.largePadding),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.error_outline, size: 64, color: Theme.of(context).colorScheme.error),
-            const SizedBox(height: 16),
-            Text('Error', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.error)),
-            const SizedBox(height: 8),
-            Text(message, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant), textAlign: TextAlign.center),
-            if (onRetry != null) ...[
-              const SizedBox(height: 24),
-              FilledButton.icon(onPressed: onRetry, icon: const Icon(Icons.refresh), label: Text(retryLabel ?? 'Retry')),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 480),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(offline ? Icons.cloud_off_outlined : Icons.info_outline,
+                  size: 40, color: theme.colorScheme.onSurfaceVariant),
+              const SizedBox(height: 12),
+              Text(errorDisplayTitle, key: const ValueKey('error-display-title'),
+                  style: theme.textTheme.titleMedium, textAlign: TextAlign.center),
+              const SizedBox(height: 6),
+              Text(message,
+                  style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                  textAlign: TextAlign.center),
+              if (onRetry != null) ...[
+                const SizedBox(height: 20),
+                FilledButton.icon(
+                    style: phoneTapTarget(context),
+                    onPressed: onRetry,
+                    icon: const Icon(Icons.refresh),
+                    label: Text(retryLabel ?? 'Retry')),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

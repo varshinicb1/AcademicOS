@@ -97,7 +97,7 @@ void main() {
 
     testWidgets('a 500 on create says the server failed, not the connection', (tester) async {
       await pumpAndCreate(tester, (500, null));
-      expect(find.textContaining('HTTP 500'), findsOneWidget);
+      expect(find.textContaining('The server had a problem'), findsOneWidget);
       expect(find.textContaining('connection'), findsNothing);
     });
 
@@ -143,7 +143,7 @@ void main() {
       final server = await pumpAndExpand(tester, (500, null));
 
       expect(find.textContaining('Could not load subtopics for $chapterName'), findsOneWidget);
-      expect(find.textContaining('HTTP 500'), findsOneWidget);
+      expect(find.textContaining('The server had a problem'), findsOneWidget);
       expect(find.textContaining('no subtopic breakdown yet'), findsNothing,
           reason: 'a server failure is not a chapter without subtopics');
 
@@ -237,7 +237,7 @@ void main() {
     test('a 500 on sign-in says the server failed, not the connection', () async {
       final e = await failure((api) => api.login(email: 'a@b.in', password: 'pw12345678'),
           {'POST /auth/login': (500, null)});
-      expect(e.message, contains('HTTP 500'));
+      expect(e.message, contains('The server had a problem'));
       expect(e.message, isNot(contains('connection')));
     });
   });
