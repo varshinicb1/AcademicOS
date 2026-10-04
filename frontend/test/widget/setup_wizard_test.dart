@@ -170,6 +170,10 @@ void main() {
 
     // Classes: 9 and 10 are chosen for you; a second section for Class 10.
     expect(find.text('Classes and sections'), findsOneWidget);
+    // Classes 1-10 are listed (1-5 since 2026-10-04): 9 and 10 are below the fold.
+    expect(find.byKey(const ValueKey('wizard-class-1')), findsOneWidget);
+    await tester.scrollUntilVisible(find.byKey(const ValueKey('wizard-sections-more-10')), 150,
+        scrollable: find.byType(Scrollable).first);
     expect(tester.widget<CheckboxListTile>(find.byKey(const ValueKey('wizard-class-9'))).value, isTrue);
     expect(tester.widget<CheckboxListTile>(find.byKey(const ValueKey('wizard-class-8'))).value, isFalse);
     await tap(tester, 'wizard-sections-more-10');

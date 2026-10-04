@@ -103,6 +103,7 @@ void main() {
   test('core subjects get a heavier week than the rest', () {
     expect(defaultPeriodsPerWeek('Mathematics'), 6);
     expect(defaultPeriodsPerWeek('Social Science'), 5);
+    expect(defaultPeriodsPerWeek('EVS'), 5);
     expect(defaultPeriodsPerWeek('Art Education'), 2);
   });
 }

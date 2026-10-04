@@ -241,6 +241,23 @@ def test_the_principal_may_give_other_dates_saturdays_and_a_bell(client):
         ("09:00", "teaching"), ("09:45", "break"), ("10:15", "teaching")]
 
 
+def test_a_primary_school_sets_up_classes_1_to_5_from_their_books(client):
+    """N-3-2: classes 1-5 could not be set up ("choose classes 6 to 10"); their
+    books' chapters are committed now, so they set up like any other class."""
+    auth = _principal(client)
+    r = client.post(SETUP, headers=auth, json={"classes": [{"grade": 1}, {"grade": 3, "sections": ["A", "B"]}]})
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert _sections(client, auth, body["academicYear"]["id"]) == ["1-A", "3-A", "3-B"]
+    by_grade = {c["grade"]: c for c in body["classes"]}
+    for grade, names in ((1, {"English", "Hindi", "Mathematics"}), (3, {"English", "Hindi", "Mathematics", "EVS"})):
+        subjects = client.get(f"{BASE}/grades/{by_grade[grade]['gradeId']}/subjects", headers=auth).json()
+        assert {s["name"] for s in subjects} == names
+        assert by_grade[grade]["chaptersAdded"] > 0
+    # Class 1: Mridang 9 + Sarangi 19 + Joyful Mathematics 13; class 3: 12 + 18 + 14 + 12.
+    assert (by_grade[1]["chaptersAdded"], by_grade[3]["chaptersAdded"]) == (41, 56)
+
+
 def test_saturday_as_a_weekly_off_leaves_it_out_of_the_bell(client):
     auth = _principal(client)
     body = client.post(SETUP, headers=auth, json={
@@ -250,8 +267,7 @@ def test_saturday_as_a_weekly_off_leaves_it_out_of_the_bell(client):
 
 
 @pytest.mark.parametrize("body,reason", [
-    ({"classes": [{"grade": 3}]}, "class 3 cannot be set up here: choose classes 6 to 10"),
-    ({"classes": [{"grade": 11}]}, "class 11 cannot be set up here"),
+    ({"classes": [{"grade": 11}]}, "class 11 cannot be set up here: choose classes 1 to 10"),
     ({"classes": [{"grade": 6}, {"grade": 6}]}, "class 6 is listed twice"),
     ({"classes": [{"grade": 6, "sections": ["  "]}]}, "a section needs a name"),
     ({"startDate": "2026-04-01", "endDate": "2026-03-01"}, "before it starts"),
