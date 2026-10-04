@@ -227,6 +227,51 @@ class _PlanPanelState extends State<_PlanPanel> {
     ], lessons);
   }
 
+  bool get _isPrincipal => CurrentSession.role == 'principal';
+
+  /// The principal's own click approves the topics proposed from the book's headings, chapter by
+  /// chapter, for the chapters that have none approved. It used to be a step on another tab of the
+  /// admin console, and a school that had not found it saw a page that could not plan anything.
+  /// Returns the book as it is afterwards, or null if it failed (the error is on the page).
+  Future<_BookView?> _approveTopics(_BookView view) async {
+    final todo = [
+      for (final c in view.chapters)
+        if (_BookView.subtopicCount(c.topics) == 0) c.chapter['id'] as String,
+    ];
+    setState(() {
+      _busy = true;
+      _error = null;
+      _step = tr("Approving the book's proposed topics...");
+    });
+    try {
+      for (final id in todo) {
+        await Ops.post('$_base/chapters/$id/topics/approve-all');
+        if (!mounted) return null;
+      }
+      final fresh = await _loadBook();
+      if (!mounted) return null;
+      setState(() {
+        _future = Future.value(fresh);
+      });
+      return fresh;
+    } catch (e) {
+      if (mounted) setState(() => _error = serverErrorMessage(e));
+      return null;
+    } finally {
+      if (mounted) {
+        setState(() {
+          _busy = false;
+          _step = null;
+        });
+      }
+    }
+  }
+
+  Future<void> _approveAndMake(_BookView view) async {
+    final fresh = await _approveTopics(view);
+    if (fresh != null && fresh.readyChapters > 0 && mounted) await _make(fresh);
+  }
+
   Future<void> _make(_BookView view) async {
     final bookId = view.book!['id'] as String;
     final query = {'academic_year_id': widget.yearId};
@@ -292,7 +337,10 @@ class _PlanPanelState extends State<_PlanPanel> {
         final taught = lessons.where((l) => l['status'] == 'completed').length;
         final skipped = lessons.where((l) => l['status'] == 'skipped').length;
         final dated = lessons.where((l) => l['status'] != 'unscheduled').map((l) => l['date'] as String).toList()..sort();
-        final canMake = !_busy && alloc != null && ready > 0;
+        // A principal can approve the book's proposed topics from here, so a book with none approved
+        // is a step away from a plan, not a dead end.
+        final needsApproval = notReady.isNotEmpty && _isPrincipal;
+        final canMake = !_busy && alloc != null && (ready > 0 || needsApproval);
         return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           AppCard(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -325,9 +373,21 @@ class _PlanPanelState extends State<_PlanPanel> {
           if (notReady.isNotEmpty) ...[
             const Gap(8),
             Notice(
-              kind: NoticeKind.warning,
-              title: '${notReady.length} ${tr('chapters have no approved subtopics, so they cannot be dated.')}',
-              lines: [tr('Approve their proposed topics under Proposed topics, on the admin console\'s Sequence Reorder tab.')],
+              key: const ValueKey('plan-topics-waiting'),
+              kind: NoticeKind.info,
+              title: '${notReady.length} ${tr("chapters have topics waiting to be approved.")}',
+              lines: [
+                _isPrincipal
+                    ? tr("They come from the book's own headings. Approving them lets those chapters be dated.")
+                    : tr('Your principal approves the book\'s topics. Until then these chapters are left out of the plan.'),
+              ],
+              action: _isPrincipal
+                  ? OutlinedButton(
+                      key: const ValueKey('plan-approve-topics'),
+                      onPressed: _busy ? null : () => _approveTopics(view),
+                      child: Text(tr('Approve their topics')),
+                    )
+                  : null,
             ),
           ],
           const Gap(16),
@@ -349,9 +409,11 @@ class _PlanPanelState extends State<_PlanPanel> {
             alignment: Alignment.centerLeft,
             child: FilledButton(
               key: const ValueKey('plan-make'),
-              onPressed: canMake ? () => _make(view) : null,
+              onPressed: !canMake ? null : (ready == 0 ? () => _approveAndMake(view) : () => _make(view)),
               style: phoneTapTarget(context),
-              child: Text(lessons.isEmpty ? tr('Make the plan') : tr('Make the plan again')),
+              child: Text(ready == 0 && needsApproval
+                  ? tr('Approve the topics and make the plan')
+                  : lessons.isEmpty ? tr('Make the plan') : tr('Make the plan again')),
             ),
           ),
           if (_busy) ...[
@@ -390,10 +452,10 @@ class _ChapterRow extends StatelessWidget {
         const Gap(12),
         Text(
           subtopics == 0
-              ? tr('no approved subtopics')
+              ? tr('topics not approved yet')
               : '${topics.length} ${tr('topics')} · $subtopics ${tr('subtopics')}',
           style: theme.textTheme.bodySmall?.copyWith(
-              color: subtopics == 0 ? Theme.of(context).colorScheme.error : null),
+              color: subtopics == 0 ? theme.colorScheme.onSurfaceVariant : null),
         ),
       ]),
     );
