@@ -624,20 +624,36 @@ class _MyDayPageState extends State<MyDayPage> {
     };
     final pending = _duties.where((d) => d['status'] == 'proposed').toList();
     return Scaffold(
-      appBar: destinationAppBar(context, title: Text(tr('My day')), actions: [
-        FilledButton.tonalIcon(
-          key: const Key('check-in'),
-          onPressed: _checkedIn == null ? _checkIn : null,
-          icon: const Icon(Icons.how_to_reg),
-          label: Text(_checkedIn == null ? "I'm here" : 'Marked ${_checkedIn!.replaceAll('_', ' ')}'),
-        ),
-        const SizedBox(width: 12),
-      ]),
+      // "I'm here" sits at the top of the page, not in the app bar: on a phone
+      // it squeezed the title to "My d..." (2026-10-04).
+      appBar: destinationAppBar(context, title: Text(tr('My day'))),
       body: _error != null
           ? ErrorDisplay(message: _error!, onRetry: _load)
           : _rows == null
               ? const LoadingIndicator()
               : ListView(padding: const EdgeInsets.all(16), children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Row(children: [
+                      Expanded(
+                        child: Text(
+                          _checkedIn == null
+                              ? tr('Tell the school you are in today.')
+                              : tr('Your attendance for today is in.'),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      FilledButton.tonalIcon(
+                        key: const Key('check-in'),
+                        style: phoneTapTarget(context),
+                        onPressed: _checkedIn == null ? _checkIn : null,
+                        icon: Icon(_checkedIn == null ? Icons.how_to_reg : Icons.check_circle_outline),
+                        label: Text(_checkedIn == null ? "I'm here" : 'Marked ${_checkedIn!.replaceAll('_', ' ')}'),
+                      ),
+                    ]),
+                  ),
                   CalendarDayNotice(_calendarDay),
                   if (_ctxError != null)
                     Padding(

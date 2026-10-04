@@ -192,7 +192,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
             child: RefreshIndicator(
               onRefresh: _loadUnread,
               child: LayoutBuilder(builder: (context, c) {
-                final cols = c.maxWidth > 1100 ? 3 : (c.maxWidth > 700 ? 2 : 1);
+                final cols = c.maxWidth > 900 ? 3 : (c.maxWidth > 600 ? 2 : 1);
                 // One scroll for the cards and the tiles: the dashboard and the
                 // setup checklist above a fixed grid left a phone no room for it.
                 return CustomScrollView(slivers: [
@@ -208,12 +208,16 @@ class _WorkspacePageState extends State<WorkspacePage> {
                     // fixed 4.2:1 tile cut a phone's two-line subtitles short.
                     sliver: cols == 1
                         ? SliverList.list(children: [for (final t in tiles) _tile(context, theme, t)])
-                        : SliverGrid.count(
-                            crossAxisCount: cols,
-                            mainAxisSpacing: 12,
-                            crossAxisSpacing: 12,
-                            childAspectRatio: 3.0,
-                            children: [for (final t in tiles) _tile(context, theme, t)],
+                        // A fixed height, not an aspect ratio: at 3:1 a desktop tile was
+                        // 160 px tall for two lines of text (2026-10-04).
+                        : SliverGrid(
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: cols,
+                              mainAxisSpacing: 12,
+                              crossAxisSpacing: 12,
+                              mainAxisExtent: 116,
+                            ),
+                            delegate: SliverChildListDelegate([for (final t in tiles) _tile(context, theme, t)]),
                           ),
                   ),
                 ]);
@@ -238,7 +242,8 @@ class _WorkspacePageState extends State<WorkspacePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(t.title, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+                Text(t.title, maxLines: 1, overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
                 const SizedBox(height: 4),
                 Text(t.subtitle, style: theme.textTheme.bodySmall, maxLines: 2, overflow: TextOverflow.ellipsis),
               ],
