@@ -60,6 +60,7 @@ class _StudentTodayPageState extends State<StudentTodayPage> {
           }
         }
       }
+      if (!mounted) return;
       setState(() {
         _rows = rows..sort((a, b) => (a['period'] as int).compareTo(b['period'] as int));
         _due = homework.where((h) => h['myStatus'] == 'not_submitted' && (h['dueDate'] as String).compareTo(soon) <= 0).toList();
@@ -68,7 +69,7 @@ class _StudentTodayPageState extends State<StudentTodayPage> {
         _error = null;
       });
     } catch (e) {
-      setState(() => _error = serverErrorMessage(e));
+      if (mounted) setState(() => _error = serverErrorMessage(e));
     }
   }
 
