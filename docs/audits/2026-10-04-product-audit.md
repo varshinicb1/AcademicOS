@@ -43,15 +43,18 @@ Security
   (`route_policy.py`) and the route inventory test fails on an unlisted route. Good.
 - **Web local-store key sits beside the data.** `secure_box_web.dart` keeps the Hive encryption key in `localStorage`,
   next to the encrypted box, so on web it is obfuscation, not protection against script running on the page.
-- **CSP is `frame-ancestors 'none'` only** (`firebase.json`). There is no `script-src`, so it does not limit injected script.
-  Pair this with the previous item.
+- **CSP was `frame-ancestors 'none'` only.** Fixed the same day: a full policy (scripts from the site, gstatic and one pinned
+  pdf.js folder; one API origin; no inline script), tried in a browser and held by `tests/test_hosting_csp.py`; see
+  `docs/gcp-deployment.md`. The web local-store key beside its data is still open.
 - Verified present: HSTS, `nosniff`, referrer policy, `X-Frame-Options: DENY`.
 
 Compliance (DPDP)
 - Parental consent is enforced server-side, and the erasure registry (`operations/forget.py`) previews and erases a
   student across stores.
 - **No automated retention.** Nothing deletes data after a period; the privacy text must not promise that it does.
-- **The privacy policy text needs legal review** before it is relied on with schools.
+- **Privacy text** described the old offline app ("nothing is uploaded"). Rewritten the same day to describe the school
+  product: where data is kept, who receives it, consent, no automatic deletion, how to erase. It still **needs legal review**,
+  and a retention period, before it is relied on with schools.
 
 ## 4. Feature status (51 checks, local audit school)
 
@@ -80,6 +83,6 @@ Google sign-in rejects a malformed credential with 422; a datesheet cannot be pu
 
 ## 5. Suggested order
 
-1. Retention job and an accurate privacy policy, then legal review.
-2. CSP with a real `script-src`, and decide whether the web local store should hold a key at all.
+1. A retention period (the school's decision, then a job), and legal review of the privacy text.
+2. Decide whether the web local store should hold a key at all.
 3. Move the SQLite-snapshot stores to Cloud SQL before raising `--max-instances`.

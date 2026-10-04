@@ -238,6 +238,30 @@ Then attach the school's domain in the Firebase console (free Google-
 managed SSL). Skip this entirely if GitHub Pages is fine — the app only
 cares about the `ACADEMICOS_API` value baked in at build time.
 
+### Content-Security-Policy (firebase.json)
+
+The web host sends a real policy, held by `tests/test_hosting_csp.py`. It allows scripts only from the site
+itself, `www.gstatic.com` (the Flutter engine's CanvasKit, which needs `'wasm-unsafe-eval'`) and one pinned folder
+of pdf.js on unpkg (`https://unpkg.com/pdfjs-dist@3.2.146/build/`, loaded by the `printing` package for the paper
+preview). The browser may call one API origin, the Cloud Run URL named in `connect-src` and `img-src`.
+
+Change the policy in the same commit as any of these, or the app goes blank or a feature stops quietly:
+
+- **A new backend URL** (a custom domain, a new Cloud Run service): replace the `.run.app` origin in `connect-src`
+  and `img-src`.
+- **Google sign-in switched on** (`GET /auth/providers` returns a `google` client id): add Google's four Identity
+  Services entries, `script-src https://accounts.google.com/gsi/client`, `frame-src https://accounts.google.com/gsi/`,
+  `connect-src https://accounts.google.com/gsi/` and `style-src https://accounts.google.com/gsi/style`. It is off in
+  production today, so they are absent.
+- **A `printing` upgrade** that moves pdf.js to another version: change the pinned folder (the bundle names it:
+  search `main.dart.js` for `pdfjs-dist@`). Better, self-host pdf.js and set `dartPdfJsBaseUrl`, which removes the
+  unpkg entry.
+
+How it was checked: the built app was served with this exact header, signed in, and every student page opened with no
+violation; a probe loaded the pinned pdf.js and was refused another unpkg script and an inline script. Not covered
+by that check: the paper preview itself and Hindi fallback fonts, which need a teacher sign-in. If either breaks in
+production, the browser console names the blocked origin.
+
 ## 6. Cutover + verification (do this, in this order)
 
 0. **Apply the Cloud SQL schema — required before the first deploy, and
