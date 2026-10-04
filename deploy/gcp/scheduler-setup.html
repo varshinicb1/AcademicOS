@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scheduler and alerts</title>
+<style>
+  :root {
+    --bg: #fbfbfa; --surface: #ffffff; --ink: #161616; --muted: #5a5955; --line: #e4e2dd;
+    --accent: #c2410c; --accent-soft: #fff1e8; --code-bg: #f4f3f0; --ok: #15803d; --warn: #a16207;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121212; --surface: #1b1b1b; --ink: #ededeb; --muted: #a8a7a2; --line: #2e2e2c;
+      --accent: #fb923c; --accent-soft: #2a1d14; --code-bg: #232321; --ok: #4ade80; --warn: #facc15;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121212; --surface: #1b1b1b; --ink: #ededeb; --muted: #a8a7a2; --line: #2e2e2c;
+    --accent: #fb923c; --accent-soft: #2a1d14; --code-bg: #232321; --ok: #4ade80; --warn: #facc15;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 28px; line-height: 1.25; margin: 0 0 8px; }
+  h2 { font-size: 20px; margin: 40px 0 8px; padding-top: 8px; border-top: 1px solid var(--line); }
+  h3 { font-size: 16px; margin: 24px 0 6px; }
+  p, li { color: var(--ink); }
+  .lead { color: var(--muted); margin: 0 0 24px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin: 16px 0; }
+  .note { background: var(--accent-soft); border-color: transparent; }
+  .step { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px;
+          border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; font-size: 14px; margin-right: 8px; }
+  .pill { display: inline-block; font-size: 13px; padding: 1px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+  pre { position: relative; background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px;
+        padding: 14px 16px; overflow-x: auto; font: 13.5px/1.55 ui-monospace, Consolas, "Cascadia Code", monospace; margin: 10px 0; }
+  code { font-family: ui-monospace, Consolas, "Cascadia Code", monospace; font-size: 0.92em; }
+  :not(pre) > code { background: var(--code-bg); padding: 1px 6px; border-radius: 6px; }
+  .copy { position: absolute; top: 8px; right: 8px; font: 12px system-ui, sans-serif; padding: 4px 10px;
+          border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+  .copy:hover { border-color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; }
+  .ok { color: var(--ok); font-weight: 600; } .warn { color: var(--warn); font-weight: 600; }
+  a { color: var(--accent); }
+  @media (max-width: 560px) { h1 { font-size: 23px; } table { font-size: 13.5px; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Turn on the scheduler and error alerts</h1>
+  <p class="lead">For the AcademicOS backend on Google Cloud, project <code>vidyuthlabs</code>, region <code>asia-south1</code> (Mumbai).
+  About 10 minutes. Nothing here needs a code change or a redeploy.</p>
+
+  <div class="card note">
+    <strong>What the scheduler does.</strong> Every 5 minutes it calls the backend once. The backend then sends what is due:
+    homework due tomorrow (16:00), overdue homework (09:00), the teacher's evening digest (18:00), the principal's morning alerts (08:00)
+    and Monday digest (07:00), marking and exam reminders, cover escalation, and retries of question bank webhooks.
+    Each job runs once per day or week however often it is called, so calling every 5 minutes never sends anything twice.
+    <br><br>
+    <strong>Without it</strong>, these run only while someone is using the app (at most every 5 minutes), so a 07:00 digest waits
+    until the first person signs in.
+  </div>
+
+  <h2>Before you start</h2>
+  <ul>
+    <li>Open <strong>PowerShell</strong> on the computer where <code>gcloud</code> is signed in as the project owner
+      (<code>gcloud auth list</code> shows the account).</li>
+    <li>Do it when no deploy is running (GitHub, Actions tab: nothing in progress).</li>
+    <li>Cost: Cloud Scheduler gives 3 jobs free per billing account; this uses 1. Uptime checks are free at this volume.</li>
+  </ul>
+
+  <h2><span class="step">1</span>Switch Cloud Scheduler on</h2>
+  <pre><code>gcloud services enable cloudscheduler.googleapis.com --project vidyuthlabs</code></pre>
+  <p>Takes up to a minute. It answers <code>Operation ... finished successfully</code>.</p>
+
+  <h2><span class="step">2</span>Make the scheduler key</h2>
+  <p>A random key that only the scheduler and the backend know. This block creates it in Secret Manager and never prints it.</p>
+  <pre><code>$b = New-Object byte[] 32
+[System.Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($b)
+$key = ($b | ForEach-Object { $_.ToString('x2') }) -join ''
+$tmp = New-TemporaryFile
+[System.IO.File]::WriteAllText($tmp, $key)      # written with no newline at the end
+gcloud secrets create acos-cfg-cron-key --project vidyuthlabs --replication-policy automatic --data-file $tmp
+Remove-Item $tmp; Remove-Variable key, b</code></pre>
+  <p>If it says the secret <em>already exists</em>, replace <code>gcloud secrets create acos-cfg-cron-key ... --replication-policy automatic</code>
+  with <code>gcloud secrets versions add acos-cfg-cron-key --project vidyuthlabs --data-file $tmp</code> and run the block again.</p>
+
+  <h2><span class="step">3</span>Give the backend the key</h2>
+  <p><code>--update-secrets</code> adds this one key and keeps every other setting (Sarvam, Composio, Google sign-in).
+  Do not use <code>--set-secrets</code>, which would drop them.</p>
+  <pre><code>gcloud run services update academicos-backend --region asia-south1 --project vidyuthlabs `
+  --update-secrets "ACOS_CRON_KEY=acos-cfg-cron-key:latest"</code></pre>
+  <p>About a minute. Every later deploy keeps it on its own: the deploy wires in each optional secret that exists.</p>
+
+  <h2><span class="step">4</span>Create the job</h2>
+  <pre><code>$key = gcloud secrets versions access latest --secret acos-cfg-cron-key --project vidyuthlabs
+gcloud scheduler jobs create http acos-automations --project vidyuthlabs --location asia-south1 `
+  --schedule "*/5 * * * *" --time-zone "Asia/Kolkata" `
+  --uri "https://academicos-backend-2eskom55ta-el.a.run.app/api/v1/automations/run" `
+  --http-method POST --headers "X-Cron-Key=$key" `
+  --attempt-deadline 120s --max-retry-attempts 1 `
+  --description "AcademicOS reminders, digests and webhook retries"
+Remove-Variable key</code></pre>
+
+  <h2><span class="step">5</span>Check it works</h2>
+  <pre><code>gcloud scheduler jobs run acos-automations --project vidyuthlabs --location asia-south1
+Start-Sleep -Seconds 30
+gcloud logging read 'resource.type="cloud_run_revision" AND httpRequest.requestUrl:"/automations/run"' `
+  --project vidyuthlabs --limit 3 --format "value(timestamp, httpRequest.status)"</code></pre>
+  <table>
+    <tr><th>You see</th><th>Meaning</th></tr>
+    <tr><td class="ok">200</td><td>Working. Nothing more to do.</td></tr>
+    <tr><td class="warn">404</td><td>The backend does not have the key yet. Run step 3 again and wait a minute.</td></tr>
+    <tr><td class="warn">401</td><td>The key in the job is not the one the backend has (for example the key was replaced after the job was made).
+      Delete the job (<code>gcloud scheduler jobs delete acos-automations --project vidyuthlabs --location asia-south1</code>) and run step 4 again.</td></tr>
+    <tr><td class="warn">PERMISSION_DENIED</td><td>The signed-in account is not an owner or editor of <code>vidyuthlabs</code>.</td></tr>
+  </table>
+  <p>Each run's results (which jobs ran and how many people each notified) are also listed for a signed-in principal by the API at <code>GET /api/v1/automations/status</code>.</p>
+
+  <h2>Optional: get an email when the site is down</h2>
+  <h3><span class="step">6</span>Uptime checks (every 10 minutes, from 6 places)</h3>
+  <pre><code>gcloud monitoring uptime create "AcademicOS backend" --project vidyuthlabs `
+  --resource-type uptime-url --resource-labels "host=academicos-backend-2eskom55ta-el.a.run.app,project_id=vidyuthlabs" `
+  --path /health --protocol https --period 10 --timeout 10 `
+  --matcher-type contains-string --matcher-content '"status":"ok"'
+
+gcloud monitoring uptime create "AcademicOS website" --project vidyuthlabs `
+  --resource-type uptime-url --resource-labels "host=vidyuthlabs.web.app,project_id=vidyuthlabs" `
+  --path / --protocol https --period 10 --timeout 10</code></pre>
+
+  <h3><span class="step">7</span>Send the alert to your email (Console, 3 minutes)</h3>
+  <ol>
+    <li>Open <a href="https://console.cloud.google.com/monitoring/alerting/notifications?project=vidyuthlabs" target="_blank" rel="noopener">Monitoring, Alerting, Edit notification channels</a>.
+      Under <strong>Email</strong>, <strong>Add new</strong>: your address, display name "AcademicOS owner".</li>
+    <li>Open <a href="https://console.cloud.google.com/monitoring/uptime?project=vidyuthlabs" target="_blank" rel="noopener">Uptime checks</a>.
+      For each of the two checks: the three-dot menu, <strong>Add alert policy</strong>, choose the email channel, <strong>Create policy</strong>.</li>
+  </ol>
+
+  <h3><span class="step">8</span>Email on server errors (Console, 3 minutes)</h3>
+  <ol>
+    <li>Open <a href="https://console.cloud.google.com/logs/query?project=vidyuthlabs" target="_blank" rel="noopener">Logs Explorer</a> and paste this query, then <strong>Run query</strong>:
+      <pre><code>resource.type="cloud_run_revision"
+resource.labels.service_name="academicos-backend"
+httpRequest.status>=500</code></pre></li>
+    <li><strong>Actions</strong>, <strong>Create log alert</strong>. Name it "AcademicOS server errors". Time between notifications: <strong>30 minutes</strong>.
+      Choose the email channel from step 7, <strong>Save</strong>.</li>
+  </ol>
+  <p>You then get at most one email per 30 minutes while errors happen, with a link to the failing requests.</p>
+
+  <h2>Undo</h2>
+  <pre><code>gcloud scheduler jobs pause acos-automations --project vidyuthlabs --location asia-south1    # stop for now
+gcloud scheduler jobs delete acos-automations --project vidyuthlabs --location asia-south1   # remove</code></pre>
+  <p class="pill">AcademicOS, deploy/gcp/scheduler-setup.html</p>
+</main>
+<script>
+  document.querySelectorAll('pre').forEach(function (pre) {
+    var b = document.createElement('button');
+    b.className = 'copy'; b.type = 'button'; b.textContent = 'Copy';
+    b.addEventListener('click', function () {
+      var text = pre.querySelector('code').innerText;
+      navigator.clipboard.writeText(text).then(function () {
+        b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1500);
+      });
+    });
+    pre.appendChild(b);
+  });
+</script>
+</body>
+</html>

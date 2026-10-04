@@ -253,6 +253,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/sections/{section_id}/progress"),
     ("POST", "/api/v1/auth/code/request"),
     ("POST", "/api/v1/auth/code/verify"),
+    ("GET", "/api/v1/pilot-agreement"),
+    ("POST", "/api/v1/pilot-agreement/accept"),
     ("GET", "/api/v1/auth/providers"),
     ("GET", "/api/v1/qbank/coverage-map"),
     ("GET", "/api/v1/qbank/review-queue"),
@@ -594,6 +596,9 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/me/progress"),
     ("PUT", "/api/v1/me/progress/{key}"),
     ("GET", "/api/v1/setup-status"),
+    # The Phase 1 pilot agreement (authenticates first).
+    ("GET", "/api/v1/pilot-agreement"),
+    ("POST", "/api/v1/pilot-agreement/accept"),
     ("GET", "/api/v1/staff"),
     ("GET", "/api/v1/dashboard/summary"),
     ("GET", "/api/v1/dashboard/term"),
@@ -923,6 +928,9 @@ def _valid_body_for(method: str, path: str) -> dict:
         return {"email": "a@example.com", "code": "123456"}
     if path == "/api/v1/auth/google":
         return {"credential": "x" * 40}
+    if path == "/api/v1/pilot-agreement/accept":
+        return {"version": "phase1-v1", "sha256": "0" * 64, "schoolLegalName": "School",
+                "signatoryName": "Name", "designation": "Principal", "agree": True}
     if path == "/api/v1/curriculum/terms/{term_id}/baseline":  # PUT
         return {"minutes": 60}
     if path == "/api/v1/curriculum/subjects/{subject_id}/books":  # POST
@@ -1068,7 +1076,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 345: the setup wizard's one-call school setup (year, classes, calendar, terms, bell).
     # 348: saved Guide/setup progress (read, write) and the principal's setup level.
     # 349: SA-6 a parent's view of their child's school calendar.
-    assert len(API_ROUTES) == 349
+    # 351: the Phase 1 pilot agreement (read, accept).
+    assert len(API_ROUTES) == 351
 
 
 def test_docs_routes_present():
