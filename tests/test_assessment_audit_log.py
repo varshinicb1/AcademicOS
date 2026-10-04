@@ -124,3 +124,37 @@ def test_get_audit_log_uses_data_root(tmp_path, monkeypatch):
     assert db.exists()
     entry_id = log.append("evaluate", assessment_id="a1")
     assert log.for_assessment("a1")[0]["id"] == entry_id
+
+def test_concurrent_reads_and_appends_do_not_break_the_connection(tmp_path):
+    """Stress test 2026-10-04: at 50 users, 5 of 564 term reports answered 500 -- for_action read the
+    shared sqlite3 connection without its lock while another request used it ("bad parameter or other
+    API misuse", or an IndexError mid-row)."""
+    import threading
+    from academicos.assessment.audit_log import AuditLog
+
+    log = AuditLog(tmp_path / "audit.sqlite")
+    for i in range(50):
+        log.append("paper_generated", assessment_id=f"a{i % 5}", actor="t1", details={"i": i})
+    errors = []
+
+    def reader():
+        try:
+            for _ in range(60):
+                assert len(log.for_action("paper_generated")) >= 50
+                log.for_assessment("a1")
+        except Exception as e:  # noqa: BLE001 - recorded and asserted below
+            errors.append(repr(e))
+
+    def writer():
+        try:
+            for i in range(40):
+                log.append("paper_generated", assessment_id="a9", actor="t2", details={"w": i})
+        except Exception as e:  # noqa: BLE001
+            errors.append(repr(e))
+
+    threads = [threading.Thread(target=reader) for _ in range(8)] + [threading.Thread(target=writer) for _ in range(2)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert errors == [], errors[:3]
