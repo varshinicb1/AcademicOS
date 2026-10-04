@@ -49,11 +49,14 @@ does not need rebuilding: deploy the backend only and skip steps 4-5.
     SECRETS="ACOS_PRINCIPAL_BOOTSTRAP_KEY=principal-bootstrap-key:latest,ACOS_POSTGRES_PASSWORD=postgres-password:latest,ACOS_LLM_API_KEY=acos-llm-api-key:latest,SARVAM_API_KEY=acos-llm-api-key:latest"
     # Keep every optional setting (email, scheduler, WhatsApp, SMS, Google sign-in, ...) whose secret
     # exists: --set-secrets replaces the whole list, so without this a hand deploy silently drops what
-    # deploy/gcp/secrets-page.html stored (the same loop as the CI workflow, without jq).
+    # deploy/gcp/secrets-page.html stored (the same loop as the CI workflow, without jq). On Windows
+    # Python ends its lines with a carriage return: without `tr -d '\r'` no name matched, and the
+    # 2026-10-04 deploy of cb758dd dropped the three Composio settings for two minutes.
     EXIST=$(gcloud secrets list --project vidyuthlabs --format="value(name)" | sed 's#.*/##')
     while read -r ENV_NAME SECRET_ID; do
       if echo "$EXIST" | grep -qx "$SECRET_ID"; then SECRETS="$SECRETS,${ENV_NAME}=${SECRET_ID}:latest"; echo "kept $ENV_NAME"; fi
-    done < <(python -c "import json; [print(i['env'], i['secret']) for g in json.load(open('deploy/gcp/optional-config.json'))['groups'] for i in g['items'] if not i.get('preWired')]")
+    done < <(python -c "import json; [print(i['env'], i['secret']) for g in json.load(open('deploy/gcp/optional-config.json'))['groups'] for i in g['items'] if not i.get('preWired')]" | tr -d '\r')
+    echo "$SECRETS" | tr ',' '\n' | cut -d= -f1    # every setting you expect must be listed before you deploy
     ENV_VARS="ACOS_ENV=production@ACOS_POSTGRES_HOST=/cloudsql/vidyuthlabs:asia-south1:academicos-pg@ACOS_POSTGRES_DB=academicos@ACOS_POSTGRES_USER=academicos@ACOS_GCS_BUCKET=vidyuthlabs-academicos-media@ACOS_CORS_ORIGINS=https://vidyuthlabs.web.app,https://vidyuthlabs.firebaseapp.com@ACOS_LLM_BASE_URL=https://api.sarvam.ai"
     gcloud run deploy academicos-backend --project vidyuthlabs --region asia-south1 \
       --image "asia-south1-docker.pkg.dev/vidyuthlabs/academicos/backend:$SHA" \
