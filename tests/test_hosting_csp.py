@@ -27,7 +27,7 @@ def _policy() -> dict[str, list[str]]:
     return out
 
 
-def test_scripts_run_only_from_this_site_and_two_named_places():
+def test_scripts_run_only_from_this_site_and_three_named_places():
     script = _policy()["script-src"]
     assert "'self'" in script
     assert "'wasm-unsafe-eval'" in script, "CanvasKit is WebAssembly"
@@ -35,9 +35,11 @@ def test_scripts_run_only_from_this_site_and_two_named_places():
         assert banned not in script, f"script-src must not allow {banned}"
     others = [s for s in script if not s.startswith("'")]
     assert sorted(others) == [
+        "https://accounts.google.com/gsi/client",
         "https://unpkg.com/pdfjs-dist@3.2.146/build/",
         "https://www.gstatic.com",
-    ], "the Flutter engine's CanvasKit, and the PDF preview's pdf.js pinned to one version's folder"
+    ], ("the Flutter engine's CanvasKit, the PDF preview's pdf.js pinned to one version's folder, and "
+        "Google's sign-in script, the one file")
 
 
 def test_nothing_else_is_loosened():
@@ -57,9 +59,24 @@ def test_the_app_may_call_its_own_backend_and_no_other_api():
     backends = [s for s in connect if s.endswith(".run.app")]
     assert len(backends) == 1 and backends[0].startswith("https://"), backends
     assert not any(s.startswith("http://") for s in connect), "no plain-http origin in production"
-    assert "https://accounts.google.com" not in connect, (
-        "Google sign-in is off in production; enabling it means adding Google's four GSI entries "
-        "(docs/gcp-deployment.md, 'Content-Security-Policy')")
+    # Google sign-in: only the Identity Services folder, never the whole accounts origin.
+    assert "https://accounts.google.com" not in connect
+    assert [s for s in connect if "google.com" in s] == ["https://accounts.google.com/gsi/"]
+
+
+def test_google_sign_in_has_exactly_its_four_entries():
+    """The owner is setting up Sign in with Google (2026-10-04). With a client id and the old policy,
+    the sign-in page loaded accounts.google.com/gsi/client, the CSP refused it, and every visitor saw
+    an error and no button (security review 2026-10-04). These are the four entries Google documents
+    for Identity Services, and nothing broader."""
+    p = _policy()
+    google = {d: [s for s in sources if "google.com" in s] for d, sources in p.items()}
+    assert {d: s for d, s in google.items() if s} == {
+        "script-src": ["https://accounts.google.com/gsi/client"],
+        "connect-src": ["https://accounts.google.com/gsi/"],
+        "style-src": ["https://accounts.google.com/gsi/style"],
+        "frame-src": ["https://accounts.google.com/gsi/"],
+    }
 
 
 def test_only_style_may_be_inline():
