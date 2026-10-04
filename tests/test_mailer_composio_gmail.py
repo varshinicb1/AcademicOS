@@ -39,12 +39,14 @@ def test_calendar_alone_is_not_an_email_sender(composio):
 
 def test_an_active_gmail_account_is_and_mail_goes_through_it(composio):
     state, calls = composio
-    state["accounts"] = [{"id": "ca_gmail", "status": "ACTIVE", "toolkit": {"slug": "gmail"}}]
+    state["accounts"] = [{"id": "ca_gmail", "user_id": "pg-user-1", "status": "ACTIVE", "toolkit": {"slug": "gmail"}}]
     assert mailer.composio_status()["configured"] is True
     result = mailer.send_via_composio(mailer.MailMessage(to=["a@example.com"], subject="s", body="b"))
     assert result.ok
     execute = [kw for m, p, kw in calls if p.startswith("/tools/execute/")]
     assert execute[0]["json"]["connected_account_id"] == "ca_gmail"
+    # Composio refuses an account id without its user id ("User ID is required with connected account").
+    assert execute[0]["json"]["user_id"] == "pg-user-1"
 
 
 def test_the_answer_is_cached_so_the_sign_in_page_does_not_call_composio_each_load(composio):
