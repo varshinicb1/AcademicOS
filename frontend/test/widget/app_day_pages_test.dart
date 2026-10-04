@@ -99,8 +99,8 @@ void main() {
     }
   });
 
-  Future<void> pump(WidgetTester tester, Widget page) async {
-    tester.view.physicalSize = const Size(390, 1600);
+  Future<void> pump(WidgetTester tester, Widget page, {Size size = const Size(390, 1600)}) async {
+    tester.view.physicalSize = size;
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
     await tester.pumpWidget(MaterialApp(theme: AppTheme.lightTheme, home: page));
@@ -232,8 +232,11 @@ void main() {
     expect(find.text('Changed'), findsOneWidget);
   });
 
+  // The timetable is a day-by-period grid where there is room, one day at a time on a phone (week_page.dart).
+  const wide = Size(1100, 1800);
+
   testWidgets('Week: what is coming up, my load, then the timetable (TA-2)', (tester) async {
-    await pump(tester, const WeekPage());
+    await pump(tester, const WeekPage(), size: wide);
     expect(tester.takeException(), isNull);
     expect(find.text('Coming up'), findsOneWidget);
     expect(find.text('Sports day'), findsOneWidget);
@@ -255,7 +258,7 @@ void main() {
         '{"dayOfWeek":2,"period":2,"subjectName":"Maths","sectionName":"10-A","startTime":"08:45","endTime":"09:25"}],'
         '"bellSchedule":{"slots":[{"period":1,"start":"08:05","end":"08:45"},'
         '{"period":2,"start":"08:45","end":"09:25"}],"days":[0,1,2,3,4,5]}}';
-    await pump(tester, const WeekPage());
+    await pump(tester, const WeekPage(), size: wide);
     expect(tester.takeException(), isNull);
     expect(find.text('08:20-09:00'), findsOneWidget, reason: "P1 is taught only on the Junior bell");
     expect(find.text('08:05-08:45'), findsNothing, reason: "Main's P1 time is nobody's here");
