@@ -91,3 +91,36 @@ def test_a_language_question_keeps_its_paper_section_through_the_merge():
     assert out.questions[0]["metadata"]["paperSection"] == "reading"
     from academicos.assessment.schemas import QuestionSchema
     assert QuestionSchema.model_validate(out.questions[0]).metadata["paperSection"] == "reading"
+
+
+def test_a_served_written_mcq_keeps_its_quote_and_names_us_not_cbse():
+    """Review 2026-10-04: the MCQ key rebuild dropped the chapter quote, so all 53 written MCQs were
+    served as textbook_grounded with no evidence; and every written question was attributed to a CBSE
+    previous year paper in the question-bank API's `book`."""
+    from academicos.assessment.question_bank import enrich_record
+
+    out = bm.compose([], [], [], ai=[_record()])
+    assert out.questions[0]["type"] == "mcq"
+    assert out.questions[0]["answerScheme"]["metadata"]["evidence"] == [QUOTE]
+    rec = enrich_record({**_record(), "source": "ai_generated"})
+    assert rec["rights"]["origin"] == "AcademicOS"
+    assert "CBSE" not in rec["rights"]["attribution"]
+    # A record already carrying the CBSE default is corrected; a board question keeps CBSE's.
+    stale = enrich_record({**_record(), "source": "ai_generated",
+                           "rights": {"origin": "CBSE", "redistribution": "unknown", "basis": "",
+                                      "attribution": "Central Board of Secondary Education, previous year question paper"}})
+    assert stale["rights"]["origin"] == "AcademicOS"
+    board = enrich_record({"id": "cbse:q:1", "source": "cbse_board_paper"})
+    assert board["rights"]["origin"] == "CBSE"
+
+
+def test_the_served_bank_has_no_written_question_under_cbse_and_no_written_mcq_without_its_quote():
+    import json
+    from pathlib import Path
+    served = json.loads((Path(__file__).resolve().parents[1] / "academicos-data/syllabus/questions.json")
+                        .read_text(encoding="utf-8"))["questions"]
+    written = [q for q in served if q.get("source") == "ai_generated"]
+    assert written, "the class 9-10 written questions are in the served bank"
+    assert all((q.get("rights") or {}).get("origin") == "AcademicOS" for q in written)
+    assert all(((q.get("answerScheme") or {}).get("metadata") or {}).get("evidence")
+               for q in written if q["type"] == "mcq")
