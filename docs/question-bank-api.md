@@ -275,12 +275,12 @@ Updated 2026-09-17 with measured results. "exists" now means tested.
 | Rights metadata | **done as a field** -- `rights` on every record, defaulting to `redistribution: "unknown"` so an unsettled position fails closed | **the counsel opinion itself, which still blocks distribution** |
 | Item review states | **done** -- draft / in_review / published / superseded, with illegal transitions refused | editorial UI |
 | Item-level audit trail | **done** -- every write appends a row with actor, note and both ends of a transition | an audit reader in the admin console |
-| Auth for third parties | **done** -- `ApiKeyStore`, SHA-256 at rest, scoped, revocable, per-key quota in SQLite; issued from the web console's API keys page; limited to classes and subjects when minted (2026-10-01, section 9) | usage shown on the web page |
+| Auth for third parties | **done** -- `ApiKeyStore`, SHA-256 at rest, scoped, revocable, per-key quota in SQLite; issued by AcademicOS (the operator) through `POST /api/v1/api-keys`, not from a school's console (#104, 2026-10-04); limited to classes and subjects when minted (2026-10-01, section 9) | usage via `GET /api/v1/api-keys/{key_id}/usage` |
 | Rate limiting / quota | **done** -- per-key, counted in the database so N instances cannot each allow the full limit | — |
 | QTI export | **done** -- QTI 2.1 package (manifest + items + test), value points carried in `rubricBlock` | QTI 1.2 for legacy LMS deployments |
 | Grade by question | **done** -- `GET` one question across all students, `POST` one award to many | the Flutter review UI |
 | SDKs, portal, changelog | **sandbox done** (`scripts/export_qbank_sandbox.py`, 60 fabricated questions); spec and reference docs generate already; copy-paste Python, JavaScript and curl snippets in section 9 | published Python and Dart SDKs, portal, changelog |
-| Webhooks | **done** (API-6, 2026-10-01) -- `questions.added` per chapter, HMAC-signed, retried with backoff, public HTTPS only, scoped to the key; registered and logged on the web's API keys page (section 9, "Webhooks") | more event types |
+| Webhooks | **done** (API-6, 2026-10-01) -- `questions.added` per chapter, HMAC-signed, retried with backoff, public HTTPS only, scoped to the key; registered and logged through `/api/v1/api-keys/{key_id}/webhooks` by the operator (section 9, "Webhooks") | more event types |
 | Multilingual | **absent** | Hindi-first. `language` exists on 100% of records but is `en` throughout |
 | Calibration | **absent** | `calibration.measured` is `false` everywhere; difficulty is derived from marks and Bloom, and the payload says so |
 
@@ -319,8 +319,9 @@ parties; this section is for the partner who has it.
 
 * **Base URL:** `https://academicos-backend-2eskom55ta-el.a.run.app`. The
   question-bank routes are at the root (`/v1/...`), not under `/api/v1`.
-* **Getting a key:** a principal mints one on the web console's **API keys**
-  page (or `POST /api/v1/api-keys`). The key (`acos_qb_...`) is shown **once**;
+* **Getting a key:** ask AcademicOS. Keys are issued by the operator with
+  `POST /api/v1/api-keys` (the school's console has no API keys page since
+  2026-10-04, #104). The key (`acos_qb_...`) is shown **once**;
   only its SHA-256 is stored.
 * **Sending it:** either header works.
   * `X-API-Key: acos_qb_...`
