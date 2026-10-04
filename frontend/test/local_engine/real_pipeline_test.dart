@@ -40,9 +40,9 @@ void main() {
     expect(CorpusRepository.instance.all.length, greaterThan(5000));
     // 504 until the fidelity rebuild of 2026-09-28, which refused the Science
     // 10 items that point at a figure or graph they do not carry.
-    // 542 with the 48 model-written, book-quoted Science 10 questions (corpus/ai-cbse-9-10): 27 at 2
-    // marks and 21 case studies at 4.
-    expect(science10.questionCount, 542);
+    // 589 with the 95 model-written, book-quoted Science 10 questions (corpus/ai-cbse-9-10): 2- and 4-mark
+    // case studies and short answers for all 13 chapters.
+    expect(science10.questionCount, 589);
     expect(science10.chapters, 13);
   });
 
