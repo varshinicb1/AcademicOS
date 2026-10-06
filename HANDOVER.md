@@ -1,5 +1,9 @@
 # AcademicOS — Handover (2026-09-27)
 
+> **Superseded on 2026-10-06** by [`docs/handover/2026-10-07-developer-handover.md`](docs/handover/2026-10-07-developer-handover.md),
+> which describes the live state at `784b42b` (score 55.4) and the next 20 days of work. This file is kept as history:
+> parts of it are out of date (CI is no longer blocked; email, the scheduler and Google sign-in are configured).
+
 You are taking over AcademicOS from the original developer and the Claude Code sessions that built it.
 Read in this order:
 
