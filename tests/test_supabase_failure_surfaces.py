@@ -145,6 +145,15 @@ class _StubPostgrest(BaseHTTPRequestHandler):
         return
 
 
+class _StubServer(ThreadingHTTPServer):
+    """socketserver's default listen backlog is 5; the /health/storage probe
+    opens one connection per durable table at once (13 today). macOS answers
+    a SYN past a full backlog with a reset where Linux drops it and urllib3
+    retries, so the default made the probe flaky on a Mac and fine on CI
+    (2026-10-07: half the tables answered "connection refused" on macOS)."""
+    request_queue_size = 128
+
+
 @pytest.fixture()
 def stub_postgrest(monkeypatch) -> Iterator:
     """Starts the stub on a free port and points the Supabase env vars at
@@ -153,7 +162,7 @@ def stub_postgrest(monkeypatch) -> Iterator:
 
     def _start(*broken: str) -> str:
         stub_cls = type("Stub", (_StubPostgrest,), {"broken": tuple(broken)})
-        server = ThreadingHTTPServer(("127.0.0.1", 0), stub_cls)
+        server = _StubServer(("127.0.0.1", 0), stub_cls)
         server.counter = collections.Counter()
         server.rows = collections.defaultdict(list)
         server.lock = threading.Lock()
