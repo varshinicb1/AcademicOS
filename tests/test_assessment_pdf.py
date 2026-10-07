@@ -810,6 +810,7 @@ def test_an_exponent_prints_as_an_exponent_not_a_digit():
     assert pdf_safe("a² + b² = c²", h) == "a^2 + b^2 = c^2"
     assert pdf_safe("10⁻³", h) == "10^-3"
     assert pdf_safe("H₂O and CO₂", h) == "H2O and CO2"
+    assert pdf_safe("the rate kₙ and xₐ", h) == "the rate kn and xa"
 
 
 def test_an_exponent_the_font_draws_stays_raised(dejavu):
