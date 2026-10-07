@@ -69,6 +69,13 @@ _FONT_CANDIDATES = (
     ("AcademicSans", r"C:\Windows\Fonts\arial.ttf", r"C:\Windows\Fonts\arialbd.ttf"),
     ("AcademicSans", "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
      "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"),
+    # macOS dev machines have neither DejaVu nor Segoe UI, so papers fell
+    # back to Latin-1 Helvetica and symbols printed as notdef boxes (the PDF
+    # symbol test failed on a Mac, 2026-10-07). Arial Unicode ships with
+    # macOS and covers the symbol blocks; the production image has no such
+    # path, so it stays on DejaVu.
+    ("AcademicSans", "/System/Library/Fonts/Supplemental/Arial Unicode.ttf",
+     "/System/Library/Fonts/Supplemental/Arial Unicode.ttf"),
 )
 
 # Devanagari (Hindi, Sanskrit). Neither DejaVu (the production image) nor
@@ -226,7 +233,14 @@ _PDF_PUNCTUATION = (("—", "-"), ("–", "-"), ("•", "-"),
 # never changes a value, so where the font cannot draw it a plain digit reads
 # as the ASCII spelling already in use.
 _SUB_DIGITS = {c: d for c, d in zip("₀₁₂₃₄₅₆₇₈₉", "0123456789")}
-_SUB_RUN = re.compile(f"[{''.join(_SUB_DIGITS)}]+")
+# Subscript letters name a thing -- kₙ, xₐ -- and never change a value, so
+# where the font cannot draw them the plain letter keeps the reading, exactly
+# as a subscript digit becomes a plain digit. Arial Unicode (the macOS dev
+# candidate) has no U+2096/U+2099, and the served bank holds both.
+_SUB_LETTERS = {"ₐ": "a", "ₑ": "e", "ₒ": "o", "ₓ": "x", "ₕ": "h", "ₖ": "k",
+                "ₗ": "l", "ₘ": "m", "ₙ": "n", "ₚ": "p", "ₛ": "s", "ₜ": "t"}
+_SUB_ANY = "".join(_SUB_DIGITS) + "".join(_SUB_LETTERS)
+_SUB_RUN = re.compile(f"[{_SUB_ANY}]+")
 # Superscripts are an exponent, and a plain digit is a DIFFERENT quantity:
 # cbe:q:Maths8BS2 is "(A) 4y³ (B) 9y³ (C) 13y³ (D) 36y³" and printed
 # "(A) 4y3 (B) 9y3 ..." -- the whole point of the question, gone (re-audit,
@@ -373,7 +387,7 @@ def pdf_safe(text: str, font: Optional[str] = None) -> str:
         text = text.replace(a, b)
     text = _SUB_RUN.sub(
         lambda m: m.group(0) if all(ord(c) in can for c in m.group(0))
-        else "".join(_SUB_DIGITS[c] for c in m.group(0)), text)
+        else "".join(_SUB_DIGITS.get(c) or _SUB_LETTERS[c] for c in m.group(0)), text)
     text = _SUPER_RUN.sub(
         lambda m: m.group(0) if all(ord(c) in can for c in m.group(0))
         else "^" + "".join(_SUPERSCRIPTS[c] for c in m.group(0)), text)
