@@ -4073,9 +4073,12 @@ export interface paths {
          * Suggest
          * @description What to set after the lesson the section's plan has on `date` (today
          *     by default, else the latest lesson before it): the bank chapters that
-         *     match that lesson's chapter by name, and up to ten of their questions.
-         *     The school's book and the bank's chapters are not always one edition;
-         *     when no name matches, the note says so and the teacher picks chapters.
+         *     match that lesson's chapter -- by the syllabus slug in the chapter's
+         *     canonical id first, then by name -- and up to ten of their questions.
+         *     The school's book and the bank's chapters are not always one edition,
+         *     so their names differ while the slug still names the same chapter
+         *     (defect N-4-4, R-B7); when neither matches, the note says so and the
+         *     teacher picks chapters.
          */
         get: operations["suggest_api_v1_homework_suggestion_get"];
         put?: never;

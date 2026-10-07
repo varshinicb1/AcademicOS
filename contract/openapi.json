@@ -31431,7 +31431,7 @@
     },
     "/api/v1/homework/suggestion": {
       "get": {
-        "description": "What to set after the lesson the section's plan has on `date` (today\nby default, else the latest lesson before it): the bank chapters that\nmatch that lesson's chapter by name, and up to ten of their questions.\nThe school's book and the bank's chapters are not always one edition;\nwhen no name matches, the note says so and the teacher picks chapters.",
+        "description": "What to set after the lesson the section's plan has on `date` (today\nby default, else the latest lesson before it): the bank chapters that\nmatch that lesson's chapter -- by the syllabus slug in the chapter's\ncanonical id first, then by name -- and up to ten of their questions.\nThe school's book and the bank's chapters are not always one edition,\nso their names differ while the slug still names the same chapter\n(defect N-4-4, R-B7); when neither matches, the note says so and the\nteacher picks chapters.",
         "operationId": "suggest_api_v1_homework_suggestion_get",
         "parameters": [
           {
