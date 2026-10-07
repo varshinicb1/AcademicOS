@@ -264,6 +264,32 @@ def test_the_suggestion_follows_the_sections_plan(w):
                    headers=w.ana).status_code == 422
 
 
+def test_the_suggestion_matches_a_chapter_by_its_syllabus_slug_when_names_differ(w):
+    """R-B7 / N-4-4: the school's book and the bank are not always one
+    edition, so the lesson's chapter and the bank's chapter can carry
+    different names for one chapter. The syllabus slug inside the school
+    chapter's canonical id (`{book_id}:chapter:{slug}`) is the same id the
+    bank's chapters carry, so it decides; the name is only the fallback."""
+    s = w.store
+    board = s.create_board(name="CBSE", code="CBSE")
+    book = s.create_book(subject_id=w.sci10, board_id=board.id, title="Science")
+    s.select_book(book.id)
+    unit = s.create_unit(canonical_id="u1", book_id=book.id, unit_no="1", name="Natural phenomena")
+    ch = s.create_chapter(canonical_id=f"{book.id}:chapter:light", unit_id=unit.id,
+                          name="Reflection at a plane mirror")   # the bank calls it "Light – Reflection and Refraction"
+    topic = s.create_topic(canonical_id="t1", chapter_id=ch.id, name="Reflection")
+    sub = s.create_subtopic(canonical_id="st1", topic_id=topic.id, name="Laws of reflection")
+    s.create_scheduled_lesson(school_id="school_1", academic_year_id=w.year, book_id=book.id, subtopic_id=sub.id,
+                              date="2026-05-29", section_id=w.a10)
+    r = w.c.get("/api/v1/homework/suggestion", params={"sectionId": w.a10, "subjectId": w.sci10}, headers=w.ana)
+    assert r.status_code == 200, r.text
+    out = r.json()
+    assert out["lessonFound"] and out["note"] is None, \
+        "the slug in canonical_id must match the bank chapter the name cannot"
+    assert [c["chapterId"] for c in out["bankChapters"]] == ["light"]
+    assert {q["id"] for q in out["questions"]} == {"q1", "q2", "q3"}
+
+
 def test_chapter_picks_filter_by_type_and_skip_what_the_section_had(w):
     first = _create(w, "ana", questionIds=[], chapterIds=["light"], count=1, types=["short_answer"]).json()
     assert [q["id"] for q in first["questions"]] == ["q3"]

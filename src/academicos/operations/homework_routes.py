@@ -23,6 +23,7 @@ from pydantic.alias_generators import to_camel
 from ..assessment.auth_routes import get_current_user, require_staff
 from ..assessment.users import User
 from ..curriculum import routes as cr
+from ..curriculum.decomposition_templates import chapter_slug
 from ..curriculum.schemas import Camel
 from .homework import MAX_QUESTIONS, Homework, HomeworkError, Submission
 from .routes import notify_safely, store
@@ -377,9 +378,12 @@ def suggest(section_id: str = Query(alias="sectionId"), subject_id: str = Query(
             current: User = Depends(require_staff)) -> SuggestionResponse:
     """What to set after the lesson the section's plan has on `date` (today
     by default, else the latest lesson before it): the bank chapters that
-    match that lesson's chapter by name, and up to ten of their questions.
-    The school's book and the bank's chapters are not always one edition;
-    when no name matches, the note says so and the teacher picks chapters."""
+    match that lesson's chapter -- by the syllabus slug in the chapter's
+    canonical id first, then by name -- and up to ten of their questions.
+    The school's book and the bank's chapters are not always one edition,
+    so their names differ while the slug still names the same chapter
+    (defect N-4-4, R-B7); when neither matches, the note says so and the
+    teacher picks chapters."""
     cs = cr._require()
     section = cr._require_school_owns_section(section_id, current)
     cr._require_school_owns_subject(subject_id, current)
@@ -404,7 +408,17 @@ def suggest(section_id: str = Query(alias="sectionId"), subject_id: str = Query(
     subtopic = cs.get_subtopic(lesson.subtopic_id)
     topic = cs.get_topic(subtopic.topic_id) if subtopic else None
     chapter = cs.get_chapter(topic.chapter_id) if topic else None
-    matched = [c for c in chapters if chapter and _name_key(c.chapter_name) == _name_key(chapter.name)]
+    # R-B7 / N-4-4: the lesson's chapter and the bank's chapter are one
+    # chapter even where the school's book and the bank disagree on its name
+    # (two editions). The syllabus slug inside canonical_id names it on both
+    # sides -- seed_cbse10.py writes `{book_id}:chapter:{syllabus slug}`,
+    # the same slug the bank's chapter ids carry -- so the slug decides and
+    # the name is only the fallback it has always been.
+    slug = chapter_slug(chapter) if chapter is not None else None
+    matched = [c for c in chapters if chapter and (
+        (slug is not None and c.chapter_id == slug)
+        or c.chapter_id == chapter.canonical_id
+        or _name_key(c.chapter_name) == _name_key(chapter.name))]
     questions = (_usable(_bank_questions(subject.name, grade.number, [c.chapter_id for c in matched]), current)
                  if matched else [])
     note = None if matched else (
