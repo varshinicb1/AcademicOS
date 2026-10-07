@@ -994,6 +994,8 @@ def _valid_body_for(method: str, path: str) -> dict:
                 "email": "teacher1@example.com", "password": "correct horse battery"}
     if path == "/api/v1/auth/invites":
         return {"role": "teacher"}
+    if path == "/api/v1/auth/operator/school-invites":
+        return {"schoolId": "school_1"}
     if path == "/api/v1/owner/register":
         return {"name": "Owner One", "email": "owner1@example.com",
                 "password": "correct horse battery", "code": "own_x"}
@@ -1168,6 +1170,11 @@ def test_gated_routes_return_503_without_startup():
                 # Which ways in are set up: read from the environment, so it
                 # answers before startup.
                 ("GET", "/api/v1/auth/providers"),
+                # Same: with no client id the route answers its own 501
+                # "not set up" before any module is consulted
+                # (operations/google_sign_in.py; that answer is asserted in
+                # tests/test_google_sign_in.py).
+                ("POST", "/api/v1/auth/google"),
                 ("GET", "/api/v1/syllabus/{subject}/{grade}"),
                 ("GET", "/api/v1/syllabus/{subject}/{grade}/timetable"),
             }:
