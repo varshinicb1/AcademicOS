@@ -415,10 +415,11 @@ def suggest(section_id: str = Query(alias="sectionId"), subject_id: str = Query(
     # the same slug the bank's chapter ids carry -- so the slug decides and
     # the name is only the fallback it has always been.
     slug = chapter_slug(chapter) if chapter is not None else None
-    matched = [c for c in chapters if chapter and (
-        (slug is not None and c.chapter_id == slug)
-        or c.chapter_id == chapter.canonical_id
-        or _name_key(c.chapter_name) == _name_key(chapter.name))]
+    matched = [c for c in chapters if slug is not None and c.chapter_id == slug]
+    if not matched and chapter is not None:
+        # Only when no bank chapter carries the slug: OR-ing the two let a name match from another
+        # edition add a second chapter beside the slug's (review of #141).
+        matched = [c for c in chapters if _name_key(c.chapter_name) == _name_key(chapter.name)]
     questions = (_usable(_bank_questions(subject.name, grade.number, [c.chapter_id for c in matched]), current)
                  if matched else [])
     note = None if matched else (

@@ -315,3 +315,23 @@ def test_marked_homework_counts_in_the_principals_school_insights(w):
     [science] = after["subjects"]
     assert (science["subject"], science["grade"], science["students"]) == ("Science", 10, 1)
     assert after["averageMastery"] > 0
+
+
+def test_the_slug_decides_and_a_name_only_matches_when_no_slug_does(w):
+    """Review of #141: the slug and the name were OR'd, so a lesson whose
+    slug names one bank chapter and whose name matches another (two editions)
+    got both, and questions from a chapter the class has not reached."""
+    s = w.store
+    board = s.create_board(name="CBSE", code="CBSE")
+    book = s.create_book(subject_id=w.sci10, board_id=board.id, title="Science")
+    s.select_book(book.id)
+    unit = s.create_unit(canonical_id="u1", book_id=book.id, unit_no="1", name="Natural phenomena")
+    # The slug is the bank's "light"; the school's book names the chapter like the bank's "life".
+    ch = s.create_chapter(canonical_id=f"{book.id}:chapter:light", unit_id=unit.id, name="Life Processes")
+    topic = s.create_topic(canonical_id="t1", chapter_id=ch.id, name="Reflection")
+    sub = s.create_subtopic(canonical_id="st1", topic_id=topic.id, name="Laws of reflection")
+    s.create_scheduled_lesson(school_id="school_1", academic_year_id=w.year, book_id=book.id, subtopic_id=sub.id,
+                              date="2026-05-29", section_id=w.a10)
+    out = w.c.get("/api/v1/homework/suggestion", params={"sectionId": w.a10, "subjectId": w.sci10},
+                  headers=w.ana).json()
+    assert [c["chapterId"] for c in out["bankChapters"]] == ["light"], "the name must not add a second chapter"
