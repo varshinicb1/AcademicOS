@@ -88,10 +88,11 @@ cd frontend && flutter pub get                          # Flutter 3.44.9 stable
 - Run locally: `python -m academicos.cli serve --port 8010`, then
   `flutter run -d chrome --dart-define=ACADEMICOS_API=http://localhost:8010/api/v1`.
 - Gates (both must pass before any merge to `master`):
-  - `pytest tests -q -p no:cacheprovider`: 3,804 pass, 113 skip and 3 xfail on `master` after PRs #1 and #2
-    (2026-09-28, in a fresh clone without the gitignored data extras). It takes about 20 minutes.
-  - `cd frontend && flutter analyze --no-fatal-infos`: 7 info notes are expected.
-  - `flutter test --exclude-tags live-backend -j 1`: 468 pass, in about 3 minutes.
+  - `pytest tests -q -p no:cacheprovider -p no:warnings` in a Python 3.12 venv: 0 failed. Counts grow
+    with every PR, so compare with the last green CI run rather than a number in a doc.
+  - `cd frontend && flutter analyze`: "No issues found".
+  - `flutter test --exclude-tags live-backend`: 0 failed.
+  - The rules for every change are in `AGENTS.md`.
 - Tools used by the release: `gcloud`, Node (`npx firebase-tools@13`, `npx openapi-typescript@7.13.0`).
 
 ## 4. Machine load: read this first
@@ -172,7 +173,7 @@ Since 2026-09-28 open work is tracked as pull requests: `gh pr list`.
 | Branch | State | What to do |
 |---|---|---|
 | `master` | live + these docs; every change arrives as a PR | branch from here |
-| `release/v1` | follows `master` after each merge; the hand-deploy worktree's branch | never commit to it |
+| `release/v1` | retired on 2026-10-01; no longer follows `master` | never branch from it, commit to it or push to it |
 | `feat/task-125` | merged as `caf5e3d`, live | history only |
 | `feat/term-insights`, `feat/question-bank-merge`, `feat/product-{calendar,exemplar,gcp,paperux,security}` | merged | history only |
 | `feat/product-phone` | the offline engine's 8 fixes, merged through PR #1 (`merge/product-phone`) on 2026-09-28 | history only |

@@ -5,23 +5,27 @@ board-grade question bank with a marking scheme for every question. It builds th
 timetable, and keeps them working through leave, substitutions and holidays. It sends teachers and students
 their day, their homework and their progress, on their phones.
 
-> **New here? Read [`HANDOVER.md`](HANDOVER.md) first**, then
-> [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md) (what to build),
-> [`docs/agent-workflow.md`](docs/agent-workflow.md) (how work is done) and
-> [`CONTRIBUTING.md`](CONTRIBUTING.md) (how a change reaches `master`: always a pull request).
+> **New here, person or AI agent? Read [`AGENTS.md`](AGENTS.md) first.** It holds the rules every change is
+> held to and the reading order: [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md) (what to build), the
+> [developer handover](docs/handover/2026-10-07-developer-handover.md) (what exists and the current plan),
+> [`CONTRIBUTING.md`](CONTRIBUTING.md) (how a change reaches `master`: always a pull request) and
+> [`docs/agent-workflow.md`](docs/agent-workflow.md) (parallel work and the question-bank pipeline).
+> Install the push guard once per clone: `git config core.hooksPath .githooks`.
 
 - **Live:** [vidyuthlabs.web.app](https://vidyuthlabs.web.app) (the web console) and a FastAPI backend on
-  Google Cloud Run.
+  Google Cloud Run. `GET /health` on the backend names the live commit.
 - **Requirements:** v3, adopted 2026-09-27 ([`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md)).
-- **Status (2026-09-28):**
-  - The web console for classes 6-10 is live as `e50d250`: milestone M0 (`09649eb`) plus PRs #1-#3. M0's re-audit measured
-    **60.5 / 100** on the v2 scorecard ([`docs/audits/2026-09-28-09649eb.md`](docs/audits/2026-09-28-09649eb.md)).
-    M0's work gained 2.71, and the calendar lost 3.13 to a timetable stored per subject name rather than per
-    class (D115), which M1 fixes.
-  - The v3 teacher and student apps, the scheduling engine (timetable, leave, substitution, compensation),
-    homework and notifications are **not built yet**. M1 (the school data model) is next:
-    [`docs/plans/m1-school-data-model.md`](docs/plans/m1-school-data-model.md).
-  - The gap analysis and roadmap are in [`HANDOVER.md`](HANDOVER.md) sections 6-7.
+- **Status (2026-10-13):**
+  - Most of v3 is built and live: the school data model, the scheduling engine (timetable, leave,
+    substitution, compensation), lesson plans, homework, exams and marks, notifications, the teacher and
+    student apps' screens with parent mode, and the question bank with its API for classes 6-10. Classes
+    1-5 have their books' chapters and plans, but no questions yet.
+  - The latest audit measured **55.4 / 100** on the v3 scorecard at `784b42b`
+    ([`docs/audits/2026-10-05-784b42b-v3.md`](docs/audits/2026-10-05-784b42b-v3.md)).
+  - The current plan is in the [developer handover](docs/handover/2026-10-07-developer-handover.md)
+    section 7, in five workstreams: platform and data (R-A, starting with Cloud SQL for the last two
+    SQLite stores), the apps on real phones (R-B), the question bank (R-C), notifications and
+    integrations (R-D), and release (R-E).
 
 ---
 
@@ -159,11 +163,12 @@ flutter run -d chrome --dart-define=ACADEMICOS_API=http://localhost:8010/api/v1
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest tests -q
-cd frontend; flutter analyze --no-fatal-infos; flutter test --exclude-tags live-backend
+cd frontend; flutter analyze; flutter test --exclude-tags live-backend
 ```
 
-On the development machine, run the Python suite with `D:/AcademicOS-venv`. Its
-PyMuPDF version matches the render fixtures. Don't rebuild
+Run the Python suite in a Python 3.12 venv: a global 3.14 fails the OpenAPI contract test, and CI
+uses 3.12. Its PyMuPDF version must match the render fixtures. The bar is 0 failed and an
+analyzer with no issues. Don't rebuild
 `frontend/build/web` while the suite runs.
 
 ---

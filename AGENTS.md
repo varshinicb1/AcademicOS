@@ -1,217 +1,256 @@
-# AGENTS.md — Autonomous Agent Operational Guide for AcademicOS
+# AGENTS.md: rules for anyone changing AcademicOS
 
-This document provides mandatory operational context, architectural rules, and engineering invariants for AI coding agents and human contributors working on **AcademicOS**.
+This file is the rulebook for every contributor: people, and AI coding agents (Claude Code, Codex,
+GitHub Copilot, Cursor, Gemini and the rest). Tool-specific files (`CLAUDE.md`, `GEMINI.md`,
+`.github/copilot-instructions.md`, `.cursor/rules/`) point here. **Where another document disagrees with
+this file, this file wins. Report the disagreement in an issue so the other file can be fixed.**
 
-**Before writing code, read [`HANDOVER.md`](HANDOVER.md), then [`docs/PRD.md`](docs/PRD.md)** (whose scope is superseded by `docs/REQUIREMENTS.md`, but whose non-goals and constraints still bind). This file tells you *how*
-the system is built; the PRD tells you *what it is for, who uses it, and what it is
-not*. Several questions that look like engineering decisions here are product
-decisions that are still **open** — the PRD §12 lists them, and §7 lists the
-non-goals that are binding. Building the wrong thing correctly is the most
-expensive failure mode in this repo.
+Every rule below exists because breaking it once cost real work, data or trust. Apply the reason to cases
+the rule does not name.
 
-**Then read [`HANDOVER.md`](HANDOVER.md) and [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md)** (v3,
-2026-09-27: grades 1-10, web console, teacher app, student app, question bank API; it supersedes the
-PRD's scope decisions), **and [`docs/agent-workflow.md`](docs/agent-workflow.md)** — how work gets done
-here with several agents at once: the worktrees and who owns which files, the rules
-that stop one session destroying another's work, the gates a commit must pass, the
-question-bank pipeline order, and how to release and verify. What is live is the
-v2 **Web app, classes 6-10**, on GCP (`docs/product-scorecard.md`); what to build next is v3.
-
-**Every change is a pull request into `master`**, reviewed and merged by the maintainer: see
-[`CONTRIBUTING.md`](CONTRIBUTING.md). Never push to `master` or `release/v1`.
+Last reconciled: 2026-10-13, live commit `2398635`.
 
 ---
 
-## 1. System Vision & Architecture
+## 0. Read before you change anything
 
-AcademicOS is an evidence-grounded academic intelligence and operational operating system built over official educational corpora (CBSE curricula, NCERT textbooks, previous years' question papers, marking schemes, circulars, and bye-laws).
+1. **This file**, all of it.
+2. [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md): what to build (v3, grades 1-10). Every requirement has
+   an ID (`SCH-4`, `QB-5`, ...). Use these IDs in branches, commits, PRs and code comments.
+3. [`docs/handover/2026-10-07-developer-handover.md`](docs/handover/2026-10-07-developer-handover.md): what
+   already exists (so you do not rebuild it), the architecture, the current plan (R-A to R-E) and its
+   acceptance criteria.
+4. [`CONTRIBUTING.md`](CONTRIBUTING.md): how a change reaches `master`.
+5. [`docs/agent-workflow.md`](docs/agent-workflow.md): the question-bank pipeline, parallel sessions, and
+   the lessons behind these rules.
+6. The latest audit in [`docs/audits/`](docs/audits/), which gives every requirement's measured score and
+   what holds it back.
 
-### Core Pillars
-1. **Evidence-Grounded Ingestion & Knowledge Graph (`src/academicos/`)**:
-   - Parse pipeline: Native PDF text extraction raced against OCR engines (`unlimited_ocr`, `tesseract`).
-   - Provenance tracking: Every assertion, chunk, and graph node preserves provenance (`document_id`, `page_number`, `bounding_box`, `method`, `confidence`).
-   - Gated acceptance: Documents with `quality_score < min_confidence` are held in `low_confidence` registry status; low-confidence material never silently enters the knowledge graph.
-2. **Curriculum & Schedule Substrate (`src/academicos/curriculum/`)**:
-   - Canonical hierarchy: `Board` &rarr; `AcademicYear` &rarr; `Grade` &rarr; `Subject` &rarr; `Unit` &rarr; `Chapter` &rarr; `Topic` &rarr; `Subtopic`. Complete coverage across all 5 core CBSE Class 10 subjects (Science, Mathematics, Social Science, English, Hindi Course A).
-   - Operational calendar: Working days, term dates, multi-day block holidays (`Holiday.end_date`), period duration configuration, subject period allocations, and weekly timetable slots (`SubjectTimetableSlot`).
-   - Human-in-the-loop content extraction: LLM extraction proposals for Topics/Subtopics are staged in `curriculum_extraction_runs`/`proposals` and require explicit principal review and approval before materialization.
-   - Textbook Table-of-Contents pipeline: Deterministic TOC text parser and automated Unit/Chapter creation for custom/uploaded textbooks (`POST /books/{book_id}/toc/ingest`).
-3. **Assessment Designer & Question Bank (`src/academicos/assessment/`)**:
-   - Question pool (`pool.py`): Deduplicated, validated questions extracted from authentic CBSE papers with real marking scheme answers.
-   - Semantic & lexical tagging: Questions mapped to canonical curriculum units, chapters, topics, and subtopics (`qmap.py`, `embedding_chapter_tagger.py`) with calibrated multi-clause recall.
-   - Blueprint-driven generation: Section-by-section balance by Bloom level, question type (MCQ, VSA, SA, LA, Case-based), and difficulty, with PDF rendering.
-4. **School Admin Console, Portals & Analytics**:
-   - School Admin Console (`/admin`): 6 tabs — Roster, Master Calendar Grid, Coverage & Pace reporting, Drag-and-Drop Sequence Reordering, Reschedule (PUSH/ADJUST), and Calendar Setup.
-   - Student Portal (`/student/schedule`): Day, Week, Month (`table_calendar`), and Overview syllabus tracking.
-   - Dedicated Parent Portal (`/parent`): Child syllabus completion metrics, daily classroom attendance/lesson tracking, and Carol Dweck growth mindset parent guidance & concept scaffolding (§A8).
-   - Evaluation & Mobile Scan: Multi-page student answer sheet capture, perspective rectification, Sarvam Vision OCR, itemized grading, and audit logging (`audit_log.py`).
-   - Spaced repetition & mastery: FSRS (Free Spaced Repetition Scheduler) and knowledge state estimation.
+Then search the code before you build anything. Most of what a school needs already exists.
 
 ---
 
-## 2. CRITICAL: The Two Implementations Rule
+## 1. Process
 
-**Always inspect your active working directory.** The repository contains two distinct backend trees:
+1. **Every change is a pull request into `master`.** Docs included, one-line fixes included.
+   - **Never push to `master`.** CI deploys every push to `master` to production. A direct push is an
+     unreviewed release.
+   - If you push to `master` by mistake, say so in an issue at once. Do not force-push to undo it.
+   - Install the guard once per clone: `git config core.hooksPath .githooks`. Its `pre-push` hook refuses
+     pushes to `master`.
+2. **Never merge or approve your own PR, and never deploy**, unless you are the maintainer's session. The
+   maintainer (@varshinicb1) reviews, merges and deploys. CI deploys each merge.
+3. **Never deploy by hand while CI works.** A hand deploy races CI and can roll production back. Hand
+   deploys (`docs/deploy-by-hand.md`) happen only when CI cannot run and the owner has asked for it.
+4. **One task per branch, one branch per PR**, branched from current `origin/master`:
+   `git switch -c <type>/<topic> origin/master`, with `type` one of `feat`, `fix`, `docs`, `test`, `data`
+   or `chore`.
+   - Claim the work first: assign yourself the issue, or open a draft PR as soon as there is a commit.
+     Check `gh pr list` and `gh issue list` so two people never build the same thing.
+5. **Open the PR as a draft and fill in the template.**
+   - Mark it ready only when both test gates pass.
+   - The reviewer reads the PR, not your chat, so put the evidence there.
+6. **Stage by path** (`git add <files>`). Never use `git add -A` or `git commit -a`.
+   - The Flutter `generated_plugin_registrant.*`, `generated_plugins.cmake` and
+     `GeneratedPluginRegistrant.swift` always show as modified. They are build noise; never commit them.
+7. **Never use a bare `git stash`** (the stash is shared across worktrees). Use a WIP commit.
+   - If `master` moves, merge it into your branch. Do not rebase a branch you have pushed.
+8. **`release/v1` is retired.** It stopped following `master` on 2026-10-01. Do not branch from it, merge
+   into it or deploy it.
+9. **Keep PRs reviewable:** a few hundred changed lines, excluding generated data. Split larger work into
+   PRs that each leave `master` green. Say what you left undone.
 
-| Path | Status | Guidelines |
-|---|---|---|
-| **`src/academicos/`** | **Active Source of Truth**, by far the larger tree | This is the live, tested implementation. All CLI commands, FastAPI endpoints (`api/main.py`), and Flutter client interactions bind here. Default all work here. |
-| **`backend/`** | **Experimental Future Rewrite**, a fraction of the other tree's size | Scaffolded target architecture (SQLAlchemy, Alembic, MinIO, Qdrant). See `backend/README.md`. **Do NOT edit, refactor, or port code here** unless explicitly requested by the user. |
+## 2. Safety, secrets and the live system
 
-A LOC count here goes stale within days in a repo this active — check with `find src/academicos -name "*.py" | xargs wc -l` (or the equivalent for `backend/`) if you need a real number, rather than trusting a figure written down in prose.
+1. **No secret ever goes in the repository, an issue, a PR, a chat, a log line or a test fixture.** Keys
+   live in Secret Manager (production) or `config/secrets.env` (gitignored, local).
+   - Refer to secrets by name only (`acos-cfg-cron-key`), never by value.
+   - If you see a secret, do not repeat it. Tell the owner it needs rotating.
+2. **Checks on the live system are unauthenticated and read-only:** `/health`, `/api/v1/auth/providers`,
+   that a protected route answers 401, and that public pages load without console errors.
+   - **Never create an account, sign in, or enter a credential on the live site.**
+   - Schools and principals are registered by the owner through invite links.
+   - Signed-in flows are verified locally, on the same commit, against a fresh data root.
+3. **Never run a destructive command against production:** dropping tables, deleting GCS objects,
+   resetting Cloud SQL, deleting a branch someone else owns, or `--force` anything.
+4. **Owner-only decisions.** Raise them in an issue and do not decide them in code:
+   - prices and any commercial term;
+   - messages to schools or partners;
+   - deleting a school's data;
+   - infrastructure and deploy changes (`deploy/`, `Dockerfile`, `firebase.json`, `.github/workflows/`);
+   - the timing of a migration cutover or write freeze;
+   - anything in [`docs/PRD.md`](docs/PRD.md) §12 marked open.
+
+## 3. Students' and schools' data
+
+1. **Every query is scoped by `school_id`, taken from the signed-in user, never from the request body.** A
+   principal of one school must get 403 on everything belonging to another.
+2. **Read [`docs/compliance.md`](docs/compliance.md) before touching student data, consent, grading, the
+   audit log or a new data store.** It covers the DPDP Act 2023 and CERT-In; tick its boxes in the PR.
+3. **Nothing about a student leaves the school's scope:**
+   - not to the question-bank API;
+   - not to a third party, or to an LLM with the student identified, without a DPA;
+   - never into tests, screenshots, logs or documents.
+4. **Every admin action is audited** (`assessment/audit_log.py`). Every route has a row in
+   `api/route_policy.py` naming who may call it.
+
+## 4. Evidence and numbers
+
+1. **A number is measured, with the command that produced it, or it is labelled "estimated".** "Modelled
+   from asset sizes" is an estimate, not a measurement.
+2. **"Done" means verified on the running system**:
+   - locally against real data for signed-in flows;
+   - on live (`/health` reports the commit) for what is public.
+   - "The code exists and its tests pass" is a different, weaker claim; say which one you mean.
+3. **Scores move only through an audit** (`docs/product-scorecard-v3.md`, "How to re-score"), recorded in
+   `docs/audits/`. Never edit an audit to fit a result.
+4. **Do not pin counts in prose** (tests, routes, lines): they go stale within days. Re-measure.
+5. **Read the whole output of a command whose failure matters.** Piping through `grep` once hid a failure.
+
+## 5. Code: backend (`src/academicos/`, Python 3.12, FastAPI)
+
+1. **`src/academicos/` is the product. `backend/` is an abandoned rewrite: never edit it.**
+2. **Every new or changed route** needs:
+   - a row in `api/route_policy.py`;
+   - an entry in `tests/test_route_inventory.py`, whose count bumps in the same commit with the reason;
+   - if the schema changed, a regenerated contract:
+     `PYTHONPATH=src python scripts/export_openapi.py`, then
+     `npx --yes openapi-typescript@latest contract/openapi.json -o contract/api-types.ts`.
+3. **Request models forbid unknown fields** (`extra="forbid"`, camelCase aliases), and every web-client
+   shape is held by `tests/test_frontend_backend_contract.py`.
+4. **Dates are the school's local date (IST).** Use `school_today()` / `_school_today()`, never
+   `date.today()` or UTC.
+5. **Two stores are SQLite files saved to GCS as one snapshot** (`CurriculumStore`, `OperationsStore`), so
+   Cloud Run is pinned to one instance until R-A1 moves them to Cloud SQL. Write code that stays correct
+   with two instances:
+   - no check-then-act ("has this run?" then run): claim atomically with
+     `INSERT ... ON CONFLICT DO NOTHING` and act only if the claim succeeded;
+   - no reliance on a process lock or in-memory state for correctness;
+   - unique constraints behind every dedupe.
+6. **Keep SQL portable.** No new `INSERT OR IGNORE/REPLACE`, `rowid`, `AUTOINCREMENT`, `instr()` or
+   PRAGMAs in feature code. Use standard `ON CONFLICT`, explicit order columns and standard functions.
+   Every SQLite connection keeps `journal_mode=WAL` and `busy_timeout=60000`.
+7. **A changed legal or agreement text is a new version** (e.g. `pilot_agreement.VERSION`).
+   Acceptances are recorded per version with a SHA-256 of the text, so the old version's record stays and
+   users are asked again.
+8. **External providers sit behind interfaces** (`integrations/base.py`, `llm/base.py`). Never import a
+   vendor SDK in product code, and keep the core runnable offline.
+
+## 6. Code: frontend (`frontend/`, Flutter 3.44)
+
+1. **One codebase, four products:**
+   - the web console (default);
+   - the teacher app (`--dart-define=ACADEMICOS_APP=teacher`);
+   - the student app (`ACADEMICOS_APP=student`);
+   - the offline Android app (`ACADEMICOS_OFFLINE=true`).
+   - `ACADEMICOS_OFFLINE` must never reach a web build.
+   - A route change must be mirrored by hand into `frontend/lib/core/local_engine/local_api_client.dart`
+     and `local_pillar_api.dart`, which throw `OfflineUnsupportedException` rather than return an empty result.
+2. **No swallowed errors.** Every `catch` rethrows, throws, or shows `serverErrorMessage(e)`
+   (`test/no_swallowed_errors_test.dart`).
+3. **Every error the user sees says what to do next.** No internal ids, enum values or stack traces on
+   screen.
+4. **The design system is enforced** (`tests/test_design_tokens.py`): no emoji or symbol glyphs in
+   `frontend/lib` (use an `Icon`), no raw hex colours, no off-scale spacing. The Emergera theme is the
+   owner's exact brand, so do not restyle it.
+5. **Every user-facing string goes through `tr()`** (`presentation/workspace/strings.dart`), with its Hindi
+   entry where the screen is translated.
+6. **Check every screen you change at phone width (375-390 px) and at desktop width,** and attach both
+   screenshots to the PR.
+7. **Caching:** only the content-hashed entry files may be cached for long
+   (`tests/test_production_guard.py`). A wrong cache rule once blocked three deploys.
+
+## 7. Curriculum and question-bank content
+
+1. **Nothing is invented.** Chapter names come from the book's printed contents. Difficulty, Bloom level
+   and marks splits come only from the source; inferred values are flagged and not used.
+2. **The served bank** (`academicos-data/syllabus/questions.json`) changes only through the pipeline in
+   `docs/agent-workflow.md` §5, in its own PR, with the per-record diff. **One serving gate** decides what
+   is served (`corpus/bank_merge.py`): add rules inside it, never beside it.
+3. **Chapter ids come from three vocabularies:**
+   - the syllabus files (`academicos-data/syllabus/<Subject>_<grade>.json`);
+   - the contents trees (`academicos-data/syllabus/taxonomy/`);
+   - the whole-book lists (`academicos-data/syllabus/ncert_books.json`: classes 1-5 and Hindi 6-9, read
+     from each book's contents page).
+
+   Before matching chapters across them, check which one each side uses. Names differ between book
+   editions.
+4. **`ncert_books.json` is never regenerated from partial transcriptions.**
+   `scripts/build_textbook_bank.py` merges into it and never drops a listed chapter.
+5. **Lower a test floor only when the bank serves fewer questions that are all answerable,** with the
+   per-record reason in the commit. Never lower one to make a test pass.
+6. **CBSE owns its papers.** Every question carries its source and rights status, and AI-written items
+   are served only after review (QB-5).
+
+## 7a. Tests
+
+1. **A bug fix starts with a test that fails without the fix.** A behaviour change comes with its test.
+2. **Never skip, delete or weaken a test to get green.**
+   - An `xfail` is `strict=True` and says how to un-xfail it.
+   - A test whose expectation was wrong is corrected in its own commit, which says why.
+3. **The gates, run one at a time on a laptop** (each is heavy; laptops have shut down under load):
+
+   ```bash
+   PYTHONPATH=$PWD/src PYTHONIOENCODING=utf-8 python -m pytest tests -q -p no:cacheprovider -p no:warnings
+   cd frontend && flutter analyze && flutter test --exclude-tags live-backend
+   ```
+
+   - Use a Python 3.12 venv. Python 3.14 fails the OpenAPI contract test.
+   - The bar is 0 failed and an analyzer with no issues.
+   - Never edit files in a checkout while its full suite runs, and never rebuild `frontend/build/web`
+     while pytest runs.
+   - Paste the counts into the PR.
+
+## 8. Brand, names and confidential material
+
+1. **The company is VidyuthLabs, one word** (legal name: VidyuthLabs Technologies Private Limited). The
+   product is AcademicOS.
+2. **Confidential material never goes in this repository:**
+   - contracts, MoUs, NDAs, pay or commission terms;
+   - signatures;
+   - school agreements;
+   - anything with a personal ID number.
+
+   Other collaborators can read the repository. Those documents stay with the owner.
+3. **The letterhead and logo are the owner's locked assets.** Use them as provided; never redraw them.
+
+## 9. Definition of done
+
+A change is done when all of these hold:
+
+- [ ] It does what the PR says, with the requirement ID or defect it serves.
+- [ ] A test proves it, and both gates pass with the counts in the PR.
+- [ ] Routes, policy, inventory and contract are updated where touched.
+- [ ] Screens are checked at phone and desktop width, with screenshots.
+- [ ] No secret, no student data, no confidential document and no build noise in the diff.
+- [ ] Docs are updated where a rule, a route or a behaviour changed.
+- [ ] Undone parts are named.
+- [ ] After merge, CI deployed it and `/health` reports the commit. Only then is it live.
 
 ---
 
-## 3. Storage, Concurrency & Persistence Invariants
+## 10. Orientation
 
-### Concurrency Rules (SQLite WAL & Busy Timeout)
-Under multi-threaded FastAPI execution or multi-teacher concurrent operations, raw SQLite connections can fail with `OperationalError: database is locked`. 
-
-**Mandatory Connection Standard:**
-Every SQLite connection across `src/academicos/` MUST execute the following pragmas immediately upon connecting:
-```python
-conn = sqlite3.connect(str(db_path), check_same_thread=False)
-conn.row_factory = sqlite3.Row
-conn.execute("PRAGMA journal_mode=WAL")
-conn.execute("PRAGMA busy_timeout=60000")
-```
-
-### Complete SQLite Store Inventory (19 stores)
-
-**Corrected 2026-09-18 against the code.** The table below used to say 17 and to
-list flat `.db` filenames. Both were wrong, and the errors were the misleading
-kind — an agent looking for `registry.db` finds nothing, because the real path is
-`registry/registry.sqlite`, and two stores were missing entirely.
-
-Four things to know before reading it:
-
-- **The filename pattern is `<dir>/<name>.sqlite`**, not a flat `.db`. The
-  exceptions are `answer_keys.db` and `assessment/consents.db`, which really do
-  end in `.db`. Several paths are injected by the caller rather than built by the
-  store, and those are marked *injected*.
-- **`KnowledgeStore` is not a SQLite store** and its row is removed below: it
-  writes per-student JSON files under `knowledge/` plus Supabase. It was listed
-  here for years as though it were a table-backed store, which is why
-  `learner_models` appears in the Supabase column with no local table.
-- **`pool.py` is not a store** either; it is a read-only query against the
-  registry, and it has its own comment in the code. It was a row in this table.
-- **Two stores were missing**: `ApiKeyStore` and `ConsentStore`. Consent is
-  DPDP-critical, so an inventory that omits it is worse than incomplete.
-
-Paths below verified against the constructors; run
-`grep -rn "sqlite3.connect" src/academicos` to re-check rather than trusting
-this table, which will drift like every other list in prose.
-
-| Store Class | DB Path | Tables / Content | Supabase Remote Table |
-|---|---|---|---|
-| `SourceRegistry` | `cfg.registry_db` (`registry/registry.sqlite`) | `sources`, `ingestion_runs` | None (static / baked) |
-| `CurriculumStore` | `curriculum/curriculum.sqlite` | `boards`, `grades`, `subjects`, `units`, `chapters`, `topics`, `subtopics`, `holidays`, `timetable_slots`, `allocations`, `proposals` | Whole-file snapshot/restore via `SupabaseStorage` (2026-09-15 — too relational for per-table `SupabaseTable`; see `docs/deployment.md`), not per-table like the rows below |
-| `UserStore` | `users/users.sqlite` | `users`, `sessions` | `users`, `sessions` |
-| `AssessmentStore` | `assessments/assessments.sqlite` | `assessments` | `assessments` |
-| `PaperStore` | `assessments/papers.sqlite` | `papers` | `papers` |
-| `GradedStore` | `assessments/graded.sqlite` | `graded_evaluations` | `graded_evaluations` |
-| `PracticeStore` | `assessments/practice.sqlite` | `practice_sets` | `practice_sets` |
-| `AuditLogStore` | `audit/audit_log.sqlite` | `audit_log` | `audit_log` |
-| `ScanSessionStore` | `sessions.sqlite` (data root) | `scan_sessions` | `scan_sessions` |
-| `TemplateStore` | `templates/templates.sqlite` | `school_templates` | `school_templates` |
-| `ChapterTagCache` | `assessment/chapter_tags.sqlite` | `chapter_tags` | None (deterministic cache) |
-| `AnswerKeyStore` | `answer_keys.db` (data root) | `answer_keys` | None (derived from MS) |
-| `GraphStore` | `cfg.graph_db` (`graph/graph.sqlite`) | `nodes`, `edges` | None (corpus graph) |
-| `ChunkIndex` | `cfg.index_db` (`index/index.sqlite`) | `chunks`, `bm25_stats` | None (retrieval index) |
-| `EventStore` | `events/events.sqlite` | `learner_events` | `learner_events` (2026-09-15 — was the last durability-critical store without one; also fixed a real `seq = MAX(seq)+1` race with a per-learner lock, plus a `_conn_lock` after a concurrency test reproduced `sqlite3.InterfaceError` under true concurrent access) |
-| `ApiKeyStore` | *injected* (`assessment/api_keys.sqlite` in practice) | `api_keys`, `api_key_usage` | None (SHA-256 at rest) |
-| `ConsentStore` | `assessment/consents.db` | `parental_consents` | `parental_consents` |
-| `QuestionBankStore` | *injected* | `question_versions`, `question_audit` | None (append-only) |
-| `AnswerKeyIndex` | `answer_keys.db` (read-only URI) | `answer_keys` read | None (derived from MS) |
-
-### Persistence & Deployment Topologies
-- **Ephemeral Deployments**: Containers wipe local disk on spin-down or redeploy. This is true of both Render (free tier) and Cloud Run.
-- **Durable backend selection (2026-09-16)**: Every store's remote handle now comes from `postgres_kv.durable_table(name)` instead of constructing `SupabaseTable` directly. It prefers **Cloud SQL Postgres** when `ACOS_POSTGRES_HOST`/`ACOS_POSTGRES_DB`/`ACOS_POSTGRES_USER` are set, and otherwise falls back to Supabase, which itself disables cleanly when its env vars are absent. `PostgresUnavailable` subclasses `SupabaseUnavailable`, so every existing `except` clause and `api/main.py`'s 503 handler keep working unchanged. `GET /health/storage` reports `durability_backend`.
-- **Cloud SQL**: `deploy/gcp/schema.sql` defines all 11 durable tables; connection is via Cloud Run's `/cloudsql/<conn>` Unix socket, pooled and bounded (`ACOS_POSTGRES_POOL_MAX`, default 10) because `--concurrency=40` would otherwise exhaust a small instance. Migration off Supabase: `scripts/migrate_supabase_to_cloudsql.py`.
-- **Supabase Hybrid Sync**: `SupabaseTable` persists JSONB payloads to Supabase PostgREST when `SUPABASE_KNOWLEDGE_URL` and `SUPABASE_KNOWLEDGE_ANON_KEY` are defined. Still the backend for **blob** storage (`SupabaseStorage`: scan media, curriculum snapshots) — that path is not yet on GCS.
-- **Static Assets & Corpus Databases**:
-  `academicos-data/` contains pre-ingested indexes (`registry.db`, `index.db`, `graph.db`, `curriculum_store.db`, syllabus JSONs) and is copied into Docker deployment images.
-- **Observability**: `GET /health/storage` reports whether Supabase is configured and (if so) currently reachable — check this instead of guessing from the Render dashboard or grepping env vars on the host.
-- **School data export**: `GET /api/v1/curriculum/export` (principal-gated, school_id always from the authenticated caller) bundles the curriculum tree, assessments, paper templates, and users for one school — for backup or manual transfer to another instance. Does not yet cover `PaperStore`/`PracticeStore`/`ScanSessionStore` (no `school_id` column) or provide a restore/import path — see `docs/deployment.md`.
-
-See **[`docs/PRODUCTS_AND_RELEASES.md`](docs/PRODUCTS_AND_RELEASES.md)** for
-the full picture. It is the source of truth for "which thing are we talking
-about": two client sub-products (offline **Mobile**, cloud **Web**) and two
-backend releases (**Render**, and **GCP** — the live Web release since
-2026-09-22; that file predates the go-live) that coexist from one codebase. Then:
-
-- `docs/deployment.md` — the Render release: CI/CD pipeline, Supabase env vars
-  and bucket setup, known gaps (fallback consistency across stores, remaining
-  unguarded concurrent-access call sites).
-- `docs/gcp-deployment.md` — the GCP release: Cloud Run/Cloud SQL/GCS,
-  cutover, costs, and the blob-storage item that keeps it off pure GCP.
-- **`docs/REQUIREMENTS_BY_LAYER.md`** — every requirement split into what the
-  backend must deliver vs what the frontend must deliver, with a
-  verification-depth table. Read it before assuming a feature works: "the code
-  exists and its tests pass" is a different claim from "a user has walked
-  through it", and today only one area has been.
-
----
-
-## 4. Client & Offline-First Engine
-
-`frontend/` is **one Flutter codebase serving two distinct sub-products** —
-do not reason about "the app" as a single thing (see
-`docs/PRODUCTS_AND_RELEASES.md`):
-
-| Sub-product | Build | Talks to a backend? | Uses |
-|---|---|---|---|
-| **AcademicOS Web** | `flutter build web` (default) | Yes — every action | `PillarApi`, `AuthApi`, `ConsentApi`, `CurriculumApi`, `ApiClient` |
-| **AcademicOS Mobile** | `flutter build apk --dart-define=ACADEMICOS_OFFLINE=true` | **No** — on-device only | `LocalPillarApi`, `LocalApiClient` |
-
-`offlineMode` in `core/di/service_locator.dart` performs the swap; everything
-above it (repositories, use cases, all 26 page widgets across 29 routes) is shared. Two rules follow:
-
-1. A change to any API route must be mirrored by hand into `local_api_client.dart`
-   / `local_pillar_api.dart`. The offline engine cannot detect drift itself, and
-   its methods **throw** `OfflineUnsupportedException` rather than returning an
-   empty result — never revert one to `=> []`; a silent empty answer was read by
-   teachers as "nothing to show" (see `tests/test_frontend_backend_contract.py`).
-2. `ACADEMICOS_OFFLINE` must not leak into the Web build. The Web client talks
-   HTTP; pointing it at the local engine silently disables the backend.
-
-- **Local Engine (`frontend/lib/core/local_engine/`)**: Encrypted Hive boxes (`secure_box.dart`), local SQLite/Hive storage, on-device OCR, and client-side PDF export. Mobile-only.
-- **Synchronization (`frontend/lib/core/sync/sync_service.dart`)**: Local-first queueing with background reconciliation against the backend API with conflict resolution via `KeyedMutex`. Web-only.
-- **API Base Configuration**: `--dart-define=ACADEMICOS_API=…`. Absolute for the
-  Render release (`https://academicos-backend.onrender.com/api/v1`) and for the
-  live GCP release, whose Web bundle is on Firebase Hosting and whose API is on
-  Cloud Run (`https://academicos-backend-2eskom55ta-el.a.run.app/api/v1`; see
-  `docs/deploy-by-hand.md`). Defaults to `http://localhost:8010/api/v1`.
-
----
-
-## 5. Compliance & Security Standards
-
-Before making changes touching student data, assessments, or authentication, adhere to `docs/compliance.md`:
-1. **DPDP Act 2023**:
-   - Verifiable consent required for minor accounts.
-   - Purpose limitation: Student evaluation data must never be repurposed or leaked to external models without sanitization.
-2. **CERT-In Compliance**:
-   - Maintain immutable audit trails in `audit_log.py`.
-   - Retain system interaction logs for at least 180 days.
-3. **Authentication & Authorization**:
-   - RBAC enforced across routes (`principal`, `teacher`, `student`).
-   - Principal-gated endpoints: Curriculum edits, extraction approvals, user provisioning.
-   - School-scoped isolation: Every query must filter strictly by `school_id`.
-
----
-
-## 6. Development, Testing & Verification Protocol
-
-### Virtual Environment Execution
-Always execute commands within the dedicated virtual environment:
-```powershell
-# Windows PowerShell
-.\.venv\Scripts\Activate.ps1
-.\.venv\Scripts\python.exe -m pytest tests -q
-```
-
-### Verification Gates
-1. **Never mock away live functionality** in integration tests.
-2. **Run route inventory tests** (`tests/test_route_inventory.py`) to ensure API contract integrity.
-3. **Check status transitions**: Never reset source or curriculum states unconditionally on conflict or re-discovery.
+- **Live:**
+  - web console at https://vidyuthlabs.web.app (Firebase Hosting);
+  - backend on Cloud Run, https://academicos-backend-2eskom55ta-el.a.run.app (`/health` gives the
+    commit);
+  - Cloud SQL Postgres `academicos-pg`;
+  - GCS `vidyuthlabs-academicos-media`;
+  - Cloud Scheduler job `acos-automations`, every 5 minutes.
+- **Backend:** `src/academicos/`:
+  - `api/` (app, route policy);
+  - `assessment/` (papers, bank, auth, users, audit);
+  - `curriculum/` (school model, calendar, timetable, plans, leave and cover, staff rules);
+  - `operations/` (notifications, homework, exams, marks, automations, dashboards, pilot agreement);
+  - `corpus/` and `syllabus/` (bank pipeline, syllabus, taxonomy);
+  - `storage/` (blobs, snapshots, Postgres).
+- **Frontend:** `frontend/lib/`: `data/` (API clients), `presentation/` (pages; the school workspace
+  shared by the apps is `presentation/workspace/`), `core/` (theme, DI, offline engine).
+- **Tests:** `tests/` (backend), `frontend/test/`.
+- **Data:** `academicos-data/` (served bank, syllabus, taxonomy, books). Raw NCERT/CBSE PDFs are not in
+  git.
+- **Run locally:** `python -m academicos.cli serve --port 8010`, then
+  `flutter run -d chrome --dart-define=ACADEMICOS_API=http://localhost:8010/api/v1`. Register a local
+  principal with a local `ACOS_PRINCIPAL_BOOTSTRAP_KEY`.
+- **Measure, don't trust prose:** `pytest --collect-only -q`, `gh run list`, `curl .../health`.

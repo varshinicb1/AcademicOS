@@ -285,7 +285,7 @@ def test_the_write_detector_actually_detects():
 # --------------------------------------------------------------------------- #
 
 def test_the_store_sets_the_repo_mandated_pragmas(tmp_path):
-    """AGENTS.md section 3 requires WAL and a busy timeout on every SQLite
+    """AGENTS.md section 5 requires WAL and a busy timeout on every SQLite
     connection in this codebase."""
     s = QuestionBankStore(tmp_path / "q.sqlite")
     try:

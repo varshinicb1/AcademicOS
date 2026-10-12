@@ -1,4 +1,4 @@
-"""AGENTS.md section 3 claims an invariant that was not true.
+"""AGENTS.md section 5 claims an invariant that was not true.
 
 It states that EVERY SQLite connection in `src/academicos/` runs
 `PRAGMA journal_mode=WAL` and `PRAGMA busy_timeout=60000`. Measured before this
@@ -77,7 +77,7 @@ def test_every_connection_sets_busy_timeout():
         if "PRAGMA busy_timeout" not in segment:
             missing.append(f"{path.relative_to(REPO)}:{lineno} ({func})")
     assert not missing, (
-        "AGENTS.md section 3 mandates `PRAGMA busy_timeout=60000` on every "
+        "AGENTS.md section 5 mandates `PRAGMA busy_timeout=60000` on every "
         "SQLite connection. Without it, a concurrent write raises "
         "'database is locked' immediately instead of waiting.\n  "
         + "\n  ".join(missing)
@@ -93,7 +93,7 @@ def test_every_connection_sets_wal_except_the_documented_readonly_one():
             continue
         missing.append(f"{path.relative_to(REPO)}:{lineno} ({func})")
     assert not missing, (
-        "AGENTS.md section 3 mandates `PRAGMA journal_mode=WAL` on every SQLite "
+        "AGENTS.md section 5 mandates `PRAGMA journal_mode=WAL` on every SQLite "
         "connection. Exempt only a genuinely read-only connection, and add it to "
         "WAL_EXEMPT with a reason.\n  " + "\n  ".join(missing)
     )
