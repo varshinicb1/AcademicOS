@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Prepared for | Shubham Pitekar (GitHub: shuence) |
-| Prepared by | Vidyuth Labs, product owner of AcademicOS |
+| Prepared by | VidyuthLabs, product owner of AcademicOS |
 | Date | 6 October 2026 |
 | Engagement | Freelance, from 7 October 2026, 20 days in five phases (section 8) |
 | Confidentiality | Covered by the NDA already signed. Everything in this repository is confidential: code, data, documents, school names and figures. |
