@@ -1,0 +1,21 @@
+#!/bin/sh
+# Refuses a push to master or release/v1 from this clone (AGENTS.md section 1).
+# CI deploys every push to master to production, so a direct push is an unreviewed release.
+# Every change goes in as a pull request; the maintainer merges it on GitHub.
+#
+# Install once per clone:   git config core.hooksPath .githooks
+# The maintainer's emergency override (never for routine work):  ACOS_ALLOW_PROTECTED_PUSH=1 git push ...
+
+protected="refs/heads/master refs/heads/release/v1"
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  for p in $protected; do
+    if [ "$remote_ref" = "$p" ] && [ "${ACOS_ALLOW_PROTECTED_PUSH:-0}" != "1" ]; then
+      echo "pre-push: refusing to push to ${remote_ref#refs/heads/}." >&2
+      echo "Every change reaches master as a pull request (AGENTS.md section 1, CONTRIBUTING.md)." >&2
+      echo "Push your branch instead:  git push -u origin <type>/<topic>  then  gh pr create --draft" >&2
+      exit 1
+    fi
+  done
+done
+exit 0

@@ -2,21 +2,28 @@
 
 AcademicOS takes every change as a **pull request into `master`**, from people and from Claude Code agents
 alike. `master` is what is live. The maintainer reviews each PR, runs the gates on it, merges it and
-deploys it. This page is the whole process. The engineering rules it relies on (the gates, the question-bank
-pipeline, evidence) are in [`docs/agent-workflow.md`](docs/agent-workflow.md): read both before your first PR.
+deploys it. This page is the whole process. **The rules every change is held to are in
+[`AGENTS.md`](AGENTS.md)** (the rulebook for people and AI agents alike). The question-bank pipeline and the
+lessons behind the rules are in [`docs/agent-workflow.md`](docs/agent-workflow.md). Read all three before
+your first PR.
 
 ## Who does what
 
 | Who | Does | Never |
 |---|---|---|
 | **Maintainer**: @varshinicb1, reviewing with Claude Code (`/review-pr <n>`) | reviews and merges PRs, deploys, runs the audits, owns the live release and its secrets | merges a PR whose gates it has not seen pass |
-| **Collaborators** (@bahumanyarg11, and the agents they run) | pick a task, branch, build, test, open a PR, answer review | push to `master` or `release/v1`; merge or approve their own PR; deploy |
+| **Collaborators** (@bahumanyarg11, @shuence, and the agents they run) | pick a task, branch, build, test, open a PR, answer review | push to `master`; merge or approve their own PR; deploy |
 
 **This is a rule, not a lock.** Branch protection needs GitHub Pro on a private repository, so GitHub will
-not stop a push to `master`. CI runs again (since 2026-09-28), and a push to `master` **deploys to
-production**, so a stray push is a release. So is a merge: the maintainer merges only what it is ready
-to ship. If you push to `master` by mistake, say so in the PR or an issue
-at once. Do not force-push to fix it.
+not stop a push to `master`. CI deploys every push to `master` to **production**, so a stray push is an
+unreviewed release. So is a merge: the maintainer merges only what is ready to ship. Install the local guard
+once per clone, which refuses a push to `master`:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+If you push to `master` by mistake, say so in an issue at once. Do not force-push to fix it.
 
 ## 1. Before you start
 
@@ -38,6 +45,8 @@ git fetch origin
 git switch -c <type>/<topic> origin/master      # type: feat, fix, docs, test, data, chore
 ```
 
+`release/v1` is retired (it stopped following `master` on 2026-10-01): never branch from it or push to it.
+
 - **One task per branch and per PR.** A question-bank rebuild is always its own PR.
 - **Stage by path** (`git add <files>`), never `git add -A` or `commit -a`. Every checkout shows the Flutter
   `generated_plugin_registrant.*`, `generated_plugins.cmake` and `GeneratedPluginRegistrant.swift` as
@@ -55,11 +64,12 @@ git switch -c <type>/<topic> origin/master      # type: feat, fix, docs, test, d
   are in [`docs/agent-workflow.md`](docs/agent-workflow.md) §4:
 
   ```bash
-  PYTHONPATH=$PWD/src PYTHONIOENCODING=utf-8 python -m pytest tests -q -p no:cacheprovider
-  cd frontend && flutter analyze --no-fatal-infos && flutter test --exclude-tags live-backend -j 1
+  PYTHONPATH=$PWD/src PYTHONIOENCODING=utf-8 python -m pytest tests -q -p no:cacheprovider -p no:warnings
+  cd frontend && flutter analyze && flutter test --exclude-tags live-backend
   ```
 
-  Run them one at a time. Each is heavy, and the development laptops have shut down under load.
+  Use a Python 3.12 venv (3.14 fails the OpenAPI contract test). The bar is 0 failed and an analyzer with no
+  issues. Run them one at a time. Each is heavy, and the development laptops have shut down under load.
 - **Areas that need the maintainer's explicit agreement in the PR**:
   - the served question bank or a chapter floor (`agent-workflow.md` §5);
   - a route, a role gate (`api/route_policy.py`), auth, invites or school scoping;
@@ -93,24 +103,26 @@ It:
 2. checks the result of merging it into current `master` out in a separate worktree;
 3. runs both gates there, one at a time;
 4. re-runs at least one of the PR's own evidence claims;
-5. then either **approves and merges** (a merge commit, never squash, so history keeps the author's
-   commits) or **requests changes** with the specific reason.
+5. then either **approves and merges** or **requests changes** with the specific reason. A collaborator's
+   PR is merged with a merge commit (or rebased), never squashed, so history keeps the author's commits
+   and authorship. The maintainer's own single-purpose PRs may be squashed.
 
 A PR is merged only when:
-- both gates pass on the merge result, with 0 failures and the known 7 analyzer infos;
+- both gates pass on the merge result, with 0 failures and no analyzer issues;
 - nothing in the diff breaks a rule in `docs/agent-workflow.md` or this page;
 - every area in §3's list that it touches has the maintainer's explicit agreement;
 - its claims hold when re-run.
 
-After a merge, the maintainer keeps `release/v1` equal to `master`. CI deploys the merge, and the maintainer
-checks it live ([`docs/deploy-by-hand.md`](docs/deploy-by-hand.md) section 6, which is also the fallback when
-CI cannot run). Only a deployed, audited change moves
-the scorecard.
+After a merge, CI deploys it, and the maintainer checks it live: `/health` reports the merge commit, and
+the public checks pass. Nobody deploys by hand while CI works, because it races CI.
+[`docs/deploy-by-hand.md`](docs/deploy-by-hand.md) is the fallback only when CI cannot run and the owner
+asks. Only a deployed, audited change moves the scorecard.
 
-## 6. Notes for Claude Code agents
+## 6. Notes for AI agents
 
-- `CLAUDE.md` loads automatically and points here. It also points to `docs/agent-workflow.md`, whose rules
-  exist because breaking them cost real work once.
+- Every agent reads [`AGENTS.md`](AGENTS.md). Claude Code loads it through `CLAUDE.md`, and the other
+  tools through their own entry points: `.github/copilot-instructions.md`, `GEMINI.md` and
+  `.cursor/rules/academicos.mdc`. Codex and most other tools read `AGENTS.md` directly.
 - Work in your own clone or worktree. Never edit, reset or clean another session's checkout, and never
   sweep another session's uncommitted work.
 - End commits with the co-author line your session's instructions give. Never skip hooks.

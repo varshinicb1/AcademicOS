@@ -5,29 +5,30 @@ A push to `master` that touches a shipped path deploys through `.github/workflow
 image and deployed Cloud Run by itself, but skipped Hosting: its unpinned Flutter (3.47.5) failed the
 analyzer. #10 pinned the workflow to 3.44.9, and its merge (`7e4b595`, run 36476002768) deployed both
 halves by itself: tests, Cloud Run, the Flutter checks and Hosting, with a web bundle byte-identical to
-the hand build of the same code (`main.dart.b24cfe4b829b.js`). **CI is the normal path again.** This
-runbook is the fallback when a CI job cannot run; after a CI deploy, still do the checks in section 6.
-The owner authorised hand deploys on 2026-09-23.
+the hand build of the same code (`main.dart.b24cfe4b829b.js`). **CI is the normal path.** This
+runbook is the fallback only when a CI job cannot run **and the owner asks for a hand deploy**
+(`AGENTS.md` §1): a hand deploy while CI works races it and can put an older build live. After a CI
+deploy, still do the unauthenticated checks in section 6.
 
 CI is the gate normally. By hand, **you** are the gate: run both suites, and
 verify the live commit afterwards. Do not skip the verification — `/health` alone
 cannot see a stale web bundle, and this project has shipped one before.
 
-Only the maintainer deploys, and only a merged `master` (`CONTRIBUTING.md` §5). Everything runs from
-the `AcademicOS-release` worktree (branch `release/v1`), after
-`git fetch origin && git switch release/v1 && git merge --ff-only origin/master`, so the deployed tree
-is exactly `master`.
+Only the maintainer deploys, and only a merged `master` (`CONTRIBUTING.md` §5). Everything runs from a
+clean worktree checked out at `origin/master`, so the deployed tree is exactly `master`:
+`git fetch origin && git worktree add --detach ../AcademicOS-deploy origin/master`. (`release/v1`, the
+old deploy branch, is retired since 2026-10-01.)
 Nothing here needs a secret on your machine: the secrets are bound from Secret
 Manager by name. Never paste a key into a command, a file or a commit.
 
 ## 1. Gate
 
-    PYTHONPATH=$PWD/src PYTHONIOENCODING=utf-8 D:/AcademicOS-venv/Scripts/python.exe -m pytest tests -q -p no:cacheprovider
-    cd frontend && flutter analyze --no-fatal-infos && flutter test --exclude-tags live-backend -j 1
+    PYTHONPATH=$PWD/src PYTHONIOENCODING=utf-8 <py3.12 venv python> -m pytest tests -q -p no:cacheprovider -p no:warnings
+    cd frontend && flutter analyze && flutter test --exclude-tags live-backend
 
-Last green at `e0d7d63` (2026-09-28): 3,832 passed / 112 skipped / 3 xfailed;
-479 Flutter tests passed; analyzer at 7 info-level notes (Flutter 3.44.9). A number lower than
-that is a regression until you can say which tests went and why.
+The bar is 0 failed and "No issues found" from the analyzer (Flutter 3.44.9). Compare the passed and
+skipped counts with the last green CI run on `master` (`gh run list --workflow "Deploy to GCP"`): a number
+lower than that is a regression until you can say which tests went and why.
 
 Do not rebuild `frontend/build/web` while the Python suite runs. `api/main.py`
 mounts that directory when it exists at import, so a rebuild's `rm -rf` mid-run

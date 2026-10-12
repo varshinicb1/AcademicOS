@@ -4,8 +4,9 @@ argument-hint: <PR number>
 ---
 
 Review pull request #$ARGUMENTS of `varshinicb1/AcademicOS` as the maintainer's reviewer. The process is
-`CONTRIBUTING.md` §5. The rules the diff is held to are `CONTRIBUTING.md` §2-§3 and `docs/agent-workflow.md`
-§3-§5. Read both files first if they are not already in context.
+`CONTRIBUTING.md` §5. The rules the diff is held to are [`AGENTS.md`](../../AGENTS.md) (all of it, with its
+definition of done in §9) and `docs/agent-workflow.md` §3-§5. Read them first if they are not already in
+context. Only the maintainer's session runs this command.
 
 **One heavy job at a time.** Before step 5, make sure no other full test run, Flutter run, web build or audit
 is running on this machine. If one is, wait for it.
@@ -47,29 +48,38 @@ If the merge conflicts, abort it. Request changes, asking the author to merge `m
 Report each finding with `file:line`. Look for:
 - **Correctness.** Does the code do what the description says? Trace the changed paths. Check the edge
   cases the tests skip.
+- **Scope.** The PR names a requirement ID, plan step, defect or issue, and does one task. It does not
+  rebuild something the developer handover lists as existing.
 - **Tests.** A behaviour change has a test that fails without it. An `xfail` is `strict=True` and says how to
   un-xfail it. No floor or count was lowered to make a test pass (`agent-workflow.md` §3.3).
-- **Routes.** Every new route has a `route_policy.py` row and a `test_route_inventory.py` count bump. Request
-  models forbid unknown fields. The web client contract still holds.
+- **Routes.** Every new route has a `route_policy.py` row and a `test_route_inventory.py` entry. Request
+  models forbid unknown fields. `contract/` is regenerated when a schema changed, and the web client
+  contract still holds.
+- **Storage.** No SQL that only SQLite accepts (`INSERT OR IGNORE`/`OR REPLACE`, `rowid`, `AUTOINCREMENT`,
+  `instr`, `PRAGMA`) in new code. No check-then-act that assumes one instance (`AGENTS.md` §5). A remote
+  table only through `postgres_kv.durable_table`.
 - **The question bank.** It was changed only through the pipeline (`agent-workflow.md` §5), in its own PR,
   with the per-record diff.
 - **Student data.** `docs/compliance.md` boxes, school scoping, and the audit log on PII reads.
 - **Hygiene.** No `generated_plugin*` or `GeneratedPluginRegistrant.swift`. No secret: grep the diff for
-  `key`, `token`, `password` and `secret`. No emoji or raw hex in `frontend/lib`. No stray debug output.
+  `key`, `token`, `password` and `secret`. No emoji or raw hex in `frontend/lib`. No stray debug output. No
+  contracts, signatures, pay terms or school agreements. The company is written VidyuthLabs.
+- **Evidence.** Every number in the description is measured, with its command, or labelled "estimated".
 
 ## 5. Run the gates in the review worktree, one at a time
 
 Never edit files in this worktree while a suite runs.
 
 ```bash
-PYTHONPATH=$PWD/src PYTHONIOENCODING=utf-8 <venv python> -m pytest tests -q -p no:cacheprovider
-cd frontend && flutter pub get && flutter analyze --no-fatal-infos && flutter test --exclude-tags live-backend -j 1
+PYTHONPATH=$PWD/src PYTHONIOENCODING=utf-8 <venv python> -m pytest tests -q -p no:cacheprovider -p no:warnings
+cd frontend && flutter pub get && flutter analyze && flutter test --exclude-tags live-backend
 ```
 
-The venv python on the maintainer's laptop is `D:/AcademicOS-venv/Scripts/python.exe`. Record passed,
-skipped, xfailed and failed, and the analyzer's count. The merge bar is **0 failed** and only the known
-infos, which were 7 on 2026-09-28. Compare the skip count with `master`'s: a jump means tests stopped
-running.
+`<venv python>` is a Python 3.12 venv with the project installed; a global 3.14 fails the OpenAPI contract
+test even on `master`. A docs-only PR (no file under `src/`, `tests/`, `frontend/`, `contract/`, `deploy/`,
+`scripts/` or `academicos-data/`) may skip the suites; say so in the review. Record passed, skipped, xfailed
+and failed, and the analyzer's output. The merge bar is **0 failed** and "No issues found". Compare the
+skip count with `master`'s: a jump means tests stopped running.
 
 ## 6. Re-run the PR's own evidence
 
@@ -93,26 +103,27 @@ Write the review body with:
   ```
 
   GitHub refuses an approval of one's own PR. For a PR opened from the maintainer's account, use
-  `gh pr review --comment` instead of `--approve`. Always a merge commit, never squash or rebase. Never
-  `--admin`.
+  `gh pr review --comment` instead of `--approve`. A collaborator's PR is merged with `--merge` (or
+  `--rebase` for a clean linear series), never `--squash`, so their commits and authorship stay in the
+  history. The maintainer's own single-purpose PR may use `--squash`. Never `--admin`.
 - **Request changes** otherwise: `gh pr review $ARGUMENTS --request-changes --body-file <review.md>`. For each
   blocking finding, say what would make the PR mergeable. Do not fix the author's branch yourself unless the
   user asks.
 
 ## 8. After a merge
 
-```bash
-git fetch origin && git push origin origin/master:release/v1     # release/v1 follows master
-```
+`release/v1` is retired (2026-10-01): do not move it.
 
-**A merge is a deploy.** Since 2026-09-28 CI runs again, and a merge that touches a shipped path (the
-`paths:` list in `.github/workflows/deploy-gcp.yml`) deploys the backend by itself. Merge only what is ready
-to ship. Then:
+**A merge is a deploy.** A merge that touches a shipped path (the `paths:` list in
+`.github/workflows/deploy-gcp.yml`) deploys the backend and the web by itself. Runs queue rather than
+cancel. Merge only what is ready to ship. Then:
 - watch the run (`gh run list --limit 3`) and check that `/health` reports the merge commit;
-- for a PR that changes the stored schema, dry-run its migration on a copy of the live snapshot before
+- for a PR that changes the stored schema, dry-run its migration on a copy of the live data before
   merging;
-- after the run, do the checks in `docs/deploy-by-hand.md` section 6. If a CI job cannot run, deploy by
-  that runbook when the user has asked for it or authorised it, and record the hand deploy there.
+- after the run, do the unauthenticated checks in `docs/deploy-by-hand.md` section 6. Never create an
+  account or sign in on the live site.
+- **Never deploy by hand while CI works**: it races CI. If a CI job cannot run, deploy by that runbook
+  only when the user asks for it, and record the hand deploy there.
 
 ## 9. Clean up and report
 

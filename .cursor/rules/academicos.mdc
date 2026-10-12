@@ -1,0 +1,39 @@
+---
+description: AcademicOS rules for every change. The full rulebook is AGENTS.md at the repository root.
+alwaysApply: true
+---
+
+# AcademicOS: rules for Cursor
+
+Read `AGENTS.md` at the repository root in full before changing anything. It is the rulebook for every
+contributor, and where this file differs, `AGENTS.md` wins. What to build: `docs/REQUIREMENTS.md`. What
+exists, and the current plan: `docs/handover/2026-10-07-developer-handover.md`.
+
+The rules that matter most:
+
+1. **Every change is a pull request into `master`.**
+   - Never push to `master`: CI deploys every push to production.
+   - Never merge or approve your own PR, and never deploy.
+2. **Branch from current `origin/master`** as `<type>/<topic>`, open a draft PR, and fill in
+   `.github/pull_request_template.md` with evidence. Stage files by path; never commit `generated_plugin*`.
+3. **No secret anywhere:** repository, PR, issue, log or test fixture.
+4. **Live checks are unauthenticated and read-only.** Never create accounts or enter credentials on the
+   live site.
+5. **Every query is scoped by the signed-in user's `school_id`.** Student data never leaves the school's
+   scope (`docs/compliance.md`).
+6. **New routes** need `src/academicos/api/route_policy.py`, `tests/test_route_inventory.py` and a
+   regenerated `contract/`.
+7. **A bug fix starts with a failing test.** Never skip or weaken a test. Both gates must pass: backend
+   `pytest tests -q -p no:cacheprovider` (Python 3.12), frontend `flutter analyze` and
+   `flutter test --exclude-tags live-backend`.
+8. **Frontend:**
+   - no swallowed errors (`serverErrorMessage(e)`);
+   - no emoji or raw hex in `frontend/lib`;
+   - strings through `tr()`;
+   - check screens at 375-390 px and at desktop width.
+9. **Never invent content.** The question bank changes only through its pipeline
+   (`docs/agent-workflow.md` §5).
+10. **Numbers are measured, with the command quoted, or labelled "estimated".**
+11. **The company is VidyuthLabs, one word.** No contracts, signatures, pay terms or school agreements in
+    this repository.
+12. **`backend/` is an abandoned rewrite.** Work in `src/academicos/` and `frontend/`.
