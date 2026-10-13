@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "tests"))
 
-from academicos.curriculum.seed_cbse10 import _name_key  # noqa: E402
+from academicos.syllabus.current_book import _name_key  # noqa: E402
 from academicos.syllabus.cbse_syllabus import taxonomy_chapters  # noqa: E402
 from test_curriculum_seed_grades import _bearer, _seed, client, principal  # noqa: E402,F401
 
@@ -71,3 +71,37 @@ def test_maths_and_science_are_unchanged(client, principal):  # noqa: F811
         seeded = [c.name for c in store.chapters_for_book(_book_of(store, body["gradeId"], subject).id)]
         # The file and the book differ only in punctuation ("Nature's" and "Nature’s").
         assert [_name_key(n) for n in seeded] == [_name_key(n) for n in taxonomy_chapters(subject, 6).values()]
+
+
+def test_every_chapter_a_school_is_seeded_with_is_one_the_question_bank_lists(tmp_path):
+    """The seed took the current book for English and Social Science 6-9 (#136),
+    but the bank's chapter view and the filter every paper and homework draws
+    through kept reading the syllabus file. Measured 2026-10-13: 120 of the 132
+    chapters those eight classes plan were chapters the bank did not know, so
+    homework from a class 9 lesson found no question, and 281 class 9 questions
+    sat in "Not yet matched to a chapter". One decision now
+    (syllabus/current_book.py); this holds it on every class 1-10."""
+    from academicos.assessment.chapter_filing import ChapterFiling
+    from academicos.curriculum.decomposition_templates import chapter_slug
+    from academicos.curriculum.seed_cbse10 import seed_cbse_grade
+    from academicos.curriculum.store import CurriculumStore
+
+    store = CurriculumStore(tmp_path / "curriculum.sqlite")
+    unlisted: dict[str, list[str]] = {}
+    planned = 0
+    try:
+        for grade in range(1, 11):
+            result = seed_cbse_grade(store, school_id="school_1", academic_year_label="2026-27",
+                                     start_date="2026-06-01", end_date="2027-03-31", grade_number=grade,
+                                     apply_templates=False)
+            for subject in store.subjects_for_grade(result.grade_id):
+                known = ChapterFiling.for_class(subject.name, grade).known
+                for book in store.books_for_subject(subject.id):
+                    for chapter in store.chapters_for_book(book.id):
+                        planned += 1
+                        if chapter_slug(chapter) not in known:
+                            unlisted.setdefault(f"{subject.name} {grade}", []).append(chapter.name)
+    finally:
+        store.close()
+    assert planned > 500, f"only {planned} chapters seeded across classes 1-10: the check is vacuous"
+    assert unlisted == {}, {k: (len(v), v[:2]) for k, v in unlisted.items()}

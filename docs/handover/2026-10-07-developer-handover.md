@@ -421,7 +421,6 @@ Confirmed open on `784b42b`. File references are where to start, not a diagnosis
 | Rate limiter is in memory | `api/rate_limit.py` (`RateLimiter`) | NFR-2 (R-A3) |
 | 0 class 1-5 questions; 0 Hindi questions served | `academicos-data/syllabus/questions.json`, `corpus/bank_merge.py` | QB-1, QB-12 (R-C1, R-C2) |
 | 718 model-written questions served without review | `corpus/bank_merge.py`, records with source `ai_generated` / `textbook_grounded` | QB-5 (R-C3) |
-| Homework suggestion for English and Social Science 6-9 finds no questions: the slug now decides (#141, #142), but the plan's chapter ids for these books (seeded from the current books, #136) are not in the catalog, which lists syllabus ids (0 Social Science matches, 3 of 18-19 English, measured 13 Oct) | `operations/homework_routes.py`, `assessment/pillar_routes.py` (`catalog_chapters`) | TA-4 (R-B7) |
 | The main paper builder sends no difficulty tier | `frontend/lib/data/datasources/api/paper_builder_api.dart` | EX-3 (R-C4) |
 | Term report counts today's unmarked lessons as behind | `operations/term_report.py` | ADM-2, ADM-3 (R-D2) |
 | A school that set up classes 6-9 before #136 sees old and new chapters side by side after a re-seed (nothing is deleted, by design) | `curriculum/seed_cbse10.py` | SCH-4; needs an owner decision on a clean-up tool |
@@ -429,10 +428,17 @@ Confirmed open on `784b42b`. File references are where to start, not a diagnosis
 | About 2% of Exemplar answer keys misaligned (D37); CBE stacked fractions refused instead of recovered | `corpus/` importers | QB-7, QB-10 |
 | Social Science 7 has 202 book sections for about 130 periods left in a mid-year start; the plan says so, but the principal has no tool to choose what to drop | `curriculum/scheduling.py` | SCH-4 |
 
-Closed since 7 October: a parent's calendar. A parent reads a child's calendar through
-`GET /children/{student_id}/calendar`, which admits only that child's linked guardians
-(`tests/test_my_calendar_load.py::test_a_parent_sees_their_childs_calendar_and_no_one_elses`). The 403 seen
-on 4 October was a parent calling `/my-calendar`, which is for the caller's own events.
+Closed since 7 October:
+
+- English and Social Science 6-9: the seed plans the current book's chapters (#136), and the question bank's
+  chapter view and the filter every paper, homework and search draws through now list the same chapters
+  (`syllabus/current_book.py`). All 128 Social Science 9 questions and 128 of 160 English 9 questions are
+  filed under a chapter, and homework after their lessons finds them. The 32 English 9 questions with no
+  chapter tag stay unmatched until they are tagged (R-C).
+- A parent's calendar. A parent reads a child's calendar through
+  `GET /children/{student_id}/calendar`, which admits only that child's linked guardians
+  (`tests/test_my_calendar_load.py::test_a_parent_sees_their_childs_calendar_and_no_one_elses`). The 403 seen
+  on 4 October was a parent calling `/my-calendar`, which is for the caller's own events.
 
 ---
 

@@ -27,10 +27,10 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from academicos.api.main import app  # noqa: E402
 from academicos.assessment import pillar_routes, pool as pool_module  # noqa: E402
-from academicos.assessment.pillar_routes import _chapter_of, _name_key  # noqa: E402
-from academicos.assessment.schemas import QuestionSchema  # noqa: E402
+from academicos.assessment.chapter_filing import ChapterFiling  # noqa: E402
 from academicos.corpus.bank_merge import CONTENT_CODE  # noqa: E402
 from academicos.syllabus.cbse_syllabus import load_syllabus, taxonomy_chapters  # noqa: E402
+from academicos.syllabus.current_book import studied_chapters  # noqa: E402
 
 SERVED_BANK = ROOT / "academicos-data" / "syllabus" / "questions.json"
 # CBSE's learning-ladder content codes as the CBE item banks print them:
@@ -93,9 +93,10 @@ def test_every_class_6_to_10_chapter_a_teacher_can_pick_has_a_real_name(
             twice = sorted({n for n in names if names.count(n) > 1})
             assert twice == [], f"{subject} {grade} lists one chapter under several ids: {twice}"
 
-            syllabus = load_syllabus(subject, grade)
-            if syllabus is not None:
-                known = {chapter.id for _unit, chapter in syllabus.all_chapters()}
+            if load_syllabus(subject, grade) is not None:
+                # The chapters the class studies now: the syllabus file's, or the
+                # current book's where its school is seeded with that (#136).
+                known = {chapter.id for _unit, chapter in studied_chapters(subject, grade)}
                 # "unmapped" is not a claim about the syllabus: it is the
                 # named bucket for questions no chapter has claimed yet, and
                 # hiding it lost a teacher most of the bank (see
@@ -265,20 +266,20 @@ def test_no_question_the_tagger_placed_falls_into_the_unmapped_bucket():
     them by the name the book prints. If a later taxonomy rebuild moves either
     pair onto a new edition, no name will match and its tags land in
     "unmapped" -- which is what this catches.
+
+    Every served class 6-10 pair, not only Mathematics and Science: until
+    2026-10-13 the view read the syllabus file while the school's plan read the
+    current book (#136), and all 128 Social Science 9 questions and 121 tagged
+    English 9 questions were stranded here.
     """
     records = json.loads(SERVED_BANK.read_text(encoding="utf-8"))["questions"]
     stranded = {}
-    for subject, grade in CORE:
-        syllabus = load_syllabus(subject, grade)
-        chapters = syllabus.all_chapters() if syllabus else []
-        known = {c.id for _u, c in chapters}
-        by_name = {_name_key(c.name): c.id for _u, c in chapters}
-        book_names = taxonomy_chapters(subject, grade)
+    for subject, grade in _pairs():
+        filing = ChapterFiling.for_class(subject, grade)
         lost = [r["id"] for r in records
                 if r.get("subject") == subject and r.get("grade") == grade
                 and r.get("taxonomyChapterId")
-                and _chapter_of(QuestionSchema.model_validate(r),
-                                known, by_name, book_names) == "unmapped"]
+                and filing.chapter_of(r["taxonomyChapterId"], r.get("chapterIds") or []) == "unmapped"]
         if lost:
             stranded[f"{subject} {grade}"] = (len(lost), lost[:3])
     assert stranded == {}, stranded
