@@ -11,11 +11,12 @@ and Science, 2,297 questions were filed under named chapters and choosing
 those chapters reached 1,266; Mathematics 6 "Lines and Angles" showed 16
 questions and generating a paper from it returned 400.
 
-Now both read this rule. `pillar_routes._chapter_of` still keeps a copy (its
-file has another owner); tests/test_chapter_filing.py holds the two equal on
-every served class 6-10 question, so neither can change alone. The question
-bank API and the MCP server read it too, through `qbank_engine.QuestionBank`
-(audit D39); tests/test_qbank_chapter_filing.py holds them to the picker.
+Now both read this rule, and since 2026-10-13 the picker has no copy of its
+own: it files through this class, over the chapter list the seed plans
+(`syllabus/current_book.studied_chapters`), so a lesson's chapter is a
+chapter the picker lists. The question bank API and the MCP server read it
+too, through `qbank_engine.QuestionBank` (audit D39);
+tests/test_qbank_chapter_filing.py holds them to the picker.
 """
 from __future__ import annotations
 
@@ -45,8 +46,8 @@ def name_key(name: str) -> str:
 class ChapterFiling:
     """The chapters of one class and subject, as the teacher's view lists them.
 
-    `known` is the syllabus's chapter ids -- the book the class studies.
-    `by_name` maps a chapter's name to its syllabus id; `book_names` maps a
+    `known` is the ids of the chapters the class studies now (the book its
+    school is seeded with). `by_name` maps a chapter's name to that id; `book_names` maps a
     taxonomy chapter id to the name the book prints, so a tag under a
     different id for the same chapter finds its syllabus twin.
     """
@@ -56,18 +57,27 @@ class ChapterFiling:
 
     @classmethod
     def for_class(cls, subject: str, grade: int) -> "ChapterFiling":
-        from ..syllabus.cbse_syllabus import book_chapters, load_syllabus, taxonomy_chapters
-        syllabus = load_syllabus(subject, grade)
-        chapters = syllabus.all_chapters() if syllabus is not None else []
-        # The current NCERT book's chapters are chapters the class studies too
-        # (`book_chapters`): known, and named as the book prints them.
-        book = book_chapters(subject, grade)
-        by_name = {name_key(c["name"]): c["id"] for c in book}
-        by_name.update({name_key(c.name): c.id for _unit, c in chapters})
+        from ..syllabus.current_book import studied_chapters
+        # The chapters the class studies now, as its school is seeded with them
+        # and the chapter view lists them: one list, so a lesson's chapter, the
+        # view's and a paper's are the same chapter.
+        return cls.for_chapters(subject, grade, studied_chapters(subject, grade))
+
+    @classmethod
+    def for_chapters(cls, subject: str, grade: int, chapters: list) -> "ChapterFiling":
+        """The filing for `chapters`, the (unit, chapter) list
+        `current_book.studied_chapters` gives; for a caller that lists them too."""
+        from ..syllabus.cbse_syllabus import book_chapters, taxonomy_chapters
+        by_name: dict[str, str] = {}
+        for _unit, c in chapters:
+            # The view's order: a syllabus chapter's id wins over the current
+            # book's for the same printed name.
+            by_name.setdefault(name_key(c.name), c.id)
         by_name.pop("", None)          # a name with no letters names no chapter
-        return cls(known=frozenset(c.id for _unit, c in chapters) | {c["id"] for c in book},
+        return cls(known=frozenset(c.id for _unit, c in chapters),
                    by_name=by_name,
-                   book_names={**{c["id"]: c["name"] for c in book}, **taxonomy_chapters(subject, grade)})
+                   book_names={**{c["id"]: c["name"] for c in book_chapters(subject, grade)},
+                               **taxonomy_chapters(subject, grade)})
 
     def chapter_of(self, taxonomy_chapter_id: Optional[str],
                    chapter_ids: Iterable[str]) -> str:

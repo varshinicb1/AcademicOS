@@ -2,7 +2,7 @@
 
 Audit D24 (2026-09-26): the builder's chapter picker lists chapters and counts
 from GET /catalog/{subject}/{grade}/chapters, which files each question by its
-taxonomy tag first (`pillar_routes._chapter_of`). Every filter that takes a
+taxonomy tag first. Every filter that takes a
 teacher's chosen chapters -- the template scope, quick-generate, the question
 search, the parallel sets -- matched the record's own `chapterIds`. Across
 classes 6-10 Mathematics and Science, 2,297 questions were filed under named
@@ -15,6 +15,7 @@ These run on the committed served bank, like tests/test_catalog_chapters.py.
 from __future__ import annotations
 
 import sys
+from collections import Counter
 from pathlib import Path
 
 import pytest
@@ -27,13 +28,14 @@ from academicos.api.main import app  # noqa: E402
 from academicos.assessment import chapter_filing, pillar_routes, pool as pool_module  # noqa: E402
 from academicos.assessment.mapping import to_question_schema  # noqa: E402
 from academicos.assessment.paper_templates import build_scope_filter  # noqa: E402
-from academicos.assessment.pillar_routes import _chapter_of, _name_key  # noqa: E402
 from academicos.assessment.pool import get_pool  # noqa: E402
 from academicos.assessment.schemas import QuestionSchema, TemplateScope  # noqa: E402
-from academicos.syllabus.cbse_syllabus import load_syllabus, taxonomy_chapters  # noqa: E402
 
 SERVED_BANK = ROOT / "academicos-data" / "syllabus" / "questions.json"
 CORE = [(subject, grade) for grade in range(6, 11) for subject in ("Mathematics", "Science")]
+# Served classes whose school is seeded with the current book in place of the
+# syllabus file's chapters (#136): the view and the filter must follow it too.
+CURRENT_BOOK = [("English", 9), ("Social Science", 9)]
 ROMAN = {6: "VI", 7: "VII", 8: "VIII", 9: "IX", 10: "X"}
 
 
@@ -65,23 +67,20 @@ def _schemas(cfg, subject, grade) -> list[QuestionSchema]:
 
 
 @pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
-def test_the_shared_rule_files_every_question_where_the_chapter_view_does(served):
-    """The view keeps its own copy of the rule (its file has another owner).
-    This holds the two equal on every served class 6-10 question, so a change
-    to either is a failing test rather than a picker that lies again."""
-    _client, cfg = served
+def test_the_chapter_view_counts_every_question_where_the_shared_rule_files_it(served):
+    """The view kept its own copy of the rule until 2026-10-13, and a test held
+    the two equal. It now files through the shared rule; this holds what the
+    route shows to what the rule says, chapter for chapter, on every served
+    question of these classes, so the picker cannot lie again."""
+    client, cfg = served
     checked = 0
-    for subject, grade in CORE:
-        syllabus = load_syllabus(subject, grade)
-        chapters = syllabus.all_chapters() if syllabus is not None else []
-        known = {c.id for _u, c in chapters}
-        by_name = {_name_key(c.name): c.id for _u, c in chapters}
-        book_names = taxonomy_chapters(subject, grade)
+    for subject, grade in CORE + CURRENT_BOOK:
         filing = chapter_filing.ChapterFiling.for_class(subject, grade)
-        for q in _schemas(cfg, subject, grade):
-            assert filing.chapter_of(q.taxonomy_chapter_id, q.chapter_ids) == \
-                _chapter_of(q, known, by_name, book_names), (subject, grade, q.id)
-            checked += 1
+        filed = Counter(filing.chapter_of(q.taxonomy_chapter_id, q.chapter_ids)
+                        for q in _schemas(cfg, subject, grade))
+        shown = {cid: n for cid, n in _view(client, subject, grade).items() if n}
+        assert shown == dict(filed), (subject, grade)
+        checked += sum(filed.values())
     assert checked > 4000, checked
 
 
@@ -93,7 +92,7 @@ def test_choosing_a_chapter_reaches_every_question_the_picker_counts(served):
     client, cfg = served
     shown = reached = 0
     wrong = []
-    for subject, grade in CORE:
+    for subject, grade in CORE + CURRENT_BOOK:
         candidates = _schemas(cfg, subject, grade)
         for cid, count in _view(client, subject, grade).items():
             scope = build_scope_filter(TemplateScope(chapter_ids=[cid]), candidates)
@@ -166,3 +165,37 @@ def test_the_unmatched_bucket_can_be_chosen():
     test = filing.selects({chapter_filing.UNMAPPED}, filed_in_class={"c1", "unmapped"})
     assert test(None, []) is True
     assert test(None, ["c1"]) is False
+
+
+@pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
+def test_homework_from_a_class_9_lesson_reaches_its_chapters_questions(served, tmp_path):
+    """The homework suggestion matches a lesson's chapter, by the slug the seed
+    gave it, against the bank's chapters (`homework_routes._bank_chapters`, the
+    picker's list). For English and Social Science 9 no planned slug was a bank
+    chapter until 2026-10-13, so a suggestion after any of their lessons
+    offered no question."""
+    from academicos.curriculum.decomposition_templates import chapter_slug
+    from academicos.curriculum.seed_cbse10 import seed_cbse_grade
+    from academicos.curriculum.store import CurriculumStore
+    from academicos.operations import homework_routes
+
+    _client, cfg = served
+    store = CurriculumStore(tmp_path / "plan.sqlite")
+    try:
+        result = seed_cbse_grade(store, school_id="school_1", academic_year_label="2026-27",
+                                 start_date="2026-06-01", end_date="2027-03-31", grade_number=9,
+                                 apply_templates=False)
+        for subject_name in ("English", "Social Science"):
+            subject = store.get_subject_by_name(result.grade_id, subject_name)
+            planned = {chapter_slug(c) for book in store.books_for_subject(subject.id)
+                       for c in store.chapters_for_book(book.id)}
+            offered = {c["chapter_id"]: c["question_count"]
+                       for c in homework_routes._bank_chapters(subject_name, 9)}
+            assert planned <= set(offered), (subject_name, sorted(planned - set(offered))[:3])
+            reached = sum(n for cid, n in offered.items() if cid in planned)
+            assert reached > 0, subject_name
+            if subject_name == "Social Science":
+                # Every Social Science 9 question is tagged with a chapter of the current book.
+                assert reached == len(_schemas(cfg, subject_name, 9))
+    finally:
+        store.close()

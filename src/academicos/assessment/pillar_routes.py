@@ -24,6 +24,7 @@ from . import mailer as mailer_mod
 from . import remediation as remediation_mod
 from .authz import require_consent, require_may_download_paper, require_own_school, require_school_owns_student
 from .authz import require_school_owns_assessment as _authz_require_school_owns_assessment
+from .chapter_filing import ChapterFiling
 from .auth_routes import get_current_user, require_admin, require_principal, require_staff
 from .audit_log import AuditLog, get_audit_log, record_pii_read
 from .consent import ConsentStore, get_consent_store
@@ -46,7 +47,8 @@ from .schemas import (
 from .school_templates import TemplateStore
 from .store import AssessmentStore
 from .users import User, get_user_store
-from ..syllabus.cbse_syllabus import SyllabusChapter, book_chapters, load_syllabus, taxonomy_chapters
+from ..syllabus.cbse_syllabus import book_chapters, load_syllabus, taxonomy_chapters
+from ..syllabus.current_book import studied_chapters
 from ..syllabus.timetable import generate_timetable
 
 router = APIRouter(prefix="/api/v1")
@@ -392,38 +394,6 @@ def _name_key(name: str) -> str:
     return "".join(ch for ch in unicodedata.normalize("NFC", name).lower() if unicodedata.category(ch)[0] in "LMN")
 
 
-def _chapter_of(q: QuestionSchema, known: set[str], by_name: dict[str, str],
-                book_names: dict[str, str]) -> str:
-    """The one chapter this question is filed under in the teacher's view.
-
-    The record carries up to two chapter claims and they are not the same
-    kind. `taxonomyChapterId` is the chapter of the NCERT book the tagger
-    read, written only above the gold-set confidence threshold, and for 1,626
-    Exemplar records it is the chapter the book itself printed the question
-    in. `chapterIds` is whatever the source bank supplied -- an old-syllabus
-    slug, a CBSE unit name, a CBE content code -- and for six of the ten class
-    6-10 Mathematics/Science pairs it names a chapter of the pre-2024 book,
-    which the class no longer studies.
-
-    So the tag is preferred, and `chapterIds` is read only when the syllabus
-    still knows the id, which is the same test as "this id names a chapter of
-    the book this class uses". Anything left goes to the named "unmapped"
-    bucket: a question with no chapter is shown as having none, never given
-    one it did not earn.
-    """
-    tid = q.taxonomy_chapter_id
-    if tid:
-        if not known or tid in known:
-            return tid
-        twin = by_name.get(_name_key(book_names.get(tid, ""))) if book_names.get(tid) else None
-        if twin:
-            return twin
-    for cid in q.chapter_ids:
-        if not known or cid in known:
-            return cid
-    return "unmapped"
-
-
 @router.get("/catalog/{subject}/{grade}/chapters", response_model=list[ChapterEntry])
 def catalog_chapters(subject: str, grade: int, response: Response) -> list[ChapterEntry]:
     """Chapter breakdown for one subject — the real syllabus view."""
@@ -431,35 +401,18 @@ def catalog_chapters(subject: str, grade: int, response: Response) -> list[Chapt
     pool = get_pool(cfg, subject=subject, grade=_int_grade_to_roman(grade))
     schemas = [to_question_schema(q) for q in pool.questions]
 
-    # Real official CBSE units/chapters, when we have them — shown even with
-    # zero questions yet, a gap the teacher should see rather than one
-    # silently hidden behind an "unmapped" bucket.
-    syllabus = load_syllabus(subject, grade)
-    chapters = syllabus.all_chapters() if syllabus is not None else []
-    # The current NCERT book's chapters the file does not list (a new edition,
-    # or a language file that lists CBSE assessment units), in book order;
-    # chapter_filing.ChapterFiling.for_class reads the same.
-    listed = {chapter.id for _unit, chapter in chapters}
-    chapters = chapters + [(None, SyllabusChapter(id=c["id"], name=c["name"]))
-                           for c in book_chapters(subject, grade) if c["id"] not in listed]
-    known = {chapter.id for _unit, chapter in chapters}
-    # The syllabus chapter that a taxonomy tag belongs to, by the name the
-    # book prints. Only Science 6 and Science 10 need it: their files list the
-    # same edition as the taxonomy under ids of their own, so "Life Processes"
-    # the tag and "life-processes" the chapter are one chapter. Where the file
-    # and the taxonomy read different editions no name matches, and the tag
-    # falls through to "unmapped" instead of being filed under a chapter of a
-    # book the class does not study.
-    # A syllabus name wins over the book's, as in ChapterFiling.for_class.
-    by_name = {_name_key(c["name"]): c["id"] for c in book_chapters(subject, grade)}
-    by_name.update({_name_key(chapter.name): chapter.id for _unit, chapter in chapters if chapter.id in listed})
-    by_name.pop("", None)
-    book_names = {**{c["id"]: c["name"] for c in book_chapters(subject, grade)},
-                  **taxonomy_chapters(subject, grade)}
+    # The chapters the class studies now: its syllabus file's, or the current
+    # book's where its school is seeded with that (#136). Shown even with zero
+    # questions yet, a gap the teacher should see rather than one silently
+    # hidden behind an "unmapped" bucket. One list and one filing rule with
+    # the seed and with every paper, homework and search (chapter_filing.py).
+    chapters = studied_chapters(subject, grade)
+    filing = ChapterFiling.for_chapters(subject, grade, chapters)
+    book_names = filing.book_names
 
     by_chapter: dict[str, list[QuestionSchema]] = {}
     for q in schemas:
-        by_chapter.setdefault(_chapter_of(q, known, by_name, book_names), []).append(q)
+        by_chapter.setdefault(filing.chapter_of(q.taxonomy_chapter_id, q.chapter_ids), []).append(q)
 
     out: list[ChapterEntry] = []
     seen: set[str] = set()
@@ -1283,8 +1236,7 @@ def school_report(school_id: str, principal: User = Depends(require_admin("repor
         key = (subject.casefold(), grade)
         group = evidence.get(key)
         if group is None:
-            syllabus = load_syllabus(subject, grade)
-            chapters = [c for _, c in syllabus.all_chapters()] if syllabus else []
+            chapters = [c for _, c in studied_chapters(subject, grade)]
             names = {**taxonomy_chapters(subject, grade),
                      **{c["id"]: c["name"] for c in book_chapters(subject, grade)},
                      **{c.id: c.name for c in chapters}}
