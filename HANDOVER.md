@@ -29,7 +29,7 @@ The previous handover (2026-09-21, answer-key linkage) is kept in `docs/history/
 | Database | Cloud SQL Postgres `academicos-pg` (durable tables) + SQLite snapshots | live |
 | Blobs | GCS `vidyuthlabs-academicos-media` | live |
 | Question-bank API | `/v1/*` on the same backend, API-key gated | live; the principal issues keys from School → API keys (D38 fixed); keys persist in GCS |
-| Older Render release | `academicos-backend.onrender.com` | still answers on an old build; not the product; can be retired |
+| Older Render release | `academicos-backend.onrender.com` | retired 2026-10-13: its sync and keep-warm workflows are removed; the service itself is deleted from the Render dashboard (owner) |
 
 The live product is the **v2 scope**: a web console for classes 6-10 (paper generation, question bank,
 calendar/lesson plan, principal dashboard). Under the v2 scorecard it measured **61.0 / 100**

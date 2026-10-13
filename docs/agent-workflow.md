@@ -119,9 +119,9 @@ The checks most likely to catch a new contributor out:
   A test that posts one shared body to several routes must build a body per model.
 - **Web client ↔ backend contract**: `tests/test_frontend_backend_contract.py`.
   A route change must match what the web screens send.
-- **The CI deploy triggers on paths.** `.github/workflows/deploy-gcp.yml` and
-  `deploy-backend.yml` list the paths that start a deploy (`tests/**` is one).
-  A change outside them merges without deploying.
+- **The CI deploy triggers on paths.** `.github/workflows/deploy-gcp.yml` lists
+  the paths that start a deploy (`tests/**` is one). A change outside them merges
+  without deploying.
 - An `xfail` must be `strict=True` with a reason that says how to un-xfail it
   (see `tests/test_curriculum_seed_grades.py`).
 
