@@ -1,6 +1,16 @@
-# Deployment — the Render release
+# Deployment — the Render release (retired)
 
-> **Scope.** This document describes **one of two backend releases**. The other
+> **Retired on 2026-10-13. Nothing on this page describes the live system.**
+> Production is Cloud Run and Firebase Hosting, deployed by
+> `.github/workflows/deploy-gcp.yml` on every merge to `master`
+> ([`gcp-deployment.md`](gcp-deployment.md), [`deploy-by-hand.md`](deploy-by-hand.md)).
+> The Render sync workflow (`deploy-backend.yml`), its keep-warm ping
+> (`keep-backend-warm.yml`), `scripts/render_deploy_status.py` and the two
+> one-off push scripts were removed that day. The page is kept because it
+> records why the stores are built the way they are: the Supabase fallback and
+> the whole-file snapshot restore below began here.
+
+> **Scope (historical).** This document describes **one of two backend releases**. The other
 > is the GCP release (`docs/gcp-deployment.md`). It also does not deploy either
 > client sub-product — the offline **Mobile** app and the cloud **Web** app are
 > separate deliverables with their own build flags. If that distinction is not
@@ -35,33 +45,16 @@ Two earlier deploy-target attempts left artifacts in this repo that are
   unrun), which is exactly the kind of contradiction that causes an agent
   reading the repo cold to guess wrong about what's actually deployed.
 
-### CI/CD pipeline (`.github/workflows/deploy-backend.yml`)
+### CI/CD pipeline and keep-warm (removed 2026-10-13)
 
-On every push to `master` touching `pyproject.toml`, `config/**`,
-`src/academicos/**`, or `academicos-data/syllabus/**`:
-
-1. **test** — runs the real pytest suite (all extras) against
-   `src/academicos`. A real gate: a failing test blocks the sync stage
-   below, so a regression can't reach production undetected.
-2. **sync** — mirrors backend-relevant files (excluding the Flutter
-   frontend) into a separate `varshinicb1/academicos-backend` repo and
-   pushes. That repo's own `build-push.yml` (triggered by this push)
-   builds a fresh Docker image and pushes it to Docker Hub, which Render
-   picks up automatically (image-backed services redeploy on a new image
-   push, not on a git push to this repo).
-3. **render-deploy** — polls Render's API (`scripts/render_deploy_status.py`)
-   until a deploy newer than a pre-sync snapshot goes live, failing the
-   workflow if the new deploy build-fails, is canceled, or never goes live
-   within 30 minutes. Needs `RENDER_API_KEY` (secret) and
-   `RENDER_SERVICE_ID` (variable) to actually verify the rollout — without
-   them the pipeline still syncs and deploys, it just can't confirm it.
-
-### Keep-warm (`.github/workflows/keep-backend-warm.yml`)
-
-Render's free tier spins the container down after ~15 minutes idle, and a
-cold start (pulling the image, booting opencv/pymupdf) measured close to
-60 seconds. A GitHub Action pings `/health` every 10 minutes so a
-teacher/student opening the app never sees that cold-start spinner.
+`.github/workflows/deploy-backend.yml` ran the test suite, mirrored the backend
+into `varshinicb1/academicos-backend` (whose own workflow built the Docker Hub
+image Render pulled), and polled Render's API until the new deploy went live.
+`.github/workflows/keep-backend-warm.yml` pinged `/health` every 10 minutes to
+keep the free-tier container from idling. Both were removed once Render stopped
+being used: the sync job had failed on every run since 2026-10-12 (the runner
+ran out of disk installing every optional extra), and the ping spent Actions
+minutes on a service no school uses.
 
 ## Data durability: Supabase
 

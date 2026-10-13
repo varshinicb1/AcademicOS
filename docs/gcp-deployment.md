@@ -32,7 +32,7 @@ at the repo root already used `primary_region = "bom"`.)
 |---|---|---|
 | Backend on Render free tier | **Cloud Run** service `academicos-backend` | Same `Dockerfile` — `$PORT` handling and baked `academicos-data/` already work; nothing to change |
 | Docker Hub image | **Artifact Registry** (`academicos/backend`) | Keeps the image private; ~3.3 GB, mostly torch/opencv + baked corpus |
-| GH Actions → Docker Hub → Render | GH Actions → Artifact Registry → Cloud Run | Same three-stage shape as `.github/workflows/deploy-backend.yml`; auth via Workload Identity Federation (no stored keys) |
+| GH Actions → Docker Hub → Render | GH Actions → Artifact Registry → Cloud Run | Same three-stage shape as the Render `deploy-backend.yml` (removed 2026-10-13); auth via Workload Identity Federation (no stored keys) |
 | Flutter web on GitHub Pages | **Firebase Hosting** (or keep Pages) | Only move it if you want the web app on the school's own domain with Google-managed SSL; Pages works fine and is free |
 | Supabase Postgres + Storage | **unchanged** | Deliberately not moved in phase 1 — zero data migration, zero new failure modes. Phase 2 (§8) covers Cloud SQL + GCS |
 | Secrets in Render dashboard | **Secret Manager** | Principal bootstrap key, LLM key, Cloud SQL password. The GCP deploy no longer injects the Supabase secrets (§8) |

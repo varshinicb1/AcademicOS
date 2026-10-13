@@ -1,7 +1,8 @@
 # Products & Releases
 
 > **Dated record (last reconciled 2026-09-16).** Today the live release is the GCP one (Cloud Run +
-> Firebase Hosting, vidyuthlabs.web.app); Render still answers on an old build and is not the product.
+> Firebase Hosting, vidyuthlabs.web.app). The Render release was **retired on 2026-10-13**: its sync and
+> keep-warm workflows were removed, and section 2 below is history.
 > The product line under **[`docs/REQUIREMENTS.md`](REQUIREMENTS.md) (v3)** is a web console, a teacher
 > app and a student app on one backend. See **[`HANDOVER.md`](../HANDOVER.md)** for the current state.
 
@@ -53,18 +54,18 @@ Both deploy the *same* `src/academicos` backend. They are different production
 releases with different infrastructure, different durability backends, and
 different pipelines. Neither is an upgrade path of the other; they coexist.
 
-| | **Render release** (current) | **GCP release** (pure GCP) |
+| | **Render release** (retired 2026-10-13) | **GCP release** (pure GCP, live) |
 |---|---|---|
 | Compute | Render web service (image-backed) | Cloud Run, `asia-south1` |
 | Image registry | Docker Hub | Artifact Registry |
-| Public URL | `academicos-backend.onrender.com` | *(not yet provisioned)* |
+| Public URL | `academicos-backend.onrender.com` | https://vidyuthlabs.web.app, backend on Cloud Run `academicos-backend` |
 | Structured data | **Supabase** (PostgREST) | **Cloud SQL** Postgres |
 | Blob data | Supabase Storage | GCS *(wired for JSONB only so far — see gaps)* |
 | Secrets | Render dashboard | Secret Manager |
-| Pipeline | `.github/workflows/deploy-backend.yml` | `.github/workflows/deploy-gcp.yml` |
+| Pipeline | `deploy-backend.yml` (removed 2026-10-13) | `.github/workflows/deploy-gcp.yml` |
 | Auth to deploy | `RENDER_API_KEY` + Docker Hub credentials | Workload Identity Federation (keyless) |
 | Cold start | ~60 s, mitigated by a keep-warm ping | `min-instances=1` — no cold start |
-| Status | **Live** | **Written and reviewed; never executed** |
+| Status | **Retired** 2026-10-13 | **Live**; every merge to `master` deploys |
 | Runbook | `docs/deployment.md` | `docs/gcp-deployment.md`, `docs/gcp-bootstrap.md` |
 
 ### "Pure GCP" means what it says
@@ -108,9 +109,6 @@ Supabase, else local SQLite**. So:
 ```bash
 # Mobile sub-product (offline, no backend)
 cd frontend && flutter build apk --release --dart-define=ACADEMICOS_OFFLINE=true
-
-# Web sub-product against the Render release
-flutter build web --release --dart-define=ACADEMICOS_API=https://academicos-backend.onrender.com/api/v1
 
 # Web sub-product against the GCP release (same-origin: served BY Cloud Run)
 flutter build web --release --dart-define=ACADEMICOS_API=/api/v1
