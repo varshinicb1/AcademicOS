@@ -34,8 +34,10 @@ def test_each_terms_syllabus_counts_only_its_own_lessons(principal_world, monkey
     assert early["plannedToDate"] == 0 and early["behind"] == 0
     assert sum(r["totalLessons"] for r in early["rows"]) == in_t2
 
-    # After both: each term counts its own lessons, and together the year's.
-    monkeypatch.setattr(cr, "_school_today", lambda: date.fromisoformat(dates[-1]))
+    # After both (the day after the last lesson: on its own day an unmarked
+    # lesson is not behind yet): each term counts its own lessons, and
+    # together the year's.
+    monkeypatch.setattr(cr, "_school_today", lambda: date.fromisoformat(dates[-1]) + timedelta(days=1))
     one, two = _syllabus(w, t1.id), _syllabus(w, t2.id)
     assert one["plannedToDate"] == in_t1 and sum(r["totalLessons"] for r in one["rows"]) == in_t1
     assert two["plannedToDate"] == in_t2 and sum(r["totalLessons"] for r in two["rows"]) == in_t2

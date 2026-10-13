@@ -233,7 +233,8 @@ def _syllabus(current: User, year_id: str, scope: Scope, f: _Filter) -> Syllabus
     term = (scope.start_date, scope.end_date) if scope.kind == "term" else (None, None)
     cs = cr._require()
     data = cs.get_coverage_report(school_id=current.school_id, academic_year_id=year_id,
-                                  as_of_date=scope.as_of, from_date=term[0], to_date=term[1])
+                                  as_of_date=scope.as_of, from_date=term[0], to_date=term[1],
+                                  today=cr._school_today().isoformat())
     rows = []
     for s in data["subjects"]:
         if not f.keep(s["grade_number"], s["subject_name"], s.get("section_id")):

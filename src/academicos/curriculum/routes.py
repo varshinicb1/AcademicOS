@@ -2472,9 +2472,10 @@ def get_coverage_report(academic_year_id: str, as_of_date: Optional[str] = None,
     IST Coverage & Pace showed yesterday beside today's overdue list (D66)."""
     store = _require()
     _require_school_owns_academic_year(academic_year_id, principal)
+    today = _school_today().isoformat()
     data = store.get_coverage_report(school_id=principal.school_id,
                                      academic_year_id=academic_year_id,
-                                     as_of_date=as_of_date or _school_today().isoformat())
+                                     as_of_date=as_of_date or today, today=today)
     users_store = _require_users()
     for s in data["subjects"]:
         if s.get("teacher_id"):
