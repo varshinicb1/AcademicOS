@@ -1,0 +1,1557 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:06:A:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "Owning a pet is a lifetime of commitment (up to ten years or\nmore if you own a dog or a cat) involving considerable\nresponsibility. The decision to acquire one, therefore, should\nbe made by the whole family. Without full agreement by\neveryone, the pet could end up unwanted. Puppies and\nkittens are so adorable, it is easy to understand why adults\nand children alike would be attracted to them.\n\nYour neighbour is tempted to buy a puppy the moment he sees one, and he has not asked anyone else in the house; according to the passage, what is likely to happen? (A) The whole family will share the work of looking after it (B) The family may fail to agree and the pet could end up unwanted (C) Everyone in the house will be attracted to it as soon as it is bought (D) The decision to buy it will be left to the person who brings it home",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The family may fail to agree and the pet could end up unwanted",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The decision to acquire one, therefore, should\nbe made by the whole family. Without full agreement by\neveryone, the pet could end up unwanted."
+          ],
+          "objective": true,
+          "options": {
+            "A": "The whole family will share the work of looking after it",
+            "B": "The family may fail to agree and the pet could end up unwanted",
+            "C": "Everyone in the house will be attracted to it as soon as it is bought",
+            "D": "The decision to buy it will be left to the person who brings it home"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:A:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "When I casually mentioned this to a friend, he\nas casually replied that I had better get one in the\nTigris marshes, for there they were as common as\nmosquitoes, and were often tamed by the Arabs.\nWe were going to Basra to the Consulate-General\nto collect and answer our mail from Europe. At the\nConsulate-General we found that my friend’s mail\nhad arrived but that mine had not.\n\nMaxwell is stuck in Basra waiting for a letter from England that has not come; according to the passage, why must he wait there? (A) Because the exchange was closed for a religious holiday (B) Because no otters can be found in the Tigris marshes near Basra (C) Because his friend’s mail has reached the Consulate-General but his own has not (D) Because the British airline to London will not fly animals",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Because his friend’s mail has reached the Consulate-General but his own has not",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "We were going to Basra to the Consulate-General\nto collect and answer our mail from Europe. At the\nConsulate-General we found that my friend’s mail\nhad arrived but that mine had not."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Because the exchange was closed for a religious holiday",
+            "B": "Because no otters can be found in the Tigris marshes near Basra",
+            "C": "Because his friend’s mail has reached the Consulate-General but his own has not",
+            "D": "Because the British airline to London will not fly animals"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:A:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "The creature that emerged from this sack on to\nthe spacious tiled floor of the Consulate bedroom\nresembled most of all a very small, medievally-\nconceived, dragon. From the head to the tip of the\ntail he was coated with symmetrical pointed scales\nof mud armour, between whose tips was visible a\nsoft velvet fur like that of a chocolate-brown mole.\nHe shook himself, and I half expected a cloud of\ndust, but in fact it was not for another month that I\nmanaged to remove the last of the mud and see the\notter, as it were, in his true colours.\n\nA reader of the passage feels the newcomer in it belongs in an old legend rather than in a real room; what made the creature look the way it did? (A) A soft velvet fur like that of a chocolate-brown mole (B) The spacious tiled floor of the Consulate bedroom (C) A long tail that was covered from its tip to its head (D) Symmetrical pointed scales of mud armour",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Symmetrical pointed scales of mud armour",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "coated with symmetrical pointed scales\nof mud armour, between whose tips was visible a",
+            "He shook himself, and I half expected a cloud of\ndust, but in fact it was not for another month that I\nmanaged to remove the last of the mud and see the\notter, as it were, in his true colours."
+          ],
+          "objective": true,
+          "options": {
+            "A": "A soft velvet fur like that of a chocolate-brown mole",
+            "B": "The spacious tiled floor of the Consulate bedroom",
+            "C": "A long tail that was covered from its tip to its head",
+            "D": "Symmetrical pointed scales of mud armour"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:B:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "An airline tells you exactly how your pet has to travel. Which form completes the instruction ‘The airline insisted that Mij ____ into a box not more than eighteen inches square’? (A) is packed (B) should be packed (C) would being packed (D) should being packed",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "should be packed",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "airline insisted that Mij should be packed into a\nbox not more than eighteen inches square, to be\ncarried on the floor at my feet."
+          ],
+          "objective": true,
+          "options": {
+            "A": "is packed",
+            "B": "should be packed",
+            "C": "would being packed",
+            "D": "should being packed"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:B:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A friend says that on one occasion the tap turned the right way, and only later it failed to cooperate; which form correctly fills the blank in ‘He ____ lucky to turn the tap the right way’? (A) has been (B) was being (C) had been (D) would being",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "had been",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "moment or two achieved the full flow. (He had been\nlucky to turn the tap the right way; on later\noccasions he would sometimes screw it up still"
+          ],
+          "objective": true,
+          "options": {
+            "A": "has been",
+            "B": "was being",
+            "C": "had been",
+            "D": "would being"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:B:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A speaker describes a state of affairs, not a repeated action, when he says ‘Thirty years ago, more women ____ housewives than now’; which form completes it? (A) used to be (B) would be (C) used to being (D) would have being",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "used to be",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "(b) Thirty years ago, more women used to be housewives than now.",
+            "To describe repeated states or situations in the past, however, we use only\nused to."
+          ],
+          "objective": true,
+          "options": {
+            "A": "used to be",
+            "B": "would be",
+            "C": "used to being",
+            "D": "would have being"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:C:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "The Society for the Prevention of Cruelty to Animals in your city has offered you its centre board for a display. Write a notice of about 100 words for that board, headed NOTICE, giving a heading, telling readers what owning a pet involves, listing what must be arranged or done before a puppy is taken home, and closing with the name of the Society.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: states that owning a pet is a lifetime of commitment, up to ten years or more if you own a dog or a cat, and that the decision to acquire one must be made by the whole family.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: lists at least four of the requirements — an annual dog licence in accordance with government regulations, annual vaccination against major diseases, toilet training, obedience training, a balanced diet, socialisation, and a daily dose of exercise, affection and play.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: opens with the word NOTICE, carries a heading, and closes with the name of the Society, as a notice board notice must.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the points run as short clear lines in an order a reader can take in at once.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling and punctuation, a polite and practical style, and a total of about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "NOTICE\n\nPoints to Remember Before Adopting a Puppy\n\nThe Society for the Prevention of Cruelty to Animals reminds everyone that a pet is a lifetime of commitment, up to ten years or more if you own a dog or a cat, and that the decision to acquire one must be made by the whole family. Every owner must also arrange an annual dog licence in accordance with government regulations, annual vaccination against major diseases, toilet training, obedience training, a balanced diet, socialisation and a daily dose of exercise, affection and play.\n\nSociety for the Prevention of Cruelty to Animals",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Owning a pet is a lifetime of commitment (up to ten years or\nmore if you own a dog or a cat) involving considerable\nresponsibility.",
+            "The decision to acquire one, therefore, should\nbe made by the whole family.",
+            "• an annual dog licence in accordance with government\nregulations"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:C:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "You have decided to bring the otter you acquired from the Tigris marshes all the way back to Camusfearna. Write a letter of about 100 words to a friend giving the whole travel plan and telling him what has already been done to make the journey safe.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: states that the British airline to London will not fly animals, so a flight to Paris has been booked on another airline, with London to be reached from there.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: states that the airline insists the otter be packed into a box not more than eighteen inches square, to be carried on the floor at the writer’s feet.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: mentions that a box has been made and the otter put into it an hour before the start so that he would become accustomed to it.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: begins with a greeting, and closes with a formal sign-off and the writer’s name, as a letter must.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation and accuracy: the plan is given in a clear order, with correct spelling, punctuation and a total of about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dear friend,\n\nGood news. The otter is with me and we are leaving for England shortly. The British airline to London will not fly animals, so I have booked a flight to Paris on another airline, and shall travel on to London from there. The airline insists that Mij should be packed into a box not more than eighteen inches square, to be carried on the floor at my feet. I have had a box made, and an hour before we start I shall put him into it so that he will become accustomed to it.\n\nYours sincerely,\nGavin Maxwell",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The British airline to London would",
+            "not fly animals, so I booked a flight to Paris on",
+            "I had a box made,\nand an hour before we started, I put Mij into the\nbox so that he would become accustomed to it, and\nleft for a hurried meal."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:C:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school is holding an assembly on the animals in our lives, and you have been chosen to speak. Write a speech of about 100 words for the assembly, greeting everyone, saying what owning a pet actually involves, and saying what owners must never do to a dog and must always do for it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: states that owning a pet is a lifetime of commitment, up to ten years or more if you own a dog or a cat, and that it involves considerable responsibility.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: says that keeping dogs confined in cages or tying them up to stop them dirtying the garden or chewing on shoes is wrong.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: says that socialisation is very important, and that a pet needs a balanced diet, a daily dose of exercise, affection and play, and that reading up on the subject beforehand is an important requirement.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: opens with a greeting to the assembly and closes with a formal thank you, as a speech must.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation and accuracy: the points are set out in an order the audience can follow, with correct spelling, punctuation and a total of about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Good morning, everyone. Many of us have wanted a puppy or a kitten at some time. But owning a pet is a lifetime of commitment, up to ten years or more if you own a dog or a cat, and it involves considerable responsibility. So remember two things today. First, never confine a dog in a cage or tie it up to stop it dirtying the garden or chewing on shoes; that is wrong, and socialisation is very important. Second, give your pet a balanced diet and a daily dose of exercise, affection and play, and read up on the subject beforehand. Thank you.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "• socialisation (many dogs are kept confined in cages or tied\nup to stop them from dirtying the garden or from chewing\non shoes — this is wrong) is very important",
+            "• don’t forget you should feed your pet a balanced diet",
+            "• a daily dose of exercise, affection and play."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:D:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "Gavin Maxwell lives in a cottage in Camusfearna, in the West\nHighlands in Scotland. When his dog Jonnie died, Maxwell was too\nsad to think of keeping a dog again. But life without a pet was\nlonely... Read what happened then, in Maxwell’s own words.\n\nIn the extract, the writer says that life without a pet was lonely; what does this tell you about why he was ready to take in another animal? (A) He had always wanted a wild animal from the marshes (B) He needed a watchdog to protect his cottage at night (C) He had been left without a pet after his dog died and missed having one (D) His neighbours had asked him to keep a dog for them",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He had been left without a pet after his dog died and missed having one",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Gavin Maxwell lives in a cottage in Camusfearna, in the West\nHighlands in Scotland.",
+            "When his dog Jonnie died, Maxwell was too\nsad to think of keeping a dog again. But life without a pet was\nlonely..."
+          ],
+          "objective": true,
+          "options": {
+            "A": "He had always wanted a wild animal from the marshes",
+            "B": "He needed a watchdog to protect his cottage at night",
+            "C": "He had been left without a pet after his dog died and missed having one",
+            "D": "His neighbours had asked him to keep a dog for them"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:D:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "Mijbil, as I called the otter, was, in fact, of a\nrace previously unknown to science, and was at\nlength christened by zoologists Lutrogale perspicillata\nmaxwelli, or Maxwell’s otter. For the first twenty-\nfour hours Mijbil was neither hostile nor friendly;\nhe was simply aloof and indifferent, choosing to\nsleep on the floor as far from my bed as possible.\n\nIn the extract, the writer gives both the animal’s zoological name and how it behaved on the first day; which statement about the animal does the extract support? (A) It belonged to a race that science had not known before, and at first it kept well away from the writer (B) It had already been tamed by the Arabs, so it was not afraid of men (C) It was given its zoological name by the men of the Tigris marshes (D) It was hostile towards the writer throughout the whole of its first day",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "It belonged to a race that science had not known before, and at first it kept well away from the writer",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Mijbil, as I called the otter, was, in fact, of a\nrace previously unknown to science, and was at",
+            "length christened by zoologists Lutrogale perspicillata",
+            "maxwelli, or Maxwell’s otter."
+          ],
+          "objective": true,
+          "options": {
+            "A": "It belonged to a race that science had not known before, and at first it kept well away from the writer",
+            "B": "It had already been tamed by the Arabs, so it was not afraid of men",
+            "C": "It was given its zoological name by the men of the Tigris marshes",
+            "D": "It was hostile towards the writer throughout the whole of its first day"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:D:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "tail he was coated with symmetrical pointed scales\nof mud armour, between whose tips was visible a\nsoft velvet fur like that of a chocolate-brown mole.\nHe shook himself, and I half expected a cloud of\ndust, but in fact it was not for another month that I\nmanaged to remove the last of the mud and see the\notter, as it were, in his true colours.\n\nIn the extract, the creature that came out of the sack seemed to belong in a legend rather than in a room; what had actually happened to it? (A) It had been painted by someone in the Consulate bedroom (B) It had grown a coat of scales to protect itself in the marshes (C) It had been frightened into shaking off its real coat (D) It had been coated in symmetrical pointed scales of mud armour",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "It had been coated in symmetrical pointed scales of mud armour",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "tail he was coated with symmetrical pointed scales\nof mud armour, between whose tips was visible a",
+            "He shook himself, and I half expected a cloud of\ndust, but in fact it was not for another month that I\nmanaged to remove the last of the mud and see the\notter, as it were, in his true colours."
+          ],
+          "objective": true,
+          "options": {
+            "A": "It had been painted by someone in the Consulate bedroom",
+            "B": "It had grown a coat of scales to protect itself in the marshes",
+            "C": "It had been frightened into shaking off its real coat",
+            "D": "It had been coated in symmetrical pointed scales of mud armour"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:E:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Maxwell dreaded the thought of taking the otter from Basra to England and on to Camusfearna; why was the journey such a problem for him?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The British airline to London would not fly animals.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So he had to book a flight to Paris on another airline and go on to London from there.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The airline insisted that Mij be packed into a box not more than eighteen inches square, to be carried on the floor at his feet.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Maxwell dreaded it because the British airline to London would not fly animals. He had to book a flight to Paris on another airline and go on to London from there. The airline insisted that Mij be packed into a box not more than eighteen inches square, to be carried on the floor at his feet.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The British airline to London would",
+            "not fly animals, so I booked a flight to Paris on",
+            "another airline, and from there to London. The\nairline insisted that Mij should be packed into a\nbox not more than eighteen inches square, to be\ncarried on the floor at my feet."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:E:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "short_answer",
+      "stem": "A reader is struck by how quickly the otter changed in his first two days; how did Mijbil behave at first, and how was he different afterwards?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "For the first twenty-four hours he was neither hostile nor friendly, but simply aloof and indifferent.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He chose to sleep on the floor as far from Maxwell’s bed as possible.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "On the second night he came on to the bed in the small hours and stayed in the crook of Maxwell’s knees, and in the day he lost his apathy.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "For the first twenty-four hours Mijbil was neither hostile nor friendly; he was simply aloof and indifferent, sleeping on the floor as far from Maxwell’s bed as possible. On the second night he came on to the bed in the small hours and stayed asleep in the crook of Maxwell’s knees, and in the day he lost his apathy.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "four hours Mijbil was neither hostile nor friendly;",
+            "sleep on the floor as far from my bed as possible.",
+            "small hours and remained asleep in the crook of\nmy knees until the servant brought tea in the\nmorning, and during the day he began to lose his"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:E:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "After watching the otter in the bath, Maxwell says he learnt something about all otters; what does he say is peculiar about the way an otter treats water?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Every drop of water must, so to speak, be extended and spread about the place.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A bowl must at once be overturned or, if it will not be overturned, be sat in and sploshed in until it overflows.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Water must be kept on the move and made to do things; when static it is wasted and provoking.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Maxwell learnt that every drop of water must, so to speak, be extended and spread about the place. A bowl must at once be overturned or, if it will not be overturned, be sat in and sploshed in until it overflows. Water must be kept on the move and made to do things; when it is static it is wasted and provoking.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "be, so to speak, extended and spread about the",
+            "place; a bowl must at once be overturned, or, if it",
+            "and made to do things; when static it is wasted"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:F:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "Trace in steps how Maxwell’s cable from Basra turned into an otter standing on the floor of his bedroom at the Consulate-General.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Maxwell cabled to England to ask his friend to get an otter from the Tigris marshes, where they were as common as mosquitoes.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "When nothing had happened three days later, he tried to telephone, but the call had to be booked twenty-four hours in advance.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The call failed three times: the line was out of order, the exchange was closed for a religious holiday, and there was another breakdown.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "His friend left, and Maxwell arranged to meet him in a week’s time.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Five days later his mail arrived, and he carried it to his bedroom to read.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Two Arabs were squatting on the floor beside a sack that squirmed from time to time, and they handed him a note from his friend saying, “Here is your otter...”",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Maxwell had cabled to England to ask his friend to get an otter from the Tigris marshes, where they were as common as mosquitoes.\n2. When nothing had happened three days later, he tried to telephone, but the call had to be booked twenty-four hours in advance.\n3. It failed three times: the line was out of order, the exchange was closed for a religious holiday, and there was another breakdown.\n4. His friend left, and Maxwell arranged to meet him in a week’s time.\n5. Five days later his mail arrived, and he carried it to his bedroom to read.\n6. There, squatting on the floor, were two Arabs beside a sack that squirmed from time to time, and they handed him a note from his friend: “Here is your otter...”",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I cabled to England, and when, three days later,",
+            "I carried it to my bedroom to read, and there,\nsquatting on the floor, were two Arabs; beside them",
+            "lay a sack that squirmed from time to time. They"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:F:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "Set out in steps what Maxwell found when he came back from his hurried meal, and how he still got the otter onto the waiting aeroplane.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "An hour before the flight Maxwell had put Mij into the box so that he would become accustomed to it, and left for a hurried meal.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "On his return the box was silent, but blood had trickled and dried from its airholes and chinks around the lid.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He whipped off the lock and tore open the lid, and Mij, exhausted and blood-spattered, whimpered at his leg.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Mij had torn the box lining to shreds, and Maxwell removed it so that no cutting edges were left.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It was just ten minutes to the flight and the airport was five miles distant, so he put Mij back and held down the lid.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The driver tore through the streets of Basra, and he was rushed to the waiting aircraft by infuriated officials.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. An hour before the flight Maxwell had put Mij into the box so that he would become accustomed to it, and left for a hurried meal.\n2. On his return the box was silent, but blood had trickled and dried from its airholes and chinks around the lid.\n3. He whipped off the lock and tore open the lid, and Mij, exhausted and blood-spattered, whimpered at his leg.\n4. Mij had torn the box lining to shreds, and Maxwell removed it so that no cutting edges were left.\n5. It was just ten minutes to the flight and the airport was five miles distant, so he put Mij back and held down the lid.\n6. The driver tore through the streets of Basra, and he was rushed to the waiting aircraft by infuriated officials.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "blood had trickled and dried. I whipped off the lock",
+            "and tore open the lid, and Mij, exhausted and blood-\nspattered, whimpered and caught at my leg. He had\ntorn the lining of the box to shreds; when I removed",
+            "left, it was just ten minutes until the time of the\nflight, and the airport was five miles distant. I put\nthe miserable Mij back into the box, holding down\nthe lid with my hand."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:F:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "Trace in steps the change in the otter’s behaviour from his first aloof hours to the games he discovered with water and with the taps.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "For the first twenty-four hours Mijbil was neither hostile nor friendly, but aloof and indifferent, sleeping on the floor as far from Maxwell’s bed as possible.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "On the second night he came on to the bed and stayed asleep in the crook of Maxwell’s knees.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "During the day he lost his apathy and took a keen interest in his surroundings.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "On a lead he went wild with joy in the bathroom, plunging and rolling in the water.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Maxwell learnt that every drop of water must be spread about the place, and a bowl must be overturned or sat in until it overflows.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Two days later he turned a chromium tap with his paws, and later screwed it up tighter, chittering at the tap’s failure to cooperate.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. For the first twenty-four hours Mijbil was neither hostile nor friendly, but aloof and indifferent, sleeping on the floor as far from Maxwell’s bed as possible.\n2. On the second night he came on to the bed and stayed asleep in the crook of Maxwell’s knees.\n3. During the day he lost his apathy and took a keen interest in his surroundings.\n4. On a lead he went wild with joy in the bathroom, plunging and rolling in the water.\n5. Maxwell learnt that every drop of water must be spread about the place, and a bowl must be overturned or sat in until it overflows.\n6. Two days later he turned a chromium tap with his paws, and later screwed it up tighter, chittering at the tap’s failure to cooperate.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "four hours Mijbil was neither hostile nor friendly;",
+            "enough to produce a trickle of water, and after a\nmoment or two achieved the full flow.",
+            "tighter, chittering with irritation and disappointment\nat the tap’s failure to cooperate.)"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      6
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

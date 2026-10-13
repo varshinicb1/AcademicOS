@@ -1,0 +1,246 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:04:AR:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/carbon-and-its-compounds"
+      ],
+      "taxonomyChapterId": "science-10/carbon-and-its-compounds",
+      "topic": "Bonding in Carbon – the Covalent Bond",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A student is explaining to the class how the two atoms are joined together in a nitrogen molecule, N2.\nAssertion 1: In N2, each nitrogen atom shares three electrons with the other, so three shared pairs of electrons are formed.\nReason 1: Nitrogen has the atomic number 7, and in order to attain an octet each nitrogen atom contributes three electrons. (A) Both Assertion 1 and Reason 1 are true and Reason 1 is the correct explanation of Assertion 1. (B) Both Assertion 1 and Reason 1 are true but Reason 1 is not the correct explanation of Assertion 1. (C) Assertion 1 is true but Reason 1 is false. (D) Both Assertion 1 and Reason 1 are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both Assertion 1 and Reason 1 are true and Reason 1 is the correct explanation of Assertion 1.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "nitrogen? Nitrogen has the atomic number 7. What would be",
+            "order to attain an octet, each nitrogen atom in a molecule of",
+            "nitrogen contributes three electrons giving rise to three shared"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both Assertion 1 and Reason 1 are true and Reason 1 is the correct explanation of Assertion 1.",
+            "B": "Both Assertion 1 and Reason 1 are true but Reason 1 is not the correct explanation of Assertion 1.",
+            "C": "Assertion 1 is true but Reason 1 is false.",
+            "D": "Both Assertion 1 and Reason 1 are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch4",
+        "pages": [
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:04:AR:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/carbon-and-its-compounds"
+      ],
+      "taxonomyChapterId": "science-10/carbon-and-its-compounds",
+      "topic": "Bonding in Carbon – the Covalent Bond",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Two hydrogen atoms join up to form a molecule of hydrogen, H2. A student wants to know how the two atoms are held together.\nAssertion 1: The two hydrogen atoms in a molecule of hydrogen are joined by a single covalent bond.\nReason 1: Each hydrogen atom has one electron in its K shell and so must gain two more electrons to attain the electronic configuration of helium. (A) Both Assertion 1 and Reason 1 are true and Reason 1 is the correct explanation of Assertion 1. (B) Both Assertion 1 and Reason 1 are true but Reason 1 is not the correct explanation of Assertion 1. (C) Assertion 1 is true but Reason 1 is false. (D) Both Assertion 1 and Reason 1 are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Assertion 1 is true but Reason 1 is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "hydrogen has one electron in its K shell and it requires one more electron",
+            "single covalent bond between the two hydrogen atoms.",
+            "helium, which has two electrons in its K shell. We can"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both Assertion 1 and Reason 1 are true and Reason 1 is the correct explanation of Assertion 1.",
+            "B": "Both Assertion 1 and Reason 1 are true but Reason 1 is not the correct explanation of Assertion 1.",
+            "C": "Assertion 1 is true but Reason 1 is false.",
+            "D": "Both Assertion 1 and Reason 1 are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch4",
+        "pages": [
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:04:AR:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/carbon-and-its-compounds"
+      ],
+      "taxonomyChapterId": "science-10/carbon-and-its-compounds",
+      "topic": "Bonding in Carbon – the Covalent Bond",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A student is asked whether carbon forms ionic compounds by gaining or losing its outermost electrons.\nAssertion 1: A carbon atom forms a compound by losing its four outermost electrons, leaving a carbon cation with six protons in its nucleus holding on to just two electrons.\nReason 1: Only a small amount of energy is needed to remove four electrons from a carbon atom. (A) Both Assertion 1 and Reason 1 are true and Reason 1 is the correct explanation of Assertion 1. (B) Both Assertion 1 and Reason 1 are true but Reason 1 is not the correct explanation of Assertion 1. (C) Assertion 1 is true but Reason 1 is false. (D) Both Assertion 1 and Reason 1 are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both Assertion 1 and Reason 1 are false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It could lose four electrons forming C cation. But it would require",
+            "a large amount of energy to remove four electrons leaving behind a",
+            "Carbon overcomes this problem by sharing its valence electrons with"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both Assertion 1 and Reason 1 are true and Reason 1 is the correct explanation of Assertion 1.",
+            "B": "Both Assertion 1 and Reason 1 are true but Reason 1 is not the correct explanation of Assertion 1.",
+            "C": "Assertion 1 is true but Reason 1 is false.",
+            "D": "Both Assertion 1 and Reason 1 are false."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch4",
+        "pages": [
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

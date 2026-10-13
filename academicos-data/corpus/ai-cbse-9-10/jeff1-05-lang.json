@@ -1,0 +1,1244 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:05:A:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "During our childhood in Goa, the baker used to be our friend, companion and guide. He used to come at least twice a day. Once, when he set out in the morning on his selling round, and then again, when he returned after emptying his huge basket. The jingling thud of his bamboo woke us up from sleep and we ran to meet and greet him. Why was it so? Was it for the love of the loaf? Not at all. The loaves were bought by some Paskine or Bastine, the maid-servant of the house! What we longed for were those bread-bangles which we chose carefully.\n\nA student hears an elder say that the children of the house used to rush out whenever they heard the bamboo; according to the passage, what were they really waiting for? (A) The loaves that the maid-servant of the house had already bought (B) The bread-bangles that they chose carefully themselves (C) The sweet bread of special make that was kept for the elders (D) The hot tea that the baker carried along with the bread",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The bread-bangles that they chose carefully themselves",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Not at all. The\nloaves were bought by some Paskine or Bastine,\nthe maid-servant of the house! What we longed for\nwere those bread-bangles which we chose carefully.",
+            "The jingling thud of his bamboo woke us up from\nsleep and we ran to meet and greet him."
+          ],
+          "objective": true,
+          "options": {
+            "A": "The loaves that the maid-servant of the house had already bought",
+            "B": "The bread-bangles that they chose carefully themselves",
+            "C": "The sweet bread of special make that was kept for the elders",
+            "D": "The hot tea that the baker carried along with the bread"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:05:B:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A classmate who ___ on a plantation did not share his friend's excitement about the tea gardens seen from the train window; which verb form completes the sentence correctly? (A) has been born (B) was born (C) had been born (D) had born",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "had been born",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Pranjol, who had been born and brought up on\na plantation, didn’t share Rajvir’s excitement."
+          ],
+          "objective": true,
+          "options": {
+            "A": "has been born",
+            "B": "was born",
+            "C": "had been born",
+            "D": "had born"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:05:B:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A visitor calls the district a piece of heaven that ___ from the kingdom of god; which form completes the sentence correctly? (A) must have drifted (B) must drift (C) should have drifted (D) may drift",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "must have drifted",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Mangalore sits a piece of heaven that must have",
+            "drifted from the kingdom of god."
+          ],
+          "objective": true,
+          "options": {
+            "A": "must have drifted",
+            "B": "must drift",
+            "C": "should have drifted",
+            "D": "may drift"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:05:B:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A visitor's guide says they drove towards Dhekiabari, the tea-garden ___ by the estate manager; which form completes the sentence correctly? (A) manage (B) managing (C) to manage (D) managed",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "managed",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Soon they were driving towards Dhekiabari, the\ntea-garden managed by Pranjol’s father."
+          ],
+          "objective": true,
+          "options": {
+            "A": "manage",
+            "B": "managing",
+            "C": "to manage",
+            "D": "managed"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:05:C:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write an e-mail (100 words) to a friend in another city telling her about the Coorg you saw on your holiday — what the land is like, what it grows, and which months you would suggest for a visit.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Format: an e-mail with a subject line, a greeting, a body and a sign-off, within about 100 words (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: says that Coorg, or Kodagu, is the smallest district of Karnataka and is home to evergreen rainforests, spices and coffee plantations (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: gives the figure that evergreen rainforests cover thirty per cent of the district (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: says that during the monsoons it pours enough to keep many visitors away, and that the season of joy commences from September and continues till March (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation, accuracy and expression: presents the details in a clear order and spells Coorg, Kodagu and Karnataka correctly (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Subject: The piece of heaven I saw in Coorg\nDear friend,\nI have just come back from Coorg. Coorg, or Kodagu, is the smallest district of Karnataka, and it is home to evergreen rainforests, spices and coffee plantations. Evergreen rainforests cover thirty per cent of the district. Come in the season of joy: it commences from September and continues till March, and the weather is perfect. Avoid the monsoons, for then it pours enough to keep many visitors away. Coffee estates and colonial bungalows stand tucked under tree canopies in prime corners.\nWith love,\nYour friend",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Coorg, or Kodagu, the smallest district of",
+            "thirty per cent of this district. During the monsoons,\nit pours enough to keep many visitors away. The\nseason of joy commences from September and\ncontinues till March.",
+            "tucked under tree canopies\nhere, best\nin prime corners."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:05:C:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a speech (100 words) to deliver in your school assembly telling the audience what you have learnt about the people of Coorg — the family they came from, the honour they have won, and the privilege they still enjoy.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Format: a speech that opens with a greeting to the audience and closes formally, within about 100 words (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: says that the fiercely independent people of Coorg are possibly of Greek or Arabic descent, and gives the story of Alexander’s army settling there and marrying amongst the locals (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: says that the Coorg Regiment is one of the most decorated in the Indian Army and that the first Chief of the Indian Army, General Cariappa, was a Coorgi (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: keeps the three points in a clear order — where the people came from, the honour they have won, and the privilege they still enjoy (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: states that even now Kodavus are the only people in India permitted to carry firearms without a licence, and spells Coorg, Kodavus and Cariappa correctly (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Good morning everyone,\nLet me tell you three things about the people of Coorg. First, the fiercely independent people of Coorg are possibly of Greek or Arabic descent; as one story goes, a part of Alexander’s army moved south along the coast, settled there and married amongst the locals. Second, the Coorg Regiment is one of the most decorated in the Indian Army, and the first Chief of the Indian Army, General Cariappa, was a Coorgi. Third, even now Kodavus are the only people in India permitted to carry firearms without a licence. We should be proud of them.\nThank you.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The fiercely independent\npeople of Coorg are possibly\nof Greek or Arabic descent.",
+            "Army, General Cariappa, was a Coorgi. Even now,",
+            "Kodavus are the only people in India permitted to"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:05:D:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "Not enough can be said to show how important a baker can be for a village. The lady of the house must prepare sandwiches on the occasion of her daughter’s engagement. Cakes and bolinhas are a must for Christmas as well as other festivals. Thus, the presence of the baker’s furnace in the village is absolutely essential.\n\nIn the extract the writer says that not enough can be said about how important a baker can be for a village; what is his purpose in saying this? (A) To show that the baker was disliked in the village (B) To show that the baker's bread was central to the family's celebrations (C) To show that the baker earned very little in the old days (D) To show that bread was available in the village only at Christmas",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "To show that the baker's bread was central to the family's celebrations",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Not enough can be\nsaid to show how important a baker can be for a\nvillage.",
+            "sandwiches on the occasion of her daughter’s\nengagement. Cakes and bolinhas are a must for\nChristmas as well as other festivals.",
+            "presence of the baker’s furnace in the village is\nabsolutely essential."
+          ],
+          "objective": true,
+          "options": {
+            "A": "To show that the baker was disliked in the village",
+            "B": "To show that the baker's bread was central to the family's celebrations",
+            "C": "To show that the baker earned very little in the old days",
+            "D": "To show that bread was available in the village only at Christmas"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:05:E:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A Goan family is planning a daughter’s engagement and a Christmas feast, and the hostess says she cannot manage without one person from the village; why can she not manage without the baker?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that marriage gifts are meaningless without the sweet bread known as bol (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that a party or a feast loses its charm without bread, and that cakes and bolinhas are a must for Christmas as well as other festivals (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Concludes that the presence of the baker’s furnace in the village is absolutely essential (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Marriage gifts are meaningless without the sweet bread known as bol, and a party or a feast loses its charm without bread. Cakes and bolinhas are a must for Christmas as well as other festivals. That is why the presence of the baker’s furnace in the village is absolutely essential.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Marriage gifts are meaningless without the sweet\nbread known as the bol, just as a party or a feast\nloses its charm without bread.",
+            "sandwiches on the occasion of her daughter’s\nengagement. Cakes and bolinhas are a must for\nChristmas as well as other festivals.",
+            "presence of the baker’s furnace in the village is\nabsolutely essential."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:05:E:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A visitor in Coorg sees men wearing a long black coat with an embroidered waist-belt called kuppia, and is told that it looks like the kuffia worn by the Arabs and the Kurds; what does this suggest about where the people of Coorg came from?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Says that the people of Coorg are possibly of Greek or Arabic descent (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives the story that a part of Alexander’s army moved south along the coast, settled there when return became impractical, and married amongst the locals (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that their culture is apparent in their martial traditions, marriage and religious rites, which are distinct from the Hindu mainstream (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "It suggests that the people of Coorg are possibly of Greek or Arabic descent. As one story goes, a part of Alexander’s army moved south along the coast and settled there, and married amongst the locals. Their culture is apparent in their martial traditions, marriage and religious rites, which are distinct from the Hindu mainstream.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The fiercely independent\npeople of Coorg are possibly\nof Greek or Arabic descent.",
+            "Alexander’s army moved\nsouth along the coast and\nsettled here when return",
+            "traditions, marriage and\nreligious rites, which are\ndistinct from the Hindu"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:05:E:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A travel agent advises a family not to visit Coorg during the monsoon but to plan the trip for the season of joy; which reason and which months does the agent give?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that during the monsoons it pours enough to keep many visitors away (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that the season of joy commences from September and continues till March (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Adds that the weather is perfect then, with some showers thrown in for good measure (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "During the monsoons it pours enough to keep many visitors away, so the family should not travel then. The season of joy commences from September and continues till March. The weather is perfect in those months, with some showers thrown in for good measure, and the air breathes of invigorating coffee.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "thirty per cent of this district. During the monsoons,\nit pours enough to keep many visitors away. The",
+            "season of joy commences from September and\ncontinues till March.",
+            "some showers thrown in for\ngood measure."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:05:F:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "One account says that after Goa’s liberation people said nostalgically that the Portuguese bread vanished with the Portuguese and the paders, but that the paders have managed to survive because they have perfected the art of door-to-door delivery service and pick up the knowledge of bread-making from traditions in the family. Another account says that those eaters of loaves might have vanished but the makers are still there, and that the age-old, time-tested furnaces still exist. Set out in steps where the two accounts agree, where they differ, and what each writer is doing.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Step 1: notes that both accounts are nostalgic about the good old Portuguese days and their famous loaves of bread (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: notes that both say the pader survived the Portuguese, the makers still being there and the paders having managed to survive (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: notes that both say the craft passes down in the family, the son carrying on the family profession and the knowledge being picked up from traditions in the family (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: sets out the difference on what vanished — the eaters of loaves in one account, the Portuguese bread in the other (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: sets out the difference in how the paders survived — the age-old, time-tested furnaces in one, the perfected art of door-to-door delivery in the other (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 6: says that the first account is personal and affectionate, while the second praises the unsung lives of the paders (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 — Both are nostalgic about the good old Portuguese days and their famous loaves of bread.\nStep 2 — Both say the pader survived the Portuguese: the makers are still there, and the paders have managed to survive.\nStep 3 — Both say the craft passes down in the family, from the father to the son.\nStep 4 — They differ on what vanished: one says the eaters of loaves might have vanished, the other says the Portuguese bread vanished with the Portuguese.\nStep 5 — They differ on how the paders survived: one points to the age-old, time-tested furnaces, the other to the perfected art of door-to-door delivery.\nStep 6 — The first is personal and affectionate; the second praises the unsung lives of the paders.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Portuguese bread vanished with",
+            "loaves might have vanished but",
+            "have perfected the art of door-to-"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:05:F:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A visitor is taking a first trip to Coorg; set out in steps what the visitor will find there, from the size and situation of the district and its weather to the people who live in it and the honours they have won.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Step 1: names Coorg, or Kodagu, as the smallest district of Karnataka, lying midway between Mysore and Mangalore (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: says it is home to evergreen rainforests, spices and coffee plantations, and that evergreen rainforests cover thirty per cent of the district (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: says the monsoons keep many visitors away and that the season of joy commences from September and continues till March (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: says coffee estates and colonial bungalows stand tucked under tree canopies in prime corners (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: describes the people as fiercely independent and possibly of Greek or Arabic descent, their culture distinct from the Hindu mainstream (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 6: gives the honours — the Coorg Regiment is one of the most decorated in the Indian Army, General Cariappa was a Coorgi, and Kodavus may carry firearms without a licence (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 — Coorg, or Kodagu, is the smallest district of Karnataka, midway between Mysore and Mangalore.\nStep 2 — It is home to evergreen rainforests, spices and coffee plantations; the rainforests cover thirty per cent of the district.\nStep 3 — During the monsoons it pours enough to keep many visitors away; the season of joy runs from September to March.\nStep 4 — Coffee estates and colonial bungalows stand tucked under tree canopies in prime corners.\nStep 5 — The fiercely independent people of Coorg are possibly of Greek or Arabic descent, and their culture is distinct from the Hindu mainstream.\nStep 6 — Their valour is remembered: the Coorg Regiment is one of the most decorated in the Indian Army, General Cariappa was a Coorgi, and Kodavus may carry firearms without a licence.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Coorg, or Kodagu, the smallest district of",
+            "thirty per cent of this district. During the monsoons,\nit pours enough to keep many visitors away. The\nseason of joy commences from September and\ncontinues till March.",
+            "Kodavus are the only people in India permitted to"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:05:F:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Set out in steps what the writer’s memories of the Goan village baker show about the rhythm of the day and how close the baker stood to every family in the village.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Step 1: gives the baker’s round — he came at least twice a day, once in the morning on his selling round and again after emptying his huge basket (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: says he greeted the lady of the house with “Good morning”, set his basket on the vertical bamboo and delivered the loaves to the servant (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: gives his dress — the kabai, a single-piece long frock reaching down to the knees (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: says the jingling thud of his bamboo woke the children, who ran to meet him and peeped into the basket (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: names what the children longed for — the bread-bangles they chose carefully, and sometimes sweet bread of special make (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 6: says he collected his bills at the end of the month and that the monthly accounts were recorded on some wall in pencil (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 — The baker came at least twice a day: in the morning on his selling round, and again after emptying his huge basket.\nStep 2 — He greeted the lady of the house with “Good morning” and set his basket on the vertical bamboo; the loaves went to the servant.\nStep 3 — He wore the kabai, a single-piece long frock reaching down to the knees.\nStep 4 — The jingling thud of his bamboo woke the children; they ran to meet him and peeped into the basket.\nStep 5 — What they longed for were the bread-bangles, which they chose carefully, and sometimes sweet bread of special make.\nStep 6 — He collected his bills at the end of the month, and the accounts were recorded on some wall in pencil.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "come at least twice a day. Once, when he set out in\nthe morning on his selling round, and then again,\nwhen he returned after emptying his huge basket.",
+            "peculiar dress known as the kabai. It was a single-\npiece long frock reaching down to the knees.",
+            "The baker usually collected his bills at the end\nof the month."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "passage-not-in-text",
+      "stem": "After reading the passage a student says that what the people of Coorg wear is a clue to where they came from; which rea"
+    },
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "passage-not-in-text",
+      "stem": "After reading the passage a student wants to show that Coorgi homes are places where families keep alive the memory of t"
+    },
+    {
+      "section": "C",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:10",
+      "stem": "Write a notice (100 words) for your school notice board announcing the Goan bake sale that your class is holding in the "
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "passage-not-in-text",
+      "stem": "In the extract the baker's staff gives out a ‘jhang, jhang’ sound as he comes; what does the writer show by this sound?"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "passage-not-in-text",
+      "stem": "After reading the extract a student says that the people of Coorg have long been a martial people; which detail from the"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      5
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

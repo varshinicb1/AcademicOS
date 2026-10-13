@@ -1,0 +1,1022 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:03:A:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "With a loud scream he fell\noutwards and downwards into space. Then a\nmonstrous terror seized him and his heart stood\nstill. He could hear nothing. But it only lasted a\nminute. The next moment he felt his wings spread\noutwards. The wind rushed against his breast\nfeathers, then under his stomach, and against his\nwings. He could feel the tips of his wings cutting\nthrough the air. He was not falling headlong now.\nHe was soaring gradually downwards and outwards.\nHe was no longer afraid. He just felt a bit dizzy.\n\nA student reading the passage says that the seagull's fear turned into confidence within a minute of falling; which option best explains the change? (A) His mother had flown across to him with the fish before he began to fall. (B) His father and his brothers and sister were waiting on the green sea below him. (C) His wings spread and began to cut through the air, so he was soon soaring instead of falling headlong. (D) He had already learnt to skim the waves and dive for fish the day before.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "His wings spread and began to cut through the air, so he was soon soaring instead of falling headlong.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "minute. The next moment he felt his wings spread\noutwards. The wind rushed against his breast\nfeathers, then under his stomach, and against his\nwings. He could feel the tips of his wings cutting\nthrough the air. He was not falling headlong now.\nHe was soaring gradually downwards and outwards.",
+            "He was no longer afraid. He just felt a bit dizzy."
+          ],
+          "objective": true,
+          "options": {
+            "A": "His mother had flown across to him with the fish before he began to fall.",
+            "B": "His father and his brothers and sister were waiting on the green sea below him.",
+            "C": "His wings spread and began to cut through the air, so he was soon soaring instead of falling headlong.",
+            "D": "He had already learnt to skim the waves and dive for fish the day before."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:B:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Which pair of word forms correctly fills the two blanks in \"He was near the sea now, ___ straight over it, ___ straight out over the ocean,\" where one subject carries out both actions at the same time? (A) flying / facing (B) flew / faced (C) fly / face (D) flown / faced",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "flying / facing",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He was near the sea now, flying straight over\nit, facing straight out over the ocean."
+          ],
+          "objective": true,
+          "options": {
+            "A": "flying / facing",
+            "B": "flew / faced",
+            "C": "fly / face",
+            "D": "flown / faced"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:C:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "An older cousin has learnt to ride a bicycle but now wants to give it up after a single fall, saying that he is too scared to try again. Write an e-mail of about 100 words to him that uses the example of a young seagull which was afraid to fly but finally made its first flight, and that ends by urging him to try once more.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: uses the seagull's fear, its family's scolding and taunting, and the mother holding the fish just out of reach, to explain what pushed it to fly (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: connects this to the cousin's own fall and urges him to try again instead of giving up (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: written as an e-mail, with a subject line, a greeting at the start and a sign-off at the end (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the three points run in a clear order - the seagull's fear, the mother's method, the lesson for the cousin - in short, connected sentences (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling, capital letters and punctuation, and simple, clear language suited to a friend (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Subject: Do not give up your bicycle\nDear Cousin,\nOne fall has made you want to give up the bicycle. Think of a young seagull so afraid of flying that it stayed alone on its ledge and could not move, while its family called, scolded and taunted it. At last its mother flew across with a piece of fish and stopped just out of reach. Maddened by hunger, it dived, fell into space, and found its wings already spread. It was no longer afraid, and it soared. A fall is not a defeat; it is the moment before the wings spread. Please try once more.\nLove,\nYour cousin",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "he failed to muster up courage\nto take that plunge which appeared to him so\ndesperate.",
+            "He had made his first flight."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:C:2",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your teacher has divided the class into groups, and each group will present to the entire class on one of four topics connected with flight. Write a notice of about 100 words for the class notice board, listing the four topics.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: lists all four topics correctly - Progression of Models of Airplanes, Progression of Models of Motorcars, Birds and Their Wing Span, and Migratory Birds — Tracing Their Flights (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: states that the class has been divided into groups and that each group will present to the entire class (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: written as a notice, with a clear heading and the points set out as a list (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the four topics come first and the instruction to the class follows, in short, connected sentences (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling, capital letters and punctuation, including the dash in the fourth topic, and concise language (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "NOTICE\nGroup Presentations on Flight\nAll students are asked to note that the class has been divided into groups for the group presentations. Each group will present to the entire class on one of the following topics:\n1. Progression of Models of Airplanes\n2. Progression of Models of Motorcars\n3. Birds and Their Wing Span\n4. Migratory Birds — Tracing Their Flights\nEach group should prepare its presentation with its group members and then present it to the entire class. Please take down the four topics and start discussing your topic with your group.\nTeacher",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "• Progression of Models of Airplanes\n• Progression of Models of Motorcars\n• Birds and Their Wing Span\n• Migratory Birds — Tracing Their Flights",
+            "We have just read about the first flight of a young seagull. Your teacher will\nnow divide the class into groups. Each group will work on one of the following\ntopics."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:D:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "His feet sank into the green\nsea, and then his belly touched it and he sank no\nfarther. He was floating on it, and around him his\nfamily was screaming, praising him and their beaks\nwere offering him scraps of dog-fish.\nHe had made his first flight.\n\nThe last line of the extract announces an achievement; which option best explains that achievement together with the way the family reacts to it? (A) He has caught his first herring, and the family is offering him more. (B) He has reached the big plateau, and the family is taking him back to it. (C) He has swum under the sea, and the family is calling him back to the ledge. (D) He has made his first flight, and the family treats it as an achievement worth celebrating.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He has made his first flight, and the family treats it as an achievement worth celebrating.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He was floating on it, and around him his\nfamily was screaming, praising him and their beaks\nwere offering him scraps of dog-fish.",
+            "He had made his first flight."
+          ],
+          "objective": true,
+          "options": {
+            "A": "He has caught his first herring, and the family is offering him more.",
+            "B": "He has reached the big plateau, and the family is taking him back to it.",
+            "C": "He has swum under the sea, and the family is calling him back to the ledge.",
+            "D": "He has made his first flight, and the family treats it as an achievement worth celebrating."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:E:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "The young seagull's mother flies across to him carrying a piece of fish and then stops, holding it just within reach of his beak, even though the food had been lying at her feet on the plateau. Explain what she was trying to achieve by doing this.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that she used his hunger to make him move by himself (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that if she had dropped the fish he would only have eaten it and stayed where he was (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that halting with the fish just out of reach made hunger stronger than his fear, so he dived at it and began to fly (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She used his hunger to make him move by himself. She knew that if she simply dropped the fish he would eat it and stay where he was. By flying across and halting with the fish just out of reach, she made hunger stronger than his fear, and he dived at it and began to fly.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "she was just opposite to him, she halted, her\nwings motionless, the piece of fish in her beak\nalmost within reach of his beak.",
+            "come nearer, and then, maddened by hunger, he\ndived at the fish.",
+            "The sight of the food maddened\nhim."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:E:2",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Trace the change in the young seagull's feelings from the time his family taunts him on the plateau to the moment he is floating on the green sea, naming the stages he passes through.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Begins with cowardice and shame, taunted by the family with his cowardice while he stays on his ledge (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Feels terror as he falls, then soars once his wings spread, and the terror changes to dizziness (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Forgets he was ever unable to fly, calls to his family and floats on the sea, praised by them (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He begins in cowardice, hiding under his ledge while the family taunts him. When he dives at the fish, terror seizes him. Within a minute his wings spread and he soars instead of falling, and the terror turns to dizziness. He forgets he was ever unable to fly, calls to his family and floats on the sea, praised by them.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "whole family had walked about on the big plateau\nmidway down the opposite cliff taunting him with\nhis cowardice.",
+            "He was no longer afraid. He just felt a bit dizzy.",
+            "He had made his first flight."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:E:3",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "The story points out that the wings of the young seagull's brothers and sister were far shorter than his own, yet they ran to the brink and flew away while he could not move at all. Explain what this contrast tells us about the real cause of his fear.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that his fear did not come from weak wings, since his wings were longer than those of his brothers and sister (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that the sea lay miles below his ledge and the drop looked hopeless, so he felt certain his wings would never support him (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Notes that he could not muster up courage to plunge, although his smaller brothers and sister flew away easily (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "His fear did not come from weak wings. He was the largest of the family, and the sea lay miles below his ledge, so the drop looked hopeless to him. He felt certain that wings that size would never support him, and so he could not muster the courage to plunge, although his smaller brothers and sister took the plunge easily.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Even when each of his\nbrothers and his little sister, whose wings were far\nshorter than his own, ran to the brink, flapped their\nwings, and flew away, he failed to muster up courage\nto take that plunge which appeared to him so\ndesperate.",
+            "The great expanse of sea\nstretched down beneath, and it was such a long\nway down — miles down."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:E:4",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "II The Black Aeroplane",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A pilot who has landed safely out of a storm asks the woman in the control centre who the pilot of the black aeroplane was, and she looks at him very strangely and then laughs. Explain what she finds strange about his question, and what her answer tells us about the black aeroplane.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Explains that she is puzzled because the narrator speaks of another aeroplane that night (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that her answer records that no other aeroplanes were flying that night (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Notes that the radar showed only the narrator's own aeroplane, so the black aeroplane was never on it (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She is puzzled because the narrator speaks of another aeroplane that night; the radar showed only his own Dakota. Her answer therefore leaves the black aeroplane unexplained: it was never on the radar, and it had no lights on its wings. The woman clearly did not believe that any such aeroplane was really there.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "She looked at me very strangely, and then\nlaughed.",
+            "“Another aeroplane? Up there in this storm? No\nother aeroplanes were flying tonight. Yours was the\nonly one I could see on the radar.”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:F:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A Class 10 student is asked to set out, in order, what happens to the young seagull from the moment his mother flies across to him with the fish until he has made his first flight. Give the stages in order and say what changes at each one.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "(1) The mother halts with the fish just within reach, and hunger makes him dive at it (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "(2) He falls outwards and downwards and terror seizes him, and his heart stands still (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "(3) His wings spread, the wind rushes against them, and he soars instead of falling headlong (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "(4) He is no longer afraid, feels only a little dizzy, and soars upwards after one flap, answering his mother (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "(5) His father and his brothers and sister fly around him and he forgets he was ever unable to fly (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "(6) He sinks on the green sea, floats there and is praised and fed scraps of dog-fish, so he has made his first flight (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) His mother flies across to him with a piece of fish, then halts, holding it just within reach of his beak.\n(2) Maddened by hunger, he dives at the fish and falls outwards and downwards into space; a monstrous terror seizes him and his heart stands still.\n(3) Within a minute his wings spread and the wind rushes against them; he soars downwards and outwards instead of falling headlong.\n(4) He is no longer afraid, only a bit dizzy, and flapping once he soars upwards, answering his mother's screams.\n(5) His father and his brothers and sister fly around him; he forgets he was ever unable to fly.\n(6) He drops his legs to stand on the green sea, sinks, floats on it, and is praised and fed scraps of dog-fish. He has made his first flight.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "come nearer, and then, maddened by hunger, he\ndived at the fish. With a loud scream he fell\noutwards and downwards into space. Then a\nmonstrous terror seized him and his heart stood\nstill.",
+            "minute. The next moment he felt his wings spread\noutwards. The wind rushed against his breast\nfeathers, then under his stomach, and against his\nwings. He could feel the tips of his wings cutting\nthrough the air. He was not falling headlong now.\nHe was soaring gradually downwards and outwards.",
+            "He was floating on it, and around him his\nfamily was screaming, praising him and their beaks\nwere offering him scraps of dog-fish."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:F:2",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Set out, in the order in which they were used, the different means by which the young seagull's family tried to make him leave his ledge, and explain what each step was meant to achieve.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "(1) The parents upbraided him and threatened to let him starve on the ledge unless he flew away (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "(2) The whole family taunted him with his cowardice all the morning on the big plateau (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "(2) His brothers and sister dozed and his father preened his feathers, so that only his mother watched him (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "(3) His mother tore at a piece of fish and whetted her beak while he called for food (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "(3) She flew across with a piece of fish and halted with it just out of reach, so hunger made him dive (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "(4) The family landed ahead of him, beckoning and calling shrilly, and then praised him and offered him scraps of dog-fish (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) Scolding: his father and mother came around calling to him shrilly, upbraiding him and threatening to let him starve on his ledge unless he flew away.\n(2) Taunting: all the morning the whole family walked about on the big plateau, taunting him with his cowardice, while his brothers and sister dozed and his father preened his feathers.\n(3) Baiting with food: his mother tore at a piece of fish and whetted her beak; when he called for food she flew across with a piece and halted with it just out of reach, so that hunger, not fear, made him dive.\n(4) Welcoming: after he had flown, the family landed on the green flooring ahead of him, beckoning and calling shrilly, then praised him and offered scraps of dog-fish.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "calling to him shrilly, upbraiding him, threatening",
+            "whole family had walked about on the big plateau\nmidway down the opposite cliff taunting him with\nhis cowardice.",
+            "she was just opposite to him, she halted, her\nwings motionless, the piece of fish in her beak\nalmost within reach of his beak."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      3
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:06:AR:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/how-forces-affect-motion"
+      ],
+      "taxonomyChapterId": "science-9/how-forces-affect-motion",
+      "topic": "The Concept of Force",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "On the school ground a boy kicks a football lying at rest on the ground and the ball starts rolling, and in the kitchen his sister presses a lemon between her fingers so that the lemon changes its shape. Consider the following statements. 1. A force can make an object move from rest and can also change the shape of an object. 2. This is so because the kick of the boy's foot sets the ball moving from rest, while the force of the sister's fingers squeezes the lemon and changes its shape. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "object move from rest, change the speed and direction",
+            "shape of an object. For example, a ball at rest starts moving when",
+            "changes its direction, and a lemon can be squeezed by the force"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          95,
+          97,
+          99,
+          101,
+          103,
+          107,
+          109,
+          111,
+          113,
+          115
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:06:AR:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/how-forces-affect-motion"
+      ],
+      "taxonomyChapterId": "science-9/how-forces-affect-motion",
+      "topic": "The Concept of Force",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "In the physics laboratory a student reads on a piece of apparatus that a force is measured in N, and is then asked in class to write down the SI unit of force together with the symbol used for it. Consider the following statements. 1. The SI unit in which force is measured is the newton and its symbol is N. 2. This is so because the magnitude of a force expresses its strength. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The SI unit of force is the newton",
+            "is N. The magnitude of the force expresses its strength."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          95,
+          97,
+          99,
+          101,
+          103,
+          107,
+          109,
+          111,
+          113,
+          115
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:06:AR:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/how-forces-affect-motion"
+      ],
+      "taxonomyChapterId": "science-9/how-forces-affect-motion",
+      "topic": "The Concept of Force",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "In the school laboratory a student holds a steel key a little above a bar magnet that she has clasped in her other hand, and the key jumps up and clings to the magnet. Consider the following statements. 1. The key is drawn towards the magnet because like poles of a magnet repel each other. 2. This is so because the key is pulled in by the electrostatic force, which arises from the repulsion of like charges and the attraction of unlike charges. Choose the correct option. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "like poles of\na magnet repelling each other or unlike poles attracting each other due to",
+            "the magnetic force; like charges repelling or unlike charges attracting each",
+            "other due to the electrostatic force; the Earth attracting objects towards"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          95,
+          97,
+          99,
+          101,
+          103,
+          107,
+          109,
+          111,
+          113,
+          115
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      6
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

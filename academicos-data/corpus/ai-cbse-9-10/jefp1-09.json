@@ -1,0 +1,538 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:09:A:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-book-that-saved-the-earth"
+      ],
+      "taxonomyChapterId": "english-10/the-book-that-saved-the-earth",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "Good afternoon. Welcome to our Museum of Ancient\nHistory, and to my department — curiosities of the\ngood old, far-off twentieth century. The twentieth\ncentury was often called the Era of the Book. In those\ndays, there were books about everything, from ant\neaters to Zulus. Books taught people how to, and when\nto, and where to, and why to. They illustrated,\neducated, punctuated, and even decorated. But the\nstrangest thing a book ever did was to save the Earth.\n\nYou are choosing a quotation to show that books in the Era of the Book did much more than instruct readers; which quotation best carries that point? (A) there were books about everything, from ant eaters to Zulus (B) Books taught people how to, and when to, and where to, and why to. (C) curiosities of the good old, far-off twentieth century (D) the strangest thing a book ever did was to save the Earth",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "the strangest thing a book ever did was to save the Earth",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "century was often called the Era of the Book. In those",
+            "eaters to Zulus. Books taught people how to, and when",
+            "strangest thing a book ever did was to save the Earth."
+          ],
+          "objective": true,
+          "options": {
+            "A": "there were books about everything, from ant eaters to Zulus",
+            "B": "Books taught people how to, and when to, and where to, and why to.",
+            "C": "curiosities of the good old, far-off twentieth century",
+            "D": "the strangest thing a book ever did was to save the Earth"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:09:B:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-book-that-saved-the-earth"
+      ],
+      "taxonomyChapterId": "english-10/the-book-that-saved-the-earth",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "In your classroom a teacher says, \"I order you to hand in your project tomorrow.\" Which form of the verb correctly completes the sentence? (A) handing in (B) to handed in (C) to hand in (D) hand in",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "to hand in",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Therefore, I order you to listen to them.",
+            "I order you to eat it."
+          ],
+          "objective": true,
+          "options": {
+            "A": "handing in",
+            "B": "to handed in",
+            "C": "to hand in",
+            "D": "hand in"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:09:C:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-book-that-saved-the-earth"
+      ],
+      "taxonomyChapterId": "english-10/the-book-that-saved-the-earth",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school is holding a Book Exhibition Week in the library hall. Write an advertisement of about 100 words for the school notice board inviting students to visit it and telling them what to expect.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: promotes the Book Exhibition Week and gives its theme — books that changed the world and even protected the planet.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a display advertisement with a short bold headline and a single paragraph of about 100 words, suited to a notice board.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the ideas run in a clear order — the invitation, then what visitors will see and learn, then a closing appeal.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, grammar and punctuation throughout, with no sentence left unfinished.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: clear, lively language addressed to students your own age, using at least one concrete example from the exhibition.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "BOOK EXHIBITION WEEK\nStudents are invited to the library hall this week to meet the books that changed the world. Follow the strange case of the Martian invasion of 2040, which never really happened because a single book stopped it. Laugh as a Martian crew picks up a book of nursery rhymes, calls it a sandwich and takes orders to eat it. Discover why the twentieth century was called the Era of the Book, when there were books about everything and they taught people how to, when to, where to and why to. Come and decide for yourself. Entry free.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "you know, the invasion never really happened, because",
+            "a single book stopped it. What was the book, you ask?",
+            "century was often called the Era of the Book. In those"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:09:D:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-book-that-saved-the-earth"
+      ],
+      "taxonomyChapterId": "english-10/the-book-that-saved-the-earth",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "I hate a slow mirror. (He admires himself in the mirror.)\nAh, there I am. Are we Martians not a handsome\nrace? So much more attractive than those ugly\nEarthlings with their tiny heads. Noodle, you keep on\nexercising your mind, and someday you’ll have a\nballoon brain just like mine.\n\nIn a class discussion you are asked what the speaker's admiration for his own race shows about his attitude towards Earthlings, and which answer fits the extract best. (A) He is ashamed of the size of his head and wants to hide it (B) He believes Martians are superior to Earthlings in both looks and intelligence (C) He is frightened that Earthlings will one day match the Martians (D) He feels that Earthlings are his equals in both looks and intelligence",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He believes Martians are superior to Earthlings in both looks and intelligence",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "race? So much more attractive than those ugly",
+            "Earthlings with their tiny heads. Noodle, you keep on",
+            "exercising your mind, and someday you’ll have a"
+          ],
+          "objective": true,
+          "options": {
+            "A": "He is ashamed of the size of his head and wants to hide it",
+            "B": "He believes Martians are superior to Earthlings in both looks and intelligence",
+            "C": "He is frightened that Earthlings will one day match the Martians",
+            "D": "He feels that Earthlings are his equals in both looks and intelligence"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:09:E:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-book-that-saved-the-earth"
+      ],
+      "taxonomyChapterId": "english-10/the-book-that-saved-the-earth",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "In your literature lesson, explain why Lieutenant Iota will not eat the sandwich Think-Tank has ordered, and what she does instead.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Says it would be a very great honour to be the first Martian to eat a sandwich.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives the real reason: she thinks it would be impolite for her to eat before her sergeant.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Says she hands the book to Sergeant Oop and orders him to eat the sandwich immediately.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Iota says it would be a very great honour to be the first Martian to eat a sandwich. But she feels it would be too impolite for a lieutenant to eat before her sergeant. So she hands the book to Sergeant Oop and brightly orders him to eat the sandwich immediately.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Eat it? Oh, Captain! It’s a very great",
+            "sure, but — but how can I be so impolite as to eat",
+            "brightly) Sergeant Oop, I order you to eat the sandwich"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:09:F:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-book-that-saved-the-earth"
+      ],
+      "taxonomyChapterId": "english-10/the-book-that-saved-the-earth",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Trace in about 120 words, in clear steps, how the crew's guesses about the square place on Earth change, and how the order to eat the \"sandwich\" travels from Captain Omega to Sergeant Oop.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Step 1: Iota counts two thousand of the peculiar items and guesses the square place is some sort of storage barn.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: Oop, who has been to seven galaxies, opens a book, puts it on his head, guesses the items are hats and calls the place a haberdashery.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: Think-Tank reasons that since Earth creatures are always eating, the place is undoubtedly a crude refreshment stand.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: He declares the book a sandwich, made of two slices of what is called bread with a filling between them.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: Ordered to eat it to confirm his opinion, Omega refuses because Iota has not had her breakfast, and passes the order on to Iota.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 6: Iota will not eat before her Sergeant, so she hands the book to Oop and orders him to eat the sandwich immediately.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Iota counts two thousand of the peculiar items and guesses the square place is a storage barn.\n2. Oop, who has been to seven galaxies, opens a book, puts it on his head, and guesses they are hats — a haberdashery.\n3. Think-Tank reasons that since Earth creatures are always eating, the place is undoubtedly a crude refreshment stand.\n4. He declares the book in Omega's hand a sandwich: two slices of bread with a filling between them.\n5. He orders Omega to eat it, but she refuses, saying Iota has not had her breakfast, and orders Iota to eat it.\n6. Iota will not eat before her Sergeant, so she hands the book to Oop and orders him to eat it at once.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "place must be some sort of storage barn. What do you",
+            "never seen anything like this. Maybe they’re hats.",
+            "before my Sergeant? (handing Oop the book and saying"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      9
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

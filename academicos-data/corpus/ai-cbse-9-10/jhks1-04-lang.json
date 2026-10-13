@@ -1,0 +1,1554 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jhks1:04:B:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "अट नहीं रही है कविता फागुन की मादकता को प्रकट करती है। कवि फागुन\nकी सर्वव्यापक सुंदरता को अनेक संदर्भों में देखता है। जब मन प्रसन्न हो तो हर तरफ़\nफागुन का ही सौंदर्य और उल्लास दिखाई पड़ता है। सुंदर शब्दों के चयन एवं लय\nने कविता को भी फागुन की ही तरह सुंदर एवं ललित बना दिया है।\n\nइस अंश के अनुसार, प्रसन्न मन के कारण कवि को हर तरफ़ किसका सौंदर्य और उल्लास दिखाई पड़ता है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "अंश में दी गई शर्त को पहचानिए: जब मन प्रसन्न हो, तब हर तरफ़ फागुन का ही सौंदर्य दिखाई पड़ता है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सही उत्तर: 'फागुन का ही सौंदर्य और उल्लास'।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "फागुन का ही सौंदर्य और उल्लास",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अट नहीं रही है कविता फागुन की मादकता को प्रकट करती है। कवि फागुन",
+            "की सर्वव्यापक सुंदरता को अनेक संदर्भों में देखता है। जब मन प्रसन्न हो तो हर तरफ़\nफागुन का ही सौंदर्य और उल्लास दिखाई पड़ता है। सुंदर शब्दों के चयन एवं लय"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:B:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "competency_based",
+      "stem": "उत्साह एक आह्वान गीत है जो बादल को संबोधित है। बादल निराला का प्रिय विषय\nहै। कविता में बादल एक तरफ़ पीड़ित-प्यासे जन की आकांक्षा को पूरा करने वाला\nहै, तो दूसरी तरफ़ वही बादल नयी कल्पना और नए अंकुर के लिए विध्वंस, विप्लव\nऔर क्रांति चेतना को संभव करने वाला भी। कवि जीवन को व्यापक और समग्र दृष्टि\nसे देखता है। कविता में ललित कल्पना और क्रांति-चेतना दोनों हैं। सामाजिक क्रांति\nया बदलाव में साहित्य की भूमिका महत्त्वपूर्ण होती है, निराला इसे 'नवजीवन' और\n'नूतन कविता' के संदर्भों में देखते हैं।\n\nइस अंश के अनुसार, सामाजिक क्रांति या बदलाव में साहित्य की भूमिका को बताए गए कवि किन दो संदर्भों में देखते हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "पहला संदर्भ: 'नवजीवन'।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "दूसरा संदर्भ: 'नूतन कविता'।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "'नवजीवन' और 'नूतन कविता'",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "या बदलाव में साहित्य की भूमिका महत्त्वपूर्ण होती है, निराला इसे 'नवजीवन' और\n'नूतन कविता' के संदर्भों में देखते हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:B:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "निराला विस्तृत सरोकारों के कवि हैं। दार्शनिकता,\nविद्रोह, क्रांति, प्रेम की तरलता और प्रकृति का विराट तथा\nउदात्त चित्र उनकी रचनाओं में उपस्थित है। उनके विद्रोही\nस्वभाव ने कविता के भाव-जगत और शिल्प-जगत में नए\nप्रयोगों को संभव किया। छायावादी रचनाकारों में उन्होंने\nसबसे पहले मुक्त छंद का प्रयोग किया। शोषित, उपेक्षित,\nपीड़ित और प्रताड़ित जन के प्रति उनकी कविता में जहाँ\nगहरी सहानुभूति का भाव मिलता है, वहीं शोषक वर्ग और\nसत्ता के प्रति प्रचंड प्रतिकार का भाव भी।\n\nइस अंश के अनुसार, शोषित और पीड़ित जन के प्रति बताए गए कवि की कविता में किन दो भाव व्यक्त किए गए हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "पीड़ित और शोषित जन के प्रति गहरी सहानुभूति का भाव।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "शोषक वर्ग और सत्ता के प्रति प्रचंड प्रतिकार का भाव।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "पीड़ित जन के प्रति गहरी सहानुभूति और शोषक वर्ग-सत्ता के प्रति प्रचंड प्रतिकार",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "पीड़ित और प्रताड़ित जन के प्रति उनकी कविता में जहाँ",
+            "गहरी सहानुभूति का भाव मिलता है, वहीं शोषक वर्ग और\nसत्ता के प्रति प्रचंड प्रतिकार का भाव भी।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:C:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "'या बदलाव में साहित्य की भूमिका महत्त्वपूर्ण होती है' — इसमें 'या बदलाव' के निर्माण में किस सन्धि की प्राप्ति हुई है? (A) गुण सन्धि (B) यण्सन्धि (C) लोप सन्धि (D) व्यंजन सन्धि",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "यण्सन्धि",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "या बदलाव में साहित्य की भूमिका महत्त्वपूर्ण होती है, निराला इसे 'नवजीवन' और\n'नूतन कविता' के संदर्भों में देखते हैं।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "गुण सन्धि",
+            "B": "यण्सन्धि",
+            "C": "लोप सन्धि",
+            "D": "व्यंजन सन्धि"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:C:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "'पाट-पाट शोभा-श्री' — इस यौगिक शब्द में किस समास का प्रयोग हुआ है? (A) द्विगु समास (B) द्वंद्व समास (C) बहुव्रीहि समास (D) कर्मधारय समास",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कर्मधारय समास",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "पाट-पाट शोभा-श्री",
+            "शोभा-श्री – सौंदर्य से भरपूर"
+          ],
+          "objective": true,
+          "options": {
+            "A": "द्विगु समास",
+            "B": "द्वंद्व समास",
+            "C": "बहुव्रीहि समास",
+            "D": "कर्मधारय समास"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:D:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "बादल, गरजो!-\nघेर घेर घोर गगन, धाराधर ओ!\nललित ललित, काले घुँघराले,\nबाल कल्पना के-से पाले,\nविद्युत-छबि उर में, कवि, नवजीवन वाले!\nवज्र छिपा, नूतन कविता\nफिर भर दो—\nबादल, गरजो!\nबादल, गरजा!\nविकल विकल, उन्मन थे उन्मन\nविश्व के निदाघ के सकल जन,\nआए अज्ञात दिशा से अनंत के घन!\nतप्त धरा, जल से फिर\nशीतल कर दो-\nबादल, गरजो!\n\nइस छंद में 'विकल विकल, उन्मन थे उन्मन' कहकर किस भाव का आभास दिया गया है? (A) वर्षा के बाद पहाड़ों पर पहुँची शीतलता (B) फागुन की रंगीन आभा का फैलाव (C) बादलों के आगमन से पहले उनकी उत्सुकता (D) होली के रंगों की चहक",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बादलों के आगमन से पहले उनकी उत्सुकता",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "विकल विकल, उन्मन थे उन्मन",
+            "आए अज्ञात दिशा से अनंत के घन!",
+            "घेर घेर घोर गगन, धाराधर ओ!"
+          ],
+          "objective": true,
+          "options": {
+            "A": "वर्षा के बाद पहाड़ों पर पहुँची शीतलता",
+            "B": "फागुन की रंगीन आभा का फैलाव",
+            "C": "बादलों के आगमन से पहले उनकी उत्सुकता",
+            "D": "होली के रंगों की चहक"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:D:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "अट नहीं रही है\nअट नहीं रही है\nआभा फागुन की तन\nसट नहीं रही है।\nकहीं साँस लेते हो,\nघर-घर भर देते हो,\nउड़ने को नभ में तुम\nपर-पर कर देते हो,\nआँख हटाता हूँ तो\nहट नहीं रही है।\nपत्तों से लदी डाल\nकहीं हरी, कहीं लाल,\nकहीं पड़ी है उर में\nमंद-गंध-पुष्प-माल,\nपाट-पाट शोभा-श्री\nपट नहीं रही है।\n\nइस छंद में 'हट नहीं रही है' कहकर कवि किस बात पर आश्चर्य व्यक्त कर रहा है? (A) फागुन की आभा के हटते न होने पर (B) बादल के धीरे-धीरे गायब होने पर (C) आमों में बौर के खिलने पर (D) मंद-गंध-पुष्प-माल के मुरझाने पर",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "फागुन की आभा के हटते न होने पर",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "आँख हटाता हूँ तो\nहट नहीं रही है।",
+            "आभा फागुन की तन",
+            "अट नहीं रही है कविता फागुन की मादकता को प्रकट करती है। कवि फागुन"
+          ],
+          "objective": true,
+          "options": {
+            "A": "फागुन की आभा के हटते न होने पर",
+            "B": "बादल के धीरे-धीरे गायब होने पर",
+            "C": "आमों में बौर के खिलने पर",
+            "D": "मंद-गंध-पुष्प-माल के मुरझाने पर"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:D:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "इस कविता में भी निराला फागुन के सौंदर्य में डूब गए हैं। उनमें फागुन की आभा रच गई है, ऐसी आभा जिसे न शब्दों से अलग किया जा सकता है, न फागुन से।\nफूटे हैं आमों में बौर\nभौर वन-वन टूटे हैं।\nहोली मची ठौर-ठौर,\nसभी बंधन छूटे हैं।\nफागुन के रंग राग,\nबाग-वन फाग मचा है,\nभर गये मोती के झाग,\nजनों के मन लूटे हैं।\nमाथे अबीर से लाल,\n\nइस छंद में 'लूटे' शब्द का आशय किस ओर है? (A) फागुन से फलों के चोरी होने की ओर (B) होली के रंगों से आँखें दुखने की ओर (C) अबीर से माथा लाल होने की ओर (D) फागुन के रंगों से मन मोह लेने की ओर",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "फागुन के रंगों से मन मोह लेने की ओर",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "फागुन के रंग राग,",
+            "जनों के मन लूटे हैं।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "फागुन से फलों के चोरी होने की ओर",
+            "B": "होली के रंगों से आँखें दुखने की ओर",
+            "C": "अबीर से माथा लाल होने की ओर",
+            "D": "फागुन के रंगों से मन मोह लेने की ओर"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:E:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "'उत्साह' कविता में कवि ने बादल से फुहार, रिमझिम या बरसने के स्थान पर 'गरजने' के लिए कहा है — इसका कारण क्या है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "बादल नयी कल्पना और नए अंकुर के लिए विध्वंस, विप्लव और क्रांति चेतना संभव करता है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "इसीलिए बरसने के बजाय गरजने का आह्वान किया गया है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कविता में बादल नयी कल्पना और नए अंकुर के लिए विध्वंस, विप्लव और क्रांति चेतना को संभव करने वाला है। विध्वंस और क्रांति के लिए बादल का गरजना आवश्यक आह्वान है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "है, तो दूसरी तरफ़ वही बादल नयी कल्पना और नए अंकुर के लिए विध्वंस, विप्लव",
+            "और क्रांति चेतना को संभव करने वाला भी। कवि जीवन को व्यापक और समग्र दृष्टि"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:E:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "'अट नहीं रही है' कविता में कवि की आँख फागुन की सुंदरता से क्यों नहीं हट पाती?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "फागुन की सुंदरता मादक और सर्वव्यापक है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रसन्न मन में वह हर तरफ़ दिखाई देती है, इसलिए आँख हट नहीं पाती।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "फागुन की सुंदरता सर्वव्यापक और मादक है। जब मन प्रसन्न हो तो हर तरफ़ फागुन का ही सौंदर्य और उल्लास दिखाई पड़ता है, इसलिए आँख हटाती है पर आभा हट नहीं रही।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अट नहीं रही है कविता फागुन की मादकता को प्रकट करती है। कवि फागुन",
+            "की सर्वव्यापक सुंदरता को अनेक संदर्भों में देखता है। जब मन प्रसन्न हो तो हर तरफ़\nफागुन का ही सौंदर्य और उल्लास दिखाई पड़ता है। सुंदर शब्दों के चयन एवं लय"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:E:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "सूर्यकांत त्रिपाठी 'निराला' की रचनाओं में शोषित, उपेक्षित और पीड़ित जन के प्रति किन दो भाव व्यक्त किए गए हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "शोषित-पीड़ित जन के प्रति गहरी सहानुभूति का भाव।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "शोषक वर्ग और सत्ता के प्रति प्रचंड प्रतिकार का भाव।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "शोषित, उपेक्षित, पीड़ित और प्रताड़ित जन के प्रति गहरी सहानुभूति का भाव, और शोषक वर्ग तथा सत्ता के प्रति प्रचंड प्रतिकार का भाव।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "पीड़ित और प्रताड़ित जन के प्रति उनकी कविता में जहाँ",
+            "गहरी सहानुभूति का भाव मिलता है, वहीं शोषक वर्ग और\nसत्ता के प्रति प्रचंड प्रतिकार का भाव भी।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:F:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "'उत्साह' कविता में कवि ने बादल का आह्वान क्यों किया है और उसमें किन दोनों भावों का संयोजन किया गया है? अपने शब्दों में लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "बादल पीड़ित-प्यासे जन की आकांक्षा पूरी करने वाला है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वही बादल नयी कल्पना और नए अंकुर के लिए विध्वंस, विप्लव और क्रांति चेतना संभव करता है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कवि जीवन को व्यापक और समग्र दृष्टि से देखता है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कविता में ललित कल्पना और क्रांति-चेतना दोनों उपस्थित हैं।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कविता में बादल एक तरफ़ पीड़ित-प्यासे जन की आकांक्षा को पूरा करने वाला है, तो दूसरी तरफ़ वही बादल नयी कल्पना और नए अंकुर के लिए विध्वंस, विप्लव और क्रांति चेतना को संभव करने वाला भी। कवि जीवन को व्यापक और समग्र दृष्टि से देखता है, इसलिए कविता में ललित कल्पना और क्रांति-चेतना दोनों हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "है। कविता में बादल एक तरफ़ पीड़ित-प्यासे जन की आकांक्षा को पूरा करने वाला",
+            "है, तो दूसरी तरफ़ वही बादल नयी कल्पना और नए अंकुर के लिए विध्वंस, विप्लव\nऔर क्रांति चेतना को संभव करने वाला भी। कवि जीवन को व्यापक और समग्र दृष्टि"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:F:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "'अट नहीं रही है' कविता में कवि ने फागुन की सुंदरता का वर्णन किन-किन रूपों में किया है? अपने शब्दों में लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "फागुन की मादकता और सर्वव्यापक सुंदरता का वर्णन किया गया है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रसन्न मन में हर तरफ़ फागुन का सौंदर्य और उल्लास दिखाई देता है, इसलिए आँख हट नहीं पाती।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "पत्तों से लदी डाल का हरा-लाल वर्णन किया गया है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उर में मंद-गंध-पुष्प-माल की पाट-पाट शोभा-श्री का चित्र दिया गया है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कवि ने फागुन की मादकता और उसकी सर्वव्यापक सुंदरता का वर्णन किया है। जब मन प्रसन्न हो तो हर तरफ़ फागुन का ही सौंदर्य और उल्लास दिखाई पड़ता है, इसलिए आँख हटाती है पर आभा हट नहीं रही। पत्तों से लदी डाल कहीं हरी, कहीं लाल, और उर में मंद-गंध-पुष्प-माल की पाट-पाट शोभा-श्री पट नहीं रही है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "की सर्वव्यापक सुंदरता को अनेक संदर्भों में देखता है। जब मन प्रसन्न हो तो हर तरफ़\nफागुन का ही सौंदर्य और उल्लास दिखाई पड़ता है। सुंदर शब्दों के चयन एवं लय",
+            "आभा फागुन की तन",
+            "मंद-गंध-पुष्प-माल,\nपाट-पाट शोभा-श्री"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:F:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "सूर्यकांत त्रिपाठी 'निराला' के जीवन और काव्य-शिल्प में किन बातों ने गहरा प्रभाव डाला? अपने शब्दों में लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "स्वाध्याय से संस्कृत, बांग्ला और अंग्रेज़ी का ज्ञान तथा संगीत-दर्शन में गहनता।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "रामकृष्ण परमहंस और विवेकानंद की विचारधारा का विशेष प्रभाव।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "पारिवारिक दुखों और आत्मीय जनों के असामयिक निधन का प्रभाव।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "साहित्यिक मोर्चे पर अनवरत संघर्ष का प्रभाव।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उनकी औपचारिक शिक्षा नौवीं तक हुई, पर स्वाध्याय से उन्होंने संस्कृत, बांग्ला और अंग्रेज़ी का ज्ञान अर्जित किया और संगीत तथा दर्शनशास्त्र के गहरे अध्येता बने। रामकृष्ण परमहंस और विवेकानंद की विचारधारा ने उन पर विशेष प्रभाव डाला। पारिवारिक दुखों और साहित्यिक संघर्ष ने भी उनके विद्रोही स्वभाव को पला-वढ़ाया।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "शिक्षा नौवीं तक महिषादल में ही हुई। उन्होंने स्वाध्याय से\nसंस्कृत, बांग्ला और अंग्रेज़ी का ज्ञान अर्जित किया। वे",
+            "संगीत और दर्शनशास्त्र के भी गहरे अध्येता थे। रामकृष्ण\nपरमहंस और विवेकानंद की विचारधारा ने उन पर विशेष",
+            "निराला का पारिवारिक जीवन दुखों और संघर्षों से भरा\nथा। आत्मीय जनों के असामयिक निधन ने उन्हें भीतर तक\nतोड़ दिया। साहित्यिक मोर्चे पर भी उन्होंने अनवरत संघर्ष\nकिया। सन् 1961 में उनका देहांत हो गया।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:G:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "आपके विद्यालय में साहित्य-चर्चा के लिए 'नवजीवन और नूतन कविता' विषय पर एक संगोठ्ठी हो रही है। इस विषय पर लगभग १२० शब्दों का एक सुसंगत एवं विस्तृत अनुच्छेद लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: निराला के अनुसार साहित्य की भूमिका, भाव-जगत और शिल्प-जगत में नए प्रयोग तथा मुक्त छंद का उल्लेख।",
+            "marks": 2,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: शोषित-पीड़ित जन के प्रति सहानुभूति और शोषक वर्ग-सत्ता के विरुद्ध प्रचंड प्रतिकार का उल्लेख।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित एक ही सतत अनुच्छेद के रूप में लगभग १२० शब्दों की रचना।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: भावना, विचार और उदाहरण के क्रम में तर्क संगठित प्रवाह।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं प्रसाद: सही वर्तनी, व्याकरण और सरल प्रभावशाली भाषा।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "निराला ने साहित्य में सामाजिक क्रांति और बदलाव की भूमिका को महत्त्वपूर्ण माना है। उनके अनुसार कवि जीवन को व्यापक और समग्र दृष्टि से देखता है, इसलिए रचना में ललित कल्पना और क्रांति-चेतना दोनों सहज रूप से उपस्थित रहते हैं। शोषित, उपेक्षित और पीड़ित जन के प्रति उनकी सहानुभूति तथा शोषक वर्ग और सत्ता के विरुद्ध प्रचंड प्रतिकार, दोनों ही उनके काव्य की जड़ हैं। उनके विद्रोही स्वभाव ने कविता के भाव-जगत और शिल्प-जगत में नए प्रयोग संभव बनाए और छायावादी रचनाकारों में वे सबसे पहले मुक्त छंद का प्रयोग कर चुके थे। इसीलिए 'नवजीवन' और 'नूतन कविता' जैसे संदर्भ साहित्य में नए जीवन और नए भाव का संकेत देते हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "से देखता है। कविता में ललित कल्पना और क्रांति-चेतना दोनों हैं। सामाजिक क्रांति\nया बदलाव में साहित्य की भूमिका महत्त्वपूर्ण होती है, निराला इसे 'नवजीवन' और\n'नूतन कविता' के संदर्भों में देखते हैं।",
+            "पीड़ित और प्रताड़ित जन के प्रति उनकी कविता में जहाँ",
+            "गहरी सहानुभूति का भाव मिलता है, वहीं शोषक वर्ग और\nसत्ता के प्रति प्रचंड प्रतिकार का भाव भी।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:G:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "होली के अवसर पर आपके विद्यालय में 'प्रकृति में फागुन ऋतु का आगमन' विषय पर एक लेख-प्रतियोगिता आयोजित है। इस विषय पर लगभग १२० शब्दों का एक सुसंगत अनुच्छेद लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: आमों में बौर फूटना और वन-वन भौर टूटना, दोनों फागुन के आगमन के संकेत हैं।",
+            "marks": 2,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: होली के रंगों में माथा, गाल और आँखों का सज्जा तथा जनों के मन का लूटना।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित एक ही सतत अनुच्छेद के रूप में लगभग १२० शब्दों की रचना।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: ऋतु के आगमन से लेकर अंतिम पंक्ति तक क्रमबद्ध प्रस्तुतीकरण।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं प्रसाद: सही वर्तनी, व्याकरण और सुंदर प्रभावशाली भाषा।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "फागुन के आगमन के साथ प्रकृति में मादकता और सौंदर्य का सर्वव्यापक प्रसार हो जाता है। आमों में बौर फूटते हैं और भौर वन-वन टूटते हैं। होली मची ठौर-ठौर, सभी बंधन छूट जाते हैं। माथे अबीर से लाल, गाल सेंदुर से और आँखें गुलाल से सज जाती हैं। बाग-वन फाग मचा है और भर गये मोती के झाग जनों के मन को लूट लेते हैं। कवि कहता है कि फागुन की आभा ऐसी है कि उसे न शब्दों से अलग किया जा सकता है, न फागुन से।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "फूटे हैं आमों में बौर\nभौर वन-वन टूटे हैं।",
+            "होली मची ठौर-ठौर,\nसभी बंधन छूटे हैं।",
+            "भर गये मोती के झाग,\nजनों के मन लूटे हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:G:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "आपके विद्यालय के साहित्य-विभाग ने कविता-शिल्प पर विचार-मंचण आयोजित किया है। विचारधारा यह है कि कविता में भाव-जगत और शिल्प-जगत, दोनों में नए प्रयोग क्यों आवश्यक हैं। इस विषय पर लगभग १२० शब्दों का एक सुसंगत अनुच्छेद लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: विद्रोही स्वभाव के कारण भाव-जगत और शिल्प-जगत दोनों में नए प्रयोग संभव होना।",
+            "marks": 2,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: छायावादी रचनाकारों में सबसे पहले मुक्त छंद का प्रयोग करने का उल्लेख।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित एक ही सतत अनुच्छेद के रूप में लगभग १२० शब्दों की रचना।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: तथ्य, उदाहरण और निष्कर्ष के क्रम में तर्क संगठित प्रवाह।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं प्रसाद: सही वर्तनी, व्याकरण और सरल प्रभावशाली भाषा।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कविता केवल शब्दों का संकलन नहीं, भावों की अभिव्यक्ति है। निराला का काव्य-शिल्प इसका उदाहरण है, क्योंकि उनके विद्रोही स्वभाव ने कविता के भाव-जगत और शिल्प-जगत दोनों में नए प्रयोगों को संभव किया। छायावादी रचनाकारों में उन्होंने सबसे पहले मुक्त छंद का प्रयोग किया, जिससे कविता की रचना और लय में नवता आई। विस्तृत सरोकारों के रूप में भी उनकी ख्याति अविस्मरणीय है। शब्दों का सटीक चयन और लय कविता को सुंदर एवं ललित बनाती है। अतः कविता केवल शब्दों का समूह नहीं, व्यापक अनुभूति की समग्र अभिव्यक्ति है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "स्वभाव ने कविता के भाव-जगत और शिल्प-जगत में नए\nप्रयोगों को संभव किया। छायावादी रचनाकारों में उन्होंने\nसबसे पहले मुक्त छंद का प्रयोग किया। शोषित, उपेक्षित,",
+            "फागुन का ही सौंदर्य और उल्लास दिखाई पड़ता है। सुंदर शब्दों के चयन एवं लय\nने कविता को भी फागुन की ही तरह सुंदर एवं ललित बना दिया है।",
+            "निराला विस्तृत सरोकारों के कवि हैं। दार्शनिकता,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:H:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "आपके मित्र को आपके क्षेत्र की फागुन की धूम दिखाने का न्योता है। अपने अनुकूल ढंग से उसे लगभग १०० शब्दों में अनौपचारिक पत्र लिखिए, जिसमें फागुन की धूम और होली के रंगों का वर्णन हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: फागुन आते ही धूम उठने, आमों में बौर फूटने और भौर टूटने का वर्णन।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: होली के रंगों में माथे पर अबीर, गालों पर सेंदुर, आँखों में गुलाल और मोती के झाग का वर्णन।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: अनौपचारिक पत्र का सही ढाँचा — संबोधन, विषय-वस्तु और समापन अभिवादन के साथ।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: बातों का क्रमबद्ध एवं तार्किक प्रस्तुतीकरण।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं प्रसाद: सही वर्तनी, व्याकरण और निर्धारित शब्द-सीमा का पालन।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "प्रिय मित्र,\n\nतुम्हारा न्योता पढ़कर मन प्रसन्न हो गया। हमारे यहाँ फागुन आते ही धूम उठती है। आमों में बौर फूटते हैं और भौर वन-वन टूटते हैं। होली मची ठौर-ठौर, सभी बंधन छूटे हैं। माथे अबीर से लाल, गाल सेंदुर से और आँखें गुलाल से सज जाती हैं। बाग-वन में फाग गीत गाया जाता है और भर गये मोती के झाग जनों के मन लूट लेते हैं। यहाँ की धूम में कुछ ऐसा आनंद है।\n\nशीघ्र पधारना,\nतुम्हारा सच्चा मित्र,\n[नाम]",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "फूटे हैं आमों में बौर\nभौर वन-वन टूटे हैं।",
+            "होली मची ठौर-ठौर,\nसभी बंधन छूटे हैं।",
+            "माथे अबीर से लाल,\nगाल सेंदुर के देखे,\nआँखें हुई हैं गुलाल,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:04:H:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है"
+      ],
+      "taxonomyChapterId": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "आपके विद्यालय में 'नवजीवन और नूतन कविता' विषय पर एक साहित्य-चर्चा आयोजित है। इस चर्चा की सूचना अपने मित्र को ई-पत्र के रूप में लगभग १०० शब्दों में भेजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: चर्चा के विषय, आयोजन की तिथि-स्थान तथा साहित्य की भूमिका का उल्लेख।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: बादल के माध्यम से विध्वंस, विप्लव और क्रांति चेतना की बात।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: ई-पत्र का सही ढाँचा — विषय पंक्ति, संबोधन, संदेश और समापन के साथ।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: बातों का क्रमबद्ध एवं तार्किक प्रस्तुतीकरण।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं प्रसाद: सही वर्तनी, व्याकरण और निर्धारित शब्द-सीमा का पालन।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "प्रिय मित्र,\nसप्रेम,\n\nसूचना देना था कि आज हमारे विद्यालय में 'साहित्य और समाज: नवजीवन की भूमिका' विषय पर चर्चा हुई। हमारे कवि ने बताया कि सामाजिक क्रांति या बदलाव में साहित्य की भूमिका महत्त्वपूर्ण होती है। उन्होंने यह भी बताया कि बादल नयी कल्पना और नए अंकुर के लिए विध्वंस, विप्लव और क्रांति चेतना को संभव करने वाला है। इसीलिए कविता में ललित कल्पना और क्रांति-चेतना दोनों साथ रहते हैं।\n\nअगली बार तुम भी इस चर्चा में जरूर आना।\n\nशुभकामनाएँ,\nतुम्हारा मित्र,\n[नाम]",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "है, तो दूसरी तरफ़ वही बादल नयी कल्पना और नए अंकुर के लिए विध्वंस, विप्लव",
+            "और क्रांति चेतना को संभव करने वाला भी। कवि जीवन को व्यापक और समग्र दृष्टि",
+            "से देखता है। कविता में ललित कल्पना और क्रांति-चेतना दोनों हैं। सामाजिक क्रांति\nया बदलाव में साहित्य की भूमिका महत्त्वपूर्ण होती है, निराला इसे 'नवजीवन' और\n'नूतन कविता' के संदर्भों में देखते हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "jhks1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "options-not-answerable",
+      "stem": "इस अंश के अनुसार, बादल के संबंध में कवि का कौन-सा कथन सही है?"
+    },
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "options-not-answerable",
+      "stem": "इस अंश के अनुसार, फागुन की सुंदरता को कवि ने किस प्रकार देखा है?"
+    },
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "options-not-answerable",
+      "stem": "इस परिचय के अनुसार, बताए गए कवि का जन्म कहाँ हुआ और वे मूलतः कहाँ के निवासी थे?"
+    },
+    {
+      "section": "C",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "evidence-not-in-text",
+      "stem": "'विश्व के निदाघ के सकल जन,' — इस वाक्य में 'निदाघ' शब्द किस पद का है?"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१८९९",
+      "stem": "आपकी पुस्तकालय की वाचिका-सूची के लिए सूर्यकांत त्रिपाठी 'निराला' का संक्षिप्त जीवन-वृत्त तैयार करना है। लगभग १०० शब्दों "
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "too-many-marking-points",
+      "stem": "आपके विद्यालय में पुस्तक-मेले का आयोजन हो रहा है। इसकी सूचना के लिए लगभग ५० शब्दों का एक विज्ञापन तैयार कीजिए।"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "too-many-marking-points",
+      "stem": "होली के अवसर पर आप अपने परिवार के सभी सदस्यों को एक अनुकूल संदेश भेजना चाहते हैं, जिसमें आपके क्षेत्र के होली के रंगों क"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "too-many-marking-points",
+      "stem": "आपके विद्यालय में बादलों पर कविताओं की प्रतियोगिता और चित्रांकन प्रदर्शनी आयोजित है। इसकी सूचना के लिए लगभग ५० शब्दों का"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jhks1",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

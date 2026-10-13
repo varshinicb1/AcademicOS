@@ -109,3 +109,21 @@ def test_a_complete_stem_that_lists_its_choices_without_labels_is_not_called_tru
     paper["sections"][1]["questions"][0]["stem"] = (
         "Which of the following points lie on y-axis? A (1, 1), B (1, 0), C (0, 1), D (0, 0), E (0, 5).")
     assert not any("truncated" in p for p in paper_verify.verify(paper, PRESET))
+
+
+def test_an_attempt_any_section_counts_only_the_attempted_questions():
+    """CBSE's "attempt any N": every question is printed and only N count. The totals check read
+    the printed questions, so every correct attempt-any section of the class 9-10 English and Hindi
+    presets was reported as "totalMarks says 10 but its questions add to 12" (2026-10-14)."""
+    first = PRESET.sections[0]
+    attempted = first.question_count - 1
+    template = PRESET.model_copy(update={
+        "sections": [first.model_copy(update={"attempt_count": attempted}), *PRESET.sections[1:]],
+        "total_marks": PRESET.total_marks - first.marks_each})
+    paper = _paper()
+    paper["sections"][0]["totalMarks"] = attempted * first.marks_each
+    paper["metadata"]["totalMarks"] = template.total_marks
+    assert paper_verify.verify(paper, template) == []
+    # A section that counts every printed question is still caught.
+    paper["sections"][0]["totalMarks"] = first.question_count * first.marks_each
+    assert any("totalMarks says" in p for p in paper_verify.verify(paper, template))

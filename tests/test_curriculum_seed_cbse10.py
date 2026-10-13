@@ -57,7 +57,10 @@ def test_seeds_real_chapter_names_matching_the_source_json(store):
     hindi_book = store.books_for_subject(hindi.id)[0]
     hindi_chapters = {c.name for c in store.chapters_for_book(hindi_book.id)}
     assert "Rachna ke Aadhar par Vakya Bhed" in hindi_chapters
-    assert "Kshitij Bhag 2 Gadya Khand" in hindi_chapters
+    # The textbook unit holds the books' own lessons (Kshitij Part 2 and Kritika Part 2, from their
+    # contents pages, 2026-10-14), no longer the heading "Kshitij Bhag 2 Gadya Khand".
+    assert "स्वयं प्रकाश — नेताजी का चश्मा" in hindi_chapters
+    assert "Kshitij Bhag 2 Gadya Khand" not in hindi_chapters
     assert "Anuchhed Lekhan" in hindi_chapters
 
 

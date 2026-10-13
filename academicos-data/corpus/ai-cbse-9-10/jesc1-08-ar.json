@@ -1,0 +1,199 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:08:AR:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/heredity"
+      ],
+      "taxonomyChapterId": "science-10/heredity",
+      "topic": "Accumulation of Variation During Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion: A student crosses a tall pea plant with a short pea plant and finds that every plant in the F1 generation is tall, because a single copy of ‘T’ is enough to make the plant tall.\n2. Reason: Only the tt combination gives a short plant, since both copies have to be ‘t’ for the plant to be short.\nChoose the correct option: (A) Both 1 and 2 are true and 2 is the correct explanation for 1 (B) Both 1 and 2 are true but 2 is not the correct explanation for 1 (C) 1 is true but 2 is false (D) Both 1 and 2 are false",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both 1 and 2 are true and 2 is the correct explanation for 1",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In this explanation, both TT and Tt are tall plants, while only tt is a\nshort plant.",
+            "In other words, a single copy of ‘T’ is enough to make the\nplant tall, while both copies have to be ‘t’ for the plant to be short."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both 1 and 2 are true and 2 is the correct explanation for 1",
+            "B": "Both 1 and 2 are true but 2 is not the correct explanation for 1",
+            "C": "1 is true but 2 is false",
+            "D": "Both 1 and 2 are false"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch8",
+        "pages": [
+          128,
+          129,
+          130,
+          131,
+          132,
+          133
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:08:AR:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/heredity"
+      ],
+      "taxonomyChapterId": "science-10/heredity",
+      "topic": "Accumulation of Variation During Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion: When the F1 progeny of a pea plant is used to produce F2 progeny by self-pollination, some of the F2 plants can be tall but have wrinkled seeds, because new combinations of traits are formed among the F2 offspring.\n2. Reason: The tall/short trait and the round seed/wrinkled seed trait are always inherited together, so a tall plant can never carry wrinkled seeds.\nChoose the correct option: (A) Both 1 and 2 are true and 2 is the correct explanation for 1 (B) Both 1 and 2 are true but 2 is not the correct explanation for 1 (C) 1 is true but 2 is false (D) Both 1 and 2 are false",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1 is true but 2 is false",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "However, there would also\nbe some F2 progeny that showed new combinations. Some of them\nwould be tall, but have wrinkled seeds, while others would be short,\nbut have round seeds.",
+            "seed/wrinkled seed trait are independently inherited."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both 1 and 2 are true and 2 is the correct explanation for 1",
+            "B": "Both 1 and 2 are true but 2 is not the correct explanation for 1",
+            "C": "1 is true but 2 is false",
+            "D": "Both 1 and 2 are false"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch8",
+        "pages": [
+          128,
+          129,
+          130,
+          131,
+          132,
+          133
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:08:AR:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/heredity"
+      ],
+      "taxonomyChapterId": "science-10/heredity",
+      "topic": "Accumulation of Variation During Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion: A pea plant that carries an alteration in the gene for an enzyme important for growth turns out to be short, because the less efficient enzyme leads to a smaller amount of the plant hormone being made.\n2. Reason: A section of DNA that provides information for one protein is called the gene for that protein.\nChoose the correct option: (A) Both 1 and 2 are true and 2 is the correct explanation for 1 (B) Both 1 and 2 are true but 2 is not the correct explanation for 1 (C) 1 is true but 2 is false (D) Both 1 and 2 are false",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both 1 and 2 are true but 2 is not the correct explanation for 1",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the enzyme less efficient, the amount of hormone will be less,",
+            "and the plant will be short. Thus, genes control characteristics,",
+            "gene for that protein. How do proteins control the"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both 1 and 2 are true and 2 is the correct explanation for 1",
+            "B": "Both 1 and 2 are true but 2 is not the correct explanation for 1",
+            "C": "1 is true but 2 is false",
+            "D": "Both 1 and 2 are false"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch8",
+        "pages": [
+          128,
+          129,
+          130,
+          131,
+          132,
+          133
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      8
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

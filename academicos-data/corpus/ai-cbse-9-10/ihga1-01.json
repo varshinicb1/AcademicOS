@@ -1,0 +1,1020 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:ihga1:01:A:1",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/दो-बैलों-की-कथा"
+      ],
+      "taxonomyChapterId": "hindi-9/दो-बैलों-की-कथा",
+      "topic": "1",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "झूरी के दोनों बैलों के नाम थे हीरा और मोती। दोनों पछाईं जाति के थे— देखने में सुंदर, काम में चौकस, डील में ऊँचे। बहुत दिनों साथ रहते-रहते दोनों में भाईचारा हो गया था। दोनों आमने-सामने या आस-पास बैठे हुए एक-दूसरे से मूक-भाषा में विचार-विनिमय करते थे। एक, दूसरे के मन की बात कैसे समझ जाता था, हम नहीं कह सकते।\n\nअपनी बहन के साथ बिना बोले केवल हाथ-संकेतों से बातें करते हुए आप 'मूक-भाषा' शब्द का प्रयोग करें तो उसका सर्वाधिक उपयुक्त अर्थ क्या होगा? (A) जोर से बोलने की आदत (B) मन ही मन सोचने का समय (C) बिना बोले एक-दूसरे की बात समझने की विधि (D) पशुओं से आवाज़ निकालने का काम",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बिना बोले एक-दूसरे की बात समझने की विधि",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "दोनों आमने-सामने या आस-पास बैठे हुए एक-दूसरे से मूक-भाषा में विचार-विनिमय करते थे।",
+            "अवश्य ही उनमें कोई ऐसी गुप्त शक्ति थी जिससे जीवों में श्रेष्ठता का दावा करने वाला मनुष्य वंचित है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "जोर से बोलने की आदत",
+            "B": "मन ही मन सोचने का समय",
+            "C": "बिना बोले एक-दूसरे की बात समझने की विधि",
+            "D": "पशुओं से आवाज़ निकालने का काम"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:01:B:1",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/दो-बैलों-की-कथा"
+      ],
+      "taxonomyChapterId": "hindi-9/दो-बैलों-की-कथा",
+      "topic": "1",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "दोनों ने अपनी मूक-भाषा में सलाह की, एक-दूसरे को कनखियों से देखा और लेट गए। जब गाँव में सोता पड़ गया, तो दोनों ने जोर मारकर पगहे तुड़ा डाले और घर की तरफ चले। पगहे बहुत मजबूत थे। अनुमान न हो सकता था कि कोई बैल उन्हें तोड़ सकेगा; पर इन दोनों में इस समय दूनी शक्ति आ गई थी। एक-एक झटके में रस्सियाँ टूट गईं। झूरी प्रातःकाल सोकर उठा, तो देखा कि दोनों बैल चरनी पर खड़े हैं। दोनों की गरदनों में आधा-आधा गराँव लटक रहा है। घुटने तक पाँव कीचड़ से भरे हैं और दोनों की आँखों में विद्रोहमय स्नेह झलक रहा है।\n\nप्रातःकाल झूरी जब दोनों बैलों को चरनी पर खड़ा पाता है, तो उनकी आँखों में झलके 'विद्रोहमय स्नेह' का कहाँ तक अर्थ लिया जा सकता है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "बैलों का अपने मालिक झूरी के प्रति गहरा स्नेह",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "पर उसी मालिक की क्रूरता के विरुद्ध उनकी आक्रोशपूर्ण विद्रोहभावना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "निःस्वार्थ स्नेह के साथ अपने मालिक के खिलाए विद्रोह",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "झूरी प्रातःकाल सोकर उठा, तो देखा कि दोनों बैल चरनी पर खड़े हैं।",
+            "घुटने तक पाँव कीचड़ से भरे हैं और दोनों की आँखों में विद्रोहमय स्नेह झलक रहा है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:01:B:2",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/दो-बैलों-की-कथा"
+      ],
+      "taxonomyChapterId": "hindi-9/दो-बैलों-की-कथा",
+      "topic": "1",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "झूरी ने चिढ़ाया- “चारा मिलता तो क्यों भागते?” स्त्री चिढ़ी- “भागे इसलिए कि वे लोग तुम-जैसे बुद्धुओं की तरह बैलों को सहलाते नहीं। खिलाते हैं, तो रगड़कर जोतते भी हैं। ये दोनों ठहरे कामचोर, भाग निकले। अब देखूँ, कहाँ से खली और चोकर मिलता है! सूखे भूसे के सिवा कुछ न दूँगी, खाएँ चाहें मरें।” वही हुआ। मजूर को बड़ी ताकीद कर दी गई कि बैलों को खाली सूखा भूसा दिया जाए। बैलों ने नाँद में मुँह डाला, तो फीका-फीका। न कोई चिकनाहट, न कोई रस। क्या खाएँ? आशा-भरी आँखों से द्वार की ओर ताकने लगे।\n\nझूरी की पत्नी के सूखा भूसा देने के बाद बैलों के मुँह में 'फीका-फीका' वर्णन और 'क्या खाएँ?' का उल्लेख, इससे लगभग किन दो बातों का पता चलता है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "सूखा भूसा पूरी तरह फीका यानी निर्जीव हो गया है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "बैलों को खाने को कुछ न मिलने से भूख लगी हुई है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "निर्जीव भूसा और बहुत भूख लगी होना",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मजूर को बड़ी ताकीद कर दी गई कि बैलों को खाली सूखा भूसा दिया जाए।",
+            "बैलों ने नाँद में मुँह डाला, तो फीका-फीका। न कोई चिकनाहट, न कोई रस। क्या खाएँ?"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:01:C:1",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/दो-बैलों-की-कथा"
+      ],
+      "taxonomyChapterId": "hindi-9/दो-बैलों-की-कथा",
+      "topic": "1",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "आपके साथी ने वाक्य लिखा- 'इसका निश्चय नहीं किया जा सकता।' इस वाक्य में कौन-सा व्याकरणिक नियम लागू होता है? (A) कर्ता और कर्म दोनों प्रधान हैं (B) कर्म प्रधान है, अतः कर्मवाच्य का प्रयोग हुआ है (C) केवल कर्ता-वाच्य का प्रयोग हुआ है (D) कोई वाच्य-परिवर्तन नहीं हुआ है",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कर्म प्रधान है, अतः कर्मवाच्य का प्रयोग हुआ है",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "गधा सचमुच बेवकूफ है, या उसके सीधेपन, उसकी निरापद सहिष्णुता ने उसे यह पदवी दे दी है, इसका निश्चय नहीं किया जा सकता।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "कर्ता और कर्म दोनों प्रधान हैं",
+            "B": "कर्म प्रधान है, अतः कर्मवाच्य का प्रयोग हुआ है",
+            "C": "केवल कर्ता-वाच्य का प्रयोग हुआ है",
+            "D": "कोई वाच्य-परिवर्तन नहीं हुआ है"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:01:D:1",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/दो-बैलों-की-कथा"
+      ],
+      "taxonomyChapterId": "hindi-9/दो-बैलों-की-कथा",
+      "topic": "1",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "हीरा ने कहा- “मालूम होता है, राह भूल गए।” “तुम भी बेतहाशा भागे। वहीं उसे मार गिराना था।” “उसे मार गिराते, तो दुनिया क्या कहती? वह अपना धर्म छोड़ दे, लेकिन हम अपना धर्म क्यों छोड़ें?” दोनों भूख से व्याकुल हो रहे थे। खेत में मटर खड़ी थी। चरने लगे।\n\nखेत में पहुँचकर मोती उस बैरी को मार गिराना चाहता है, पर हीरा ने ऐसा करने से मना कर दिया- इसका कारण क्या था? (A) उसका मानना था कि बैरी को मारना अपने धर्म के विरुद्ध है (B) उसे भय था कि बैरी के साथ लड़ते समय वह घायल हो जाएगा (C) वह खेत में मटर चरने के लिए वहाँ से निकल जाना चाहता था (D) उसे मोती के कहने पर ही अपना फैसला बदलने की ज़रूरत पड़ी",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उसका मानना था कि बैरी को मारना अपने धर्म के विरुद्ध है",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“उसे मार गिराते, तो दुनिया क्या कहती? वह अपना धर्म छोड़ दे, लेकिन हम अपना धर्म क्यों छोड़ें?”",
+            "दोनों भूख से व्याकुल हो रहे थे। खेत में मटर खड़ी थी। चरने लगे।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "उसका मानना था कि बैरी को मारना अपने धर्म के विरुद्ध है",
+            "B": "उसे भय था कि बैरी के साथ लड़ते समय वह घायल हो जाएगा",
+            "C": "वह खेत में मटर चरने के लिए वहाँ से निकल जाना चाहता था",
+            "D": "उसे मोती के कहने पर ही अपना फैसला बदलने की ज़रूरत पड़ी"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:01:E:1",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/दो-बैलों-की-कथा"
+      ],
+      "taxonomyChapterId": "hindi-9/दो-बैलों-की-कथा",
+      "topic": "1",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "बेचे जाने की बात समझते ही दोनों बैल रात में जोर लगाकर पगहे तोड़कर अपने घर लौट गए, इसका कारण क्या था?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "दोनों बैलों ने समझा कि झूरी उन्हें बेच रहा है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "अपना घर और अपने परिचित लोग छूटने के कारण वे अपने घर लौट गए",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "दोनों बैलों ने समझा कि झूरी उन्हें बेच रहा है। अपना घर, अपने परिचित लोग और अपनी नाँद छूट रही थी, इसलिए वे नए घर में खाना नहीं खा पाए और रात में जोर लगाकर पगहे तोड़कर लौट गए।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बैलों को क्या मालूम, वे क्यों भेजे जा रहे हैं। समझे, मालिक ने हमें बेच दिया।",
+            "जब गाँव में सोता पड़ गया, तो दोनों ने जोर मारकर पगहे तुड़ा डाले और घर की तरफ चले।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:01:E:2",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/दो-बैलों-की-कथा"
+      ],
+      "taxonomyChapterId": "hindi-9/दो-बैलों-की-कथा",
+      "topic": "1",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "झूरी के घर की वह लड़की रोज़ रात में दोनों बैलों को दो रोटियाँ क्यों खिलाती थी?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "लड़की भैरो थी और उसकी माँ मर चुकी थी",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सौतेली माँ उसे मारती रहती थी, इसलिए बैलों से उसकी आत्मीयता हो गई थी",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "लड़की भैरो थी और उसकी माँ मर चुकी थी। सौतेली माँ उसे मारती रहती थी, इसलिए बैलों से उसे आत्मीयता हो गई थी। दो रोटियाँ भले ही उनकी भूख न शांत करतीं, पर दोनों के हृदय को भोजन मिल जाता था।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "लड़की भैरो की थी। उसकी माँ मर चुकी थी। सौतेली माँ उसे मारती रहती थी, इसलिए इन बैलों से उसे एक प्रकार की आत्मीयता हो गई थी।",
+            "उस एक रोटी से इनकी भूख तो क्या शांत होती; पर दोनों के हृदय को मानो भोजन मिल गया।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:01:F:1",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/दो-बैलों-की-कथा"
+      ],
+      "taxonomyChapterId": "hindi-9/दो-बैलों-की-कथा",
+      "topic": "1",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "काँजीहौस में दीवार तोड़ने की शुरुआत हीरा ने की और उसके बाद मोती ने भी साथ दिया- हीरा ने यह किस सोच से किया और मोती उसके पीछे कैसे खड़ा हुआ?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "हीरा ने बंधन के बावजूद जोर मारना जारी रखा, क्योंकि वह हार नहीं मानता था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उसने इस हिसाब से कि दीवार गिरेगी तो कितनी जानें बच जाएँगी",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "मोती ने हीरा की बात सुनकर दीवार में सींग मारा और पूरा साथ दिया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "लगभग दो घंटे की जोर-आजमाई के बाद आधी दीवार गिरी और जानवर बाहर निकल गए",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "हीरा ने चौकीदार से बँधने के बाद भी हार नहीं मानी और कहा कि जोर तो मारता ही जाऊँगा, चाहे कितने ही बंधन पड़ते जाएँ। उसने सोचा कि दीवार खुद जाने पर कितनी जानें बच जाएँगी। मोती ने भी उसी समय सींग मारा। लगभग दो घंटे की जोर-आजमाई के बाद आधी दीवार गिर पड़ी और तीनों घोड़ियाँ, बकरियाँ तथा भैंसें खिसक गईं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“जोर तो मारता ही जाऊँगा, चाहे कितने ही बंधन पड़ते जाएँ।”",
+            "सोचो, दीवार खुद जाती तो कितनी जानें बच जातीं। इतने भाई यहाँ बंद हैं।",
+            "आखिर कोई दो घंटे की जोर-आजमाई के बाद दीवार ऊपर से लगभग एक हाथ गिर गई।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:01:F:2",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/दो-बैलों-की-कथा"
+      ],
+      "taxonomyChapterId": "hindi-9/दो-बैलों-की-कथा",
+      "topic": "1",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "गधे दोबारा पकड़े जाने के डर से भागने को नहीं चाहते थे, फिर भी मोती ने उन्हें सींगों से मारकर बाड़े के बाहर निकला क्यों?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "गधे दोबारा पकड़े जाने के डर से भागना नहीं चाहते थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "हीरा ने उन्हें समझाया कि अभी भागने का अवसर है, हर्ज नहीं है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "हीरा के कहने पर मोती उनका साथ छोड़ने को तैयार नहीं हुआ",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "मोती ने दोनों गधों को सींगों से मारकर बाड़े के बाहर निकाल दिया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "हीरा ने गधों से कहा कि अभी तो भागने का अवसर है और इसमें कोई हर्ज नहीं, जिससे वे दोनों भी सहम गए। पर दीवार गिरने के बाद हीरा ने मोती से कहा कि वह जाए और उसे यहीं पड़ा रहने दो। मोती ने हीरा को स्वार्थी नहीं माना, क्योंकि दोनों इतने दिनों साथ रहे थे। उसने दोनों गधों को सींगों से मार-मारकर बाड़े के बाहर निकाला और अपने बंधु के पास आकर सो गया।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "एक गधे ने कहा- “जो कहीं फिर पकड़ लिए जाएँ!”",
+            "“तुम जाओ, मुझे यहीं पड़ा रहने दो। शायद कहीं भेंट हो जाए।”",
+            "मोती ने दोनों गधों को सींगों से मार-मारकर बाड़े के बाहर निकाला और तब अपने बंधु के पास आकर सो रहा।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:01:G:1",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/दो-बैलों-की-कथा"
+      ],
+      "taxonomyChapterId": "hindi-9/दो-बैलों-की-कथा",
+      "topic": "1",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "आपके मित्र ने गाँव से शहर जाने का निश्चय किया और अपने पाले हुए पशुओं को छोड़ने पर चिंता व्यक्त की। उनकी इस बातचीत को परिस्थिति के अनुसार लगभग १२० शब्दों में लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: गाँव से शहर जाने पर पाले गए पशुओं की चिंता और उनके प्रति दायित्व",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: परिस्थिति के अनुसार लिखी गई संवाद-शैली अनुच्छेदिका",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: आरंभ से अंत तक तार्किक क्रम, बातचीत के रूप में क्रमबद्ध प्रस्तुति",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "शुद्धता: वाक्य-विन्यास, वर्तनी और पात्रों की भाषा में सटीकता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शैली: सरल, सहज और अर्थपूर्ण हिंदी का प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रस्तुति: कुल लगभग १२० शब्दों में पूर्ण उत्तर",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मेरे मित्र ने कहा- “हम इस गाँव से चले जाएँगे, तो इन बैलों का क्या होगा? न चारा, न पानी। यह तो सीधे परासंग की बात है, और इस तरह उन पर सींग चलाना मना है।”\nमैंने कहा- “तो उन्हें साथ ही ले चलो।”\nमित्र हँसा- “शहर में रहने की जगह ही नहीं है, और उन्हें बेचना भी हमें मंज़ूर नहीं।”\nहम दोनों चुप हो गए। दोनों को याद आया कि इन्हीं बैलों ने रात में पगहे तुड़ा डालकर अपने घर की ओर भागकर दिखाया था कि उन्हें छोड़ा नहीं जा सकता। मेरे मित्र ने फिर कहा- “हम उनका चारा-पानी नहीं छोड़ेंगे, चाहे इस तरह कुछ भी करना पड़े।” इस पर हम दोनों सहमत हो गए।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "जब गाँव में सोता पड़ गया, तो दोनों ने जोर मारकर पगहे तुड़ा डाले और घर की तरफ चले।",
+            "“लेकिन औरत जात पर सींग चलाना मना है, यह भूले जाते हो।”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "ihga1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "1",
+      "reason": "figure-not-in-text:१४",
+      "stem": "अपने मित्र को पत्र लिखिए- गाँव से शहर में पढ़ने के लिए जा रहे हो, इस बारे में अपनी अनुभूति व्यक्त कीजिए और घर के पालतू प"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "1",
+      "reason": "figure-not-in-text:१००",
+      "stem": "अपने विद्यालय के प्रधानाचार्य को ई-मेल लिखिए- गाँव में दो दिन का बड़ा कार्य चलने से घर में कोई नहीं रह पाएगा, इसलिए दो द"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "1",
+      "reason": "figure-not-in-text:५०",
+      "stem": "अपने विद्यालय के सूचना-पट्ट पर चढ़ाने हेतु सूचना-विज्ञापन लिखिए, जिसमें गाँव की गो-शाला में सफाई तथा पशुओं की देखभाल के "
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "ihga1",
+    "chapters": [
+      1
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

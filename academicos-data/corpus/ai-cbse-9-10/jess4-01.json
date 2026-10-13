@@ -65,97 +65,985 @@
         ],
         "promptVersion": 1
       }
+    },
+    {
+      "id": "ai:cbse:jess4:01:B:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/power-sharing"
+      ],
+      "taxonomyChapterId": "social-science-10/power-sharing",
+      "topic": "Belgium and Sri Lanka",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "Nila's grandfather in Sri Lanka came from India to work on a plantation during the colonial period, and Nila's family speaks Tamil. What name is given to Tamils of Nila's background?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "Named Indian Tamils",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Identified by forefathers who came from India as plantation workers during the colonial period",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Indian Tamils - that is, Tamils whose forefathers came from India as plantation workers during the colonial period.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "whose forefathers came from India as",
+            "plantation workers during colonial",
+            "period, are called ‘Indian Tamils’."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess4 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:01:B:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/power-sharing"
+      ],
+      "taxonomyChapterId": "social-science-10/power-sharing",
+      "topic": "Belgium and Sri Lanka",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "Farmer Devan lives in Sri Lanka, where Tamil communities are gathered in two parts of the country rather than spread evenly. Name those two parts.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "The north of the country",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The east of the country",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The north and the east of the country.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Lankan Tamils are concentrated in",
+            "the north and east of the country."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Very Short Answer",
+        "chapter": "jess4 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:01:C:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/power-sharing"
+      ],
+      "taxonomyChapterId": "social-science-10/power-sharing",
+      "topic": "Belgium and Sri Lanka",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A newspaper recalls that the Dutch-speaking and French-speaking communities of Belgium were in tension during the 1950s and 1960s. Give the reasons for this tension in about 45 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The French-speaking community was a minority but relatively rich and powerful",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Dutch speakers got economic development and education only much later and resented the French speakers",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Tension was more acute in Brussels, where the Dutch speakers were a majority in the country but a minority in the capital",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The French-speaking community was a minority but was relatively rich and powerful. The Dutch-speaking community, who got the benefit of economic development and education much later, resented them. The tension was more acute in Brussels, because the Dutch speakers were a majority in the country but a minority in the capital.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The minority French-speaking\ncommunity was relatively rich and\npowerful. This was resented by the\nDutch-speaking community who got\nthe benefit of economic development\nand education much later.",
+            "in Brussels. Brussels presented a\nspecial problem: the Dutch-speaking\npeople constituted a majority in\nthe country, but a minority in the\ncapital."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess4 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:01:C:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/power-sharing"
+      ],
+      "taxonomyChapterId": "social-science-10/power-sharing",
+      "topic": "Belgium and Sri Lanka",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Asha is studying the social composition of Sri Lanka. (a) Name the two major social groups of Sri Lanka with the share of the population that speaks each language. (b) Name the two sub-groups among the Tamil-speakers of Sri Lanka.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Sinhala-speakers, 74 per cent of the population",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Tamil-speakers, 18 per cent of the population",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Sri Lankan Tamils (13 per cent) are the natives of the country, and Indian Tamils came from India as plantation workers during the colonial period",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The Sinhala-speakers form the major group, at 74 per cent of the population, and the Tamil-speakers form the second, at 18 per cent. Among the Tamils there are two sub-groups: Tamil natives of the country are called Sri Lankan Tamils (13 per cent), and the rest, whose forefathers came from India as plantation workers during the colonial period, are called Indian Tamils.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "groups are the Sinhala-speakers (74\nper cent) and the Tamil-speakers (18\nper cent).",
+            "Tamils’ (13 per cent). The rest,",
+            "period, are called ‘Indian Tamils’."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess4 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:01:C:3",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/power-sharing"
+      ],
+      "taxonomyChapterId": "social-science-10/power-sharing",
+      "topic": "Belgium and Sri Lanka",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "short_answer",
+      "stem": "Rohan is collecting basic facts about Sri Lanka for a project. State where the country is located, how many people it has, and what this tells you about the variety of its population, in about 45 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "It is an island nation lying just a few kilometres off the southern coast of Tamil Nadu",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It has about two crore people, about the same as in Haryana",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Like other nations in the South Asia region, it has a diverse population",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Sri Lanka is an island nation lying just a few kilometres off the southern coast of Tamil Nadu. It has about two crore people, about the same as in Haryana. Like other nations in the South Asia region, Sri Lanka has a diverse population.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Lanka is an island nation, just a few\nkilometres off the southern coast\nof Tamil Nadu. It has about two\ncrore people, about the same as in",
+            "Haryana. Like other nations in the\nSouth Asia region, Sri Lanka has a\ndiverse population. The major social"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Short Answer",
+        "chapter": "jess4 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:01:D:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/power-sharing"
+      ],
+      "taxonomyChapterId": "social-science-10/power-sharing",
+      "topic": "Belgium and Sri Lanka",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A student is comparing how Belgium and Sri Lanka are divided into language groups. Work out, step by step in about 75 words, the main language groups of each country and the share of the population that speaks each of them.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Flemish region: 59 per cent of the population lives there and speaks Dutch",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Wallonia: another 40 per cent live there and speak French, and the remaining one per cent speak German",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Brussels: 80 per cent speak French while 20 per cent are Dutch-speaking",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Sri Lanka: Sinhala-speakers form 74 per cent and Tamil-speakers 18 per cent",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The Tamil-speakers are divided into Sri Lankan Tamils (13 per cent) and Indian Tamils",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Belgium: 1. Flemish region - 59 per cent of the population lives there and speaks Dutch. 2. Wallonia - another 40 per cent live there and speak French. 3. The remaining one per cent speak German. 4. Brussels - 80 per cent speak French, 20 per cent are Dutch-speaking. Sri Lanka: 1. Sinhala-speakers, 74 per cent. 2. Tamil-speakers, 18 per cent, split into Sri Lankan Tamils (13 per cent) and Indian Tamils.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "population, 59 per cent lives in the",
+            "Flemish region and speaks Dutch",
+            "groups are the Sinhala-speakers (74\nper cent) and the Tamil-speakers (18\nper cent)."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:01:D:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/power-sharing"
+      ],
+      "taxonomyChapterId": "social-science-10/power-sharing",
+      "topic": "Belgium and Sri Lanka",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Although Dutch speakers are a majority in Belgium as a whole, they are a minority in the capital city of Brussels. Work out, step by step in about 75 words, how the language pattern of the country differs from that of the capital, and what this means for the numeric strength of the Dutch speakers.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "In the country as a whole 59 per cent of the population lives in the Flemish region and speaks Dutch, so the Dutch speakers are the majority",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In Brussels 80 per cent of people speak French while 20 per cent are Dutch-speaking",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So the Dutch speakers are a minority in the capital",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The Dutch speakers' numeric majority does not hold in Brussels",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Their numeric strength works for them at country level but not in the capital",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. In the country as a whole the Dutch speakers are the majority: 59 per cent of the population lives in the Flemish region and speaks Dutch. 2. In Brussels the position is reversed: 80 per cent of people speak French while 20 per cent are Dutch-speaking. 3. So the Dutch speakers form a minority in the capital. 4. Their numeric majority is therefore a strength at country level, not in Brussels itself.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "population, 59 per cent lives in the",
+            "Flemish region and speaks Dutch",
+            "capital city Brussels, 80 per cent\npeople speak French while 20 per\ncent are Dutch-speaking."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:01:D:3",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/power-sharing"
+      ],
+      "taxonomyChapterId": "social-science-10/power-sharing",
+      "topic": "Belgium and Sri Lanka",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A researcher is writing about the Tamil communities of Sri Lanka. Show, step by step in about 75 words, how the Tamil-speakers are divided, what share of the population each part holds, and where one of the parts is concentrated.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Tamil-speakers form 18 per cent of the population",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Among the Tamils there are two sub-groups",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Sri Lankan Tamils, the natives of the country, hold 13 per cent",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Indian Tamils are those whose forefathers came from India as plantation workers during the colonial period",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "the north and east of the country.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Tamil-speakers form 18 per cent of Sri Lanka's population. 2. Among the Tamils there are two sub-groups. 3. Tamil natives of the country are called Sri Lankan Tamils, at 13 per cent. 4. The rest, whose forefathers came from India as plantation workers during the colonial period, are called Indian Tamils. 5. Sri Lankan Tamils are concentrated in the north and east of the country.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "per cent) and the Tamil-speakers (18\nper cent). Among Tamils there are\ntwo sub-groups.",
+            "Tamils’ (13 per cent). The rest,",
+            "the north and east of the country."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:01:D:4",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/power-sharing"
+      ],
+      "taxonomyChapterId": "social-science-10/power-sharing",
+      "topic": "Forms of power-sharing",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Ravi is studying how power is shared in a democracy. Work out, step by step in about 75 words, what happens when Russia's Union of Right Forces and the Liberal Yablako Movement unite their organisations into a strong right-wing coalition and propose a common list of candidates for the next parliamentary elections, and state what kind of power sharing this is.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "The two parties unite their organisations into a strong right-wing coalition",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They propose to have a common list of candidates in the next parliamentary elections",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "If their alliance is elected, they form a coalition government",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A coalition government shares power, so power is not held by one party alone",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "This is power sharing among different political parties that represent different ideologies and social groups",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. It is power sharing among different political parties, that is, parties that represent different ideologies and social groups. 2. The two parties unite their organisations into a strong right-wing coalition. 3. They propose a common list of candidates for the next parliamentary elections. 4. If their alliance is elected, they form a coalition government. 5. A coalition government shares power, so power is not held by one party alone.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Russia’s two influential political parties, the Union of Right Forces and the Liberal",
+            "wing coalition. They propose to have a common list of candidates in the next",
+            "If their alliance is elected, they form\na coalition government and thus"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Long Answer",
+        "chapter": "jess4 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:01:E:1",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/power-sharing"
+      ],
+      "taxonomyChapterId": "social-science-10/power-sharing",
+      "topic": "Belgium and Sri Lanka",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Belgium's population is not spread evenly across its language groups. Of the country's total population, 59 per cent lives in the Flemish region and speaks Dutch. Another 40 per cent people live in the Wallonia region and speak French, and the remaining one per cent of the Belgians speak German. The capital city Brussels breaks this pattern: 80 per cent of its people speak French while 20 per cent are Dutch-speaking. So the Dutch-speaking people are a majority in the country as a whole, but a minority in the capital.\n\n(a) What share of Belgium's population lives in the Wallonia region, and which language do those people speak? (b) In the capital city Brussels, which language group is in the minority? (c) Explain why the Dutch community cannot simply take advantage of its numeric majority there and force its will on the French-speaking population.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) 40 per cent live in the Wallonia region and speak French. (b) The Dutch speakers, at 20 per cent. (c) Brussels reverses the national pattern, so the Dutch speakers are only a minority there and cannot force their will on the French speakers.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "language. Another 40 per cent people",
+            "live in the Wallonia region and speak",
+            "cent are Dutch-speaking."
+          ],
+          "objective": false,
+          "passage": "Belgium's population is not spread evenly across its language groups. Of the country's total population, 59 per cent lives in the Flemish region and speaks Dutch. Another 40 per cent people live in the Wallonia region and speak French, and the remaining one per cent of the Belgians speak German. The capital city Brussels breaks this pattern: 80 per cent of its people speak French while 20 per cent are Dutch-speaking. So the Dutch-speaking people are a majority in the country as a whole, but a minority in the capital."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess4 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:01:E:2",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/power-sharing"
+      ],
+      "taxonomyChapterId": "social-science-10/power-sharing",
+      "topic": "Belgium and Sri Lanka",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "Sri Lanka is an island nation just a few kilometres off the southern coast of Tamil Nadu, with about two crore people, about the same as in Haryana. Like other nations in the South Asia region, it has a diverse population. The major social groups are the Sinhala-speakers, at 74 per cent, and the Tamil-speakers, at 18 per cent. Among the Tamils there are two sub-groups: Tamil natives of the country are called Sri Lankan Tamils (13 per cent), and the rest, whose forefathers came from India as plantation workers during the colonial period, are called Indian Tamils. Sri Lankan Tamils are concentrated in the north and east of the country.\n\n(a) What share of Sri Lanka's population speaks Tamil, and into how many sub-groups are Tamil-speakers divided? (b) Name the sub-group whose forefathers came from India as plantation workers during the colonial period. (c) Explain why the Tamil-speakers of Sri Lanka do not behave as one single compact group.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) Tamil-speakers are 18 per cent and are divided into two sub-groups. (b) Indian Tamils. (c) One sub-group consists of natives of the country, concentrated in the north and east, while the other descends from forefathers who came from India as plantation workers during the colonial period, so they have different origins and locations.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "per cent) and the Tamil-speakers (18\nper cent). Among Tamils there are\ntwo sub-groups.",
+            "Tamils’ (13 per cent). The rest,",
+            "period, are called ‘Indian Tamils’."
+          ],
+          "objective": false,
+          "passage": "Sri Lanka is an island nation just a few kilometres off the southern coast of Tamil Nadu, with about two crore people, about the same as in Haryana. Like other nations in the South Asia region, it has a diverse population. The major social groups are the Sinhala-speakers, at 74 per cent, and the Tamil-speakers, at 18 per cent. Among the Tamils there are two sub-groups: Tamil natives of the country are called Sri Lankan Tamils (13 per cent), and the rest, whose forefathers came from India as plantation workers during the colonial period, are called Indian Tamils. Sri Lankan Tamils are concentrated in the north and east of the country."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess4 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jess4:01:E:3",
+      "questionBankId": "ai-cbse:jess4",
+      "subject": "Social Science",
+      "grade": 10,
+      "chapterIds": [
+        "social-science-10/power-sharing"
+      ],
+      "taxonomyChapterId": "social-science-10/power-sharing",
+      "topic": "Belgium and Sri Lanka",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "case_study",
+      "stem": "The minority French-speaking community in Belgium was relatively rich and powerful. This was resented by the Dutch-speaking community, who got the benefit of economic development and education much later. This resentment led to tensions between the Dutch-speaking and French-speaking communities during the 1950s and 1960s. The tension between the two communities was more acute in Brussels, because there the Dutch speakers were a minority. If the Dutch community took advantage of its numeric majority and forced its will on the French and German-speaking populations, the conflict would be pushed further.\n\n(a) Which community in Belgium was relatively rich and powerful, and which community resented it? (b) During which period did the tensions between the two communities appear? (c) Explain why a political settlement in which one community simply forces its will on the others is dangerous for Belgium.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(a) The French-speaking minority was relatively rich and powerful, and the Dutch-speaking community resented it. (b) During the 1950s and 1960s. (c) The Dutch community's numeric majority could be used to force its will on the French and German speakers, which would push the conflict among the communities further.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The minority French-speaking\ncommunity was relatively rich and\npowerful. This was resented by the\nDutch-speaking community who got\nthe benefit of economic development\nand education much later.",
+            "to tensions between the Dutch-\nspeaking and French-speaking\ncommunities during the 1950s and\n1960s.",
+            "would push the conflict among"
+          ],
+          "objective": false,
+          "passage": "The minority French-speaking community in Belgium was relatively rich and powerful. This was resented by the Dutch-speaking community, who got the benefit of economic development and education much later. This resentment led to tensions between the Dutch-speaking and French-speaking communities during the 1950s and 1960s. The tension between the two communities was more acute in Brussels, because there the Dutch speakers were a minority. If the Dutch community took advantage of its numeric majority and forced its will on the French and German-speaking populations, the conflict would be pushed further."
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Case Based",
+        "chapter": "jess4 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      }
     }
   ],
   "refusals": [
     {
-      "section": "AR",
-      "qtype": "assertion_reason",
-      "topic": "Belgium and Sri Lanka",
-      "reason": "wrong-type",
-      "stem": "Nila's grandfather in Sri Lanka came from India to work on a plantation during the colonial period, and Nila's family sp"
-    },
-    {
-      "section": "AR",
-      "qtype": "assertion_reason",
-      "topic": "Belgium and Sri Lanka",
-      "reason": "wrong-type",
-      "stem": "Farmer Devan lives in Sri Lanka, where Tamil communities are gathered in two parts of the country rather than spread eve"
-    },
-    {
-      "section": "B",
-      "qtype": "very_short_answer",
-      "topic": "Belgium and Sri Lanka",
-      "reason": "wrong-type",
-      "stem": "A newspaper recalls that the Dutch-speaking and French-speaking communities of Belgium were in tension during the 1950s "
-    },
-    {
-      "section": "B",
-      "qtype": "very_short_answer",
-      "topic": "Belgium and Sri Lanka",
-      "reason": "wrong-type",
-      "stem": "Asha is studying the social composition of Sri Lanka. (a) Name the two major social groups of Sri Lanka with the share o"
-    },
-    {
-      "section": "B",
-      "qtype": "very_short_answer",
-      "topic": "Belgium and Sri Lanka",
-      "reason": "wrong-type",
-      "stem": "Rohan is collecting basic facts about Sri Lanka for a project. State where the country is located, how many people it ha"
-    },
-    {
-      "section": "C",
-      "qtype": "short_answer",
-      "topic": "Belgium and Sri Lanka",
-      "reason": "wrong-type",
-      "stem": "A student is comparing how Belgium and Sri Lanka are divided into language groups. Work out, step by step in about 75 wo"
-    },
-    {
-      "section": "C",
-      "qtype": "short_answer",
-      "topic": "Belgium and Sri Lanka",
-      "reason": "wrong-type",
-      "stem": "Although Dutch speakers are a majority in Belgium as a whole, they are a minority in the capital city of Brussels. Work "
-    },
-    {
-      "section": "C",
-      "qtype": "short_answer",
-      "topic": "Belgium and Sri Lanka",
-      "reason": "wrong-type",
-      "stem": "A researcher is writing about the Tamil communities of Sri Lanka. Show, step by step in about 75 words, how the Tamil-sp"
-    },
-    {
-      "section": "D",
-      "qtype": "long_answer",
-      "topic": "Belgium and Sri Lanka",
-      "reason": "evidence-not-in-text",
-      "stem": "Ravi is studying how power is shared in a democracy. Work out, step by step in about 75 words, what happens when Russia'"
-    },
-    {
-      "section": "D",
-      "qtype": "long_answer",
-      "topic": "Forms of power-sharing",
-      "reason": "wrong-type",
-      "stem": "(a) What share of Belgium's population lives in the Wallonia region, and which language do those people speak? (b) In th"
-    },
-    {
-      "section": "D",
-      "qtype": "long_answer",
-      "topic": "Forms of power-sharing",
-      "reason": "wrong-type",
-      "stem": "(a) What share of Sri Lanka's population speaks Tamil, and into how many sub-groups are Tamil-speakers divided? (b) Name"
-    },
-    {
-      "section": "D",
-      "qtype": "long_answer",
-      "topic": "Forms of power-sharing",
-      "reason": "wrong-type",
-      "stem": "(a) Which community in Belgium was relatively rich and powerful, and which community resented it? (b) During which perio"
-    },
-    {
-      "section": "E",
-      "qtype": "case_study",
-      "topic": "Belgium and Sri Lanka",
+      "section": "F",
+      "qtype": "map_based",
+      "topic": "",
       "reason": "stem-names-the-text",
       "stem": "This question cannot be answered without the cartoon reproduced in the extract. (a) Name the two major parties of the co"
     }

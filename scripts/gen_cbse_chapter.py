@@ -39,6 +39,7 @@ from academicos.corpus import cbse_blueprint as bp            # noqa: E402
 from academicos.corpus import cbse_generate as cg             # noqa: E402
 from academicos.corpus import hindi_ocr as ho                   # noqa: E402
 from academicos.corpus import textbook as tb                  # noqa: E402
+from academicos.syllabus import cbse_syllabus                # noqa: E402
 
 BOOKS = Path(r"C:\Users\varsh\OneDrive\Documents\Sarvam\ncert-dataset\textbooks\chapters")
 TRANSCRIPTIONS = Path(
@@ -610,6 +611,97 @@ def prefer_ocr(chapter: cg.Chapter) -> cg.Chapter:
     return chapter
 
 
+@dataclasses.dataclass(frozen=True)
+class ChapterContext:
+    """What every call for one chapter is set and checked against."""
+    subject: str
+    grade: int
+    topics: list[str]
+    chapter: cg.Chapter
+    chapter_id: str
+    also_chapter_ids: tuple[str, ...]
+    blueprint: object
+
+
+def chapter_context(book_code: str, number: int) -> ChapterContext:
+    registry = book_registry()
+    book = registry.get(book_code)
+    if not book:
+        raise SystemExit(f"no book metadata for {book_code}")
+    subject = tb.bank_subject(book.get("subject"))
+    grade = int(book.get("class") or 0)
+    known = taxonomy_chapters().get(book_code, {}).get(number) or {}
+    also_chapter_ids: list[str] = []
+    if not known:
+        # The book's own chapter list (ncert_books.json, from its contents page), by book and number.
+        # Without it a book no taxonomy tree names (Hindi 9's Ganga; the class 10 English and Hindi
+        # books) filed every question under "hindi-9/chapter-1", a chapter no class studies, and the
+        # chapter view showed them all as not matched (2026-10-14).
+        known = next(({"id": c["id"], "name": c["name"]} for c in cbse_syllabus.book_chapters(subject, grade)
+                      if c.get("book") == book_code and c.get("number") == number), {})
+    if not known:
+        known, also_chapter_ids = tree_chapter_for(subject, grade, book_code, number)
+    # The topics stay what they were: a plan's calls are numbered, and an answer on disk belongs to
+    # the call with its number, so changing a chapter's topics would hand answers to the wrong prompts.
+    topics = topics_for(book_code, number)
+    # The chapter's own name, from the tree that named it. Never the first topic:
+    # a chapter named after its first topic gets an id that is in no tree, and
+    # every question generated for it lands under a chapter nothing resolves.
+    chapter_name = known.get("name") or f"Chapter {number}"
+
+    pdf = chapter_pdf(book_code, number)
+    if not pdf.is_file():
+        raise SystemExit(f"no chapter PDF at {pdf}")
+    chapter = cg.read_chapter(
+        pdf, book_code=book_code, subject=subject, grade=grade,
+        language=book.get("language") or "en", number=number, title=chapter_name)
+    chapter = prefer_ocr(chapter)
+    if not chapter.pages:
+        raise SystemExit(f"{pdf} extracted no text")
+    # When no tree names this chapter the id is one nothing can resolve. It is recorded on the
+    # record so the gap is visible in the bank rather than inferred later.
+    chapter_id = known.get("id") or tb.chapter_id(subject, grade, chapter_name)
+    return ChapterContext(subject=subject, grade=grade, topics=topics, chapter=chapter, chapter_id=chapter_id,
+                          also_chapter_ids=tuple(also_chapter_ids), blueprint=bp.for_paper(subject, grade))
+
+
+def take_answer(parsed: dict, section, topic: str, user: str, ctx: ChapterContext, *, model: str,
+                grounded: bool, number_from: int, by_section: dict[str, int],
+                kept: list[dict], refused: list[dict]) -> None:
+    """Validate one call's answer and keep its questions as records. `grounded` holds every question
+    to quotes from `user`, the text the model was given (a model run elsewhere, through a bridge)."""
+    for raw in parsed.get("questions") or []:
+        item = cg.parse_item(raw)
+        reason = cg.validate(item, section)
+        if not reason and grounded:
+            reason = ungrounded(item, user, section)
+        if reason:
+            refused.append({"section": section.key, "qtype": section.qtype,
+                            "topic": topic, "reason": reason,
+                            "stem": (item.get("stem") or "")[:120]})
+            continue
+        # The id is built from this number. The model numbers a call's questions 1, 2, 3, so
+        # two calls for one section both produced "...:D:1", and the second was dropped as a
+        # duplicate id. Number them across the chapter's section instead.
+        item["option"] = number_from + by_section.get(section.key, 0) + 1
+        record = cg.to_record(
+            item, section, ctx.chapter, topic, chapter_id=ctx.chapter_id,
+            topic_id="", model=model, also_chapter_ids=ctx.also_chapter_ids)
+        if grounded:
+            # It passed `ungrounded`: every quote is the chapter's own text. That is the
+            # definition of the checked tier `textbook_grounded` (qbank_engine), and the
+            # merge serves a model-written record only with this label and these quotes.
+            quotes = item.get("evidence")
+            quotes = [quotes] if isinstance(quotes, str) else list(quotes or [])
+            if ctx.chapter.language == "hi":
+                quotes = [ho.repair_devanagari(q) if isinstance(q, str) else q for q in quotes]
+            scheme = record.setdefault("answerScheme", {})
+            scheme["provenance"] = "textbook_grounded"
+            scheme.setdefault("metadata", {})["evidence"] = [q for q in quotes if isinstance(q, str)]
+        kept.append(record)
+        by_section[section.key] = by_section.get(section.key, 0) + 1
+
+
 def generate_chapter(book_code: str, number: int, *, mark_budget: int,
                      model: str, provider: str = 'gemini', tiered: bool = True,
                      delay: float = 0.0, per_call: int = 3,
@@ -625,36 +717,8 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
     the same validator as any other provider. A call with no answer yet is counted
     as pending, not refused.
     """
-    registry = book_registry()
-    book = registry.get(book_code)
-    if not book:
-        raise SystemExit(f"no book metadata for {book_code}")
-    subject = tb.bank_subject(book.get("subject"))
-    grade = int(book.get("class") or 0)
-    known = taxonomy_chapters().get(book_code, {}).get(number) or {}
-    also_chapter_ids: list[str] = []
-    if not known:
-        known, also_chapter_ids = tree_chapter_for(subject, grade, book_code, number)
-    # The topics stay what they were: a plan's calls are numbered, and an answer on disk belongs to
-    # the call with its number, so changing a chapter's topics would hand answers to the wrong prompts.
-    topics = topics_for(book_code, number)
-    # The chapter's own name, from the tree that named it. Never the first topic:
-    # a chapter named after its first topic gets an id that is in no tree, and
-    # every question generated for it lands under a chapter nothing resolves.
-    chapter_name = known.get("name") or f"Chapter {number}"
-    title = chapter_name
-
-    pdf = chapter_pdf(book_code, number)
-    if not pdf.is_file():
-        raise SystemExit(f"no chapter PDF at {pdf}")
-    chapter = cg.read_chapter(
-        pdf, book_code=book_code, subject=subject, grade=grade,
-        language=book.get("language") or "en", number=number, title=title)
-    chapter = prefer_ocr(chapter)
-    if not chapter.pages:
-        raise SystemExit(f"{pdf} extracted no text")
-
-    blueprint = bp.for_paper(subject, grade)
+    ctx = chapter_context(book_code, number)
+    subject, grade, topics, chapter, blueprint = ctx.subject, ctx.grade, ctx.topics, ctx.chapter, ctx.blueprint
     untopiced = not topics
     if untopiced:
         # No taxonomy tree for this chapter: set from the chapter as a whole,
@@ -677,13 +741,6 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
             if section.key in only_sections:
                 for i in range(items_per_section):
                     plan.append((section, topics[i % len(topics)] if topics else ""))
-    chapter_id = known.get("id") or tb.chapter_id(subject, grade, chapter_name)
-    if not known:
-        # No tree names this chapter, so the id is one nothing can resolve.
-        # Recorded on the record so the gap is visible in the bank rather than
-        # inferred later.
-        pass
-
     kept: list[dict] = []
     refused: list[dict] = []
     usage = {"neurons": 0.0, "usd": 0.0, "calls": 0, "cached": 0,
@@ -728,40 +785,55 @@ def generate_chapter(book_code: str, number: int, *, mark_budget: int,
         usage["prompt_tokens"] += int(spent.get("prompt_tokens") or 0.0)
         usage["completion_tokens"] += int(spent.get("completion_tokens") or 0.0)
 
-        for raw in parsed.get("questions") or []:
-            item = cg.parse_item(raw)
-            reason = cg.validate(item, section)
-            if not reason and bridge is not None:
-                reason = ungrounded(item, user, section)
-            if reason:
-                refused.append({"section": section.key, "qtype": section.qtype,
-                                "topic": topic, "reason": reason,
-                                "stem": (item.get("stem") or "")[:120]})
-                continue
-            # The id is built from this number. The model numbers a call's questions 1, 2, 3, so
-            # two calls for one section both produced "...:D:1", and the second was dropped as a
-            # duplicate id. Number them across the chapter's section instead.
-            item["option"] = number_from + by_section.get(section.key, 0) + 1
-            record = cg.to_record(
-                item, section, chapter, topic, chapter_id=chapter_id,
-                topic_id="", model=chosen, also_chapter_ids=tuple(also_chapter_ids))
-            if bridge is not None:
-                # It passed `ungrounded`: every quote is the chapter's own text. That is the
-                # definition of the checked tier `textbook_grounded` (qbank_engine), and the
-                # merge serves a model-written record only with this label and these quotes.
-                quotes = item.get("evidence")
-                quotes = [quotes] if isinstance(quotes, str) else list(quotes or [])
-                if chapter.language == "hi":
-                    quotes = [ho.repair_devanagari(q) if isinstance(q, str) else q for q in quotes]
-                scheme = record.setdefault("answerScheme", {})
-                scheme["provenance"] = "textbook_grounded"
-                scheme.setdefault("metadata", {})["evidence"] = [q for q in quotes if isinstance(q, str)]
-            kept.append(record)
-            by_section[section.key] = by_section.get(section.key, 0) + 1
+        take_answer(parsed, section, topic, user, ctx, model=chosen, grounded=bridge is not None,
+                    number_from=number_from, by_section=by_section, kept=kept, refused=refused)
 
     return kept, refused, {"usage": usage, "bySection": by_section, "pending": pending,
                            "topics": len(topics), "untopiced": untopiced,
                            "pages": len(chapter.page_numbers)}
+
+
+def ingest_saved(book_code: str, number: int, *, bridge: Path, model: str, number_from: int = 0
+                 ) -> tuple[list[dict], list[dict], dict]:
+    """Questions and refusals from exactly the prompts saved in `bridge` and their answers. No model
+    is called and no plan is rebuilt.
+
+    Re-planning a chapter to re-validate its answers (`--bridge` without `--from-saved`) pairs the
+    answer saved as `r###.json` with whatever call now has that number. The blueprint changed while
+    the class 9-10 batch ran (assertion-reason left Section A on 2026-10-04), so a re-planned chapter
+    could hand an answer to another section's prompt; `_ocwork/reingest_preAR.sh` had to patch the
+    blueprint back to avoid it. Here each answer is read with the prompt it answered: the section by
+    its key, the topic, and the text the model was given, which its quotes must come from."""
+    ctx = chapter_context(book_code, number)
+    sections = {section.key: section for section in ctx.blueprint.sections}
+    kept: list[dict] = []
+    refused: list[dict] = []
+    by_section: dict[str, int] = {}
+    pending = answered = 0
+    for prompt_file in sorted(bridge.glob("p[0-9][0-9][0-9].json")):
+        answer = bridge / f"r{prompt_file.stem[1:]}.json"
+        if not answer.is_file():
+            pending += 1
+            continue
+        prompt = json.loads(prompt_file.read_text(encoding="utf-8"))
+        section = sections.get(prompt.get("section"))
+        if section is None:
+            refused.append({"section": prompt.get("section"), "topic": prompt.get("topic") or "",
+                            "reason": "section-not-in-blueprint"})
+            continue
+        try:
+            parsed = json.loads(answer.read_text(encoding="utf-8"))
+        except ValueError:
+            parsed = {"questions": []}
+        answered += 1
+        take_answer(parsed if isinstance(parsed, dict) else {"questions": []}, section,
+                    prompt.get("topic") or "", prompt.get("user") or "", ctx, model=model or "opencode",
+                    grounded=True, number_from=number_from, by_section=by_section, kept=kept, refused=refused)
+    usage = {"neurons": 0.0, "usd": 0.0, "calls": answered, "cached": 0,
+             "prompt_tokens": 0, "completion_tokens": 0}
+    return kept, refused, {"usage": usage, "bySection": by_section, "pending": pending,
+                           "topics": len(ctx.topics), "untopiced": not ctx.topics,
+                           "pages": len(ctx.chapter.page_numbers)}
 
 
 def main() -> int:
@@ -791,6 +863,8 @@ def main() -> int:
                     help="questions asked for in one call")
     ap.add_argument("--suffix", default="",
                     help="names a second pass's prompt folder (e.g. -mcq), beside the first's")
+    ap.add_argument("--from-saved", action="store_true",
+                    help="with --bridge: re-validate exactly the saved prompts and answers (no model, no re-plan)")
     ap.add_argument("--bridge", type=Path, default=None,
                     help="folder of prompts (p###.json) and answers (r###.json) for a "
                          "model run elsewhere, e.g. an opencode session")
@@ -813,14 +887,21 @@ def main() -> int:
     records: list[dict] = []
     all_refusals: list[dict] = []
     totals = {"neurons": 0.0, "usd": 0.0, "calls": 0, "cached": 0}
+    if args.from_saved and args.bridge is None:
+        ap.error("--from-saved needs --bridge")
     for number in chapters:
-        kept, refused, meta = generate_chapter(
-            args.book, number, mark_budget=args.marks, model=args.model,
-            provider=args.provider, tiered=not args.no_tier, delay=args.delay,
-            per_call=args.per_call,
-            bridge=args.bridge and args.bridge / f"{args.book}-{number:02d}{args.suffix}",
-            only_sections=frozenset(x for x in args.only_sections.split(",") if x),
-            items_per_section=args.items_per_section, number_from=args.number_from)
+        if args.from_saved:
+            kept, refused, meta = ingest_saved(
+                args.book, number, bridge=args.bridge / f"{args.book}-{number:02d}{args.suffix}",
+                model=args.model, number_from=args.number_from)
+        else:
+            kept, refused, meta = generate_chapter(
+                args.book, number, mark_budget=args.marks, model=args.model,
+                provider=args.provider, tiered=not args.no_tier, delay=args.delay,
+                per_call=args.per_call,
+                bridge=args.bridge and args.bridge / f"{args.book}-{number:02d}{args.suffix}",
+                only_sections=frozenset(x for x in args.only_sections.split(",") if x),
+                items_per_section=args.items_per_section, number_from=args.number_from)
         records += kept
         all_refusals += refused
         totals["neurons"] += meta["usage"]["neurons"]

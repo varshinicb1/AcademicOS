@@ -1,0 +1,1157 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:01:A:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "The man went out for no other reason than to have the pleasure of feeling the rain on his body, and when he returned he exclaimed, ‘‘These aren’t raindrops falling from the sky, they are new coins. The big drops are ten cent pieces and the little ones are fives.’’\n\nAfter the first shower the farmer calls the raindrops new coins; what does this comparison tell you about him? (A) He is afraid that the storm will turn into a hailstorm (B) He is angry that the clouds gathered in the north-east (C) He is delighted, because he believes this rain will bring in a good harvest (D) He is grateful to the postmaster for the money sent to him",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He is delighted, because he believes this rain will bring in a good harvest",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“Now we’re really going to get some water, woman.”",
+            "raindrops falling from the sky, they are new coins.",
+            "With a satisfied expression he regarded the field"
+          ],
+          "objective": true,
+          "options": {
+            "A": "He is afraid that the storm will turn into a hailstorm",
+            "B": "He is angry that the clouds gathered in the north-east",
+            "C": "He is delighted, because he believes this rain will bring in a good harvest",
+            "D": "He is grateful to the postmaster for the money sent to him"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:01:B:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "Which pair of marks belongs in the two gaps in this sentence: ‘All morning Lencho ___ who knew his fields intimately ___ looked at the sky.’ (A) a colon and a semicolon (B) a pair of dashes (C) a pair of single quotation marks (D) a pair of square brackets",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "a pair of dashes",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "All morning Lencho — who knew his fields intimately — looked at the sky.",
+            "A non-defining relative clause usually has a comma in front of it and a comma after it",
+            "comma after it (some writers use a dash (—) instead, as in the story). If the"
+          ],
+          "objective": true,
+          "options": {
+            "A": "a colon and a semicolon",
+            "B": "a pair of dashes",
+            "C": "a pair of single quotation marks",
+            "D": "a pair of square brackets"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:01:B:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A writer leaves out a relative pronoun in this sentence: ‘The house — the only one in the entire valley — sat on the crest of a low hill.’ Which relative pronoun has been left out? (A) whom (B) whose (C) which (D) who",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "which",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In (a), the relative pronoun which and the verb was are not present.",
+            "The house — the only one in the entire valley — sat on the crest of a",
+            "a relative pronoun who. Other common relative pronouns are whom, whose,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "whom",
+            "B": "whose",
+            "C": "which",
+            "D": "who"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:01:B:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "In the sentence ‘The following Sunday, at daybreak, he began to write a letter which he himself would carry to town and place in the mail’, the verb form ‘would carry’ points to (A) something he did every Sunday as a regular habit (B) something he had already finished before he began to write (C) something he was sure he would never do (D) an action that was still to happen at a point in the past",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "an action that was still to happen at a point in the past",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The following Sunday, at daybreak, he began to write a letter which he himself would carry to town and place in the mail.",
+            "daybreak, he began to write a letter which he",
+            "himself would carry to town and place in the mail."
+          ],
+          "objective": true,
+          "options": {
+            "A": "something he did every Sunday as a regular habit",
+            "B": "something he had already finished before he began to write",
+            "C": "something he was sure he would never do",
+            "D": "an action that was still to happen at a point in the past"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:01:C:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "After a storm has destroyed a farmer's whole crop, people in the town collect money so that the family can eat. Write an article, in about 100 words, for your school magazine on how a community can help a family that has lost its harvest.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: describes the damage done - a storm destroys the whole cornfield and the family faces hunger.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: shows that help comes from several people together - the employees, the man himself and his friends.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: states that every contribution was made for an act of charity.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: an article with a suitable heading and clear paragraphing.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Language: clear, connected sentences with correct spelling and punctuation, within 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Helping Hands\nA single hailstorm can leave a farmer with nothing at all. In one valley a storm destroyed the whole cornfield, and the family said that they would all go hungry that year.\nHelp, however, came quickly. The head of the town post office decided to answer the farmer's letter. He asked his employees to contribute, gave part of his own salary and several friends of his gave something too. Every contribution was made for an act of charity.\nSmall sums collected together can change a family's fortunes. We should be ready to help our neighbours whenever a storm ruins their work.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "he asked for money from his employees, he himself gave",
+            "obliged to give something ‘for an act of charity’.",
+            "This year we will have no corn.’’"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:01:C:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Write a paragraph, in about 100 words, for a school geography reader explaining why storms have different names in different parts of the world and what a hailstorm is. Use at least four of these names: gale, whirlwind, cyclone, hurricane, tornado, typhoon.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: explains that a storm is bad weather with strong winds, rain, thunder and lightning.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: explains that different names are used in different parts of the world, depending on the nature of the storm.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: defines a hailstorm as a storm in which hailstones fall.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: uses at least four of the given names, each attached to the correct kind of storm.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Language: clear, connected sentences with correct spelling and punctuation, within 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Storms are bad weather with strong winds, rain, thunder and lightning, but they are not all alike. Different parts of the world use different names for storms, depending on their nature. A cyclone is a violent tropical storm in which strong winds move in a circle. A typhoon is a violent tropical storm with very strong winds, while a hurricane is such a storm in the western Atlantic Ocean. A gale is simply an extremely strong wind. A tornado, in the same way, has a cloud in the shape of a funnel at its centre. A storm in which hailstones fall is called a hailstorm.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "‘Hailstones’ are small balls of ice that fall like rain. A storm in which hailstones fall is a ‘hailstorm’.",
+            "There are different names in different parts of the world for storms, depending on their nature.",
+            "A violent tropical storm in which strong winds move in a circle:"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:01:E:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why did the postmaster decide to answer the letter that Lencho had addressed to God?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He did not want to shake Lencho's faith in God.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He was moved by the faith of a man who could write to God, so he answered the letter and signed it ‘God’.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He asked his employees for money, gave part of his own salary and friends gave for an act of charity.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He did not want to shake Lencho's faith in God. He was moved by the faith of a man who could write to God, so he answered the letter and signed it ‘God’. He asked his employees for money, gave part of his own salary and several friends gave something for an act of charity.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "So, in order not to shake the writer’s faith in God,",
+            "the postmaster came up with an idea: answer the",
+            "obliged to give something ‘for an act of charity’."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:01:E:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why did Lencho become angry when he counted the money that had come for him?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He had asked for a hundred pesos and only a little more than half reached him.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He believed God could neither make a mistake nor deny him what he had requested.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So he wrote again at once, asking for the rest of the money.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Lencho had asked for a hundred pesos, but the envelope held only a little more than half of it. He was sure that God could neither have made a mistake nor denied him what he had requested. So he went straight to the window for paper and ink and wrote a second letter asking for the rest.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "only a little more than half. He put the money in an",
+            "could not have made a mistake, nor could he have",
+            "denied Lencho what he had requested."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:01:E:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "What did Lencho tell his sons when the storm had passed, and what did his family say that night?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He said a plague of locusts would have left more than this.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He said the hail had left nothing and that there would be no corn this year.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "That night the family said all their work was for nothing and that nobody could help them.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "When the storm passed, Lencho stood in the middle of the field and told his sons that a plague of locusts would have left more than this, that the hail had left nothing, and that there would be no corn this year. That night the family said that all their work was for nothing and that no one could help them.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "have left more than this. The hail has left nothing.",
+            "“All our work, for nothing.”",
+            "We’ll all go hungry this year.”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:01:F:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "A farmer whose cornfield has been destroyed writes to God for a hundred pesos, and an envelope arrives signed with the single word ‘God’. In about 120 words, show in steps what he does when he counts the money, and why the ending of the story is ironic.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "He finds only a little more than half of the hundred pesos in the envelope.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He is not surprised that money has come; he is angry that it is too little.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He believes God can neither make a mistake nor deny him what he has requested.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He writes a second letter at once, asking for the rest of the money.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He asks that the rest not be sent through the mail and calls the post office employees a bunch of crooks.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The irony is that he is writing to the postmaster, who had signed as God and had been unable to gather the full sum.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. He opens the envelope and finds only a little more than half the hundred pesos he asked for.\n2. He is not surprised that money has come; he is angry that so little has come.\n3. He is sure God can neither have made a mistake nor refused his request.\n4. So he asks for paper and ink and writes a second letter at once.\n5. In it he asks God to send the rest, but not through the mail, calling the post office employees a bunch of crooks.\n6. The irony is that the man who thinks he writes to God is writing to the postmaster, and the money God has kept is the money the postmaster could not collect.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "hundred pesos, so he was able to send the farmer",
+            "only a little more than half. He put the money in an",
+            "the post office employees are a bunch of crooks. Lencho.”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:01:F:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "A shower of rain fills a farmer with joy and then a hailstone storm ruins his whole harvest. In about 120 words, show in steps how the writer brings about this change, and name the images he uses on the way.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "He watches the sky towards the north-east all morning, waiting for rain.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He calls the raindrops new coins, ten cent pieces and fives, and sees the field draped in a curtain of rain.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The writer marks the change with ‘But suddenly a strong wind began to blow’.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The hail beats down for an hour on the house, the garden, the hillside, the cornfield and the whole valley.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The field is white as if covered with salt, no leaf remains on the trees, and the corn is totally destroyed.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Lencho says that a plague of locusts would have left more than this.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. All morning Lencho watches the sky towards the north-east, for the earth needs a downpour or at least a shower.\n2. At mealtime big drops fall and huge mountains of clouds approach; the air is fresh and sweet.\n3. He calls the drops new coins, ten cent pieces and fives, and sees his field draped in a curtain of rain.\n4. Then the writer turns with ‘But suddenly a strong wind began to blow’, and very large hailstones fall.\n5. For an hour the hail beats on the house, the garden, the hillside, the cornfield and the whole valley.\n6. Afterwards the field is white as if covered with salt, no leaf remains, and the corn is destroyed.\n7. Lencho says a plague of locusts would have left more than this.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "had done nothing else but see the sky towards",
+            "rain. But suddenly a strong wind began to blow",
+            "The field was white, as if covered with salt."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:01:F:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "Compare the farmer's belief with the postmaster's behaviour. In about 120 words, show in steps what each of the two men believes and what each of them actually does.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "The farmer believes that God's eyes see everything, even what is deep in one's conscience.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He writes for a hundred pesos in order to sow his field again and to live until the crop comes.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He shows not the slightest surprise when the money comes, and blames God when it is short.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He makes no attempt to find out who has really sent the money.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The postmaster says he wishes he had the same faith as the man who wrote the letter.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He collects money from his employees, his own salary and his friends for an act of charity, sends less than half and signs ‘God’ to keep the farmer's faith unshaken.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. The farmer's belief is total: God's eyes see everything, even what is deep in one's conscience.\n2. He writes for a hundred pesos, to sow his field again and live until the crop comes.\n3. When the envelope comes he shows not the slightest surprise; when it is short he is sure God has made a mistake.\n4. He never tries to find out who has really sent the money.\n5. The postmaster has no such belief; he says he wishes he had the faith of the man who wrote the letter.\n6. Yet he acts on kindness, not faith: he asks his employees, gives part of his salary and takes help from friends ‘for an act of charity’, then sends less than half and signs ‘God’ so the farmer's faith is not shaken.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "had the faith of the man who wrote this letter.",
+            "asked for money from his employees, he himself gave",
+            "containing only a single word as a signature: God."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "In the passage the second speaker repeats the words ‘no one dies of hunger’ straight after the first; this shows that sh"
+    },
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "In the passage the postmaster answers the letter and then collects money from his employees, his own salary and his frie"
+    },
+    {
+      "section": "C",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:10",
+      "stem": "You want to send money to a relative living in another town and have heard that the post office is one of the cheapest w"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "In the extract the field is described as white, as if covered with salt; the writer uses this image to show"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "In the extract the writer notes the ‘much wrinkling of his brow’; this detail shows that the writer thought Lencho"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "In the extract the writer says that the anger came only after Lencho counted the money; this shows that he"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      1
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -1,0 +1,501 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:08:A:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "“In one month you will be able to read this book. Then I will give you\na bigger book, then a still bigger one. In time you will be more learned\nthan anyone else in the village. Then no one will ever be able to laugh at\nyou. People will listen to you with respect and you will be able to speak\nwithout the slightest stammer. Understand? Now go home, and come\nback early tomorrow morning.”\n\nWhich plan does the teacher in the extract lay out for a classmate who stammers and is too afraid to raise her voice in class? (A) That within one month she will be handed a bigger book in place of the one she has (B) That within one month she will be able to read the present book, and in time she will know more than anyone else in the village (C) That she will be taught to speak without a stammer before she is allowed to read anything at all (D) That the teacher will read the whole book aloud to her, one page at a time",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "That within one month she will be able to read the present book, and in time she will know more than anyone else in the village",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In one month you will be able to read this book. Then I will give you",
+            "In time you will be more learned",
+            "than anyone else in the village."
+          ],
+          "objective": true,
+          "options": {
+            "A": "That within one month she will be handed a bigger book in place of the one she has",
+            "B": "That within one month she will be able to read the present book, and in time she will know more than anyone else in the village",
+            "C": "That she will be taught to speak without a stammer before she is allowed to read anything at all",
+            "D": "That the teacher will read the whole book aloud to her, one page at a time"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:B:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "In a family discussion about a marriage proposal, which sentence correctly expresses the family’s fear for their daughter if they turn the proposal down? (A) If we will not accept the proposal, she remained unmarried all her life. (B) If we won’t accept the proposal, she may remain unmarried all her life. (C) If we didn’t accept the proposal, she may remain unmarried all her life. (D) If we don’t accept this proposal, she may remain unmarried all her life.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "If we don’t accept this proposal, she may remain unmarried all her life.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "and does not know about her pock-marks and her lack of sense. If we",
+            "don’t accept this proposal, she may remain unmarried all her life."
+          ],
+          "objective": true,
+          "options": {
+            "A": "If we will not accept the proposal, she remained unmarried all her life.",
+            "B": "If we won’t accept the proposal, she may remain unmarried all her life.",
+            "C": "If we didn’t accept the proposal, she may remain unmarried all her life.",
+            "D": "If we don’t accept this proposal, she may remain unmarried all her life."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:C:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school magazine is bringing out an issue on girls’ education — write a paragraph of about 100 words for it on why every girl should be sent to school.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: explains the gains of schooling for girls — learning to read and write, and then being spoken to with respect instead of being laughed at.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a single compact paragraph of about 100 words, written as a magazine feature, with no headings or numbered points.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the ideas run in a clear order — what a girl gains, then how a learned girl is treated, then a closing appeal to the reader.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, grammar and punctuation throughout, with no sentence left unfinished.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: simple, clear language in the student’s own words, using at least one relevant example from village daily life.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Girls who go to school learn to read and write, and that alone changes how a village treats them. The teacher promises a girl with a stammer that in one month she will be able to read the book, then a bigger one, and in time she will know more than anyone else in the village. Then no one will ever be able to laugh at her, and people will listen to her with respect. A patient teacher can even tell her that if she puts the fear out of her heart, she will speak like everyone else. No girl should be left in the dark.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In time you will be more learned",
+            "Put the fear out of your heart and you will be able to speak like",
+            "Then no one will ever be able to laugh at"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:D:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "And Sulekha said in a voice that was calm and steady, “Don’t you\nworry, Pitaji! In your old age I will serve you and Mother and I will teach\nin the same school where I learnt so much. Isn’t that right, Ma’am?”\n\nThe extract ends with the speaker putting a question to the teacher — what does that question reveal about her at that moment? (A) That she is still afraid to speak and cannot manage it without the teacher’s permission (B) That she blames her father for having arranged the marriage (C) That her confidence has returned and she expects the teacher to back her (D) That she has forgotten what happened at the school where she once learnt to read",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "That her confidence has returned and she expects the teacher to back her",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "And Sulekha said in a voice that was calm and steady",
+            "Isn’t that right, Ma’am?”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "That she is still afraid to speak and cannot manage it without the teacher’s permission",
+            "B": "That she blames her father for having arranged the marriage",
+            "C": "That her confidence has returned and she expects the teacher to back her",
+            "D": "That she has forgotten what happened at the school where she once learnt to read"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:E:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Which daughter does a parent pick when she decides to send only one to school, and what does she say about that daughter’s chances of marriage?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Names Bholi, the youngest of the seven children, as the daughter to be sent to school.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Says there is little chance of Bholi getting married, because of her ugly face and lack of sense.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Adds that, as it is, the teachers at school can be left to worry about her.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She chooses Bholi. Her reason is that there is little chance of Bholi getting married, with her ugly face and lack of sense, while for the elder daughters it is not difficult to find bridegrooms. And, as it is, she says, let the teachers at school worry about her.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Send Bholi to school.",
+            "is little chance of her getting married, with her ugly face and lack of",
+            "Let the teachers at school worry about her."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:F:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Trace in about 120 words, in clear steps, how a girl who was too afraid to say her own name on her first day at school ended up refusing a marriage proposal before the whole wedding party.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Step 1: at the start she was frightened and ignorant of school, and pulled her hand away from her father.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: the teacher addressed her softly by name, and treated her “Get up” as a friendly suggestion, not a command.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: the teacher asked her for her full name, praised her, and told her to put the fear out of her heart.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: she was promised the present book, then a bigger one, and in time knowledge that would earn her other people’s respect.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: the village grew into a small town and the little primary school became a high school, and she grew more learned with it.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 6: when Bishamber forced her father to pay five thousand rupees, she flung the garland into the fire, threw off the veil and spoke without a stammer to refuse the marriage.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. She was frightened: she did not know what a school was like and pulled her hand away from her father.\n2. The teacher called her gently by name, and “Get up” was not a command but a friendly suggestion.\n3. The teacher asked for her full name, praised her and told her to put the fear out of her heart.\n4. She was promised a bigger book after this one, and in time a place where people would listen to her with respect.\n5. The village became a small town and the little school became a high school, and she grew with it.\n6. At the wedding, when her father was forced to pay five thousand rupees, she flung the garland into the fire, threw off the veil and spoke without a stammer, refusing to marry that man.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Bholi was frightened. She did not",
+            "It was not a command, but just a friendly",
+            "No. Five thousand, or we go back. Keep your daughter."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      8
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

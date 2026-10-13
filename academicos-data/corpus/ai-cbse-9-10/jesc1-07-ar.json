@@ -1,0 +1,225 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:07:AR:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/how-do-organisms-reproduce"
+      ],
+      "taxonomyChapterId": "science-10/how-do-organisms-reproduce",
+      "topic": "Do Organisms Create Exact Copies of Themselves?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion: When gametes from two different plants fuse during sexual reproduction, the new plant that forms carries the number of chromosomes and the DNA content of a single plant rather than twice that amount, because the cells that give rise to the gametes hold only half the number of chromosomes and half the amount of DNA found in the non-reproductive body cells.\n2. Reason: This halving of the chromosomes and the DNA in those cells is brought about by a process of cell division called meiosis.\nChoose the correct option: (A) Both 1 and 2 are true and 2 is the correct explanation for 1 (B) Both 1 and 2 are true but 2 is not the correct explanation for 1 (C) 1 is true but 2 is false (D) Both 1 and 2 are false",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both 1 and 2 are true and 2 is the correct explanation for 1",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "One solution that many multi-cellular\norganisms have found for the problem mentioned above is to have special\nlineages of cells in specialised organs in which only half the number of\nchromosomes and half the amount of DNA as compared to the non-\nreproductive body cells.",
+            "This is achieved by a process of cell division\ncalled meiosis. Thus, when these germ-cells from two individuals combine\nduring sexual reproduction to form a new individual, it results in re-\nestablishment of the number of chromosomes and the DNA content in\nthe new generation."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both 1 and 2 are true and 2 is the correct explanation for 1",
+            "B": "Both 1 and 2 are true but 2 is not the correct explanation for 1",
+            "C": "1 is true but 2 is false",
+            "D": "Both 1 and 2 are false"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch7",
+        "pages": [
+          1,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:07:AR:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/how-do-organisms-reproduce"
+      ],
+      "taxonomyChapterId": "science-10/how-do-organisms-reproduce",
+      "topic": "Do Organisms Create Exact Copies of Themselves?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion: A flower of Hibiscus is described as bisexual, since it contains both stamens and pistil.\n2. Reason: The petals and sepals are the parts of a flower that contain the germ-cells, and the number of these parts is what decides whether a flower is unisexual or bisexual.\nChoose the correct option: (A) Both 1 and 2 are true and 2 is the correct explanation for 1 (B) Both 1 and 2 are true but 2 is not the correct explanation for 1 (C) 1 is true but 2 is false (D) Both 1 and 2 are false",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1 is true but 2 is false",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The flower may be unisexual (papaya,\nwatermelon) when it contains either stamens\nor pistil or bisexual (Hibiscus, mustard)\nwhen it contains both stamens and pistil.",
+            "Stamens and pistil are\nthe reproductive parts of a flower which\ncontain the germ-cells."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both 1 and 2 are true and 2 is the correct explanation for 1",
+            "B": "Both 1 and 2 are true but 2 is not the correct explanation for 1",
+            "C": "1 is true but 2 is false",
+            "D": "Both 1 and 2 are false"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch7",
+        "pages": [
+          1,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:07:AR:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/how-do-organisms-reproduce"
+      ],
+      "taxonomyChapterId": "science-10/how-do-organisms-reproduce",
+      "topic": "Do Organisms Create Exact Copies of Themselves?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion: A farmer who wants seedlings whose cells carry twice the DNA amount of the parent plant should collect the seeds formed by self-pollination, since self-pollination doubles the DNA of the offspring.\n2. Reason: Self-pollination is the transfer of pollen from one flower to another, carried out by agents such as wind, water or animals.\nChoose the correct option: (A) Both 1 and 2 are true and 2 is the correct explanation for 1 (B) Both 1 and 2 are true but 2 is not the correct explanation for 1 (C) 1 is true but 2 is false (D) Both 1 and 2 are false",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both 1 and 2 are false",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "If each new generation is to be the\ncombination of the DNA copies from two pre-existing individuals, then\neach new generation will end up having twice the amount of DNA that\nthe previous generation had.",
+            "If this transfer of pollen occurs in the same flower, it is\nreferred to as self-pollination. On the other hand, if the pollen is\ntransferred from one flower to another, it is known as cross-\npollination."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both 1 and 2 are true and 2 is the correct explanation for 1",
+            "B": "Both 1 and 2 are true but 2 is not the correct explanation for 1",
+            "C": "1 is true but 2 is false",
+            "D": "Both 1 and 2 are false"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch7",
+        "pages": [
+          1,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      7
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

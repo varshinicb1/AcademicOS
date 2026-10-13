@@ -1,0 +1,482 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:05:B:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "While labelling a jar of tea leaves for a school exhibition, a student must begin the label with the line Tea __________ in China; which verb form completes the line correctly? (A) has first drank (B) were first drunk (C) is first drinking (D) was first drunk",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "was first drunk",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“Tea was first drunk in China,” Rajvir added,",
+            "Europe only in the sixteenth century and was drunk\nmore as medicine than as beverage."
+          ],
+          "objective": true,
+          "options": {
+            "A": "has first drank",
+            "B": "were first drunk",
+            "C": "is first drinking",
+            "D": "was first drunk"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:05:C:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a letter (100 words) to your friend Rohan, who lives in another city, describing how a traditional village baker in Goa worked and why the baker mattered to village life.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Format: opens with a greeting, stays within about 100 words and closes with a suitable sign-off (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: says the baker comes at least twice a day, once setting out in the morning on his selling round and again after emptying his huge basket (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: gives two examples of the occasions that need his bread — a party or a feast, and marriage gifts that are meaningless without the sweet bread known as bol (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: names cakes and bolinhas as a must for Christmas and other festivals, and the sandwiches the lady of the house prepares for a daughter’s engagement (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation and expression: presents the details in a clear order and uses correct names and simple, accurate sentences (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dear Rohan,\nIn Goa the village baker comes at least twice a day. Once he sets out in the morning on his selling round, carrying a huge basket on his head and tapping his bamboo so that everyone knows he is there; then he returns after emptying the basket. Every house needs him, because a party or a feast loses its charm without bread. Marriage gifts are meaningless without the sweet bread known as bol, cakes and bolinhas are a must for Christmas and other festivals, and the lady of the house must prepare sandwiches for her daughter’s engagement.\nYours sincerely,\nAarav",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "come at least twice a day. Once, when he set out in\nthe morning on his selling round, and then again,\nwhen he returned after emptying his huge basket.",
+            "Marriage gifts are meaningless without the sweet\nbread known as the bol, just as a party or a feast\nloses its charm without bread.",
+            "sandwiches on the occasion of her daughter’s\nengagement. Cakes and bolinhas are a must for\nChristmas as well as other festivals."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:05:D:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "Not enough can be said to show how important a baker can be for a village. The lady of the house must prepare sandwiches on the occasion of her daughter’s engagement. Cakes and bolinhas are a must for Christmas as well as other festivals. Thus, the presence of the baker’s furnace in the village is absolutely essential.\n\nRohan wants to know why the baker’s furnace is called absolutely essential; what reason does the extract give? (A) Because the ladies of the village would rather bake their own bread at home (B) Because bread marks the family’s celebrations, so the baker is central to village life (C) Because bread is eaten only at Christmas and at a daughter’s engagement (D) Because a party or a feast can be served without bread, but a marriage cannot",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Because bread marks the family’s celebrations, so the baker is central to village life",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "loses its charm without bread. Not enough can be\nsaid to show how important a baker can be for a\nvillage.",
+            "sandwiches on the occasion of her daughter’s\nengagement. Cakes and bolinhas are a must for\nChristmas as well as other festivals.",
+            "presence of the baker’s furnace in the village is\nabsolutely essential."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Because the ladies of the village would rather bake their own bread at home",
+            "B": "Because bread marks the family’s celebrations, so the baker is central to village life",
+            "C": "Because bread is eaten only at Christmas and at a daughter’s engagement",
+            "D": "Because a party or a feast can be served without bread, but a marriage cannot"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:05:E:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Every morning the jingling thud of the baker’s bamboo woke the children and they ran to meet him; the loaves were bought by the maid-servant of the house, so what were the children really waiting for?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that the loaves were bought for the house by the maid-servant (the Paskine or Bastine), not by the children themselves (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Names the bread-bangles, which the children chose carefully, as what they really longed for (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Adds that it was sometimes sweet bread of special make, and that the writer can still recall the typical fragrance of those loaves (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "They were not waiting for the loaves, which the maid-servant of the house bought. What they longed for were the bread-bangles, which they chose carefully. Sometimes it was sweet bread of special make, and the typical fragrance of those loaves is what the writer can still recall.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "loaves were bought by some Paskine or Bastine,",
+            "the maid-servant of the house! What we longed for\nwere those bread-bangles which we chose carefully.",
+            "Sometimes it was sweet bread of special make."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:05:F:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/glimpses-of-india"
+      ],
+      "taxonomyChapterId": "english-10/glimpses-of-india",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A reader is told that the presence of the baker’s furnace in the village is absolutely essential; set out in steps why the baker mattered so much to village life, naming the occasions that needed his bread.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Step 1: states that the baker came at least twice a day, on a selling round in the morning and again after emptying his huge basket, so every house was served (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: notes that a party or a feast loses its charm without bread (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: states that marriage gifts are meaningless without the sweet bread known as bol (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: gives the sandwiches the lady of the house must prepare for her daughter’s engagement (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: names cakes and bolinhas as a must for Christmas as well as other festivals (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 6: concludes that because bread marks meals, celebrations and festivals, the baker’s furnace is essential to the village (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 — Daily supply: the baker came at least twice a day, once setting out in the morning on his selling round and again after emptying his huge basket, so every household was served.\nStep 2 — Parties and feasts: a party or a feast loses its charm without bread.\nStep 3 — Marriage: marriage gifts are meaningless without the sweet bread known as the bol.\nStep 4 — Family occasions: the lady of the house must prepare sandwiches for her daughter’s engagement.\nStep 5 — Festivals: cakes and bolinhas are a must for Christmas as well as other festivals.\nStep 6 — Conclusion: bread marks the meals, the celebrations and the festivals of the village, so the presence of the baker’s furnace in it is essential.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "come at least twice a day. Once, when he set out in\nthe morning on his selling round, and then again,\nwhen he returned after emptying his huge basket.",
+            "loses its charm without bread. Not enough can be\nsaid to show how important a baker can be for a\nvillage.",
+            "presence of the baker’s furnace in the village is\nabsolutely essential."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "passage-not-in-text",
+      "stem": "Rohan plans a holiday and reads the passage first; what kind of place does it show the district to be?"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      5
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

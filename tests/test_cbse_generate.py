@@ -1307,3 +1307,58 @@ def test_a_topic_named_like_the_chapter_is_not_kept_as_a_label():
     assert other["topic"] == "Animal Tissues"
     assert cg.to_record(_good_mcq(), _mcq_section(), chapter, "", chapter_id="c", topic_id="",
                         model="m")["topic"] == ""
+
+
+# --------------------------------------------------------------------------- #
+# re-validating saved answers (gen_cbse_chapter.py --from-saved)
+# --------------------------------------------------------------------------- #
+SAVED_TEXT = ("Meera buys 4 apples at Rs 15 each.\n"
+              "She pays Rs 60 in all, not Rs 45, Rs 50 or Rs 75.\n")
+
+
+def _saved_bridge(tmp_path: Path) -> Path:
+    """A chapter's prompt folder as an opencode session leaves it."""
+    folder = tmp_path / "fegp1-01-mcq"
+    folder.mkdir()
+
+    def call(index: int, section: str, answer: dict | None) -> None:
+        (folder / f"p{index:03d}.json").write_text(json.dumps(
+            {"index": index, "section": section, "topic": "Money", "system": "s", "schema": {},
+             "user": SAVED_TEXT}), encoding="utf-8")
+        if answer is not None:
+            (folder / f"r{index:03d}.json").write_text(json.dumps(answer), encoding="utf-8")
+
+    # A section the blueprint no longer has (assertion-reason left Section A on 2026-10-04).
+    call(1, "AR", {"questions": [_good_mcq()]})
+    # Section A, answered: one question quotes the text the model was given, one does not.
+    call(2, "A", {"questions": [_good_mcq(evidence=["Meera buys 4 apples at Rs 15 each."]),
+                                _good_mcq(evidence=["Meera buys apples every week."])]})
+    # Asked, never answered.
+    call(3, "A", None)
+    return folder
+
+
+def test_saved_answers_are_read_with_the_prompt_they_answered(tmp_path, monkeypatch):
+    """Re-planning a chapter to re-validate it paired `r###.json` with whatever call now had
+    that number; after the blueprint changed mid-batch that dropped or misfiled answers (re-ingested
+    on 2026-10-14, jess4-01 went from 1 question to 13 and iest1-04-ar from 0 to 3). Each answer
+    is now read with its own prompt's section, topic and text."""
+    from types import SimpleNamespace
+    mod = _gen_script("gen_chapter_saved")
+    # The chapter's text today is not the text the model was given: the quotes must come from the
+    # latter, the prompt saved beside the answer.
+    chapter = cg.Chapter(book_code="fegp1", subject="Mathematics", grade=6, language="en", number=1,
+                         title="Money", pages=((1, "A different extraction of the chapter."),))
+    ctx = mod.ChapterContext(subject="Mathematics", grade=6, topics=["Money"], chapter=chapter,
+                             chapter_id="mathematics-6/money", also_chapter_ids=(),
+                             blueprint=SimpleNamespace(sections=(_mcq_section(),)))
+    monkeypatch.setattr(mod, "chapter_context", lambda book, number: ctx)
+
+    kept, refused, meta = mod.ingest_saved("fegp1", 1, bridge=_saved_bridge(tmp_path), model="m",
+                                           number_from=100)
+    assert len(kept) == 1
+    record = kept[0]
+    assert record["answerScheme"]["provenance"] == "textbook_grounded"
+    assert record["answerScheme"]["metadata"]["evidence"] == ["Meera buys 4 apples at Rs 15 each."]
+    assert sorted(r["reason"] for r in refused) == ["evidence-not-in-text", "section-not-in-blueprint"]
+    assert meta["pending"] == 1 and meta["usage"]["calls"] == 1 and meta["bySection"] == {"A": 1}

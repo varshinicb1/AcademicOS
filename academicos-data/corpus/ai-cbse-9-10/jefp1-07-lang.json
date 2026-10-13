@@ -1,0 +1,1384 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:07:A:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "The day of the ball arrived. Mme Loisel was a great success. She was the prettiest of all — elegant, gracious, smiling and full of joy. All the men noticed her, asked her name, and wanted to be presented. She danced with enthusiasm, intoxicated with pleasure, thinking of nothing but all this admiration, this victory so complete and sweet to her heart.\n\nWhich option best explains why Matilda felt that the evening had been a complete victory for her? (A) All the men at the ball had noticed her and wanted to be presented to her. (B) Her husband had told her that everybody wished for an invitation like it. (C) She had spent the whole evening thinking of the four hundred francs her husband had saved. (D) Mme Forestier had been present at the ball to admire the necklace she had lent.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "All the men at the ball had noticed her and wanted to be presented to her.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "All the men noticed her, asked her name, and wanted to be presented.",
+            "She danced with enthusiasm, intoxicated with pleasure, thinking of nothing but all this admiration, this victory so complete and sweet to her heart."
+          ],
+          "objective": true,
+          "options": {
+            "A": "All the men at the ball had noticed her and wanted to be presented to her.",
+            "B": "Her husband had told her that everybody wished for an invitation like it.",
+            "C": "She had spent the whole evening thinking of the four hundred francs her husband had saved.",
+            "D": "Mme Forestier had been present at the ball to admire the necklace she had lent."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:A:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "He turned a little pale, for he had saved just this sum to buy a gun that he might be able to join some hunting parties the next summer, with some friends who went to shoot larks on Sunday. Nevertheless, he answered, “Very well. I will give you four hundred francs. But try to have a pretty dress.”\n\nWhich option best explains why M. Loisel turned pale when his wife named the price of a dress? (A) He had saved the money to buy his wife a present she could wear at the theatre. (B) He had saved the money to pay off what he already owed to the money-lenders. (C) He had saved the money so that the family could move into rooms in an attic. (D) He had saved the money to buy a gun so as to join some hunting parties the next summer.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He had saved the money to buy a gun so as to join some hunting parties the next summer.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He turned a little pale, for he had saved just this sum to buy a gun",
+            "that he might be able to join some hunting parties the next summer, with some friends who went to shoot larks on Sunday."
+          ],
+          "objective": true,
+          "options": {
+            "A": "He had saved the money to buy his wife a present she could wear at the theatre.",
+            "B": "He had saved the money to pay off what he already owed to the money-lenders.",
+            "C": "He had saved the money so that the family could move into rooms in an attic.",
+            "D": "He had saved the money to buy a gun so as to join some hunting parties the next summer."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:A:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "Mme Forestier stopped short. She said, “You say that you bought a diamond necklace to replace mine?” “Yes. You did not perceive it then? They were just alike.” And she smiled with proud and simple joy. Mme Forestier was touched and took both her hands as she replied, “Oh! My poor Matilda! Mine were false. They were not worth over five hundred francs!”\n\nWhich option best explains the last remark made by Mme Forestier in the passage? (A) She is accusing Matilda of having quietly kept her own necklace. (B) She is admitting that her necklace was false, so the price paid for it was far too high. (C) She is thanking Matilda for handing back a necklace that looked exactly like it. (D) She is regretting that she allowed Matilda to borrow her jewels for a whole evening.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She is admitting that her necklace was false, so the price paid for it was far too high.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Mine were false. They were not worth over five hundred francs!",
+            "And she smiled with proud and simple joy."
+          ],
+          "objective": true,
+          "options": {
+            "A": "She is accusing Matilda of having quietly kept her own necklace.",
+            "B": "She is admitting that her necklace was false, so the price paid for it was far too high.",
+            "C": "She is thanking Matilda for handing back a necklace that looked exactly like it.",
+            "D": "She is regretting that she allowed Matilda to borrow her jewels for a whole evening."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:B:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the correct verb form: He turned a little pale, for he ___ just this sum to buy a gun that he might be able to join some hunting parties. (A) has saved (B) have saved (C) was saving (D) had saved",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "had saved",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He turned a little pale, for he had saved just this sum to buy a gun"
+          ],
+          "objective": true,
+          "options": {
+            "A": "has saved",
+            "B": "have saved",
+            "C": "was saving",
+            "D": "had saved"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:B:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the correct article: Suddenly she discovered, in a black satin box, ___ superb necklace of diamonds. (A) an (B) a (C) the (D) no article",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "a",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Suddenly she discovered, in a black satin box, a superb necklace of diamonds."
+          ],
+          "objective": true,
+          "options": {
+            "A": "an",
+            "B": "a",
+            "C": "the",
+            "D": "no article"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:C:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your friend has a dress ready for a party but nothing to wear round her neck, and a rich friend has offered to lend her jewels for the evening. Write a letter of advice to your friend in about 100 words, saying what you would suggest she do.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: advises the friend to accept the loan of jewels and gives a clear reason for doing so.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: sets out practical precautions such as counting the jewels, noting the clasp, keeping the necklace on and checking it in the carriage.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: opens with a greeting and closes with a polite sign-off, as a letter must.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the ideas run in order, from the advice to the two precautions, then a warning and a closing instruction.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling and punctuation, with a clear direct style in about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dear Friend,\nDo accept the loan, and make two promises before you go. First, count the stones and note every detail of the clasp, so you can describe the necklace exactly if it is ever lost. Second, keep it on your neck the whole evening and check it in the carriage before you reach home. I know a woman who borrowed a necklace, lost it, and spent ten years washing floors to pay for a debt. Enjoy your evening, but do not let one happy night turn into ten hard years. Tell your family the moment you are home.\nYours sincerely,\nYour classmate",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I am vexed not to have a jewel, nothing to adorn myself with.",
+            "Go and find your friend Mme Forestier and ask her to lend you her jewels."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:C:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "After a borrowed necklace of diamonds is lost on the way home from a party, the man who lost it decides to publish an advertisement in a Paris newspaper. Write that advertisement in about 100 words. Begin with a suitable heading and end with a clear line telling a finder what to do.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: states clearly what was lost and gives the place and the night on which it was lost.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: explains how the necklace can be recognised and what has already been done in the search for it.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: begins with a heading in capitals and reads as a newspaper advertisement.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the notice moves from the loss, to the search already made, to what a finder must do.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling and punctuation, with a formal public tone in about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "LOST: A SUPERB NECKLACE OF DIAMONDS\nBetween the Minister's residence and our own door, on the night of the ball, a superb necklace of diamonds was lost. It had been lent to us by a dear friend, and its loss has ruined a family that cannot afford to replace it. We have already searched the whole track we walked on foot, and the police and the cab offices know nothing. The necklace may be recognised at once by anyone who saw it worn at the ball. Whoever finds it is asked to bring it to the police or to return it to M. Loisel, and a reward will be paid without fail for its return.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He went to the police and to the cab offices, and put an advertisement in the newspapers, offering a reward.",
+            "Suddenly she discovered, in a black satin box, a superb necklace of diamonds."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:C:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a paragraph of about 100 words on what you have learnt from the life of a woman who borrowed jewels for one evening and then had to pay for them for ten years, and say what you would do if you ever lost something that did not belong to you.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: states the central moral, that one evening of pleasure can ruin many years of a family's life.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: gives the sequence of events, namely the borrowed necklace, the loss in the cab, the lie about a clasp and the ten years of payment.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a single continuous paragraph of about 100 words, with no headings, numbering or letter layout.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the ideas are linked in cause-and-effect order and end with the writer's own decision.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling and punctuation, with simple connected sentences.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "One evening of pleasure can cost a lifetime of labour. The woman I have in mind borrowed a necklace, danced the whole night in it, and lost it in the cab on the way home. Because she told a lie about a broken clasp, she had to buy another that looked exactly the same, and the debt took ten years to clear. In those years she gave up her maid, moved into an attic and washed dishes, while her husband copied books at night. Honesty is cheaper than pride: if I lost something that was not mine, I would tell the owner at once.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It was necessary to pay this frightful debt. She would pay it.",
+            "And this life lasted for ten years. At the end of ten years, they had restored all."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:D:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "He threw around her shoulders the modest wraps they had carried whose poverty clashed with the elegance of the ball costume. She wished to hurry away in order not to be noticed by the other women who were wrapping themselves in rich furs.\n\nWhich option best explains the writer's contrast between the modest wraps and the rich furs in this extract? (A) The cab driver had lent the family expensive furs for the journey home. (B) The family's poverty was still showing beside the wealth of the other women. (C) The other women leaving the ball had been wearing exactly the same wraps. (D) The family had spent a great deal of money on the wraps before the ball.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The family's poverty was still showing beside the wealth of the other women.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He threw around her shoulders the modest wraps they had carried whose poverty clashed with the elegance of the ball costume.",
+            "She wished to hurry away in order not to be noticed by the other women who were wrapping themselves in rich furs."
+          ],
+          "objective": true,
+          "options": {
+            "A": "The cab driver had lent the family expensive furs for the journey home.",
+            "B": "The family's poverty was still showing beside the wealth of the other women.",
+            "C": "The other women leaving the ball had been wearing exactly the same wraps.",
+            "D": "The family had spent a great deal of money on the wraps before the ball."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:D:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "And she responded, “I am vexed not to have a jewel, nothing to adorn myself with. I shall have such a poverty-stricken look. I would prefer not to go to this party.”\n\nIn this extract Matilda says she would prefer not to go to the party; what does this show about her? (A) She is afraid that her husband will refuse to pay for a jewel. (B) She believes a borrowed jewel would cost less than a new dress. (C) She would rather stay at home than be seen looking shabby among rich women. (D) She has already decided to ask Mme Forestier for her jewels.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She would rather stay at home than be seen looking shabby among rich women.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I am vexed not to have a jewel, nothing to adorn myself with. I shall have such a poverty-stricken look.",
+            "I would prefer not to go to this party."
+          ],
+          "objective": true,
+          "options": {
+            "A": "She is afraid that her husband will refuse to pay for a jewel.",
+            "B": "She believes a borrowed jewel would cost less than a new dress.",
+            "C": "She would rather stay at home than be seen looking shabby among rich women.",
+            "D": "She has already decided to ask Mme Forestier for her jewels."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:D:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "They sent away the maid, they changed their lodgings; they rented some rooms in an attic. She learned the odious work of a kitchen. She washed the dishes. She washed the soiled linen, their clothes and dishcloths, which she hung on the line to dry\n\nWhich option best describes the change in this household that the extract records? (A) They moved to a smaller home and took on the housework themselves. (B) They bought a larger apartment and hired an extra servant. (C) They sold their furniture and went to live with their friends. (D) They gave their maid a cottage of her own in the country.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "They moved to a smaller home and took on the housework themselves.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "They sent away the maid, they changed their lodgings; they rented some rooms in an attic.",
+            "She learned the odious work of a kitchen. She washed the dishes."
+          ],
+          "objective": true,
+          "options": {
+            "A": "They moved to a smaller home and took on the housework themselves.",
+            "B": "They bought a larger apartment and hired an extra servant.",
+            "C": "They sold their furniture and went to live with their friends.",
+            "D": "They gave their maid a cottage of her own in the country."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:E:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Matilda Loisel is unhappy all her life, long before any crisis comes. Give the reasons for this unhappiness that her early life supplies.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She was born into a family of clerks and had no dowry, so she could not hope to marry a rich or distinguished man.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She married only a petty clerk in the office of the Board of Education, so her life stayed poor.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She felt she was born for delicacies and luxuries but lived in a poor apartment with shabby walls and worn chairs, and had neither frocks nor jewels.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She was born into a family of clerks, so she had no dowry and no hopes of marrying a rich or distinguished man, and she married only a petty clerk. She felt she was born for delicacies and luxuries, yet her apartment had shabby walls and worn chairs, and she had neither frocks nor jewels.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "into a family of clerks. She had no dowry, no hopes,",
+            "She suffered from the poverty of her apartment, the shabby walls and the worn chairs."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:E:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "When the necklace could not be found anywhere, M. Loisel told his wife to write to her friend about a broken clasp. Why did the couple choose that step instead of telling the truth at once?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "All attempts to recover the necklace failed, namely the track on foot, the police, the cab offices and the advertised reward.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Buying an identical necklace would take a very long time to pay for.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The broken-clasp story was a false claim meant to gain time before the jewels were returned to the friend.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Every effort to find the necklace failed. M. Loisel walked back over the track they had gone on foot, went to the police and the cab offices, and advertised a reward in the newspapers. An identical necklace would take a long time to pay for, so the story of the broken clasp was meant to gain time before the jewels had to be returned.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He went to the police and to the cab offices, and put an advertisement in the newspapers, offering a reward.",
+            "Write to your friend that you have broken the clasp of the necklace and that you will have it repaired. That will give us time."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:E:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "At the end of the story a friend learns that the necklace she had lent was false. Why does Matilda smile with proud and simple joy when she hears this?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The debt of ten years has been paid off in full, so Matilda has kept her word and is not a thief.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She has honestly returned a necklace that was exactly like the one she borrowed.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Her smile comes from the irony that the friend admits her own jewels were false and not worth over five hundred francs.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The debt of ten years has already been paid, so Matilda is no thief; she has honestly returned a necklace exactly like the one she borrowed. What makes her smile is the irony: her friend has to admit that her own jewels were false and were not worth over five hundred francs.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "And she smiled with proud and simple joy.",
+            "Mine were false. They were not worth over five hundred francs!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:F:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Trace, step by step, how the loss of the borrowed necklace changed the life of the household, and say what their life was like before it was lost.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Before the loss they were poor but not in debt: he was a clerk at the Board of Education and she only suffered from the want of frocks and jewels.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She borrowed a diamond necklace from Mme Forestier and was the prettiest of all at the ball.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The necklace was lost in the cab; the dress, cloak and pockets were searched and the track on foot was walked over again.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "M. Loisel went to the police and the cab offices and advertised a reward in the newspapers, but found nothing.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "An identical necklace was bought for thirty-six thousand francs, the rest being borrowed from money-lenders.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They sent away the maid, took rooms in an attic, did the kitchen work themselves and lived like this for ten years, until the debt was cleared.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Before the loss they were poor but not in debt: M. Loisel was a clerk at the Board of Education, and his wife suffered only from the want of frocks and jewels.\n2. She borrowed a diamond necklace from Mme Forestier and was the prettiest of all at the ball.\n3. In the cab home the necklace was lost; the dress, cloak and pockets were searched.\n4. M. Loisel walked back over the track they had gone on foot, went to the police and the cab offices, and advertised a reward.\n5. Nothing was found, so they bought an identical necklace for thirty-six thousand francs, borrowing the rest from money-lenders.\n6. They sent away the maid, took rooms in an attic and did the kitchen work themselves for ten years, until the debt was cleared.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He went to the police and to the cab offices, and put an advertisement in the newspapers, offering a reward.",
+            "They sent away the maid, they changed their lodgings; they rented some rooms in an attic.",
+            "And this life lasted for ten years. At the end of ten years, they had restored all."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:F:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "In the last few lines a friend tells the heroine that the necklace she lent was false. Why does this come as a shock to the reader, and what does it suggest about the ten years the family spent paying for it?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "The replacement necklace was valued at forty thousand francs and bought for thirty-six thousand.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The family paid by sending away the maid, moving to an attic, doing the kitchen work, and the husband copying at five sous a page.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The friend then admits that her own necklace was false and not worth over five hundred francs.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A fortune was therefore spent on an imitation of a worthless jewel, which is the source of the reader's shock.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It shows how one evening's desire to appear rich can be carried to ruin.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It throws doubt on the wife's claim that all her misery was caused by her friend, for the fault lay in her own pride.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. The reader has already been shown the price: the replacement necklace was valued at forty thousand francs and bought for thirty-six thousand.\n2. To pay it the family gave up its maid, moved into an attic, did the kitchen work, and had the husband copy pages at five sous by night.\n3. Then the friend admits that her own necklace was false and not worth over five hundred francs.\n4. So the whole sacrifice rests on costume jewellery, and the sum paid was many times its real value.\n5. The shock shows how far one evening's wish to appear rich can be carried.\n6. It also casts doubt on the wife's claim that all her misery was caused by her friend, for the fault lay in her own pride.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It was valued at forty thousand francs. They could get it for thirty-six thousand.",
+            "Mine were false. They were not worth over five hundred francs!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:F:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Both M. Loisel and Mme Loisel are changed by what happens. Show, step by step, how each of them changes, and say which of the two changes more.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "She begins as a simple, unhappy young woman who dreams only of frocks and jewels.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "At the ball she is the prettiest of all and thinks of nothing but admiration.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "After the loss she sends away the maid, moves to an attic, washes dishes, carries refuse to the street and haggles to the last sou.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "After ten years she has become a strong, hard woman, with red hands, a loud voice and her hair badly dressed.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He begins as a loving husband who gives her the four hundred francs saved for his gun, and later borrows from money-lenders and copies at five sous a page.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She changes more than he does, because her looks, her manner and her daily work are all altered by the debt.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Mme Loisel begins as a simple, unhappy young woman who only dreams of frocks and jewels.\n2. At the ball she is the prettiest of all, dancing while she thinks of nothing but admiration.\n3. After the loss she sends away the maid, takes rooms in an attic, learns kitchen work, carries the refuse to the street and haggles to the last sou.\n4. Ten years later she is a strong, hard woman, with red hands, a loud voice and her hair badly dressed.\n5. M. Loisel begins as a loving husband who gives her the four hundred francs he had saved for his gun.\n6. He borrows from money-lenders, works evenings putting books in order and copies at five sous a page; she changes more than he does.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Mme Loisel seemed old now. She had become a strong, hard woman,",
+            "He turned a little pale, for he had saved just this sum to buy a gun"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "B",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-names-the-text",
+      "stem": "Choose the modal that completes the sentence: I cannot tell exactly, but it seems to me that four hundred francs ___ cov"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      7
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

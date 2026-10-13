@@ -1,0 +1,249 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iest1:07:AR:101",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "Why do Elections Matter?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A Class 9 student is preparing a chart for a school exhibition on how people in India get chosen for public office. The student writes down two statements and asks a teacher to check them.\n\n1. Assertion (A): Members of the Lok Sabha at the central level, members of the Vidhan Sabha (Legislative Assembly) at the state level, and members of local bodies such as Panchayats and municipal corporations are all elected through direct elections every five years.\n2. Reason (R): The Vice President and the members of the Rajya Sabha, like the President, are also elected through direct elections every five years.\n\nChoose the correct option:",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The assertion is true but the reason is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "either direct or indirect elections. In India, members of the Lok\nvote directly to\nSabha at the central level, members of the Vidhan Sabha (Legislative",
+            "Panchayats, municipal corporations, etc.) are elected through direct",
+            "elections every five years. In contrast, the President, Vice President,\nand members of the Rajya Sabha are elected through indirect"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:07:AR:102",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "Why do Elections Matter?",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "assertion_reason",
+      "stem": "A Class 9 student remembers Gurmat, who was elected as class representative (CR) in Grade 8, and wonders whether she has to face the class again in Grade 9. The student writes down two statements and asks a teacher to check them.\n\n1. Assertion (A): Gurmat can continue as class representative in Grade 9 without facing a fresh election, because her classmates have already elected her once.\n2. Reason (R): Once representatives have been elected by the people, their accountability to the people is thereby discharged and does not need to be ensured again.\n\nChoose the correct option:",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "You read about a case in Grade 8 where Gurmat was elected as class",
+            "without facing a fresh election? Similarly, can the government",
+            "The answer to all these questions\nis No, because one of the most crucial elements of democracy\nis participating in the periodic election of those who will make\ndecisions on our behalf. Elected representatives are accountable to\nthe people. The right to elect our representatives and holding them\naccountable is ensured through periodic elections"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:07:AR:103",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/elections"
+      ],
+      "taxonomyChapterId": "social-science-9/elections",
+      "topic": "Why do Elections Matter?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "In a Class 9 civics period a student observes that an elected government is not allowed to carry on in office once its prescribed term is over, without asking the people again. The student writes down two statements and asks the teacher to check them.\n\n1. Assertion (A): An elected government cannot continue beyond its prescribed term without seeking the people's mandate again.\n2. Reason (R): Participating in the periodic election of those who will make decisions on our behalf is one of the most crucial elements of democracy.\n\nChoose the correct option:",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "without facing a fresh election? Similarly, can the government",
+            "continue beyond the prescribed term without seeking the people’s",
+            "The answer to all these questions\nis No, because one of the most crucial elements of democracy\nis participating in the periodic election of those who will make"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch7",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iest1",
+    "chapters": [
+      7
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

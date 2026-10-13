@@ -28313,6 +28313,14 @@
    "stem": "1. 1 Observe the given picture and answer the following questions 1 (a) Which is the hottest part of the flame in the given figure of a candle.  1 (b) Why does the middle zone of the candle flame glow"
   },
   {
+   "id": "cbe:q:SCIENCE8JS41c",
+   "source": "cbse_question_bank",
+   "reason": "key-covers-one-part",
+   "subject": "Science",
+   "grade": 8,
+   "stem": "1 (a) State two points of difference between the bacterial and the animal cell.  1 (b) Addition of salt a is a well-known method of food preservation. Explain how it prevents food spoilage.  1 (c) Jus"
+  },
+  {
    "id": "cbe:q:SCIENCE8RD1b",
    "source": "cbse_question_bank",
    "reason": "mcq-part-of-group",
@@ -28959,6 +28967,14 @@
    "subject": "Mathematics",
    "grade": 10,
    "stem": "1. In figure 1 given above, O is the centre, PQ and PR are the two tangents, RQ is the chord. If ∠RPQ = 30°, then find ∠RQP and ∠RSQ."
+  },
+  {
+   "id": "cbe:q:Maths10AS8",
+   "source": "cbse_question_bank",
+   "reason": "value-missing",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "1 The area of a circular playground is 9856 m2. 1 (a) Find the radius of the circular field. (Using π= )  1 (b) Find the cost of fencing this ground at the rate of Rs 50 per m."
   },
   {
    "id": "cbe:q:Maths10ASR10",
@@ -38281,27 +38297,235 @@
    "stem": "Select the incorrect statement"
   },
   {
-   "id": "cbe:q:Maths10AS8",
-   "source": "cbse_question_bank",
-   "reason": "value-missing",
-   "subject": "Mathematics",
-   "grade": 10,
-   "stem": "1 The area of a circular playground is 9856 m2. 1 (a) Find the radius of the circular field. (Using π= )  1 (b) Find the cost of fencing this ground at the rate of Rs 50 per m."
+   "id": "ai:cbse:iebe1:06:A:102",
+   "source": "ai_generated",
+   "reason": "stem-fragment",
+   "subject": "English",
+   "grade": 9,
+   "stem": "the only kind of music that an artist\nof any worth should play. I don’t want\npapa to feel that I don’t care about his\nopinions, because I do. It’s just that I\nwant to give this a try too. I just don’t"
   },
   {
-   "id": "cbe:q:SCIENCE8JS41c",
-   "source": "cbse_question_bank",
-   "reason": "key-covers-one-part",
-   "subject": "Science",
-   "grade": 8,
-   "stem": "1 (a) State two points of difference between the bacterial and the animal cell.  (b) Addition of salt a is a well-known method of food preservation. Explain how it prevents food spoilage.  (c) Justify with the help of two examples that microorganisms can be beneficial for humans."
+   "id": "ai:cbse:iebe1:06:D:1",
+   "source": "ai_generated",
+   "reason": "stem-fragment",
+   "subject": "English",
+   "grade": 9,
+   "stem": "famous Indian flute players Pandit Hariprasad\nChaurasia and Shashank Subramanyam. The room\nbelongs to Iqbal, who is playing the flute. On the\ntabla is Avinash, Peter on the keyboard, and\nShruti on the"
+  },
+  {
+   "id": "ai:cbse:iebe1:06:D:101",
+   "source": "ai_generated",
+   "reason": "stem-fragment",
+   "subject": "English",
+   "grade": 9,
+   "stem": "don’t know papa. He is very strict\nabout these things. He will think\nit a desecration of the violin to be\nplayed to Western tunes. Papa firmly\nbelieves that Classical Hindustani\nmusic, with its ragas "
+  },
+  {
+   "id": "ai:cbse:iest1:04:AR:101",
+   "source": "ai_generated",
+   "reason": "options-missing",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "While making short notes on how early humans lived in different surroundings, a Class 9 student writes the following two statements and asks a teacher to check them.\n\n1. Assertion (A): Humans develope"
+  },
+  {
+   "id": "ai:cbse:iest1:04:AR:102",
+   "source": "ai_generated",
+   "reason": "options-missing",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "In a school museum a student is looking at stone hand axes and cleavers that were discovered in parts of Asia and Europe, far away from Africa. She wonders how such heavy stone tools reached those pla"
+  },
+  {
+   "id": "ai:cbse:iest1:04:AR:103",
+   "source": "ai_generated",
+   "reason": "options-missing",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "A student is preparing an information board about modern humans for a school exhibition. Before fixing it up, the student writes the following two statements and asks a visitor to say whether both of "
+  },
+  {
+   "id": "ai:cbse:iest1:05:AR:101",
+   "source": "ai_generated",
+   "reason": "options-missing",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "A Class 9 student is helping a village community settle a long-standing dispute over grazing land, and notices that nobody reads out any written Act or visits a court to decide it. Before writing the "
+  },
+  {
+   "id": "ai:cbse:iest1:05:AR:102",
+   "source": "ai_generated",
+   "reason": "options-missing",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "A student is preparing a short note on the earliest literature of India and realises that no single year can be given for the Ṛigveda. The student writes down two statements and asks a teacher to chec"
+  },
+  {
+   "id": "ai:cbse:iest1:05:AR:103",
+   "source": "ai_generated",
+   "reason": "options-missing",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "A student is comparing what is known about the Ṛigveda with what is known about the Sindhu–Sarasvatī civilisation, and finds that both of them were familiar with the same metal. The student writes dow"
+  },
+  {
+   "id": "ai:cbse:iest1:06:AR:101",
+   "source": "ai_generated",
+   "reason": "options-missing",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "A Class 9 student is preparing a profile card on Canada for a school exhibition and wants to explain who heads the country's executive. The student writes down two statements and asks a teacher to che"
+  },
+  {
+   "id": "ai:cbse:iest1:06:AR:102",
+   "source": "ai_generated",
+   "reason": "options-missing",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "A Class 9 student is comparing the constitutions of India and the United Kingdom for a class discussion and has to work out which of the two countries is guided by a single written Act. The student wr"
+  },
+  {
+   "id": "ai:cbse:iest1:06:AR:103",
+   "source": "ai_generated",
+   "reason": "options-missing",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "A Class 9 student is explaining to a younger class why, in the United Kingdom, the Monarch is not the person who actually runs the government. The student writes down two statements and asks a teacher"
+  },
+  {
+   "id": "ai:cbse:iest1:07:AR:101",
+   "source": "ai_generated",
+   "reason": "options-missing",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "A Class 9 student is preparing a chart for a school exhibition on how people in India get chosen for public office. The student writes down two statements and asks a teacher to check them.\n\n1. Asserti"
+  },
+  {
+   "id": "ai:cbse:iest1:07:AR:102",
+   "source": "ai_generated",
+   "reason": "options-missing",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "A Class 9 student remembers Gurmat, who was elected as class representative (CR) in Grade 8, and wonders whether she has to face the class again in Grade 9. The student writes down two statements and "
+  },
+  {
+   "id": "ai:cbse:iest1:07:AR:103",
+   "source": "ai_generated",
+   "reason": "options-missing",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "In a Class 9 civics period a student observes that an elected government is not allowed to carry on in office once its prescribed term is over, without asking the people again. The student writes down"
+  },
+  {
+   "id": "ai:cbse:iest1:08:AR:101",
+   "source": "ai_generated",
+   "reason": "options-missing",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "A Class 9 Economics period begins with a discussion of the Production Possibility Curve, the curve showing different combinations of goods that can be produced using all available resources. A student"
+  },
+  {
+   "id": "ai:cbse:iest1:08:AR:102",
+   "source": "ai_generated",
+   "reason": "options-missing",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "A student notices that the same resources can be put to more than one use, and wonders who has the power to decide how they are used. The student writes down two statements and asks the teacher to che"
+  },
+  {
+   "id": "ai:cbse:iest1:08:AR:103",
+   "source": "ai_generated",
+   "reason": "options-missing",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "While watching a family divide the money it has, a student wonders how such a division ought to be decided. The student writes down two statements and asks the teacher to check them.\n\n1. Assertion (A)"
+  },
+  {
+   "id": "ai:cbse:iest1:09:AR:102",
+   "source": "ai_generated",
+   "reason": "figure-referenced",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "Consider the following statements.\n1. While plotting Srivalli's demand curve for mangoes in her notebook, Nisha places the point for the 2 kg she bought at ₹100 per kg high up on the graph, because sh"
+  },
+  {
+   "id": "ai:cbse:iest1:09:C:3",
+   "source": "ai_generated",
+   "reason": "figure-referenced",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "A student plots a buyer's demand schedule with price in ₹ on the y-axis and quantity of mangoes in kg on the x-axis, and joins the three plotted points. What is the resulting line called and which poi"
+  },
+  {
+   "id": "ai:cbse:iest1:09:E:1",
+   "source": "ai_generated",
+   "reason": "figure-referenced",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "During the mango season Srivalli watches the price of mangoes in the market near her home. At the beginning of the season the price is very high, ₹150 per kg, and she buys only 1 kg. As more mangoes a"
+  },
+  {
+   "id": "ai:cbse:iest1:09:E:3",
+   "source": "ai_generated",
+   "reason": "figure-referenced",
+   "subject": "Social Science",
+   "grade": 9,
+   "stem": "A student draws a graph for one mango buyer. On the vertical axis she writes the price of mangoes in rupees, and on the horizontal axis the quantity of mangoes in kilograms. She marks one point where "
+  },
+  {
+   "id": "ai:cbse:jeff1:02:D:102",
+   "source": "ai_generated",
+   "reason": "stem-fragment",
+   "subject": "English",
+   "grade": 10,
+   "stem": "a display of pinpoint precision and military force,\nbut a demonstration of the military’s loyalty to\ndemocracy, to a new government that had been\nfreely and fairly elected. Only moments before, the\nhi"
+  },
+  {
+   "id": "ai:cbse:jeff1:02:D:103",
+   "source": "ai_generated",
+   "reason": "stem-fragment",
+   "subject": "English",
+   "grade": 10,
+   "stem": "courage, wisdom and generosity that their like may\nnever be known again. Perhaps it requires such\ndepths of oppression to create such heights of\ncharacter. My country is rich in the minerals and\ngems "
+  },
+  {
+   "id": "ai:cbse:jeff1:06:D:103",
+   "source": "ai_generated",
+   "reason": "stem-fragment",
+   "subject": "English",
+   "grade": 10,
+   "stem": "tail he was coated with symmetrical pointed scales\nof mud armour, between whose tips was visible a\nsoft velvet fur like that of a chocolate-brown mole.\nHe shook himself, and I half expected a cloud of"
+  },
+  {
+   "id": "ai:cbse:jeff1:07:A:101",
+   "source": "ai_generated",
+   "reason": "stem-fragment",
+   "subject": "English",
+   "grade": 10,
+   "stem": "was a girl named Valliammai who was called\nValli for short. She was eight years old and very\ncurious about things. Her favourite pastime was\nstanding in the front doorway of her house,\nwatching what w"
+  },
+  {
+   "id": "ai:cbse:jeff1:07:D:102",
+   "source": "ai_generated",
+   "reason": "stem-fragment",
+   "subject": "English",
+   "grade": 10,
+   "stem": "in front of Valli, above the windshield, there was a\nbeautiful clock. The seats were soft and luxurious.\nValli devoured everything with her eyes. But\nwhen she started to look outside, she found her\nvi"
+  },
+  {
+   "id": "ai:cbse:jefp1:06:A:101",
+   "source": "ai_generated",
+   "reason": "figure-referenced",
+   "subject": "English",
+   "grade": 10,
+   "stem": "The butterfly collecting season around Reading lasts six weeks in late summer. (See graph below.) If you’re going to chase them one by one, you won’t catch very many. So the next step for Ebright was "
   }
  ],
  "counts": {
   "no-verified-key": 3214,
-  "stem-fragment": 62,
+  "stem-fragment": 70,
   "symbol-loss": 19,
-  "options-missing": 7,
+  "options-missing": 22,
   "garbled-script": 112,
   "page-furniture": 1,
   "figure-unavailable": 123,
@@ -38310,7 +38534,7 @@
   "passage-unavailable": 49,
   "stem-too-short": 12,
   "parts-detached": 12,
-  "figure-referenced": 128,
+  "figure-referenced": 133,
   "mcq-options-unresolved": 190,
   "key-covers-one-part": 3,
   "header-as-stem": 13,
@@ -38319,6 +38543,7 @@
   "fraction-doubled": 4,
   "mcq-marks-implausible": 43,
   "mcq-part-of-group": 4,
+  "value-missing": 1,
   "stem-runs-on": 9,
   "answer-bleed": 293,
   "option-labels-collide": 6,
@@ -38328,7 +38553,6 @@
   "answer-is-question-text": 3,
   "duplicate-stem": 78,
   "figure-shown-below": 3,
-  "stem-empty-after-strip": 2,
-  "value-missing": 1
+  "stem-empty-after-strip": 2
  }
 }

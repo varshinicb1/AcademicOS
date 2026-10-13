@@ -1,0 +1,213 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:13:AR:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/our-environment"
+      ],
+      "taxonomyChapterId": "science-10/our-environment",
+      "topic": "Eco-system — What Are Its Components?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A student watching a documentary about the sky wonders how the ozone that sits high above the earth's surface comes to be there at all, since the air far up there is much thinner than the air near the ground.\nAssertion 1: The ozone at the higher levels of the atmosphere is produced when higher energy UV radiation splits some molecular oxygen (O2) into free oxygen atoms, and those free atoms then combine with molecular oxygen.\nReason 1: The ozone at the higher levels of the atmosphere is a product of UV radiation acting on the oxygen (O2) molecule. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Ozone at the higher levels of the atmosphere is a product of UV",
+            "radiations split apart some moleculer oxygen (O ) into free oxygen (O)",
+            "atoms. These atoms then combine with the molecular oxygen to form"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch13",
+        "pages": [
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:13:AR:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/our-environment"
+      ],
+      "taxonomyChapterId": "science-10/our-environment",
+      "topic": "Eco-system — What Are Its Components?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "The owner of a refrigerator factory is told that every new refrigerator must now be built without CFCs, and turns to a student to work out what makes such a rule necessary.\nAssertion 1: The amount of ozone in the atmosphere began to drop sharply in the 1980s, and this decrease has been linked to synthetic chemicals like chlorofluorocarbons (CFCs).\nReason 1: CFCs pose no threat to the ozone layer, because they are used only in fire extinguishers and are never used as refrigerants. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The assertion is true but the reason is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The amount of ozone in the atmosphere began to drop sharply in",
+            "the 1980s. This decrease has been linked to synthetic chemicals like",
+            "chlorofluorocarbons (CFCs) which are used as refrigerants and in fire"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch13",
+        "pages": [
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:13:AR:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/our-environment"
+      ],
+      "taxonomyChapterId": "science-10/our-environment",
+      "topic": "Eco-system — What Are Its Components?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A student compares the oxygen gas that is fed to a laboratory burner with the thin layer of gas that an astronaut photographs far above the earth, and concludes that the two must be one and the same substance because each is built out of oxygen.\nAssertion 1: The oxygen fed to a laboratory burner and the thin layer of gas far above the earth are the same gas, because each consists only of oxygen atoms.\nReason 1: Ozone is a deadly poison, so a layer of ozone high above the earth must be destroying the life on the surface below it. (A) Both the assertion and the reason are true and the reason is a correct explanation of the assertion. (B) Both the assertion and the reason are true but the reason is not a correct explanation of the assertion. (C) The assertion is true but the reason is false. (D) Both the assertion and the reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "which we normally refer to as oxygen, is essential for all aerobic forms of",
+            "life. Ozone, is a deadly poison. However, at the higher levels of the",
+            "atmosphere, ozone performs an essential function. It shields the surface"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch13",
+        "pages": [
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      13
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

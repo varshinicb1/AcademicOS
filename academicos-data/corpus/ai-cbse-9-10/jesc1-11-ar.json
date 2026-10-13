@@ -1,0 +1,252 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:11:AR:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/electricity"
+      ],
+      "taxonomyChapterId": "science-10/electricity",
+      "topic": "Electric Current and Circuit",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Rahul's torch suddenly goes dark in the middle of a walk, even though the cells are fresh. He opens the body of the torch, finds that one of the contacts between the cells and the bulb has come loose, and pushes it back into place. The bulb lights up again at once.\n\nAssertion 1: The torch bulb cannot glow if the conducting link between the cell and the bulb is broken at any point.\nReason 2: A continuous and closed path of an electric current is called an electric circuit.\n\nIn the light of the above statements, choose the correct answer. (A) Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1. (B) Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1. (C) Assertion 1 is true but Reason 2 is false. (D) Both Assertion 1 and Reason 2 are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "A switch makes a conducting link between the cell and\nthe bulb. A continuous and closed path of an electric current is called an\nelectric circuit.",
+            "if the circuit is broken anywhere (or the switch of the\ntorch is turned off ), the current stops flowing and the bulb does not glow."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1.",
+            "B": "Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1.",
+            "C": "Assertion 1 is true but Reason 2 is false.",
+            "D": "Both Assertion 1 and Reason 2 are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch11",
+        "pages": [
+          1,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:11:AR:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/electricity"
+      ],
+      "taxonomyChapterId": "science-10/electricity",
+      "topic": "Electric Current and Circuit",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "In the physics laboratory Saira has to measure the current flowing through a bulb that is joined to a cell through a plug key. She takes an ammeter from the apparatus shelf and is about to connect it.\n\nAssertion 1: The ammeter has to be connected in series in the circuit in which the current is to be measured.\nReason 2: An ammeter is an instrument used to measure electric current in a circuit.\n\nIn the light of the above statements, choose the correct answer. (A) Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1. (B) Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1. (C) Assertion 1 is true but Reason 2 is false. (D) Both Assertion 1 and Reason 2 are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It is always connected in series\nin a circuit through which the current is to be\nmeasured.",
+            "An instrument called ammeter measures electric\ncurrent in a circuit."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1.",
+            "B": "Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1.",
+            "C": "Assertion 1 is true but Reason 2 is false.",
+            "D": "Both Assertion 1 and Reason 2 are false."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch11",
+        "pages": [
+          1,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:11:AR:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/electricity"
+      ],
+      "taxonomyChapterId": "science-10/electricity",
+      "topic": "Electric Current and Circuit",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Ramesh is assembling a torch and drawing its circuit on paper so that he can keep a record. He marks the direction of current as running from the positive terminal of the cell to the negative terminal of the cell through the bulb and ammeter, and he notes that in the metallic wires of the circuit it is the electrons that are moving.\n\nAssertion 1: In circuits using metallic wires, electrons constitute the flow of charges.\nReason 2: The direction of flow of these electrons is the same as the direction of electric current.\n\nIn the light of the above statements, choose the correct answer. (A) Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1. (B) Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1. (C) Assertion 1 is true but Reason 2 is false. (D) Both Assertion 1 and Reason 2 are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Assertion 1 is true but Reason 2 is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In circuits using\nmetallic wires, electrons constitute the flow of charges.",
+            "Conventionally, in an electric circuit the\ndirection of electric current is taken as opposite to the direction of the\nflow of electrons, which are negative charges."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1.",
+            "B": "Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1.",
+            "C": "Assertion 1 is true but Reason 2 is false.",
+            "D": "Both Assertion 1 and Reason 2 are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch11",
+        "pages": [
+          1,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      11
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

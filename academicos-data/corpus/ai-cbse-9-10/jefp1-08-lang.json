@@ -1,0 +1,1195 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:08:A:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "Once again the veil was slipped back from the bride’s face, but this time her eyes were not downcast. She was looking up, looking straight at her prospective husband, and in her eyes there was neither anger nor hate, only cold contempt. Bishamber raised the garland to place it round the bride’s neck; but before he could do so, Bholi’s hand struck out like a streak of lightning and the garland was flung into the fire. She got up and threw away the veil.\n\nIn the passage, Bholi flings the garland into the fire and throws away the veil; which reading of her action does the passage itself support? (A) She lost her temper at the sight of the dowry her father had counted out (B) She acted only because her father had asked her to complete the ritual (C) She calmly refused a marriage she had already judged contemptible (D) She feared the bridegroom would go back without paying what he had asked for",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She calmly refused a marriage she had already judged contemptible",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "at her prospective husband, and in her eyes there was neither anger",
+            "nor hate, only cold contempt.",
+            "lightning and the garland was flung into the fire. She got up and threw"
+          ],
+          "objective": true,
+          "options": {
+            "A": "She lost her temper at the sight of the dowry her father had counted out",
+            "B": "She acted only because her father had asked her to complete the ritual",
+            "C": "She calmly refused a marriage she had already judged contemptible",
+            "D": "She feared the bridegroom would go back without paying what he had asked for"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:B:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A teacher says to a pupil, “You just come to school everyday.” Which word must begin the question she then asks the pupil? (A) Do (B) Will (C) Did (D) Are",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Will",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“Yes, yes, it will be very easy. You just come to school everyday.",
+            "Will you come?”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Do",
+            "B": "Will",
+            "C": "Did",
+            "D": "Are"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:B:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A classmate reports the sentence “Bholi will be lucky to get such a well-to-do bridegroom.” Which word completes the reported sentence “His wife said that Bholi ___ lucky to get such a well-to-do bridegroom”? (A) is (B) will be (C) would be (D) has been",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "would be",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Bholi will be lucky to get such a"
+          ],
+          "objective": true,
+          "options": {
+            "A": "is",
+            "B": "will be",
+            "C": "would be",
+            "D": "has been"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:B:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Change “The second daughter Mangla’s marriage had also been settled.” into the active voice; which sentence is then correct? (A) They had already settled Mangla’s marriage. (B) Mangla’s marriage had already settled itself. (C) They were already settling Mangla’s marriage. (D) Mangla had already been settling her marriage.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "They had already settled Mangla’s marriage.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The second daughter Mangla’s marriage had also been settled, and when that was done, Ramlal would think of the third,\nChampa."
+          ],
+          "objective": true,
+          "options": {
+            "A": "They had already settled Mangla’s marriage.",
+            "B": "Mangla’s marriage had already settled itself.",
+            "C": "They were already settling Mangla’s marriage.",
+            "D": "Mangla had already been settling her marriage."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:C:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school is holding an assembly on the girl child. Write a speech of about 100 words on why every girl should be sent to school. Address the students directly and end with a formal closing.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: gives at least two sound reasons why girls should be sent to school.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: speech opens with a greeting and closes with a formal remark of thanks.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: points are arranged in a clear order and end in a call to the audience.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct grammar, spelling and punctuation.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: earnest tone and vocabulary suited to a school assembly.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Good morning everyone. Every morning, in our own villages, some little girl sits at home while her brothers go to school. Nobody stops her, and nobody is blamed. But the moment she learns to read, she learns to speak, to think and to choose her own life. A family that keeps a daughter at home loses not only her learning but her voice. We must send every girl to school, we must keep her there, and we must never laugh at the way she speaks. Thank you.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "village and so you must set an example to the villagers. You must send",
+            "your daughters to school.”",
+            "“Are you crazy? If girls go to school, who will marry them?”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:C:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a notice of about 100 words for the school notice board announcing a poster competition on the Beti Bachao Beti Padhao scheme. Give a suitable heading, the theme, who may enter, how each group will be formed and where the finished posters will be displayed.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: gives the theme, who may enter, how the groups are formed and where the posters go up.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: notice carries a bold heading and the details set out in short labelled lines.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: details arranged so that a reader can act on the notice at once.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct grammar, spelling and punctuation.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: clear, formal and economical wording.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "POSTER COMPETITION ON BETI BACHAO BETI PADHAO — SAVE THE GIRL CHILD\n\nAs a step towards saving the girl child, the school is organising a poster competition.\n\nTheme: how the girl child can be saved.\nWho may enter: all students of the school.\nHow to enter: students will work in groups of four.\nWhat to do: read about the scheme and design a poster on it.\nWhere the finished posters will be displayed: the school notice board.\n\nAll students of the school are invited to take part.\n(Issued by the Office of the Principal)",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Beti Bachao Beti Padhao, Save the Girl Child.",
+            "Read about the scheme and design a poster",
+            "in groups of four and display on the school"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:C:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A girl in your class stammers, so she is afraid to answer aloud and her family now says she is not fit to study. Write an e-mail of about 100 words to your teacher describing her fear and suggesting that she be allowed to answer aloud in class. Begin with 'Dear Ma'am' and end with 'Regards' followed by your name.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: describes the pupil's fear and the family's attitude, then makes the two clear requests.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: e-mail opens with 'Dear Ma'am' and closes with 'Regards' and the writer's name.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: description comes first, request follows, and the whole is kept brief.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct grammar, spelling and punctuation.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: polite, sympathetic and direct wording.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dear Ma'am\n\nOur class has a pupil who stammers. At home she is called the simpleton and her family now says that she is not fit to study. Because of this she is afraid to answer aloud in class and keeps her head down. I request you to let her answer aloud in class every day and to praise her each time she manages to speak. Please also give her a book with pictures and big print, as a book like that gives a pupil the courage to try. I am sure she will improve.\n\nRegards\nAarti Sharma",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Put the fear out of your heart and you will be able to speak like",
+            "with every picture was a word in big black letters.",
+            "“Well done.” The teacher patted her affectionately and said,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:D:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "“For the sake of your izzat,” said Bholi, “I was willing to marry this lame old man. But I will not have such a mean, greedy and contemptible coward as my husband. I won’t, I won’t, I won’t.”\n\nWhich pair of adjectives best describes how Bholi's manner changes across the extract? (A) hopeful, then triumphant (B) fearful, then apologetic (C) sarcastic, then tearful (D) submissive, then defiant",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "submissive, then defiant",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“For the sake of your izzat,” said Bholi, “I was willing to marry this",
+            "lame old man. But I will not have such a mean, greedy and contemptible",
+            "coward as my husband. I won’t, I won’t, I won’t.”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "hopeful, then triumphant",
+            "B": "fearful, then apologetic",
+            "C": "sarcastic, then tearful",
+            "D": "submissive, then defiant"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:D:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "And Sulekha said in a voice that was calm and steady, “Don’t you worry, Pitaji! In your old age I will serve you and Mother and I will teach in the same school where I learnt so much. Isn’t that right, Ma’am?”\n\nThe bride calls herself Sulekha in this extract; what does the use of that name show? (A) Her parents have decided to rename her now that she has left home (B) She has outgrown the mocking name that was given to her in childhood (C) Her teacher has never known her by any other name (D) She is speaking to a stranger who has mistaken her for someone else",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She has outgrown the mocking name that was given to her in childhood",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "And Sulekha said in a voice that was calm and steady, “Don’t you",
+            "worry, Pitaji! In your old age I will serve you and Mother and I will teach",
+            "in the same school where I learnt so much. Isn’t that right, Ma’am?”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Her parents have decided to rename her now that she has left home",
+            "B": "She has outgrown the mocking name that was given to her in childhood",
+            "C": "Her teacher has never known her by any other name",
+            "D": "She is speaking to a stranger who has mistaken her for someone else"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:E:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why did Ramlal's wife decide that only Bholi should be sent to school? Answer in about 50 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She believed Bholi had little chance of getting married because of her ugly face and lack of sense.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Sending Bholi alone would please the Tehsildar without risking the other daughters' marriages.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She expected the teachers at school to bear the responsibility for Bholi.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Ramlal's wife knew that no bridegroom would come for Bholi because of her ugly, pock-marked face and her lack of sense. Sending Bholi alone would please the Tehsildar without risking the marriage of her other daughters. She also felt that the teachers at school, not her family, should shoulder the care of her.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“I will tell you what to do. Send Bholi to school. As it is, there",
+            "is little chance of her getting married, with her ugly face and lack of",
+            "sense. Let the teachers at school worry about her.”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:E:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "short_answer",
+      "stem": "How did the way the teacher spoke to Bholi change the course of her life? Answer in about 50 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She spoke softly and treated Bholi kindly instead of ordering or mocking her.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She praised every attempt at Bholi's name and promised her a book, and then a bigger one.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Bholi took courage, went home happy and returned to school early the next morning.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The teacher never ordered or mocked Bholi. She spoke in a soft, soothing voice, asked her to get up as a friendly suggestion, praised every attempt at her name and promised her one book and then a bigger one. Bholi, who had always been laughed at, began to hope, went home happy and came back early the next morning.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The teacher’s voice was so soft and soothing! In all her life she had",
+            "“Put the fear out of your heart and you will be able to speak like",
+            "everyone else.”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:E:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why did Ramlal and his wife agree to Bishamber's proposal even though the bridegroom was old and limped? Answer in about 50 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Forty-five or fifty is no great age for a man, and the bridegroom was a well-to-do grocer with a big shop and a house of his own.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He came from another village and did not know about her pock-marks and her lack of sense.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "If the proposal was refused, Bholi might remain unmarried all her life.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Ramlal's wife brushed his objections aside: forty-five or fifty is no great age for a man, Bishamber was a well-to-do grocer with a big shop and a house of his own, and he asked for no dowry. He came from another village and did not know of her pock-marks, and refusing him might leave her unmarried for life.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“So what does it matter?” his wife replied. “Forty-five or fifty — it is",
+            "no great age for a man. We are lucky that he is from another village",
+            "don’t accept this proposal, she may remain unmarried all her life.”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:F:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "Show in steps, in about 120 words, why a family agreed to hand its daughter to a bridegroom it did not respect, and what made her refuse him at the altar.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "He was a well-to-do grocer with a big shop, a house of his own and several thousand in the bank, and asked for no dowry.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They argued that forty-five or fifty is no great age for a man.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He came from another village and did not know about her pock-marks and her lack of sense.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Ramlal feared she might remain unmarried all her life if the proposal was refused.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Ramlal placed his turban, his honour, at the bridegroom's feet to save the family's izzat.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She flung the garland into the fire and refused, calling him a mean, greedy and contemptible coward.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Her parents were told that Bishamber Nath was a well-to-do grocer with a big shop, a house of his own and several thousand in the bank, and he asked for no dowry.\n2. They told themselves that forty-five or fifty is no great age for a man, and only shrugged at his limp.\n3. He came from another village and did not know about her pock-marks and her lack of sense.\n4. Ramlal feared that if he refused, Bholi would remain unmarried all her life, and he feared for the family's izzat.\n5. So Bholi was dressed as a bride, though she called him a mean, greedy and contemptible coward.\n6. When he demanded five thousand rupees after his turban had been placed at his feet, she flung the garland into the fire and said she would not marry him.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "well-to-do bridegroom. A big shop, a house of his own and I hear",
+            "don’t accept this proposal, she may remain unmarried all her life.”",
+            "“Pitaji! Take back your money. I am not going to marry this man.”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:08:F:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/bholi"
+      ],
+      "taxonomyChapterId": "english-10/bholi",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "Show in steps, in about 120 words, the contrast between how one family treated its youngest daughter in her childhood and the place she claimed for herself afterwards.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "She was neglected though the household was prosperous, with plenty to eat and drink.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "New clothes had never been made for her and she wore the old dresses of her sisters.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Her parents worried only because she had neither good looks nor intelligence and might remain unmarried.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Her mother chose to send her alone to school and left the teachers to worry about her.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Her teacher gave her a book and promised a bigger one each month, so she returned every day.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "After refusing the marriage she calmly promised to serve her parents and teach in that same school.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. She was neglected at home, though the family was a prosperous farmer's household with plenty to eat and drink.\n2. New clothes had never been made for her; she wore her sisters' old dresses, and no one mended or washed them.\n3. Her parents worried about her only because she had neither good looks nor intelligence and might never be married.\n4. Her mother decided to send just her to school, expecting the teachers there to worry about her.\n5. Her teacher gave her a book with big letters and promised a bigger book each month, and she came back every day.\n6. Years later, after refusing a greedy match, she calmly promised to serve her parents and to teach in that same school.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "New clothes had never been made for Bholi. The old dresses of her",
+            "sense. Let the teachers at school worry about her.”",
+            "And Sulekha said in a voice that was calm and steady, “Don’t you"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "After a classmate who stammers has frozen in class and stayed in her corner, a teacher speaks to her very softly and ask"
+    },
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "In a well-off family a father is anxious about one daughter while his sons are studying in the city and his other daught"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "Reading the extract, a student would say that the teacher believes Bholi needs above all"
+    },
+    {
+      "section": "F",
+      "qtype": "long_answer",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "Write the steps, in order, by which a girl who was frightened of school and believed she could never learn became a pupi"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      8
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

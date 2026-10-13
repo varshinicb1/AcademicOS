@@ -402,5 +402,7 @@ def test_the_served_class_6_to_10_signals():
     # + 274 competencyType (2026-10-04): the model-written class 9-10 questions (corpus/ai-cbse-9-10)
     # whose type a source-grounded generator printed -- case studies, assertion-reason items, and the
     # passage-based reading and extract questions, which CBSE calls competency-based.
-    assert dict(by_dict) == {"cbeItemBank": 364, "assertionReasonLabels": 2, "competencyType": 274}
+    # 274 -> 591 (2026-10-14): the second batch of them, 920 questions (Hindi 9 and 10 for the first
+    # time, English 9 and 10, Science and Social Science 9 and 10), 317 of them of those types.
+    assert dict(by_dict) == {"cbeItemBank": 364, "assertionReasonLabels": 2, "competencyType": 591}
     assert not exemplar

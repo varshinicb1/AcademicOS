@@ -1,0 +1,1644 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:ihga1:05:A:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "पर तट पर पहुँचकर\nफिर कुछ क्षण बढ़ते अँधेरे की बात भूला रहा। कारण था तट की रेत। यूँ पहले भी समुद्र-तट\nपर कई-कई रंगों की रेत देखी थी— सुरमई, खाकी, पीली और लाल। मगर जैसे रंग उस रेत\nमें थे, वैसे मैंने पहले कभी कहीं की रेत में नहीं देखे थे। कितने ही अनाम रंग थे वे। एक-एक\nइंच पर एक-दूसरे से अलग... और एक-एक रंग कई-कई रंगों की झलक लिए हुए। काली\n\nइस अंश के अनुसार लेखक पहले देखी हुई रेत की तुलना में इस बार की रेत को अधिक क्यों मानता है? (A) क्योंकि हर इंच पर अनाम रंग एक-दूसरे से मिले हुए नए-नए थे (B) क्योंकि इसमें एक ही ऐसा रंग था जिसका कोई दूसरा नाम नहीं था (C) क्योंकि इसमें नारियल के टहने रेत में मिले हुए थे (D) क्योंकि यह रेत सैंड हिल की रेत से अधिक सुनहरी थी",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "क्योंकि हर इंच पर अनाम रंग एक-दूसरे से मिले हुए नए-नए थे",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "पर कई-कई रंगों की रेत देखी थी— सुरमई, खाकी, पीली और लाल। मगर जैसे रंग उस रेत",
+            "में थे, वैसे मैंने पहले कभी कहीं की रेत में नहीं देखे थे। कितने ही अनाम रंग थे वे। एक-एक"
+          ],
+          "objective": true,
+          "options": {
+            "A": "क्योंकि हर इंच पर अनाम रंग एक-दूसरे से मिले हुए नए-नए थे",
+            "B": "क्योंकि इसमें एक ही ऐसा रंग था जिसका कोई दूसरा नाम नहीं था",
+            "C": "क्योंकि इसमें नारियल के टहने रेत में मिले हुए थे",
+            "D": "क्योंकि यह रेत सैंड हिल की रेत से अधिक सुनहरी थी"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:A:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "सूर्य का गोला पानी की सतह से छू गया। पानी पर दूर तक सोना-ही-सोना ढुल आया।\nपर वह रंग इतनी जल्दी-जल्दी बदल रहा था कि किसी भी एक क्षण के लिए उसे एक नाम\nदे सकना असंभव था। सूर्य का गोला जैसे एक बेबसी में पानी के लावे में डूबता जा रहा था।\nधीरे-धीरे वह पूरा डूब गया और कुछ क्षण पहले जहाँ सोना बह रहा था, वहाँ अब लहू बहता\nनजर आने लगा। कुछ और क्षण बीतने पर वह लहू भी धीरे-धीरे बैज़नी और बैज़नी से काला\nपड़ गया।\n\nसूर्यास्त के वर्णन में लेखक ने जिस बात पर सबसे अधिक ध्यान दिया है, वह क्या है? (A) पानी पर दूर तक सोने-ही-सोना ढुल आने पर (B) सोने के रंग के बाद लहू और बैज़नी बहने पर (C) नारियलों के झुरमुट पर तेज़ हवा के बहने पर (D) रंग इतनी जल्दी बदलने पर कि एक क्षण के लिए भी कोई नाम न दिया जा सके",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "रंग इतनी जल्दी बदलने पर कि एक क्षण के लिए भी कोई नाम न दिया जा सके",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "पर वह रंग इतनी जल्दी-जल्दी बदल रहा था कि किसी भी एक क्षण के लिए उसे एक नाम\nदे सकना असंभव था।",
+            "धीरे-धीरे वह पूरा डूब गया और कुछ क्षण पहले जहाँ सोना बह रहा था, वहाँ अब लहू बहता\nनजर आने लगा।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "पानी पर दूर तक सोने-ही-सोना ढुल आने पर",
+            "B": "सोने के रंग के बाद लहू और बैज़नी बहने पर",
+            "C": "नारियलों के झुरमुट पर तेज़ हवा के बहने पर",
+            "D": "रंग इतनी जल्दी बदलने पर कि एक क्षण के लिए भी कोई नाम न दिया जा सके"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:B:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "यह वह ‘सैंड हिल’ थी जिसकी चर्चा मैं वहाँ पहुँचने के बाद से ही सुन रहा था। सैंड हिल पर\nबहुत से लोग थे। आठ -दस नवयु वतियाँ, छह-सात नवयु वक और दो-तीन गाँधी टोपियों वाले\nव्य क्‍त ति। वे शाय द सूर्यास्त देख रहे थे। गवर्नमेंट गेस्ट हाउस के बैरे उन्हें सूर्यास्त के समय की\nकॉफी पिला रहे थे। उन लोगों के वहाँ होने से सैंड हिल बहुत रंगीन हो उठी थी।\n\nसैंड हिल पर पहुँचकर लेखक ने वहाँ का दृश्य 'बहुत रंगीन' क्यों पाया?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "सूर्यास्त देखने के लिए वहाँ बहुत से लोग पहुँचे हुए थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "गेस्ट हाउस के बैरे सूर्यास्त के समय की कॉफी पिला रहे थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "वहाँ सूर्यास्त देखने के लिए बहुत से लोग पहुँचे हुए थे और गवर्नमेंट गेस्ट हाउस के बैरे उन्हें कॉफी पिला रहे थे।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "व्य क्‍त ति। वे शाय द सूर्यास्त देख रहे थे। गवर्नमेंट गेस्ट हाउस के बैरे उन्हें सूर्यास्त के समय की",
+            "कॉफी पिला रहे थे। उन लोगों के वहाँ होने से सैंड हिल बहुत रंगीन हो उठी थी।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:B:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "लग रही थी। सूर्य पानी की सतह के पास पहुँच गया था। सुनहली किरणों ने पीली रेत को एक\nनया-सा रंग दे दिया था। उस रंग में रेत इस तरह चमक रही थी जैसे अभी-अभी उसका निर्मा ण\nकरके उसे वहाँ उड़ेला गया हो। मैंने उस रेत पर दूर तक बने अपने पैरों के निशानों को देखा।\nलगा जैसे रेत पहली बार उन निशानों से टूटा हो। इससे मन में एक सिहरन भी हुई, हल्की\nउदासी भी घिर आई।\n\nपीली रेत पर बने अपने पैरों के निशान देखकर लेखक के मन में किन दो भावों का एहसास हुआ?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "मन में एक सिहरन हुई",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "हल्की उदासी भी घिर आई",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मन में एक सिहरन हुई और हल्की उदासी भी घिर आई।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "लगा जैसे रेत पहली बार उन निशानों से टूटा हो। इससे मन में एक सिहरन भी हुई, हल्की",
+            "उदासी भी घिर आई।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:B:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "सूर्योदय । हम आठ आदमी ‘विवेकानंद चट्टान’ पर बैठे थे। चट्टान तट से सौ-सवा-\nसौ गज आगे समुद्र के बीच जाकर है— वहाँ, जहाँ बंगाल की खाड़ी की भौगोलिक सीमा\nसमाप्त होती है। मेरे अलावा कन्याकुमारी के तीन नवयु वक थे\nजिनमें से एक ग्रेजुएट था। चार मल्ललाह थे जो एक\nछोटी-सी मछुआ नाव में हमें वहाँ लाए थे। नाव क्या\n\nइस अंश के अनुसार 'विवेकानंद चट्टान' समुद्र में कहाँ स्थित है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "तट से सौ-सवा-सौ गज आगे समुद्र के बीच स्थित है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वहाँ बंगाल की खाड़ी की भौगोलिक सीमा समाप्त होती है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "यह चट्टान तट से सौ-सवा-सौ गज आगे समुद्र के बीच जाकर है, जहाँ बंगाल की खाड़ी की भौगोलिक सीमा समाप्त होती है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "सूर्योदय । हम आठ आदमी ‘विवेकानंद चट्टान’ पर बैठे थे। चट्टान तट से सौ-सवा-",
+            "सौ गज आगे समुद्र के बीच जाकर है— वहाँ, जहाँ बंगाल की खाड़ी की भौगोलिक सीमा",
+            "समाप्त होती है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:C:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "‘तट की चौड़ाई धीरे-धीरे कम होती जा रही थी।’ — इस वाक्य में ‘धीरे-धीरे’ पद किसकी विशेषता बता रहा है? (A) कम होने की क्रिया (B) तट की चौड़ाई (C) पानी की सतह (D) होती जा रही थी",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कम होने की क्रिया",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "तट की चौड़ाई धीरे-धीरे कम होती जा रही थी।",
+            "उपर्युक‍त त वाक्य में रेखांकित पद ‘धीरे-धीरे’ कम होना क्रिया की विशेषता बता रहा है। यहाँ कम होने",
+            "की क्रिया धीमी गति से हो रही है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "कम होने की क्रिया",
+            "B": "तट की चौड़ाई",
+            "C": "पानी की सतह",
+            "D": "होती जा रही थी"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:C:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "‘उनका मुख्य धंधा है नौकरियों के लिए अर्ज़ियाँ देना और बैठ कर आपस में बहस करना।’ — इस वाक्य में ‘अर्ज़ियाँ देना और बैठ कर आपस में बहस करना’ किस वाच्य में है? (A) कर्तृवाच्य (B) कर्मवाच्य (C) भाववाच्य (D) संवादन",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कर्मवाच्य",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "ग्रेजुएट हैं। उनका मुख्य धंधा है नौकरियों के लिए अर्ज़ियाँ देना और बैठ कर आपस में बहस",
+            "करना। वह खुद वहाँ फोटो-एल्बम बेचता था।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "कर्तृवाच्य",
+            "B": "कर्मवाच्य",
+            "C": "भाववाच्य",
+            "D": "संवादन"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:C:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "‘सूर्योदय’ शब्द में कौन-सा सन्धि हुआ है? (A) वृद्धि सन्धि (B) अचनुकृति सन्धि (C) न सन्धि (D) यण सन्धि",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "यण सन्धि",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "सूर्योदय । हम आठ आदमी ‘विवेकानंद चट्टान’ पर बैठे थे। चट्टान तट से सौ-सवा-",
+            "में बिखरी स्य याह चट्टानों की ओट से सूर्य उदित हो रहा था। घाट पर बहुत-से"
+          ],
+          "objective": true,
+          "options": {
+            "A": "वृद्धि सन्धि",
+            "B": "अचनुकृति सन्धि",
+            "C": "न सन्धि",
+            "D": "यण सन्धि"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:D:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "थीं जिससे उनके ऊपर चूरा बूँदों की जालियाँ बन जाती थीं । मैं देख रहा था और अपनी पूरी\nचेतना से महसूस कर रहा था— शक्‍त ति का विस्तार, विस्तार की शक्‍त ति। तीनों तरफ से क्षितिज\nतक पानी-ही-पानी था, फिर भी सामने का क्षितिज, हिंद महासागर का, अपेक्षया अधिक दूर\nऔर अधिक गहरा जान पड़ता था। लगता था कि उस ओर दूसरा छोर है ही नहीं । तीनों ओर\n\n‘शक्ति का विस्तार, विस्तार की शक्ति’ — यह पंक्ति इस अंश में किस ओर संकेत करती है? (A) बलखाती लहरों के नुकीली चट्टानों से टकराने पर (B) तीनों तरफ क्षितिज तक फैले पानी-ही-पानी विस्तार पर (C) सूर्यास्त के रंग बदलने पर (D) तट की रेत के अनेक रंगों पर",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "तीनों तरफ क्षितिज तक फैले पानी-ही-पानी विस्तार पर",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "चेतना से महसूस कर रहा था— शक्‍त ति का विस्तार, विस्तार की शक्‍त ति। तीनों तरफ से क्षितिज",
+            "तक पानी-ही-पानी था, फिर भी सामने का क्षितिज, हिंद महासागर का, अपेक्षया अधिक दूर"
+          ],
+          "objective": true,
+          "options": {
+            "A": "बलखाती लहरों के नुकीली चट्टानों से टकराने पर",
+            "B": "तीनों तरफ क्षितिज तक फैले पानी-ही-पानी विस्तार पर",
+            "C": "सूर्यास्त के रंग बदलने पर",
+            "D": "तट की रेत के अनेक रंगों पर"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:E:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "सैंड हिल पर पहुँचकर लेखक वहाँ अधिक नहीं ठहरा और आगे किसी दूसरे टीले की ओर बढ़ गया — इसका कारण क्या था?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "अरब सागर की तरफ एक और ऊँचा टीला विस्तार को ओटे हुए था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सूर्यास्त को पूरे विस्तार की पृष्ठभूमि में देखने के लिए आगे बढ़ा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "अरब सागर की तरफ एक और ऊँचा टीला सामने के विस्तार को ओटे हुए था, इसलिए सूर्यास्त को पूरे विस्तार की पृष्ठभूमि में देखने के लिए लेखक आगे बढ़ा।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "पूरा विस्तार तो दिखाई दे रहा था, पर अरब सागर की तरफ एक और ऊँचा टीला था जो उधर",
+            "के विस्तार को ओट में लिए था। सूर्यास्त पूरे विस्तार की पृष्‍ठभूमि में देखा जा सके, इसके",
+            "लिए मैं कुछ देर सैंड हिल पर रुका रहकर आगे उस टीले की तरफ चल दिया। पर रेत पर अपने"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:E:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "मछुआ नाव में बैठे-बैठे लेखक ने अपने डर को किस तरह छिपाने की कोशिश की?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "आसमान की तरफ देखते हुए उतनी देर चेतना को स्थगित रखने की चेष्टा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "अंदर के डर को दिखावटी उदासीनता से ढक रखना चाहना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उसने आसमान की तरफ देखते हुए उतनी देर अपनी चेतना को स्थगित रखने की चेष्टा की और अपने अंदर के डर को दिखावटी उदासीनता से ढक रखना चाहा।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "रहे थे, तो मैंने आसमान की तरफ देखते हुए उतनी देर अपनी चेतना को",
+            "स्थगित रखने की चेष्टा की थी, अपने अंदर के डर को दिखावटी उदासीनता से ढक रखना",
+            "चाहा था। पर जब चट्टान पर पहुँच गए, तो डर मेरी टाँगों में उतर गया क्योंकि वहाँ बैठे हुए"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:E:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "तट की रेत से वहाँ से चले जाते समय लेखक उदास मन से क्यों गया?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "हर रंग की थोड़ी-थोड़ी रेत रख लेने की इच्छा थी, पर कोई उपाय नहीं था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "फिर किसी दिन आकर रेत बटोरने की सोचकर उदास मन से आगे चल देना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "वह हर रंग की थोड़ी-थोड़ी रेत अपने पास रखना चाहता था, पर उसका कोई उपाय नहीं था। यह सोचकर कि फिर किसी दिन आकर रेत बटोरेगा, वह उदास मन से आगे चल दिया।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "से नहीं छू सका, उन्हें पैरों से मसल दिया। मन था कि किसी",
+            "कोई उपाय नहीं था। यह सोचकर कि फिर किसी दिन आकर",
+            "उस रेत को बटोरूँगा, मैं उदास मन से वहाँ से आगे चल दिया।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:F:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "सूर्यास्त के बाद अचानक खयाल आया कि उसे वहाँ से लौटकर भी जाना है। (क) इस खयाल से उसके शरीर पर क्या प्रभाव पड़ा? (ख) उसने टीलों का रास्ता छोड़कर कौन-सा रास्ता चुना और क्यों?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "शरीर में कँपकँपी भर गई",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "टीलों के रास्ते में रेत में भटक जाने का भय था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "समुद्र तट का रास्ता चुना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "तट का रास्ता निश्चित रूप से केप होटल तक ले जाएगा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "क — इस खयाल से ही लेखक के शरीर में कँपकँपी भर गई। ख — उसने टीलों का रास्ता छोड़कर समुद्र तट का रास्ता चुना। सामने अँधेरे में रंग धुँधले हो गए थे और उनके बीच स्याह पड़ती रेत के कितने ही टीले थे, इसलिए डर था कि कहीं वह रेत में ही भटकता न रह जाए। पर तट का रास्ता निश्चित रूप से उसे केप होटल के सामने तक ले जाएगा।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अचानक खयाल आया कि मुझे वहाँ से लौटकर भी जाना है। इस खयाल से ही शरीर",
+            "में कँपकँपी भर गई। दूर सैंड हिल की तरफ देखा। वहाँ स्य याही में डूबे कुछ धुँधले रंग हिलते",
+            "शाय द रेत में ही भटकता रह जाऊँगा। इसलिए सोचा बेहतर है नीचे समुद्र तट पर उतर जाऊँ—\nतट का रास्ता निश्‍ च‍ित रूप से केप होटल के सामने तक ले जाएगा। निर्णय तुरंत करना था,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:F:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "सूर्योदय के समय गवर्नमेंट गेस्ट हाउस के बैरों और स्थानीय नवयुवतियों की भूमिकाओं में क्या अंतर था?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "बैरे सूर्योदय के समय सरकारी मेहमानों को कॉफी पिला रहे थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "बैरे शंख-मालाओं का मोल-तोल भी कर रहे थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "दो स्थानीय नवयुवतियाँ अपनी टोकरियों से शंख-मालाएँ दिखला रही थीं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "महामानों की सेवा बैरे कर रहे थे और स्थानीय लोग अपनी परंपरा दिखा रहे थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "गवर्नमेंट गेस्ट हाउस के बैरे सूर्योदय के समय सरकारी मेहमानों को कॉफी पिला रहे थे और शंख-मालाओं का मोल-तोल भी कर रहे थे। दूसरी ओर दो स्थानीय नवयुवतियाँ अपनी टोकरियों से यात्रियों को शंख-मालाएँ दिखला रही थीं। यानी महामानों की सेवा गेस्ट हाउस के बैरे कर रहे थे और स्थानीय लोग अपनी परंपरा और कुटीर व्यवसाय दिखा रहे थे।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "लोग उगते सूर्य को अघ्‍यर्देने के लिए एकत्रि त थे। घाट से थोड़ा हटकर गवर्नमेंट\nगेस्ट हाउस के बैरे सरकारी मेहमानों को सूर्योदय के समय की कॉफी पिला",
+            "रहे थे। दो स्थानीय नवयु वतियाँ उन्हें अपनी टोकरियों से शंख और\nमालाएँ दिखला रही थीं । वे लोग दोनों काम साथ-साथ कर रहे",
+            "थे— मालाओं का मोल-तोल और अपने बाइनाक्यू लर्ज से"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:F:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "‘हम लोग सीपियों का गूदा खाते हैं और दार्शनिक सिद्धांतों पर बहस करते हैं’ — इस कथन के आधार पर कन्याकुमारी के शिक्षित युवाओं की स्थिति को समझाइए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "चार-पाँच सौ शिक्षित नवयुवक बेकार हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उनमें से सौ के लगभग ग्रेजुएट हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "नौकरी के लिए अर्ज़ियाँ देना और आपस में बहस करना उनका मुख्य धंधा है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सीपियों का गूदा खाना और दार्शनिक सिद्धांतों पर बहस करना, फिर भी चट्टान से प्रेणा का बोध",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कन्याकुमारी की आठ हजार की आबादी में कम-से-कम चार-पाँच सौ शिक्षित नवयुवक ऐसे हैं जो बेकार हैं, और उनमें से सौ के लगभग ग्रेजुएट हैं। उनका मुख्य धंधा नौकरियों के लिए अर्ज़ियाँ देना और बैठ कर आपस में बहस करना है। वे सीपियों का गूदा खाते हैं और दार्शनिक सिद्धांतों पर बहस करते हैं, फिर भी उन्हें लगता है कि इस चट्टान से उन्हें प्रेणा मिलती ही है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "ग्रेजुएट नवयु वक मुझे बता रहा था कि कन्याकुमारी की आठ हजार की आबादी में\nकम-से-कम चार-पाँच सौ शिक्षित नवयु वक ऐसे हैं जो बेकार हैं। उनमें से सौ के लगभग",
+            "ग्रेजुएट हैं। उनका मुख्य धंधा है नौकरियों के लिए अर्ज़ियाँ देना और बैठ कर आपस में बहस",
+            "करते थे। “हम लोग सीपियों का गूदा खाते हैं और दार्शनिक सिद्धांतो पर बहस करते हैं”, वह\nकह रहा था। “इस चट्टान से इतनी प्रे णा तो हमें मिलती ही है।” मुझे दिखाने के लिए उसने"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:G:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "अपनी किसी यात्रा के प्रमुख दृश्य का वर्णन १२० शब्दों में एक अनुच्छेद के रूप में कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: यात्रा का स्थान, समय और प्रमुख दृश्य का स्पष्ट वर्णन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: लेखक की अनुभूति और भावों का स्पष्ट व्यक्त होना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित पूर्ण अनुच्छेद का रूप",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: दृश्य, आत्मानुभूति और निष्कर्ष का क्रमबद्ध प्रस्तुतीकरण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "शुद्धता: वाक्य-विन्यास, समास, उपसर्ग और क्रिया-विशेषण का सही प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "अभिव्यक्ति: भावों की सरल, प्रभावशाली और सजीव अभिव्यक्ति",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "स्मरण है, हमने कन्याकुमारी की यात्रा की थी। सैंड हिल से आगे बढ़कर हमने पीली रेत के ऊँचे टीले पर पहुँचकर सूर्यास्त देखा। सूर्य पानी की सतह के पास आते ही सुनहली किरणों ने रेत में एक नया रंग भर दिया। फिर धीरे-धीरे रंग बदलता गया — सोना, फिर लहू का सा, फिर बैज़नी और काला। टाँगें थक रही थीं, पर मन थकने को तैयार नहीं था। ऊँची-ऊँची लहरें नुकीली चट्टानों से टकरा रही थीं और नारियलों के झुरमुट हवा में सिर धुन रहे थे। उस दिन अनुभव हुआ कि दृश्य के साथ आत्मा भी जुड़ जाती है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "सूर्य का गोला पानी की सतह से छू गया। पानी पर दूर तक सोना-ही-सोना ढुल आया।",
+            "टीला है। जल्दी-जल्दी चलते हुए मैंने एक के बाद एक कई टीले पार किए। टाँगें थक रही थीं\nपर मन थकने को तैयार नहीं था। हर अगले टीले पर पहुँचने पर लगता कि शाय द अब एक",
+            "नया-सा रंग दे दिया था। उस रंग में रेत इस तरह चमक रही थी जैसे अभी-अभी उसका निर्मा ण\nकरके उसे वहाँ उड़ेला गया हो। मैंने उस रेत पर दूर तक बने अपने पैरों के निशानों को देखा।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:G:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "समुद्र तट पर सूर्यास्त जैसा कोई दृश्य देखकर आपके मन में जो अनुभूति हुई, उसका वर्णन १२० शब्दों में एक अनुच्छेद के रूप में कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: देखे गए दृश्य के प्रमुख रंग, आकृति और आवाज़ का स्पष्ट चित्रण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: अपने अस्तित्व के बोध और प्रकृति के प्रति अनुभूति का व्यक्त होना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित पूर्ण अनुच्छेद का रूप",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: दृश्य-वर्णन से आत्मानुभूति तक का क्रमबद्ध प्रवाह",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "शुद्धता: वाक्य-विन्यास, समास, उपसर्ग और क्रिया-विशेषण का सही प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "अभिव्यक्ति: उपमा और प्रतीकों के प्रयोग से प्रभावशाली अभिव्यक्ति",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कन्याकुमारी में सूर्यास्त देखते समय मुझे अपना अस्तित्व भी धुंधला सा लगने लगा। सूर्य पानी की सतह के पास आते ही सुनहली किरणें पीली रेत पर उतरीं। रंग इतनी जल्दी-जल्दी बदला कि किसी एक क्षण का नाम भी न दिया जा सका। पानी पर दूर तक सोना ढुला, फिर वह रंग लहू का सा हो गया। तब ऊँची-ऊँची लहरें नुकीली चट्टानों से टकराईं तो मुझे शक्ति का विस्तार महसूस हुआ। समझ आया कि प्रकृति के सामने मनुष्य कितना छोटा है, फिर भी प्रकृति उससे बात करती भी है। वह सूर्यास्त की रंगीन स्याही आज भी याद है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कर देती है कि पाठक को लगता है कि वह भी लेखक के साथ ही यात्ा कर रहा है। प्रकृति की\nभव्य ता और मानव-मन की गहन अनुभूतियों को य ह यात्ा-वृत्ांत एक साथ उजागर करता है।",
+            "• अपने अस्तति्व का बोध",
+            "• प्रकृति से संवाद"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:05:G:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/आखिरी-चट्टा-न-त-क"
+      ],
+      "taxonomyChapterId": "hindi-9/आखिरी-चट्टा-न-त-क",
+      "topic": "मोहन राकेश",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "यात्रा के दौरान आई कठिनाई को पार करने से आपको क्या सीख मिली, इसका वर्णन १२० शब्दों में एक अनुच्छेद के रूप में कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: यात्रा में आई कठिनाई का ठोस और विश्वसनीय वर्णन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: कठिनाई पार करने से मिली सीख का स्पष्ट प्रतिपादन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित पूर्ण अनुच्छेद का रूप",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: घटना, संघर्ष और सीख का क्रमबद्ध प्रस्तुतीकरण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "शुद्धता: वाक्य-विन्यास, समास, उपसर्ग और क्रिया-विशेषण का सही प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "अभिव्यक्ति: संदेश की स्पष्ट, सरल और प्रभावशाली अभिव्यक्ति",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "यात्रा ने सबसे बड़ी बात यही सिखाई कि हार नहीं माननी चाहिए। सूर्यास्त देखने के लिए सैंड हिल से आगे टीले पार करने थे; हर बार लगता था कि यही अंतिम टीला है, फिर भी अगला टीला सामने आ जाता था। पैर थक रहे थे, पर मन थकने को तैयार नहीं था। बीच में स्याह पड़ती रेत के बीच अँधेरा छा गया तो डर सहसा हुआ, पर तट का रास्ता निश्चित मालूम होने से साहस बना। सामने मंदिर की लाल और सफेद लकीरें चमकती दिखीं। इस यात्रा ने सिखाया कि कठिन कदम थकने से नहीं, रुकने से नहीं लगते।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मोहन राकेश का ‘आखि‍री चट्टान तक’ यात्ा-वृत्ांत केवल स्थान-चित्रण नहीं है बल्ककि इसमें प्रकृति का\nसजीव रूपांकन, मानव-जीवन और समाज की झलक तथा आत्मानुभूति का गहरा समन्वय मिलता है।",
+            "‘आखिरी चट्टान तक’ एक रोचक यात्ा-वृत्ांत है जिसमें लेखक ने कन्याकुमारी की अपनी\nयात्ा के अनुभवों को व्य क्त किया है। यात्ा-वृत्ांत में बंगाल की खाड़ी, हिंद महासागर और",
+            "• क्षणभंगुरता व उदासी"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "ihga1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "मोहन राकेश",
+      "reason": "options-not-answerable",
+      "stem": "लेखक पहुँचकर वहीं कुछ देर से अधिक नहीं ठहरा और आगे बढ़ गया — इसका कारण क्या था?"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "मोहन राकेश",
+      "reason": "options-not-answerable",
+      "stem": "इस अंश में लेखक ने अपनी चट्टान का रूपक किस बात के लिए चुना है?"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "मोहन राकेश",
+      "reason": "options-not-answerable",
+      "stem": "इस अंश में ग्रेजुएट नवयुवक अपने साथियों की आलोचना किस बात पर करता है?"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "मोहन राकेश",
+      "reason": "figure-not-in-text:१००",
+      "stem": "अपने प्रधानाचार्य को पत्र लिखकर अनुरोध कीजिए कि अगली अवकाश में कक्षा के लिए समुद्र तट भ्रमण यात्रा का आयोजन कराया जाए। ("
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "मोहन राकेश",
+      "reason": "figure-not-in-text:१००",
+      "stem": "अपने किसी सहपाठी को ईमेल लिखकर बताइए कि आप सूर्यास्त देखने गए थे और वहाँ आपने किन-किन बातों का साक्षीन किया। (शब्द-सीमा:"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "मोहन राकेश",
+      "reason": "figure-not-in-text:१००",
+      "stem": "ऐसे मित्र को पत्र लिखकर समुद्र तट की रेत के विविध रंगों का वर्णन कीजिए, जिसने कभी समुद्र न देखा हो। (शब्द-सीमा: १०० शब्द"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "मोहन राकेश",
+      "reason": "too-many-marking-points",
+      "stem": "कन्याकुमारी में सूर्योदय और सूर्यास्त देखने के लिए चलने वाली यात्रा का एक विज्ञापन तैयार कीजिए, जिसे समाचार-पत्र में प्र"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "मोहन राकेश",
+      "reason": "too-many-marking-points",
+      "stem": "समुद्र तट पर पहुँचने वाले अपने सहपाठियों को तट पर रहते समय बरतने योग्य सावधानियों के बारे में एक संदेश लिखकर दीजिए। (शब्"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "मोहन राकेश",
+      "reason": "too-many-marking-points",
+      "stem": "स्थानीय शंख-मालाओं के हस्तशिल्प को प्रोत्साहित करने के लिए एक विज्ञापन तैयार कीजिए, जिसे किसी मेले में लगाया जा सके। (शब"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "ihga1",
+    "chapters": [
+      5
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

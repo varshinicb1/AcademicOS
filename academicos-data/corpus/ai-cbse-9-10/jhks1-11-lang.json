@@ -1,0 +1,1790 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jhks1:11:A:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "उन्होंने यह भी स्पष्ट किया है कि संगीत\nएक आराधना है। इसका विधि-विधान है। इसका शास्त्र है, इस शास्त्र से परिचय\nआवश्यक है, सिर्फ़ परिचय ही नहीं उसका अभ्यास ज़रूरी है और अभ्यास के लिए\nगुरु-शिष्य परंपरा ज़रूरी है, पूर्ण तन्मयता ज़रूरी है, धैर्य ज़रूरी है, मंथन ज़रूरी है।\nवह लगन और धैर्य बिस्मिल्ला खाँ में रहा है। तभी 80 वर्ष की उम्र में भी उनकी\nसाधना चलती रही है।\n\nपढ़े गए अनुच्छेद के अनुसार, वृद्धावस्था में भी खाँ साहब की संगीत-साधना अब तक चलती रहने का कारण क्या बताया गया है? (A) उनकी प्रतिभा की सर्वस्वीकृति (B) उनमें लगन और धैर्य का बना रहना (C) उनके संगीत-कार्यक्रमों की अधिक संख्या (D) उनकी आर्थिक कठिनाई का बढ़ता दबाव",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उनमें लगन और धैर्य का बना रहना",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "गुरु-शिष्य परंपरा ज़रूरी है, पूर्ण तन्मयता ज़रूरी है, धैर्य ज़रूरी है, मंथन ज़रूरी है।",
+            "वह लगन और धैर्य बिस्मिल्ला खाँ में रहा है। तभी 80 वर्ष की उम्र में भी उनकी\nसाधना चलती रही है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "उनकी प्रतिभा की सर्वस्वीकृति",
+            "B": "उनमें लगन और धैर्य का बना रहना",
+            "C": "उनके संगीत-कार्यक्रमों की अधिक संख्या",
+            "D": "उनकी आर्थिक कठिनाई का बढ़ता दबाव"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:A:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "मुहर्रम का महीना वह होता है जिसमें शिया मुसलमान हज़रत इमाम हुसैन एवं उनके कुछ वंशजों के प्रति अज़ादारी (शोक मनाना) मनाते हैं। पूरे दस दिनों का शोक। वे बताते हैं कि उनके खानदान का कोई व्यक्ति मुहर्रम के दिनों में न तो शहनाई बजाता है, न ही किसी संगीत के कार्यक्रम में शिरकत ही करता है। आठवीं तारीख उनके लिए खास महत्त्व की है। इस दिन खाँ साहब खड़े होकर शहनाई बजाते हैं व दालमंडी में फातमान के करीब आठ किलोमीटर की दूरी तक पैदल रोते हुए, नौहा बजाते जाते हैं। इस दिन कोई राग नहीं बजता। राग-रागिनियों की अदायगी का निषेध है इस दिन।\n\nपढ़े गए अंश के अनुसार, मुहर्रम की आठवीं तारीख को खाँ साहब का व्यवहार क्या दर्शाता है? (A) संगीत कार्यक्रमों से उनका पूरी तरह दूर हो जाना (B) संगीत के प्रति उनका उदासीन हो चुकना (C) शोक के दिन भी संगीत उनकी भक्ति और साधना का साथ देना (D) शहनाई की लोक-प्रियता का बढ़ जाना",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "शोक के दिन भी संगीत उनकी भक्ति और साधना का साथ देना",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उनके खानदान का कोई व्यक्ति मुहर्रम के दिनों में न तो शहनाई बजाता है, न ही किसी संगीत के कार्यक्रम में शिरकत ही करता है।",
+            "इस दिन खाँ साहब खड़े होकर शहनाई बजाते हैं व दालमंडी में फातमान के करीब आठ किलोमीटर की दूरी तक पैदल रोते हुए, नौहा बजाते जाते हैं।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "संगीत कार्यक्रमों से उनका पूरी तरह दूर हो जाना",
+            "B": "संगीत के प्रति उनका उदासीन हो चुकना",
+            "C": "शोक के दिन भी संगीत उनकी भक्ति और साधना का साथ देना",
+            "D": "शहनाई की लोक-प्रियता का बढ़ जाना"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:A:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "अमीरुद्दीन अभी सिर्फ़ छः साल का है और बड़ा भाई शम्सुद्दीन नौ साल का। अमीरुद्दीन को पता नहीं है कि राग किस चिड़िया को कहते हैं। और ये लोग हैं मामूजान वगैरह जो बात-बात पर भीमपलासी और मुलतानी कहते रहते हैं। क्या वाज़िब मतलब हो सकता है इन शब्दों का, इस लिहाज से अभी उम्र नहीं है अमीरुद्दीन की, जान सके इन भारी शब्दों का वजन कितना होगा।\n\nपढ़े गए अनुच्छेद में छह साल के बच्चे के सामने बड़े शहनाई वादक के शब्दों को हल्के में टाल दिए जाने पर लेखक की किस भावना का बोध होता है? (A) गंभीर श्रद्धा और आँखों में आँसू (B) अपनी श्रेष्ठता का दावा (C) घोर क्रोध और नाराज़गी (D) हल्के हट्टास और शब्दों में निहित व्यंग्य",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "हल्के हट्टास और शब्दों में निहित व्यंग्य",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "और ये लोग हैं मामूजान वगैरह जो बात-बात पर भीमपलासी और मुलतानी कहते रहते हैं।",
+            "क्या वाज़िब मतलब हो सकता है इन शब्दों का, इस लिहाज से अभी उम्र नहीं है अमीरुद्दीन की, जान सके इन भारी शब्दों का वजन कितना होगा।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "गंभीर श्रद्धा और आँखों में आँसू",
+            "B": "अपनी श्रेष्ठता का दावा",
+            "C": "घोर क्रोध और नाराज़गी",
+            "D": "हल्के हट्टास और शब्दों में निहित व्यंग्य"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:B:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "पर यह ज़रूर है कि शहनाई और डुमराँव\nएक-दूसरे के लिए उपयोगी हैं। शहनाई बजाने के लिए रीड का प्रयोग होता है। रीड अंदर\nसे पोली होती है जिसके सहारे शहनाई को फूँका जाता है। रीड, नरकट (एक प्रकार की\nघास) से बनाई जाती है जो डुमराँव में मुख्यतः सोन नदी के किनारों पर पाई जाती है। इतनी\nही महत्ता है इस समय डुमराँव की जिसके कारण शहनाई जैसा वाद्य बजता है।\n\nपढ़े गए अंश के अनुसार, यदि कोई शहनाई का रीड बनाना चाहे, तो उसे किस वस्तु की आवश्यकता होगी?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "रीड, नरकट (एक प्रकार की घास) से बनाई जाती है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "नरकट डुमराँव में मुख्यतः सोन नदी के किनारों पर पाई जाती है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "नरकट (एक प्रकार की घास) से, जो डुमराँव में मुख्यतः सोन नदी के किनारों पर पाई जाती है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "रीड, नरकट (एक प्रकार की\nघास) से बनाई जाती है",
+            "जो डुमराँव में मुख्यतः सोन नदी के किनारों पर पाई जाती है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:B:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "अक्सर कहते हैं—'क्या करें मियाँ, ई काशी छोड़कर कहाँ जाएँ, गंगा मइया यहाँ, बाबा\nविश्वनाथ यहाँ, बालाजी का मंदिर यहाँ, यहाँ हमारे खानदान की कई पुश्तों ने शहनाई बजाई\nहै, हमारे नाना तो वहीं बालाजी मंदिर में बड़े प्रतिष्ठित शहनाईवाज़ रह चुके हैं। अब हम\nक्या करें, मरते दम तक न यह शहनाई छूटेगी न काशी। जिस ज़मीन ने हमें तालीम दी, जहाँ\nसे अदब पाई, वो कहाँ और मिलेगी? शहनाई और काशी से बढ़कर कोई जन्नत नहीं इस\nधरती पर हमारे लिए।'\n\nपढ़े गए अंश में खाँ साहब 'वो कहाँ और मिलेगी' किस बात के लिए कहते हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "जिस ज़मीन ने उन्हें तालीम दी और जहाँ से अदब पाई",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उस ज़मीन के समान कोई दूसरी जगह कहीं नहीं मिलेगी",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "काशी ने उन्हें तालीम और अदब दी है; उस ज़मीन के समान कोई दूसरी जगह नहीं मिलेगी।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "जिस ज़मीन ने हमें तालीम दी, जहाँ\nसे अदब पाई, वो कहाँ और मिलेगी?",
+            "शहनाई और काशी से बढ़कर कोई जन्नत नहीं इस\nधरती पर हमारे लिए।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:C:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "एक विद्यार्थी ने लिखा — 'भारतरत्न हमको शहनईया पर मिला है।' इस वाक्य में 'ई' और 'अ' के संधि से बने शब्द का सही रूप कौन-सा है? (A) शहनइया (B) शहनईया (C) शहनऐया (D) शहनईआ",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "शहनईया",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "धत्! पगली ई भारतरत्न हमको शहनईया पे\nमिला है, लुंगिया पे नाहीं।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "शहनइया",
+            "B": "शहनईया",
+            "C": "शहनऐया",
+            "D": "शहनईआ"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:C:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "एक पत्रकार ने लिखा — 'इस दिन कोई राग नहीं बजता। राग-रागिनियों की अदायगी का निषेध है इस दिन।' इस वाक्य में 'राग-रागिनियों' में किस समास की पहचान कीजिए? (A) तत्पुरुष (B) कर्मधारय (C) द्वंद्व (D) बहुव्रीहि",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "द्वंद्व",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "इस दिन कोई राग नहीं बजता। राग-रागिनियों की अदायगी का निषेध है इस दिन।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "तत्पुरुष",
+            "B": "कर्मधारय",
+            "C": "द्वंद्व",
+            "D": "बहुव्रीहि"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:C:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "किसी ने लिखा — 'दक्षिण भारत के मंगल वाद्य नागस्वरम्की तरह शहनाई, प्रभाती की मंगलध्वनि का संपूरक है।' इस वाक्य में किस अलंकार का प्रयोग हुआ है? (A) उपमा (B) रूपक (C) उत्प्रेक्षा (D) अतिशयोक्ति",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उपमा",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "दक्षिण भारत के मंगल वाद्य 'नागस्वरम्' की तरह शहनाई, प्रभाती\nकी मंगलध्वनि का संपूरक है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "उपमा",
+            "B": "रूपक",
+            "C": "उत्प्रेक्षा",
+            "D": "अतिशयोक्ति"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:D:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "किसी दिन एक शिष्या ने डरते-डरते खाँ साहब को टोका, \"बाबा! आप यह क्या करते\nहैं, इतनी प्रतिष्ठा है आपकी। अब तो आपको भारतरत्न भी मिल चुका है, यह फटी तहमद न\nपहना करें। अच्छा नहीं लगता, जब भी कोई आता है आप इसी फटी तहमद में सबसे मिलते\nहैं।\" खाँ साहब मुसकराए। लाड़ से भरकर बोले, \"धत्! पगली ई भारतरत्न हमको शहनईया पे\nमिला है, लुंगिया पे नाहीं।\n\nपढ़े गए अंश में खाँ साहब ने भारतरत्न और फटी तहमद में से किसे अपनी साधना की असली पहचान बताया? (A) भारतरत्न को (B) दोनों को समान रूप से (C) फटी तहमद को (D) नए वाद्य यंत्र को",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "फटी तहमद को",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अब तो आपको भारतरत्न भी मिल चुका है, यह फटी तहमद न\nपहना करें।",
+            "धत्! पगली ई भारतरत्न हमको शहनईया पे\nमिला है, लुंगिया पे नाहीं।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "भारतरत्न को",
+            "B": "दोनों को समान रूप से",
+            "C": "फटी तहमद को",
+            "D": "नए वाद्य यंत्र को"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:D:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "सचमुच हैरान करती है काशी-पक्का महाल से\nजैसे मलाई बरफ़ गया, संगीत, साहित्य और अदब\nकी बहुत सारी परंपराएँ लुप्त हो गईं। एक सच्चे सुर साधक और सामाजिक की भाँति\nबिस्मिल्ला खाँ साहब को इन सबकी कमी खलती है। काशी में जिस तरह बाबा विश्वनाथ\nऔर बिस्मिला खाँ एक-दूसरे के पूरक रहे हैं, उसी तरह मुहर्रम-ताजिया और होली-अबीर,\nगुलाल की गंगा-जमुनी संस्कृति भी एक दूसरे के पूरक रहे हैं।\n\nपढ़े गए अंश में लेखक ने काशी से लुप्त होती जा रही परंपराओं की तुलना किससे की है? (A) मलाई-बरफ़ के गायब होने से (B) रियाज़ के घटने से (C) बालाजी मंदिर के बंद होने से (D) नौहा के बंद होने से",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मलाई-बरफ़ के गायब होने से",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "सचमुच हैरान करती है काशी-पक्का महाल से\nजैसे मलाई बरफ़ गया, संगीत, साहित्य और अदब\nकी बहुत सारी परंपराएँ लुप्त हो गईं।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "मलाई-बरफ़ के गायब होने से",
+            "B": "रियाज़ के घटने से",
+            "C": "बालाजी मंदिर के बंद होने से",
+            "D": "नौहा के बंद होने से"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:E:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "बिस्मिल्ला खाँ की संगीत के प्रति आसक्ति किन गायिकाओं के गाने के कारण पैदा हुई?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "संगीत के प्रति आसक्ति इन्हीं गायिका बहिनों को सुनकर पैदा हुई",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "रसूलन और बतूलन गाती हैं तब अमीरुद्दीन को खुशी मिलती है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "रसूलनबाई और बतूलनबाई के गाने के कारण। जब वे गाती हैं तब अमीरुद्दीन को खुशी मिलती है और वह उनके यहाँ से होकर ही बालाजी मंदिर की ड्योढ़ी तक पहुँचता है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अपने ढेरों साक्षात्कारों में बिस्मिल्ला खाँ साहब ने स्वीकार किया है कि\nउन्हें अपने जीवन के आरंभिक दिनों में संगीत के प्रति आसक्ति इन्हीं गायिका बहिनों को\nसुनकर मिली है।",
+            "यह रास्ता\nरसूलनबाई और बतूलनबाई के यहाँ से होकर जाता है।",
+            "रसूलन और बतूलन जब गाती हैं तब अमीरुद्दीन\nको खुशी मिलती है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:E:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "अस्सी बरस से खाँ साहब पाँचों वक्त वाली नमाज़ से क्यों नहीं चूकते?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "पाँचों वक्त वाली नमाज़ भी इसी सुर को पाने की प्रार्थना में खर्च हो जाती है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "नमाज़ के बाद सज़दे में मालिक से एक सुर बख्शने की दुआ माँगते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "क्योंकि पाँचों वक्त वाली नमाज़ भी इसी सच्चे सुर को पाने की प्रार्थना में खर्च हो जाती है। इसलिए वे नमाज़ के बाद सज़दे में मालिक से एक सुर बख्शने की दुआ माँगते हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अस्सी बरस की पाँचों वक्त वाली नमाज़ इसी सुर को पाने की\nप्रार्थना में खर्च हो जाती है।",
+            "वे नमाज़ के बाद सज़दे में गिड़गिड़ाते हैं—‘मेरे मालिक एक सुर बख्श दे।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:E:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "काशी में बदलते हुए रियाज़ को देखकर खाँ साहब को कैसा लगा?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "पक्का महाल से मलाई-बरफ़ बेचने वाले जा चुके हैं, इसकी कमी खलती है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "गायकों में कोई आदर नहीं रहा, अब घंटों रियाज़ को कोई नहीं पूछता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उन्हें बड़ी शिद्दत से खलती हुई। पक्का महाल से मलाई-बरफ़ बेचने वाले जा चुके हैं, अब संगतियों के लिए गायकों के मन में कोई आदर नहीं रहा और अब घंटों रियाज़ को कोई नहीं पूछता।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मलाई बरफ़ बेचने वाले जा चुके हैं। खाँ साहब को\nइसकी कमी खलती है।",
+            "बड़ी शिद्दत से कमी खलती है। अब संगतियों के\nलिए गायकों के मन में कोई आदर नहीं रहा।",
+            "अब घंटों रियाज़ को कौन\nपूछता है? हैरान हैं बिस्मिल्ला खाँ। कहाँ वह कजली,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:F:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "शहनाई बजाने का ज्ञान बिस्मिल्ला खाँ तक किन-किन हस्तों से पहुँचा?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "शहनाई का ज्ञान खानदान में पीढ़ी-दर-पीढ़ी चला आया है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "अब्बाजान बालाजी मंदिर की ड्योढ़ी पर शहनाई बजाते रहते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "मामू अलीबख्श खाँ उनके उस्ताद थे और परदादा उस्ताद सलार हुसैन खाँ डुमराँव निवासी थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "बिस्मिल्ला खाँ उस्ताद पैगंबरबख्श खाँ और मिट्ठन के छोटे साहबजादे हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "यह ज्ञान उनके खानदान में पीढ़ी-दर-पीढ़ी चला आया है। उनके अब्बाजान बालाजी मंदिर की ड्योढ़ी पर शहनाई बजाते रहते हैं और मामू अलीबख्श खाँ, जो उस्ताद भी थे, उनके गुरु रहे। उनके परदादा उस्ताद सलार हुसैन खाँ डुमराँव निवासी थे और बिस्मिल्ला खाँ उस्ताद पैगंबरबख्श खाँ तथा मिट्ठन के छोटे साहबजादे हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "ये खानदानी पेशा है अलीबख्श के घर का। उनके अब्बाजान भी यहीं ड्योढ़ी पर शहनाई बजाते रहते हैं।",
+            "फिर\nअमीरुद्दीन जो हम सबके प्रिय हैं, अपने उस्ताद बिस्मिल्ला खाँ साहब हैं। उनका जन्म-स्थान\nभी डुमराँव ही है। इनके परदादा उस्ताद सलार हुसैन खाँ डुमराँव निवासी थे। बिस्मिल्ला खाँ\nउस्ताद पैगंबरबख्श खाँ और मिट्ठन के छोटे साहबजादे हैं।",
+            "जब मामू अलीबख्श खाँ (जो उस्ताद भी थे) शहनाई\nबजाते हुए सम पर आएँ, तब धड़ से एक पत्थर ज़मीन पर मारता था।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:F:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "मुहर्रम के दिनों में बिस्मिल्ला खाँ और उनके खानदान का व्यवहार कैसा रहा है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "मुहर्रम इमाम हुसैन के प्रति शोक मनाने का पर्व है और पूरे दस दिनों तक शोक चलता है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "खानदान का कोई व्यक्ति इन दिनों न शहनाई बजाता है, न संगीत कार्यक्रम में शिरकत करता है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आठवीं तारीख को खाँ साहब पैदल रोते हुए नौहा बजाते जाते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "यह यात्रा दालमंडी में फातमान के करीब आठ किलोमीटर की दूरी तक होती है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मुहर्रम शिया मुसलमान हज़रत इमाम हुसैन एवं उनके कुछ वंशजों के प्रति शोक मनाने का पर्व है और पूरे दस दिनों तक शोक चलता है। उनके खानदान का कोई व्यक्ति इन दिनों न तो शहनाई बजाता है, न किसी संगीत कार्यक्रम में शिरकत करता है। आठवीं तारीख को खाँ साहब दालमंडी में फातमान के करीब आठ किलोमीटर की दूरी तक पैदल रोते हुए नौहा बजाते जाते हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मुहर्रम का महीना वह होता है जिसमें शिया मुसलमान हज़रत इमाम हुसैन एवं उनके कुछ वंशजों के प्रति अज़ादारी (शोक मनाना) मनाते हैं। पूरे दस दिनों का शोक।",
+            "वे बताते हैं कि उनके खानदान का कोई व्यक्ति मुहर्रम के दिनों में न तो शहनाई बजाता है, न ही किसी संगीत के कार्यक्रम में शिरकत ही करता है।",
+            "इस दिन खाँ साहब खड़े होकर शहनाई बजाते हैं व दालमंडी में फातमान के करीब आठ किलोमीटर की दूरी तक पैदल रोते हुए, नौहा बजाते जाते हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:F:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "काशी में संगीत-संस्कृति को बनाए रखने में बिस्मिल्ला खाँ की क्या भूमिका रही है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "काशी में संगीत आयोजन की प्राचीन परंपरा पिछले कई बरसों से संकटमोचन मंदिर में होती आई है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उस उत्कृष्ट सभा में बिस्मिल्ला खाँ अवश्य रहते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "काशी से बाहर रहने पर वे विश्वनाथ व बालाजी मंदिर की दिशा की ओर मुँह करके बैठते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "काशी आज भी संगीत के स्वर पर जगती है और उनके जैसा नायाब हीरा दो कौमों को भाईचारे के साथ रहने की प्रेरणा देता रहा है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "काशी में संगीत आयोजन की एक प्राचीन एवं अद्भुत परंपरा है जो पिछले कई बरसों से संकटमोचन मंदिर में होता आया है और उसमें बिस्मिल्ला खाँ अवश्य रहते हैं। वे काशी से बाहर रहें तो विश्वनाथ व बालाजी मंदिर की दिशा की ओर मुँह करके बैठते हैं। काशी आज भी संगीत के स्वर पर जगती है और उनके जैसा नायाब हीरा वहाँ दो कौमों को भाईचारे के साथ जोड़ता रहा है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "काशी में संगीत आयोजन की एक प्राचीन एवं अद्भुत परंपरा है। यह आयोजन पिछले\nकई बरसों से संकटमोचन मंदिर में होता आया है।",
+            "इसमें बिस्मिल्ला खाँ अवश्य रहते हैं।",
+            "काशी आज भी संगीत के स्वर पर जगती और उसी की थापों पर सोती\nहै।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:G:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "आपके विद्यालय की पत्रिका के लिए 'संगीत-साधना और लगन' विषय पर लगभग १२० शब्दों का एक सुसंगत अनुच्छेद लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: संगीत को आराधना माना तथा उसके विधि-विधान, शास्त्र और गुरु-शिष्य परंपरा का उल्लेख।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: बिस्मिल्ला खाँ द्वारा अस्सी बरस तक निभाई गई साधना और उनमें लगन व धैर्य।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: अभ्यास, पूर्ण तन्मयता, धैर्य और मंथन की आवश्यकता का कथन तथा आज के संदर्भ में उसका महत्त्व।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित एक ही सतत अनुच्छेद के रूप में लगभग १२० शब्दों की रचना।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: परिचय, उदाहरण और निष्कर्ष के क्रम में तर्कसंगठित प्रवाह।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं प्रसाद: सही वर्तनी, व्याकरण, विराम-चिह्न तथा सरल प्रभावशाली भाषा का प्रयोग।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "संगीत कोई मनोरंजन का साधन नहीं, एक आराधना है। इसका विधि-विधान है, शास्त्र है और गुरु-शिष्य परंपरा भी। शहनाई के महान वादक उस्ताद बिस्मिल्ला खाँ ने अस्सी बरस तक यही साधना निभाई। उनमें लगन और धैर्य ऐसा था कि वृद्धावस्था में भी उनकी साधना चलती रही। उन्होंने बताया कि संगीत केवल परिचय से नहीं, उसके अभ्यास से सीखा जाता है और उसके लिए पूर्ण तन्मयता, धैर्य तथा मंथन ज़रूरी है। आज जब हमारे विद्यालयों में संगीत सिखाया जाता है, तब ये बातें हमें याद दिलाती हैं कि संगीत में सफलता बिना लगन और अभ्यास के संभव नहीं। यही लगन हमारी पीढ़ी को भी सफल बनाने वाली है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उन्होंने यह भी स्पष्ट किया है कि संगीत\nएक आराधना है। इसका विधि-विधान है। इसका शास्त्र है, इस शास्त्र से परिचय\nआवश्यक है, सिर्फ़ परिचय ही नहीं उसका अभ्यास ज़रूरी है और अभ्यास के लिए\nगुरु-शिष्य परंपरा ज़रूरी है, पूर्ण तन्मयता ज़रूरी है, धैर्य ज़रूरी है, मंथन ज़रूरी है।",
+            "वह लगन और धैर्य बिस्मिल्ला खाँ में रहा है। तभी 80 वर्ष की उम्र में भी उनकी\nसाधना चलती रही है।",
+            "संगीत नाटक अकादमी पुरस्कार एवं पद्मविभूषण जैसे सम्मानों से नहीं, बल्कि अपनी अजेय\nसंगीतयात्रा के लिए बिस्मिल्ला खाँ साहब भविष्य में हमेशा संगीत के नायक बने रहेंगे। नब्बे\nवर्ष की भरी-पूरी आयु में 21 अगस्त 2006 को संगीत रसिकों की हार्दिक सभा से विदा\nहुए खाँ साहब की सबसे बड़ी देन हमें यही है कि पूरे अस्सी बरस उन्होंने संगीत को संपूर्णता\nव एकाधिकार से सीखने की जिजीविषा को अपने भीतर जिंदा रखा।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:G:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "आपकी कक्षा में 'शहनाई वादय: एक परिचय' विषय पर लगभग १२० शब्दों का एक सुसंगत अनुच्छेद लिखिए, जिसे आप सबके सामने सुनाएँगे।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: शहनाई में नरकट या रीड होती है और रीड अंदर से पोली होती है, इसलिए उसे सहारा बनाया जाता है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: शहनाई 'सुषिर-वाद्यों' में गिनी जाती है और उसे 'सुषिर वाद्यों में शाह' की उपाधि मिली है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: मंगल का परिवेश प्रतिष्ठित करना तथा बालाजी मंदिर की ड्योढ़ी का नौबतखाना और सात सुर, ताल-मंथन।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित एक ही सतत अनुच्छेद के रूप में लगभग १२० शब्दों की रचना।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: परिचय से निर्माण-वर्णन और महत्त्व तक क्रमबद्ध प्रस्तुतीकरण।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं प्रसाद: सही वर्तनी, व्याकरण, विराम-चिह्न और विषय-अनुकूल भाषा का प्रयोग।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "शहनाई फूँककर बजाए जाने वाला वाद्य है, जिसमें नरकट या रीड होती है। रीड अंदर से पोली होती है और उसके सहारे शहनाई को फूँका जाता है। संगीत शास्त्र में इसे 'सुषिर-वाद्यों' में गिना जाता है और इसे 'सुषिर वाद्यों में शाह' की उपाधि दी गई है। यह वाद्य मंगल का परिवेश प्रतिष्ठित करने वाला है। काशी के बालाजी मंदिर की ड्योढ़ी का नौबतखाना इसी की प्रसिद्ध पहचान है। वादक इसके सात सुर, ताल और मंथन पर बल देते हैं और शहनाई में परवरदिगार व उस्ताद की नसीहत भी समा जाती है। यही शहनाई आज हमारी सांस्कृतिक पहचान बन चुकी है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अरब देश में फूँककर बजाए जाने वाले वाद्य जिसमें नाड़ी (नरकट या रीड) होती है, को 'नय' बोलते हैं।",
+            "शहनाई को 'शाहेनय' अर्थात् 'सुषिर वाद्यों में शाह' की उपाधि दी गई है।",
+            "शहनाई में सात सुर लेकर निकल पड़े।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:G:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "आपके विद्यालय में 'काशी की संगीत परंपरा' विषय पर लगभग १२० शब्दों का एक सुसंगत एवं विस्तृत अनुच्छेद लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: काशी संस्कृति की पाठशाला और वहाँ संगीत को भक्ति के रूप में देखे जाने का उल्लेख।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: संकटमोचन मंदिर में पिछले कई बरसों से होने वाला संगीत आयोजन और पाँच दिनों की उत्कृष्ट सभा।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: बिस्मिल्ला खाँ की उपस्थिति तथा कलाधर हनुमान, नृत्य-विश्वनाथ और मौजुद्दीन खाँ जैसे काशी के विशिष्ट सितारे।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित एक ही सतत अनुच्छेद के रूप में लगभग १२० शब्दों की रचना।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: परिचय से स्थल, कार्यक्रम और स्थानीयता तक क्रमबद्ध प्रस्तुतीकरण।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं प्रसाद: सही वर्तनी, व्याकरण, विराम-चिह्न और सुंदर प्रभावशाली भाषा का प्रयोग।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "काशी संस्कृति की पाठशाला है और वहाँ संगीत को भक्ति के रूप में देखा जाता है। काशी में संगीत आयोजन की एक प्राचीन एवं अद्भुत परंपरा है, जो पिछले कई बरसों से संकटमोचन मंदिर में होती आई है। यह मंदिर शहर के दक्षिण में लंका पर स्थित है और हनुमान जयंती के अवसर पर यहाँ पाँच दिनों तक शास्त्रीय एवं उपशास्त्रीय गायन-वादन की उत्कृष्ट सभा होती है, जिसमें बिस्मिल्ला खाँ अवश्य रहते हैं। काशी में कलाधर हनुमान और नृत्य-विश्वनाथ हैं तो मौजुद्दीन खाँ भी रहे हुए हैं। यहाँ अपना सेहरा-बन्ना और अपना नौहा है। इस शहर का अपना गम, अपनी बोली और अपने विशिष्ट लोग हैं। काशी आज भी संगीत के स्वर पर जगती और उसी की थापों पर सोती है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "काशी संस्कृति की पाठशाला है। शास्त्रों में आनंदकानन के नाम से प्रतिष्ठित।",
+            "यह आयोजन पिछले\nकई बरसों से संकटमोचन मंदिर में होता आया है।",
+            "इसमें बिस्मिल्ला खाँ अवश्य रहते हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:I:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "शहनाई वादय कार्यक्रम के लिए अभिभावकों को सूचित करने वाला लगभग ५० शब्दों का संदेश लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: कार्यक्रम की सूचना, उसमें शामिल कार्यक्रम-विवरण तथा अभिभावकों से अपेक्षित सहयोग का स्पष्ट उल्लेख।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: 'संदेश' शीर्षक, 'प्रिय अभिभावकों' संबोधन, संदेश का मुख्य भाग और हस्ताक्षर-पंक्ति।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था एवं भाषा-शुद्धता: संदेश-शैली की संक्षिप्तता, तथ्यों का क्रम और सही वर्तनी, व्याकरण व विराम-चिह्न।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "साहित्यिकता एवं शब्द-सीमा: लगभग ५० शब्दों की सीमा का पालन और प्रभावशाली प्रस्तुति।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "संदेश\n\nप्रिय अभिभावकों,\n\nविद्यालय में शहनाई वादय कार्यक्रम आयोजित किया जा रहा है। कार्यक्रम में इस वाद्य का परिचय, छात्रों की प्रस्तुतियाँ तथा संगीत-साधना पर एक लघु चर्चा होगी। आपके सहयोग से ही यह कार्यक्रम सफल हो सकेगा। कृपया अपने बच्चों को निर्धारित समय पर उपस्थित रहने के लिए कहें। धन्यवाद।\n\nप्रधानाचार्य",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "रोज़नामचे में बालाजी का मंदिर सबसे ऊपर आता है।",
+            "मंगल\nका परिवेश प्रतिष्ठित करने वाला यह वाद्य इन जगहों पर मांगलिक विधि-विधानों के अवसर\nपर ही प्रयुक्त हुआ है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:11:I:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत"
+      ],
+      "taxonomyChapterId": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "'संगीत एक आराधना है' — इस संदेश पर आधारित लगभग ५० शब्दों की विज्ञापन-सूचना लिखिए जिसमें शहनाई वाद्य की शिक्षा हेतु विद्यार्थियों को आमंत्रित किया जाए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: संगीत को आराधना मानने वाला संदेश, शिक्षा की शर्तें, प्रदान की जाने वाली सामग्री तथा रजिस्ट्रेशन का विवरण।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: 'विज्ञापन' शीर्षक, आकर्षक प्रारंभिक पंक्ति, जानकारी-पंक्तियाँ तथा अंत में आह्वान-पंक्ति।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था एवं भाषा-शुद्धता: विज्ञापन-शैली की संक्षिप्तता, सूचना का क्रम और सही वर्तनी, व्याकरण व विराम-चिह्न।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "साहित्यिकता एवं शब्द-सीमा: लगभग ५० शब्दों की सीमा का पालन और प्रभावशाली प्रस्तुति।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "विज्ञापन\n\nसंगीत कोई मनोरंजन नहीं, एक आराधना है। इसे सीखने के लिए चाहिए गुरु-शिष्य परंपरा, पूर्ण तन्मयता, धैर्य और नियमित मंथन। नरकट से निर्मित रीड वाली शहनाई सामग्री प्रदान की जाएगी। कक्षा आज से प्रारंभ हो रही है। रजिस्ट्रेशन विद्यालय कार्यालय में जमा करें। स्थान सीमित है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "एक आराधना है। इसका विधि-विधान है। इसका शास्त्र है, इस शास्त्र से परिचय\nआवश्यक है, सिर्फ़ परिचय ही नहीं उसका अभ्यास ज़रूरी है और अभ्यास के लिए\nगुरु-शिष्य परंपरा ज़रूरी है, पूर्ण तन्मयता ज़रूरी है, धैर्य ज़रूरी है, मंथन ज़रूरी है।",
+            "शहनाई बजाने के लिए रीड का प्रयोग होता है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "jhks1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "B",
+      "qtype": "very_short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१५",
+      "stem": "पढ़े गए अंश के अनुसार, किसी कार्यक्रम में लगातार बजाने पर खाँ साहब की रीड के साथ क्या होता है?"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "options-not-answerable",
+      "stem": "पढ़े गए अंश के अनुसार, खाँ साहब पाँचों वक्त वाली नमाज़ से क्यों नहीं चूकते?"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१०",
+      "stem": "आपके विद्यालय में शहनाई वादय कार्यक्रम आयोजित करने हेतु प्रधानाचार्य को लगभग १०० शब्दों का प्रार्थना-पत्र लिखिए।"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१०",
+      "stem": "अपने विद्यालय के संगीत शिक्षक को लगभग १०० शब्दों का ईमेल लिखिए, जिसमें आप शहनाई वाद्य सीखने की अनुमति तथा उनके मार्गदर्श"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१०",
+      "stem": "अपने विद्यालय के प्रधानाचार्य को लगभग १०० शब्दों का पत्र लिखिए, जिसमें 'काशी की संगीत परंपरा पर एक सांस्कृतिक कार्यक्रम "
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१०",
+      "stem": "अपने विद्यालय में आयोजित होने वाली 'शहनाई वादय प्रतियोगिता' के लिए लगभग ५० शब्दों की सूचना तैयार कीजिए।"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jhks1",
+    "chapters": [
+      11
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

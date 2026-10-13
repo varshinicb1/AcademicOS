@@ -1,0 +1,243 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:11:AR:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/reproduction-how-life-continues"
+      ],
+      "taxonomyChapterId": "science-9/reproduction-how-life-continues",
+      "topic": "Asexual Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "assertion_reason",
+      "stem": "Assertion (1): A student puts 20 mL of sugar solution and a pinch of yeast granules in a test tube, plugs the mouth of the test tube with cotton, and keeps it undisturbed in a warm place. After 1 to 2 hours, a drop of this mixture seen under a compound microscope shows small, round outgrowths, called buds, emerging from the parent yeast cells.\nReason (2): In organisms such as hydra, repeated cell division at a specific site on the parent body produces a small outgrowth called a bud, and this bud enlarges and then separates from the parent to live independently. (A) Both assertion and reason are correct and the reason explains the assertion. (B) Both assertion and reason are correct but the reason does not explain the assertion. (C) The assertion is correct but the reason is incorrect. (D) Both assertion and reason are incorrect.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both assertion and reason are correct and the reason explains the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Do you observe any small, round outgrowths (buds) emerging from the parent yeast cells",
+            "division at a specific site on the parent body produces a small outgrowth",
+            "to live independently. This process is called budding."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both assertion and reason are correct and the reason explains the assertion.",
+            "B": "Both assertion and reason are correct but the reason does not explain the assertion.",
+            "C": "The assertion is correct but the reason is incorrect.",
+            "D": "Both assertion and reason are incorrect."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch11",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          209,
+          211,
+          213,
+          215,
+          217,
+          219,
+          221,
+          223,
+          225,
+          227
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:11:AR:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/reproduction-how-life-continues"
+      ],
+      "taxonomyChapterId": "science-9/reproduction-how-life-continues",
+      "topic": "Asexual Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion (1): A student leaves cooked food on the kitchen counter for a day in warm weather, and the food starts to smell and may even grow fuzzy patches.\nReason (2): Experiments by Louis Pasteur showed that living things arise spontaneously from non-living matter, so these microorganisms appear on their own from the food itself. (A) Both assertion and reason are correct and the reason explains the assertion. (B) Both assertion and reason are correct but the reason does not explain the assertion. (C) The assertion is correct but the reason is incorrect. (D) Both assertion and reason are incorrect.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The assertion is correct but the reason is incorrect.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "if you leave cooked food on the kitchen counter for a day in warm weather, it starts to smell and may even grow fuzzy patches",
+            "For long, people thought living things arose spontaneously from non-living matter.",
+            "Experiments by Louis Pasteur proved that new life always comes from pre-existing life"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both assertion and reason are correct and the reason explains the assertion.",
+            "B": "Both assertion and reason are correct but the reason does not explain the assertion.",
+            "C": "The assertion is correct but the reason is incorrect.",
+            "D": "Both assertion and reason are incorrect."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch11",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          209,
+          211,
+          213,
+          215,
+          217,
+          219,
+          221,
+          223,
+          225,
+          227
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:11:AR:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/reproduction-how-life-continues"
+      ],
+      "taxonomyChapterId": "science-9/reproduction-how-life-continues",
+      "topic": "Asexual Reproduction",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion (1): After keeping a moistened slice of bread in a moist chamber for three days, a student finds that mould has grown on it, and this mould examined under a microscope shows thread-like structures with a round sac at the tip.\nReason (2): Fungi grow very fast by spore formation and degrade organic wastes and pollutants, play an important role in the removal of heavy metals from industrial wastes, and give us many antibiotics such as penicillin and amoxicillin. (A) Both assertion and reason are correct and the reason explains the assertion. (B) Both assertion and reason are correct but the reason does not explain the assertion. (C) The assertion is correct but the reason is incorrect. (D) Both assertion and reason are incorrect.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both assertion and reason are correct but the reason does not explain the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "After three days, observe the surface of the bread or roti carefully using a magnifying glass. Do you notice the growth of mould?",
+            "Do you observe thread-like structures with a round",
+            "Moulds on bread may look unpleasant but fungi benefit society greatly. Fungi grow very fast by spore formation and degrade organic wastes and pollutants."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both assertion and reason are correct and the reason explains the assertion.",
+            "B": "Both assertion and reason are correct but the reason does not explain the assertion.",
+            "C": "The assertion is correct but the reason is incorrect.",
+            "D": "Both assertion and reason are incorrect."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch11",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          209,
+          211,
+          213,
+          215,
+          217,
+          219,
+          221,
+          223,
+          225,
+          227
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      11
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

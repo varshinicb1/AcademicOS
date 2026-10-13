@@ -34,6 +34,9 @@ PRINTED = {
 }
 # Classes 6-9 Hindi (Malhar, Ganga): their contents trees are missing or garbled.
 PRINTED_HINDI_6_9 = {"Hindi|6": 13, "Hindi|7": 10, "Hindi|8": 10, "Hindi|9": 12}
+# Class 10 English and Hindi (Course A), from the contents pages (2026-10-14): First Flight 9 and
+# Footprints without Feet 9; Kshitij Part 2 12 and Kritika Part 2 3. No contents tree holds them.
+PRINTED_CLASS_10 = {"English|10": 18, "Hindi|10": 15}
 
 
 @pytest.fixture
@@ -47,22 +50,35 @@ def listed():
 
 def test_every_class_1_to_5_book_is_listed_whole(listed):
     assert {k: len(v["chapters"]) for k, v in listed.items() if int(k.split("|")[1]) <= 5} == PRINTED
-    assert {k: len(v["chapters"]) for k, v in listed.items() if int(k.split("|")[1]) > 5} == PRINTED_HINDI_6_9
+    assert {k: len(v["chapters"]) for k, v in listed.items() if int(k.split("|")[1]) > 5} == {
+        **PRINTED_HINDI_6_9, **PRINTED_CLASS_10}
     for key, book in listed.items():
         chapters = book["chapters"]
-        assert [c["number"] for c in chapters] == list(range(1, len(chapters) + 1)), key
+        # Each book whole and in order: a class that reads two books (class 10 English and Hindi)
+        # numbers each from 1.
+        for code in dict.fromkeys(c["book"] for c in chapters):
+            numbers = [c["number"] for c in chapters if c["book"] == code]
+            assert numbers == list(range(1, len(numbers) + 1)), (key, code)
         assert len({c["id"] for c in chapters}) == len(chapters), key
         assert all(c["name"].strip() and c["bookTitle"] for c in chapters), key
     assert [c["name"] for c in listed["Mathematics|1"]["chapters"]][:3] == [
         "Finding the Furry Cat!", "What is Long? What is Round?", "Mango Treat"]
     assert listed["Hindi|2"]["chapters"][-1]["name"] == "बादल"
+    english_10 = listed["English|10"]["chapters"]
+    assert (english_10[0]["name"], english_10[9]["name"]) == ("A Letter to God", "A Triumph of Surgery")
+    assert [t["title"] for t in english_10[0]["topics"]] == ["A Letter to God", "Dust of Snow", "Fire and Ice"]
+    assert listed["Hindi|10"]["chapters"][6]["name"] == "स्वयं प्रकाश — नेताजी का चश्मा"
+    assert listed["Hindi|10"]["chapters"][-1]["name"] == "मैं क्यों लिखता हूँ?"
 
 
-def test_classes_6_to_9_are_listed_only_where_no_contents_tree_holds_the_book(listed):
-    """A class 6-9 subject seeds the book's chapters from this list before its
+def test_classes_6_to_10_are_listed_only_where_no_contents_tree_holds_the_book(listed):
+    """A class 6-10 subject seeds the book's chapters from this list before its
     contents tree: a partial list here would seed a fraction of the book, so
     only whole books are listed, and only where the tree cannot be used."""
-    assert {k for k in listed if int(k.split("|")[1]) > 5} == set(PRINTED_HINDI_6_9)
+    assert {k for k in listed if int(k.split("|")[1]) > 5} == set(PRINTED_HINDI_6_9) | set(PRINTED_CLASS_10)
+    for key in PRINTED_CLASS_10:
+        subject, grade = key.split("|")
+        assert not cbse_syllabus.taxonomy_chapters(subject, int(grade)), key
     assert listed["Hindi|9"]["chapters"][2]["name"] == "संवादहीन", "the tree reads 'संवा दहीन'"
 
 

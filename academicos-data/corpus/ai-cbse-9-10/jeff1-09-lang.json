@@ -1,0 +1,1252 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:09:A:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "Russians usually live in apartments in tall buildings, and the groom has to climb several stairs to reach his bride. But at each landing he must answer a question to be allowed to go up. The bride’s friends ask difficult questions (sometimes about the bride, sometimes just difficult riddles), and the groom must answer with the help of his friends.\n\nYour group is preparing a short note on marriage customs for the class bulletin board and must explain, from the passage, why a Russian bridegroom cannot reach his bride without help. Choose the option that best explains it. (A) because he is not allowed to enter the building without a written permit from the bride's father (B) because he has to answer a question at every landing and his friends help him to answer (C) because the bride's friends hide the staircase so that he cannot find the right floor (D) because he must pay cash to his friends before they will come with him",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "because he has to answer a question at every landing and his friends help him to answer",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "But at each landing he must answer a question to be allowed to go up.",
+            "The bride’s friends ask difficult questions (sometimes about the bride, sometimes just difficult riddles), and the groom must answer with the help of his friends."
+          ],
+          "objective": true,
+          "options": {
+            "A": "because he is not allowed to enter the building without a written permit from the bride's father",
+            "B": "because he has to answer a question at every landing and his friends help him to answer",
+            "C": "because the bride's friends hide the staircase so that he cannot find the right floor",
+            "D": "because he must pay cash to his friends before they will come with him"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:A:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "A Russian wedding is very simple. The planning only includes arranging for rings, brides’ dress, cars, and a reception. Earlier, the bride’s family paid for the reception, but now-a-days brides’ and grooms’ families usually share expenses. A Russian wedding lasts for two days; some weddings last as long as a week, and the occasion becomes something to remember for years.\n\nA student in your class says that a Russian wedding is very simple to arrange and yet is remembered for years. Choose the option that best explains this on the basis of the passage. (A) because a wedding procession of several cars is the necessary part of the ceremony (B) because the bride's family paid for the reception while the groom's family did not (C) because the wedding lasts two days and the occasion becomes something to remember for years (D) because the bride's friends hide her until the groom has paid a fee",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "because the wedding lasts two days and the occasion becomes something to remember for years",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "A Russian wedding lasts for two days; some weddings last as long as a week, and the occasion becomes something to remember for years.",
+            "Earlier, the bride’s family paid for the reception, but now-a-days brides’ and grooms’ families usually share expenses."
+          ],
+          "objective": true,
+          "options": {
+            "A": "because a wedding procession of several cars is the necessary part of the ceremony",
+            "B": "because the bride's family paid for the reception while the groom's family did not",
+            "C": "because the wedding lasts two days and the occasion becomes something to remember for years",
+            "D": "because the bride's friends hide her until the groom has paid a fee"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:A:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "Stepanovna is an excellent housekeeper, not bad-looking, well-educated. What more do I want? But I’m getting a noise in my ears from excitement. [Drinks] And it’s impossible for me not to marry. In the first place, I’m already 35 — a critical age, so to speak. In the second place, I ought to lead a quiet and regular life. I suffer from palpitations, I’m excitable and always getting awfully upset; at this very moment my lips are trembling, and there’s a twitch in my right eyebrow.\n\nYour class is putting on the play and a classmate asks why the young man says he has no choice but to marry. Choose the option that best answers the question on the basis of the passage. (A) because he is already 35 and his nervous, excitable nature makes him feel he must settle down at once (B) because the date has been fixed and the invitations have already gone out (C) because the young woman has promised to give him the Meadows after the wedding (D) because the young woman's father has asked him to speak to her that very evening",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "because he is already 35 and his nervous, excitable nature makes him feel he must settle down at once",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In the first place, I’m already 35 — a critical age, so to speak.",
+            "In the second place, I ought to lead a quiet and regular life.",
+            "I suffer from palpitations, I’m excitable and always getting"
+          ],
+          "objective": true,
+          "options": {
+            "A": "because he is already 35 and his nervous, excitable nature makes him feel he must settle down at once",
+            "B": "because the date has been fixed and the invitations have already gone out",
+            "C": "because the young woman has promised to give him the Meadows after the wedding",
+            "D": "because the young woman's father has asked him to speak to her that very evening"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:B:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that correctly completes this sentence from the play: I ________ that those hunters argue most who know least. (A) has noticed (B) am noticing (C) have noticed (D) was noticing",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "have noticed",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I’ve noticed that those hunters argue most who know least."
+          ],
+          "objective": true,
+          "options": {
+            "A": "has noticed",
+            "B": "am noticing",
+            "C": "have noticed",
+            "D": "was noticing"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:B:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that correctly completes this sentence from the play: We'll see! I'll have the matter ________ to court, and then I'll show you! (A) taken (B) taking (C) take (D) being taken",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "taken",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "We’ll see! I’ll have the matter taken to court, and then I’ll show you!"
+          ],
+          "objective": true,
+          "options": {
+            "A": "taken",
+            "B": "taking",
+            "C": "take",
+            "D": "being taken"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:C:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school is holding a Family Values Week, and you have to speak in the morning assembly on the way two families share the work and the cost of a wedding. Write a speech of about 100 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the speech says that both families now share the expenses of a wedding and that friends also share the work, using the earlier custom as a contrast",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: the correct format of a speech, that is, a salutation to the audience, the body of the speech and a concluding thank you",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: a clear beginning, a middle part that gives the example of the shared reception and a short conclusion",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, punctuation, capital letters and a formal tone suitable for a school assembly",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: simple sentences and suitable vocabulary that hold the attention of the audience",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Honourable Principal, teachers and dear friends,\n\nA wedding is not the work of one family alone. In earlier days the bride's family paid for the reception all by itself. Now the brides' and grooms' families usually share the expenses. Each side pays its share, and the reception becomes a happy occasion for everybody.\n\nFriends help too. The best friends of the bride and groom meet a few times before the wedding, make posters, write speeches and organise contests. They also answer for the bride when the groom has to prove himself.\n\nSo a wedding joins two families and two sets of friends. When the work and the cost are shared, the joy is shared too.\n\nThank you.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Earlier, the bride’s family paid for the reception, but now-a-days brides’ and grooms’ families usually share expenses.",
+            "bride meet before the wedding a few times, make posters,",
+            "write speeches and organise contests. When the groom"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:D:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "Then smoke. Here are the matches. The weather is splendid now, but yesterday it was so wet that the workmen didn’t do anything all day. How much hay have you stacked? Just think, I felt greedy and had a whole field cut, and now I’m not at all pleased about it because I’m afraid my hay may rot.\n\nIn the extract the young woman talks about the weather and about her hay and never says why he has come. Choose the option that best shows what this tells us about her. (A) She is angry with him and wants to send him away at once (B) She is pleased that she had a whole field of hay cut (C) She treats him like an ordinary caller and has not yet realised why he has come (D) She is waiting for him to say why he has really come",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She treats him like an ordinary caller and has not yet realised why he has come",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Then smoke. Here are the matches. The weather is",
+            "didn’t do anything all day. How much hay have you stacked? Just think, I felt greedy and had a whole field",
+            "afraid my hay may rot. I ought to have waited a bit. But"
+          ],
+          "objective": true,
+          "options": {
+            "A": "She is angry with him and wants to send him away at once",
+            "B": "She is pleased that she had a whole field of hay cut",
+            "C": "She treats him like an ordinary caller and has not yet realised why he has come",
+            "D": "She is waiting for him to say why he has really come"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:D:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "competency_based",
+      "stem": "Yes, indeed, and all that sort of thing. [Embraces and kisses Lomov] I’ve been hoping for it for a long time. It’s been my continual desire. [Sheds a tear] And I’ve always loved you, my angel, as if you were my own son.\n\nChoose the option that best explains what the speaker's tears show in the extract. (A) that he is sorry that the young man has come to ask for money (B) that he is worried that the young man may take his land away (C) that he is tired of waiting for the marriage to be arranged (D) that he is overjoyed, since this is what he has long wished for",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "that he is overjoyed, since this is what he has long wished for",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I’ve been hoping for it for a long time. It’s been my continual desire.",
+            "[Sheds a tear] And I’ve always loved you,",
+            "my angel, as if you were my own son."
+          ],
+          "objective": true,
+          "options": {
+            "A": "that he is sorry that the young man has come to ask for money",
+            "B": "that he is worried that the young man may take his land away",
+            "C": "that he is tired of waiting for the marriage to be arranged",
+            "D": "that he is overjoyed, since this is what he has long wished for"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:E:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Two neighbours in the play claim the same meadow, Oxen Meadows, and neither will give way. Explain in about 50 words what this quarrel shows about the two families.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The neighbours are quarrelsome people who quarrel over petty issues",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Both families are wealthy and each wants to increase its estates, so a small piece of land leads to strong words",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The quarrel is so strong that the proposal is in danger of being forgotten, yet economic good sense brings it about",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "It shows that the neighbours are quarrelsome people who pick quarrels over petty issues. Both families are wealthy and each wants to increase its estates, so a small piece of land leads to strong words. Because of the quarrelling the proposal is in danger of being forgotten, yet economic good sense makes it happen after all.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "All three are quarrelsome people, and they quarrel over petty issues.",
+            "The proposal is in danger of being forgotten amidst all this",
+            "Ivan Lomov, a long time wealthy neighbour of Stepan Chubukov, also wealthy, comes to"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:E:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A classmate asks why the young man says he is already 35 and suffers from palpitations at the very moment he makes his proposal. Explain in about 50 words what he means.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He is already 35, which he calls a critical age for marriage",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He ought to lead a quiet and regular life and says it is impossible for him not to marry",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He suffers from palpitations and is easily upset, so he fears that if he waits for ideal or real love he will never marry",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He means that he cannot afford to wait. He is already 35, which he calls a critical age, and he ought to lead a quiet and regular life. He also suffers from palpitations and is easily upset. So he is afraid that if he hesitates or waits for ideal or real love, he will never marry at all.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In the first place, I’m already 35 — a critical age, so to speak.",
+            "In the second place, I ought to lead a quiet and regular life.",
+            "If I give myself time to think, to hesitate, to talk a lot, to look for an ideal, or for real love, then I’ll never get married."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:F:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A classmate asks you to trace, in about 120 words and step by step, what happens at a Russian wedding after the newly-married couple leaves the guests for a tour of the city sights. Give your answer in steps.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "1: The couple leaves the guests for a tour of the city sights, which lasts two or three hours",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "2: The couple then arrives at the reception and sits at a specially arranged table with family, friends and invited guests",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "3: The reception starts with toasts, in which a close friend or relative says a few words and everyone drinks wine at the same moment",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "4: The groom is then asked to kiss the bride",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "5: After a few toasts people eat, drink and have fun, and then the bride is stolen and the groom must pay a fee to find her",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "6: The bride's friends also steal the bride's shoe, the groom must pay for it too, and the guests go on partying",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. The newly-married couple leaves the guests and goes for a tour of the city sights.\n2. The tour lasts two or three hours.\n3. After the tour the couple arrives at the reception.\n4. The couple sits at a specially arranged table with family, friends and invited guests.\n5. The reception starts with toasts to the couple: a close friend or relative says a few words to wish them, then everyone raises a glass of wine and drinks at the same moment.\n6. The groom is then asked to kiss the bride.\n7. After a few toasts people start eating and drinking and generally have fun.\n8. After some time the bride is stolen and the groom is asked to pay a fee to find her; usually it is his friends who do it.\n9. Then the bride's friends steal the bride's shoe and the groom must pay money for the shoe too, and the guests go on partying.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "guests for a tour of the city sights. After two or three hours",
+            "sits at a specially arranged table with their family, friends and invited guests. The reception starts with toasts to the couple.",
+            "Then there are the bride’s friends — they steal the bride’s shoe. The groom must pay money for the shoe too."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:F:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A classmate asks you to trace, in about 120 words and step by step, how the quarrel between the two neighbours over a piece of land called Oxen Meadows grows worse. Give your answer in steps.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "1: He claims that his Oxen Meadows touch her birchwoods, and she interrupts to ask whether they are really his",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "2: He says they are his, she says they are hers, and each repeats that the Meadows belong to her own family",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "3: He explains that the Meadows are wedged in between her birchwoods and the Burnt Marsh",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "4: She answers that grandfather and great-grandfather both reckoned their land extended to Burnt Marsh, so the Meadows were theirs",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "5: He appeals to the documents and says his aunt's grandmother gave the free use of the Meadows in perpetuity to the peasants of her father's grandfather in return for bricks",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "6: The peasants had the free use for forty years and got into the habit of treating the Meadows as their own, which she refuses to accept, and the quarrel continues",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. The young man tells the young woman that his Oxen Meadows touch her birchwoods.\n2. She interrupts him at once and asks whether the Meadows are really his.\n3. He says yes; she says they are hers, not his, and he repeats that they are his.\n4. He explains that the Meadows are wedged in between her birchwoods and the Burnt Marsh.\n5. She answers that grandfather and great-grandfather reckoned their land reached Burnt Marsh, so the Meadows were theirs.\n6. He appeals to the documents and says his aunt's grandmother gave the free use of the Meadows in perpetuity to the peasants of her father's grandfather, in return for bricks.\n7. Those peasants had the free use for forty years and got into the habit of treating the Meadows as their own.\n8. She refuses this story and calls it silly, so the quarrel goes on.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "remember that my Oxen Meadows touch your birchwoods.",
+            "wedged in between your birchwoods and the Burnt Marsh.",
+            "You see my aunt’s grandmother gave the free use of these Meadows"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:F:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A classmate asks you to explain, in about 120 words and step by step, how the play shows that the marriage was decided by money and land and not by love. Give your answer in steps.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "1: The play is about the tendency of wealthy families to seek ties with other wealthy families",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "2: Their aim is to increase their estates",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "3: They encourage marriages that make good economic sense",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "4: Ivan Lomov, a long time wealthy neighbour of the also wealthy Stepan Chubukov, comes to ask for the hand of his twenty-five-year-old daughter Natalya",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "5: He is large and hearty but very suspicious, and he quarrels over petty issues, so the proposal is in danger of being forgotten",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "6: Even so, economic good sense ensures that the proposal is made, after all, although the quarrelling perhaps continues",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. The play is about the tendency of wealthy families to seek ties with other wealthy families.\n2. Their aim is to increase their estates.\n3. They do this by encouraging marriages that make good economic sense.\n4. So Ivan Lomov, a long time wealthy neighbour of Stepan Chubukov, who is also wealthy, comes to seek the hand of Chubukov's twenty-five-year-old daughter, Natalya.\n5. He is a large and hearty, but very suspicious, landowner, and he quarrels with her at once over the Meadows he says are his.\n6. All three are quarrelsome people, and they quarrel over petty issues.\n7. Because of this quarrelling the proposal is in danger of being forgotten.\n8. Yet economic good sense ensures that the proposal is made, after all.\n9. The quarrelling perhaps continues, but the match goes through.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The play is about the tendency of wealthy families to seek ties",
+            "with other wealthy families, to increase their estates by encouraging",
+            "quarrelling. But economic good sense ensures that the proposal is"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "B",
+      "qtype": "mcq",
+      "topic": "CONSTITUTION OF INDIA",
+      "reason": "evidence-not-in-text",
+      "stem": "Add the correct question tag to this sentence from the play: Oxen Meadows are ours, and I shan't give them up, shan't gi"
+    },
+    {
+      "section": "C",
+      "qtype": "short_answer",
+      "topic": "CONSTITUTION OF INDIA",
+      "reason": "figure-not-in-text:10",
+      "stem": "Your school is holding an essay competition on the customs of weddings in different countries, and entries of about 100 "
+    },
+    {
+      "section": "C",
+      "qtype": "short_answer",
+      "topic": "CONSTITUTION OF INDIA",
+      "reason": "figure-not-in-text:10",
+      "stem": "You have to submit a written comparison of the wedding customs of India and Russia for your class assignment, but you ha"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "CONSTITUTION OF INDIA",
+      "reason": "evidence-not-in-text",
+      "stem": "Choose the option that best explains, on the basis of the extract, why the speaker keeps beating about the bush and then"
+    },
+    {
+      "section": "E",
+      "qtype": "short_answer",
+      "topic": "CONSTITUTION OF INDIA",
+      "reason": "evidence-not-in-text",
+      "stem": "A friend who has watched the play asks why the father first believes that the young man has come to borrow money. Explai"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      9
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

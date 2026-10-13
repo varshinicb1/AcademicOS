@@ -1,0 +1,1103 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:08:B:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-sermon-at-benares"
+      ],
+      "taxonomyChapterId": "english-10/the-sermon-at-benares",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Filling the gap in the line Riya is copying — “At length, Kisa Gotami met a man ___ replied to her request” — which relative pronoun makes the sentence correct? (A) whom (B) who (C) whose (D) which",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "who",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "At length, Kisa Gotami met a man who replied to her request, “I cannot give thee medicine for thy child, but I know a physician who can.”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "whom",
+            "B": "who",
+            "C": "whose",
+            "D": "which"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:08:B:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-sermon-at-benares"
+      ],
+      "taxonomyChapterId": "english-10/the-sermon-at-benares",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choosing the arrangement that shows the inversion the correlative pair as … so requires, which of the options completes “As all earthen vessels made by the potter end in being broken, ___ the life of mortals”? (A) so the life of mortals is (B) so has been the life of mortals (C) so is the life of mortals (D) so the life of mortals has been",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "so is the life of mortals",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "As all earthen vessels made by the potter end in being broken, so is the life of mortals."
+          ],
+          "objective": true,
+          "options": {
+            "A": "so the life of mortals is",
+            "B": "so has been the life of mortals",
+            "C": "so is the life of mortals",
+            "D": "so the life of mortals has been"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:08:B:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-sermon-at-benares"
+      ],
+      "taxonomyChapterId": "english-10/the-sermon-at-benares",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Stopping a stranger in the queue to ask the way, Tara must ask “who is it?”, and which of the options gives the correct word order for that question? (A) who it is? (B) is who it? (C) it is who? (D) who is it?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "who is it?",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "And the girl said, “Pray tell me, sir; who is it?”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "who it is?",
+            "B": "is who it?",
+            "C": "it is who?",
+            "D": "who is it?"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:08:C:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-sermon-at-benares"
+      ],
+      "taxonomyChapterId": "english-10/the-sermon-at-benares",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Your 17-year-old classmate Anya has not been eating and spends her days in her room crying since her grandmother died. Write an e-mail of 100 words to Anya in which you console her, remind her that grief takes many shapes and is natural after any kind of loss, and suggest one practical thing she can do today.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: consoles Anya and treats what she feels as a natural response to a loss rather than a mistake.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a recognisable e-mail with a subject line, a greeting addressed to Anya, and a closing sign-off.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the message moves in a clear order from sympathy, to reassurance, to one practical suggestion.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: the details match the situation set — Anya is 17, has stopped eating and stays in her room crying after her grandmother died.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: a warm, plain and supportive tone with correct spelling, punctuation and grammar.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Subject: Anya, please eat something today\n\nDear Anya,\n\nYour grandmother died, and I am sorry. What you are feeling is not a mistake. Grief comes in many shapes — sadness, anger, guilt, loneliness, tiredness — and it is natural after any kind of loss, so do not tell yourself that you are doing it wrongly.\n\nHere is one thing for today: knock on my door before lunch and eat a sandwich with me. Do not talk about your grandmother unless you want to; I will sit with you anyway.\n\nYours,\nMartha",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Anya, age 17, doesn’t feel like eating and spends the days in her room crying. Her grandmother recently died.",
+            "Both of these individuals are experiencing grief. Grief is an emotion natural to all types of loss or significant change."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:08:C:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-sermon-at-benares"
+      ],
+      "taxonomyChapterId": "english-10/the-sermon-at-benares",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "The school counsellor notices that several students have lost a parent or a grandparent this year and that some of them will not speak to anyone. Draft a notice of 100 words for the school notice board, inviting students who have lost someone to a session where they may speak freely or simply be listened to, and inviting other students to volunteer as patient listeners.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: states who the session is for and makes clear that a bereaved student may either speak about the loss or simply be listened to.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a notice with a bold, informative heading and the necessary information set out in short, clearly separated lines.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the information is grouped sensibly — who may come, what will happen there, and how to join in.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: reflects the idea that grief is an emotion natural to all kinds of loss and that it takes a different shape in every person.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: a polite, inviting tone with correct spelling, punctuation and grammar.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "GRIEF AND FRIENDSHIP\nA session for students who have lost someone\n\nIf you have lost a parent, a grandparent or a close friend, you are welcome here. Come and speak about it, or come and simply sit and listen; you decide which you can manage today. Grief is an emotion natural to all kinds of loss, and you will meet others whose sorrow has taken a different shape from yours. We will listen patiently, we will not ask you to explain, and we will keep what you tell us to ourselves. If you would rather help others by listening only, put your name on the list on the counsellor’s door.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Reach out to others in their grief, but understand that some may not want to accept help and will not share their grief.",
+            "Be patient and let the grieving person know that you care and are there to support him or her."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:08:C:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-sermon-at-benares"
+      ],
+      "taxonomyChapterId": "english-10/the-sermon-at-benares",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "The school magazine has opened a page for students to say what helps when a classmate in school has lost a parent. Write an article of 100 words for that page in which you tell readers what a grieving classmate needs from friends, and which shows that grief is a natural emotion that takes a different shape in every person.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: gives concrete things a friend can do for a bereaved classmate instead of vague sympathy.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a short magazine article with a suitable headline and a definite closing thought.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the ideas run in a clear order, from what a friend does to how a friend should behave.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: reflects that grief is an emotion natural to all kinds of loss and may appear as sadness, anger, guilt, loneliness or tiredness.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: a clear and sympathetic style with correct spelling, punctuation and grammar.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "WHAT A GRIEVING FRIEND NEEDS\nWhen a classmate in school loses a parent, what helps is not advice but presence: sit beside them in the break, walk home with them, and go on talking about ordinary things until they can join in again. Grief is an emotion natural to all kinds of loss, and it wears many shapes — sadness, anger, guilt, loneliness, even tiredness — so never tell a grieving friend which feeling is the correct one. Be patient. Let them know that you care, and let them set the pace; some will want to talk about the loss, and some will not.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Although grief is unique and personal, a broad range of feelings and behaviours are commonly experienced after the death of a loved one.",
+            "Focusing on what we do for one another is the only consolation we can find."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:08:E:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-sermon-at-benares"
+      ],
+      "taxonomyChapterId": "english-10/the-sermon-at-benares",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Kisa Gotami carries her dead child from house to house asking for medicine, and the people say only, “She has lost her senses. The boy is dead.” What does the man who finally stops her tell her to do, and what does the Buddha then ask her for?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The man directs her to Sakyamuni, the Buddha, who has medicine that can cure her boy.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The Buddha asks for a handful of mustard-seed.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The seed must come from a house where no one has lost a child, husband, parent or friend.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The man tells her to go to Sakyamuni, the Buddha, who has medicine that can cure her boy. The Buddha then asks for a handful of mustard-seed, and the seed must be taken from a house where no one has lost a child, husband, parent or friend. Kisa Gotami goes looking for it at once, in joy.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the man replied, \"Go to Sakyamuni, the Buddha.”",
+            "it, the Buddha added, “The mustard-seed must be taken from a house where no one has lost a child, husband, parent or friend.”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:08:E:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-sermon-at-benares"
+      ],
+      "taxonomyChapterId": "english-10/the-sermon-at-benares",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Sitting at the wayside, Kisa Gotami watches the lights of the city flicker up and be extinguished again, and then says to herself, “How selfish am I in my grief!”; what has she understood from those lights, and what does she decide to do about her own sorrow?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She sees that every human life, like the lights of the city, flickers up and is extinguished again.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Death is common to all, so her sorrow is not hers alone, and to grieve in that way is to be selfish.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She chooses to surrender the selfishness in her grief, which is the path out of the valley of desolation.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Watching the lights flicker up and be extinguished again, she sees that every human life does the same and is short and comes to an end. Death, she realises, is common to all, so her grief is not hers alone and she has been selfish in it. She decides to surrender that selfishness, which is the path out of the valley of desolation.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Kisa Gotami became weary and hopeless, and sat down at the wayside watching the lights of the city, as they flickered up and were extinguished again.",
+            "“How selfish am I in my grief! Death is common to all;"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:08:E:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-sermon-at-benares"
+      ],
+      "taxonomyChapterId": "english-10/the-sermon-at-benares",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Asked how she can stop being so miserable, the Buddha warns her that weeping will only add to her pain and tells her that she must “draw out” something; what exactly must she draw out, and what does he promise will follow for the person who manages it?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She must draw out the arrow of lamentation, and complaint, and grief.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Weeping and grieving do not obtain peace of mind; they only increase the pain and make the body suffer.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The one who draws out the arrow and becomes composed obtains peace of mind and, having overcome all sorrow, becomes free from sorrow and is blessed.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He tells her to draw out the arrow of lamentation, and complaint, and grief. Weeping, he says, will not obtain peace of mind; it only makes the pain greater. The person who has drawn out the arrow and become composed will obtain peace of mind, and one who has overcome all sorrow will become free from sorrow and be blessed.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "arrow of lamentation, and complaint, and grief. He who",
+            "will obtain peace of mind; he who has overcome all",
+            "sorrow will become free from sorrow, and be blessed.”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:08:F:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-sermon-at-benares"
+      ],
+      "taxonomyChapterId": "english-10/the-sermon-at-benares",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A classmate who knows the story of Kisa Gotami says she wasted hours hunting for mustard-seed when she could simply have mourned; set out, in order, the stages through which her understanding of grief changes from the day her only son dies to the night she watches the lights of the city, giving what she believes at each stage.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Stage one: her only son dies and she carries the dead child to every neighbour asking for medicine, while they say she has lost her senses.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Stage two: a man directs her to Sakyamuni, the Buddha, who has medicine that can cure her boy.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Stage three: the Buddha sets his condition — mustard-seed from a house where no one has lost a child, husband, parent or friend.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Stage four: she fails the condition because every house has lost a beloved one, and she becomes weary and hopeless.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Stage five: watching the city lights flicker up and be extinguished, she understands that all lives are short and death is common to all.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Stage six: she judges her grief to be selfish and resolves to surrender all selfishness, which is the path out of the valley of desolation.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Her only son dies; in her grief she carries the dead child to every neighbour asking for medicine, and they say she has lost her senses.\n2. A man directs her to Sakyamuni, the Buddha, who has medicine that can cure her boy.\n3. The Buddha asks for mustard-seed from a house where no one has lost a child, husband, parent or friend.\n4. Every house has lost a beloved one, so she gets no seed and grows weary and hopeless.\n5. Watching the city lights flicker up and be extinguished, she sees that death is common to all.\n6. She calls her grief selfish and chooses to surrender all selfishness, the path out of the valley of desolation.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Kisa Gotami had an only son, and he died. In her grief she carried the dead child to all her neighbours, asking",
+            "was no house but some beloved one had died in it.",
+            "him to immortality who has surrendered all selfishness.”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:08:F:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-sermon-at-benares"
+      ],
+      "taxonomyChapterId": "english-10/the-sermon-at-benares",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Two of the pieces your class has read handle sorrow differently: one speaker holds that the wise do not grieve and must draw out the arrow of lamentation, while another says that your joy is your sorrow unmasked and that the deeper sorrow carves into you, the more joy you can contain; in steps, set out where the two agree and where the second goes further than the first.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "The first speaker's claim: weeping and grieving give no peace of mind, they increase pain, so the wise do not grieve, knowing the terms of the world.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The first speaker's remedy: draw out the arrow of lamentation, complaint and grief, and become composed, free from sorrow and blessed.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The second speaker's image: joy is sorrow unmasked, and the well from which laughter rises is filled with tears.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The second speaker's claim: the deeper sorrow carves into a person, the more joy that person can contain, so the two are inseparable.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The point of agreement: sorrow cannot be denied, argued away or fought out of a person, and has to be admitted and lived through.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Where the second goes further: he does not tell the bereaved to stop grieving, but treats sorrow as the very source out of which joy rises.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. The first speaker holds that weeping obtains no peace of mind and only adds to the pain, so the wise do not grieve.\n2. His remedy is to draw out the arrow of lamentation, complaint and grief, and so become composed and free from sorrow.\n3. The second holds that your joy is your sorrow unmasked: the well from which your laughter rises is filled with tears.\n4. For him the deeper sorrow carves into you, the more joy you can contain, so the two are inseparable.\n5. Both agree that sorrow is real and cannot be argued or fought out of a person; it must be lived through.\n6. The second goes further: he does not tell the bereaved to stop grieving, but calls sorrow the source of joy.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "lamentation. He who seeks peace should draw out the",
+            "Your joy is your sorrow unmasked.",
+            "The deeper that sorrow carves into your being, the more joy you can contain."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:08:F:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-sermon-at-benares"
+      ],
+      "taxonomyChapterId": "english-10/the-sermon-at-benares",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "When Kisa Gotami begs for the medicine to cure her son, the Buddha does not simply give it but sets a condition; set out, in steps, what that condition was, why she was unable to meet it, and what she understood only after failing it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "The condition is a handful of mustard-seed from a house where no one has lost a child, husband, parent or friend.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She cannot meet it because there is no house in which no beloved one has died.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The people she asks answer that the living are few but the dead are many, and tell her not to remind them of their deepest grief.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She gets no seed, grows weary and hopeless, and sits down at the wayside to watch the city lights.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Watching the lights flicker up and be extinguished, she understands that all lives are short and death is common to all.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She therefore calls her grief selfish and resolves to surrender all selfishness, which is the path out of the valley of desolation.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. The condition: mustard-seed from a house where no one has lost a child, husband, parent or friend.\n2. She cannot meet it, for every house she reaches has lost a beloved one.\n3. The people answer that the living are few but the dead are many, and send her away unheard.\n4. She gets no seed, grows weary and hopeless, and sits down at the wayside.\n5. There she watches the city lights flicker up and be extinguished, and understands that death is common to all.\n6. So her sorrow is not hers alone; she calls it selfish and surrenders all selfishness, the path out of the valley of desolation.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "it, the Buddha added, “The mustard-seed must be taken from a house where no one has lost a child, husband, parent or friend.”",
+            "answered her, “Alas! the living are few, but the dead are",
+            "“How selfish am I in my grief! Death is common to all;"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "Kisa Gotami goes from house to house and every household finally turns her away; in the passage, the reason she cannot g"
+    },
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "A classmate has lost a close relative and cannot stop going over the same regret again and again; in the passage, the th"
+    },
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "A classmate whose father has died tells you he is angry and refuses to call it mourning; in the passage, the writer’s ch"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "A friend who has just topped her science exam tells you she feels happy and sad at the same moment; in the extract, the "
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "A classmate who has lost a beloved grandparent says the light in the house has simply gone out; in the extract, the imag"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "Reading the extract aloud to your class, you notice that the speaker compares human life to ripe fruits and to earthen v"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      8
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

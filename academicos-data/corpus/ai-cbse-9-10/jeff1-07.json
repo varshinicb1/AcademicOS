@@ -1,0 +1,444 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:07:A:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "The most fascinating thing of all was the bus that travelled between her village and the nearest town. It passed through her street each hour, once going to the town and once coming back. The sight of the bus, filled each time with a new set of passengers, was a source of unending joy for Valli. Day after day she watched the bus, and gradually a tiny wish crept into her head and grew there: she wanted to ride on that bus, even if just once. This wish became stronger and stronger, until it was an overwhelming desire.\n\nOver the days Valli spends watching the bus go by, how does her wish to ride in it develop? (A) It turns into a firm plan, worked out in secret and acted on at once (B) It stays a passing thought, too small to change her daily routine (C) It fades as the months pass, because the town no longer interests her (D) It grows from a tiny wish into an overwhelming desire, fed by the new set of passengers she sees each hour",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "It grows from a tiny wish into an overwhelming desire, fed by the new set of passengers she sees each hour",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The sight of the bus, filled each time with a new set of passengers, was a source of unending joy for Valli.",
+            "gradually a tiny wish crept into her head and grew there: she wanted to ride on that bus, even if just once.",
+            "This wish became stronger and stronger, until it was an overwhelming desire."
+          ],
+          "objective": true,
+          "options": {
+            "A": "It turns into a firm plan, worked out in secret and acted on at once",
+            "B": "It stays a passing thought, too small to change her daily routine",
+            "C": "It fades as the months pass, because the town no longer interests her",
+            "D": "It grows from a tiny wish into an overwhelming desire, fed by the new set of passengers she sees each hour"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:B:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "Choose the option that correctly completes the sentence: \"But the more he honked, ______ and the faster it galloped.\" (A) more frightened the animal became (B) the animal became more frightened (C) the more frightened the animal became (D) the frightened more the animal became",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "the more frightened the animal became",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "But the more he honked, the more frightened the animal became and the faster it galloped"
+          ],
+          "objective": true,
+          "options": {
+            "A": "more frightened the animal became",
+            "B": "the animal became more frightened",
+            "C": "the more frightened the animal became",
+            "D": "the frightened more the animal became"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:C:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your village council has decided to start a bus service from the village to the nearest town. Write a notice for the village notice board giving the time the bus leaves, the distance of the town from the village, the one-way fare and the time the journey takes, so that everyone in the village knows when to travel. (100 words)",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the notice gives all four details asked for, that is, the bus leaves at one o'clock in the afternoon, the town is six miles from the village, the one-way fare is thirty paise and the journey takes forty-five minutes, and it also explains the return arrangement",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a capitalised heading naming the service, the body of the notice in clear short paragraphs, and the signature or designation of the body issuing it at the end",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the details are arranged in a sensible order, that is, when the bus leaves, how far the town is, what the fare is and how long the journey takes",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, punctuation, capital letters and a formal, concise tone suitable for a notice board",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: simple sentences and suitable vocabulary that make the service clear to every reader",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "VILLAGE NOTICE BOARD\nBUS SERVICE TO THE NEAREST TOWN\n\nAll residents are informed that a bus service between our village and the nearest town has now started. The bus leaves the village at one o'clock in the afternoon and reaches the town at one forty-five, because the trip takes forty-five minutes. The town is six miles from our village and the fare is thirty paise one way. Anyone returning the same day must keep another thirty paise ready, as the bus leaves from the same stop. The bus passes through our street each hour, once going to the town and once coming back.\n\nSd/- The Village Council",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The town was six miles from her village.",
+            "The fare was thirty paise one way",
+            "The trip to the town took forty-five minutes."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:D:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "At last the cow moved off the road. And soon the bus came to a railroad crossing. A speck of a train could be seen in the distance, growing bigger and bigger as it drew near.\n\nValli first sees \"a speck of a train\" in the distance in the extract. What is the writer's purpose in making the train so tiny at first? (A) To show that the railway crossing lay a long way outside the village (B) To suggest that Valli cannot see properly because the bus is moving (C) To make the train's sudden growth to a great size as it comes near more striking (D) To show that the train was an old one that ran slowly along the line",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "To make the train's sudden growth to a great size as it comes near more striking",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "At last the cow moved off the road. And soon the bus came to a railroad crossing.",
+            "A speck of a train could be seen in the distance, growing bigger and bigger as it drew near."
+          ],
+          "objective": true,
+          "options": {
+            "A": "To show that the railway crossing lay a long way outside the village",
+            "B": "To suggest that Valli cannot see properly because the bus is moving",
+            "C": "To make the train's sudden growth to a great size as it comes near more striking",
+            "D": "To show that the train was an old one that ran slowly along the line"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:E:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Valli had never travelled by bus before, yet she knew exactly what the journey to town would be like. How did she find out all these details?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She spent many days and months listening carefully to conversations between her neighbours and people who regularly used the bus",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She also asked a few discreet, careful questions here and there, so that nobody would notice what she was after",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In this way she picked up small details about the journey, such as the town being six miles away, the fare of thirty paise one way and the trip taking forty-five minutes",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Over many days and months she listened carefully to conversations between her neighbours and people who regularly used the bus, and she also asked a few discreet questions here and there. In this way she picked up small details about the journey: the town was six miles away, the fare thirty paise one way and the trip forty-five minutes.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Over many days and months Valli listened",
+            "asked a few discreet questions here and there. This",
+            "way she picked up various small details about the"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "F",
+      "qtype": "long_answer",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "Valli is only eight years old, has never travelled by bus and has to arrange everything for herself. Trace the steps by "
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      7
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

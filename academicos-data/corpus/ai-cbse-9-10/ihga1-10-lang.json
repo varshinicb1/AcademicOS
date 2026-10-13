@@ -1,0 +1,1416 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:ihga1:10:A:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "‘भारति, जय, विजयकरे!’ कविता ‘निराला’ की देशप्रेम से ओत-प्रोत एक प्रे णादायक रचना\n\nहै। कविता के आरंभ में ही कवि ‘भारति, जय, विजयकरे!’ कहकर भारत को विजयश्ी प्ाप्‍त\n\nकरने की कामना करता है। वह भारतभूमि को ‘कनक-शस्य-कमलधरे!’ कहकर संबोधित करता\n\nहै जो भारत की कृषि-परंपरा और श्रम के सौं दर्य को दर्श शात है। कविता में भारत की भौगोलि क\n\nइस गद्यांश के अनुसार ‘कनक-शस्य-कमलधरे!’ पंक्ति के माध्यम से कवि ने भारत की किस विशेषता पर सबसे अधिक बल दिया है? (A) खनिज पदार्थों की अधिकता (B) कृषि-परंपरा और श्रम की सुंदरता (C) सैन्य शक्ति और औद्योगिक विकास (D) नदियों के जल से सिंचाई की सुविधा",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कृषि-परंपरा और श्रम की सुंदरता",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "करने की कामना करता है। वह भारतभूमि को ‘कनक-शस्य-कमलधरे!’ कहकर संबोधित करता",
+            "है जो भारत की कृषि-परंपरा और श्रम के सौं दर्य को दर्श शात है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "खनिज पदार्थों की अधिकता",
+            "B": "कृषि-परंपरा और श्रम की सुंदरता",
+            "C": "सैन्य शक्ति और औद्योगिक विकास",
+            "D": "नदियों के जल से सिंचाई की सुविधा"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:A:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "सुंदरता का ऐसा चित्र खींचा गया है मानो भारत को ई देवी हो , जिसके चरणों को समुद्र अपने\n\nजल से धोता है। नदी, वन, पुष्प, हिमालय, गंगा आदि प्ाकृतिक शो भा को भारत के वस्‍तराभूषण\n\nकी तरह प्रस्तु किया गया है। कवि भारत को एक चेत न सत्ा के रूप में देखता है, जिसकी\n\nदिशाओं में ‘ओंकार’ की गूँज हो रही है और जो अनेक तरह के स्वरों और विचारों से समृद्ध है।\n\nइस गद्यांश में कवि ने भारत को किस प्रकार की सत्ता माना है? (A) निर्जीव और निष्क्रिय भूमि (B) केवल कृषि उपजों से भरपूर भूमि (C) अनेक स्वरों और विचारों से समृद्ध चेतन सत्ता (D) समुद्र के अधीन व्यवहार करने वाली वस्तु",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "अनेक स्वरों और विचारों से समृद्ध चेतन सत्ता",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "की तरह प्रस्तु किया गया है। कवि भारत को एक चेत न सत्ा के रूप में देखता है, जिसकी",
+            "दिशाओं में ‘ओंकार’ की गूँज हो रही है और जो अनेक तरह के स्वरों और विचारों से समृद्ध है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "निर्जीव और निष्क्रिय भूमि",
+            "B": "केवल कृषि उपजों से भरपूर भूमि",
+            "C": "अनेक स्वरों और विचारों से समृद्ध चेतन सत्ता",
+            "D": "समुद्र के अधीन व्यवहार करने वाली वस्तु"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:A:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "• “मु कुट शुभ्र हिम -तुषार”\n\nउपर्युक्त पंक्‍त‍ि में हिमालय को भारत का मु कुट कहा गया है। वास्तव में हिमालय मु कुट नहीं है,\n\nलेकिन कवि ने कल्पना के बल पर उसे मु कुट का रूप दे दिया। इससे भारत की छवि भव्य और दि व्य\n\nबन जाती है। यहाँ गुण की अत्‍यं त समानता के कारण उपमे य में उपमान का अभेद स् ‍थथापित किया गया\n\nहै, इसीलि ए यहाँ रूपक अलंकार है।\n\nइस गद्यांश के अनुसार हिमालय को भारत का मु कुट बताने से भारत की छवि कैसी बन गई है? (A) सपाट और निराश (B) कठोर और भयावह (C) सामान्य और निर्महीन (D) भव्य और दिव्य",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "भव्य और दिव्य",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उपर्युक्त पंक्‍त‍ि में हिमालय को भारत का मु कुट कहा गया है।",
+            "लेकिन कवि ने कल्पना के बल पर उसे मु कुट का रूप दे दिया। इससे भारत की छवि भव्य और दि व्य"
+          ],
+          "objective": true,
+          "options": {
+            "A": "सपाट और निराश",
+            "B": "कठोर और भयावह",
+            "C": "सामान्य और निर्महीन",
+            "D": "भव्य और दिव्य"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:B:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "‘भारति, जय, विजयकरे!’ कविता ‘निराला’ की देशप्रेम से ओत-प्रोत एक प्रे णादायक रचना\n\nहै। कविता के आरंभ में ही कवि ‘भारति, जय, विजयकरे!’ कहकर भारत को विजयश्ी प्ाप्‍त\n\nकरने की कामना करता है। वह भारतभूमि को ‘कनक-शस्य-कमलधरे!’ कहकर संबोधित करता\n\nहै जो भारत की कृषि-परंपरा और श्रम के सौं दर्य को दर्श शात है। कविता में भारत की भौगोलि क\n\nगद्यांश के अनुसार ‘कनक-शस्य-कमलधरे!’ पंक्ति भारत की किन दो विशेषताओं को दर्शाती है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "भारत की कृषि-परंपरा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "श्रम के सौंदर्य",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कृषि-परंपरा और श्रम के सौंदर्य।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "है जो भारत की कृषि-परंपरा और श्रम के सौं दर्य को दर्श शात है।",
+            "करने की कामना करता है। वह भारतभूमि को ‘कनक-शस्य-कमलधरे!’ कहकर संबोधित करता"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:B:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "• “शतमु ख-शतरव-मु खरे!”\n\nउपर्युक्त पंक्‍त‍ि के ‘शतमु ख’ और ‘शतरव’ में ‘श’ वर्ण की पुनरावृत्ति हो रही है, इसीलि ए यहाँ\n\nअनुप्रास अलंकार है।\n\n• “मु कुट शुभ्र हिम -तुषार”\n\nउपर्युक्त पंक्‍त‍ि में हिमालय को भारत का मु कुट कहा गया है। वास्तव में हिमालय मु कुट नहीं है,\n\nलेकिन कवि ने कल्पना के बल पर उसे मु कुट का रूप दे दिया। इससे भारत की छवि भव्य और दि व्य\n\nबन जाती है। यहाँ गुण की अत्‍यं त समानता के कारण उपमे य में उपमान का अभेद स् ‍थथापित किया गया\n\nहै, इसीलि ए यहाँ रूपक अलंकार है।\n\nगद्यांश में उद्धृत दोनों पंक्तियों में कौन-कौन से अलंकार प्रयुक्त हुए हैं, उनके नाम लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "पहली पंक्ति में अनुप्रास अलंकार",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "दूसरी पंक्ति में रूपक अलंकार",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "पहली पंक्ति में अनुप्रास अलंकार और दूसरी पंक्ति में रूपक अलंकार।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अनुप्रास अलंकार है।",
+            "है, इसीलि ए यहाँ रूपक अलंकार है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:B:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "competency_based",
+      "stem": "सूर्यकांत त्रिपाठी ‘निराला’ का जन्म सन् 1899 में बंगाल\n\nके महिषादल में हुआ। वे मू लतः गढ़ाकोला (उन्नाव), उत्तर\n\nप्रदेश के निवासी थे। निराला की औपचारिक शि क्ा नौवीं\n\nतक महिषादल में ही हुई। उन्होंने स्वाध्य याय से संस्ककृत,\n\nबांग्ला और अंग्ेजी का ज्ञान अर्जित किया।\n\nउनकी प्रमु ख काव्य रचनाएँ हैं— अनामिका, परिमल, गीतिका, कुकुरमुत्ा\n\nकिसी कार्यक्रम के लिए तैयार किए जा रहे परिचय में गद्यांश के अनुसार निराला का जन्म कहाँ हुआ और वे मू लतः कहाँ के निवासी थे?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "बंगाल के महिषादल",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "गढ़ाकोला (उन्नाव), उत्तर प्रदेश",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "जन्म बंगाल के महिषादल में हुआ; मू लतः गढ़ाकोला (उन्नाव), उत्तर प्रदेश के निवासी।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "का जन्म सन् 1899 में बंगाल",
+            "के महिषादल में हुआ। वे मू लतः गढ़ाकोला (उन्नाव), उत्तर"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:C:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "वाक्य ‘वास्तव में हिमालय मु कुट नहीं है, लेकिन कवि ने कल्पना के बल पर उसे मु कुट का रूप दे दिया।’ में कौन-सा समुच्चयबोधक है? (A) अतः (B) लेकिन (C) इसलिए (D) किंतु",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "लेकिन",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "लेकिन कवि ने कल्पना के बल पर उसे मु कुट का रूप दे दिया।",
+            "वास्तव में हिमालय मु कुट नहीं है,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "अतः",
+            "B": "लेकिन",
+            "C": "इसलिए",
+            "D": "किंतु"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:C:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "कविता की पंक्ति ‘मु कुट शुभ्र हिम -तुषार’ में किस अलंकार का प्रयोग किया गया है? (A) अनुप्रास अलंकार (B) उपमा अलंकार (C) रूपक अलंकार (D) श्लेष अलंकार",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "रूपक अलंकार",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "है, इसीलि ए यहाँ रूपक अलंकार है।",
+            "उपर्युक्त पंक्‍त‍ि में हिमालय को भारत का मु कुट कहा गया है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "अनुप्रास अलंकार",
+            "B": "उपमा अलंकार",
+            "C": "रूपक अलंकार",
+            "D": "श्लेष अलंकार"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:C:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "mcq",
+      "stem": "‘कमल धरे’ में किस प्रकार का समास है? (A) तत्पुरुष समास (B) कर्मधारय समास (C) द्विगुण समास (D) संबोधन समास",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "संबोधन समास",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "‘कनक-शस्य’ और ‘कमल धरा’ समस्‍त पद/सामासिक पद हैं। कमल धरे संबोधन शब्द है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "तत्पुरुष समास",
+            "B": "कर्मधारय समास",
+            "C": "द्विगुण समास",
+            "D": "संबोधन समास"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:D:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "भारति , जय, विजयकरे!\n\nभारति , जय, वि जयकरे!\n\nकनक-शस्य -कम लधरे!\n\nलंका पदतल शतदल,\n\nगर्जितोर्म मि सागर-जल\n\nधोता शुचि चरण युगल\n\nस्तव कर बहु-अर्थ-भरे!\n\nतरु-तृण-वन-लता वसन,\n\nअंचल में खचि त सुमन ;\n\nगंगा ज्य योतिर्जल-कण\n\nधवल धार हार गले।\n\nमु कुट शुभ्र हिम -तुषार,\n\nप्राण प्रणव ओंकार,\n\nध्वनित दि शाएँ उदार,\n\nशतमु ख-शतरव-मु खरे!\n\nइस उद्धरण में ‘गंगा’ को किस रूप में चित्रित किया गया है? (A) गले में ज्योतिर्जल-कणों से धवल धारा के रूप में (B) मु कुट में शुभ्र हिम-तुषार के रूप में (C) चरणों के नीचे शतदल के रूप में (D) कंधे पर स्तव कर बहु-अर्थ-भरे वसन के रूप में",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "गले में ज्योतिर्जल-कणों से धवल धारा के रूप में",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "गंगा ज्य योतिर्जल-कण",
+            "धवल धार हार गले।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "गले में ज्योतिर्जल-कणों से धवल धारा के रूप में",
+            "B": "मु कुट में शुभ्र हिम-तुषार के रूप में",
+            "C": "चरणों के नीचे शतदल के रूप में",
+            "D": "कंधे पर स्तव कर बहु-अर्थ-भरे वसन के रूप में"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:D:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "competency_based",
+      "stem": "ख्य याति अवि स्म रणीय है। निराला रचनावली के आठ खंडों में उनका संपूर्ण\n\nसाहित्य प्रकाशि त है। दार्शनिकता, वि द्रोह, क्रांति , प्रेम की तरलता और प्रकृति\n\nका वि राट तथा उदात्त चित्र उनकी रचनाओं में उपस्थ थित है। छायावादी रचनाकारों\n\nमें उन्होंने सबसे पहले मु क्त छंद का प्रयोग किया। उपेक्षितों और पीड़ि तों के प्रति\n\nउनकी कवि ताओं में गहरी सहानुभूति मि लती है। ‘निराला’ का निधन सन् 1961\n\nइस उद्धरण के अनुसार छायावादी रचनाकारों में निराला ने सबसे पहले किसका प्रयोग किया था? (A) सरस रागिणी (B) मुक्त छंद (C) कुकुरमुत्ता (D) नए पत्ते",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मुक्त छंद",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "में उन्होंने सबसे पहले मु क्त छंद का प्रयोग किया। उपेक्षितों और पीड़ि तों के प्रति"
+          ],
+          "objective": true,
+          "options": {
+            "A": "सरस रागिणी",
+            "B": "मुक्त छंद",
+            "C": "कुकुरमुत्ता",
+            "D": "नए पत्ते"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:D:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "जय जय भारतमाता\n\nजय जय भारतमाता!\n\nतेरा बाहर भी घर जैसा रहा प्यार ही पाता।\n\nऊँचा हिया हिमालय तेरा\n\nउसमें कितना द रद भरा\n\nफिर भी आग द बाकर अपनी\n\nरखता है वह हमें हरा\n\nसौ सोतों से फूट-फूटकर पानी टूटा आता\n\nजय जय भारतमाता!\n\n– मैथिलीशरण गुप्त\n\nइस उद्धरण में ‘ऊँचा हिया हिमालय तेरा’ कथन से कवि के किस भाव का पता चलता है? (A) निराशा और असफलता (B) उदासी और अकेलापन (C) गर्व और अपनेपन (D) निष्कास्य और बेचैनी",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "गर्व और अपनेपन",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "ऊँचा हिया हिमालय तेरा",
+            "रखता है वह हमें हरा"
+          ],
+          "objective": true,
+          "options": {
+            "A": "निराशा और असफलता",
+            "B": "उदासी और अकेलापन",
+            "C": "गर्व और अपनेपन",
+            "D": "निष्कास्य और बेचैनी"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:E:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "कविता में भारतभूमि को ‘कनक-शस्य-कमलधरे!’ कहकर संबोधित किया गया है; इस संबोधन में किन दो विशेषताओं का संकेत मिलता है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "कृषि-परंपरा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "श्रम के सौंदर्य",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कृषि-परंपरा और श्रम के सौंदर्य।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "करने की कामना करता है। वह भारतभूमि को ‘कनक-शस्य-कमलधरे!’ कहकर संबोधित करता",
+            "है जो भारत की कृषि-परंपरा और श्रम के सौं दर्य को दर्श शात है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:E:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "कविता में गंगा और हिमालय को किस-किस रूप में अभिव्यक्त किया गया है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "गंगा को स्वच्छ और श्वेत हार",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "हिमालय को मुकुट",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "गंगा को भारत के स्वच्छ और श्वेत हार के रूप में और हिमालय को मुकुट के रूप में।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कवि ता में गंगा को भारत के स्वच्छ और श्वेत हार एवं हिमालय को मु कुट के रूप में अभि व्य क्त",
+            "उपर्युक्त पंक्‍त‍ि में हिमालय को भारत का मु कुट कहा गया है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:E:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "निराला के परिचय में बताया गया है कि उनकी औपचारिक शिक्षा कहाँ तक हुई और उन्होंने संस्कृत, बांग्ला तथा अंग्रेजी का ज्ञान किस प्रकार अर्जित किया?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "नौवीं तक",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "स्वाध्याय से",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "औपचारिक शिक्षा नौवीं तक महिषादल में ही हुई और स्वाध्याय से संस्कृत, बांग्ला और अंग्रेजी का ज्ञान अर्जित किया।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "प्रदेश के निवासी थे। निराला की औपचारिक शि क्ा नौवीं",
+            "तक महिषादल में ही हुई। उन्होंने स्वाध्य याय से संस्ककृत,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:F:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "कविता में भारत की भौगोलिक सुंदरता का चित्रण किस प्रकार किया गया है और उसके लिए कवि ने किन प्राकृतिक तत्त्वों का प्रयोग किया है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "भारत को ई देवी माना, जिसके चरणों को समुद्र अपने जल से धोता है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "नदी, वन, पुष्प, हिमालय और गंगा का उल्लेख",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्राकृतिक शोभा को भारत के वस्त्राभूषण की तरह प्रस्तुत किया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "देशप्रेम का भाव व्यक्त किया गया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कवि ने भारत की भौगोलिक सुंदरता का ऐसा चित्र खींचा है मानो भारत को ई देवी हो, जिसके चरणों को समुद्र अपने जल से धोता है। नदी, वन, पुष्प, हिमालय और गंगा जैसे प्राकृतिक शोभा-तत्त्वों को भारत के वस्त्राभूषण की तरह प्रस्तुत किया गया है। इस प्रकार प्रकृति के प्रत्येक अंग को देश का आभूषण मानकर देशप्रेम का भाव व्यक्त किया गया है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "सुंदरता का ऐसा चित्र खींचा गया है मानो भारत को ई देवी हो , जिसके चरणों को समुद्र अपने",
+            "जल से धोता है। नदी, वन, पुष्प, हिमालय, गंगा आदि प्ाकृतिक शो भा को भारत के वस्‍तराभूषण"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:F:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "short_answer",
+      "stem": "‘शतमुख-शतरव-मुखरे!’ और ‘मुकुट शुभ्र हिम-तुषार’ — इन दोनों पंक्तियों में कौन-कौन से अलंकार हैं और वे किस बात पर आधारित हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "‘श’ वर्ण की पुनरावृत्ति के कारण अनुप्रास अलंकार",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "हिमालय को कल्पना के बल पर मुकुट का रूप देना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "गुण की अत्यंत समानता के कारण उपमान का अभेद",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "रूपक अलंकार",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "पहली पंक्ति में ‘शतमुख’ और ‘शतरव’ में ‘श’ वर्ण की पुनरावृत्ति हो रही है, इसलिए वहाँ अनुप्रास अलंकार है। दूसरी पंक्ति में हिमालय को भारत का मुकुट कहा गया है। वास्तव में हिमालय मुकुट नहीं है, अतः कवि ने कल्पना के बल पर उसे मुकुट का रूप दे दिया और गुण की अत्यंत समानता के कारण उपमेय में उपमान का अभेद स्थापित हुआ, इसलिए वहाँ रूपक अलंकार है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उपर्युक्त पंक्‍त‍ि के ‘शतमु ख’ और ‘शतरव’ में ‘श’ वर्ण की पुनरावृत्ति हो रही है, इसीलि ए यहाँ",
+            "उपर्युक्त पंक्‍त‍ि में हिमालय को भारत का मु कुट कहा गया है। वास्तव में हिमालय मु कुट नहीं है,",
+            "है, इसीलि ए यहाँ रूपक अलंकार है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:10:F:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/भा-रति-जय-विजयकरे"
+      ],
+      "taxonomyChapterId": "hindi-9/भा-रति-जय-विजयकरे",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "समास किसे कहते हैं, समस्त पद किसे कहते हैं और समास-विग्रह की प्रक्रिया किसे कहते हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "समास का अर्थ है संक्षेप",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "दो या अनेक शब्दों के मेल से नए शब्द की रचना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "पहले पद को पूर्वपद और दूसरे पद को उत्तरपद कहते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "अंग अलग करने की प्रक्रिया को समास विग्रह कहते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "समास का अर्थ है संक्षेप। समास में दो या अनेक शब्दों के मेल से एक नए शब्द की रचना होती है और ऐसे बने शब्द को समस्त पद कहते हैं। समास रचना में प्रायः दो पद होते हैं—पहले पद को पूर्वपद और दूसरे पद को उत्तरपद कहते हैं। यदि समस्त पद के अंग अलग-अलग करने हों, तो उस प्रक्रिया को समास विग्रह कहते हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "समास का अर्थ है संक्ेप। समास में दो या अनेक शब्दों के मेल से एक नए शब्द की रचना होती है।",
+            "अलग-अलग करने हों , तो उस प्रक्रिया को समास विग्र ह कहते हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch10",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "विद्यालय के साहित्य-समारोह में १२० शब्दों में ‘भारत को कनक-शस्य-कमलधरे और भारत के मुकुट के रूप में चित्रित करने वाले कवि"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "‘भारत को सुदृढ़ करने में उसकी प्रकृति, संस्कृति और ज्ञान-परंपरा के महत्त्व’ पर १२० शब्दों में एक अनुच्छेद लिखिए।"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "reason": "figure-not-in-text:१८९९",
+      "stem": "‘सूर्यकांत त्रिपाठी निराला का जीवन-परिचय और उनकी रचनाओं की विशेषताएँ’ विषय पर १२० शब्दों में एक अनुच्छेद लिखिए।"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "reason": "figure-not-in-text:१००",
+      "stem": "अपने विद्यालय के प्रधानाचार्य को १०० शब्दों में पत्र लिखिए, जिसमें ‘भारति, जय, विजयकरे!’ कविता के व्याख्यान के लिए धन्यव"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "reason": "figure-not-in-text:१००",
+      "stem": "अपने मित्र को १०० शब्दों में ईमेल लिखिए और उसे बताइए कि कविता की पंक्ति ‘शतमुख-शतरव-मुखरे!’ में किस अलंकार का प्रयोग हुआ"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "reason": "figure-not-in-text:१००",
+      "stem": "अपने विद्यालय के प्रधानाचार्य को १०० शब्दों में पत्र लिखिए, जिसमें वन, लता और पुष्प जैसे प्राकृतिक संसाधनों के संरक्षण क"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "reason": "figure-not-in-text:५०",
+      "stem": "विद्यालय में ‘विविध रंग भारत के’ विषयक प्रदर्शनी आयोजित करने की सूचना देने के लिए ५० शब्दों में एक सूचना-पत्र तैयार कीजि"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "reason": "figure-not-in-text:५०",
+      "stem": "पर्यावरण-संरक्षण सप्ताह के अवसर पर ५० शब्दों में वन, लता और पुष्प जैसे प्राकृतिक संसाधनों के संरक्षण का संदेश तैयार कीजि"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "सूर्यकांत त्रिपाठी ‘निराला’",
+      "reason": "figure-not-in-text:५०",
+      "stem": "भारत पर आधारित डाक टिकट के लिए ५० शब्दों में एक आवरण-विवरण तैयार कीजिए, जिसमें बताइए कि आप उसमें किन-किन प्रतीकों को सम्"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "ihga1",
+    "chapters": [
+      10
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

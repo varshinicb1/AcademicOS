@@ -1,0 +1,260 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iest1:09:AR:101",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/the-price-puzzle-what-drives-the-market"
+      ],
+      "taxonomyChapterId": "social-science-9/the-price-puzzle-what-drives-the-market",
+      "topic": "Demand",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Consider the following statements.\n1. Rohan is told that the market demand for mangoes at a given price is worked out by adding up what every potential buyer wants to buy at that price.\n2. Rohan answers that market demand is simply the quantity one single consumer wants to buy at different prices.\nSelect the correct option. (A) Both 1 and 2 are true and 1 explains 2. (B) Both 1 and 2 are true but 1 does not explain 2. (C) Statement 1 is true but statement 2 is false. (D) Both statements 1 and 2 are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Statement 1 is true but statement 2 is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "prices is known as market demand, that is, the sum of all individual",
+            "demand. Let us consider two more consumers, Alex and Israt, whose"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both 1 and 2 are true and 1 explains 2.",
+            "B": "Both 1 and 2 are true but 1 does not explain 2.",
+            "C": "Statement 1 is true but statement 2 is false.",
+            "D": "Both statements 1 and 2 are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch9",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:09:AR:102",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/the-price-puzzle-what-drives-the-market"
+      ],
+      "taxonomyChapterId": "social-science-9/the-price-puzzle-what-drives-the-market",
+      "topic": "Demand",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "assertion_reason",
+      "stem": "Consider the following statements.\n1. While plotting Srivalli's demand curve for mangoes in her notebook, Nisha places the point for the 2 kg she bought at ₹100 per kg high up on the graph, because she plots the price on the vertical axis.\n2. On a demand curve, the vertical axis carries the price of the good in ₹ and the horizontal axis carries the quantity demanded.\nSelect the correct option. (A) Both 1 and 2 are true and 1 explains 2. (B) Both 1 and 2 are true but 1 does not explain 2. (C) Statement 1 is true but statement 2 is false. (D) Both statements 1 and 2 are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both 1 and 2 are true and 1 explains 2.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The y-axis in the Fig. 9.2 (b) represents the price of mangoes (in ₹), and",
+            "the x-axis shows the quantity demanded of mangoes (in kg). Srivalli",
+            "fell to ₹100 per kg, she bought 2 kg (at point B). But as the price fell to"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both 1 and 2 are true and 1 explains 2.",
+            "B": "Both 1 and 2 are true but 1 does not explain 2.",
+            "C": "Statement 1 is true but statement 2 is false.",
+            "D": "Both statements 1 and 2 are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch9",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:09:AR:103",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/the-price-puzzle-what-drives-the-market"
+      ],
+      "taxonomyChapterId": "social-science-9/the-price-puzzle-what-drives-the-market",
+      "topic": "Demand",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Consider the following statements.\n1. Imtiyaz sketches his demand curve with the prices of mangoes on the horizontal axis and the quantities of mangoes demanded on the vertical axis.\n2. Imtiyaz tells his class that Srivalli buys more mangoes when the price of mangoes rises, so his curve slopes upward.\nSelect the correct option. (A) Both 1 and 2 are true and 1 explains 2. (B) Both 1 and 2 are true but 1 does not explain 2. (C) Statement 1 is true but statement 2 is false. (D) Both statements 1 and 2 are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both statements 1 and 2 are false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The y-axis in the Fig. 9.2 (b) represents the price of mangoes (in ₹), and",
+            "the x-axis shows the quantity demanded of mangoes (in kg). Srivalli",
+            "as A, B, and C, are connected, the downward sloping line DD’ is called"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both 1 and 2 are true and 1 explains 2.",
+            "B": "Both 1 and 2 are true but 1 does not explain 2.",
+            "C": "Statement 1 is true but statement 2 is false.",
+            "D": "Both statements 1 and 2 are false."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch9",
+        "pages": [
+          1,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iest1",
+    "chapters": [
+      9
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

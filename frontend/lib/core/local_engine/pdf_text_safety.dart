@@ -7,7 +7,13 @@
 /// U+2084) silently render as tofu boxes -- confirmed by grepping the real
 /// corpus for the exact codepoint, not guessed.
 String pdfSafe(String text) {
+  // Zero-width characters (space, non-joiner, joiner, word joiner, BOM) are
+  // invisible, and Helvetica prints each as a box. Hindi text carries the
+  // joiner to form half letters (the model-written Hindi 9-10 questions of
+  // 2026-10-14); with no Devanagari font here there is nothing for it to join.
+  // The web renderer (assessment/pdf.py) draws with a Unicode font and keeps it.
   var out = text
+      .replaceAll(RegExp('[​-‍⁠﻿]'), '')
       .replaceAll('—', '-')
       .replaceAll('–', '-')
       .replaceAll('•', '-')

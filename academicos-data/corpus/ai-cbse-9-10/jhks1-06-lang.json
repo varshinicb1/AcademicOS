@@ -1,0 +1,1264 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jhks1:06:A:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/मंगलेश-डबराल-संगतकार"
+      ],
+      "taxonomyChapterId": "hindi-10/मंगलेश-डबराल-संगतकार",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "संगतकार कविता गायन में मुख्य गायक का साथ देनेवाले संगतकार की भूमिका के\nमहत्त्व पर विचार करती है। दृश्य माध्यम की प्रस्तुतियों; जैसे-नाटक, फ़िल्म, संगीत,\nनृत्य के बारे में तो यह सही है ही; हम समाज और इतिहास में भी ऐसे अनेक प्रसंगों\nको देख सकते हैं जहाँ नायक की सफलता में अनेक लोगों ने महत्त्वपूर्ण भूमिका\nनिभाई। कविता हममें यह संवेदनशीलता विकसित करती है कि उनमें से प्रत्येक का\nअपना-अपना महत्त्व है और उनका सामने न आना उनकी कमज़ोरी नहीं मानवीयता\n\nपढ़े गए अनुच्छेद के अनुसार, किसी कार्यक्रम में सामने न आकर पीछे रहने वाले सहयोगी के बारे में आप क्या समझेंगे? (A) वह कमज़ोर है (B) उसमें मानवीयता है (C) वह उदासीन है (D) वह असफल व्यक्ति है",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उसमें मानवीयता है",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "निभाई। कविता हममें यह संवेदनशीलता विकसित करती है कि उनमें से प्रत्येक का",
+            "अपना-अपना महत्त्व है और उनका सामने न आना उनकी कमज़ोरी नहीं मानवीयता"
+          ],
+          "objective": true,
+          "options": {
+            "A": "वह कमज़ोर है",
+            "B": "उसमें मानवीयता है",
+            "C": "वह उदासीन है",
+            "D": "वह असफल व्यक्ति है"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "jhks1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:06:A:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/मंगलेश-डबराल-संगतकार"
+      ],
+      "taxonomyChapterId": "hindi-10/मंगलेश-डबराल-संगतकार",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "गायक जब अंतरे की जटिल तानों के जंगल में\nखो चुका होता है\nया अपने ही सरगम को लाँघकर\nचला जाता है भटकता हुआ एक अनहद में\nतब संगतकार ही स्थायी को सँभाले रहता है\nजैसे समेटता हो मुख्य गायक का पीछे छूटा हुआ सामान\nजैसे उसे याद दिलाता हो उसका बचपन\nजब वह नौसिखिया था\nतारसप्तक में जब बैठने लगता है उसका गला\nप्रेरणा साथ छोड़ती हुई उत्साह अस्त होता हुआ\nआवाज़ से राख जैसा कुछ गिरता हुआ\n\nपढ़े गए अंश में मुख्य गायक की आवाज़ 'राख जैसा' किस दशा में गिर जाती है? (A) जब वह अपना बचपन याद करता है (B) जब कोई उसका पीछे छूटा हुआ सामान समेटने आता है (C) जब तारसप्तक में बैठने पर उसका उत्साह अस्त हो जाता है (D) जब वह अंतरे की जटिल तानों के जंगल में खो जाता है",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "जब तारसप्तक में बैठने पर उसका उत्साह अस्त हो जाता है",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "तारसप्तक में जब बैठने लगता है उसका गला",
+            "प्रेरणा साथ छोड़ती हुई उत्साह अस्त होता हुआ",
+            "आवाज़ से राख जैसा कुछ गिरता हुआ"
+          ],
+          "objective": true,
+          "options": {
+            "A": "जब वह अपना बचपन याद करता है",
+            "B": "जब कोई उसका पीछे छूटा हुआ सामान समेटने आता है",
+            "C": "जब तारसप्तक में बैठने पर उसका उत्साह अस्त हो जाता है",
+            "D": "जब वह अंतरे की जटिल तानों के जंगल में खो जाता है"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "jhks1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:06:B:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/मंगलेश-डबराल-संगतकार"
+      ],
+      "taxonomyChapterId": "hindi-10/मंगलेश-डबराल-संगतकार",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "सरगम - संगीत के लिए सात स्वर तय किए गए हैं। वे हैं-षडज, ऋषभ, गांधार, मध्यम, पंचम्, धैवत और निषाद। इन्हीं नामों के पहले अक्षर लेकर इन्हें सा, रे, ग, म, प, ध और नि कहा गया है।\nसप्तक - सप्तक का अर्थ है सात का समूह। सात शुद्ध स्वर हैं इसीलिए यह नाम पड़ा। लेकिन ध्वनि की ऊँचाई और निचाई के आधार पर संगीत में तीन तरह के सप्तक माने गए हैं। यदि साधारण ध्वनि है तो उसे 'मध्य सप्तक' कहेंगे और ध्वनि मध्य सप्तक से ऊपर है तो उसे 'तार सप्तक' कहेंगे तथा ध्वनि मध्य सप्तक से नीचे है तो उसे 'मंद्र सप्तक' कहते हैं।\n\nपढ़े गए बॉक्स के अनुसार, यदि गायक की ध्वनि मध्य सप्तक से नीचे हो, तो उसे क्या कहा गया है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "उत्तर में 'मंद्र सप्तक' लिखा जाना अनिवार्य है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "मध्य सप्तक से नीचे की ध्वनि को मंद्र सप्तक कहा गया है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मंद्र सप्तक",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "लेकिन ध्वनि की ऊँचाई और निचाई के आधार पर संगीत में तीन तरह के सप्तक माने गए हैं।",
+            "तथा ध्वनि मध्य सप्तक से नीचे है तो उसे 'मंद्र सप्तक' कहते हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "jhks1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:06:B:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/मंगलेश-डबराल-संगतकार"
+      ],
+      "taxonomyChapterId": "hindi-10/मंगलेश-डबराल-संगतकार",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "मुख्य गायक के चट्टान जैसे भारी स्वर का साथ देती\nवह आवाज़ सुंदर कमज़ोर काँपती हुई थी\nवह मुख्य गायक का छोटा भाई है\nया उसका शिष्य\nया पैदल चलकर सीखने आने वाला दूर का कोई रिश्तेदार\nमुख्य गायक की गरज़ में\nवह अपनी गूँज मिलाता आया है प्राचीन काल से\n\nपढ़े गए अंश में मुख्य गायक के भारी स्वर का साथ देने वाली संगतकार की आवाज़ कैसी बताई गई है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "उत्तर में 'सुंदर, कमज़ोर और काँपती हुई' तीनों विशेषण लाना आवश्यक है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "तीनों में से केवल एक विशेषण लिखने पर उत्तर अधूरा माना जाएगा।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सुंदर, कमज़ोर और काँपती हुई",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मुख्य गायक के चट्टान जैसे भारी स्वर का साथ देती",
+            "वह आवाज़ सुंदर कमज़ोर काँपती हुई थी"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "jhks1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:06:B:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/मंगलेश-डबराल-संगतकार"
+      ],
+      "taxonomyChapterId": "hindi-10/मंगलेश-डबराल-संगतकार",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "संगतकार कविता गायन में मुख्य गायक का साथ देनेवाले संगतकार की भूमिका के\nमहत्त्व पर विचार करती है। दृश्य माध्यम की प्रस्तुतियों; जैसे-नाटक, फ़िल्म, संगीत,\nनृत्य के बारे में तो यह सही है ही; हम समाज और इतिहास में भी ऐसे अनेक प्रसंगों\nको देख सकते हैं जहाँ नायक की सफलता में अनेक लोगों ने महत्त्वपूर्ण भूमिका\nनिभाई। कविता हममें यह संवेदनशीलता विकसित करती है कि उनमें से प्रत्येक का\nअपना-अपना महत्त्व है और उनका सामने न आना उनकी कमज़ोरी नहीं मानवीयता\n\nपढ़े गए अनुच्छेद के अनुसार, कविता हमारे भीतर किस गुण का विकास करती है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "उत्तर में 'संवेदनशीलता' लिखा जाना चाहिए।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "यह संवेदनशीलता प्रत्येक व्यक्ति के अपने महत्त्व को पहचानने से संबंधित है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "संवेदनशीलता",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "निभाई। कविता हममें यह संवेदनशीलता विकसित करती है कि उनमें से प्रत्येक का",
+            "अपना-अपना महत्त्व है और उनका सामने न आना उनकी कमज़ोरी नहीं मानवीयता"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "jhks1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:06:C:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/मंगलेश-डबराल-संगतकार"
+      ],
+      "taxonomyChapterId": "hindi-10/मंगलेश-डबराल-संगतकार",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "भारी बोल के कारण किसी गायक की आवाज़ 'गरज' कहलाती है, इस पद का अर्थ क्या है? (A) ऊँची गंभीर आवाज़ (B) बुझता हुआ स्वर (C) संगीत में स्वर का विस्तार (D) स्थायी या टेक को छोड़कर गीत का चरण",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "ऊँची गंभीर आवाज़",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "गरज – ऊँची गंभीर आवाज़"
+          ],
+          "objective": true,
+          "options": {
+            "A": "ऊँची गंभीर आवाज़",
+            "B": "बुझता हुआ स्वर",
+            "C": "संगीत में स्वर का विस्तार",
+            "D": "स्थायी या टेक को छोड़कर गीत का चरण"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "jhks1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:06:C:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/मंगलेश-डबराल-संगतकार"
+      ],
+      "taxonomyChapterId": "hindi-10/मंगलेश-डबराल-संगतकार",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "mcq",
+      "stem": "कभी-कभी वह यों ही दे देता है उसका साथ — इस वाक्य में 'कभी-कभी' में किस प्रकार का समास है? (A) द्विगु समास (B) बहुव्रीहि समास (C) द्वंद्व समास (D) तत्पुरुष समास",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "द्वंद्व समास",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कभी-कभी वह यों ही दे देता है उसका साथ"
+          ],
+          "objective": true,
+          "options": {
+            "A": "द्विगु समास",
+            "B": "बहुव्रीहि समास",
+            "C": "द्वंद्व समास",
+            "D": "तत्पुरुष समास"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "jhks1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:06:C:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/मंगलेश-डबराल-संगतकार"
+      ],
+      "taxonomyChapterId": "hindi-10/मंगलेश-डबराल-संगतकार",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "आपके साथी का पहला गायन-प्रदर्शन देखकर लगता है कि वह 'नौसिखिया' की तरह गा रहा है, इस पद का अर्थ क्या है? (A) जो बहुत देर से गा रहा है (B) जिसने सीखना पूरा कर लिया हो (C) जो कभी गाना नहीं चाहता (D) जिसने अभी सीखना आरंभ किया हो",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "जिसने अभी सीखना आरंभ किया हो",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "नौसिखिया – जिसने अभी सीखना आरंभ किया हो"
+          ],
+          "objective": true,
+          "options": {
+            "A": "जो बहुत देर से गा रहा है",
+            "B": "जिसने सीखना पूरा कर लिया हो",
+            "C": "जो कभी गाना नहीं चाहता",
+            "D": "जिसने अभी सीखना आरंभ किया हो"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "jhks1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:06:D:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/मंगलेश-डबराल-संगतकार"
+      ],
+      "taxonomyChapterId": "hindi-10/मंगलेश-डबराल-संगतकार",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "मुख्य गायक के चट्टान जैसे भारी स्वर का साथ देती\nवह आवाज़ सुंदर कमज़ोर काँपती हुई थी\nवह मुख्य गायक का छोटा भाई है\nया उसका शिष्य\nया पैदल चलकर सीखने आने वाला दूर का कोई रिश्तेदार\nमुख्य गायक की गरज़ में\nवह अपनी गूँज मिलाता आया है प्राचीन काल से\n\nइस अंश में संगतकार की आवाज़ का मुख्य गायक के स्वर से क्या संबंध बताया गया है? (A) मुख्य गायक की गरज़ में अपनी गूँज मिलाती आई है (B) मुख्य गायक की गरज़ के सामने शांत हो जाती है (C) मुख्य गायक के स्वर को दोहराने से बचती है (D) मुख्य गायक से पहले गाने का प्रयास करती है",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मुख्य गायक की गरज़ में अपनी गूँज मिलाती आई है",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मुख्य गायक की गरज़ में",
+            "वह अपनी गूँज मिलाता आया है प्राचीन काल से"
+          ],
+          "objective": true,
+          "options": {
+            "A": "मुख्य गायक की गरज़ में अपनी गूँज मिलाती आई है",
+            "B": "मुख्य गायक की गरज़ के सामने शांत हो जाती है",
+            "C": "मुख्य गायक के स्वर को दोहराने से बचती है",
+            "D": "मुख्य गायक से पहले गाने का प्रयास करती है"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "jhks1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:06:D:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/मंगलेश-डबराल-संगतकार"
+      ],
+      "taxonomyChapterId": "hindi-10/मंगलेश-डबराल-संगतकार",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "competency_based",
+      "stem": "चला जाता है भटकता हुआ एक अनहद में\nतब संगतकार ही स्थायी को सँभाले रहता है\nजैसे समेटता हो मुख्य गायक का पीछे छूटा हुआ सामान\nजैसे उसे याद दिलाता हो उसका बचपन\nजब वह नौसिखिया था\n\nइस अंश में 'पीछे छूटा हुआ सामान' के प्रयोग का क्या आशय है? (A) मुख्य गायक की सफलता के बाद सहायता छोड़ देना (B) मुख्य गायक के सामान की एक सूची बनाना (C) मुख्य गायक के बचपन के साथियों का उल्लेख करना (D) मुख्य गायक के भटकने पर उसे उसके अनुभव की याद दिलाना",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मुख्य गायक के भटकने पर उसे उसके अनुभव की याद दिलाना",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "तब संगतकार ही स्थायी को सँभाले रहता है",
+            "जैसे समेटता हो मुख्य गायक का पीछे छूटा हुआ सामान",
+            "जैसे उसे याद दिलाता हो उसका बचपन"
+          ],
+          "objective": true,
+          "options": {
+            "A": "मुख्य गायक की सफलता के बाद सहायता छोड़ देना",
+            "B": "मुख्य गायक के सामान की एक सूची बनाना",
+            "C": "मुख्य गायक के बचपन के साथियों का उल्लेख करना",
+            "D": "मुख्य गायक के भटकने पर उसे उसके अनुभव की याद दिलाना"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "jhks1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:06:E:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/मंगलेश-डबराल-संगतकार"
+      ],
+      "taxonomyChapterId": "hindi-10/मंगलेश-डबराल-संगतकार",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "किसी कार्यक्रम में मुख्य गायक की भारी आवाज़ का साथ देने के लिए चुनी गई कमज़ोर काँपती आवाज़ वाले कलाकार को किस पद से जाना जाता है और यह पद किस भाव को दर्शाता है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "उत्तर में 'संगतकार' पद अनिवार्य है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "यह पद मुख्य गायक के प्रति सहयोग और कोमल समझदारी का भाव दर्शाता है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उसे संगतकार कहा जाता है। यह पद मुख्य गायक के भारी स्वर के साथ सहयोग करने और उसकी कमज़ोरी को कोमलता से सँभालने के भाव को दर्शाता है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मुख्य गायक के चट्टान जैसे भारी स्वर का साथ देती",
+            "वह आवाज़ सुंदर कमज़ोर काँपती हुई थी",
+            "संगतकार – मुख्य गायक के साथ गायन करने वाला या कोई वाद्य बजाने\nवाला कलाकार, सहयोगी"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:06:E:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/मंगलेश-डबराल-संगतकार"
+      ],
+      "taxonomyChapterId": "hindi-10/मंगलेश-डबराल-संगतकार",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "संगीत में ध्वनि की ऊँचाई और निचाई के आधार पर सप्तक के कितने प्रकार माने गए हैं और उनके नाम क्या हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "ध्वनि की ऊँचाई और निचाई के आधार पर सप्तक के तीन प्रकार माने गए हैं।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "तीनों के नाम मध्य सप्तक, तार सप्तक और मंद्र सप्तक हैं।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "ध्वनि की ऊँचाई और निचाई के आधार पर संगीत में सप्तक के तीन प्रकार माने गए हैं — मध्य सप्तक, तार सप्तक और मंद्र सप्तक।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "लेकिन ध्वनि की ऊँचाई और निचाई के आधार पर संगीत में तीन तरह के सप्तक माने गए हैं।",
+            "यदि साधारण ध्वनि है तो उसे 'मध्य सप्तक' कहेंगे और ध्वनि मध्य सप्तक से ऊपर है तो उसे 'तार सप्तक' कहेंगे तथा ध्वनि मध्य सप्तक से नीचे है तो उसे 'मंद्र सप्तक' कहते हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:06:E:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/मंगलेश-डबराल-संगतकार"
+      ],
+      "taxonomyChapterId": "hindi-10/मंगलेश-डबराल-संगतकार",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "किसी कवि ने सामंती बोध और पूँजीवादी छल-छद्म दोनों का प्रतिकार शोर-शराबे के साथ नहीं करके किस उपाय से किया है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "कवि ने शोर-शराबे के साथ प्रतिकार नहीं किया।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उन्होंने प्रतिपक्ष में एक सुंदर सपना रचकर प्रतिकार किया है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कवि ने शोर-शराबे के साथ प्रतिकार नहीं किया बल्कि प्रतिपक्ष में एक सुंदर सपना रचकर अपना प्रतिकार किया है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "में सामंती बोध एव पूँजीवादी छल-छद्म दोनों का प्रतिकार है।",
+            "वे यह प्रतिकार किसी शोर-शराबे के साथ नहीं बल्कि",
+            "प्रतिपक्ष में एक सुंदर सपना रचकर करते हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:06:F:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/मंगलेश-डबराल-संगतकार"
+      ],
+      "taxonomyChapterId": "hindi-10/मंगलेश-डबराल-संगतकार",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "सफलता के चरम शिखर पर पहुँचकर लड़खड़ाने वाले व्यक्ति के लिए सहयोगी किस तरह का काम करते हैं, इस पर अपने विचार लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "मुख्य सदा अपने लक्ष्य की ओर बढ़ता रहता है और सफलता के लिए पूरी तरह प्रतिबद्ध रहता है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वह अंतरे की जटिल तानों के जंगल में खो जाता है या अपने ही सरगम को लाँघकर भटक जाता है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "तब संगतकार स्थायी को सँभाले रहता है — जैसे पीछे छूटा हुआ सामान समेटता हो, जैसे बचपन याद दिलाता हो।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "संगतकार का दिखाई देना उसे ढाँढ़स बँधाता है और यह एहसास दिलाता है कि वह अकेला नहीं है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मुख्य गायक सफलता के लिए पूरी तरह प्रतिबद्ध होकर आगे बढ़ता रहता है, पर वह अंतरे की जटिल तानों के जंगल में खो जाता है या अपने ही सरगम को लाँघकर भटक जाता है। तब संगतकार स्थायी को सँभाल लेता है — जैसे कोई पीछे छूटा हुआ सामान समेटे, जैसे कोई बचपन याद दिलाए। उसका दिखाई देना मुख्य गायक को ढाँढ़स बँधाता है और उसे एहसास होता है कि वह अकेला नहीं है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "गायक जब अंतरे की जटिल तानों के जंगल में\nखो चुका होता है\nया अपने ही सरगम को लाँघकर\nचला जाता है भटकता हुआ एक अनहद में\nतब संगतकार ही स्थायी को सँभाले रहता है\nजैसे समेटता हो मुख्य गायक का पीछे छूटा हुआ सामान",
+            "यह बताने के लिए कि वह अकेला नहीं है\nऔर यह कि फिर से गाया जा सकता है"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:06:F:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/मंगलेश-डबराल-संगतकार"
+      ],
+      "taxonomyChapterId": "hindi-10/मंगलेश-डबराल-संगतकार",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "evaluate",
+      "type": "short_answer",
+      "stem": "किसी भी क्षेत्र में संगतकार की पंक्ति वाले लोग प्रतिभाशाली होते हुए भी मुख्य या शीर्ष स्थान पर क्यों नहीं पहुँच पाते? अपने विचार लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "उनका सामने न आना उनकी कमज़ोरी नहीं बल्कि मानवीयता है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रत्येक का अपना-अपना महत्त्व है, यह बात कविता की संवेदनशीलता से समझ आती है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "नाटक, फ़िल्म, संगीत और नृत्य जैसी प्रस्तुतियों में नायक की सफलता में अनेक लोगों का योगदान रहता है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उनके योगदान को पहचानकर उन्हें सम्मान देना चाहिए।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "संगतकार की पंक्ति वाले लोग पीछे रहकर अपना योगदान देते हैं, इसलिए उनका सामने न आना उनकी कमज़ोरी नहीं मानवीयता है। नाटक, फ़िल्म, संगीत या नृत्य जैसी किसी भी प्रस्तुति में नायक की सफलता में अनेक लोगों का महत्त्वपूर्ण योगदान रहता है, पर श्रेय किसी एक को ही दिया जाता है। अतः उनके योगदान को पहचानकर सम्मान देना चाहिए।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अपना-अपना महत्त्व है और उनका सामने न आना उनकी कमज़ोरी नहीं मानवीयता",
+            "को देख सकते हैं जहाँ नायक की सफलता में अनेक लोगों ने महत्त्वपूर्ण भूमिका\nनिभाई।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:06:F:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/मंगलेश-डबराल-संगतकार"
+      ],
+      "taxonomyChapterId": "hindi-10/मंगलेश-डबराल-संगतकार",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "short_answer",
+      "stem": "किसी कवि की रचनाओं में समाज में व्याप्त सामंती बोध और पूँजीवादी छल-छद्म दोनों का प्रतिकार किया गया है; उसके प्रतिकार का स्वरूप कैसा है और उसकी भाषा की क्या विशेषता है? अपने विचार लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "कवि ने सामंती बोध एव पूँजीवादी छल-छद्म दोनों का प्रतिकार किया है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "यह प्रतिकार शोर-शराबे के साथ नहीं बल्कि प्रतिपक्ष में एक सुंदर सपना रचकर किया गया है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उनका सौंदर्यबोध सूक्ष्म है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उनकी भाषा पारदर्शी है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उस कवि ने कविताओं में सामंती बोध एव पूँजीवादी छल-छद्म दोनों का प्रतिकार किया है। उन्होंने यह प्रतिकार किसी शोर-शराबे के साथ नहीं बल्कि प्रतिपक्ष में एक सुंदर सपना रचकर किया है। उनका सौंदर्यबोध सूक्ष्म है और भाषा पारदर्शी है, इसलिए प्रतिकार का भाव भी सधा हुआ है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "में सामंती बोध एव पूँजीवादी छल-छद्म दोनों का प्रतिकार है।",
+            "वे यह प्रतिकार किसी शोर-शराबे के साथ नहीं बल्कि\nप्रतिपक्ष में एक सुंदर सपना रचकर करते हैं। उनका सौंदर्यबोध\nसूक्ष्म है और भाषा पारदर्शी।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "options-not-answerable",
+      "stem": "पढ़े गए अंश के अनुसार, एक अध्यापक छात्र के मन की बात किन-किन बातों से समझ लेता है?"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "options-not-answerable",
+      "stem": "इस अंश में अध्यापक छात्र का मार्गदर्शन किन-किन तरीकों से करता है?"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "अपने विद्यालय में मनाए जाने वाले सांस्कृतिक समारोह में मंच के पीछे काम करने वाले सहयोगियों की भूमिका पर एक अनुच्छेद लिखि"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "किसी भी क्षेत्र में संगतकार की पंक्ति वाले लोग प्रतिभाशाली होते हुए भी मुख्य या शीर्ष स्थान पर क्यों नहीं पहुँच पाते? इस"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "एक अच्छे अध्यापक की भूमिका समझाते हुए एक अनुच्छेद लिखिए — वे किन-किन बातों से किसी छात्र के मन की बात समझ लेते हैं (शब्द"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१००",
+      "stem": "आपके विद्यालय में आगामी सांस्कृतिक समारोह के लिए एक प्रसिद्ध गायिका को मुख्य अतिथि के रूप में आमंत्रित करने के लिए समिति"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१००",
+      "stem": "अपने विद्यालय के गायन-समारोह में सहयोग देने के लिए किसी प्रसिद्ध संगीतकार को एक ईमेल लिखिए (शब्द-सीमा १०० शब्द)।"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१००",
+      "stem": "आपके विद्यालय की ओर से हाल ही में संपन्न सांस्कृतिक समारोह में मंच के पीछे काम करने वाले सहयोगियों को धन्यवाद-पत्र लिखिए"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:५०",
+      "stem": "अपने विद्यालय में किसी प्रसिद्ध गायिका की गीत-प्रस्तुति के आयोजन संबंधी सूचना पट्ट के लिए एक सूचना तैयार कीजिए (शब्द-सीम"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:५०",
+      "stem": "अपने विद्यालय के सभी छात्रों को सांस्कृतिक समारोह में सम्मिलित होने के लिए प्रेरित करते हुए एक संदेश लिखिए (शब्द-सीमा ५०"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:५०",
+      "stem": "अपने विद्यालय में आयोजित संगीत-महोत्सव के लिए एक विज्ञापन तैयार कीजिए (शब्द-सीमा ५० शब्द)।"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jhks1",
+    "chapters": [
+      6
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -1,0 +1,238 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:13:AR:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/earth-as-a-system-energy-matter-and-life"
+      ],
+      "taxonomyChapterId": "science-9/earth-as-a-system-energy-matter-and-life",
+      "topic": "Uneven Heating of the Earth",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion (1): A student estimating how much land would be needed to supply the country’s electricity finds that covering even a fraction of the Thar desert with solar panels could be enough.\nReason (2): A very large part of the Thar desert would have to be covered with solar panels before those electricity needs could be met. (A) Both assertion and reason are correct and the reason explains the assertion. (B) Both assertion and reason are correct but the reason does not explain the assertion. (C) The assertion is correct but the reason is incorrect. (D) Both assertion and reason are incorrect.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The assertion is correct but the reason is incorrect.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "will probably find that even a fraction of the area\nof the Thar desert, if covered with solar panels,\ncould supply India’s electricity needs.",
+            "(This amount of energy is approximately equal to the energy needed to\nmelt 5 kg of ice and heat the water obtained to 100 °C. It is also equal to one\nunit of electricity used in a household, as shown on an electricity bill)."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both assertion and reason are correct and the reason explains the assertion.",
+            "B": "Both assertion and reason are correct but the reason does not explain the assertion.",
+            "C": "The assertion is correct but the reason is incorrect.",
+            "D": "Both assertion and reason are incorrect."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch13",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          20,
+          253,
+          255,
+          257,
+          259,
+          261,
+          263,
+          265,
+          267,
+          269
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:13:AR:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/earth-as-a-system-energy-matter-and-life"
+      ],
+      "taxonomyChapterId": "science-9/earth-as-a-system-energy-matter-and-life",
+      "topic": "Uneven Heating of the Earth",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "assertion_reason",
+      "stem": "Assertion (1): Before the summer break, the maintenance staff of a school white-wash the roofs of its classrooms, because light coloured surfaces reflect more sunlight and so stay comparatively cooler than dark surfaces.\nReason (2): The fraction of solar radiation reflected by a surface is called its albedo, and high albedo surfaces stay cool because they reflect. (A) Both assertion and reason are correct and the reason explains the assertion. (B) Both assertion and reason are correct but the reason does not explain the assertion. (C) The assertion is correct but the reason is incorrect. (D) Both assertion and reason are incorrect.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both assertion and reason are correct and the reason explains the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "roads heat up more quickly, while light coloured\nsurfaces remain comparatively cooler. You have",
+            "The fraction of solar radiation reflected by\na surface is called its albedo",
+            "albedo surfaces stay cool because they reflect"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both assertion and reason are correct and the reason explains the assertion.",
+            "B": "Both assertion and reason are correct but the reason does not explain the assertion.",
+            "C": "The assertion is correct but the reason is incorrect.",
+            "D": "Both assertion and reason are incorrect."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch13",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          20,
+          253,
+          255,
+          257,
+          259,
+          261,
+          263,
+          265,
+          267,
+          269
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:13:AR:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/earth-as-a-system-energy-matter-and-life"
+      ],
+      "taxonomyChapterId": "science-9/earth-as-a-system-energy-matter-and-life",
+      "topic": "Uneven Heating of the Earth",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion (1): Farmers in India time their sowing with the arrival of the monsoon, because the southwest monsoon that solar insolation drives influences India’s climate and agriculture.\nReason (2): India receives abundant sunlight throughout the year because of its geographical location in the tropical and sub-tropical regions. (A) Both assertion and reason are correct and the reason explains the assertion. (B) Both assertion and reason are correct but the reason does not explain the assertion. (C) The assertion is correct but the reason is incorrect. (D) Both assertion and reason are incorrect.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both assertion and reason are correct but the reason does not explain the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "its geographical location in the tropical and sub-tropical regions, receives\nabundant sunlight throughout the year. This makes solar insolation highly",
+            "significant as it drives the southwest monsoon, which influences India’s\nclimate and agriculture. It also offers immense potential for harnessing"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both assertion and reason are correct and the reason explains the assertion.",
+            "B": "Both assertion and reason are correct but the reason does not explain the assertion.",
+            "C": "The assertion is correct but the reason is incorrect.",
+            "D": "Both assertion and reason are incorrect."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch13",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          20,
+          253,
+          255,
+          257,
+          259,
+          261,
+          263,
+          265,
+          267,
+          269
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      13
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

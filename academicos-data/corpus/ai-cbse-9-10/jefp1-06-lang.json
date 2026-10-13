@@ -1,0 +1,1433 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:06:A:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "The butterfly collecting season around Reading lasts six weeks in late summer. (See graph below.) If you’re going to chase them one by one, you won’t catch very many. So the next step for Ebright was to raise a flock of butterflies. He would catch a female monarch, take her eggs, and raise them in his basement through their life cycle, from egg to caterpillar to pupa to adult butterfly. Then he would tag the butterflies’ wings and let them go. For several years his basement was home to thousands of monarchs in different stages of development.\n\nChoose the option that best explains why Ebright changed the way he collected monarch butterflies. (A) raising them gave him thousands of monarchs at different stages of development (B) the monarchs near Reading could not be caught at all once the season began (C) Dr Urquhart asked him to raise monarchs instead of tagging them outdoors (D) chasing the butterflies one by one would not give him very many",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "chasing the butterflies one by one would not give him very many",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "If you’re going to chase them one by one, you won’t catch very many.",
+            "So the next step for Ebright was to raise a flock of butterflies.",
+            "For several years his basement was home to thousands of monarchs in different stages of development."
+          ],
+          "objective": true,
+          "options": {
+            "A": "raising them gave him thousands of monarchs at different stages of development",
+            "B": "the monarchs near Reading could not be caught at all once the season began",
+            "C": "Dr Urquhart asked him to raise monarchs instead of tagging them outdoors",
+            "D": "chasing the butterflies one by one would not give him very many"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:A:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "Then in the seventh grade he got a hint of what real science is when he entered a county science fair — and lost. “It was really a sad feeling to sit there and not get anything while everybody else had won something,” Ebright said. His entry was slides of frog tissues, which he showed under a microscope. He realised the winners had tried to do real experiments, not simply make a neat display.\n\nChoose the option that best completes this sentence: Losing the county science fair taught Ebright that a prize in such a fair is won by an entry that... (A) has been arranged neatly enough to impress the judges (B) is built on a real experiment and not on a neat display (C) displays the largest collection of butterfly species that the pupil has gathered (D) uses microscope slides such as those of frog tissues",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "is built on a real experiment and not on a neat display",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Then in the seventh grade he got a hint of what real science is when he entered a county science fair — and lost.",
+            "He realised the winners had tried to do real experiments, not simply make a neat display."
+          ],
+          "objective": true,
+          "options": {
+            "A": "has been arranged neatly enough to impress the judges",
+            "B": "is built on a real experiment and not on a neat display",
+            "C": "displays the largest collection of butterfly species that the pupil has gathered",
+            "D": "uses microscope slides such as those of frog tissues"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:A:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "“Richard was competitive,” Mr Weiherer continued, “but not in a bad sense.” He explained, “Richard wasn’t interested in winning for winning’s sake or winning to get a prize. Rather, he was winning because he wanted to do the best job he could. For the right reasons, he wants to be the best.”\n\nChoose the option that best completes this sentence: The remark that his pupil was competitive but not in a bad sense shows that the pupil’s real aim was... (A) to do good work for its own sake and not merely to win a prize (B) to win more debates than any other member of the club (C) to become a research scientist the moment he left school (D) to collect more butterflies than anybody else in the county",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "to do good work for its own sake and not merely to win a prize",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He explained, “Richard wasn’t interested in winning for winning’s sake or winning to get a prize.",
+            "Rather, he was winning because he wanted to do the best job he could.",
+            "For the right reasons, he wants to be the best."
+          ],
+          "objective": true,
+          "options": {
+            "A": "to do good work for its own sake and not merely to win a prize",
+            "B": "to win more debates than any other member of the club",
+            "C": "to become a research scientist the moment he left school",
+            "D": "to collect more butterflies than anybody else in the county"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:B:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that correctly completes the sentence: In all the time he did the tagging, only two butterflies ________ and they were not more than seventy-five miles from where he lived. (A) had been recaptured (B) were recaptured (C) were being recaptured (D) had been recapturing",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "were recaptured",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“In all the time I did it,” he laughed, “only two butterflies I had tagged were recaptured — and they were not more than seventy-five miles from where I lived.”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "had been recaptured",
+            "B": "were recaptured",
+            "C": "were being recaptured",
+            "D": "had been recapturing"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:B:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that correctly completes the sentence: If the theory ________ correct, it will be a big step towards understanding the processes of life. (A) proved (B) will prove (C) proves (D) had proved",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "proves",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "If the theory proves correct, it will be a big step towards understanding the processes of life."
+          ],
+          "objective": true,
+          "options": {
+            "A": "proved",
+            "B": "will prove",
+            "C": "proves",
+            "D": "had proved"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:B:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that correctly reports the sentence: “He realised the winners had tried to do real experiments, not simply make a neat display.” (A) He realised that the winners had tried to do real experiments and not simply make a neat display. (B) He realised that the winners were trying to do real experiments and not simply make a neat display. (C) He realised that the winners have tried to do real experiments and not simply make a neat display. (D) He realised that the winners had been trying to do real experiments and not simply make a neat display.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He realised that the winners had tried to do real experiments and not simply make a neat display.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He realised the winners had tried to do real experiments, not simply make a neat display."
+          ],
+          "objective": true,
+          "options": {
+            "A": "He realised that the winners had tried to do real experiments and not simply make a neat display.",
+            "B": "He realised that the winners were trying to do real experiments and not simply make a neat display.",
+            "C": "He realised that the winners have tried to do real experiments and not simply make a neat display.",
+            "D": "He realised that the winners had been trying to do real experiments and not simply make a neat display."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:C:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school is holding a one-day Science Exhibition next month and every student of Classes 9 and 10 may enter one project of his or her own. Write a notice for the school notice board giving the theme of the exhibition, what each entrant must display and the last date for entries. (100 words)",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the notice gives the theme of the exhibition, who may enter, what each entrant must display and the last date for entries",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a capitalised heading for a notice board, the body in clear short paragraphs and the issuing authority at the end",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the details are arranged in a sensible order, that is, what is being held, who may join, what to display and how to enrol",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, punctuation, capital letters and a formal and concise tone suitable for a school notice board",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: simple sentences and suitable vocabulary that persuade students to bring a real experiment",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "SCIENCE EXHIBITION — SCHOOL NOTICE BOARD\n\nCalling all students of Classes 9 and 10. The Annual Science Exhibition will be held in the school hall next month. Every entrant must display one project of his or her own work. Please put up a short note on the board used, the material needed and the time the work took. Entries will be closed on the last working day of this month. Projects that show real experiments and not only neat displays will be given priority. Enrol at the science laboratory during the lunch break. Come and make our exhibition worth visiting.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He realised the winners had tried to do real experiments, not simply make a neat display.",
+            "So he wrote to Dr Urquhart for ideas, and back came a stack of suggestions for experiments.",
+            "Those kept Ebright busy all through high school and led to prize projects in county and international science fairs."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:C:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "At an assembly for Classes 9 and 10 you have to speak on the value of asking questions. Write a speech of about 100 words on the topic, “Why the questions we ask are the beginning of science.”",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the speech says clearly that the questions children ask are the beginning of scientific inquiry",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a salutation to the audience, the body of the speech and a concluding thank you",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: a clear beginning, a middle part that gives everyday examples of wondering, and a short conclusion that sums up the message",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, punctuation, capital letters and a formal tone suitable for a school assembly",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: simple sentences and suitable vocabulary that hold the attention of the audience",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Honourable Principal, teachers and dear friends,\n\nI want to speak for a few minutes on a simple habit: asking questions. Children everywhere wonder about the world around them, and the questions they ask are the beginning of scientific inquiry. A boy who collects things and then asks what they are, or a child who asks why the rain falls in drops, has already taken the first step. So never be afraid to say, “I do not know, but I want to find out.” Curiosity is a cheap quality, and once you begin to ask questions, it stays with you.\n\nThank you.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Children everywhere wonder about the world around them.",
+            "The questions they ask are the beginning of scientific inquiry.",
+            "You also must have wondered about certain things around you."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:C:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school fair is next month and you want to test a theory about a plant that grows in your own garden, but you do not know how to begin. Write an e-mail of about 100 words to a research scientist, asking for suggestions for your experiment and saying what you have already tried.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the e-mail states what the writer wants to test, mentions the display already prepared and asks for an experiment and for the materials needed",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: the correct e-mail format, that is, the addressee, the subject line, a greeting, the body and a courteous closing with the sender's status",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the situation comes first, then what has already been tried, and the request comes last, in clear paragraphs",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, punctuation, capital letters and a polite, formal tone suitable for a request to a scientist",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: short, clear and to the point sentences that explain the request without repetition",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "To: The Scientist, Entomology Laboratory\nSubject: Request for suggestions for a science project\n\nRespected Sir/Madam,\n\nI am a student of Class 10 and my school fair is next month. I want to test a theory about a plant that grows in my own garden, but I do not know how to begin. So far I have only prepared a neat display of pressed leaves. Could you suggest one experiment I can carry out in a small garden and tell me which materials I would need? I shall be grateful for any advice.\n\nYours obediently,\nA student of Class 10",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "So he wrote to Dr Urquhart for ideas, and back came a stack of suggestions for experiments.",
+            "He realised the winners had tried to do real experiments, not simply make a neat display.",
+            "Those kept Ebright busy all through high school and led to prize projects in county and international science fairs."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:D:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "When he saw those photos, Ebright didn’t shout, ‘Eureka!’ or even, ‘I’ve got it!’ But he believed that, along with his findings about insect hormones, the photos gave him the answer to one of biology’s puzzles: how the cell can ‘read’ the blueprint of its DNA. DNA is the substance in the nucleus of a cell that controls heredity. It determines the form and function of the cell. Thus DNA is the blueprint for life.\n\nChoose the option that best completes this sentence: Ebright believed the X-ray photos were important because they... (A) showed that the cells of a monarch’s wing can divide in a culture (B) gave him, together with his findings about insect hormones, the answer to a puzzle of biology (C) proved that DNA is handed on from a parent cell to a daughter cell (D) turned his college room-mate’s plastic models of molecules into a published paper",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "gave him, together with his findings about insect hormones, the answer to a puzzle of biology",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "But he believed that, along with his findings about insect hormones, the photos gave him the answer to one of biology’s puzzles",
+            "how the cell can ‘read’ the blueprint of its DNA"
+          ],
+          "objective": true,
+          "options": {
+            "A": "showed that the cells of a monarch’s wing can divide in a culture",
+            "B": "gave him, together with his findings about insect hormones, the answer to a puzzle of biology",
+            "C": "proved that DNA is handed on from a parent cell to a daughter cell",
+            "D": "turned his college room-mate’s plastic models of molecules into a published paper"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:D:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "From the first he had a driving curiosity along with a bright mind. He also had a mother who encouraged his interest in learning. She took him on trips, bought him telescopes, microscopes, cameras, mounting materials, and other equipment and helped him in many other ways.\n\nChoose the option that best completes this sentence: The writer’s list of telescopes, microscopes, cameras and mounting materials shows that the mother... (A) was trying to turn her son’s hobby into a career in medicine (B) wished her son would give up collecting and spend more time on his schoolwork (C) supported his interest in learning by giving him the equipment that it needed (D) could not afford to buy the things that he wanted for a room of his own",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "supported his interest in learning by giving him the equipment that it needed",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He also had a mother who encouraged his interest in learning.",
+            "She took him on trips, bought him telescopes, microscopes, cameras, mounting materials, and other equipment and helped him in many other ways."
+          ],
+          "objective": true,
+          "options": {
+            "A": "was trying to turn her son’s hobby into a career in medicine",
+            "B": "wished her son would give up collecting and spend more time on his schoolwork",
+            "C": "supported his interest in learning by giving him the equipment that it needed",
+            "D": "could not afford to buy the things that he wanted for a room of his own"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:D:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "In high school Richard Ebright was a straight-A student. Because learning was easy, he turned a lot of his energy towards the Debating and Model United Nations clubs. He also found someone to admire — Richard A. Weiherer, his social studies teacher and adviser to both clubs.\n\nChoose the option that best completes this sentence: Ebright turned so much of his energy towards the Debating and Model United Nations clubs because... (A) learning was easy for him and he found in the clubs a teacher he admired (B) his teachers had warned him that science work alone would get him no place (C) debating and Model United Nations were the two subjects in which he was still a weak pupil (D) the clubs met during the season in which he had no butterflies to collect",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "learning was easy for him and he found in the clubs a teacher he admired",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In high school Richard Ebright was a straight-A student.",
+            "Because learning was easy, he turned a lot of his energy towards the Debating and Model United Nations clubs.",
+            "He also found someone to admire — Richard A. Weiherer, his social studies teacher and adviser to both clubs."
+          ],
+          "objective": true,
+          "options": {
+            "A": "learning was easy for him and he found in the clubs a teacher he admired",
+            "B": "his teachers had warned him that science work alone would get him no place",
+            "C": "debating and Model United Nations were the two subjects in which he was still a weak pupil",
+            "D": "the clubs met during the season in which he had no butterflies to collect"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:E:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Richard Ebright spent years tagging monarch butterflies and then gave it up. Why did he lose interest in the work?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He found the tagging tedious and there was very little feedback",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In all the time he did it, only two butterflies he had tagged were recaptured",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Both were not more than seventy-five miles from where he lived, so he learnt nothing from the work",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He found the tagging tedious and there was very little feedback. In all the time he did it, only two butterflies he had tagged were recaptured, and both were not more than seventy-five miles from where he lived, so the work told him nothing new.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“Eventually I began to lose interest in tagging butterflies. It’s tedious and there’s not much feedback,” Ebright said.",
+            "only two butterflies I had tagged were recaptured — and they were not more than seventy-five miles from where I lived."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:E:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Richard Ebright entered a county science fair in the seventh grade and lost. How did that failure change the way he worked?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He realised the winners had tried to do real experiments and not simply make a neat display",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So he decided he would have to do a real experiment, choosing the insect work he knew most about",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He wrote to Dr Urquhart for ideas and the suggestions kept him busy all through high school",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He realised that the winners had tried real experiments instead of simply making a neat display. So he decided his next project must be a real one, and, as he knew most about his insect work, he wrote to Dr Urquhart for ideas. Those suggestions kept him busy all through high school.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He realised the winners had tried to do real experiments, not simply make a neat display.",
+            "“I knew that for the next year’s fair I would have to do a real experiment,” he said.",
+            "So he wrote to Dr Urquhart for ideas, and back came a stack of suggestions for experiments."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:E:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why does Richard Ebright call DNA “the blueprint for life”, and what question did his new theory set out to answer?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "DNA is the substance in the nucleus of a cell that controls heredity",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It determines the form and function of the cell, and that is why it is the blueprint for life",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "His theory answers one of biology’s puzzles, that is, how the cell can ‘read’ the blueprint of its DNA",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Ebright calls DNA the blueprint of life because it is the substance in the nucleus of a cell that controls heredity and decides the form and function of the cell. His new theory set out to answer one of biology’s puzzles: how the cell can ‘read’ the blueprint of its DNA.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "DNA is the substance in the nucleus of a cell that controls heredity.",
+            "It determines the form and function of the cell. Thus DNA is the blueprint for life.",
+            "how the cell can ‘read’ the blueprint of its DNA"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:F:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Trace, step by step, the chain of events that carried Richard Ebright from reading about monarch migration as a small boy to a theory about the life of cells.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "His mother gave him the book The Travels of Monarch X, which told how monarchs migrate to Central America and opened the world of science to him",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The book invited readers to tag butterflies for research by Dr Frederick A. Urquhart of the University of Toronto, Canada, and his mother wrote to him",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He attached light adhesive tags to the wings of monarchs and raised a flock in his basement because the season lasts only six weeks",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He lost a county science fair in the seventh grade and learnt that the winners had tried to do real experiments, not simply make a neat display",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He wrote to Dr Urquhart for ideas, and the suggestions kept him busy all through high school",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In his second year in high school he began the work on the twelve gold spots which led to his theory on the life of cells",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. His mother gave him The Travels of Monarch X, which told how monarchs migrate to Central America and opened the world of science to him.\n2. The book asked readers to tag butterflies for Dr Urquhart of the University of Toronto, Canada, and his mother wrote to him.\n3. He tagged monarchs and, as the season lasts six weeks, raised a flock in his basement from egg to adult.\n4. In the seventh grade he lost a county science fair and learnt that the winners had done real experiments.\n5. He wrote to Dr Urquhart for ideas, and they kept him busy all through high school.\n6. In his second year in high school he began work on the twelve gold spots of a monarch pupa, which led to his theory on the life of cells.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“But then my mother got me a children’s book called The Travels of Monarch X.”",
+            "At the end of the book, readers were invited to help study butterfly migrations.",
+            "In his second year in high school, Richard Ebright began the research that led to his discovery of an unknown insect hormone."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:F:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Explain, step by step, how Richard Ebright’s question about the gold spots on a monarch pupa led to a hormone, to a knowledge of its chemical structure, and finally to his new theory about how a cell reads DNA.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "His question was what the purpose of the twelve tiny gold spots on a monarch pupa was, and Dr Urquhart did not believe the spots were only ornamental",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He and another science student built a device showing that the spots produced a hormone necessary for the butterfly’s full development",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The project won first place in the county fair and third place for zoology at the International Science and Engineering Fair",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "As a high school junior he continued advanced experiments on the pupa and won first place at the International Science Fair",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In his senior year he grew cells from a monarch’s wing which divided into normal wing scales only if fed the hormone, and later identified the hormone’s chemical structure",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A year-and-a-half later the X-ray photos of that structure gave him the idea for his theory about how the cell reads the blueprint of its DNA",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. His question was simple: what is the purpose of the twelve tiny gold spots on a monarch pupa? Dr Urquhart did not believe they were ornamental.\n2. He and another science student built a device showing that the spots produced a hormone necessary for the butterfly’s full development.\n3. That project won first place in the county fair and third for zoology at the International Fair.\n4. As a junior he continued advanced experiments on the pupa and won first place at the International Science Fair.\n5. In his senior year he grew cells from a monarch’s wing which divided into normal wing scales only if fed the hormone.\n6. The next summer he identified the hormone’s chemical structure, and X-ray photos of it later gave him his theory of how a cell reads DNA.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The question he tried to answer was simple: What is the purpose of the twelve tiny gold spots on a monarch pupa?",
+            "“Everyone assumed the spots were just ornamental,” Ebright said. “But Dr Urquhart didn’t believe it.”",
+            "Using the laboratory’s sophisticated instruments, he was able to identify the hormone’s chemical structure."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:F:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Richard Ebright became a scientist without giving up his other interests. Explain, step by step, what he had as a young boy, what his mother added, how losing a science fair changed his work, and what his teacher says he was really after.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "An only child, he grew up north of Reading, Pennsylvania, and from kindergarten he collected butterflies, rocks, fossils and coins",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He was an eager astronomer, star-gazing all night, and he earned top grades in school",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "His mother encouraged his interest, bought him equipment and gave him learning work at the dining room table",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In the seventh grade he lost a county science fair and learnt that the winners had done real experiments",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He wrote to Dr Urquhart for ideas and the suggestions led to prize projects and then to his theory on the life of cells",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He stayed a debater, public speaker, canoeist and photographer, and was competitive only because he wanted to do the best job he could",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. An only child, he grew up north of Reading, Pennsylvania, and from kindergarten collected butterflies, rocks, fossils and coins.\n2. He was an eager astronomer, sometimes star-gazing all night, and he earned top grades in school.\n3. His mother encouraged his interest in learning, bought him equipment, and gave him learning work at the dining room table.\n4. In the seventh grade he lost a county science fair and learnt that the winners had tried real experiments.\n5. He wrote to Dr Urquhart for ideas, and they led to prize projects and then to his theory on the life of cells.\n6. He stayed a champion debater, public speaker, canoeist and photographer, and was competitive only because he wanted to do the best job he could.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "An only child, Ebright grew up north of Reading, Pennsylvania.",
+            "“There wasn’t much I could do there,” he said. “I certainly couldn’t play football or baseball with a team of one. But there was one thing I could do — collect things.”",
+            "For the right reasons, he wants to be the best."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      6
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -548,9 +548,16 @@ def split_stem_and_options(stem: str) -> tuple[str, list[str]]:
         run = _option_run(stem, matches, i)
         if not run or (best is not None and len(run) <= len(best)):
             continue
-        # A run with an empty or joiner-only option is a mis-split: print the
-        # stem as written instead of junk options.
-        if any(_JUNK_OPTION.fullmatch(o.strip(" .;,&")) for o in _options_of(stem, run)):
+        # A run with an empty option is a mis-split, and so is a short run with
+        # a joiner-only option: print the stem as written instead of junk
+        # options. In a full run of four a joining word is a real option --
+        # an English grammar MCQ asks for the preposition or conjunction
+        # ("(A) by (B) with (C) on (D) of", ai:cbse:iebe1:03:B:103), which
+        # printed with no options at all (2026-10-14). Over 8,503 distinct
+        # stems that is the only split this changes.
+        options = [o.strip(" .;,&") for o in _options_of(stem, run)]
+        if any(not o for o in options) or (
+                len(options) < 4 and any(_JUNK_OPTION.fullmatch(o) for o in options)):
             continue
         best = run
     if best is None:

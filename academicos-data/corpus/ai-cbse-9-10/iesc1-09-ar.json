@@ -1,0 +1,246 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:09:AR:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/atomic-foundations-of-matter"
+      ],
+      "taxonomyChapterId": "science-9/atomic-foundations-of-matter",
+      "topic": "Law of Conservation of Mass",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Two conical flasks, A and B, are standing on a digital weighing balance. Flask A holds sodium sulfate solution and Flask B holds about 10 mL of 1 % m/v barium chloride solution. The total mass of both the solutions is recorded, and then the solution from Flask B is poured into Flask A and the two are mixed carefully. Both flasks are then placed back on the same balance and the reading is noted.\n\nAssertion 1: The reading noted after the two solutions have been mixed is the same as the total mass recorded before mixing.\nReason 2: Sodium sulfate and barium chloride react to form a white precipitate of barium sulfate along with sodium chloride, and all of this material stays in the two flasks that remain on the balance.\n\nIn the light of the above statements, choose the correct answer. (A) Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1. (B) Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1. (C) Assertion 1 is true but Reason 2 is false. (D) Both Assertion 1 and Reason 2 are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Leave both Conical Flasks A and B on the weighing\nbalance undisturbed, and record the total mass of both\nthe solutions (Fig. 9.4a).",
+            "Now, place both the Conical Flasks A and B on the weighing\nbalance again as shown in Fig. 9.4b, and note the reading.",
+            "When solutions of sodium sulfate and barium chloride are\nmixed, a white precipitate of barium sulfate is formed along\nwith sodium chloride."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1.",
+            "B": "Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1.",
+            "C": "Assertion 1 is true but Reason 2 is false.",
+            "D": "Both Assertion 1 and Reason 2 are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch9",
+        "pages": [
+          1,
+          3,
+          4,
+          5,
+          7,
+          9,
+          11,
+          13,
+          17,
+          19,
+          21,
+          163,
+          165,
+          167,
+          169,
+          171,
+          173,
+          175,
+          177,
+          179,
+          183
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:09:AR:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/atomic-foundations-of-matter"
+      ],
+      "taxonomyChapterId": "science-9/atomic-foundations-of-matter",
+      "topic": "Law of Conservation of Mass",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "assertion_reason",
+      "stem": "Two conical flasks, A and B, hold sodium sulfate solution and barium chloride solution. A student has to pour the solution from Flask B into Flask A, mix the two carefully, and still measure the mass of the whole set-up on a digital weighing balance.\n\nAssertion 1: Both conical flasks are kept on the digital weighing balance while the solution is transferred from Flask B to Flask A and the two solutions are mixed.\nReason 2: Keeping both flasks on the balance prevents the error caused by water evaporating from the solutions during the transfer.\n\nIn the light of the above statements, choose the correct answer. (A) Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1. (B) Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1. (C) Assertion 1 is true but Reason 2 is false. (D) Both Assertion 1 and Reason 2 are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Assertion 1 is true but Reason 2 is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Transfer the solution from Conical Flask B to Conical\nFlask A and mix the two solutions carefully.",
+            "Keep both the conical\nflasks on the digital\nweighing balance. It\nprevents the error",
+            "caused by a small\namount of solution\nthat may remain\nstuck to the walls\nof the conical flask\nduring transfer."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1.",
+            "B": "Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1.",
+            "C": "Assertion 1 is true but Reason 2 is false.",
+            "D": "Both Assertion 1 and Reason 2 are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch9",
+        "pages": [
+          1,
+          3,
+          4,
+          5,
+          7,
+          9,
+          11,
+          13,
+          17,
+          19,
+          21,
+          163,
+          165,
+          167,
+          169,
+          171,
+          173,
+          175,
+          177,
+          179,
+          183
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:09:AR:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/atomic-foundations-of-matter"
+      ],
+      "taxonomyChapterId": "science-9/atomic-foundations-of-matter",
+      "topic": "Law of Conservation of Mass",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "In a group activity, students place 4.0 g of calcium carbonate with 2.92 g of hydrochloric acid in a closed container. After the reaction is over, they measure 1.76 g of carbon dioxide, 0.72 g of water and 4.44 g of calcium chloride.\n\nAssertion 1: The 4.44 g of calcium chloride obtained shows that mass is not conserved in this reaction, because it is much less than the 6.92 g of reactants that were taken.\nReason 2: Carbon dioxide and water are not formed in this reaction, so calcium chloride is the only product left behind.\n\nIn the light of the above statements, choose the correct answer. (A) Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1. (B) Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1. (C) Assertion 1 is true but Reason 2 is false. (D) Both Assertion 1 and Reason 2 are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both Assertion 1 and Reason 2 are false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "After the reaction is over, they measured 1.76 g of carbon\ndioxide, 0.72 g of water, and 4.44 g of calcium chloride.",
+            "4.0 g + 2.92 g = 6.92 g",
+            "Total mass of products: 1.76 g + 0.72 g + 4.44 g = 6.92 g"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1.",
+            "B": "Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1.",
+            "C": "Assertion 1 is true but Reason 2 is false.",
+            "D": "Both Assertion 1 and Reason 2 are false."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch9",
+        "pages": [
+          1,
+          3,
+          4,
+          5,
+          7,
+          9,
+          11,
+          13,
+          17,
+          19,
+          21,
+          163,
+          165,
+          167,
+          169,
+          171,
+          173,
+          175,
+          177,
+          179,
+          183
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      9
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

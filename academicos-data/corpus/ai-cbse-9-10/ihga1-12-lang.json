@@ -1,0 +1,2184 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:ihga1:12:A:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "competency_based",
+      "stem": "भवानीप्रसाद मिश्र का जन्म सन् 1913 में मध्य प्रदेश के\nहोशंगाबाद (अब नर्मदापुरम) में हुआ था। साहित्य के\nसाथ-साथ स्वाधीनता आंदोलन में जिन कवियों की सक्रिय\nभागीदारी थी, उनमें ये प्रमुख हैं। उनकी मुख्य रचनाएँ—\nगीत-फ़रोश, खुशबू के शिलालेख, चकित है दुख, अँधेरी\nकविताएँ, बुनी हुई रस्सी, कवितांतर, शतदल, गांधी-\nपंचशती, त्रिकाल सं ध्या आदि हैं। बुनी हुई रस्सी(कविता संग्रह) पर उन्हें साहित्य\nअकादमी पुरस्कार मिला है।\n\nकिसी विद्यार्थी को भवानीप्रसाद मिश्र की रचनाओं की सूची बनानी हो, तो पढ़कर बताइए कि साहित्य अकादमी पुरस्कार किस रचना को मिला। (A) खुशबू के शिलालेख (B) कवितांतर (C) बुनी हुई रस्सी (कविता संग्रह) (D) शतदल",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बुनी हुई रस्सी (कविता संग्रह)",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बुनी हुई रस्सी(कविता संग्रह) पर उन्हें साहित्य\nअकादमी पुरस्कार मिला है।",
+            "उनकी मुख्य रचनाएँ—",
+            "गीत-फ़रोश, खुशबू के शिलालेख, चकित है दुख, अँधेरी"
+          ],
+          "objective": true,
+          "options": {
+            "A": "खुशबू के शिलालेख",
+            "B": "कवितांतर",
+            "C": "बुनी हुई रस्सी (कविता संग्रह)",
+            "D": "शतदल"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:A:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "तू जरा-सा दुख कितना,\nहे सजीले हरे सावन,\nसह सकेगा क्या कि इतना,\nहे कि मेरे पुण्य पावन,\nऔर इस पर बस नहीं है,\nतुम बरस लो वे न बरसें,\nबस बिना कुछ रस नहीं है,\nपाँचवें को वे न तरसें,\nहवा आई उड़ चला तू,\nमैं मजे में हूँ सही है,\nलहर आई मुड़ चला तू,\nघर नहीं हूँ बस य ही है,\nलगा झटका टूट बैठा,\nकिंतु य ह बस बड़ा बस है,\nगिरा नीचे फूट बैठा,\nइसी बस से सब विरस है,\n\nकक्षा में कविता का अर्थ समझाते समय पढ़कर बताइए कि इन पंक्तियों में कवि बादल से किस बात की समझा चाहता है। (A) बादल से जल्दी-जल्दी वर्षा करने के लिए (B) घर के लोगों को अपने दुख से बेखबर रखने के लिए (C) सावन के बादलों को दूर भेजने के लिए (D) वर्षा रुक जाने की प्रतीक्षा करने के लिए",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "घर के लोगों को अपने दुख से बेखबर रखने के लिए",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "और इस पर बस नहीं है,",
+            "तुम बरस लो वे न बरसें,",
+            "पाँचवें को वे न तरसें,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "बादल से जल्दी-जल्दी वर्षा करने के लिए",
+            "B": "घर के लोगों को अपने दुख से बेखबर रखने के लिए",
+            "C": "सावन के बादलों को दूर भेजने के लिए",
+            "D": "वर्षा रुक जाने की प्रतीक्षा करने के लिए"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:A:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "माँ कि जिसकी गोद में सिर,\nअभी तक चुपचाप है सब,\nरख लिया तो दुख नहीं फिर,\nरातवाली छाप है सब,\nगिर रहा पानी झरा-झर,\nमाँ कि जिसकी स्नेह-धारा\nका य हाँ तक भी पसारा,\nहिल रहे पत्े हरा-हर,\nउसे लिखना नहीं आता,\nबह रही है हवा सर-सर,\nजो कि उसका पत्र पाता।\n\nपढ़कर बताइए कि इन पंक्तियों में कवि माँ के संबंध में क्या भावना व्यक्त कर रहा है। (A) माँ के प्रति कवि उदासीन है। (B) माँ के संपर्क से कवि बचना चाहता है। (C) माँ ने कवि को कभी प्यार नहीं दिया। (D) कवि माँ के असीम स्नेह के प्रभाववादी हैं।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कवि माँ के असीम स्नेह के प्रभाववादी हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "माँ कि जिसकी स्नेह-धारा",
+            "का य हाँ तक भी पसारा,",
+            "रख लिया तो दुख नहीं फिर,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "माँ के प्रति कवि उदासीन है।",
+            "B": "माँ के संपर्क से कवि बचना चाहता है।",
+            "C": "माँ ने कवि को कभी प्यार नहीं दिया।",
+            "D": "कवि माँ के असीम स्नेह के प्रभाववादी हैं।"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:B:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "आज पानी गिर रहा है,\nआज का दिन दिन नहीं है,\nबहुत पानी गिर रहा है,\nक्योंकि इसका छिन नहीं है,\nरात-भर गिरता रहा है,\nएक छिन सौ बरस है रे,\nप्राण मन घिरता रहा है,\nहाय कैसा तरस है रे,\nघर कि घर में सब जुड़े हैं,\nअब सबेरा हो गया है,\n\nपढ़कर बताइए कि इन पंक्तियों में कवि ने लगातार वर्षा को कितने समय का बताया है और उसमें उसका मन कैसा दबा हुआ है।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "वर्षा ‘एक छिन सौ बरस’ से चल रही है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कवि का मन ‘घिरता’ हुआ है, यानी दुख से बेचैन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सौ बरस; प्राण-मन घिरता हुआ",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "एक छिन सौ बरस है रे,",
+            "प्राण मन घिरता रहा है,",
+            "रात-भर गिरता रहा है,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:B:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "और माँ ने कहा होगा,\nदुख कितना बहा होगा\nआँख में किसलिए पानी,\nवहाँ अच्छा है भवानी,\nवह तुम्हारा मन समझकर,\nऔर अपनापन समझकर,\nगया है सो ठीक ही है\nय ह तुम्हारी लीक ही है,\nपाँव जो पीछे हटाता,\nकोख को मेरी लजाता,\nइस तरह होओ न कच्चे,\nरो पड़ेंगे और बच्चे,\n\nपढ़कर बताइए कि इन पंक्तियों में बच्चों के संबंध में क्या चेतावनी दी गई है।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "‘इस तरह होओ न कच्चे’ यानी कठोर मत बनो",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कठोरता रखोगे तो बच्चे रो पड़ेंगे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कठोर मत बनो, नहीं तो बच्चे रो पड़ेंगे",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "इस तरह होओ न कच्चे,",
+            "रो पड़ेंगे और बच्चे,",
+            "पाँव जो पीछे हटाता,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:C:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "पंक्ति ‘माँ कि आँगन लीप दे ज्यों’ में कौन-सा अलंकार है? (A) रूपक अलंकार (B) उपमा अलंकार (C) अतिशयोक्ति अलंकार (D) उत्प्रेक्षा अलंकार",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उपमा अलंकार",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "माँ कि आँगन लीप दे ज्यों;",
+            "तू कि उसके साथ जाती,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "रूपक अलंकार",
+            "B": "उपमा अलंकार",
+            "C": "अतिशयोक्ति अलंकार",
+            "D": "उत्प्रेक्षा अलंकार"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:C:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "पंक्ति ‘भाई पागल, बहिन पागल’ में ‘पागल’ शब्द किस पद का है? (A) संज्ञा (B) सर्वनाम (C) विशेषण (D) क्रिया",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "विशेषण",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "भाई पागल, बहिन पागल,",
+            "साँस सुस्थथिर मंद करके,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "संज्ञा",
+            "B": "सर्वनाम",
+            "C": "विशेषण",
+            "D": "क्रिया"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:C:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "पंक्ति ‘आज उनके स्वर्ण बेटे’ में ‘स्वर्ण बेटे’ किस प्रकार का समास है? (A) द्विगु समास (B) द्वन्द्व समास (C) बहुव्रीहि समास (D) कर्मधारय समास",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कर्मधारय समास",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "आज उनके स्वर्ण बेटे,",
+            "क्योंकि मैं उन पर सुहागा"
+          ],
+          "objective": true,
+          "options": {
+            "A": "द्विगु समास",
+            "B": "द्वन्द्व समास",
+            "C": "बहुव्रीहि समास",
+            "D": "कर्मधारय समास"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:D:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "competency_based",
+      "stem": "आज गीता-पाठ करके,\nपिताजी जिनको बुढ़ापा,\nदंड दो सौ साठ करके,\nएक क्षण भी नहीं व्यापा,\nखूब मुगदर हिला लेकर,\nरो पड़े हों गे बराबर,\nमूठ उनकी मिला लेकर,\nपाँचवें का नाम लेकर,\nजब कि नीचे आए हों गे,\nपाँचवाँ मैं हूँ अभागा,\nनैन जल से छाए हों गे,\nजिसे सोने पर सुहागा,\n\nकक्षा में पंक्ति सुनाते समय पढ़कर बताइए कि बुढ़ापा पिताजी कौन-सा कार्य करते हैं। (A) गेहूँ निकालना (B) खेल-कूद करना (C) गीता-पाठ करना (D) कहानी सुनाना",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "गीता-पाठ करना",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "आज गीता-पाठ करके,",
+            "पिताजी जिनको बुढ़ापा,",
+            "दंड दो सौ साठ करके,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "गेहूँ निकालना",
+            "B": "खेल-कूद करना",
+            "C": "गीता-पाठ करना",
+            "D": "कहानी सुनाना"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:D:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "दश-दिशा चुपचाप है रे,\nदृश्य उसके बाद का रे,\nस्वस्थ की लय छाप है रे\nपाँचवें की याद का रे,\nझाड़ आँखें बंद करके\nभाई पागल, बहिन पागल,\nसाँस सुस्थथिर मंद करके,\nऔर अम्मा ठीक बादल,\nहिले बिन चुपके खड़े हैं,\nऔर भौजी और सरला,\nक्षि तिज पर जैसे जड़े हैं\nसहज पानी सहज तरला,\n\nपढ़कर बताइए कि ‘क्षि तिज पर जैसे जड़े हैं’ में तुलना किससे की गई है। (A) पेड़ की जड़ों से (B) पहाड़ की चट्टानों से (C) नदी की धारा से (D) बादल के पानी से",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "पेड़ की जड़ों से",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "हिले बिन चुपके खड़े हैं,",
+            "क्षि तिज पर जैसे जड़े हैं",
+            "और भौजी और सरला,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "पेड़ की जड़ों से",
+            "B": "पहाड़ की चट्टानों से",
+            "C": "नदी की धारा से",
+            "D": "बादल के पानी से"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:D:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "चार भाई चार बहिनें\nठीक से मैंने न जाना,\nभुजा भाई प्यार बहिनें,\nबहुत सोकर सिर्फ माना—\nऔर माँ बिन-पढ़ी मेरी,\nक्योंकि बादल की अँधेरी,\nहै अभी तक भी घनेरी,\nदुख में वह गढ़ी मेरी,\n\nपढ़कर बताइए कि इन पंक्तियों में माँ का दुख किस बात से जुड़ा बताया गया है। (A) माँ के अकेले रहने से (B) बादल के आगमन से (C) माँ के अशिक्षित होने से (D) घर में अँधेरा होने से",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बादल के आगमन से",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "और माँ बिन-पढ़ी मेरी,",
+            "क्योंकि बादल की अँधेरी,",
+            "दुख में वह गढ़ी मेरी,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "माँ के अकेले रहने से",
+            "B": "बादल के आगमन से",
+            "C": "माँ के अशिक्षित होने से",
+            "D": "घर में अँधेरा होने से"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:E:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "‘वज्र-भुज नवनीत-सा उर’ पंक्ति में पिताजी की किस विशेषता का संकेत मिलता है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "शरीर की तुलना वज्र और नवनीत से की गई है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "पिताजी वीर और बलवान हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "इस पंक्ति में पिताजी के शरीर की तुलना वज्र और नवनीत से की गई है, जिससे उनकी वीरता और बलवान सामर्थ्य का पता चलता है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "वज्र-भुज नवनीत-सा उर,",
+            "घर खुशी का पूर है जो,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:E:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "कवि अपने परिजनों से किन बातों के लिए आग्रह कर रहा है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "परिजन कोई शोक न करें",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "परिजन कोई शक न करें, उसे सकुशल मान लें",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कवि यह चाहता है कि घर वाले कोई शोक न करें, उसे कोई शक न करें और उसे सकुशल, प्रसन्न मान लें।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मत करो कुछ शोक, कहना,",
+            "उन्हें कोई शक न देना,",
+            "देखना कुछ बक न देना,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:F:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "‘घर की याद’ कविता का केंद्रीय भाव अपने शब्दों में स्पष्ट कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "केंद्रीय भाव — घर और परिवार की स्मृति",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कारावास में घर याद करते समय परिजन स्मृति में जुड़ते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "माँ, पिताजी और भाई-बहिनों की स्मृतियों का उल्लेख",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "लगातार वर्षा अकेलेपन और अलगाव का प्रतीक है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कविता का केंद्रीय भाव घर और परिवार की स्मृति है। कारावास में रहते हुए कवि जब घर को याद करता है, तो उसकी स्मृति में परिजन एक-एक करके जुड़ते जाते हैं — माँ का स्नेह, पिताजी की वीरता और भोलापन, भाई-बहिनों की प्यारी स्मृतियाँ। वर्षा का लगातार गिरना उसके अकेलेपन और अलगाव का प्रतीक बनकर दुख और बेचैनी व्यक्त करता है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "परिवार की स्ममृति",
+            "कारावास के स मय घर को याद करते हुए कवि की स्ममृति",
+            "घर चतुर्दि क्घिर रहा है,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:F:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "कविता में वर्णित पिताजी के व्यक्तित्व की किन विशेषताओं का उल्लेख मिलता है, उन्हें पंक्तियों के आधार पर लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "कठोरता — दंड देना, मूठ और नाम लेकर पुकारना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रेमपूर्णता — घर खुशी का पूर है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "शारीरिक वीरता — ‘वज्र-भुज नवनीत-सा उर’",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कवि उनके कारण मुगदर हिल उठते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "पिताजी का व्यक्तित्व कठोर, परन्तु प्रेमपूर्ण है। वे गीता-पाठ करते हैं, दंड देते हैं, मूठ और नाम लेकर पुकारते हैं — यह उनकी कठोरता दर्शाता है। पर ‘वज्र-भुज नवनीत-सा उर’, ‘घर खुशी का पूर है जो’ जैसी पंक्तियाँ उनकी वीरता और घर को सुख देने वाले स्नेह का संकेत देती हैं। इसी कारण कवि उनके कारण मुगदर हिल उठते हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "वज्र-भुज नवनीत-सा उर,",
+            "घर खुशी का पूर है जो,",
+            "आज गीता-पाठ करके,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:F:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "कविता में बार-बार पानी गिरने का वर्णन किस भाव को प्रकट करने के लिए किया गया है, पंक्तियों के सहारे लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "कारावास में अकेलापन और घर से दूरी",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "लगातार वर्षा अनंत पीड़ा और बेचैनी का प्रतीक है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "‘एक छिन सौ बरस’ — वर्षा का न रुकना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "‘गिर रहा पानी झरा-झर’ जैसी पंक्तियों का दोहराव",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कवि कारावास में अकेला है और घर से दूर। लगातार बरसता पानी उसकी उस अनंत पीड़ा और बेचैनी का प्रतीक है। ‘रात-भर गिरता रहा है, एक छिन सौ बरस है रे’ से पता चलता है कि वर्षा किसी से नहीं, उसके अपने दुख से जुड़ी है; ‘गिर रहा पानी झरा-झर’ जैसी पंक्तियाँ उसी दशा को बार-बार दोहराती हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "रात-भर गिरता रहा है,",
+            "एक छिन सौ बरस है रे,",
+            "प्राण मन घिरता रहा है,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:G:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "आप अपने मित्र को संदेश भेजना चाहते हैं, किंतु वह आपसे मिल नहीं पाता। किसी प्राकृतिक उपादान को संदेशवाहक बनाकर १२० शब्दों में अपना संदेश लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "संदेशवाहक के रूप में प्राकृतिक उपादान चुना हो और उसका कारण भी दिया हो",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "पत्र का प्रारूप — संबोधन, पत्रांत और हस्ताक्षर स्पष्ट हों",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: बरसात का दृश्य और घर की याद का सजीव चित्रण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वाक्य-क्रम व संयोजन: वाक्य लघु, क्रमबद्ध और प्रवाहमय हों",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा की शुद्धता, प्रसाद और भाव के अनुकूल संदेश-शैली",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "लगभग १२० शब्दों में पूर्ण संदेश लिखा हो",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "क. संदेशवाहक — सावन का बादल: यह चलते-फिरते हर घर तक पहुँच जाता है।\nख. संदेश —\nप्रिय मित्र,\nयह संदेश बादल के साथ तुम तक पहुँचेगा। मैं ठीक हूँ, पर घर की बात सोचकर मन भर आता है। सावन की पहली बूँद के साथ ही घर की याद जगी और वही पुरानी बातें स्मरण हो उठीं — माँ का अपनापन, पिताजी का मुगदर हँसना। दिन-रात यहीं बीत रहे हैं, पर हर बूँद में तुम्हारी याद है। यहाँ रात भर पानी गिरता रहता है, पर घर अब सबेरा-सा लगता है। तुम्हें भी याद आती होगी। जल्दी मिलो, पुराने दिन फिर साथ बिताएँगे।\nतुम्हारा मित्र",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "तू कि प्रि य से दूर होकर,",
+            "किंतु उनसे य ह न कहना,",
+            "मैं न रोऊँगा — कहा होगा,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:G:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "ऐसे परिजन को पत्र लिखे, जो दूर पढ़ने गया है और जिसे घर की बातें याद नहीं आतीं। १२० शब्दों में पत्र लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "पत्र का प्रारूप: स्थान-दिनांक, संबोधन, विषय और हस्ताक्षर स्पष्ट हों",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: घर की याद, बरसात का दृश्य और पिताजी-माँ का स्नेह",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "पत्र के उद्देश्य और भावों की स्पष्टता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वाक्य-क्रम व संयोजन: वाक्य क्रमबद्ध और प्रवाहमय हों",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा की शुद्धता, प्रसाद और पत्र-शैली के अनुकूल संबोधन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "लगभग १२० शब्दों में पूर्ण पत्र लिखा हो",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "प्रिय माँ,\nसप्रीटर से यह पत्र भेज रहा हूँ। बहुत दिन बीत गए और घर की याद सताती रहती है। मित्रों के साथ समय कैसे बीत रहा है, यह सब बताने का मन है, पर सबसे पहले घर की चिंता है। पिताजी का कठोर प्रेम और आपका अपनापन हर समय सामने आता है। सावन की बारिश शुरू हो गई है और रात भर पानी गिरता रहता है — ऐसा लगता है, हम सब बिखरे हुए हैं। आप कृपया स्वस्थ रहिए और पिताजी से कहिए कि पाँचवें को कोई चिंता न हो। जब तक वापस नहीं आया, यह पत्र दोहराया नहीं जाएगा। जल्दी लौटूँगा।\nआपका बेटा",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "हाय , कितना सहा होगा,",
+            "कहाँ, मैं रोता कहाँ हूँ,",
+            "उसे थी बरसात प्यारी,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:G:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "पिताजी और माँ के बीच उस बातचीत का संवाद-लेखन कीजिए, जिसमें पाँचवें बेटे की चिंता दोनों व्यक्त करते हैं। १२० शब्दों में लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "संवाद का प्रारूप: वक्ता-कथन, बोलचाल की भाषा और संकेत-चिह्न स्पष्ट हों",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "पिताजी की कठोरता और माँ की स्नेहमयता दोनों संवाद में दिखें",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "पाँचवें बेटे की चिंता और जेल का संदर्भ स्पष्ट हो",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सावन के बादल को संदेशवाहक के रूप में प्रस्तुत किया गया हो",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वाक्य-क्रम व संयोजन: प्रतिक्रियाएँ क्रम में हों, संवाद रुकें नहीं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा की शुद्धता, प्रसाद और लगभग १२० शब्दों की सीमा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "पिताजी — (मूठ लेकर) पाँचवें, सुना? ऐसे क्या करोगे?\nमाँ — धीरे, वह अभी सुनकर क्या सोचेगा।\nपिताजी — दंड दो सौ साठ तो कर ही दिया।\nमाँ — गीता-पाठ के बजाय गीता का उपदेश उससे पूछिए।\nपिताजी — चलेगा उपदेश, हाथ में संग नहीं।\nमाँ — दूर पहुँचेगा क्या?\nपिताजी — पहुँचेगा। भेजा है सावन के साथ।\nमाँ — मुझे यह मत कहिए कि वह जेल में दुख सह रहा है।\nपिताजी — मैंने साँस रोक ली है।\nमाँ — भोले बहादुर, वह भी आज बहुत थके होंगे।\nपिताजी — घर खाली सा लग रहा है।\nमाँ — सावन का बादल आज बहुत देर से खड़ा है।\nपिताजी — बादल? (चुप होकर खिड़की देखने गए)",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "दंड दो सौ साठ करके,",
+            "एक क्षण भी नहीं व्यापा,",
+            "खूब मुगदर हिला लेकर,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:H:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपने ऐसे मित्र को अनौपचारिक पत्र लिखिए, जो दूर रहता है और जिसे बरसात में आपको अपने घर की याद आती है। १०० शब्दों में पत्र लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "पत्र का प्रारूप: संबोधन, पत्रांत और हस्ताक्षर स्पष्ट हों",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: बरसात, घर की याद और अकेलेपन का सजीव चित्रण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "अनौपचारिक पत्र की शैली और भावों की स्पष्टता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वाक्य-क्रम व संयोजन: वाक्य लघु, क्रमबद्ध और प्रवाहमय हों",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा की शुद्धता, प्रसाद और लगभग १०० शब्दों की सीमा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "प्रिय मित्र,\nतुम दूर चले गए, पर हर बरसात मुझे वही घर याद आता है। रात भर पानी गिरता रहता है और मन बिखर जाता है। माँ का दरवाज़ा खुला रहता है, पिताजी गीता-पाठ करते हैं और भाई-बहिन चुपचाप बैठे रहते हैं। तुम्हारी बहिन की हँसी याद आ रही है। पर अब सब अलग-अलग हैं, इसलिए घर सूना लगता है। सावन का बादल आज भी आता है — उसी के साथ मैं तुम्हें अपनी हालत भेजता हूँ। जल्दी उत्तर भेजना।\nतुम्हारा मित्र",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उसे थी बरसात प्यारी,",
+            "रात दिन की झड़ी झारी,",
+            "हाय , कितना सहा होगा,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:H:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "शिक्षक को ईमेल लिखते हुए बताइए कि आपके अनुसार कौन-सा प्राकृतिक उपादान संदेशवाहक के रूप में सबसे उपयुक्त है और क्यों। १०० शब्दों में ईमेल लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "ईमेल का प्रारूप: विषय-पंक्ति, संबोधन और समापन स्पष्ट हों",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: सावन के बादल का चुनाव और उसके पक्ष में तर्क",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "तुलनात्मक विचार (पक्षी और बादल में अंतर) स्पष्ट हो",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वाक्य-क्रम व संयोजन: वाक्य लघु, क्रमबद्ध और प्रवाहमय हों",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा की शुद्धता, प्रसाद और लगभग १०० शब्दों की सीमा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "विषय: प्राकृतिक उपादान और संदेशवाहक\nमान्य सर/मैडम,\nआज के प्रश्न के संदर्भ में मैंने लिखा कि मेरी राय में सबसे उपयुक्त संदेशवाहक सावन का बादल है। वह बिना रुके हर दरवाज़े तक पहुँच जाता है और उसे देखते ही बरसात, घर और बचपन की याद एक साथ जाग उठती है। पक्षी भी वर्षा के पहले चरचरा उठते हैं, इसलिए वे भी संदेश दे सकते हैं। किंतु बादल अधिक उपयुक्त है, क्योंकि वह किसी को मजबूर नहीं करता।\nआपका आज्ञाकारी शिष्य",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "तू कि प्रि य से दूर होकर,",
+            "किंतु उनसे य ह न कहना,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:H:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपना संक्षिप्त परिचय (CV) लिखिए, जिसमें वे बातें भी दर्शाएँ जो आपके परिवार और आपकी रुचियों को प्रकट करती हैं। १०० शब्दों में लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "CV का प्रारूप: नाम, पिता का नाम, शिक्षा, भाषा, रुचि और योग्यता आदि क्रम से खानों में दर्ज हों",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "परिवार से जुड़ी जानकारी स्पष्ट रूप से दी हो",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "रुचियाँ और प्रतिभा वास्तविक तथा व्यवस्थित हों",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वाक्य-क्रम व संयोजन में कोई व्याकरणिक या वर्तनी-गलती न हो",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा की शुद्धता, प्रसाद और लगभग १०० शब्दों की सीमा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "नाम —\nपिता का नाम —\nशिक्षा — कक्षा ९, विद्यालय का नाम\nभाषा — हिंदी\nप्रतिभा — कविता पाठ, कहानी सुनाना\nरुचि — कविता लेखन, प्रकृति-दर्शन\nअनुभव — पुस्तकालय में पाठक-सहायक के रूप में कार्य\nविशेष गुण — परिवार के साथ समय बिताना, पिताजी की कठोर प्रेमशीलता का अनुकरण\nअपने बारे में — मैं अपनी परिवार की पृष्ठभूमि गर्व से बताता हूँ। वर्षा आते ही मुझे घर की याद सताती है और तब मैं कविता लिखने बैठ जाता हूँ।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "आज गीता-पाठ करके,",
+            "पिताजी जिनको बुढ़ापा,",
+            "माँ कि जिसकी स्नेह-धारा"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:I:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "विद्यालय के पुस्तकालय में भवानीप्रसाद मिश्र की कविता-संग्रह ‘बुनी हुई रस्सी’ आने वाली है। इसके लिए ५० शब्दों में एक संक्षिप्त विज्ञापन तैयार कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विज्ञापन का प्रारूप: आकर्षक शीर्षक, पुस्तक और लेखक का परिचय",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: साहित्य अकादमी पुरस्कार तथा रचनाओं की विशेषता का उल्लेख",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वाक्य-क्रम व संयोजन: वाक्य लघु और आकर्षक हों",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा की शुद्धता, प्रसाद और लगभग ५० शब्दों की सीमा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "नया आकर्षण\nसाहित्य अकादमी पुरस्कार-विजेता कवि भवानीप्रसाद मिश्र की कविता-संग्रह ‘बुनी हुई रस्सी’ पुस्तकालय में उपलब्ध है। इन कविताओं में बरसात, घर की याद और परिवार के स्नेह का ऐसा चित्रण है, जो पढ़कर मन को छू जाता है। प्रति उपलब्ध — पढ़कर स्वयं अनुभव कीजिए।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बुनी हुई रस्सी(कविता संग्रह) पर उन्हें साहित्य\nअकादमी पुरस्कार मिला है।",
+            "भवानीप्रसाद मिश्र का जन्म सन् 1913 में मध्य प्रदेश के",
+            "कविताएँ, बुनी हुई रस्सी, कवितांतर, शतदल, गांधी-"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:I:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "विद्यालय में ‘वर्षा’ संकेत पर आधारित कविता-पाठ प्रतियोगिता में भाग लेने के लिए विद्यार्थियों को आमंत्रित करते हुए ५० शब्दों में सूचना-संदेश लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "सूचना-संदेश का प्रारूप: शीर्षक, सम्बोधन और स्पष्ट आमंत्रण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: ‘वर्षा’ संकेत तथा पानी का गिरना और सबेरा होना जैसे संकेत",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वाक्य-क्रम व संयोजन: वाक्य लघु और आकर्षक हों",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा की शुद्धता, प्रसाद और लगभग ५० शब्दों की सीमा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सूचना — कविता-पाठ प्रतियोगिता\nविद्यालय में ‘वर्षा’ संकेत पर आधारित कविता-पाठ प्रतियोगिता हो रही है। पानी का गिरना, सबेरा होना — इन संकेतों पर टिकी कविताएँ स्वीकार्य हैं। वर्षा का दृश्य और भावों का संयोजन जिस कविता में मिले, वही पुरस्कार योग्य है। रचना अभी से जमा कराएँ।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "(सं केत– पानी का गिरना, स बेरा होना)",
+            "पानी का गिरना, स बेरा होना",
+            "‘घर की याद’ कवि के भीतर उठते भावों की यात्रा है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:12:I:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/घर-की-या-द"
+      ],
+      "taxonomyChapterId": "hindi-9/घर-की-या-द",
+      "topic": "भवानीप्रसाद मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "विद्यालय में बरसात के दिन आयोजित मौखिक पाठ में भाग लेने के लिए विद्यार्थियों को आमंत्रित करते हुए ५० शब्दों में सूचना-संदेश लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "सूचना-संदेश का प्रारूप: शीर्षक, सूचना की भाषा और अंत में आमंत्रण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: बरसात, मौखिक पाठ और ध्वन्यात्मक शब्दों का प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वाक्य-क्रम व संयोजन: वाक्य लघु और आकर्षक हों",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा की शुद्धता, प्रसाद और लगभग ५० शब्दों की सीमा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सूचना — मौखिक पाठ\nविद्यालय में बरसात के दिन मौखिक पाठ आयोजित हो रहा है। ‘झरा-झर’, ‘थर-थर’, ‘सर-सर’ जैसे ध्वन्यात्मक शब्दों का प्रयोग कर किसी भी कविता पढ़ने वाले विद्यार्थी भाग ले सकते हैं। आवाज़ में वर्षा की गूँज सुनाइए और मंच जीतिए। नामांकन अभी से शुरू।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "गिर रहा पानी झरा-झर,",
+            "हिल रहे पत्े हरा-हर,",
+            "बह रही है हवा सर-सर,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "B",
+      "qtype": "very_short_answer",
+      "topic": "भवानीप्रसाद मिश्र",
+      "reason": "figure-not-in-text:१९४२",
+      "stem": "पढ़कर बताइए कि किस आंदोलन में भाग लेने पर कवि को कितने समय का दंड मिला था।"
+    },
+    {
+      "section": "E",
+      "qtype": "very_short_answer",
+      "topic": "भवानीप्रसाद मिश्र",
+      "reason": "figure-not-in-text:१९४२",
+      "stem": "‘घर की याद’ कविता कहाँ लिखी गई थी और इसकी केंद्रीय संवेदना किसे कहा गया है?"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "ihga1",
+    "chapters": [
+      12
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

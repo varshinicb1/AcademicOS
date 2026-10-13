@@ -105,3 +105,25 @@ def test_every_chapter_a_school_is_seeded_with_is_one_the_question_bank_lists(tm
         store.close()
     assert planned > 500, f"only {planned} chapters seeded across classes 1-10: the check is vacuous"
     assert unlisted == {}, {k: (len(v), v[:2]) for k, v in unlisted.items()}
+
+
+def test_class_10_english_and_hindi_seed_their_literature_books(client, principal):  # noqa: F811
+    """Class 10 English and Hindi seeded only skill headings ("Language through Literature"), so a
+    teacher had no lesson of First Flight, Footprints without Feet, Kshitij or Kritika to plan or mark
+    taught. The books' contents pages are listed now (ncert_books.json, 2026-10-14)."""
+    from academicos.curriculum import routes as curriculum_routes
+    r = _seed(client, _bearer(principal), 10)
+    assert r.status_code == 200, r.text
+    body = r.json()
+    store = curriculum_routes._require()
+
+    book = _book_of(store, body["gradeId"], "English")
+    units = {u.name: [c.name for c in store.chapters_for_unit(u.id)] for u in store.units_for_book(book.id)}
+    lessons = units["Textbook: First Flight and Footprints without Feet"]
+    assert len(lessons) == 18
+    assert (lessons[0], lessons[9]) == ("A Letter to God", "A Triumph of Surgery")
+
+    book = _book_of(store, body["gradeId"], "Hindi")
+    units = {u.name: [c.name for c in store.chapters_for_unit(u.id)] for u in store.units_for_book(book.id)}
+    lessons = units["Textbook: Kshitij Part 2 and Kritika Part 2"]
+    assert len(lessons) == 15 and lessons[-1] == "मैं क्यों लिखता हूँ?"

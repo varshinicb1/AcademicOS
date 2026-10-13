@@ -1,0 +1,218 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:06:B:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the form that correctly completes the sentence: “Thirty years ago, more women ___ housewives than now.” (A) did (B) would (C) used to (D) are",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "used to",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Thirty years ago, more women used to be housewives than now.",
+            "To describe repeated states or situations in the past, however, we use only used to."
+          ],
+          "objective": true,
+          "options": {
+            "A": "did",
+            "B": "would",
+            "C": "used to",
+            "D": "are"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:06:C:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/mijbil-the-otter"
+      ],
+      "taxonomyChapterId": "english-10/mijbil-the-otter",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your family has decided to adopt a puppy. Write a notice of 100 words for your school notice board, telling readers what has to be done before the puppy comes home and why the whole family must agree.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: lists the practical steps a family must take before the puppy arrives — annual dog licence, annual vaccination, toilet training, obedience training, grooming and bathing, a balanced diet, socialisation, and a daily dose of exercise, affection and play.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: opens with a clear heading (NOTICE) and gives the notice-writer’s details at the end, as a school notice must.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the steps are set out as short numbered or bulleted points in a sensible order, so a reader can tick them off one by one.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, grammar and punctuation, and no step that is not part of caring for a puppy.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: concise, formal and suitable for a school notice board, and kept to about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "NOTICE\nAdopting a Puppy\nOur family is thinking of adopting a puppy. A pet is a lifetime of commitment — up to ten years or more if you own a dog or a cat — so every member of the family must agree before it comes home, or the pet could end up unwanted. Our checklist:\n• get an annual dog licence, as government regulations require\n• arrange annual vaccination against major diseases\n• set aside time for toilet training, obedience training, grooming and bathing\n• feed a balanced diet\n• never keep the puppy confined; socialisation is very important\n• give it a daily dose of exercise, affection and play.\n— Class Representative",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Owning a pet is a lifetime of commitment (up to ten years or more if you own a dog or a cat) involving considerable responsibility.",
+            "The decision to acquire one, therefore, should be made by the whole family. Without full agreement by everyone, the pet could end up unwanted.",
+            "socialisation (many dogs are kept confined in cages or tied up to stop them from dirtying the garden or from chewing on shoes — this is wrong) is very important"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "evidence-not-in-text",
+      "stem": "Why does Maxwell describe the telephone calls he made from Basra in such detail?"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "evidence-not-in-text",
+      "stem": "The writer compares the otter’s coat of dried mud to armour; what effect does this image create?"
+    },
+    {
+      "section": "E",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "evidence-not-in-text",
+      "stem": "Describe how Mijbil’s behaviour changed during the first two days he spent with Maxwell."
+    },
+    {
+      "section": "F",
+      "qtype": "long_answer",
+      "topic": "",
+      "reason": "evidence-not-in-text",
+      "stem": "Explain how Maxwell managed to get Mijbil onto an aeroplane and carried on to London, step by step."
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      6
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -1,0 +1,255 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:12:AR:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/patterns-in-life-diversity-and-classification"
+      ],
+      "taxonomyChapterId": "science-9/patterns-in-life-diversity-and-classification",
+      "topic": "India as a Biodiversity Hotspot",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "assertion_reason",
+      "stem": "Assertion (1): Two students on a field trip, one walking through the desert in the west and the other through the rainforests of North East India, keep very different lists of plants and animals, because each of these regions has distinct soil types and different climatic conditions like temperature and rainfall.\nReason (2): These diverse habitats together support a wide variety of species, some of which are restricted to particular regions of the world and are not found naturally anywhere else, and such species are called endemic species. (A) Both assertion and reason are correct and the reason explains the assertion. (B) Both assertion and reason are correct but the reason does not explain the assertion. (C) The assertion is correct but the reason is incorrect. (D) Both assertion and reason are incorrect.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both assertion and reason are correct and the reason explains the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Each of\nthese regions has distinct soil types and different\nclimatic conditions like temperature and rainfall.",
+            "These diverse habitats together support a\nwide variety of species.",
+            "and are not found naturally anywhere else. Such\nspecies are called endemic species."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both assertion and reason are correct and the reason explains the assertion.",
+            "B": "Both assertion and reason are correct but the reason does not explain the assertion.",
+            "C": "The assertion is correct but the reason is incorrect.",
+            "D": "Both assertion and reason are incorrect."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch12",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          229,
+          231,
+          233,
+          235,
+          237,
+          239,
+          241,
+          243,
+          245,
+          247,
+          249,
+          251
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:12:AR:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/patterns-in-life-diversity-and-classification"
+      ],
+      "taxonomyChapterId": "science-9/patterns-in-life-diversity-and-classification",
+      "topic": "India as a Biodiversity Hotspot",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion (1): A forest department gives the highest priority to protecting the Western Ghats, Indo-Burma including North East India, the Himalayas and Sundaland including the Nicobar Islands, since safeguarding these regions keeps food webs in place and keeps ecosystems healthy.\nReason (2): These areas are especially rich in number and in the diversity of organisms because every one of them has a single type of soil and one climatic condition that stays the same throughout the year. (A) Both assertion and reason are correct and the reason explains the assertion. (B) Both assertion and reason are correct but the reason does not explain the assertion. (C) The assertion is correct but the reason is incorrect. (D) Both assertion and reason are incorrect.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The assertion is correct but the reason is incorrect.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the Nicobar Islands), are some examples of global biodiversity hotspots.",
+            "Protecting these regions is equally important, as they support food webs\nand help ecosystems remain healthy.",
+            "these regions has distinct soil types and different\nclimatic conditions like temperature and rainfall."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both assertion and reason are correct and the reason explains the assertion.",
+            "B": "Both assertion and reason are correct but the reason does not explain the assertion.",
+            "C": "The assertion is correct but the reason is incorrect.",
+            "D": "Both assertion and reason are incorrect."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch12",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          229,
+          231,
+          233,
+          235,
+          237,
+          239,
+          241,
+          243,
+          245,
+          247,
+          249,
+          251
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:12:AR:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/patterns-in-life-diversity-and-classification"
+      ],
+      "taxonomyChapterId": "science-9/patterns-in-life-diversity-and-classification",
+      "topic": "India as a Biodiversity Hotspot",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion (1): A student photographs the Nilgiri tahr, the lion-tailed macaque and Neelakurinji in several different countries of Asia and concludes that these three species are widely spread and therefore none of them is an endemic species.\nReason (2): Endemic species occur naturally in every region of the world, which is why a region that has very few endemic species and hardly any habitat loss is treated as a biodiversity hotspot. (A) Both assertion and reason are correct and the reason explains the assertion. (B) Both assertion and reason are correct but the reason does not explain the assertion. (C) The assertion is correct but the reason is incorrect. (D) Both assertion and reason are incorrect.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both assertion and reason are incorrect.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "species are called endemic species. For example,\nNilgiri tahr (Fig. 12.1a), Lion-tailed macaque",
+            "Nepenthes khasiana (Fig. 12.1c) and Neelakurinji\n(Fig. 12.1d) are found only in India.",
+            "Regions that support a large number of\nendemic species and have undergone significant\nhabitat loss are known as biodiversity hotspots."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both assertion and reason are correct and the reason explains the assertion.",
+            "B": "Both assertion and reason are correct but the reason does not explain the assertion.",
+            "C": "The assertion is correct but the reason is incorrect.",
+            "D": "Both assertion and reason are incorrect."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch12",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          229,
+          231,
+          233,
+          235,
+          237,
+          239,
+          241,
+          243,
+          245,
+          247,
+          249,
+          251
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      12
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

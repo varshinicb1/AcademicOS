@@ -1,0 +1,1660 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jhks1:12:A:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "कल्पना कीजिए उस समय की जब मानव समाज का अग्नि देवता से साक्षात नहीं हुआ था। आज तो घर-घर चूल्हा जलता है। जिस आदमी ने पहले पहल आग का आविष्कार किया होगा, वह कितना बड़ा आविष्कर्ता होगा! अथवा कल्पना कीजिए उस समय की जब मानव को सुई-धागे का परिचय न था, जिस मनुष्य के दिमाग में पहले-पहल बात आई होगी कि लोहे के एक टुकड़े को घिसकर उसके एक सिरे को छेदकर और छेद में धागा पिरोकर कपड़े के दो टुकड़े एक साथ जोड़े जा सकते हैं, वह भी कितना बड़ा आविष्कर्ता रहा होगा!\n\nइस उद्धरण में लेखक आग और सुई-धागे के आविष्कार का वर्णन किस भाव से कर रहा है? (A) निराशा के साथ (B) आश्चर्य और प्रशंसा के साथ (C) उपेक्षा के साथ (D) विरोध के साथ",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "आश्चर्य और प्रशंसा के साथ",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "जिस आदमी ने पहले पहल आग का आविष्कार किया होगा, वह कितना बड़ा आविष्कर्ता होगा!",
+            "वह भी कितना बड़ा आविष्कर्ता रहा होगा!"
+          ],
+          "objective": true,
+          "options": {
+            "A": "निराशा के साथ",
+            "B": "आश्चर्य और प्रशंसा के साथ",
+            "C": "उपेक्षा के साथ",
+            "D": "विरोध के साथ"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:A:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "न्यूटन ने गुरुत्वाकर्षण के सिद्धांत का आविष्कार किया। वह संस्कृत मानव था। आज के युग का भौतिक विज्ञान का विद्यार्थी न्यूटन के गुरुत्वाकर्षण से तो परिचित है ही; लेकिन उसके साथ उसे और भी अनेक बातों का ज्ञान प्राप्त है जिनसे शायद न्यूटन अपरिचित ही रहा। ऐसा होने पर भी हम आज के भौतिक विज्ञान के विद्यार्थी को न्यूटन की अपेक्षा अधिक सभ्य भले ही कह सके; पर न्यूटन जितना संस्कृत नहीं कह सकते।\n\nउद्धरण के अनुसार आज के भौतिक विज्ञान के विद्यार्थी और न्यूटन में क्या अंतर बताया गया है? (A) विद्यार्थी अधिक सभ्य है, पर न्यूटन जितना संस्कृत नहीं (B) न्यूटन अधिक सभ्य है, पर विद्यार्थी संस्कृत नहीं (C) दोनों समान रूप से संस्कृत हैं (D) दोनों ही संस्कृत नहीं कहला सकते",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "विद्यार्थी अधिक सभ्य है, पर न्यूटन जितना संस्कृत नहीं",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "वह संस्कृत मानव था।",
+            "पर न्यूटन जितना संस्कृत नहीं कह सकते।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "विद्यार्थी अधिक सभ्य है, पर न्यूटन जितना संस्कृत नहीं",
+            "B": "न्यूटन अधिक सभ्य है, पर विद्यार्थी संस्कृत नहीं",
+            "C": "दोनों समान रूप से संस्कृत हैं",
+            "D": "दोनों ही संस्कृत नहीं कहला सकते"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:B:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "पेट भरा और तन ढँका होने पर भी ऐसा मानव जो वास्तव में संस्कृत है, निठल्ला नहीं बैठ सकता। हमारी सभ्यता का एक बड़ा अंश हमें ऐसे संस्कृत आदमियों से ही मिला है, जिनकी चेतना पर स्थूल भौतिक कारणों का प्रभाव प्रधान रहा है, किंतु उसका कुछ हिस्सा हमें मनीषियों से भी मिला है जिन्होंने तथ्य-विशेष को किसी भौतिक प्रेरणा के वशीभूत होकर नहीं, बल्कि उनके अपने अंदर की सहज संस्कृति के ही कारण प्राप्त किया है।\n\nउद्धरण में 'निठल्ला' शब्द का कहाँ प्रयोग हुआ है और वहाँ इसका क्या अर्थ है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "'निठल्ला' का अर्थ है बिना काम धंधे के बैठा रहना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "यहाँ यह बताता है कि वास्तव में संस्कृत मनुष्य निष्क्रिय नहीं बैठ सकता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बिना काम धंधे के बैठा रहना।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "ऐसा मानव जो वास्तव में संस्कृत है, निठल्ला नहीं बैठ सकता।",
+            "पेट भरने और तन ढँकने की इच्छा मनुष्य की संस्कृति की जननी नहीं है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:B:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "और सभ्यता? सभ्यता है संस्कृति का परिणाम। हमारे खाने-पीने के तरीके, हमारे ओढ़ने पहनने के तरीके, हमारे गमना-गमन के साधन, हमारे परस्पर कट मरने के तरीके; सब हमारी सभ्यता हैं। मानव की जो योग्यता उससे आत्म-विनाश के साधनों का आविष्कार कराती है, हम उसे उसकी संस्कृति कहें या असंस्कृति? और जिन साधनों के बल पर वह दिन-रात आत्म-विनाश में जुटा हुआ है, उन्हें हम उसकी सभ्यता समझें या असभ्यता?\n\nउद्धरण के अनुसार किन-किन कामों को मनुष्य की सभ्यता बताया गया है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "खाने-पीने के तरीके तथा ओढ़ने-पहनने के तरीके",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "गमना-गमन के साधन तथा परस्पर कट मरने के तरीके",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "खाने-पीने, ओढ़ने-पहनने, गमना-गमन और परस्पर कट मरने के तरीके।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "सभ्यता है संस्कृति का परिणाम।",
+            "हमारे खाने-पीने के तरीके, हमारे ओढ़ने पहनने के तरीके, हमारे गमना-गमन के साधन, हमारे परस्पर कट मरने के तरीके; सब हमारी सभ्यता हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:B:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "संस्कृति के नाम से जिस कूड़े-करकट के ढेर का बोध होता है, वह न संस्कृति है न रक्षणीय वस्तु। क्षण-क्षण परिवर्तन होने वाले संसार में किसी भी चीज़ को पकड़कर बैठा नहीं जा सकता। मानव ने जब-जब प्रज्ञा और मैत्री भाव से किसी नए तथ्य का दर्शन किया है तो उसने कोई वस्तु नहीं देखी है, जिसकी रक्षा के लिए दलबंदियों की ज़रूरत है। मानव संस्कृति एक अविभाज्य वस्तु है और उसमें जितना अंश कल्याण का है, वह अकल्याणकर की अपेक्षा श्रेष्ठ ही नहीं स्थायी भी है।\n\nकिसी कक्षा में चर्चा चल रही है कि मानव संस्कृति के नए तथ्य की खोज के लिए किन भावों की आवश्यकता होती है। उद्धरण के अनुसार सही उत्तर दीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "प्रज्ञा भाव से",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "मैत्री भाव से",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "प्रज्ञा और मैत्री भाव से।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मानव ने जब-जब प्रज्ञा और मैत्री भाव से किसी नए तथ्य का दर्शन किया है तो उसने कोई वस्तु नहीं देखी है, जिसकी रक्षा के लिए दलबंदियों की ज़रूरत है।",
+            "क्षण-क्षण परिवर्तन होने वाले संसार में किसी भी चीज़ को पकड़कर बैठा नहीं जा सकता।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:C:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "सुई-धागे के आविष्कार में शायद शीतोष्ण से बचने तथा शरीर को सजाने की प्रवृत्ति का विशेष हाथ रहा — इस वाक्य के शब्द ‘शीतोष्ण’ में दोनों पदों के बीच कौन-सा संधि नियम लागू हुआ है? (A) इत्वचि (B) उपधा लोप (C) अयादि (D) ह्रस्व",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उपधा लोप",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "सुई-धागे के आविष्कार में शायद शीतोष्ण से बचने तथा शरीर को सजाने की प्रवृत्ति का विशेष हाथ"
+          ],
+          "objective": true,
+          "options": {
+            "A": "इत्वचि",
+            "B": "उपधा लोप",
+            "C": "अयादि",
+            "D": "ह्रस्व"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:C:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "‘वह यह जानने के लिए परेशान है कि आखिर यह मोती भरा थाल क्या है’ — इस वाक्य में किस अलंकार का प्रयोग किया गया है? (A) उत्प्रेक्षा (B) अतिशयोक्ति (C) उपमा (D) रूपक",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "रूपक",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "आखिर यह मोती भरा थाल क्या है?"
+          ],
+          "objective": true,
+          "options": {
+            "A": "उत्प्रेक्षा",
+            "B": "अतिशयोक्ति",
+            "C": "उपमा",
+            "D": "रूपक"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:C:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "‘जिस आदमी ने पहले पहल आग का आविष्कार किया होगा, वह कितना बड़ा आविष्कर्ता होगा’ — इसमें ‘आविष्कार’ किस पद का विग्रह है? (A) कर्ता (B) क्रिया (C) कर्म (D) भाव",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कर्म",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "जिस आदमी ने पहले पहल आग का आविष्कार किया होगा, वह कितना बड़ा आविष्कर्ता होगा!"
+          ],
+          "objective": true,
+          "options": {
+            "A": "कर्ता",
+            "B": "क्रिया",
+            "C": "कर्म",
+            "D": "भाव"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:D:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "सुनते हैं कि रूस का भाग्यविधाता लेनिन अपनी डैस्क में रखे हुए डबल रोटी के सूखे टुकड़े स्वयं न खाकर दूसरों को खिला दिया करता था। वह आखिर ऐसा क्यों करता था? संसार के मज़दूरों को सुखी देखने का स्वप्न देखते हुए कार्ल मार्क्स ने अपना सारा जीवन दुख में बिता दिया।\n\nइस उद्धरण में लेनिन और कार्ल मार्क्स के व्यवहार से किस गुण का पता चलता है? (A) स्वार्थ की भावना (B) दूसरों के कल्याण के लिए त्याग (C) सत्ता के प्रति आसक्ति (D) धन-वैभव की चाह",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "दूसरों के कल्याण के लिए त्याग",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अपनी डैस्क में रखे हुए डबल रोटी के सूखे टुकड़े स्वयं न खाकर दूसरों को खिला दिया करता था।",
+            "संसार के मज़दूरों को सुखी देखने का स्वप्न देखते हुए कार्ल मार्क्स ने अपना सारा जीवन दुख में बिता दिया।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "स्वार्थ की भावना",
+            "B": "दूसरों के कल्याण के लिए त्याग",
+            "C": "सत्ता के प्रति आसक्ति",
+            "D": "धन-वैभव की चाह"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:E:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "वास्तविक अर्थों में संस्कृत व्यक्ति किसे कहा जा सकता है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "जिस व्यक्ति की बुद्धि अथवा विवेक ने किसी भी नए तथ्य का दर्शन किया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वह व्यक्ति ही वास्तविक संस्कृत व्यक्ति कहलाता है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "जिस व्यक्ति की बुद्धि अथवा विवेक ने स्वयं किसी भी नए तथ्य का दर्शन किया, वही व्यक्ति वास्तविक संस्कृत व्यक्ति है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "जिस व्यक्ति की बुद्धि ने अथवा उसके विवेक ने किसी भी नए तथ्य का दर्शन किया, वह व्यक्ति ही वास्तविक संस्कृत व्यक्ति है"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:E:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "अपने पूर्वज से वस्तु अनायास ही प्राप्त कर लेने वाला व्यक्ति संस्कृत क्यों नहीं कहला सकता?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "उसने वह वस्तु अपने पूर्वज से अनायास ही प्राप्त कर ली है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "ऐसा व्यक्ति अपने पूर्वज की भाँति सभ्य तो बन सकता है, पर संस्कृत नहीं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "क्योंकि उसने वह वस्तु स्वयं नहीं खोजी, बल्कि अपने पूर्वज से अनायास ही प्राप्त कर ली; इसलिए वह संस्कृत नहीं, केवल सभ्य कहला सकता है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उसकी संतान जिसे अपने पूर्वज से वह वस्तु अनायास ही प्राप्त हो गई है, वह अपने पूर्वज की भाँति सभ्य भले ही बन जाए, संस्कृत नहीं कहला सकता।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:F:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "संस्कृति और सभ्यता में अंतर स्पष्ट करने के लिए लेखक ने जिन दो आविष्कारों का उदाहरण दिया है, उन्हें अपने शब्दों में समझाइए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "पहला उदाहरण: आग का आविष्कार करने वाले व्यक्ति की अद्भुत योग्यता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "दूसरा उदाहरण: लोहे का टुकड़ा घिसकर छेदकर धागा पिरोकर कपड़े के दो टुकड़े जोड़ने वाली कला",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आविष्कार कराने वाली योग्यता, प्रवृत्ति अथवा प्रेरणा व्यक्ति विशेष की संस्कृति है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उस संस्कृति द्वारा आविष्कृत वस्तु को सभ्यता कहा गया है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "लेखक ने दो आविष्कारों का उदाहरण दिया। पहला, जिस समय मानव समाज का अग्नि देवता से साक्षात नहीं हुआ था, उस आदमी ने आग का आविष्कार किया और वह कितना बड़ा आविष्कर्ता था। दूसरा, जब मनुष्य को सुई-धागे का परिचय न था, तब उसने लोहे का टुकड़ा घिसकर छेदकर धागा पिरोकर कपड़े के दो टुकड़े जोड़े। आविष्कार कराने वाली योग्यता संस्कृति और उससे आविष्कृत वस्तु सभ्यता है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "जिस आदमी ने पहले पहल आग का आविष्कार किया होगा, वह कितना बड़ा आविष्कर्ता होगा!",
+            "वह भी कितना बड़ा आविष्कर्ता रहा होगा!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:F:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "मानव संस्कृति को अविभाज्य वस्तु क्यों कहा गया है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "कल्याण का अंश अकल्याणकर की अपेक्षा श्रेष्ठ ही नहीं, स्थायी भी है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कल्याण की भावना से नाता टूटने पर संस्कृति असंस्कृति होकर रहेगी",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "ऐसी संस्कृति का अवश्यंभावी परिणाम असभ्यता है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रज्ञा और मैत्री भाव से नया तथ्य देखने पर ऐसी वस्तु नहीं मिली जिसकी रक्षा के लिए दलबंदियों की ज़रूरत हो",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मानव संस्कृति अविभाज्य है, क्योंकि उसमें जितना अंश कल्याण का है, वह अकल्याणकर की अपेक्षा श्रेष्ठ ही नहीं, स्थायी भी है। कल्याण की भावना से इसका नाता टूटे तो यह असंस्कृति होकर रहेगी और ऐसी संस्कृति का अवश्यंभावी परिणाम असभ्यता होगी। प्रज्ञा और मैत्री भाव से नया तथ्य देखने पर कोई ऐसी वस्तु नहीं मिली, जिसकी रक्षा के लिए दलबंदियों की ज़रूरत हो।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मानव संस्कृति एक अविभाज्य वस्तु है और उसमें जितना अंश कल्याण का है, वह अकल्याणकर की अपेक्षा श्रेष्ठ ही नहीं स्थायी भी है।",
+            "संस्कृति का यदि कल्याण की भावना से नाता टूट जाएगा तो वह असंस्कृति होकर ही रहेगी"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:F:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "'संस्कृत व्यक्ति' और 'सभ्य व्यक्ति' में अंतर स्पष्ट कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "जिसने स्वयं किसी नए तथ्य का दर्शन किया, वही वास्तविक संस्कृत व्यक्ति है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "अपने पूर्वज से अनायास ही प्राप्त वस्तु पाने वाला संस्कृत नहीं कहला सकता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "न्यूटन ने गुरुत्वाकर्षण के सिद्धांत का आविष्कार किया, इसलिए वे संस्कृत मानव थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आज का विद्यार्थी अधिक सभ्य है, पर न्यूटन जितना संस्कृत नहीं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "जिस व्यक्ति की बुद्धि अथवा विवेक ने स्वयं किसी नए तथ्य का दर्शन किया, वही वास्तविक संस्कृत व्यक्ति है। न्यूटन ने गुरुत्वाकर्षण के सिद्धांत का आविष्कार किया, इसलिए वे संस्कृत मानव थे। आज का भौतिक विज्ञान का विद्यार्थी न्यूटन से अधिक सभ्य तो है, पर न्यूटन जितना संस्कृत नहीं कहला सकता।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "एक संस्कृत व्यक्ति किसी नयी चीज़ की खोज करता है; किंतु उसकी संतान को वह अपने पूर्वज से अनायास ही प्राप्त हो जाती है।",
+            "पर न्यूटन जितना संस्कृत नहीं कह सकते।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:G:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "विद्यालय में 'संस्कृति और सभ्यता' विषय पर भाषण-प्रतियोगिता की तैयारी के लिए १२० शब्दों में एक अनुच्छेद लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: संस्कृति और सभ्यता का संबंध स्पष्ट करना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "संस्कृति को व्यक्ति विशेष की योग्यता, प्रवृत्ति अथवा प्रेरणा बताना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सभ्यता को उस संस्कृति द्वारा आविष्कृत वस्तु बताना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आग और सुई-धागे का उदाहरण देना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "अनुच्छेद की संरचना — भूमिका, विषय-वस्तु और समापन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा की शुद्धता, सरलता और प्रवाह",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "संस्कृति और सभ्यता एक ही वस्तु के दो रूप हैं। जिस योग्यता, प्रवृत्ति अथवा प्रेरणा के बल पर कोई नया आविष्कार होता है, वह व्यक्ति विशेष की संस्कृति है; और उस संस्कृति द्वारा जो वस्तु आविष्कृत होती है, उसका नाम है सभ्यता। आग का आविष्कार करने वाले व्यक्ति की योग्यता संस्कृति थी और आग सभ्यता। इसी प्रकार लोहे का टुकड़ा घिसकर छेदकर धागा पिरोकर कपड़े के दो टुकड़े जोड़ने की कला संस्कृति और सुई-धागा सभ्यता है। जो मनुष्य के लिए कल्याणकारी नहीं है, वह न सभ्यता है और न संस्कृति। आज का विद्यार्थी अनायास प्राप्त ज्ञान के कारण अधिक सभ्य तो है, पर संस्कृत नहीं कहला सकता। अतः सभ्यता संस्कृति का परिणाम है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "जो मनुष्य के लिए कल्याणकारी नहीं है, वह न सभ्यता है और न संस्कृति।",
+            "मानव संस्कृति एक अविभाज्य वस्तु है और उसमें जितना अंश कल्याण का है, वह अकल्याणकर की अपेक्षा श्रेष्ठ ही नहीं स्थायी भी है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:G:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "विद्यालय की 'सफल आविष्कारक' प्रतियोगिता के लिए १२० शब्दों में एक अनुच्छेद तैयार कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: सफल आविष्कारक की योग्यता और उसकी परिष्कृत मात्रा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "पहली चीज़ (योग्यता) को संस्कृति और दूसरी चीज़ (आविष्कार) को सभ्यता मानना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आग और सुई-धागे के दोनों उदाहरण देना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "अनायास प्राप्त ज्ञान वाले व्यक्ति को संस्कृत न मानने का तर्क देना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "अनुच्छेद की संरचना — भूमिका, विषय-वस्तु और समापन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा की शुद्धता, सरलता और प्रवाह",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "आविष्कार करने की योग्यता हर व्यक्ति में नहीं होती। जिस व्यक्ति में यह योग्यता जितनी अधिक व जैसी ही परिष्कृत मात्रा में होगी, वह उतना ही बड़ा आविष्कर्ता होगा। आग का आविष्कार करने वाला आदमी कितना बड़ा आविष्कर्ता था, इसी प्रकार सुई-धागे का आविष्कार करने वाला व्यक्ति भी। पर ध्यान दीजिए, संतान को पूर्वज का ज्ञान अनायास ही मिल जाता है, इसलिए वह संस्कृत नहीं कहला सकती। वास्तविक संस्कृत व्यक्ति वही है, जिसने स्वयं किसी नए तथ्य का दर्शन किया हो। आज का भौतिक विज्ञान का विद्यार्थी न्यूटन से अधिक सभ्य तो है, पर न्यूटन जितना संस्कृत नहीं। अतः सफल आविष्कारक वही है, जिसने स्वयं नया तथ्य खोजा और उसे अपने तथा दूसरों के लिए आविष्कृत किया।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "जिस व्यक्ति में पहली चीज़, जितनी अधिक व जैसी परिष्कृत मात्रा में होगी, वह व्यक्ति",
+            "वह भी कितना बड़ा आविष्कर्ता रहा होगा!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:G:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "अखबार के 'विचार' खंड के लिए 'मानव संस्कृति अविभाज्य वस्तु है' विषय पर १२० शब्दों में एक अनुच्छेद लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: मानव संस्कृति की अविभाज्यता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कल्याण का अंश अकल्याणकर की अपेक्षा अधिक स्थायी होने का तर्क देना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कल्याण की भावना से नाता टूटने पर असंस्कृति और असभ्यता का परिणाम बताना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "क्षण-क्षण परिवर्तन तथा प्रज्ञा और मैत्री भाव से दर्शन का उल्लेख करना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "अनुच्छेद की संरचना — भूमिका, विषय-वस्तु और समापन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा की शुद्धता, सरलता और प्रवाह",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मानव संस्कृति अविभाज्य वस्तु है। उसमें जितना अंश कल्याण का है, वह अकल्याणकर की अपेक्षा श्रेष्ठ ही नहीं, स्थायी भी है। संस्कृति का कल्याण की भावना से नाता टूटे तो वह असंस्कृति होकर रहेगी, और ऐसी संस्कृति का परिणाम असभ्यता ही होगा। क्षण-क्षण परिवर्तन होने वाले संसार में किसी चीज़ को पकड़कर बैठा नहीं जा सकता। मानव ने जब-जब प्रज्ञा और मैत्री भाव से नया तथ्य देखा, तब किसी ऐसी वस्तु के मिलने का प्रश्न ही नहीं उठा, जिसकी रक्षा के लिए दलबंदियों की ज़रूरत हो। ऐसी न कल्याणकारी संस्कृति है, न स्थायी। संस्कृति के नाम पर कूड़े-करकट का ढेर जमा करना उसका बँटवारा ही है। इसलिए संस्कृति को साझा, जीवंत और कल्याणकारी बनाए रखना चाहिए।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मानव संस्कृति एक अविभाज्य वस्तु है और उसमें जितना अंश कल्याण का है, वह अकल्याणकर की अपेक्षा श्रेष्ठ ही नहीं स्थायी भी है।",
+            "संस्कृति के नाम से जिस कूड़े-करकट के ढेर का बोध होता है, वह न संस्कृति है न रक्षणीय वस्तु।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:I:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "हिंदी साहित्य सम्मेलन, प्रयाग में आयोजित भाषण प्रतियोगिता का ५० शब्दों में एक विज्ञापन तैयार कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विज्ञापन का शीर्षक और आयोजक का नाम देना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: प्रतियोगिता का विषय, भाग लेने की विधि और पुरस्कार का उल्लेख करना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विज्ञापन का प्रारूप — शीर्षक, मुख्य पाठ और समापन पंक्ति",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा की शुद्धता, संक्षिप्तता और आकर्षक शैली",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "भाषण प्रतियोगिता\n\nहिंदी साहित्य सम्मेलन, प्रयाग में 'मानव संस्कृति और उसके आविष्कार' विषय पर भाषण प्रतियोगिता आयोजित की जा रही है। प्रतिभागी अपना लिखित भाषण हस्ताक्षर सहित जमा करें। प्रतिभागिता के लिए संस्कृत व्यक्ति का वर्णन अनिवार्य है। विजेताओं को पुरस्कार स्वरूप पुस्तक-माला तथा प्रशस्ति-पत्र दिया जाएगा।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उन्होंने हिंदी साहित्य सम्मेलन, प्रयाग और राष्ट्र भाषा",
+            "कहाँ क्या देखा आदि प्रमुख हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:I:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "राष्ट्र भाषा प्रचार समिति, वर्धा के कार्यक्रम में आमंत्रण-संदेश ५० शब्दों में तैयार कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "संदेश का शीर्षक और प्रेषक का नाम देना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: हिंदी भाषा और उससे बनी सभ्यता का उल्लेख करना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आग और सुई-धागे के आविष्कारों का संदर्भ देना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा की शुद्धता, संक्षिप्तता और सम्मोहक शैली",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "संदेश\n\nराष्ट्र भाषा प्रचार समिति, वर्धा की ओर से आप सबका हार्दिक स्वागत है। आज का युग स्थूल भौतिक सुखों में डूबा है, पर यही भाषा हमें सभ्य बनाती है। जिस संस्कृति के बल पर आग और सुई-धागे जैसे आविष्कार हुए, उसी संस्कार-भाषा को जीवित रखिए। इस कार्यक्रम में आप सबका सादर आमंत्रण है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "प्रचार समिति, वर्धा के माध्यम से देश-विदेश में हिंदी भाषा",
+            "जिनकी चेतना पर स्थूल भौतिक कारणों का प्रभाव प्रधान रहा है"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:12:I:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति"
+      ],
+      "taxonomyChapterId": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "'संस्कृति के नाम पर उसका बँटवारा उचित नहीं है' — इस विचार पर ५० शब्दों में एक संदेश तैयार कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "संदेश का शीर्षक देना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: संस्कृति के बँटवारे पर आश्चर्य और मानव संस्कृति के अविभाज्य होने का उल्लेख करना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कल्याणकारी न होने पर उसे असंस्कृति कहने का संकेत देना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा की शुद्धता, संक्षिप्तता और प्रभावशाली शैली",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "संदेश\n\nआज के युग में कुछ लोग संस्कृति के नाम पर उसका बँटवारा करने लगे हैं। संस्कृति को काट-छाँटकर बाँटा नहीं जा सकता; मानव संस्कृति एक अविभाज्य वस्तु है। जो मनुष्य के लिए कल्याणकारी नहीं है, वह न सभ्यता है और न संस्कृति। हमें अपनी संस्कृति को सम्मान और सहजता से जीवित रखना चाहिए।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उन्हें संस्कृति का बँटवारा करने वाले लोगों",
+            "मानव संस्कृति एक अविभाज्य वस्तु है"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "jhks1 ch12",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "options-not-answerable",
+      "stem": "उद्धरण में दिए गए तारों को देखकर जागते रहने वाले व्यक्ति के बारे में क्या निष्कर्ष निकलता है?"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "options-not-answerable",
+      "stem": "इस उद्धरण में न्यूटन और आज के भौतिक विज्ञान के विद्यार्थी की तुलना से क्या सिद्ध होता है?"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "options-not-answerable",
+      "stem": "इस उद्धरण में 'संस्कृति के नाम से कूड़े-करकट के ढेर' के माध्यम से लेखक क्या समझाना चाहता है?"
+    },
+    {
+      "section": "E",
+      "qtype": "very_short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१९०५",
+      "stem": "भदंत आनंद कौसल्यायन का जन्म किस वर्ष और किस स्थान पर हुआ था?"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१००",
+      "stem": "विद्यालय के वार्षिक उत्सव में 'मानव संस्कृति और उसके आविष्कार' विषय पर व्याख्यान के लिए प्रधानाचार्य को आमंत्रण पत्र लिख"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१००",
+      "stem": "अपने विद्यालय के पुस्तकालय में मानव संस्कृति और उसके आविष्कारों पर पुस्तकें उपलब्ध कराने के लिए प्रधानाचार्य को एक ई-मेल"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१९०५",
+      "stem": "भदंत आनंद कौसल्यायन के जीवन-परिचय के आधार पर उनका संक्षिप्त परिचय (CV) १०० शब्दों में तैयार कीजिए।"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jhks1",
+    "chapters": [
+      12
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

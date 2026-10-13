@@ -1,0 +1,1693 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jhks1:05:A:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "नागार्जुन का जन्म बिहार के दरभंगा ज़िले के सतलखा गाँव में सन् 1911 में हुआ। उनका मूल नाम वैद्यनाथ मिश्र था। आरंभिक शिक्षा संस्कृत पाठशाला में हुई, फिर अध्ययन के लिए वे बनारस और कलकत्ता (कोलकाता) गए। 1936 में वे श्रीलंका गए, और वहीं बौद्ध धर्म में दीक्षित हुए। दो साल प्रवास के बाद 1938 में स्वदेश लौट आए। घुमक्कड़ी और अक्खड़ स्वभाव के धनी नागार्जुन ने अनेक बार संपूर्ण भारत की यात्रा की। सन् 1998 में उनका देहांत हो गया।\n\nयहाँ दिया गया जीवन-परिचय किस प्रकार बुना गया है? (A) नागार्जुन की रचनाओं की समीक्षा के रूप में (B) नागार्जुन के पुरस्कारों की सूची के रूप में (C) नागार्जुन के राजनैतिक आंदोलनों के विवरण के रूप में (D) नागार्जुन के जीवन की घटनाओं के क्रम के रूप में",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "नागार्जुन के जीवन की घटनाओं के क्रम के रूप में",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "नागार्जुन का जन्म बिहार के दरभंगा ज़िले के सतलखा\nगाँव में सन् 1911 में हुआ।",
+            "सन् 1998 में उनका देहांत हो गया।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "नागार्जुन की रचनाओं की समीक्षा के रूप में",
+            "B": "नागार्जुन के पुरस्कारों की सूची के रूप में",
+            "C": "नागार्जुन के राजनैतिक आंदोलनों के विवरण के रूप में",
+            "D": "नागार्जुन के जीवन की घटनाओं के क्रम के रूप में"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:C:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "वाक्य 'बोलचाल की भाषा की गति और लय कविता को प्रभावशाली बनाती है।' में क्रिया 'बनाती है' किस काल में है? (A) भूतकाल (B) भविष्यकाल (C) आद्यकाल (D) वर्तमान काल",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "वर्तमान काल",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बोलचाल की भाषा की गति\nऔर लय कविता को प्रभावशाली बनाती है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "भूतकाल",
+            "B": "भविष्यकाल",
+            "C": "आद्यकाल",
+            "D": "वर्तमान काल"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:C:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "वाक्य 'प्रकृति और मनुष्य के सहयोग से ही सृजन संभव है।' में 'सृजन' शब्द में कौन-सा उपसर्ग लगा है? (A) सृ (B) प्र (C) वि (D) अनु",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सृ",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कविता यह भी रेखांकित करती है कि\nप्रकृति और मनुष्य के सहयोग से ही सृजन संभव है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "सृ",
+            "B": "प्र",
+            "C": "वि",
+            "D": "अनु"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:D:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "तुम्हारी यह दंतुरित मुसकान\nमृतक में भी डाल देगी जान\nधूलि-धूसर तुम्हारे ये गात...\nछोड़कर तालाब मेरी झोंपड़ी में खिल रहे जलजात\nपरस पाकर तुम्हारा ही प्राण,\nपिघलकर जल बन गया होगा कठिन पाषाण\n\nइस छंद में कवि ने बच्चे की मुसकान की तुलना किससे की है? (A) तालाब में खिले कमल के समान (B) सूरज की किरणों से (C) कठिन पाषाण के पिघलकर जल बन जाने से (D) पिघलते हवा की थिरकन से",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कठिन पाषाण के पिघलकर जल बन जाने से",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "पिघलकर जल बन गया होगा कठिन पाषाण"
+          ],
+          "objective": true,
+          "options": {
+            "A": "तालाब में खिले कमल के समान",
+            "B": "सूरज की किरणों से",
+            "C": "कठिन पाषाण के पिघलकर जल बन जाने से",
+            "D": "पिघलते हवा की थिरकन से"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:D:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "एक के नहीं,\nएक के नहीं,\nदो के नहीं,\nढेर सारी नदियों के पानी का जादू:\nएक के नहीं,\nदो के नहीं,\nलाख-लाख कोटि-कोटि हाथों के स्पर्श की गरिमा:\nएक की नहीं,\nदो की नहीं,\nहज़ार-हज़ार खेतों की मिट्टी का गुण धर्म:\nफसल क्या है?\nऔर तो कुछ नहीं है वह\nनदियों के पानी का जादू है वह\nहाथों के स्पर्श की महिमा है\n\n'एक के नहीं, एक के नहीं, दो के नहीं' के इस दोहराव से कवि क्या बताना चाहता है? (A) फसल किसी एक साधन से नहीं बनती (B) फसल बनाने के लिए बार-बार कोशिश करनी पड़ती है (C) फसल के लिए नदियों के पानी की कमी है (D) कवि को फसल गिनने में असमर्थता है",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "फसल किसी एक साधन से नहीं बनती",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "फसल क्या है?\nऔर तो कुछ नहीं है वह\nनदियों के पानी का जादू है वह\nहाथों के स्पर्श की महिमा है"
+          ],
+          "objective": true,
+          "options": {
+            "A": "फसल किसी एक साधन से नहीं बनती",
+            "B": "फसल बनाने के लिए बार-बार कोशिश करनी पड़ती है",
+            "C": "फसल के लिए नदियों के पानी की कमी है",
+            "D": "कवि को फसल गिनने में असमर्थता है"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:D:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "फसल शब्द सुनते ही खेतों में लहलहाती फसल आँखों के सामने आ जाती है। परंतु फसल है क्या और उसे पैदा करने में किन-किन तत्वों का योगदान होता है, इसे बताया है नागार्जुन ने अपनी कविता फसल में। कविता यह भी रेखांकित करती है कि प्रकृति और मनुष्य के सहयोग से ही सृजन संभव है। बोलचाल की भाषा की गति और लय कविता को प्रभावशाली बनाती है।\n\nइस परिचय के अनुसार 'फसल' कविता को प्रभावशाली किस बात ने बनाया है? (A) उसकी लंबी कविता संरचना (B) उसमें बोलचाल की भाषा का प्रयोग (C) उसमें कठिन शब्दों की भरपूर (D) उसका छंद-बद्ध होना",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उसमें बोलचाल की भाषा का प्रयोग",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बोलचाल की भाषा की गति\nऔर लय कविता को प्रभावशाली बनाती है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "उसकी लंबी कविता संरचना",
+            "B": "उसमें बोलचाल की भाषा का प्रयोग",
+            "C": "उसमें कठिन शब्दों की भरपूर",
+            "D": "उसका छंद-बद्ध होना"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:E:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "'फसल' कविता में कवि ने फसल बनाने में किनका योगदान बताया है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "नदियों के पानी का जादू और हाथों के स्पर्श की गरिमा-महिमा बताएगा।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "हज़ार-हज़ार खेतों की मिट्टी का गुण धर्म, सूरज की किरणों का रूपांतर और हवा की थिरकन का संकोच बताएगा।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "फसल किसी एक वस्तु से नहीं बनती; उसमें नदियों के पानी का जादू, हाथों के स्पर्श की गरिमा, हज़ार-हज़ार खेतों की मिट्टी का गुण धर्म, सूरज की किरणों का रूपांतर और हवा की थिरकन का संकोच मिलकर योगदान देते हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "ढेर सारी नदियों के पानी का जादू:",
+            "लाख-लाख कोटि-कोटि हाथों के स्पर्श की गरिमा:",
+            "रूपांतर है सूरज की किरणों का\nसिमटा हुआ संकोच है हवा की थिरकन का!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:E:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "'यह दंतुरित मुसकान' कविता में बच्चे की मुसकान का कवि के मन पर क्या प्रभाव पड़ता है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "मुसकान ऐसी मोहक है कि मृतक में भी जान डाल देती है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कठिन पाषाण पिघलकर जल बन जाता है, अर्थात कठोर से कठोर मन भी पिघल जाता है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बच्चे की दंतुरित मुसकान देखकर कवि का मन आश्चर्य और मोह से भर जाता है; उसका ऐसा प्रभाव पड़ता है कि मृतक में भी जान डाल देती है और कठिन पाषाण पिघलकर जल बन जाता है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "तुम्हारी यह दंतुरित मुसकान\nमृतक में भी डाल देगी जान",
+            "पिघलकर जल बन गया होगा कठिन पाषाण",
+            "इस सुंदरता की व्याप्ति ऐसी है कि कठोर से कठोर मन भी पिघल जाए।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:E:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "नागार्जुन को 'आधुनिक कबीर' क्यों कहा जाता है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "वे व्यंग्य में माहिर हैं, इसलिए आधुनिक कबीर कहे जाते हैं।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "लोकजीवन से गहरा सरोकार के कारण वे भ्रष्टाचार, राजनीतिक स्वार्थ और समाज की पतनशील स्थितियों के प्रति सजग रहे हैं।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "व्यंग्य में माहिर होने के कारण उन्हें आधुनिक कबीर कहा जाता है। लोकजीवन से गहरा सरोकार रखने वाले नागार्जुन अपने साहित्य में भ्रष्टाचार, राजनीतिक स्वार्थ और समाज की पतनशील स्थितियों के प्रति विशेष सजग रहे हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "वे व्यंग्य में माहिर हैं,",
+            "इसलिए उन्हें आधुनिक कबीर भी कहा जाता है।",
+            "लोकजीवन से गहरा सरोकार रखने वाले नागार्जुन भ्रष्टाचार,\nराजनीतिक स्वार्थ और समाज की पतनशील स्थितियों के प्रति\nअपने साहित्य में विशेष सजग रहे।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:F:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "'यह दंतुरित मुसकान' कविता में कवि ने बच्चे की मुसकान के सौंदर्य को किन-किन बिंबों के माध्यम से व्यक्त किया है? अपने शब्दों में लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "तालाब में छोड़कर खिल रहे जलजात कमल की तुलना से मुसकान का सौंदर्य।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "धूलि-धूसर गात में जीवन भर देने और कठिन पाषाण को पिघला देने वाला प्रभाव।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कठोर से कठोर मन भी पिघल जाए — मुसकान की व्याप्ति।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कवि का मानना है कि इस सुंदरता में ही जीवन का संदेश है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कवि ने बच्चे की मुसकान की तुलना तालाब में छोड़कर खिल रहे जलजात कमल से की है, जिसने तुम्हारे धूलि-धूसर गात में जीवन भर दिया। उसी मुसकान ने कठिन पाषाण को भी पिघलकर जल बन गया होगा। बच्चे की मुसकान इतनी मोहक है कि कठोर से कठोर मन भी पिघल जाए। कवि का मानना है कि इस सुंदरता में ही जीवन का संदेश है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "छोड़कर तालाब मेरी झोंपड़ी में खिल रहे जलजात\nपरस पाकर तुम्हारा ही प्राण,",
+            "पिघलकर जल बन गया होगा कठिन पाषाण",
+            "कवि का मानना है कि इस सुंदरता में ही जीवन का संदेश है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:F:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "'फसल' कविता में कवि फसल को 'हाथों के स्पर्श की गरिमा' और 'महिमा' कहकर क्या व्यक्त करना चाहता है? अपने शब्दों में लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "फसल किसी एक तत्त्व का नहीं, अनेक तत्त्वों के मिलन का नतीजा है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "हाथों के स्पर्श की गरिमा-महिमा में मनुष्य की मेहनत का गौरव निहित है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "नदियों के पानी, मिट्टी का गुण धर्म, सूरज की किरणें और हवा की थिरकन का उल्लेख।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रकृति और मनुष्य के सहयोग से ही सृजन संभव है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कवि का कहना है कि फसल किसी एक तत्त्व का नहीं, बल्कि अनेक तत्त्वों के मिलन का नतीजा है। ढेर सारी नदियों के पानी का जादू, लाख-लाख कोटि-कोटि हाथों के स्पर्श की गरिमा और हज़ार-हज़ार खेतों की मिट्टी का गुण धर्म, सूरज की किरणों का रूपांतर तथा हवा की थिरकन का सिमटा हुआ संकोच — सब मिलकर मनुष्य की मेहनत को गौरवपूर्ण बनाते हैं। फसल मनुष्य और प्रकृति के सहयोग का प्रमाण है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "फसल क्या है?\nऔर तो कुछ नहीं है वह\nनदियों के पानी का जादू है वह\nहाथों के स्पर्श की महिमा है",
+            "कविता यह भी रेखांकित करती है कि\nप्रकृति और मनुष्य के सहयोग से ही सृजन संभव है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:F:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "'फसल' कविता उपभोक्ता-संस्कृति के दौर में कृषि-संस्कृति को किस प्रकार याद दिलाती है? अपने शब्दों में लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "फसल शब्द सुनते ही खेतों में लहलहाती फसल का जीवंत चित्र।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "फसल नदियों के पानी, हज़ार-हज़ार खेतों की मिट्टी और हाथों के स्पर्श का मिलन है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रकृति और मनुष्य के सहयोग से ही सृजन संभव है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "बोलचाल की भाषा की गति और लय के कारण यह कृषि-संस्कृति के निकट ले जाती है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "इस कविता में फसल शब्द सुनते ही खेतों में लहलहाती फसल आँखों के सामने आ जाती है, इसलिए कृषि की जड़ें मिट्टी, पानी और हाथों की मेहनत में दिखती हैं। कवि बताता है कि फसल किसी एक वस्तु से नहीं बनती, बल्कि प्रकृति और मनुष्य के सहयोग से बनती है। बोलचाल की भाषा की गति और लय इसे प्रभावशाली बनाती है, इसलिए यह कविता उपभोक्ता-संस्कृति के बीच कृषि-संस्कृति को याद दिला देती है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "फसल शब्द सुनते ही खेतों में लहलहाती फसल आँखों के सामने आ जाती है।",
+            "कहना न होगा कि यह कविता हमें उपभोक्ता-संस्कृति के दौर में कृषि-संस्कृति\nके निकट ले जाती है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:G:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "आपके विद्यालय में 'बच्चों की मुसकान' विषय पर एक निबंध-प्रतियोगिता आयोजित है। इस विषय पर लगभग १२० शब्दों का एक सुसंगत एवं विस्तृत अनुच्छेद लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: बच्चे की दंतुरित मुसकान का प्रभाव — मृतक में भी जान डाल देती है और कठोर से कठोर मन पिघला देती है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: तालाब में खिल रहे जलजात कमल तथा पिघलकर जल बन गए कठिन पाषाण के बिंब, और जीवन का संदेश।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित एक ही सतत अनुच्छेद के रूप में लगभग १२० शब्दों की रचना।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: परिचय, बिंबों का वर्णन और सार-संदेश के क्रम में तर्क संगठित प्रवाह।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता: सही वर्तनी, व्याकरण और विराम-चिह्नों का सही प्रयोग।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रसाद: सरल, प्रभावशाली तथा विषय के अनुरूप भाषा का प्रयोग।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "एक छोटे बच्चे की दंतुरित मुसकान ऐसी होती है कि देखने वाला ठिठक जाता है। कवि का कहना है कि इस सुंदरता की व्याप्ति ऐसी है कि कठोर से कठोर मन भी पिघल जाए। यह मुसकान मृतक में भी जान डाल देती है, ठीक वैसे ही जैसे तालाब में छोड़कर खिल रहे जलजात कमल ने धूलि-धूसर गात में जीवन भर दिया और कठिन पाषाण पिघलकर जल बन गया होगा। बच्चा यह भी पूछता है कि कवि उसे पहचान ही नहीं पाया। यही सौंदर्य जीवन का संदेश है। बड़े लोगों को भी चाहिए कि वे बच्चों के हाव-भावों और व्यवहार को सूक्ष्मता से देखना सीखें।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "तुम्हारी यह दंतुरित मुसकान\nमृतक में भी डाल देगी जान",
+            "छोड़कर तालाब मेरी झोंपड़ी में खिल रहे जलजात\nपरस पाकर तुम्हारा ही प्राण,",
+            "कवि का मानना है कि इस सुंदरता में ही जीवन का संदेश है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:G:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "आपके विद्यालय में 'कृषि-संस्कृति और मानव मेहनत' विषय पर लगभग १२० शब्दों का एक सुसंगत अनुच्छेद लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: फसल किसी एक वस्तु से नहीं बनती, बल्कि अनेक तत्त्वों के मिलन से बनती है।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: नदियों के पानी का जादू, हाथों के स्पर्श की गरिमा, मिट्टी का गुण धर्म, सूरज की किरणों का रूपांतर और हवा की थिरकन का संकोच।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित एक ही सतत अनुच्छेद के रूप में लगभग १२० शब्दों की रचना।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: फसल के परिचय से तत्त्वों के विवरण तक क्रमबद्ध प्रस्तुतीकरण और अंत में निष्कर्ष।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता: सही वर्तनी, व्याकरण और विराम-चिह्नों का सही प्रयोग।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रसाद: सरल, स्पष्ट और प्रभावशाली भाषा का प्रयोग।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "फसल शब्द सुनते ही खेतों में लहलहाती फसल आँखों के सामने आ जाती है, किंतु फसल है क्या और उसे पैदा करने में किन-किन तत्वों का योगदान होता है, इसे समझना आवश्यक है। फसल किसी एक वस्तु से नहीं बनती। उसमें ढेर सारी नदियों के पानी का जादू है, लाख-लाख कोटि-कोटि हाथों के स्पर्श की गरिमा है और हज़ार-हज़ार खेतों की मिट्टी का गुण धर्म है। सूरज की किरणों का रूपांतर और हवा की थिरकन का सिमटा हुआ संकोच भी इसमें मिल जाते हैं। इस प्रकार प्रकृति और मनुष्य के सहयोग से ही सृजन संभव है। आज उपभोक्ता-संस्कृति के बीच हमें इस कृषि-संस्कृति को याद दिलाना चाहिए।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "फसल क्या है?\nऔर तो कुछ नहीं है वह\nनदियों के पानी का जादू है वह\nहाथों के स्पर्श की महिमा है",
+            "कविता यह भी रेखांकित करती है कि\nप्रकृति और मनुष्य के सहयोग से ही सृजन संभव है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:G:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "आपके विद्यालय में 'मातृभाषा का साहित्यिक महत्त्व' विषय पर साहित्य-चर्चा आयोजित है। इस विषय पर लगभग १२० शब्दों का एक सुसंगत एवं विस्तृत अनुच्छेद लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: मैथिली नागार्जुन की मातृभाषा थी और उसी में उन्हें 'यात्री' नाम से प्रतिष्ठिति मिली।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: हिंदी और मैथिली में समान लेखन के साथ बांग्ला और संस्कृत में भी कविताएँ लिखीं।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: गाँव की चौपालों और साहित्यिक दुनिया में कविता के समान रूप से लोकप्रिय रहने तथा जनकवि कहलाने की बात।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित एक ही सतत अनुच्छेद के रूप में लगभग १२० शब्दों की रचना।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: उदाहरण से सामान्य निष्कर्ष तक तर्क संगठित प्रवाह।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं प्रसाद: सही वर्तनी, व्याकरण और सरल प्रभावशाली भाषा का प्रयोग।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "नागार्जुन जैसे कवि की सफलता का राज उनकी मातृभाषा से जुड़ा है। मैथिली उनकी मातृभाषा थी और उसी भाषा में उन्हें 'यात्री' नाम से प्रतिष्ठिति मिली। हिंदी और मैथिली में समान रूप से लेखन करने वाले नागार्जुन ने बांग्ला और संस्कृत में भी कविताएँ लिखीं, फिर भी उनकी पहचान मातृभाषा से जुड़ी रही। छायावादोत्तर दौर में ऐसे अकेले कवियों में गिने जाने वाले कवि के रूप में उनकी कविता गाँव की चौपालों और साहित्यिक दुनिया, दोनों में समान रूप से लोकप्रिय रही। वे वास्तविक अर्थों में जनकवि कहलाते हैं। इससे यह सिद्ध होता है कि मातृभाषा में रचा साहित्य दूर-दूर तक पहुँचता है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "हिंदी और मैथिली में समान रूप से लेखन करने वाले\nनागार्जुन ने बांग्ला और संस्कृत में भी कविताएँ लिखीं।",
+            "मातृभाषा मैथिली में वे 'यात्री' नाम से प्रतिष्ठित हैं।",
+            "छायावादोत्तर दौर के वे ऐसे अकेले कवि\nहैं, जिनकी कविता गाँव की चौपालों और साहित्यिक दुनिया में समान रूप से लोकप्रिय रही।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:H:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "किसानों की समस्याओं पर अपने सुझाव देते हुए अखबार के संपादक को लगभग १०० शब्दों में ई-मेल लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: किसानों की समस्या के रूप में मिट्टी के गुण धर्म में बदलाव का उल्लेख।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: सिंचाई, उर्वरता की रक्षा और महिलाओं के योगदान को मान्यता देने के सुझाव।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: ई-मेल का सही ढाँचा — पता, विषय-पंक्ति, संबोधन, मुख्य भाग और समापन।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: समस्या, उसके कारण और सुझाव इस क्रम में।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं प्रसाद: सही वर्तनी, व्याकरण, औपचारिक और संक्षिप्त शैली।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "To: editor@newspaper.in\nSubject: किसानों की समस्याओं पर सुझाव\n\nमहोदय,\n\nआज किसान जिस मिट्टी में फसल उगाता है, उसी मिट्टी का गुण धर्म बदला जा रहा है। फसल किसी एक वस्तु से नहीं बनती; उसमें ढेर सारी नदियों के पानी का जादू और लाख-लाख हाथों के स्पर्श की महिमा अनिवार्य है। मेरा सुझाव है कि सिंचाई की सुविधा बढ़ाई जाए, मिट्टी की उर्वरता बचाई जाए और फसलों के उत्पादन में महिलाओं के योगदान को भी उचित मान्यता दी जाए, जिससे एक सुदृढ़ कृषि-व्यवस्था बन सके।\n\nआपका शुभाकाशी,\n[नाम]",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "हज़ार-हज़ार खेतों की मिट्टी का गुण धर्म:",
+            "फसलों के उत्पादन में महिलाओं के योगदान को हमारी अर्थव्यवस्था में महत्त्व क्यों नहीं दिया जाता है? इस बारे में कक्षा में चर्चा कीजिए।",
+            "• इलेक्ट्रॉनिक एवं प्रिंट मीडिया द्वारा आपने किसानों की स्थिति के बारे में बहुत कुछ सुना, देखा और पढ़ा होगा। एक सुदृढ़ कृषि-व्यवस्था के लिए आप अपने सुझाव देते हुए अखबार के संपादक को पत्र लिखिए।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:H:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "आपके पिता किसान हैं और उनके खेत में फसल के समय कुछ सहायक रखने की आवश्यकता है। इस पद हेतु अपना संक्षिप्त परिचय-पत्र (CV) लगभग १०० शब्दों में तैयार कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: शिक्षा, खेत में कार्य का अनुभव, कौशल, भाषा और लक्ष्य की जानकारी।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: फसल उगाने में मिट्टी, बीज, बुवाई, सिंचाई और कटाई से जुड़े कार्यों का उल्लेख।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: संक्षिप्त परिचय-पत्र का सही ढाँचा — शीर्षक और सूचीबद्ध जानकारी।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: जानकारी का क्रमबद्ध एवं तार्किक प्रस्तुतीकरण।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं प्रसाद: सही वर्तनी, व्याकरण और औपचारिक संक्षिप्त शैली।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "संक्षिप्त परिचय-पत्र\n\nनाम: [अपना नाम]\nपता: [अपना पता]\nशिक्षा: कक्षा दस (चालू)\nअनुभव: पिता के किसान खेत में फसल की बुवाई, सिंचाई और कटाई में सहयोग; खेत के मिट्टी और बीज की पहचान की जानकारी।\nकौशल: मिट्टी की तैयारी, बुवाई की समय-सीमा और सिंचाई का प्रबंधन; साथ ही कक्षा में पाठ-प्रस्तुति एवं निबंध लेखन।\nभाषा: हिंदी, मैथिली और अंग्रेज़ी।\nलक्ष्य: फसल की उत्कृष्ट गुणवत्ता और सुदृढ़ कृषि-व्यवस्था के लिए कार्य करना।\n\nहस्ताक्षर",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "• इलेक्ट्रॉनिक एवं प्रिंट मीडिया द्वारा आपने किसानों की स्थिति के बारे में बहुत कुछ सुना, देखा और पढ़ा होगा।",
+            "फसल क्या है?\nऔर तो कुछ नहीं है वह\nनदियों के पानी का जादू है वह",
+            "एक के नहीं,\nदो के नहीं,\nलाख-लाख कोटि-कोटि हाथों के स्पर्श की गरिमा:"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:I:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "आपके गाँव में कृषि मेला आयोजित हो रहा है। इसकी सूचना के लिए लगभग ५० शब्दों का एक विज्ञापन तैयार कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: मेले की मुख्य सूचना और किसानों की उपज से जुड़ी सूचना-पंक्तियाँ।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: महिलाओं के योगदान के सम्मान और निःशुल्क प्रवेश का उल्लेख।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: विज्ञापन का सही ढाँचा — शीर्षक और सूचना-पंक्तियाँ स्पष्ट रूप से अलग।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था एवं प्रसाद: बातों का क्रमबद्ध प्रस्तुतीकरण, सही वर्तनी और आकर्षक भाषा।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कृषि मेला — किसानों और उनकी उपज के लिए एक दिन\n\nहज़ार-हज़ार खेतों की मिट्टी का गुण धर्म और लाख-लाख हाथों के स्पर्श की महिमा — यही हमारी कृषि की पहचान है। मेले में दिखाई जाएँगी फसलें, बीज, खाद और सिंचाई के साधन। महिलाओं के योगदान को विशेष सम्मान। प्रवेश निःशुल्क। स्थान और समय की जानकारी हेतु कृषि कार्यालय से संपर्क करें।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "हज़ार-हज़ार खेतों की मिट्टी का गुण धर्म:",
+            "फसलों के उत्पादन में महिलाओं के योगदान को हमारी अर्थव्यवस्था में महत्त्व क्यों नहीं दिया जाता है?",
+            "एक सुदृढ़ कृषि-व्यवस्था के लिए आप अपने सुझाव देते हुए अखबार के संपादक को पत्र लिखिए।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:I:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "फसलों के उत्पादन में महिलाओं के योगदान को समाज में सही समय पर स्मरण कराने हेतु अपने समाज को भेजने के लिए लगभग ५० शब्दों में एक संदेश लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: फसलों के उत्पादन में महिलाओं के योगदान और हाथों के स्पर्श की महिमा का उल्लेख।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: फसल, मिट्टी और जल — यानी कृषि के अनिवार्य तत्त्वों से जोड़कर बात कहना।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: संदेश का सही ढाँचा — संबोधन से आरंभ और सम्मान-सहित समापन।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था एवं प्रसाद: क्रमबद्ध बातें, सही वर्तनी, व्याकरण और लगभग पचास शब्दों की सीमा।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "आदरणीय बहनों,\n\nआज हमसे अपेक्षा की जाती है कि हम केवल अपने लिए नहीं, हाथों के स्पर्श की महिमा बढ़ाएँ। लाख-लाख कोटि-कोटि हाथों की गरिमा में आपका बहुत बड़ा योगदान है। किसी फसल, किसी मिट्टी और किसी जल के बिना आज कोई खेत हरा नहीं हो सकता। आपकी मेहनत उपभोक्ता-संस्कृति से हटाकर कृषि-संस्कृति को सम्मान देती है। आप सभी को सलाम।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "लाख-लाख कोटि-कोटि हाथों के स्पर्श की गरिमा:",
+            "हाथों के स्पर्श की महिमा है",
+            "फसलों के उत्पादन में महिलाओं के योगदान को हमारी अर्थव्यवस्था में महत्त्व क्यों नहीं दिया जाता है?"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:05:I:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल"
+      ],
+      "taxonomyChapterId": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "आपकी कक्षा में फसलों के उत्पादन में महिलाओं के योगदान पर चर्चा होने वाली है। इसकी सूचना के लिए लगभग ५० शब्दों का एक सूचना-पत्र लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: चर्चा का विषय, विद्यार्थियों से पूछे जाने वाले प्रश्न और उपस्थित रहने की सूचना।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: नदियों के पानी के जादू और हाथों के स्पर्श की महिमा जैसे कृषि के तत्त्वों का उल्लेख।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: सूचना-पत्र का सही ढाँचा — शीर्षक 'सूचना' और सूचना-वाक्य के साथ।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था एवं प्रसाद: विषय, शर्तें, समय और सम्पर्क-सूत्र इस क्रम में; सही वर्तनी और निर्धारित शब्द-सीमा।",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सूचना\n\nसभी छात्र-छात्राओं को सूचित किया जाता है कि कक्षा में 'फसलों के उत्पादन में महिलाओं के योगदान' विषय पर एक चर्चा आयोजित की जा रही है। चर्चा में हम यह जानना चाहेंगे कि नदियों के पानी का जादू और हाथों के स्पर्श की महिमा किस प्रकार फसल बनाती है। प्रश्न सभी विद्यार्थियों से पूछे जाएँगे। कृपया उपस्थित रहें।\n\nसाहित्य-मंडल कक्ष",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "फसलों के उत्पादन में महिलाओं के योगदान को हमारी अर्थव्यवस्था में महत्त्व क्यों नहीं दिया जाता है? इस बारे में कक्षा में चर्चा कीजिए।",
+            "नदियों के पानी का जादू है वह\nहाथों के स्पर्श की महिमा है",
+            "• फसलों के उत्पादन में महिलाओं के योगदान को हमारी अर्थव्यवस्था में महत्त्व क्यों नहीं दिया जाता है? इस बारे में कक्षा में चर्चा कीजिए।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "jhks1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "figure-not-in-text:१९११",
+      "stem": "आप अपनी प्रस्तुति में नागार्जुन की यात्रा का समय-रेखा बना रहे हैं; उनके स्वदेश लौटने का वर्ष चुनिए।"
+    },
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "options-not-answerable",
+      "stem": "इस गद्यांश में 'घुमक्कड़ी और अक्खड़ स्वभाव के धनी' कहकर लेखक ने नागार्जुन के किस गुण की ओर संकेत किया है?"
+    },
+    {
+      "section": "B",
+      "qtype": "very_short_answer",
+      "topic": "",
+      "reason": "passage-not-in-text",
+      "stem": "नागार्जुन का संपूर्ण कृतित्व कितने खंडों में प्रकाशित है और उन्होंने किन-किन विधाओं में लेखन किया है?"
+    },
+    {
+      "section": "B",
+      "qtype": "very_short_answer",
+      "topic": "",
+      "reason": "passage-not-in-text",
+      "stem": "नागार्जुन को मैथिली भाषा में कविता के लिए कौन-सा पुरस्कार मिला और बिहार का कौन-सा पुरस्कार उन्हें प्रदान किया गया?"
+    },
+    {
+      "section": "B",
+      "qtype": "very_short_answer",
+      "topic": "",
+      "reason": "passage-not-in-text",
+      "stem": "नागार्जुन की कविता किन दो क्षेत्रों में समान रूप से लोकप्रिय रही?"
+    },
+    {
+      "section": "C",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "figure-not-in-text:१९३८",
+      "stem": "वाक्य 'दो साल प्रवास के बाद १९३८ में स्वदेश लौट आए।' में क्रिया-विशेषण कौन-सा शब्द है?"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१००",
+      "stem": "आप अपने मित्र को पत्र लिखिए, जिसमें बताया हो कि आपने अपने गाँव या मोहल्ले में किसी छोटे बच्चे की मुसकान देखकर कैसा अनुभव"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jhks1",
+    "chapters": [
+      5
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

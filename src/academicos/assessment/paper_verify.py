@@ -69,9 +69,16 @@ def verify(paper: dict, template: Any, *, language: str = "en",
         wrong = [q.get("marks") for q in got.get("questions") or [] if q.get("marks") != want.marks_each]
         if wrong:
             problems.append(f"{label}: questions worth {sorted(set(wrong))} marks, the template says {want.marks_each} each")
-        printed = sum(int(q.get("marks") or 0) for q in got.get("questions") or [])
-        if got.get("totalMarks") != printed:
-            problems.append(f"{label}: totalMarks says {got.get('totalMarks')} but its questions add to {printed}")
+        # The marks a section counts are the template's (TemplateSection.marks): every question it
+        # prints, or only the N of an "attempt any N" section, whose other questions are printed and
+        # not scored. Comparing the total with every printed question flagged each correct
+        # attempt-any section of the English and Hindi presets ("totalMarks says 10 but its
+        # questions add to 12").
+        if got.get("totalMarks") != want.marks:
+            printed = sum(int(q.get("marks") or 0) for q in got.get("questions") or [])
+            attempt = f", attempt any {want.attempt_count}" if want.attempt_count else ""
+            problems.append(f"{label}: totalMarks says {got.get('totalMarks')} but the section counts "
+                            f"{want.marks} ({printed} marks printed{attempt})")
     total = sum(int(s.get("totalMarks") or 0) for s in sections)
     meta_total = (paper.get("metadata") or {}).get("totalMarks")
     if total != template.total_marks or meta_total != template.total_marks:

@@ -1,0 +1,1215 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iebe1:05:A:1",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/the-world-of-limitless-possibilities",
+        "english-9/nine-gold-medals"
+      ],
+      "taxonomyChapterId": "english-9/the-world-of-limitless-possibilities",
+      "topic": "Paralympics",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "I strongly believe in working for the cause of strengthening the emotional health of persons with challenges and empowering women through outdoor sports and adventure activities. I also support persons from lower socio–economic strata and provide equipment to para sportspersons. I believe youth is the voice of tomorrow. So, we organise disability sports awareness and advocacy sessions at various schools and colleges. My goal is to contribute to create a society where everyone, regardless of ability, is treated with dignity and given a fair chance to succeed.\n\nA student asks the speaker in the extract why she holds advocacy sessions in schools and colleges; which answer is correct? (A) Because she believes the young are the ones who will change how people treat disability. (B) Because she has been appointed to a vacant post in each of those colleges. (C) Because she wants to recruit para sportspersons for her own team. (D) Because she has given up competing and no longer visits schools.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Because she believes the young are the ones who will change how people treat disability.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I believe youth is the voice of tomorrow.",
+            "So, we organise disability sports awareness and advocacy sessions at various schools and colleges."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Because she believes the young are the ones who will change how people treat disability.",
+            "B": "Because she has been appointed to a vacant post in each of those colleges.",
+            "C": "Because she wants to recruit para sportspersons for her own team.",
+            "D": "Because she has given up competing and no longer visits schools."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "iebe1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:05:B:1",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/the-world-of-limitless-possibilities",
+        "english-9/nine-gold-medals"
+      ],
+      "taxonomyChapterId": "english-9/the-world-of-limitless-possibilities",
+      "topic": "Paralympics",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Before the class presentation a student has to report the para-athlete's remark ‘I love sports and had been a swimmer too, so I decided to switch to para-athletics.’ Which sentence reports it correctly? (A) Dr. Malik said that she loves sports and had been a swimmer too, and so she decided to switch to para-athletics. (B) Dr. Malik said that she loved sports and has been a swimmer too, and so she had decided to switch to para-athletics. (C) Dr. Malik said that she loved sports and had been a swimmer too, and so she had decided to switch to para-athletics. (D) Dr. Malik said that she had loved sports and had been a swimmer too, and so she had decided to switch to para-athletics.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dr. Malik said that she loved sports and had been a swimmer too, and so she had decided to switch to para-athletics.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Dr. Malik: I love sports and had been a swimmer too, so I decided to switch to para-athletics.",
+            "she loved sports",
+            "6. decided had decided"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Dr. Malik said that she loves sports and had been a swimmer too, and so she decided to switch to para-athletics.",
+            "B": "Dr. Malik said that she loved sports and has been a swimmer too, and so she had decided to switch to para-athletics.",
+            "C": "Dr. Malik said that she loved sports and had been a swimmer too, and so she had decided to switch to para-athletics.",
+            "D": "Dr. Malik said that she had loved sports and had been a swimmer too, and so she had decided to switch to para-athletics."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "iebe1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:05:C:1",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/the-world-of-limitless-possibilities",
+        "english-9/nine-gold-medals"
+      ],
+      "taxonomyChapterId": "english-9/the-world-of-limitless-possibilities",
+      "topic": "Paralympics",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school is to hold a disability sports awareness and advocacy session, and as Sports Captain you have been asked to speak at the assembly about it. Write a speech of about 100 words in which you give two reasons why students should attend the session.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Speech format: a greeting to the audience at the start and a suitable closing at the end",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: states that a disability sports awareness and advocacy session is being held in school",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: gives two clear reasons to attend, such as the work done for persons with challenges and for women in outdoor sports",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the ideas are announced one after another and the speech is broken into short paragraphs",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling, punctuation and clear spoken language",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Good morning, everyone.\n\nOur school is holding a disability sports awareness and advocacy session, and I want to tell you why it matters.\n\nDeepa Malik, a Khel Ratna, Arjuna and Padma Shri awardee, organises such sessions at various schools and colleges. She works to strengthen the emotional health of persons with challenges and to empower women through outdoor sports and adventure activities.\n\nShe believes youth is the voice of tomorrow, so she wants us listening early. Her own life proves the point. Paralympics has given her a new lease of life and helped her push boundaries, and she says it made her realise that people with disabilities can be as capable as their able-bodied counterparts.\n\nDo come, and be the voice of tomorrow.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "So, we organise disability sports awareness and advocacy sessions at various schools and colleges.",
+            "I believe youth is the voice of tomorrow.",
+            "has given me a new lease of life and"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:05:C:2",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/the-world-of-limitless-possibilities",
+        "english-9/nine-gold-medals"
+      ],
+      "taxonomyChapterId": "english-9/the-world-of-limitless-possibilities",
+      "topic": "Paralympics",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "The school magazine has asked you to write an article of about 100 words titled ‘Setbacks Are Stepping Stones’ on what a Class 9 student can learn from the example of Dr. Deepa Malik about facing setbacks.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Article format: a headline that sums up the message, followed by short connected paragraphs",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: gives the example of the wheelchair verdict and the choice she made in its place",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: explains that every setback is an opportunity to prove one’s own strength",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: advises building a support system and believing in oneself so that obstacles become stepping stones",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling, punctuation and clear, simple language",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Setbacks Are Stepping Stones\n\nDr. Deepa Malik was told that she would be bound to a wheelchair for the rest of her life, and she was paralysed waist down. She chose a world of limitless possibilities instead. Her example teaches us three things.\n\nFirst, every setback is an opportunity to prove your strength, so refuse to treat it as an ending.\n\nSecond, surround yourself with a support system, because the support of her family, coupled with her own fortitude, turned her obstacles into stepping stones.\n\nFinally, believe in yourself and let your journey inspire others. Physical limitations do not define a person’s potential.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "to a wheelchair for the rest of my life, as I was paralysed waist down.",
+            "a world of limitless possibilities.",
+            "opportunity to prove your strength."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:05:D:1",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/the-world-of-limitless-possibilities",
+        "english-9/nine-gold-medals"
+      ],
+      "taxonomyChapterId": "english-9/the-world-of-limitless-possibilities",
+      "topic": "Paralympics",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "My breakthrough moment came in the 2016 Rio Paralympic Games, when I secured the silver medal in the shot-put event. In hindsight, I feel it was a moment of personal victory and a step forward in changing perceptions.\n\nA reader asks what the speaker means by calling the 2016 medal ‘a step forward in changing perceptions’; which answer is correct? (A) She believes she has changed every attitude and can stop competing now. (B) She believes the win moved people's thinking about para-athletes further than before. (C) She thinks the judges were unfair and wanted the scoring of the event changed. (D) She thinks she must change her own way of thinking before she competes again.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She believes the win moved people's thinking about para-athletes further than before.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "My breakthrough moment came in the 2016 Rio Paralympic Games, when I secured the silver medal in the shot-put event.",
+            "feel it was a moment of personal victory and a step forward in changing perceptions."
+          ],
+          "objective": true,
+          "options": {
+            "A": "She believes she has changed every attitude and can stop competing now.",
+            "B": "She believes the win moved people's thinking about para-athletes further than before.",
+            "C": "She thinks the judges were unfair and wanted the scoring of the event changed.",
+            "D": "She thinks she must change her own way of thinking before she competes again."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "iebe1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:05:E:1",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/the-world-of-limitless-possibilities",
+        "english-9/nine-gold-medals"
+      ],
+      "taxonomyChapterId": "english-9/the-world-of-limitless-possibilities",
+      "topic": "Paralympics",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A classmate asks Deepa Malik why she gave up swimming and took up para-athletics after the doctors’ verdict. Give the reason she gives, in about 50 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She had always loved sports and had been a swimmer herself",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The doctors’ verdict that she would be bound to a wheelchair for life left her a choice to make",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She refused to squander her life in remorse and chose to transform it into a world of limitless possibilities",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She loved sports and had been a swimmer too. When the doctors declared that she would be bound to a wheelchair for the rest of her life, she decided not to squander her life in remorse. Instead she chose to transform it into a world of limitless possibilities, and so she switched to para-athletics.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I love sports and had been a swimmer too, so I decided to switch to para-athletics.",
+            "life in remorse or transform it to",
+            "a world of limitless possibilities."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:05:E:2",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/the-world-of-limitless-possibilities",
+        "english-9/nine-gold-medals"
+      ],
+      "taxonomyChapterId": "english-9/the-world-of-limitless-possibilities",
+      "topic": "Paralympics",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A classmate asks Deepa Malik which challenge was the most significant one she faced, and how she overcame it. Answer in about 50 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The most significant challenge was societal perceptions, which led people to underestimate her abilities",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Overcoming it needed not only physical strength but also mental resilience",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She embraced challenges as opportunities to prove her capabilities, and with her family’s support and her own fortitude turned obstacles into stepping stones",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Deepa Malik says the most significant challenge was societal perceptions, because people often underestimated her abilities. Overcoming this required not only physical strength but also mental resilience. She embraced challenges as opportunities to prove her capabilities, and the support of her family, coupled with her fortitude, turned her obstacles into stepping stones.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "One of the significant challenges",
+            "for me was societal perceptions. People often underestimated my abilities. Overcoming this required not only physical strength but also mental resilience. I embraced",
+            "allowed me to turn obstacles into"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:05:E:3",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/the-world-of-limitless-possibilities",
+        "english-9/nine-gold-medals"
+      ],
+      "taxonomyChapterId": "english-9/the-world-of-limitless-possibilities",
+      "topic": "Paralympics",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A reader asks Deepa Malik what advice she would give to anyone facing setbacks, and what belief about disability that advice expresses. Answer in about 50 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Every setback is an opportunity to prove one’s own strength",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Surround yourself with a support system, believe in yourself, and let your journey inspire others",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Disability is not a limitation; it is a unique strength waiting to be unleashed",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Deepa Malik says that every setback is an opportunity to prove your strength. She advises you to surround yourself with a support system, to believe in yourself, and to let your journey inspire others. The belief behind this advice is that disability is not a limitation but a unique strength waiting to be unleashed.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I would say, every setback is an",
+            "opportunity to prove your strength.",
+            "limitation; it’s a unique strength waiting to be unleashed."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:05:E:4",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/the-world-of-limitless-possibilities",
+        "english-9/nine-gold-medals"
+      ],
+      "taxonomyChapterId": "english-9/the-world-of-limitless-possibilities",
+      "topic": "Read the following interview.",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "In the interview Deepa Malik is asked how sports and Paralympics can contribute to challenging societal stereotypes. Give her answer, in about 50 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Sports, especially Paralympics, have the extraordinary ability to challenge stereotypes and change attitudes towards disability",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Watching the strength, skill and competitive spirit of para-athletes breaks down preconceived notions",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Paralympics gave her a new lease of life and showed that people with disabilities are as capable as able-bodied counterparts",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She says sports, especially Paralympics, have the extraordinary ability to challenge stereotypes and change attitudes towards disability. When people witness the strength, skill and competitive spirit of para-athletes, it breaks down preconceived notions. Paralympics has given her a new lease of life and made her realise that people with disabilities can be as capable as their able-bodied counterparts.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Paralympics, have the extraordinary",
+            "When people witness the strength, skill, and competitive spirit of",
+            "made me what I am today. It has made me realise that individuals"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:05:F:1",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/the-world-of-limitless-possibilities",
+        "english-9/nine-gold-medals"
+      ],
+      "taxonomyChapterId": "english-9/the-world-of-limitless-possibilities",
+      "topic": "Paralympics",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A Class 9 student is asked to trace the path Dr. Deepa Malik travelled from injury to her Paralympics silver medal. Show the steps in order, giving the age, the year and the event she names.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "She loved sports and had been a swimmer herself",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "At 29 she was diagnosed with a spine tumour and underwent a surgery",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The doctors then declared that she would be bound to a wheelchair for the rest of her life, paralysed waist down",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She was given two choices, to squander her life in remorse or to transform it into a world of limitless possibilities",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She chose to transform it and switched from swimming to para-athletics",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Her breakthrough came at the 2016 Rio Paralympic Games, where she won the silver medal in the shot-put event, and she calls it a personal victory and a step forward in changing perceptions",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. She loved sports, and had been a swimmer too.\n2. At 29 she was diagnosed with a spine tumour and underwent a surgery.\n3. Misfortune raised its ugly head again: the doctors declared that she would be bound to a wheelchair for the rest of her life, as she was paralysed waist down.\n4. She was left with two choices, to squander her life in remorse or to transform it into a world of limitless possibilities.\n5. She took the second choice and switched from swimming to para-athletics.\n6. Her breakthrough moment came at the 2016 Rio Paralympic Games, where she secured the silver medal in the shot-put event.\n7. She calls it a moment of personal victory and a step forward in changing perceptions.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I was 29, an awful tragedy struck",
+            "to a wheelchair for the rest of my life, as I was paralysed waist down.",
+            "My breakthrough moment came in the 2016 Rio Paralympic Games, when I secured the silver medal in the shot-put event."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "iebe1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:05:F:2",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/the-world-of-limitless-possibilities",
+        "english-9/nine-gold-medals"
+      ],
+      "taxonomyChapterId": "english-9/the-world-of-limitless-possibilities",
+      "topic": "Paralympics",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Deepa Malik says that advocacy is integral to her mission. Show, in steps, the areas of work she names and the kind of society she is trying to create.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Advocacy is integral to her mission",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She works to strengthen the emotional health of persons with challenges",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She wants to empower women through outdoor sports and adventure activities",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She supports persons from lower socio-economic strata and provides equipment to para sportspersons",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Believing that youth is the voice of tomorrow, she organises disability sports awareness and advocacy sessions at schools and colleges",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Her goal is a society where everyone, regardless of ability, is treated with dignity and given a fair chance to succeed",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Advocacy, she says, is integral to her mission.\n2. First, she works for the cause of strengthening the emotional health of persons with challenges.\n3. Second, she wants to empower women through outdoor sports and adventure activities.\n4. Third, she supports persons from lower socio-economic strata and provides equipment to para sportspersons.\n5. She also believes that youth is the voice of tomorrow, and so she organises disability sports awareness and advocacy sessions at various schools and colleges.\n6. Her goal is to contribute to create a society where everyone, regardless of ability, is treated with dignity and given a fair chance to succeed.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Advocacy is integral to my mission.",
+            "I strongly believe in working for the cause of strengthening the emotional health of persons with challenges and empowering women through outdoor sports and adventure activities.",
+            "My goal is to contribute to create a society where everyone, regardless of ability, is treated with dignity and given a fair chance to succeed."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "iebe1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iebe1",
+    "chapters": [
+      5
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

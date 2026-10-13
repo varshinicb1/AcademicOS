@@ -1,0 +1,484 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:03:A:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "“You are disappointed,” Ausable said wheezily over his shoulder. “You were told that I was a secret agent, a spy, dealing in espionage and danger. You wished to meet me because you are a writer, young and romantic. You envisioned mysterious figures in the night, the crack of pistols, drugs in the wine.” “Instead, you have spent a dull evening in a French music hall with a sloppy fat man who, instead of having messages slipped into his hand by dark-eyed beauties, gets only a prosaic telephone call making an appointment in his room. You have been bored!”\n\nAusable tells the writer what he has actually had instead of espionage and danger. Why does he do this? (A) To apologise for the writer having to wait so long for the paper (B) To warn the writer not to expect the paper to arrive that night (C) To mock the writer's romantic expectations of meeting a secret agent (D) To explain to the writer why he should leave the hotel at once",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "To mock the writer's romantic expectations of meeting a secret agent",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "You envisioned mysterious figures in the night, the crack of pistols, drugs in the wine.",
+            "gets only a prosaic telephone call making an appointment in his room.",
+            "You have been bored!"
+          ],
+          "objective": true,
+          "options": {
+            "A": "To apologise for the writer having to wait so long for the paper",
+            "B": "To warn the writer not to expect the paper to arrive that night",
+            "C": "To mock the writer's romantic expectations of meeting a secret agent",
+            "D": "To explain to the writer why he should leave the hotel at once"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:B:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "You are telling your class about a stranger who walked into your room through a shared balcony earlier in the month, and you need the sentence that opens your complaint about it: “This is the second time in a month that somebody ______ into my room through that nuisance of a balcony!” Choose the correct verb form. (A) had got (B) has got (C) gets (D) was getting",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "has got",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "This is the second time in a month that somebody has got into my room through that nuisance of a balcony!",
+            "You can get onto it from the empty room two doors down — and somebody did, last month."
+          ],
+          "objective": true,
+          "options": {
+            "A": "had got",
+            "B": "has got",
+            "C": "gets",
+            "D": "was getting"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:C:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school is holding an assembly on “Presence of Mind”, and you are asked to write a notice for the school notice board. Write the notice in about 100 words: state the theme of the assembly, say how students should prepare for it, and list at least two everyday situations they should think about in advance. Leave the date, time and venue as blanks for the teacher to fill in.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Format: a clear notice heading (NOTICE) naming the school and the assembly, with the date, time and venue left as blanks.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: states the theme — presence of mind, the ability to think quickly and to act calmly and wisely in a situation of danger and surprise.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: explains the value of preparation — presence of mind comes out of mental preparedness, so those who have already thought about possible dangers deal with them better if they arise.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: lists at least two of the everyday situations (a small fire starting in the kitchen; an electrical appliance hissing and giving out sparks; a bicycle knocking down a pedestrian; a member of the family not returning home at the expected time).",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct language, clear notice-style sentences and layout, kept to about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "NOTICE\nPresence of Mind — School Assembly\n\nOur school will hold an assembly on presence of mind, the ability to think quickly and to act calmly and wisely in a situation of danger and surprise.\n\nStudents are advised to prepare in advance. Presence of mind comes out of mental preparedness, so those who have already thought about possible dangers deal with them better if they arise.\n\nThink about these situations before the assembly:\n• A small fire starts in your kitchen.\n• An electrical appliance starts to hiss and gives out sparks.\n• A bicycle knocks down a pedestrian.\n\nDate: ____________\nTime: ____________\nVenue: ____________\nClass Teacher",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Ausable shows great ‘presence of mind,’ or the ability to think quickly, and act calmly and wisely, in a situation of danger and surprise.",
+            "presence of mind comes out of a state of mental preparedness.",
+            "• A small fire starts in your kitchen."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:D:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "“It’s not my balcony,” Ausable said with extreme irritation. “It belongs to the next apartment.” He glanced explanatorily at Fowler. “You see,” he said, “this room used to be part of a large unit, and the next room — through that door there — used to be the living room. It had the balcony, which extends under my window now.\n\nThe moment Ausable says the balcony is not his, he does not stop there but gives a long account of how the room used to be part of a large unit. Why does he do this? (A) To warn the other man that the hotel management is careless about safety (B) To explain to Fowler how the two rooms were once joined (C) To show that he has studied the hotel's plans very carefully (D) To make his account of the balcony sound true and detailed, so that it is believed",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "To make his account of the balcony sound true and detailed, so that it is believed",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“It’s not my balcony,” Ausable said with extreme irritation. “It belongs to the next apartment.”",
+            "He glanced explanatorily at Fowler.",
+            "this room used to be part of a large unit, and the next room — through that door there — used to be the living room"
+          ],
+          "objective": true,
+          "options": {
+            "A": "To warn the other man that the hotel management is careless about safety",
+            "B": "To explain to Fowler how the two rooms were once joined",
+            "C": "To show that he has studied the hotel's plans very carefully",
+            "D": "To make his account of the balcony sound true and detailed, so that it is believed"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:E:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "How does Ausable make Max climb out of the window, and why is Ausable sure that Max will never come back?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Ausable says the knocking at the door is the police, whom he told to check on him, and warns Max that if he does not answer they will enter anyway and will not hesitate to shoot.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Terrified, Max backs swiftly towards the window, swings a leg over the sill and says he will wait on the balcony until the police are sent away.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "There were in fact no police, only Henry, whom Ausable was expecting, and there is no balcony at all, so Max, who has dropped from the sill, cannot return.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Ausable tells Max that the knocking is the police, whom he had asked to check on him, and warns that they will enter anyway and will not hesitate to shoot. Frightened, Max backs to the window, swings a leg over the sill and says he will wait on the balcony. Ausable knows there is no balcony, so Max will not return.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“That will be the police,” he said.",
+            "“If I do not answer the door, they will enter anyway. The door is unlocked. And they will not hesitate to shoot.”",
+            "“No,” said Ausable, “he won’t return. You see, my young friend, there is no balcony.”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:F:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Ausable never claims that the balcony is his own, yet Max ends up dropping from the window-sill of a room on the sixth and top floor and never comes back. Trace, in steps, how Ausable brings this about.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Ausable stalls Max: the appointment is for twelve-thirty and the wait is thirty-one minutes, so Max must stay and wait for the report.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He plants the balcony: somebody has already got into his room through it this month, and though it belongs to the next apartment, it extends under his window.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He names the threat: the knocking at the door is the police, whom he told to check on him, and they will enter anyway and will not hesitate to shoot.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Terrified, Max backs swiftly towards the window, swings a leg over the sill and says he will wait on the balcony until the police are sent away.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Ausable has arranged for Henry to arrive at that exact moment with a tray, a bottle and two glasses, so as the door opens on a waiter, Max drops from the sill.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "There were in fact no police, only Henry, whom Ausable was expecting, and there is no balcony at all, so Max, who has dropped, cannot return.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Ausable stalls Max: the appointment is for twelve-thirty and the wait is thirty-one minutes, so Max must wait.\n2. He plants the balcony: somebody has got in through it this month, and though it belongs to the next apartment, it extends under his window.\n3. He names the threat: the knocking is the police, whom he told to check on him; they will enter anyway and will not hesitate to shoot.\n4. Max panics, backs to the window, swings a leg over the sill and says he will wait on the balcony.\n5. Henry arrives then with a tray, a bottle and two glasses, so as the door opens on a waiter, Max drops from the sill.\n6. There were no police, only Henry, and there is no balcony — so Max cannot return.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“This is the second time in a month that somebody has got into my room through that nuisance of a balcony!”",
+            "“That will be the police,” he said.",
+            "“No,” said Ausable, “he won’t return. You see, my young friend, there is no balcony.”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      3
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

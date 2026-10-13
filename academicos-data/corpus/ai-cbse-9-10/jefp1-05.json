@@ -1,0 +1,369 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:05:B:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A student who overslept on the morning of an examination says, \"If only I had managed to wake up in good time, all might have been well.\" In \"might have been\", the modal here expresses — (A) an action that was certainly completed in the past (B) a possibility that did not come about in the past (C) an obligation the speaker had to carry out (D) a certainty about what will happen next year",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "a possibility that did not come about in the past",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "If only Griffin had managed to wake up in good time all might have been well.",
+            "As it was, he did not wake up until the assistants were already arriving next morning."
+          ],
+          "objective": true,
+          "options": {
+            "A": "an action that was certainly completed in the past",
+            "B": "a possibility that did not come about in the past",
+            "C": "an obligation the speaker had to carry out",
+            "D": "a certainty about what will happen next year"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:C:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "In the village of Iping money has been stolen from a house while the family slept, and no one was seen entering or leaving the room. Write a notice of about 100 words for the village notice board, issued by the village constable, telling residents what happened and what they should now do.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: states that money was stolen from the clergyman's house, that the desk was opened and the housekeeping money was gone, and that nobody was seen",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: begins with the heading NOTICE and gives the source (the village constable, Mr Jaffers) and the place, Iping, before the notice ends with the signature",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: keeps the facts of the theft together first and sets the requests to residents as short separate numbered or bulleted points in a sensible order",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: uses correct grammar, spelling and punctuation, and keeps the formal impersonal tone a public notice requires",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: words the appeal briefly, clearly and politely, so that a reader knows at once what to do and whom to inform",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "NOTICE\nFrom: The Village Constable, Mr Jaffers, Iping\n\nMoney has been stolen from the clergyman's house. The family was awakened by noises in the study, and found the desk opened and the housekeeping money gone. No one was seen. The village constable is investigating.\n\nVillagers are requested to:\n- Keep their doors locked and admit no stranger.\n- Report any stranger seen about to the constable at once.\n- Tell the constable at once if you notice anything strange in your house.\n- Keep money in a safe place, not on a desk.\n\nYour help will keep Iping safe.\nMr Jaffers, Village Constable",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "they heard the chink of money being taken from the clergyman’s desk.",
+            "Yet the desk had been opened and the housekeeping money was missing.",
+            "Mr Jaffers, the constable, now arrived"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:E:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "At an inn, a woman hears a sniff close to her ear, and then a hat on the bedpost leaps up and dashes itself into her face. The bedroom chair next springs into the air, charges at her and pushes her and her husband out of the room. Explain why she comes to believe that the room is haunted, and say what she tells them about that chair.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The hat leapt off the bedpost into her face and the bedroom chair sprang into the air and charged at her, and nobody was seen touching either of them",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Because both objects moved by themselves while no one was there, she was convinced the room was haunted by spirits and that the stranger had caused them to enter into her furniture",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She said that her poor mother used to sit in that chair, and grieved that it should rise up against her now",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The hat leapt off the bedpost and dashed into her face, and the bedroom chair sprang into the air and charged at her. Nobody was seen touching either, so she was convinced the room was haunted by spirits and that the stranger had caused them to enter into her furniture. She said that her poor mother used to sit in that chair, and grieved that it should rise up against her now.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "A moment later the hat on the bedpost leapt up and dashed itself into her face.",
+            "She was convinced that the room was haunted by spirits, and that the stranger had somehow caused these to enter into her furniture.",
+            "“My poor mother used to sit in that chair,” she moaned."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:F:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A scientist discovers that he can make his own body invisible, and the discovery leads him step by step to ruin. Trace that chain of events in order and give a reason for each step, beginning with the revenge he takes against his landlord and ending with the moment the constable Jaffers is knocked unconscious.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Griffin proved by experiment that the body could be made invisible, then swallowed rare drugs and became transparent like glass though still solid",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "When his landlord disliked him and tried to eject him, Griffin set fire to the house in revenge",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "To get away without being seen he had to remove his clothes, so with no clothes and no money he became a homeless wanderer, and he first became visible where he stepped in mud and left footprints",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It was mid-winter and bitterly cold, so instead of walking the streets he slipped into a big London store and, after closing time, fitted himself out with warm clothes and slept on a pile of quilts",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He overslept, panicked when the assistants arrived, ran from them and escaped only by taking off his newly-found clothes, leaving himself invisible and naked in the chill January air",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "At Drury Lane he bought a disguise and robbed the shopkeeper, then took a train to Iping, where, throwing off his bandages, whiskers, spectacles and nose, he fought unseen until Jaffers was knocked unconscious",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Griffin proved by experiment that the human body could be made invisible, then swallowed rare drugs and turned transparent like a sheet of glass, though still as solid as glass.\n2. His landlord disliked him and tried to eject him, so in revenge Griffin set fire to the house.\n3. To get away without being seen he had to remove his clothes; with no clothes and no money he became a homeless wanderer, and he first showed where he had been when he stepped in mud and left footprints.\n4. It was mid-winter and bitterly cold, so he slipped into a big London store and, after closing time, broke open boxes and fitted himself out with warm clothes, then slept on a pile of quilts.\n5. He overslept, panicked when the assistants arrived, and escaped only by quickly taking off his newly-found clothes, leaving himself invisible and naked in the January chill.\n6. At Drury Lane he bought a disguise, robbed the shopkeeper and took a train to Iping, where he threw off his false nose, whiskers and bandages and struck unseen blows until Jaffers was knocked unconscious.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "His landlord disliked him and tried to eject him. In revenge Griffin set fire to the house.",
+            "To get away without being seen he had to remove his clothes. Thus it was that he became a homeless wanderer, without clothes, without money, and quite invisible — until he happened to step in some mud, and left footprints as he walked!",
+            "In the end Jaffers was knocked unconscious as he made a last attempt to hold on to the unseen scientist."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "In the passage, the writer says the chair charged at Mrs Hall \"legs foremost\" mainly to —"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "In the extract, the visitor says he is looking for something that will \"hide the empty space above his shoulders\" becaus"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      5
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

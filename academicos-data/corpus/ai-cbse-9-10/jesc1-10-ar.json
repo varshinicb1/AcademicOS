@@ -1,0 +1,211 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:10:AR:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/the-human-eye-and-the-colourful-world"
+      ],
+      "taxonomyChapterId": "science-10/the-human-eye-and-the-colourful-world",
+      "topic": "The Human Eye",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Meera finds that holding a textbook right up against her eyes makes the print fuzzy and her eyes begin to ache, so she pushes the book away from her face and is then able to read it comfortably.\n\nAssertion 1: An object must be held at about 25 cm from the eyes to be seen comfortably and distinctly.\nReason 2: The minimum distance at which objects can be seen most distinctly without strain is called the least distance of distinct vision, and it is also called the near point of the eye.\n\nIn the light of the above statements, choose the correct answer. (A) Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1. (B) Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1. (C) Assertion 1 is true but Reason 2 is false. (D) Both Assertion 1 and Reason 2 are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "To see an object comfortably and distinctly, you\nmust hold it at about 25 cm from the eyes.",
+            "The minimum distance, at\nwhich objects can be seen most distinctly without strain, is called the\nleast distance of distinct vision. It is also called the near point of the eye.",
+            "For a young adult with normal vision, the near point is about\n25 cm."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1.",
+            "B": "Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1.",
+            "C": "Assertion 1 is true but Reason 2 is false.",
+            "D": "Both Assertion 1 and Reason 2 are false."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch10",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:10:AR:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/the-human-eye-and-the-colourful-world"
+      ],
+      "taxonomyChapterId": "science-10/the-human-eye-and-the-colourful-world",
+      "topic": "The Human Eye",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "In the school laboratory the teacher switches off the bright tube light and asks the students to look at the same object on the bench. Priya notices that the amount of light reaching her eyes is not the same in the lit room and in the darkened room.\n\nAssertion 1: The pupil regulates and controls the amount of light entering the eye.\nReason 2: Iris is a dark muscular diaphragm found behind the cornea that controls the size of the pupil.\n\nIn the light of the above statements, choose the correct answer. (A) Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1. (B) Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1. (C) Assertion 1 is true but Reason 2 is false. (D) Both Assertion 1 and Reason 2 are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Iris is a dark muscular diaphragm that controls the\nsize of the pupil.",
+            "The pupil regulates and controls the amount of light"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1.",
+            "B": "Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1.",
+            "C": "Assertion 1 is true but Reason 2 is false.",
+            "D": "Both Assertion 1 and Reason 2 are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch10",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:10:AR:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/the-human-eye-and-the-colourful-world"
+      ],
+      "taxonomyChapterId": "science-10/the-human-eye-and-the-colourful-world",
+      "topic": "The Human Eye",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A student is given a glass model of an eyeball and traces the path of a single ray of light as it enters from outside, asking at which surface the ray bends the most sharply.\n\nAssertion 1: Most of the refraction for the light rays entering the eye occurs at the outer surface of the cornea.\nReason 2: The crystalline lens of the eye carries out most of the refraction of the light that enters it and forms the image on the retina.\n\nIn the light of the above statements, choose the correct answer. (A) Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1. (B) Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1. (C) Assertion 1 is true but Reason 2 is false. (D) Both Assertion 1 and Reason 2 are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Assertion 1 is true but Reason 2 is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Most of the\nrefraction for the light rays entering the eye\noccurs at the outer surface of the cornea.",
+            "crystalline lens merely provides the finer\nadjustment of focal length required to focus"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both Assertion 1 and Reason 2 are true and Reason 2 is the correct explanation of Assertion 1.",
+            "B": "Both Assertion 1 and Reason 2 are true but Reason 2 is not the correct explanation of Assertion 1.",
+            "C": "Assertion 1 is true but Reason 2 is false.",
+            "D": "Both Assertion 1 and Reason 2 are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch10",
+        "pages": [
+          1,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      10
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

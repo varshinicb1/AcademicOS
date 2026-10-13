@@ -1,0 +1,2147 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:ihga1:04:A:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "हम होली खेलते थे। यह बहुत पहले की बात है, जब मेरे पिताजी जीवित थे। आजकल तो मैंने होली खेलना ही बंद कर दिया है। पहले सारा दिन रंग खेलना और भीगना और बाद में जाकर देर शाम तक नहाना, अब यह सब सालों से अच्छा नहीं लगता है। यह जो होली पूरे देश में प्रचलित है, हम उसे होली की तरह नहीं मनाते थे।\n\nकिसी ने बताया कि पूरे देश में प्रचलित होली को उन्होंने होली की तरह नहीं मनाया और आजकल रंग खेलना भी बंद कर दिया है। उनके अनुसार इसका कारण क्या है? (A) परिवार के सभी सदस्य अब रंग खेलने में रुचि नहीं रखते (B) रंग खेलना और भीगना अब सालों से अच्छा नहीं लगता (C) प्रचलित होली का रूप उन्हें परंपरा-विरोधी लगता है (D) रंग खेलने के लिए अब पर्याप्त समय ही नहीं मिल पाता",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "रंग खेलना और भीगना अब सालों से अच्छा नहीं लगता",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "आजकल तो मैंने होली खेलना ही बंद कर दिया है।",
+            "अब यह सब सालों से अच्छा नहीं लगता है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "परिवार के सभी सदस्य अब रंग खेलने में रुचि नहीं रखते",
+            "B": "रंग खेलना और भीगना अब सालों से अच्छा नहीं लगता",
+            "C": "प्रचलित होली का रूप उन्हें परंपरा-विरोधी लगता है",
+            "D": "रंग खेलने के लिए अब पर्याप्त समय ही नहीं मिल पाता"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:A:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "सबसे ज्यादा तो स्ववाभिमान से जीने की प्रे णा। उन्होंने जो संस्कार दिए उससे जिंदगी में सही बातों पर खड़े रहने की हिम्मत मिली। आज मुझे इस बात की खुशी है कि मैंने किसी से यह नहीं कहा कि आप मुझे पाँच सौ रुपये दीजिए, फलाँ चीज ला दीजिए, मुझे उसकी जरूरत है। इस तरह जो चीज मैं कर पाई, उसमें मैं अपने बाबा का संस्कार मानती हूँ। मैंने पिताजी में यह बात देखी थी कि हर हालात में कैसे रहना चाहिए।\n\nकिसी ने बताया कि पिताजी ने सबसे ज्यादा स्वाभिमान से जीने की प्रेरणा दी और जिंदगी में सही बातों पर खड़े रहने की हिम्मत मिली। पिताजी से मिला यह संस्कार किस रूप में था? (A) बड़े लोगों से मिलकर मदद माँगने की आदत (B) किसी से कोई सौदा न करने की आदत (C) पैसे-धरोड़ से पूरी तरह दूर रहने का व्यवहार (D) हर हालात में सही बात पर खड़े रहने की हिम्मत",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "हर हालात में सही बात पर खड़े रहने की हिम्मत",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "सबसे ज्यादा तो स्ववाभिमान से जीने की प्रे णा।",
+            "उन्होंने जो संस्कार दिए\nउससे जिंदगी में सही बातों पर खड़े रहने की हिम्मत मिली।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "बड़े लोगों से मिलकर मदद माँगने की आदत",
+            "B": "किसी से कोई सौदा न करने की आदत",
+            "C": "पैसे-धरोड़ से पूरी तरह दूर रहने का व्यवहार",
+            "D": "हर हालात में सही बात पर खड़े रहने की हिम्मत"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:B:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "जी, जरूर। आपका बेहद शुक्रि या कि आपका ऐसा कुछ करने का मन है। आप पूछिए, मैं आपके प्रश्नों का जवाब देने के लिए तैयार हूँ। मैं कोशिश करूँगी कि जो कुछ भी मैंने संगीत में रहते हुए जाना है, उसे आपको बता सकूँ। आपके माध्यम से ही मैं अपने करोड़ों प्रशंसकों का आभार व्यक्‍त करती हूँ, जो उन्होंने मुझे इतना प्रेम और सम्मान दे रखा है। मुझे तो यह भी लगता है कि जितना प्रेम मुझे मिला है, शायद गाकर उतना आभार मैं अपने प्रशंसकों के प्रति जता नहीं पाई हूँ...\n\nकिसी ने कहा कि वे संगीत में रहते हुए जो कुछ जाना है, वह प्रश्न पूछने वाले को बताने की कोशिश करेंगी और अपने करोड़ों प्रशंसकों का आभार व्यक्त करेंगी। इस बातचीत की प्रकृति कैसी है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "बातचीत का आत्मीय यानी अनौपचारिक होना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "'शुक्रि या', 'ऐसा कुछ करने का मन है' जैसे मित्रवत शब्दों का प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "आत्मीय यानी अनौपचारिक प्रकृति — 'शुक्रि या', 'ऐसा कुछ करने का मन है', 'आप पूछिए' जैसे मित्रवत शब्दों के प्रयोग से।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "जी, जरूर। आपका बेहद शुक्रि या कि आपका ऐसा कुछ करने का मन है।",
+            "मैं कोशिश करूँगी कि जो कुछ\nभी मैंने संगीत में रहते हुए जाना है, उसे आपको बता सकूँ।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:B:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "मैंने शुरू में तो फिल्मों में काम ही किया था और कुल छह या सात फिल्मों में किया था। मैं बहुत छोटी थी उस समय, जब फिल्मों की दुनिया में अभिनय के मार्फ़त ही आई। मुझे कभी अच्छा नहीं लगा मेकअप करना, लाइट के सामने जाना और काफी लोग खड़े हैं, तो उनके सामने कभी रो रहे हैं और कभी हँस रहे हैं। गा भी रहे हैं। मुझे वह कभी अच्छा नहीं लगा। अच्छी फिल्मों को देखकर सराहने का जी जरूर करता है, मगर अभिनय करने के बारे में तो सोच भी नहीं सकती।\n\nफिल्मों में काम करने के बावजूद अभिनय को लेकर जो स्पष्ट अनिच्छा व्यक्त की गई है, उसका सबसे ठीक कारण क्या बताया गया है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "मेकअप, लाइट के सामने जाने और बहुत सारे लोगों के सामने रोने-हँसने में अरुचि",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "अच्छी फिल्में सराहने के बावजूद अभिनय करने की इच्छा न होना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मेकअप करना, लाइट के सामने जाना और काफी लोग खड़े होने पर उनके सामने रोना या हँसना उन्हें कभी अच्छा नहीं लगा; अच्छी फिल्में देखकर सराहना तो करती हैं, पर अभिनय करने का विचार ही नहीं कर सकतीं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मुझे कभी अच्छा नहीं लगा मेकअप करना, लाइट के सामने जाना और",
+            "अभिनय करने के बारे में तो सोच भी नहीं सकती।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:B:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "ऐसी कोई खास बात मुझे याद नहीं आती। अलबत्ता इतना जरूर कहूँगी कि पचास का दशक रहा होगा, जब मैं फिल्म इंडस्ट्ी में नई-नई आई थी और मेरा काम कुछ चल निकलना शुरू हुआ था। उस दौरान मैंने कुछ सालों तक दीवाली के दिन अपने सीनियर म्यूजि क डायरेक्टर्स के यहाँ मिठाई लेकर जाने का चलन शुरू किया था। आप सुनकर हैरान हों गे कि मैं ऐन दीवाली के दिन तड़के पाँच बजे ही नहा-धोकर बहुत सारे संगीतकारों के घर मिठाई लेकर पहुँच जाती थी।\n\nकिसी ने बताया कि पचास का दशक में फिल्म इंडस्ट्री में नई-नई आकर उन्होंने कुछ सालों तक दीवाली के दिन अपने सीनियर संगीतकारों के यहाँ मिठाई लेकर जाने का चलन शुरू किया था। इस काम का उद्देश्य क्या था?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "दीवाली के दिन संगीतकारों को मिठाई देकर बधाई देना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "तड़के पाँच बजे नहा-धोकर उनके घर पहुँच जाना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "दीवाली के दिन संगीतकारों को मिठाई लेकर जाकर बधाई देना — इतनी सबेरे कि तड़के पाँच बजे ही नहा-धोकर उनके घर पहुँच जाती थीं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उस दौरान मैंने कुछ सालों तक दीवाली के दिन अपने सीनियर\nम्यूजि क डायरेक्टर्स के यहाँ मिठाई लेकर जाने का चलन शुरू किया था।",
+            "आप सुनकर हैरान\nहों गे कि मैं ऐन दीवाली के दिन तड़के पाँच बजे ही नहा-धोकर बहुत सारे संगीतकारों के घर"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:C:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "mcq",
+      "stem": "‘आएगा आने वाला’ के गाने के रिकॉर्डिंग के समय मुझे हॉल में बहुत दूर से चलकर दबे पाँव रिकॉर्डिंग वाले माइक तक आना पड़ता था। यहाँ किस अलंकार का प्रयोग हुआ है? (A) रूपक अलंकार (B) मानवीकरण अलंकार (C) उपमा अलंकार (D) शब्द अलंकार",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मानवीकरण अलंकार",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "में मुझे हाॅल में बहुत दूर से चलकर दबे पाँव रेकॉर्डिंग वाले माईक तक आना पड़ता था और"
+          ],
+          "objective": true,
+          "options": {
+            "A": "रूपक अलंकार",
+            "B": "मानवीकरण अलंकार",
+            "C": "उपमा अलंकार",
+            "D": "शब्द अलंकार"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:C:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "mcq",
+      "stem": "होली जलाने के बाद बनी राख को लोग दूसरे दिन एक-दूसरे पर डालते हैं। इस प्रयोग में किस समास का बोध होता है? (A) दिगंत समास (B) कर्मधारय समास (C) द्विगु समास (D) बहुव्रीहि समास",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बहुव्रीहि समास",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "वह जो राख बनती है, उसे उठाकर दूसरे दिन एक-दूसरे\nपर डालते हैं।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "दिगंत समास",
+            "B": "कर्मधारय समास",
+            "C": "द्विगु समास",
+            "D": "बहुव्रीहि समास"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:C:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "mcq",
+      "stem": "मेरा गाना अमर है, पर शरीर तो अमर नहीं। इस वाक्य में 'पर' का प्रयोग किस प्रकार के सम्बन्ध में हुआ है? (A) कारण सम्बन्ध में (B) अपूर्णता सम्बन्ध में (C) समुच्चय सम्बन्ध में (D) परिणाम सम्बन्ध में",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "समुच्चय सम्बन्ध में",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मेरा गाना अमर है, पर शरीर तो अमर नहीं ।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "कारण सम्बन्ध में",
+            "B": "अपूर्णता सम्बन्ध में",
+            "C": "समुच्चय सम्बन्ध में",
+            "D": "परिणाम सम्बन्ध में"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:D:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "मेरे पिताजी कमाल के आदमी थे, जिन्हें मैंने हमेशा अपने काम और संगीत में डूबा हुआ ही देखा। उनकी ड्रामा कंपनी के नाटक रात नौ बजे शुरू होते थे और देर रात दो से तीन बजे तक जाकर समाप्‍त होते थे।\n\nपिताजी की ड्रामा कंपनी के नाटकों के समय के बारे में दी गई जानकारी से क्या पता चलता है? (A) नाटकों की समय-सीमा बहुत लंबी थी (B) नाटकों की अवधि बहुत कम थी (C) नाटक दिन के समय ही समाप्त हो जाते थे (D) नाटकों का समय निश्चित नहीं था",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "नाटकों की समय-सीमा बहुत लंबी थी",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उनकी ड्रामा कंपनी के नाटक रात नौ बजे शुरू होते थे और देर रात दो से\nतीन बजे तक जाकर समाप्‍त होते थे।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "नाटकों की समय-सीमा बहुत लंबी थी",
+            "B": "नाटकों की अवधि बहुत कम थी",
+            "C": "नाटक दिन के समय ही समाप्त हो जाते थे",
+            "D": "नाटकों का समय निश्चित नहीं था"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:D:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "कई बातें हैं। जैसे हम लोग बचपन में जब बहुत शरारत करते थे, तब पिताजी सबको बुलाकर अपने सामने खड़ा करते थे। वे बस हमको गंभीरता से देखते थे और इतने में ही हमारा रोना शुरू हो जाता था। मतलब वे कुछ कहते नहीं थे, न ही किसी बात पर डाँट पड़ती थी; मगर हम सभी समझ जाते थे कि हमको बुलाया किसलिए गया है।\n\nपिताजी केवल गंभीरता से देखकर, बिना कुछ कहे, सबको समझा देते थे। उनके अनुशासन का यह भाव किस प्रकार का है? (A) शारीरिक दंड का (B) नीरव रूप से समझाने का (C) बात-बात में डाँटने का (D) आवाज़ से समझाने का",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "नीरव रूप से समझाने का",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मतलब वे कुछ कहते नहीं थे, न ही किसी बात पर\nडाँट पड़ती थी; मगर हम सभी समझ जाते थे कि हमको बुलाया किसलिए गया है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "शारीरिक दंड का",
+            "B": "नीरव रूप से समझाने का",
+            "C": "बात-बात में डाँटने का",
+            "D": "आवाज़ से समझाने का"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:D:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "competency_based",
+      "stem": "उस समय म्यूजि कल ड्रामा का बहुत चलन था। हमारे यहाँ कभी भी बिना म्यूजि क के कोई ड्रामा हुआ ही नहीं । एक नई बात मेरे पिताजी के नाटकों में यह भी थी कि वे पहली बार मराठी रंगमंच में कर्ना टक और पंजाब का संगीत लेकर आए। मतलब उन्होंने बाकायदा कर्ना टक जाकर वहाँ का कुछ गीत और संगीत सीखा था, जिसे अपने नाटकों में डाला।\n\nमराठी रंगमंच से कर्नाटक और पंजाब का संगीत अपने नाटकों में लाने के लिए पिताजी ने क्या किया था? (A) वहाँ से रिकॉर्डिंग मँगवाकर उन्हें गाया (B) उन्हें अपने नाटकों में नहीं डाला (C) पिताजी ने उन्हें मंगलागौर में गाया (D) वहाँ जाकर कुछ गीत और संगीत सीखा था",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "वहाँ जाकर कुछ गीत और संगीत सीखा था",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कर्ना टक जाकर वहाँ का कुछ गीत और संगीत सीखा था, जिसे अपने नाटकों में डाला।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "वहाँ से रिकॉर्डिंग मँगवाकर उन्हें गाया",
+            "B": "उन्हें अपने नाटकों में नहीं डाला",
+            "C": "पिताजी ने उन्हें मंगलागौर में गाया",
+            "D": "वहाँ जाकर कुछ गीत और संगीत सीखा था"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:E:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "पिताजी की ड्रामा कंपनी के नाटक कितने बजे शुरू होते थे, कितने बजे तक चलते थे और उनमें कितने अंक होते थे?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "नाटक रात नौ बजे शुरू होते थे और देर रात दो से तीन बजे तक चलते थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "एक नाटक में पाँच अंक होते थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "नाटक रात नौ बजे शुरू होते थे और देर रात दो से तीन बजे तक जाकर समाप्त होते थे; एक नाटक में पाँच अंक होते थे।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उनकी ड्रामा कंपनी के नाटक रात नौ बजे शुरू होते थे और देर रात दो से",
+            "एक नाटक के पाँच अंक होते थे।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:E:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "very_short_answer",
+      "stem": "पिताजी एक राग को गाते हुए सुर कैसे बदलते थे, इसका उनके अनुसार क्या तरीका था?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "किसी भी सुर को ‘सा’ बनाकर राग को बदल देते थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उसी समय पहले राग और उसके सुर में लौट आते थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "वे किसी भी सुर को ‘सा’ बनाकर इस तरह राग बदल देते थे कि वह कुछ नया हो जाता था, और फिर उसी समय पहले राग और उसके सुर में लौट आते थे।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "वे एक राग को गाते हुए उसमें सुर बदलकर भी",
+            "को बदल देते थे कि वह कुछ नया हो जाता था और फिर"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:E:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "फिल्म ‘छत्रपति शिवाजी’ में गाने का मौका किसने दिया और उन्होंने उसमें अपने पिताजी के साथ क्या करने की इच्छा व्यक्त की?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "भालजी पेंढारकर से मिलकर गाने की इच्छा व्यक्त करना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "फिल्म के आखिरी गाने की दो लाइनें गाने की बात कहना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "भालजी पेंढारकर ने दिया, जिन्हें वे बाबा कहती थीं; उन्होंने चाहा कि इस फिल्म के आखिरी गाने की दो लाइनें वे भी गा सकें।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उसमें भालजी पेंढारकर थे जिन्हें मैं बाबा कहती थी।",
+            "मैं चाहती हूँ कि इस फिल्म का आखिर का जो गाना है, उसमें दो लाइनें"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:F:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "पिताजी ने सिखाया था कि 'अगर कोई बात तुम्हें सही लगती है, तो उसे करो और किसी के आगे झुकने की जरूरत नहीं है।' इस सीख ने लता जी के जीवन को किस प्रकार प्रभावित किया?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "स्वाभिमान और आत्मविश्वास का बोध होना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "किसी के आगे हाथ न पसारना और मदद न माँगना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "पिताजी की कंपनी अच्छी चलने पर बड़े शान से रहना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "पिताजी के निधन के बाद बुरे हालात में भी संस्कार न तोड़ना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "इस सीख ने उन्हें स्वाभिमान और आत्मविश्वास दिया। आज वे किसी के आगे जाकर हाथ नहीं पसारतीं और किसी से पाँच सौ रुपये जैसी छोटी मदद भी नहीं माँगतीं। पिताजी की कंपनी अच्छी चलती थी तो बड़े शान से रहे, और पिताजी के निधन के बाद बुरे हालात में भी उन्होंने यही संस्कार नहीं तोड़ा। आज छोटे-सा घर होने पर भी वहाँ परिवार खुश है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "यह मेरे पिताजी\nने ही मुझे सिखाया था कि अगर कोई बात तुम्हें सही लगती है, तो उसे करो और किसी के",
+            "आज मुझे इस बात की खुशी है\nकि मैंने किसी से यह नहीं कहा कि आप मुझे पाँच सौ रुपये दीजिए, फलाँ चीज ला दीजिए,",
+            "पिताजी की कंपनी जब अच्छी चलती\nथी, तो हम सब लोग बड़े शान से रहते थे।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:F:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "पुराने दिनों में ‘आएगा आने वाला’ के गाने रिकॉर्ड करते समय तकनीकी सीमाओं ने संगीतकारों के काम को किस प्रकार प्रभावित किया?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "उस समय सिनेमा में तकनीकी रूप से बहुत तरक्की नहीं हुई थी",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "माइक तक पहुँचने के लिए दूर चलकर दबे पाँव जाना पड़ता था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उसी अनुपात में स्वर का उतार-चढ़ाव कैद किया जाता था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "इसी कमी ने नए-नए टोटके आज़माने को प्रेरित किया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उस समय सिनेमा में तकनीकी रूप से बहुत तरक्की नहीं हुई थी। हॉल में बहुत दूर से चलकर दबे पाँव रिकॉर्डिंग वाले माइक तक जाना पड़ता था और उसी अनुपात में माइक पर स्वर का उतार-चढ़ाव कैद किया जाता था। इसी कमी ने संगीतकारों को विशेष प्रभावों के लिए नए-नए तरीके और अजीबोगरीब टोटके आज़माने पर मजबूर किया।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उस समय तकनीकी रूप से\nसिनेमा में बहुत तरक्की नहीं\nहुई थी।",
+            "में मुझे हाॅल में बहुत दूर से चलकर दबे पाँव रेकॉर्डिंग वाले माईक तक आना पड़ता था और"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:F:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "विवाह के बाद नई बहू के आने पर घरों में मनाया जाने वाला ‘मंगलागौर’ किस प्रकार का उत्सव था और आज उसकी क्या हालत बताई गई है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "पास-पड़ोस की बहुत सारी औरतों का आकर मुग्ध भाव से गीत गाना और नाचना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "बिल्कुल ठेठ गँवई अंदाज में मनाना तथा नौटंकी-तमाशा कराना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "यह विवाह के बाद नई बहू के आने पर मनाया जाता था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आहिस्ता-आहिस्ता अब खत्म होता जा रहा है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "पास-पड़ोस की बहुत सारी औरतें आकर बिल्कुल मुग्ध भाव से गीत गातीं और नाचतीं, और यह उत्सव बिल्कुल ठेठ गँवई अंदाज में मनाया जाता था। स्त्रियाँ नौटंकी और तमाशा की तरह भी कुछ-कुछ करती थीं। मगर आहिस्ता-आहिस्ता यह उत्सव अब खत्म होता जा रहा है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "यह जरूर है कि विवाह के बाद जब नई बहू घर में आती है, तब एक पूजा होती है",
+            "यह मंगलागौर कहलाता है। सारी\nऔरतें बिल्कुल मुग्ध भाव से गीत गाती हैं और नाचती भी हैं।",
+            "मगर आहिस्ता-आहिस्ता वह भी अब खत्म हो रहा\nहै।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:H:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपने संगीत शिक्षक को लगभग १०० शब्दों में एक ई-मेल लिखिए, जिसमें आप बताएँ कि अपने पिता से संगीत की शिक्षा के दौरान मिली कौन-सी बात आज आपके संगीत-जीवन में सबसे अधिक काम आ रही है।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: पिता से मिली उस विशेष बात का स्पष्ट वर्णन — दो अंक",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "स्वरूप: ई-मेल का प्रारूप, अभिवादन, विषय-पंक्ति, समापन और हस्ताक्षर",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: विषय की पंक्ति, मुख्य बात, उसका संगीत-जीवन से संबंध और धन्यवाद का क्रम",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता: व्याकरण, वर्तनी और लेखन-बिंदु का सही प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रसाद एवं शब्द-सीमा: सरल भाषा और लगभग १०० शब्दों की सीमा का पालन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "विषय: पिता से मिली सबसे उपयोगी बात\n\nनमस्कार महोदया,\n\nआजकल जब भी मैं किसी कठिन मोड़ पर होता हूँ, तो मुझे आपका वही पुराना संदेश याद आता है — अगर कोई बात सही लगती है तो उसे करो और किसी के आगे झुकने की जरूरत नहीं। पिताजी ने यह बात सिखाई थी। उन्होंने यह भी सिखाया कि जिंदगी में सही बातों पर खड़े रहना चाहिए, चाहे हालात कुछ भी हों। मैंने उनकी दी हुई हर बात को अपने गायन में इतनी बार अपनाया है कि वह मेरी पहचान बन गई है। धन्यवाद।\n\nआपका शिष्य\n\n(हस्ताक्षर)",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "ने ही मुझे सिखाया था कि अगर कोई बात तुम्हें सही लगती है, तो उसे करो और किसी के",
+            "उससे जिंदगी में सही बातों पर खड़े रहने की हिम्मत मिली।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:H:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपने मित्र को लगभग १०० शब्दों में पत्र लिखिए, जिसमें आप बताएँ कि आज के संगीत में तकनीकी सुविधाओं के बावजूद पुराने संगीतकारों की बातें आज भी क्यों प्रासंगिक लगती हैं।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: तकनीक के बावजूद पुराने संगीतकारों की बातों की प्रासंगिकता — दो अंक",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "स्वरूप: पत्र का प्रारूप, पत्र संबोधन, प्रस्तावना, विषय-वस्तु और हस्ताक्षर-संधारा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: प्रश्न का उत्तर देने की प्रस्तावना, उदाहरण और अंत में निष्कर्ष",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता: व्याकरण, वर्तनी और लेखन-बिंदु का सही प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रसाद एवं शब्द-सीमा: सरल भाषा और लगभग १०० शब्दों की सीमा का पालन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "प्रिय मित्र,\n\nतुमने पूछा कि पुराने संगीतकारों की बातें आज भी प्रासंगिक क्यों लगती हैं। मेरा मानना है कि उनके पास ऐसी बातें थीं जो केवल तकनीक से नहीं मिलतीं। उनकी ड्रामा कंपनी के नाटक रात नौ बजे शुरू होते थे और देर रात दो से तीन बजे तक चलते थे, जिनमें पाँच अंक होते थे। उन्होंने बिना कुछ कहे केवल गंभीरता से देखकर समझा दिया और जिंदगी में सही बात पर खड़े रहना सिखाया। आज बड़ी तकनीक उपलब्ध है, फिर भी ये बातें आज भी उतनी ही सची लगती हैं।\n\nतुम्हारा मित्र",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उनकी ड्रामा कंपनी के नाटक रात नौ बजे शुरू होते थे और देर रात दो से",
+            "वे बस हमको गंभीरता से देखते थे और"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:H:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपने पसंदीदा संगीतकार का लगभग १०० शब्दों में जीवन-वृत्त (CV) तैयार कीजिए, जिसमें उनकी उपलब्धियों के साथ उनसे मिलने या उनका संगीत सुनने की उनकी इच्छा का भी उल्लेख हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: संगीतकार का परिचय, पहचान, शिक्षा और उनके प्रति अपनी अभिरुचि — दो अंक",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "स्वरूप: CV के प्रारूप में नाम, पेशा और स्थान का उल्लेख तथा अंत में संबंध-संधारा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: परिचय से उपलब्धि, फिर अभिरुचि तथा अंत में इच्छा का क्रम",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता: व्याकरण, वर्तनी और लेखन-बिंदु का सही प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रसाद एवं शब्द-सीमा: सरल भाषा और लगभग १०० शब्दों की सीमा का पालन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "जीवन-वृत्त\n\nनाम: लता मंगेशकर\nपेशा: गायिका और संगीतकार\nजन्म: इंदौर, मध्यप्रदेश\n\nपाँच वर्ष की आयु में पिता पं. दीनानाथ मंगेशकर से संगीत की प्रारंभिक शिक्षा ली। आज वे 'भारत रत्न' से सम्मानित होने वाली कलाकार हैं और 'मेरी आवाज़ ही पहचान है' कहकर अपनी पहचान बनाई है। जीवन के उतार-चढ़ाव के बीच भी उन्होंने संगीत के प्रति समर्पण निभाया है। उनका संगीत सुना कर ऐसा लगता है कि उनकी आवाज़ में संगीत की वही असीम शक्ति है, जिसका जिक्र वे स्वयं करती हैं। मैं उनसे मिलना और उनका संगीत जीवन भर सुनना चाहता हूँ।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "इंदौर, मध्यप्रदेश में जन्मी\nलता मंगेशकर ने मात्र पाँच वर्ष की आयु में अपने पि ता से संगीत की प्रारंभिक शि क्ा ली और",
+            "‘मेरी आवाज़ ही पहचान है!’ अपनी आवाज़ से भारत ही नहीं बल्क कि वि श्व के कोने-कोने में"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:I:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "भारतीय संगीत की परंपरा और उसकी विरासत के संरक्षण के लिए लगभग ५० शब्दों में एक सूचना तैयार कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: संगीत की विरासत के संरक्षण के लिए जनता से अपील — दो अंक",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "स्वरूप: सूचना का शीर्षक, उद्देश्य-बोधक वाक्य, कार्य-विवरण और हस्ताक्षर-संधारा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: उद्देश्य, फिर कार्यवाही और अंत में हस्ताक्षर का क्रम",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं संक्षिप्तता: व्याकरण और लगभग ५० शब्दों की सीमा का पालन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सूचना\n\nभारतीय संगीत की गौरवशाली परंपरा और उसकी विरासत को बचाने के लिए हर घर में एक घंटा संगीत का अभ्यास अवश्य करें। राग, ताल और पारंपरिक लोकगीतों का ज्ञान पीढ़ी-दर-पीढ़ी दिया जाए। आज की तकनीक के साथ जुड़कर भी हमें अपनी परंपरा का गौरव बनाए रखना है।\n\nअभिभावक समिति",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "संगीत की प्राचीन परंपरा में बहुत सारी जनश्रुति याँ और कहानियाँ संगीत\nको गरिमा और शिखर देने के संदर्भ में कही जाती रही हैं",
+            "और परिवार के प्रति अपने उत्तरदायि त्व को नि भाया"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:I:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "किशोरों में संगीत के प्रति रुचि जगाने के लिए लगभग ५० शब्दों में एक संदेश लिखिए, जिसमें संगीत के लाभ भी बताए जाएँ।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: संगीत के प्रति रुचि तथा उसके लाभों का सुंदर प्रस्तुतीकरण — दो अंक",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "स्वरूप: संदेश का शीर्षक, संदेश-पाठ, हस्ताक्षर अथवा श्रद्धासुमन-रेखा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: रुचि का आरंभ, लाभों का क्रम और अंत में प्रेरणादायक आह्वान",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं संक्षिप्तता: व्याकरण और लगभग ५० शब्दों की सीमा का पालन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "संदेश\n\nहमारे पास एक ऐसी धरोहर है जिसकी पहचान हमारी आवाज़ है। राग सीखने से मन शांत होता है और परिश्रम की कुशलता आती है। संगीत बड़ों का सम्मान और छोटों का आत्मविश्वास दोनों बढ़ाता है। अपने संगीतकार पं. दीनानाथ मंगेशकर को उनका श्रद्धासुमन अर्पित करता हूँ। अब से प्रतिदिन आधे घंटे का अभ्यास अवश्य कीजिए।\n\n— एक विद्यार्थी",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "‘मेरी आवाज़ ही पहचान है!’ अपनी आवाज़ से भारत ही नहीं बल्क कि वि श्व के कोने-कोने में",
+            "मतलब एक राग गाते समय"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:04:I:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/ऐसी-भी-बातें-होती-हैं"
+      ],
+      "taxonomyChapterId": "hindi-9/ऐसी-भी-बातें-होती-हैं",
+      "topic": "यती ंद्र मिश्र",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "संगीत शिक्षा केंद्र चलाने के लिए लगभग ५० शब्दों में एक विज्ञापन तैयार कीजिए, जिसमें केंद्र के लाभ और संपर्क साधन का उल्लेख भी हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: प्रशिक्षण की विशेषताएँ, कक्षाओं और लाभों का स्पष्ट वर्णन — दो अंक",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "स्वरूप: विज्ञापन का शीर्षक, आकर्षक पंक्ति, जानकारी और संपर्क-विवरण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: शीर्षक, लाभ, समय और संपर्क-सूचना का क्रम",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं संक्षिप्तता: व्याकरण और लगभग ५० शब्दों की सीमा का पालन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "विज्ञापन\n\nसंगीत प्रेमियों के लिए विशेष प्रशिक्षण\n\nराग, ताल, गायन और वादन योग्य गुरुओं के संरक्षण में। बच्चों और बड़ों, दोनों के लिए अलग-अलग कक्षाएँ। उनके जीवन के संगीत को बनाए रखने के लिए समय के साथ महफ़िलें भी। प्रवेश-शुल्क में छूट।\n\nसमय: सुबह से शाम तक\n\nसंपर्क: जन-विज्ञान केंद्र के पास, नवरात्रि मैदान के सामने",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "तो उनके सामने कभी रो रहे हैं और कभी हँस रहे हैं। गा भी रहे हैं।",
+            "अभिनय करने के बारे में तो सोच भी नहीं सकती।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "यती ंद्र मिश्र",
+      "reason": "figure-not-in-text:१९६०",
+      "stem": "सन् १९६० में जिस समूह को कोरस गाने वालों का मिला था, वह किस अवधि तक वैसे ही चलता रहा?"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "यती ंद्र मिश्र",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "पिताजी पं. दीनानाथ मंगेशकर जैसे पुराने संगीतकारों की विरासत और आज के संगीतकारों की रचना-शैली की तुलना करते हुए लगभग १२० "
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "यती ंद्र मिश्र",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "संगीत में ऐसी शक्ति है कि कुछ अप्रत्याशित हो जाता है — इस विचार को समझाते हुए लगभग १२० शब्दों में एक अनुच्छेद लिखिए।"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "यती ंद्र मिश्र",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "होली, नवरात्रि और मंगलागौर जैसे पर्वों का रूप और उनका महत्व भी बदलता जा रहा है — इस विषय पर लगभग १२० शब्दों में एक अनुच्"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "ihga1",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

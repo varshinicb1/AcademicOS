@@ -1,0 +1,371 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:01:B:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-triumph-of-surgery"
+      ],
+      "taxonomyChapterId": "english-10/a-triumph-of-surgery",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "In dictation a student comes across “I looked in the mirror before I turned the corner of the drive; everybody was in tears.” and asks what the semicolon there shows. (A) a list of items placed in a series (B) a subordinate clause joined to a main clause (C) two complete sentences joined because their meanings are closely related (D) an explanation of the first clause, for which a colon would be needed",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "two complete sentences joined because their meanings are closely related",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I looked in the mirror before I turned the corner of the drive; everybody was in tears."
+          ],
+          "objective": true,
+          "options": {
+            "A": "a list of items placed in a series",
+            "B": "a subordinate clause joined to a main clause",
+            "C": "two complete sentences joined because their meanings are closely related",
+            "D": "an explanation of the first clause, for which a colon would be needed"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:01:C:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-triumph-of-surgery"
+      ],
+      "taxonomyChapterId": "english-10/a-triumph-of-surgery",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a notice (about 100 words) for the gate of your housing colony, advising pet owners to keep their animals healthy. Your notice should say why over-feeding and too little exercise must be avoided, and give one practical step each owner should take.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Notice format: a clear heading such as NOTICE, addressed to pet owners, in short sentences.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: over-feeding is named as the cause — extras between meals, malt, cod-liver oil, Horlicks, cream cakes and chocolates.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: too little exercise is named as a cause, since the dog was taken out only for short walks and had stopped playing.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the points are arranged in order — cause, effect, then the step owners must take — and the notice is about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling, punctuation and simple sentences suitable for a public notice.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "NOTICE\n\nPet owners, please note that over-feeding your animal can make it seriously ill. Extra food between meals, sweets, cream cakes and chocolates only weaken it. A dog that is not taken out for walks loses all interest in exercise and becomes dull and lazy. Please keep your pet on a strict diet, cut down on rich food and take it out for a walk every day. Do not give in when it begs, even when it looks thin. Your pet’s health depends on the decision you make today.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I thought he must be suffering from malnutrition, so I have been giving him some little extras between meals to build him up, some malt and cod-liver oil and a bowl of Horlicks at night to make him sleep — nothing much really.”",
+            "Now I really mean this. If you don’t cut his food right down and give him more exercise he is going to be really ill. You must harden your heart and keep him on a very strict diet.”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:01:E:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-triumph-of-surgery"
+      ],
+      "taxonomyChapterId": "english-10/a-triumph-of-surgery",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Mrs Pumphrey begins sending fresh eggs to the surgery after she hears that the little dog is convalescing. Why does she send them, and what do the partners there make of her gift?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She wanted to build up Tricki’s strength, because the word ‘convalescing’ encouraged her.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She brought two dozen eggs at a time, and for a period the partners and the narrator each had two eggs for breakfast.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The household realised the gifts — eggs, wine and brandy — were meant to enrich the dog’s blood, but the staff quietly ate and drank them.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The word ‘convalescing’ encouraged Mrs Pumphrey, so she brought fresh eggs to build up Tricki’s strength. For a period the partners and the narrator each had two eggs for breakfast. When wine and brandy also arrived, the household realised the gifts were meant to enrich the dog’s blood, yet the staff ate and drank them.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The word ‘convalescing’ seemed to do something to Mrs Pumphrey. She started to bring round fresh eggs, two dozen at a time, to build up Tricki’s strength.",
+            "but when the bottles of wine began to arrive, the real possibilities of the situation began to dawn on the household.",
+            "It was to enrich Tricki’s blood."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:01:F:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-triumph-of-surgery"
+      ],
+      "taxonomyChapterId": "english-10/a-triumph-of-surgery",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Answer in about 120 words, showing your answer in steps: (i) why Tricki fell ill, and (ii) why the treatment he was given at the surgery, and not any medicine, was what really cured him.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Cause: Mrs Pumphrey overfed him with extras between meals, malt, cod-liver oil, Horlicks, cream cakes and chocolates.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Cause: he got too little exercise, taking only short walks, and ring-throwing stopped because Hodgkin, the gardener, had lumbago.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Cause: his greed made him tackle a meal at any hour of the day or night, and the sweet things were cut down only for a bit.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "His illness then became serious: listless, bouts of vomiting, refusing even his favourite dishes, lying on a rug and panting, so he was hospitalised for about a fortnight.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Treatment: no food but plenty of water for two days, then he was let out to the dogs; from then on he had no medicinal treatment of any kind.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Cure: play and company with the pack, fighting for his share at meals and hunting rats at night turned him, in two weeks, into a lithe, hard-muscled animal.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Cause: Mrs Pumphrey fed him extras between meals, malt, cod-liver oil and Horlicks, and could not refuse cream cakes and chocolates. He took only short walks, and ring-throwing stopped because Hodgkin, the gardener, had lumbago. Greed made him tackle a meal at any hour. (ii) Treatment: the narrator found him listless, vomiting and refusing even favourite dishes, and hospitalised him for about a fortnight. Tricki was given no food but plenty of water for two days, then was let out to the dogs. No medicine was used afterwards. Play, fighting for his share at meals and hunting rats at night made him lithe and hard-muscled in two weeks.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "so I have been giving him some little extras between meals to build him up, some malt and cod-liver oil and a bowl of Horlicks at night to make him sleep",
+            "For two days I kept an eye on him, giving him no food but plenty of water.",
+            "He had no medicinal treatment of any kind but all day he ran about with the dogs, joining in their friendly scrimmages."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "Having read the passage, a student says that Tricki’s rapid recovery was mainly the result of —"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "The words “his chest almost brushing the ground” in the extract show that Tricki —"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      1
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}
