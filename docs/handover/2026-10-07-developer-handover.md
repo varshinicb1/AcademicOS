@@ -422,7 +422,6 @@ Confirmed open on `784b42b`. File references are where to start, not a diagnosis
 | 0 class 1-5 questions; 0 Hindi questions served | `academicos-data/syllabus/questions.json`, `corpus/bank_merge.py` | QB-1, QB-12 (R-C1, R-C2) |
 | 718 model-written questions served without review | `corpus/bank_merge.py`, records with source `ai_generated` / `textbook_grounded` | QB-5 (R-C3) |
 | The main paper builder sends no difficulty tier | `frontend/lib/data/datasources/api/paper_builder_api.dart` | EX-3 (R-C4) |
-| Term report counts today's unmarked lessons as behind | `operations/term_report.py` | ADM-2, ADM-3 (R-D2) |
 | A school that set up classes 6-9 before #136 sees old and new chapters side by side after a re-seed (nothing is deleted, by design) | `curriculum/seed_cbse10.py` | SCH-4; needs an owner decision on a clean-up tool |
 | Rooms are empty for ordinary classes when no rooms are allocated | `curriculum/timetable_solver.py` | TA-1, SA-1 |
 | About 2% of Exemplar answer keys misaligned (D37); CBE stacked fractions refused instead of recovered | `corpus/` importers | QB-7, QB-10 |
@@ -430,6 +429,9 @@ Confirmed open on `784b42b`. File references are where to start, not a diagnosis
 
 Closed since 7 October:
 
+- The term report and Coverage & Pace counted today's unmarked lessons as behind. A lesson is now planned to
+  date once its day is over, or on its day once it is marked, the boundary delayed topics and the 08:00 alert
+  already used (`curriculum/store.py` `get_coverage_report`, `tests/test_curriculum_coverage_today.py`).
 - English and Social Science 6-9: the seed plans the current book's chapters (#136), and the question bank's
   chapter view and the filter every paper, homework and search draws through now list the same chapters
   (`syllabus/current_book.py`). All 128 Social Science 9 questions and 128 of 160 English 9 questions are

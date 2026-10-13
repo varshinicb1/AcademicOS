@@ -2199,7 +2199,7 @@ class CurriculumStore(SchoolModelMixin, TeachingGroupsMixin, CoverMixin, SchoolP
 
     def get_coverage_report(self, *, school_id: str, academic_year_id: str,
                             as_of_date: Optional[str] = None, from_date: Optional[str] = None,
-                            to_date: Optional[str] = None) -> dict[str, Any]:
+                            to_date: Optional[str] = None, today: Optional[str] = None) -> dict[str, Any]:
         """Planned vs. actually-taught coverage, variance, and completion %
         aggregated by Subject and Chapter for school management (§17, §32).
 
@@ -2216,9 +2216,24 @@ class CurriculumStore(SchoolModelMixin, TeachingGroupsMixin, CoverMixin, SchoolP
         carries the book so two editions can never merge into one row.
 
         `as_of_date` defaults to the school's today (IST), the date delayed
-        topics use; it was the UTC date until audit D66."""
+        topics use; it was the UTC date until audit D66.
+
+        A lesson is planned to date once its day is over, or on its day once
+        it has been marked. Read as of `today` (the school's, passed by the
+        routes so it is the same day they use), today's unmarked lessons are
+        not yet due: they counted the moment the day began, so every class
+        read as behind each morning until its lessons were marked (handover
+        section 9). A day that is over -- a past term's end, an explicit date
+        before today -- counts all its lessons, as delayed topics do."""
+        today = today or _school_today_iso()
         if not as_of_date:
-            as_of_date = _school_today_iso()
+            as_of_date = today
+
+        def due(lesson) -> bool:
+            # An 'unscheduled' lesson has no day in the plan, so it is never "planned to date".
+            if lesson["status"] == "unscheduled" or lesson["date"] > as_of_date:
+                return False
+            return not (lesson["date"] == as_of_date == today and lesson["status"] == "scheduled")
 
         rows = self._fetchall(
             """
@@ -2295,8 +2310,7 @@ class CurriculumStore(SchoolModelMixin, TeachingGroupsMixin, CoverMixin, SchoolP
         total_lessons = len(rows)
         completed_lessons = sum(1 for r in rows if r["status"] == "completed")
         skipped_lessons = sum(1 for r in rows if r["status"] == "skipped")
-        # An 'unscheduled' lesson has no day in the plan, so it is never "planned to date".
-        planned_to_date = sum(1 for r in rows if r["date"] <= as_of_date and r["status"] != "unscheduled")
+        planned_to_date = sum(1 for r in rows if due(r))
         completed_to_date = sum(1 for r in rows if r["date"] <= as_of_date and r["status"] == "completed")
 
         overall_coverage_pct = round((completed_lessons / total_lessons * 100), 2) if total_lessons > 0 else 0.0
@@ -2309,8 +2323,7 @@ class CurriculumStore(SchoolModelMixin, TeachingGroupsMixin, CoverMixin, SchoolP
             s_total = len(s_lessons)
             s_completed = sum(1 for l in s_lessons if l["status"] == "completed")
             s_skipped = sum(1 for l in s_lessons if l["status"] == "skipped")
-            s_planned_to_date = sum(1 for l in s_lessons
-                                    if l["date"] <= as_of_date and l["status"] != "unscheduled")
+            s_planned_to_date = sum(1 for l in s_lessons if due(l))
             s_completed_to_date = sum(1 for l in s_lessons if l["date"] <= as_of_date and l["status"] == "completed")
             s_coverage_pct = round((s_completed / s_total * 100), 2) if s_total > 0 else 0.0
             s_pace_pct = round((s_completed_to_date / s_planned_to_date * 100), 2) if s_planned_to_date > 0 else 100.0
