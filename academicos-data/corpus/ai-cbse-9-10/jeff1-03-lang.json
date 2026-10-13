@@ -1,0 +1,1589 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:03:A:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "Somehow when he had taken a little run forward to\nthe brink of the ledge and attempted to flap his\nwings he became afraid. The great expanse of sea\nstretched down beneath, and it was such a long\nway down — miles down. He felt certain that his\nwings would never support him; so he bent his head\nand ran away back to the little hole under the ledge\nwhere he slept at night.\n\nYour friend will not learn to swim because every time he reaches the deep end he turns back; reading the passage, which fear is the young seagull sharing with him? (A) Being laughed at by those who have already tried (B) Believing that he will not be able to hold himself up (C) Being left without food by his family (D) Losing the safe place where he sleeps",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Believing that he will not be able to hold himself up",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "wings he became afraid. The great expanse of sea\nstretched down beneath, and it was such a long\nway down — miles down.",
+            "way down — miles down. He felt certain that his\nwings would never support him; so he bent his head\nand ran away back to the little hole under the ledge\nwhere he slept at night."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Being laughed at by those who have already tried",
+            "B": "Believing that he will not be able to hold himself up",
+            "C": "Being left without food by his family",
+            "D": "Losing the safe place where he sleeps"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:A:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "He was near the sea now, flying straight over\nit, facing straight out over the ocean. He saw a\nvast green sea beneath him, with little ridges\nmoving over it and he turned his beak sideways\nand cawed amusedly.\nHis parents and his brothers and sister had\nlanded on this green flooring ahead of him. They\nwere beckoning to him, calling shrilly. He dropped\nhis legs to stand on the green sea. His legs sank\ninto it. He screamed with fright and attempted to\nrise again flapping his wings.\n\nReading the passage, a classmate asks how the young seagull behaves when his legs sink into the green sea; which answer does the passage support? (A) He beats his wings harder until he climbs into the air again (B) He calls to his family to pull him out of the water (C) He swims back to the cliff where he used to sleep (D) He screams with fright and tries to rise by flapping his wings",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He screams with fright and tries to rise by flapping his wings",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "landed on this green flooring ahead of him. They\nwere beckoning to him, calling shrilly. He dropped\nhis legs to stand on the green sea. His legs sank\ninto it.",
+            "into it. He screamed with fright and attempted to\nrise again flapping his wings."
+          ],
+          "objective": true,
+          "options": {
+            "A": "He beats his wings harder until he climbs into the air again",
+            "B": "He calls to his family to pull him out of the water",
+            "C": "He swims back to the cliff where he used to sleep",
+            "D": "He screams with fright and tries to rise by flapping his wings"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:A:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "I landed and was not sorry to walk away from the\nold Dakota near the control tower. I went and asked\na woman in the control centre where I was and who\nthe other pilot was. I wanted to say ‘Thank you’.\nShe looked at me very strangely, and then\nlaughed.\n“Another aeroplane? Up there in this storm? No\nother aeroplanes were flying tonight. Yours was the\nonly one I could see on the radar.”\n\nAfter landing, the narrator asks the woman in the control centre about the other pilot and she laughs; what does her reply tell him about the black aeroplane he had followed? (A) It could not have been an ordinary plane with another pilot flying it (B) It was a real plane flown by another pilot on the same route (C) It belonged to the airport authority that sent him the radar report (D) It had already landed at that airport before he asked his question",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "It could not have been an ordinary plane with another pilot flying it",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "She looked at me very strangely, and then\nlaughed.",
+            "“Another aeroplane? Up there in this storm? No\nother aeroplanes were flying tonight. Yours was the\nonly one I could see on the radar.”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "It could not have been an ordinary plane with another pilot flying it",
+            "B": "It was a real plane flown by another pilot on the same route",
+            "C": "It belonged to the airport authority that sent him the radar report",
+            "D": "It had already landed at that airport before he asked his question"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:B:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A pilot radios the control room, “Paris Control, Dakota DS 088 here. Can you hear me? I’m on my way to England.”; which sentence reports this message correctly? (A) The pilot told Paris Control that he was on his way to England and asked if he could hear him. (B) The pilot asked Paris Control whether he could hear him and said that he was on his way to England. (C) The pilot asked Paris Control if he can hear him and said that he was on his way to England. (D) The pilot told Paris Control that he could hear him and asked whether he was on his way to England.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The pilot asked Paris Control whether he could hear him and said that he was on his way to England.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the lights of a big city in front of me. I switched on\nthe radio and said, “Paris Control, Dakota DS 088\nhere. Can you hear me? I’m on my way to England.\nOver.”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "The pilot told Paris Control that he was on his way to England and asked if he could hear him.",
+            "B": "The pilot asked Paris Control whether he could hear him and said that he was on his way to England.",
+            "C": "The pilot asked Paris Control if he can hear him and said that he was on his way to England.",
+            "D": "The pilot told Paris Control that he could hear him and asked whether he was on his way to England."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:B:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "An air traffic controller tells a student pilot, “You ___ twelve degrees west now, DS 088”; which form completes the instruction correctly? (A) ought to turned (B) ought to turning (C) ought that you turn (D) ought to turn",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "ought to turn",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“DS 088, I can hear you. You ought to turn twelve\ndegrees west now, DS 088. Over.”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "ought to turned",
+            "B": "ought to turning",
+            "C": "ought that you turn",
+            "D": "ought to turn"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:B:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "Choose the connector that completes the instruction correctly: “He turned his aeroplane slowly to the north, in front of my Dakota, ___ it would be easier for me to follow him.” (A) because (B) although (C) so that (D) unless",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "so that",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He turned his aeroplane slowly to the north, in\nfront of my Dakota, so that it would be easier for\nme to follow him."
+          ],
+          "objective": true,
+          "options": {
+            "A": "because",
+            "B": "although",
+            "C": "so that",
+            "D": "unless"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:C:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school has set aside a week in which every student must learn a new skill, and you have decided to join the swimming group even though deep water frightens you. Write an e-mail of about 100 words to your friend, telling what you have decided to do, why you are facing this fear now, and asking your friend to join you.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Uses the e-mail format: a subject line, a greeting, the body and a closing signature.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States the skill chosen and the fact that deep water frightens the writer.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains why the writer is facing the fear now, choosing the skill that frightens him most rather than going on avoiding it.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Makes the request, asking the friend to come to the pool, and gives a reason for it.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Keeps to about 100 words in a friendly, informal register with correct grammar, spelling and punctuation.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Subject: Learning to Swim\nDear friend,\nI have decided to join the swimming group this week. Deep water has always frightened me, and for years I made excuses to stay out of it. Now I have chosen the very skill that frightens me most, because I would rather try and fail than go on avoiding it. I know it will take courage to let go and trust the water to hold me up. Please come with me to the pool and stand beside me while I learn. I will feel braver with you there.\nYours,\nA Class 10 student",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Write a short composition on your initial attempts at learning a skill. You could\ndescribe the challenges of learning to ride a bicycle or learning to swim.",
+            "5. In the case of a bird flying, it seems a natural act, and a foregone conclusion\nthat it should succeed."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:C:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write an article of about 100 words for your school magazine, with the heading My First Attempt, on the challenges of learning your first new skill and on how you overcame your fear of it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Uses the article format: a suitable heading and a clear beginning, middle and end.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Describes the fear at the start and the moment of running back, showing the writer’s hesitation.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains how the fear was overcome, such as a family member running beside the writer and holding the seat.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Ends with the writer riding to school alone, showing the change.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Keeps to about 100 words in a lively, descriptive style with correct grammar, spelling and punctuation.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "My First Attempt\nNobody in my family rides a bicycle, so when my father wheeled an old one out for me I was frightened of it. I stood over it for a long time, one foot on the pedal, waiting for the machine to topple me. Then my father ran beside me, holding the seat, and told me to keep pedalling. The moment he let go, my hands shook and I ran back. The next day I asked for the bicycle again, and again I ran back. At last he stopped running, and I rode to school on my own.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Write a short composition on your initial attempts at learning a skill. You could\ndescribe the challenges of learning to ride a bicycle or learning to swim.",
+            "His parents and his brothers and sister had\nlanded on this green flooring ahead of him. They\nwere beckoning to him, calling shrilly."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:C:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Your school is holding an assembly on the theme Face Your First Fear. Write a speech of about 100 words for the Principal to deliver at that assembly, saying why young people should attempt the thing they are most afraid of.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Opens with a suitable greeting to the assembly and states the theme of the speech.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives at least two examples of things young people are afraid of, such as speaking in front of a crowd, diving into a pool, or asking a question in class.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains the cost of avoidance, that the fear grows larger each time it is avoided.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Uses the image of a young bird that would not leave its ledge, and what changed matters: patience and a reward rather than scolding.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Ends with an appeal to the audience and keeps to about 100 words in a formal register with correct grammar and spelling.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Good morning, teachers and dear friends,\nEvery one of us has one task we keep putting off. It may be speaking in front of a crowd, diving into a pool, or asking a question in class. We call these things small, but they grow larger every time we avoid them, until the fear itself keeps us from trying. I remember a young bird that would not leave its ledge while the rest of its family flew out over the sea. What changed matters was not a lecture but patience, and food held out until hunger was stronger than doubt. So choose the one thing you fear most and go at it while the year is young. Thank you.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "young seagull was alone on his ledge.",
+            "her beak on the rock. The sight of the food maddened\nhim.",
+            "5. In the case of a bird flying, it seems a natural act, and a foregone conclusion\nthat it should succeed."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:D:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "He was near the sea now, flying straight over\nit, facing straight out over the ocean. He saw a\nvast green sea beneath him, with little ridges\nmoving over it and he turned his beak sideways\nand cawed amusedly.\n\nReading the extract, a classmate asks why the young seagull turns his beak sideways and caws amusedly once he is over the sea; which answer is best? (A) He believes he has reached the far edge of the world (B) He has caught a herring and is calling the others to share it (C) He is pleased with himself for flying over the sea at last (D) He is frightened that the waves below are too high for him",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He is pleased with himself for flying over the sea at last",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He was near the sea now, flying straight over\nit, facing straight out over the ocean. He saw a\nvast green sea beneath him, with little ridges",
+            "vast green sea beneath him, with little ridges\nmoving over it and he turned his beak sideways\nand cawed amusedly."
+          ],
+          "objective": true,
+          "options": {
+            "A": "He believes he has reached the far edge of the world",
+            "B": "He has caught a herring and is calling the others to share it",
+            "C": "He is pleased with himself for flying over the sea at last",
+            "D": "He is frightened that the waves below are too high for him"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:D:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "Paris was about 150 kilometres behind me when\nI saw the clouds. Storm clouds. They were huge.\nThey looked like black mountains standing in front\nof me across the sky. I knew I could not fly up and\nover them, and I did not have enough fuel to fly\naround them to the north or south.\n“I ought to go back to Paris,” I thought, but I\nwanted to get home. I wanted that breakfast.\n\nIn the extract, the pilot cannot fly over the storm clouds and has not the fuel to go round them; what makes him decide to press on into the storm? (A) He is told by Paris Control that the weather ahead has cleared (B) He is afraid that the clouds will damage his old Dakota if he waits (C) He knows that his second and last fuel tank will carry him to England (D) He wants to get home to England, and he chooses to take the risk",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He wants to get home to England, and he chooses to take the risk",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "of me across the sky. I knew I could not fly up and\nover them, and I did not have enough fuel to fly\naround them to the north or south.",
+            "“I ought to go back to Paris,” I thought, but I\nwanted to get home. I wanted that breakfast."
+          ],
+          "objective": true,
+          "options": {
+            "A": "He is told by Paris Control that the weather ahead has cleared",
+            "B": "He is afraid that the clouds will damage his old Dakota if he waits",
+            "C": "He knows that his second and last fuel tank will carry him to England",
+            "D": "He wants to get home to England, and he chooses to take the risk"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:D:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "There wasn’t a cloud in the sky. I was happy to be\nalone high up above the sleeping countryside. I was\nflying my old Dakota aeroplane over France back to\nEngland. I was dreaming of my holiday and looking\nforward to being with my family. I looked at my\nwatch: one thirty in the morning.\n\nReading the extract, a classmate asks which detail shows that the pilot had no weather trouble on that flight; which answer is best? (A) There wasn’t a cloud in the sky (B) He was dreaming of his holiday and looking forward to being with his family (C) He had already reached the coast of England (D) His watch showed that it was only one thirty in the morning",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "There wasn’t a cloud in the sky",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "There wasn’t a cloud in the sky. I was happy to be\nalone high up above the sleeping countryside.",
+            "flying my old Dakota aeroplane over France back to\nEngland."
+          ],
+          "objective": true,
+          "options": {
+            "A": "There wasn’t a cloud in the sky",
+            "B": "He was dreaming of his holiday and looking forward to being with his family",
+            "C": "He had already reached the coast of England",
+            "D": "His watch showed that it was only one thirty in the morning"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:E:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why did the young seagull’s parents first threaten him and then hold out food to make him leave his ledge? Answer in about 50 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The parents first threatened to let him starve on his ledge, and he still could not move.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Realising that scolding alone failed, the mother changed her plan and flew across with a piece of fish.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Maddened by hunger, he dived for the fish, and the dive became his first flight.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "They knew fear alone would not move him, so the parents first threatened to let him starve on his ledge. When that failed, the mother changed her plan and flew across with a piece of fish, halting it just beyond his beak. Maddened by hunger, he dived for it, and the dive became his first flight.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "to let him starve on his ledge unless he flew away.\nBut for the life of him he could not move.",
+            "come nearer, and then, maddened by hunger, he\ndived at the fish."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:E:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "In the story of the pilot flying home to England, why does he say ‘I’ll take the risk’ and fly straight into the storm instead of turning back to Paris? Answer in about 50 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He had switched over to his second and last fuel tank, so there was no fuel held in reserve.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He could neither fly up and over the storm clouds nor have enough fuel to fly around them to the north or south.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Paris was already behind him and he wanted to get home and to his breakfast, so he chose to carry on and take the risk.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He had switched over to his second and last fuel tank, so nothing was held back. He could neither fly up and over the storm clouds nor have fuel to fly around them, and Paris was already behind him. He wanted to get home and to his breakfast, so he chose to carry on and take the risk.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I checked the map and the compass, switched\nover to my second and last fuel tank, and turned\nthe Dakota twelve degrees west towards England.",
+            "of me across the sky. I knew I could not fly up and\nover them, and I did not have enough fuel to fly\naround them to the north or south.",
+            "“I ought to go back to Paris,” I thought, but I\nwanted to get home. I wanted that breakfast."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:E:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "How does the young seagull’s first flight end, and which details show that his family treats the moment as a triumph? Answer in about 50 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He could not rise; his feet and then his belly sank into the green sea and he floated on it.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He was tired and weak with hunger after the strange exercise of the flight.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Around him his family was screaming, praising him and offering him scraps of dog-fish.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He could not rise again. His legs sank into the green sea, his feet sank in, and then his belly touched it and he sank no farther, so he floated on the surface, tired and weak with hunger. Around him his family was screaming and praising him, and their beaks held out scraps of dog-fish.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "rise again flapping his wings. But he was tired and\nweak with hunger and he could not rise,",
+            "by the strange exercise. His feet sank into the green\nsea, and then his belly touched it and he sank no\nfarther. He was floating on it, and around him his\nfamily was screaming, praising him and their beaks\nwere offering him scraps of dog-fish."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:F:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Explain, in about 120 words and in clear steps, how the young seagull overcomes his fear of flying, from the moment he dived at the fish to the moment he was floating on the green sea.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "He dived at the fish and fell outwards and downwards into space, seized by a monstrous terror.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The terror lasted only a minute, and then he felt his wings spread outwards with the wind against them.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He was no longer falling headlong but soaring gradually downwards and outwards, and he was no longer afraid.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "One flap of his wings lifted him upwards and he joined the circling flight of his family.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He dropped his legs to stand on the green sea; his feet and then his belly sank in and he floated.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "His family screamed and praised him and offered him scraps of dog-fish, and he had made his first flight.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Maddened by hunger, he dived at the fish and fell outwards and downwards into space.\n2. A monstrous terror seized him and his heart stood still; he could hear nothing, but it lasted only a minute.\n3. Then he felt his wings spread outwards and the wind rush against his breast feathers and under his stomach.\n4. He was not falling headlong now; he was soaring gradually downwards and outwards, and he was no longer afraid.\n5. He flapped his wings once and soared upwards, while his mother, his father, his brothers and his sister flew around him.\n6. At last he dropped his legs to stand on the green sea; his feet and belly sank in and he floated while his family screamed and praised him.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "dived at the fish. With a loud scream he fell\noutwards and downwards into space. Then a\nmonstrous terror seized him and his heart stood\nstill. He could hear nothing.",
+            "through the air. He was not falling headlong now.\nHe was soaring gradually downwards and outwards.\nHe was no longer afraid. He just felt a bit dizzy.",
+            "by the strange exercise. His feet sank into the green\nsea, and then his belly touched it"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:F:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Explain, in about 120 words and in clear steps, how the narrator’s journey to safety is made possible even though his compass, his radio and his fuel have all failed.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "His compass spun uselessly, the other instruments went dead and Paris Control did not answer, leaving him lost.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "There was only enough fuel in his last tank to fly for five or ten minutes more.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He saw another aeroplane near him in the black clouds, with no lights on its wings, and the pilot waved and told him to follow.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The pilot turned slowly to the north and then began to go down, and the narrator followed him through the storm.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He came out of the clouds and saw two long straight lines of lights, a runway and an airport, so he was safe.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The black aeroplane was gone, and the woman at the control centre said that no other aeroplanes were flying that night.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Inside the storm the compass spun uselessly, the other instruments went dead and Paris Control did not answer, so he was lost.\n2. There was only enough fuel in his last tank to fly for five or ten minutes more.\n3. Then he saw another aeroplane quite near him in the black clouds, with no lights on its wings.\n4. The pilot lifted one hand and waved and told him to follow, turning slowly to the north so he could be seen.\n5. The pilot began to go down and the narrator followed him out of the clouds.\n6. He saw two long straight lines of lights, a runway and an airport, so he was safe; but the black aeroplane was gone.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "there was only enough fuel in the old Dakota’s last\ntank to fly for five or ten minutes more.",
+            "clouds quite near me, I saw another aeroplane. It\nhad no lights on its wings, but I could see it flying",
+            "Suddenly I came out of the clouds and saw two\nlong straight lines of lights in front of me. It was a\nrunway! An airport! I was safe!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:03:F:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/two-stories-about-flying"
+      ],
+      "taxonomyChapterId": "english-10/two-stories-about-flying",
+      "topic": "I His First Flight",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "Compare the young seagull’s situation on his ledge with the pilot’s situation in the storm clouds, and explain in about 120 words, in clear steps, how each of them is finally set free.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "The young seagull is held on his ledge by fear: the sea below is a long way down and he is sure his wings will never support him.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "His parents threaten to let him starve, and when scolding fails his mother flies across with a piece of fish and halts just beyond his beak.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Maddened by hunger he dives for the fish and floats at last on the green sea, so his first flight sets him free.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The pilot is trapped in the storm clouds because his compass and radio fail and his fuel is finished.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A black aeroplane with no lights on its wings comes near him, its pilot waves and tells him to follow, staying in front so that he can be seen.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "With five or ten minutes of fuel left, the stranger goes down, the narrator follows out of the clouds and lands beside a runway.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. The young seagull is held on his ledge by fear: the sea below is a long way down and he is sure his wings will never support him.\n2. His parents threaten to let him starve; when scolding fails, his mother flies across with a fish and halts just beyond his beak.\n3. Maddened by hunger he dives for the fish and floats at last on the green sea, so his first flight sets him free.\n4. The pilot is trapped in storm clouds: his compass and radio fail and his fuel is finished.\n5. A black aeroplane with no lights on its wings comes near him; its pilot waves and says ‘Follow me’, staying in front.\n6. With five or ten minutes of fuel left, the stranger goes down and the narrator follows out of the clouds to a runway.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "wings he became afraid. The great expanse of sea\nstretched down beneath, and it was such a long\nway down — miles down.",
+            "come nearer, and then, maddened by hunger, he\ndived at the fish.",
+            "There was no answer. The radio was dead too. I\nhad no radio, no compass, and I could not see where\nI was. I was lost in the storm."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      3
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

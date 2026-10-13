@@ -1,0 +1,405 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:04:B:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/from-the-diary-of-anne-frank"
+      ],
+      "taxonomyChapterId": "english-10/from-the-diary-of-anne-frank",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A classmate has written the line ‘I’d worry about that later’ in her notebook and asks you to expand the contraction; which full form is correct here? (A) I had (B) I would (C) I do (D) I have",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "I would",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "A chatterbox — what can you write about that? I’d\nworry about that later, I decided.",
+            "I’d = I had or I would"
+          ],
+          "objective": true,
+          "options": {
+            "A": "I had",
+            "B": "I would",
+            "C": "I do",
+            "D": "I have"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:04:C:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/from-the-diary-of-anne-frank"
+      ],
+      "taxonomyChapterId": "english-10/from-the-diary-of-anne-frank",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "The editor of your school magazine has asked every student to contribute, and your slot is this week; write an article of 100 words for your school readers on why it is worth keeping a personal record of your own life, giving at least one reason and one example.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: explains why keeping a personal record is worth doing, and supports it with a relevant example (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: written as a magazine article, with an engaging opening and a clear concluding sentence (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the ideas are put in a logical order, from the kinds of record to the value of keeping one (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, grammar and punctuation (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: vocabulary and tone suited to the readers of a school magazine (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Have you ever kept a record of your own life? A journal gives each day its own page, where you write down your thoughts and feelings. A diary is a record of a person’s own life and experiences, while a log gives events with times and dates. Such a record matters because it lets you say what you cannot say aloud. Someone once observed that paper has more patience than people, and that is true of a diary. It never interrupts you, never laughs at what you write, and waits as long as you need. So take a fresh notebook and start today.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "A book with a separate space or page for each\nday, in which you write down your thoughts\nand feelings or what has happened on that day",
+            "A record of a person’s own life and experiences",
+            "Paper has more patience than people."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:04:E:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/from-the-diary-of-anne-frank"
+      ],
+      "taxonomyChapterId": "english-10/from-the-diary-of-anne-frank",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why does Anne Frank say she has started a diary, and what name does she give the friend she writes to?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She has many people she can call friends, but she cannot talk to them about anything except ordinary everyday things (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So they never get any closer, and she needs someone she can confide in; that is why she has started the diary (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She wants the diary to be that friend, and names that friend ‘Kitty’ (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She has about thirty people she can call friends, but she cannot bring herself to talk about anything but ordinary everyday things. They don’t seem able to get any closer, and that is the problem, so she needs someone to confide in. She makes the diary that friend and calls her ‘Kitty’.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I can’t bring myself to talk about anything\nbut ordinary everyday things. We don’t seem to be\nable to get any closer, and that’s the problem.",
+            "I have loving parents\nand a sixteen-year-old sister, and there are about\nthirty people I can call friends.",
+            "but I want the diary to be my friend, and I’m going\nto call this friend ‘Kitty’."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:04:F:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/from-the-diary-of-anne-frank"
+      ],
+      "taxonomyChapterId": "english-10/from-the-diary-of-anne-frank",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Trace in steps how Mr Keesing’s attitude towards Anne, a pupil who talks too much in class, changes across the three essays she is given, giving a reason at each step.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Step 1: he is annoyed with Anne for ages because she talks so much (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: after several warnings he assigns the extra homework, the essay on ‘A Chatterbox’ (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: he laughs at her argument that talking is an inherited habit and sets the second essay, ‘An Incorrigible Chatterbox’ (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: she hands it in and he has nothing to complain about for two whole lessons (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: in the third lesson he has finally had enough and makes her write ‘Quack, Quack, Quack, Said Mistress Chatterbox’ (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 6: her verse about a mother duck and a father swan wins him over, he reads it to several classes, and she is then allowed to talk with no extra homework (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Annoyed — he had been annoyed with her for ages because she talked so much.\n2. First punishment — after several warnings he assigns the essay ‘A Chatterbox’.\n3. Amused — she argues that talking is an inherited habit; he laughs at her, then sets ‘An Incorrigible Chatterbox’.\n4. Impressed — she hands it in and he has nothing to complain about for two whole lessons.\n5. Third punishment — in the third lesson he has finally had enough and orders ‘Quack, Quack, Quack, Said Mistress Chatterbox’.\n6. Accepts her — Sanne writes it in verse about a mother duck and a father swan. He takes the joke the right way and lets her talk with no extra homework.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Keesing, the old fogey who teaches maths, was\nannoyed with me for ages because I talked so much.",
+            "Mr Keesing had a good laugh at my arguments,\nbut when I proceeded to talk my way through the\nnext lesson, he assigned me a second essay.",
+            "allowed to talk and haven’t been assigned any extra\nhomework."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "You have to make a point in your next class debate that people will actually remember; what the writer of the extract ca"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "passage-not-in-text",
+      "stem": "A classmate in your class talks only about ordinary everyday things and never shares how she really feels, though she co"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

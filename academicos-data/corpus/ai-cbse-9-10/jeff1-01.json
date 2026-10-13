@@ -1,0 +1,469 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:01:B:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "One past action is interrupted by another in the sentence “The moment the letter fell into the mailbox the postmaster went to open it.” Which pair of verb forms does the tense rule require? (A) fell / was going (B) was going / fell (C) had fallen / went (D) was falling / went",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "was falling / went",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The moment\nthe letter fell into the mailbox the postmaster went\nto open it."
+          ],
+          "objective": true,
+          "options": {
+            "A": "fell / was going",
+            "B": "was going / fell",
+            "C": "had fallen / went",
+            "D": "was falling / went"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:01:C:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school is holding an awareness session on sending money to someone far away through the post office. Write a speech of about 100 words for the school assembly in which you tell your seniors about the three parts of a Money Order form, what you would write in the ‘Space for Communication’, and where the form must be submitted.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: names the three parts of the form — the Money Order form, the part for official use and the Acknowledgement (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: says the sender must fill in the form and submit it at the nearest post office, and that the receiver then gets the money by post (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: written as a speech, opening with a greeting to the assembly and closing with a courteous finish such as ‘Thank you’ (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the three points run in a clear order — the parts, then the message, then the place of submission — in short, connected sentences (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling, capital letters and punctuation, and simple, clear language suited to a school audience (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Respected Principal, teachers and dear friends,\nDo you know that one of the cheapest ways to send money to someone is through the post office? A Money Order helps you do this. Notice that the form has three parts: the Money Order form, the part for official use and the Acknowledgement. In the ‘Space for Communication’ you write the message you want your receiver to read. Think about who you will send the money to and how much. Fill in the form as the sender, and submit it at the nearest post office. Your receiver will then enjoy getting the money by post. Thank you.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "One of the cheapest ways to send money to someone is through\nthe post office.",
+            "submit the form at the nearest post office to see how it’s done.\nSee how your partner enjoys getting money by post!",
+            "Notice that the form has three parts — the Money Order form,\nthe part for official use and the Acknowledgement."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:01:D:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "“I hope it passes quickly.” It did not pass quickly. For an hour the hail rained on the house, the garden, the hillside, the cornfield, on the whole valley. The field was white, as if covered with salt. Not a leaf remained on the trees. The corn was totally destroyed.\n\nA student has to describe to the class how completely the storm ruined the harvest. Which option matches the destruction created in the extract? (A) A short shower that left the trees in better condition than before. (B) An hour of hail that left nothing of the crop standing. (C) A cool evening that promised a good harvest in the coming year. (D) A passing storm that carried away only the flowers in the field.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "An hour of hail that left nothing of the crop standing.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "For an hour the hail rained on the house, the\ngarden, the hillside, the cornfield, on the whole\nvalley.",
+            "Not a leaf remained on the trees. The corn was\ntotally destroyed."
+          ],
+          "objective": true,
+          "options": {
+            "A": "A short shower that left the trees in better condition than before.",
+            "B": "An hour of hail that left nothing of the crop standing.",
+            "C": "A cool evening that promised a good harvest in the coming year.",
+            "D": "A passing storm that carried away only the flowers in the field."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:01:E:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your classmate is puzzled: the farmer asked God for money, money did reach him, yet he never tried to find out who had really sent it. Explain, in about 50 words, why the farmer behaved in this way.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He had complete faith in God and never doubted that the money came from God (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He showed not the slightest surprise when the money arrived, because of this confidence (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He believed God could neither make a mistake nor deny him what he had requested, so he never questioned the source of the money (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The farmer had complete faith in God, so he never doubted that God had sent the money. He showed no surprise when it arrived and grew angry only on counting it, because God could neither make a mistake nor deny him what he had asked for.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "All through the night, Lencho thought only of\nhis one hope: the help of God, whose eyes, as he",
+            "Lencho showed not the slightest surprise on\nseeing the money; such was his confidence — but\nhe became angry when he counted the money. God\ncould not have made a mistake, nor could he have\ndenied Lencho what he had requested."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:01:F:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-letter-to-god"
+      ],
+      "taxonomyChapterId": "english-10/a-letter-to-god",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Trace, in about 120 words and in clear steps, how the hailstorm ruined the farmer’s harvest and what the farmer did next to get help.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "He watched the sky all morning because the earth needed a downpour or at least a shower (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He called the raindrops new coins, the big drops ten cent pieces and the little ones fives (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A strong wind came and very large hailstones fell, and the boys collected the frozen pearls (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The hail rained for an hour on the house, garden, hillside and cornfield, leaving the field white as if covered with salt (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The corn was totally destroyed, and he said even a plague of locusts would have left more than this (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "All through the night he thought only of his one hope, help from God, and wrote to God for a hundred pesos (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1: All morning he watched the sky, for the earth needed a downpour or at least a shower.\nStep 2: Rain fell and he called the drops new coins, the big ones ten cent pieces, the little ones fives.\nStep 3: A strong wind came with very large hailstones; the boys collected the frozen pearls.\nStep 4: The hail rained for an hour on the house, garden, hillside and cornfield; the field was white as if covered with salt and the corn was destroyed.\nStep 5: He said even a plague of locusts would have left more than this; there would be no corn that year.\nStep 6: All through the night he thought of his one hope, help from God, and next Sunday at daybreak he wrote to God for a hundred pesos.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Throughout the\nmorning Lencho — who knew his fields intimately\n— had done nothing else but see the sky towards\nthe north-east.",
+            "But suddenly a strong wind began to blow\nand along with the rain very large hailstones began\nto fall.",
+            "All through the night, Lencho thought only of\nhis one hope: the help of God, whose eyes, as he"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "passage-not-in-text",
+      "stem": "After reading the extract, a student says that the writer still trusts God but no longer trusts the people who deliver h"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      1
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

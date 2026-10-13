@@ -1,0 +1,803 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:02:B:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "In a dictation test a student copies the sentence \"He would borrow one week, lend the next.\" and explains why the writer used \"would\" before both verbs. (A) It shows a duty he was bound to perform every week (B) It shows permission he had once been given (C) It shows a regular pattern that he repeated in the past (D) It shows a plan he had not yet begun to carry out",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "It shows a regular pattern that he repeated in the past",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He would borrow one week, lend the next."
+          ],
+          "objective": true,
+          "options": {
+            "A": "It shows a duty he was bound to perform every week",
+            "B": "It shows permission he had once been given",
+            "C": "It shows a regular pattern that he repeated in the past",
+            "D": "It shows a plan he had not yet begun to carry out"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:C:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a notice (about 100 words) for the wall outside the Jumna Sweet Shop, offering free evening classes to any boy or girl who can write only his or her own name. Your notice should say what the classes will teach, whether any money is charged, and what a learner who comes regularly will be able to do after a month.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Format: a notice with the heading NOTICE and a title line, written in short direct sentences meant for the public.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: says who may join - any boy or girl who can write only his or her own name.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: states that the classes teach whole sentences and adding numbers, and cooking for anyone who cannot cook.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: states that no money is charged but a learner who can cook may be fed, and closes with what a regular learner can do after a month.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling, punctuation and clear simple language; about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "NOTICE\nFree evening classes in writing\nAny boy or girl who can write only his or her own name is welcome to join our free evening classes in the room over the shop. You will be taught to write whole sentences and to add numbers, and anyone who cannot cook will be taught to cook as well. No money is charged for the classes; a learner who can cook may be fed instead. Come every evening, and after a month you will be able to write letters and to keep a correct account of what you spend.\nSigned, the teacher",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He also taught me to write my name and said he would soon teach me to write whole sentences and to add numbers.",
+            "If you can cook, then may be I can feed you.",
+            "He took me to his room over the Jumna Sweet Shop and told me I could sleep on the balcony."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:C:2",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write an e-mail (about 100 words) to a friend who has told you he wants to give up school because writing seems hopeless to him. Tell him how Hari Singh, who could at first write only his own name, was taught by Anil to write whole sentences and to add numbers, and end with one piece of advice. Begin with To, From and Subject lines.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Format: begins with three lines - To, From and Subject - followed by a greeting and a closing.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: states that Hari Singh could once write only his own name.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: states that Anil taught him to write whole sentences and to add numbers.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: uses the reason that whole sentences could one day bring him more than a few hundred rupees, and ends with one clear piece of advice.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling, punctuation, simple sentences and a friendly tone; about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "To: My friend\nFrom: Your classmate\nSubject: Do not give up writing\n\nDear friend,\nYou say that writing is hopeless, but Hari Singh could once write only his own name. Anil taught him to write whole sentences and to add numbers. Whole sentences, Hari Singh knew, could one day bring him more than a few hundred rupees, and to be a really big man, a clever and respected man, was something else. So he went back to Anil, if only to learn to read and write. Keep writing one sentence a day, and the sums and the sentences will soon be yours.\nYours sincerely,\nA well-wisher",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He also taught me to write my name and said he would soon teach me to write whole sentences and to add numbers.",
+            "Whole sentences, I knew, could one day bring me more than a few hundred rupees.",
+            "But to be a really big man, a clever and respected man, was something else."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:E:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Hari Singh has been working for Anil for almost a month and has had every chance to steal. Why does he say it is difficult to rob Anil?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Hari Singh has been with Anil for almost a month and has had every opportunity to steal from him.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Robbing a greedy man is easy because he can afford to be robbed.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Robbing a careless man is pointless, because he may not even notice and the pleasure of the work is gone; Anil is neither greedy nor careless.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Hari Singh finds Anil the most trusting person he has ever met, so it is hard to rob him. Robbing a greedy man is easy, because he can afford to be robbed. But a careless man sometimes does not even notice he has been robbed, and then all the pleasure of the work is gone. Anil is neither greedy nor careless.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He was the most trusting person I had ever met.",
+            "It’s easy to rob a greedy man, because he can afford to be robbed; but it’s difficult to rob a careless man — sometimes he doesn’t even notice he’s been robbed and that takes all the pleasure out of the work.",
+            "Anil had given me a key to the door, and I could come and go as I pleased."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:E:2",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Hari Singh steals six hundred rupees in fifties and then walks back to the room and slips the notes under the mattress again. Why does he return them?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He takes the money because he feels out of practice and believes Anil will only waste it on his friends.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He remembers that whole sentences could one day bring him more than a few hundred rupees.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He feels that to be a really big man, a clever and respected man, is something else, and goes back if only to learn to read and write.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Hari Singh takes the notes, telling himself he is out of practice and that Anil will waste them on his friends. But whole sentences, he remembers, could one day bring him more than a few hundred rupees, and to be a clever, respected man is something else. So he goes back to Anil, if only to learn to read and write.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Well, it’s time I did some real work, I told myself; I’m out of practice.",
+            "Whole sentences, I knew, could one day bring me more than a few hundred rupees.",
+            "But to be a really big man, a clever and respected man, was something else."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:E:3",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "The next morning Anil holds out a fifty-rupee note and tells Hari Singh that he will now be paid regularly. How does Hari Singh know that Anil has found out about the theft?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "His heart sinks and he thinks he has been discovered when Anil holds out the note.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The note is still wet from the night's rain, which shows that it is the note he had stolen and returned.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Anil says only that he made some money yesterday, and neither his lips nor his eyes show anything, yet Hari Singh is sure Anil knows.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Hari Singh's heart sinks when Anil holds out a fifty-rupee note, and he thinks he has been discovered. But the note is still wet from the night's rain, which shows that it is the note he had stolen. Anil says only that he made some money yesterday. Neither his lips nor his eyes show anything, and Hari Singh is sure Anil knows everything.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "There was a fifty-rupee note between his fingers. My heart sank. I thought I had been discovered.",
+            "My spirits rose. But when I took the note, I saw it was still wet from the night’s rain.",
+            "He knew. But neither his lips nor his eyes showed anything."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:E:4",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "The Theft and Return to Anil",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Hari Singh says he had not had much luck of late, so he chose Anil as his target and opened with \"You look a bit of a wrestler yourself.\" What does this show about the way he works?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He chooses a target he thinks he can win over; Anil looks easy-going, kind and simple enough for his purpose.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He begins with flattery, saying Anil looks a bit of a wrestler himself, because a little flattery helps in making friends.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He gives a false name, Hari Singh, and takes a new name every month, which keeps him ahead of the police and his former employers.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Hari Singh picks a target he thinks he can win over, and Anil seems easy-going, kind and simple enough for his purpose. Since luck has failed him, he begins with flattery, because a little flattery helps in making friends. He also gives a false name, Hari Singh, and takes a new name every month, which keeps him ahead of the police and his former employers.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I hadn’t had much luck of late and thought I might be able to get into the young man’s confidence.",
+            "“Hari Singh,” I lied. I took a new name every month.",
+            "“You look a bit of a wrestler yourself,” I said. A little flattery helps"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:F:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Answer in about 120 words, showing your answer in steps: (i) what Hari Singh expects to gain from learning to write while he works for Anil, and (ii) how his idea of what is worth learning changes before he returns the stolen notes.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "At first he thinks only of quick gain: he takes a new name every month, makes about a rupee a day on the shopping, and has done nothing in his line of work for almost a month.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "When Anil teaches him to write his name and promises whole sentences and adding numbers, he is grateful, because writing like an educated man seems to put no limit on what he could achieve.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So learning, in his first view, is worth whatever it will let him get on with and get away with.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In the rain, with the notes damp in his hand, he remembers that whole sentences could one day bring him more than a few hundred rupees.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He realises that stealing is a simple matter, sometimes as simple as being caught, while to be a big man, a clever and respected man, is something else.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He slips the notes back under the mattress and goes to Anil if only to learn to read and write.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) At first he thinks only of quick gain. He takes a new name every month, makes about a rupee a day on the shopping, and has done nothing in his line of work for almost a month. When Anil teaches him to write his name and promises whole sentences and adding numbers, he is grateful, because once he could write like an educated man there would be no limit to what he could achieve. (ii) In the rain, with the notes damp in his hand, he remembers that whole sentences could one day bring him more than a few hundred rupees. Stealing, he sees, is a simple matter, sometimes as simple as being caught; to be a big man, a clever and respected man, is something else. So he slips the notes back and asks only to learn to read and write.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I knew that once I could write like an educated man there would be no limit to what I could achieve.",
+            "I felt for the notes. They were damp from the rain.",
+            "But to be a really big man, a clever and respected man, was something else."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:F:2",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Answer in about 120 words, showing your answer in steps: (i) what Anil does after he discovers the theft, and (ii) why this shows that Anil is different from the employers Hari Singh has known before.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Anil says nothing about the theft; he was asleep both when the notes were taken and when they were slipped back.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The next morning he has already made the tea and holds out a fifty-rupee note.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He explains only that he made some money yesterday and that Hari Singh will now be paid regularly.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The note is still wet from the night's rain, yet neither his lips nor his eyes show anything, and he simply says they will start writing sentences.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Hari Singh has known employers who would hand a thief to the police, which is why he takes a new name every month.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Anil loses no money and shows no anger: he forgives without a word and goes on teaching, so no trust is lost.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(i) Anil says nothing about the theft. He was asleep when the notes were taken and again when they were slipped back under the mattress. The next morning he has already made the tea, holds out a fifty-rupee note and says he made some money yesterday, so Hari Singh will now be paid regularly. The note is still wet from the night's rain, yet neither his lips nor his eyes show anything, and he simply says they will start writing sentences. (ii) Hari Singh has known employers who would hand a thief to the police, which is why he takes a new name every month. Anil loses no money and shows no anger; he forgives without a word and goes on teaching.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I awoke late next morning to find that Anil had already made the tea.",
+            "My spirits rose. But when I took the note, I saw it was still wet from the night’s rain.",
+            "He knew. But neither his lips nor his eyes showed anything."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "reason": "stem-is-not-a-question",
+      "stem": "After reading the passage, a student says that the thief's remark about how a greedy man, a rich man and a poor man beha"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "reason": "stem-is-not-a-question",
+      "stem": "In the extract, the meal Hari Singh cooks is given to a stray dog, yet Anil pats his head and offers to teach him; this "
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      2
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

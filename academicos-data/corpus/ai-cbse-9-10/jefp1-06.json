@@ -1,0 +1,486 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:06:A:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "Then in the seventh grade he got a hint of what real science is\nwhen he entered a county science fair — and lost. “It was really a sad\nfeeling to sit there and not get anything while everybody else had won\nsomething,” Ebright said. His entry was slides of frog tissues, which\nhe showed under a microscope. He realised the winners had tried to\ndo real experiments, not simply make a neat display.\n\nYou have made a display for the school science fair but have not yet run an experiment, and after reading the passage you conclude that a neat display alone is not enough; what did the winners there actually do? (A) They had been collecting butterflies since they were in kindergarten. (B) They had raised thousands of monarchs in a basement. (C) They showed slides of frog tissues under a microscope. (D) They tried to do real experiments instead of only making a neat display.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "They tried to do real experiments instead of only making a neat display.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "His entry was slides of frog tissues, which\nhe showed under a microscope.",
+            "He realised the winners had tried to\ndo real experiments, not simply make a neat display."
+          ],
+          "objective": true,
+          "options": {
+            "A": "They had been collecting butterflies since they were in kindergarten.",
+            "B": "They had raised thousands of monarchs in a basement.",
+            "C": "They showed slides of frog tissues under a microscope.",
+            "D": "They tried to do real experiments instead of only making a neat display."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:B:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "You are speaking at a science assembly and you leave a gap for the verb in the line 'And that ____ one of the ingredients in the making of a scientist'; which verb form fills the gap correctly? (A) are (B) were (C) have been (D) is",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "is",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "And that is one of the ingredients in the making of a scientist."
+          ],
+          "objective": true,
+          "options": {
+            "A": "are",
+            "B": "were",
+            "C": "have been",
+            "D": "is"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:C:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "The basement of your school is not being used at present. A friend who collects butterflies wants to keep rearing caterpillars there during the collecting season, and has asked you to write to the Principal for permission. Write the letter to the Principal (in 100 words), giving the request and the reasons for it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "The request is stated clearly: permission to use the unused school basement.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It explains that a female monarch is caught, her eggs taken, and the young raised through the life cycle, from egg to caterpillar to pupa to adult butterfly.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It gives the reason in a logical order: this lets him tag large numbers of butterflies instead of chasing them one by one in a season that lasts six weeks in late summer.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The formal letter format is correct: 'Dear Principal', the request in the body, and the closing 'Yours obediently' with a signature.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Spelling and grammar are accurate and the tone is polite and courteous.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dear Principal,\n\nI am writing on behalf of my friend, who collects butterflies near our town, to ask for permission to use the unused school basement.\n\nHe catches a female monarch, takes her eggs and raises them in the basement through the whole life cycle, from egg to caterpillar to pupa to adult butterfly. This lets him tag large numbers of butterflies instead of chasing them one by one during the collecting season, which lasts six weeks in late summer.\n\nKindly grant him permission.\n\nYours obediently,\n[Name]",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He would catch a female monarch, take her\neggs, and raise them in his basement through their life cycle, from egg\nto caterpillar to pupa to adult butterfly.",
+            "The butterfly collecting season around Reading lasts six weeks in\nlate summer.",
+            "If you’re going to chase them one by\none, you won’t catch very many."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:D:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "“Eventually I began to lose interest in tagging butterflies. It’s tedious\nand there’s not much feedback,” Ebright said. “In all the time I did it,”\nhe laughed, “only two butterflies I had tagged were recaptured — and\nthey were not more than seventy-five miles from where I lived.”\n\nA classmate who has read the passage asks what the speaker's laugh shows about his attitude to the tagging he had done; which option explains it best? (A) He was angry that the butterflies had not gone far. (B) He was ashamed of the work and wanted to forget it. (C) He thought the tagging had been a complete waste of every evening. (D) He could see the funny side of his own disappointment and take it lightly.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He could see the funny side of his own disappointment and take it lightly.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“In all the time I did it,”\nhe laughed, “only two butterflies I had tagged were recaptured — and\nthey were not more than seventy-five miles from where I lived.”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "He was angry that the butterflies had not gone far.",
+            "B": "He was ashamed of the work and wanted to forget it.",
+            "C": "He thought the tagging had been a complete waste of every evening.",
+            "D": "He could see the funny side of his own disappointment and take it lightly."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:E:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Why did the children's book The Travels of Monarch X turn out to be a turning point in Richard Ebright's life?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The book told how monarch butterflies migrate to Central America, and opened the world of science to the eager young collector.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "At the end of the book readers were invited to help study butterfly migrations and to tag butterflies for research by Dr Frederick A. Urquhart of the University of Toronto, Canada.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Ebright's mother wrote to Dr Urquhart, and soon Ebright was attaching light adhesive tags to the wings of monarchs.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The book told how monarch butterflies migrate to Central America and opened the world of science to him. At its end readers were invited to tag butterflies for research by Dr Frederick A. Urquhart of the University of Toronto, Canada. His mother wrote to Dr Urquhart, and soon he was attaching light adhesive tags to the wings of monarchs.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "But then my mother got me a children’s book called The\nTravels of Monarch X.",
+            "That book, which told how monarch butterflies\nmigrate to Central America, opened the world of science to the eager\nyoung collector.",
+            "Ebright’s\nmother wrote to Dr Urquhart, and soon Ebright was attaching light\nadhesive tags to the wings of monarchs."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:06:F:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-making-of-a-scientist"
+      ],
+      "taxonomyChapterId": "english-10/the-making-of-a-scientist",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Trace in steps how Richard Ebright's school research on the twelve gold spots of a monarch pupa led to his discovery of an unknown insect hormone and, later, to his new theory about the life of cells.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "He began the research in his second year in high school, and it led to his discovery of an unknown insect hormone.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He wanted to know the purpose of the twelve tiny gold spots on a monarch pupa; everyone assumed the spots were just ornamental, but Dr Urquhart did not believe it.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He and another excellent science student built a device showing that the spots produced a hormone necessary for the butterfly's full development.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The project won him first place in the county fair and entry into the International Science and Engineering Fair, where he won third place for zoology, and a summer at the entomology laboratory of the Walter Reed Army Institute of Research.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "As a senior he grew cells from a monarch's wing in a culture and showed the cells divided and developed into normal butterfly wing scales only if fed the hormone from the gold spots, winning first place for zoology at the International Fair.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "After his freshman year at Harvard he identified the hormone's chemical structure, and the X-ray photos of that structure gave him the answer to how the cell can read the blueprint of its DNA.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. In his second year in high school Ebright began research that led to his discovery of an unknown insect hormone.\n2. He asked what the twelve tiny gold spots on a monarch pupa were for; all assumed they were ornamental, but Dr Urquhart did not.\n3. He and another student built a device showing the spots produce a hormone needed for the butterfly's full development.\n4. This won first place in the county fair, entry to the International Science and Engineering Fair, third place for zoology there, and a summer at the Walter Reed Army Institute of Research.\n5. As a senior he grew cells from a monarch's wing and showed they divided only if fed the hormone, winning first place for zoology at the International Fair.\n6. After his freshman year at Harvard he identified the hormone's chemical structure; X-ray photos of it led to his theory of how a cell reads its DNA.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In his second year in high school, Richard Ebright began the research\nthat led to his discovery of an unknown insect hormone.",
+            "The question he tried to answer was simple: What is the purpose of\nthe twelve tiny gold spots on a monarch pupa?",
+            "It came while he was looking at X-ray\nphotos of the chemical structure of a hormone."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      6
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

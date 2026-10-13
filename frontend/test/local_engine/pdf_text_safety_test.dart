@@ -115,6 +115,12 @@ void main() {
   // U+F044, U+F05E, U+F0DE all confirmed present) are leftover Wingdings/
   // Symbol-font glyph references from OCR, not real content -- genuinely
   // unmappable, so dropped rather than guessed at.
+  test('zero-width characters are dropped, not printed as boxes', () {
+    // The model-written Hindi questions (2026-10-14) carry U+200D to form half letters; Helvetica
+    // has no Devanagari and prints the joiner itself as a box.
+    expect(pdfSafe('a‍b‌c​d⁠e﻿f'), 'abcdef');
+  });
+
   test('unmappable Private Use Area glyphs from OCR font substitution are dropped', () {
     expect(pdfSafe('stray glyph \u{F05C} here'), 'stray glyph  here');
   });

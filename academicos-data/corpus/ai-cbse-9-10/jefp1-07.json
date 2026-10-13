@@ -1,0 +1,490 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:07:A:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "“I cannot tell exactly, but it seems to me that four hundred\nfrancs ought to cover it.”\nHe turned a little pale, for he had saved just this sum to buy a gun\nthat he might be able to join some hunting parties the next summer,\nwith some friends who went to shoot larks on Sunday. Nevertheless,\nhe answered, “Very well. I will give you four hundred francs. But try to\nhave a pretty dress.”\n\nYou have set aside a sum for months for something you badly want, and then at home a request is made for exactly that amount; why did the husband turn pale before he answered? (A) He had already promised that amount to one of his colleagues. (B) He believed the dress she had in mind would cost much more. (C) He had set that exact sum by for a gun of his own. (D) He feared that the Minister's ball might be cancelled altogether.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He had set that exact sum by for a gun of his own.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He turned a little pale, for he had saved just this sum to buy a gun",
+            "with some friends who went to shoot larks on Sunday."
+          ],
+          "objective": true,
+          "options": {
+            "A": "He had already promised that amount to one of his colleagues.",
+            "B": "He believed the dress she had in mind would cost much more.",
+            "C": "He had set that exact sum by for a gun of his own.",
+            "D": "He feared that the Minister's ball might be cancelled altogether."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:B:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "You have to report a friend's yes-no question to the class, so you begin, \"My friend asked me ____ you were sure you still had it when you left\" — which word fills the gap correctly? (A) that (B) why (C) where (D) whether",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "whether",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He asked, “You are sure you still had it when we left the Minister’s house?”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "that",
+            "B": "why",
+            "C": "where",
+            "D": "whether"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:C:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school is observing a ‘Speak the Truth’ week. Write a speech of about 100 words for the morning assembly in which you say what you understand by honesty, show with one short example what hiding a mistake can cost — a girl borrows a diamond necklace from a friend for one evening, loses it and buys a new one without telling her, so that her family spends ten years in poverty paying for it — and close with a line that asks your listeners to speak the truth.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: says clearly what honesty means and why speaking the truth matters.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: uses the example accurately — necklace borrowed for one evening, lost, replaced in secret, ten years of poverty paid.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: written as a spoken assembly speech, opening with a greeting, in spoken register, and ending with a closing line.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: a clear sequence — opening, the example, the moral drawn from it, and the final appeal.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling, grammar and punctuation, and stays close to 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Good morning, everyone. I want to talk to you for a minute about speaking the truth. A girl once borrowed a diamond necklace from a friend for one evening. She lost it and, too afraid to say so, bought a new one in secret. What seemed a small deception grew into ten years of poverty for her family — washing, mending, copying late at night — and it changed her face and her hands for the rest of her life. Honesty hurts for a day; a lie robs a family for ten years. So speak the truth, even when it is uncomfortable. Thank you.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He said, “Write to your friend that you have broken the clasp of the\nnecklace and that you will have it repaired. That will give us time.”",
+            "“I returned another to you exactly like it. And it has taken us ten\nyears to pay for it."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:D:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "How would it have been if she had not lost the necklace? Who\nknows? How singular is life, and how full of changes! How small a\nthing will ruin or save one!\n\nYou are writing a line for your school magazine on how far a life can turn on a single chance event, and you want the sense the writer gives in “How small a thing will ruin or save one!” — which choice comes closest to it? (A) A borrowed jewel is worth a great deal only because a large sum was paid for it. (B) One chance event can change the whole course of a life, for better or for worse. (C) Poverty is the price paid by people who borrow what they cannot afford. (D) The writer regrets that the woman ever accepted the invitation to the ball.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "One chance event can change the whole course of a life, for better or for worse.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "How would it have been if she had not lost the necklace? Who\nknows? How singular is life, and how full of changes! How small a\nthing will ruin or save one!"
+          ],
+          "objective": true,
+          "options": {
+            "A": "A borrowed jewel is worth a great deal only because a large sum was paid for it.",
+            "B": "One chance event can change the whole course of a life, for better or for worse.",
+            "C": "Poverty is the price paid by people who borrow what they cannot afford.",
+            "D": "The writer regrets that the woman ever accepted the invitation to the ball."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:E:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A friend has lost something she borrowed and asks whether she should tell the owner at once. In about 50 words, explain why Mme Loisel did not tell Mme Forestier the truth about the necklace, and what she and her husband had to do to pay for the new one.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Gives her reason for staying silent: she feared Mme Forestier would perceive the substitution and take her for a robber.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains how the money came: Loisel borrowed from usurers and the race of lenders on ruinous promises.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States what the ten years cost them: rooms in an attic, her kitchen and washing work, and his copying work at night.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Mme Loisel said nothing because she feared Mme Forestier would notice the substitution and take her for a robber. To pay, Loisel borrowed money from usurers on ruinous promises, and for ten years they lived in an attic, she did the odious work of a kitchen and he copied books at five sous a page.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Mme Forestier did not open the jewel-box as Mme Loisel feared she\nwould. What would she think if she should perceive the substitution?",
+            "The husband worked evenings, putting the books of some merchants\nin order, and nights he often did copying at five sous a page."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:07:F:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-necklace"
+      ],
+      "taxonomyChapterId": "english-10/the-necklace",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Your classmate says Mme Forestier has no reason at all to be shocked when she learns the truth about the necklace. In about 120 words, trace in steps how the loss of the borrowed necklace changed Mme Loisel's life, from the morning after the ball to the Sunday walk in the Champs-Elysees, and end by stating what Mme Loisel learns at that meeting.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "On the way home from the Minister's ball Mme Loisel finds the necklace gone, and neither can trace it.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Loisel buys a like necklace for thirty-six thousand francs and borrows the balance from lenders on ruinous promises.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Mme Loisel lets Mme Forestier believe only that the clasp was broken, so the substitution is never found out.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "For ten years they live in an attic while she does the odious work of a kitchen and he copies books at five sous a page.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "At the end of ten years the debt is cleared, but Mme Loisel is now a strong, hard woman with red hands.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "At their Sunday meeting Mme Forestier does not recognise her; Mme Loisel tells her the truth and hears the necklace was false, worth only five hundred francs.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Walking home from the Minister's ball, Mme Loisel finds the necklace gone, and neither can trace it. 2. Loisel buys a like necklace for thirty-six thousand francs and borrows the balance from lenders on ruinous promises. 3. Mme Loisel lets Mme Forestier believe only that the clasp was broken, so the substitution is never found out. 4. For ten years they live in an attic while she does the odious work of a kitchen and he copies books at five sous a page. 5. At the end of ten years the debt is cleared, but Mme Loisel is now a strong, hard woman with red hands. 6. At their Sunday meeting Mme Forestier does not recognise her; Mme Loisel tells her the truth and hears the necklace was false, worth only five hundred francs.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In a shop of the Palais-Royal, they found a chaplet of diamonds,\nwhich seemed to them exactly like the one they had lost. It was valued\nat forty thousand francs. They could get it for thirty-six thousand.",
+            "life lasted for ten years. At the end of ten years, they had restored all.",
+            "Mine were false. They were not worth over five hundred francs!”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      7
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

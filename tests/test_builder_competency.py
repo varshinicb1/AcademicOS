@@ -353,17 +353,18 @@ def test_the_served_bank_reads_as_the_builder_will_show_it(tmp_path, monkeypatch
             return r.json()
 
         half = availability("preset:cbse:10:science:half_yearly", HALF)
-        assert half["competency"]["status"] == "below_scope"
         # Measured on the rebuilt bank (2026-09-28), which no longer serves the
         # CBE items that point at a figure they do not carry: 10 of 30, because the bank had no
         # 2-mark or 4-mark Science 10 question and the paper printed 30 of its 39. With the
-        # model-written ones (2026-10-04) it prints all 39.
-        assert half["competency"]["summary"] == "Competency-based: 13 of 39 questions (33%)"
+        # model-written ones (2026-10-04) it printed all 39, 13 of them competency-based (33%,
+        # "below_scope"); with the second batch of them (2026-10-14: assertion-reason and case-based
+        # Science 10 questions) the chosen chapters alone reach CBSE's 50%.
+        assert half["competency"]["status"] == "meets"
+        assert half["competency"]["summary"] == "Competency-based: 23 of 39 questions (59%)"
         # 22 of 31 (71%) until 2026-10-01. A section that names no share now
         # takes competency-based questions first (QA R-03), but one filed under
         # no current chapter (QA P-04) only as far as CBSE's 50%.
-        assert half["competency"]["detail"] == (
-            "Below CBSE's 50%. The whole syllabus would give 22 of 39 (56%).")
+        assert half["competency"]["detail"] == "CBSE asks for at least 50%."
         # False until 2026-10-04: the paper had nothing to vary. With the model-written 2-mark and
         # 4-mark questions a Foundation or Advanced version can print other questions.
         assert half["tiers"]["available"] is True

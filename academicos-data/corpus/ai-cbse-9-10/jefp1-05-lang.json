@@ -1,0 +1,1239 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:05:A:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "Further footprints followed, one after another, descending the steps and progressing down the street. The boys followed, fascinated, until the muddy impressions became fainter and fainter, and at last disappeared altogether. The explanation of the mystery was really simple enough. The bewildered boys had been following a scientist who had just discovered how to make the human body transparent.\n\nWhy do the muddy impressions become fainter and fainter and then disappear altogether? (A) The rain washed the mud off the street within a few minutes (B) The two boys gave up following the prints halfway down the street (C) The invisible man walked on to ground where there was no mud (D) The wet mud was left behind and dried slowly as he walked on",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The wet mud was left behind and dried slowly as he walked on",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The boys followed, fascinated, until the muddy impressions became fainter and fainter, and at last disappeared altogether.",
+            "The bewildered boys had been following a scientist who had just discovered how to make the human body transparent."
+          ],
+          "objective": true,
+          "options": {
+            "A": "The rain washed the mud off the street within a few minutes",
+            "B": "The two boys gave up following the prints halfway down the street",
+            "C": "The invisible man walked on to ground where there was no mud",
+            "D": "The wet mud was left behind and dried slowly as he walked on"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:A:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "Brilliant scientist though he was, Griffin was rather a lawless person. His landlord disliked him and tried to eject him. In revenge Griffin set fire to the house. To get away without being seen he had to remove his clothes. Thus it was that he became a homeless wanderer, without clothes, without money, and quite invisible — until he happened to step in some mud, and left footprints as he walked!\n\nWhy did Griffin have to leave his clothes behind? (A) Because the fire had burnt every stitch he owned (B) Because he had to get away from the burning house without being seen (C) Because his landlord sold all his clothes to pay the rent (D) Because his clothes were too heavy to carry in the mud",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Because he had to get away from the burning house without being seen",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In revenge Griffin set fire to the house.",
+            "To get away without being seen he had to remove his clothes."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Because the fire had burnt every stitch he owned",
+            "B": "Because he had to get away from the burning house without being seen",
+            "C": "Because his landlord sold all his clothes to pay the rent",
+            "D": "Because his clothes were too heavy to carry in the mud"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:A:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "Shortly afterwards a curious episode occurred. Very early in the morning a clergyman and his wife were awakened by noises in the study. Creeping downstairs, they heard the chink of money being taken from the clergyman’s desk. Without making any noise and with a poker grasped firmly in his hand, the clergyman flung open the door.\n\nWhy was the clergyman waiting outside the study with a poker in his hand? (A) Because he suspected a burglar was inside and wanted to catch him by surprise (B) Because he had promised his wife to fetch coal from the cellar (C) Because he was annoyed that the study door had been left open (D) Because he had heard the landlord arguing with his wife downstairs",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Because he suspected a burglar was inside and wanted to catch him by surprise",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "a clergyman and his wife were awakened by noises in the study",
+            "Without making any noise and with a poker grasped firmly in his hand"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Because he suspected a burglar was inside and wanted to catch him by surprise",
+            "B": "Because he had promised his wife to fetch coal from the cellar",
+            "C": "Because he was annoyed that the study door had been left open",
+            "D": "Because he had heard the landlord arguing with his wife downstairs"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:B:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A thief opens a desk before its owner enters the room. Choose the form that correctly completes the sentence: “Yet the desk ______ and the housekeeping money was missing.” (A) had been opened (B) has been opened (C) was being opened (D) had opened",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "had been opened",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Yet the desk had been opened and the housekeeping money was missing."
+          ],
+          "objective": true,
+          "options": {
+            "A": "had been opened",
+            "B": "has been opened",
+            "C": "was being opened",
+            "D": "had opened"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:B:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the modal verb that correctly shows obligation in the past: “To get away without being seen he ______ remove his clothes.” (A) has to (B) must (C) had to (D) would",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "had to",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "To get away without being seen he had to remove his clothes."
+          ],
+          "objective": true,
+          "options": {
+            "A": "has to",
+            "B": "must",
+            "C": "had to",
+            "D": "would"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:B:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "To show that a man is turning invisible little by little, not all at once, choose the pair that correctly completes “a man who was ______ invisible”. (A) most and most (B) more and more (C) many and many (D) much and much",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "more and more",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "a man who was becoming more and more invisible as he threw off one garment after another"
+          ],
+          "objective": true,
+          "options": {
+            "A": "most and most",
+            "B": "more and more",
+            "C": "many and many",
+            "D": "much and much"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:C:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "The constable of the village of Iping has posted a notice about the money taken from the clergyman’s desk. Write a notice of about 100 words for the village notice board, telling readers what was stolen, what the witnesses saw, and what they should do if they notice anything strange at night.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: states the burglary at the clergyman’s house in Iping and names the housekeeping money as stolen.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: begins with the heading NOTICE and the title of the notice, and ends with the constable’s signature.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: information arranged in clear order — what happened, what the witnesses saw, what readers should do.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct grammar, spelling and punctuation, including capital letters and the possessive form.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: clear, formal and suitable for a village notice board, with no irrelevant detail.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "NOTICE\nBurglary at the Clergyman’s House, Iping\nThe housekeeping money was stolen from the clergyman’s desk in the early hours of the morning. The clergyman and his wife heard noises in the study, but when they opened the door the room appeared to be empty. There was no sign of anybody, yet the desk had been opened. Anyone who notices a strange man, or a room with an open desk and no one in it, should inform the village constable at once. Neighbours are advised to report any noise they hear in the night. Signed: Mr Jaffers, Village Constable",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Creeping downstairs, they heard the chink of money being taken from the clergyman’s desk.",
+            "There wasn’t a sign of anybody. Yet the desk had been opened and the housekeeping money was missing."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:C:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your friend says they have run out of books to read. Write an e-mail of about 100 words recommending The Invisible Man by H.G. Wells: say what the story is about, why you chose it, and who would enjoy reading it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: names the book and its author, gives a clear idea of the story, and says who would enjoy it.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: has a subject line, a greeting, the message, and a closing with the writer’s name.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: ideas in a sensible order — recommendation, story, personal reason, choice of reader.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, punctuation and tenses, keeping the capital letters in the title The Invisible Man.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: friendly, informal tone suited to an e-mail, with at least two vivid expressions.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Subject: A Book You Will Not Put Down\nDear Friend,\nI am writing to recommend The Invisible Man by H.G. Wells. It is the story of Griffin, a brilliant scientist who swallows certain rare drugs and makes his own body as transparent as a sheet of glass. He does not use the discovery well. He becomes a lawless wanderer who robs a shopkeeper and steals money from a desk, and nobody can see him. I chose it because it makes you think about whether science is used for good or for harm. You will enjoy it if you like adventure and mystery.\nYours sincerely,\nYour Name",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The Invisible Man by H.G. Wells",
+            "Finally he swallowed certain rare drugs and his body became as transparent as\na sheet of glass"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:C:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "The Principal has asked you to speak at the school assembly on the value of science. Write a speech of about 100 words titled “Can a Man Become Invisible?”, and end with one line of advice for your listeners.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: names the scientist and how he made his body transparent, and says that he misused the discovery.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: opens with a greeting, keeps the spoken part short, and closes with “Thank you”.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: introduction, main point, a question put to the audience, one line of advice, and a closing.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct tenses and punctuation, including the linked comparatives “as transparent as a sheet of glass” and “as solid as glass”.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: spoken language addressed directly to the listeners, with at least one rhetorical question.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Good morning, everyone,\nHave you ever wondered whether a man can become invisible? Griffin, a brilliant scientist, swallowed certain rare drugs and made his body as transparent as a sheet of glass and as solid as glass. He misused this discovery. He stole, and nobody could see him. Science gives us great power, but power must be used wisely. If you could be invisible today, would you use it to help others or to hide from them? I have one piece of advice. Use what you learn to serve others, never to deceive them.\nThank you.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Can a man become invisible? This is the\nstory of a scientist who discovers how to\nmake himself invisible. Does he use, or\nmisuse, his discovery?",
+            "Brilliant scientist though he was, Griffin was rather a lawless\nperson."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:E:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why did Griffin become a homeless wanderer, without clothes and without money?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "His landlord disliked him and tried to eject him.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In revenge Griffin set fire to the house.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He had to take off his clothes to escape unseen, leaving him with neither clothes nor a home.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Griffin's landlord disliked him and tried to eject him. In revenge Griffin set fire to the house. To get away without being seen, he had to remove his clothes before he ran. That is how he lost his clothes and his home at once, and had to wander the streets quite invisible.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "His landlord disliked him and tried to eject him. In revenge\nGriffin set fire to the house.",
+            "To get away without being seen he had to\nremove his clothes. Thus it was that he became a homeless wanderer,\nwithout clothes, without money, and quite invisible"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:E:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why did Mrs Hall and the neighbours believe that witchcraft was at work in the inn?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The hat leapt up and dashed into Mrs Hall's face.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The chair sprang into the air, pushed the landlord and his wife out, and locked the door behind them.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So Mrs Hall called the room haunted by spirits and the neighbours called it witchcraft.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The furniture in Mrs Hall's bedroom seemed to come alive. The hat leapt up and dashed into her face, and the chair sprang into the air and pushed the landlord and his wife out of the room. Mrs Hall was convinced the room was haunted by spirits, and the neighbours said witchcraft was the cause.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "All of a sudden Mrs Hall heard a sniff close to her ear. A moment\nlater the hat on the bedpost leapt up and dashed itself into her face.",
+            "the extraordinary chair pushed them both out of the room and\nthen appeared to slam and lock the door after them",
+            "The feeling among the neighbours was that the trouble was caused\nby witchcraft."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:E:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "How did Griffin misuse his discovery of invisibility? What did his misuse lead to?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Griffin discovered how to make the human body transparent.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He used it to set fire to his landlord's house and to rob a shopkeeper in Drury Lane.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He also stole the clergyman's housekeeping money, so invisibility became a way to steal and to escape.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Griffin discovered how to make the human body transparent, but he did not use the discovery well. He set fire to his landlord's house, robbed a shopkeeper in Drury Lane, and stole the clergyman's housekeeping money. Instead of helping anyone, invisibility became a way for him to steal and to escape.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In revenge Griffin set fire to the house.",
+            "To escape\nwithout being seen, he callously attacked the shopkeeper from behind,\nafter which he robbed him of all the money he could find.",
+            "Yet the desk\nhad been opened and the housekeeping money was missing."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:F:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Trace, in order, the steps that turned Griffin from a brilliant scientist into a thief on the run, and give the reason for each step.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Griffin's body became transparent when he swallowed certain rare drugs, though it stayed as solid as glass.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He set fire to his landlord's house in revenge for trying to eject him.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He took off his clothes to escape unseen and became a homeless wanderer with no money.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He broke into a London store for warmth and later robbed a shopkeeper in Drury Lane.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He stole the housekeeping money from the clergyman's desk.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Mrs Hall complained, so the constable Mr Jaffers was sent for and arrested him.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Griffin swallowed certain rare drugs and his body became as transparent as a sheet of glass, though as solid as glass. Reason: he had proved the body could be invisible.\n2. His landlord tried to eject him, so in revenge he set fire to the house. Reason: anger at his landlord.\n3. To escape unseen he removed his clothes and became a homeless wanderer. Reason: he had to leave the burning house.\n4. He broke into a London store for warmth, then robbed a shopkeeper in Drury Lane. Reason: he had no money.\n5. He took the housekeeping money from the clergyman's desk. Reason: he wanted more money.\n6. Mrs Hall complained, so the constable Mr Jaffers was sent for and arrested him. Reason: his strange behaviour in the bedroom.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Finally he\nswallowed certain rare drugs and his body became as transparent as\na sheet of glass — though it also remained as solid as glass.",
+            "Thus it was that he became a homeless wanderer,\nwithout clothes, without money, and quite invisible",
+            "Mr Jaffers, the constable, now arrived, and was quite surprised to\nfind that he had to arrest a man without a head."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:F:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "How did the people at Iping explain the strange things they saw in the scientist's rooms, and why were they so sure of their explanation?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "The clergyman found the desk open and the money gone, though nobody was in the room.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Mrs Hall saw the hat leap up and the chair push her out and lock the door.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So she believed the room was haunted by spirits put there by the stranger.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The neighbours believed the trouble was witchcraft.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They were wrong because the man was no spirit; his body was simply transparent.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "His sudden ready cash, after admitting he had none, made the suspicion stronger.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. The clergyman and his wife heard the chink of money and found the desk open, but nobody was there. They looked under the desk, behind the curtains and even up the chimney.\n2. Mrs Hall found the hat leaping into her face and the chair pushing her and her husband out and locking the door.\n3. So Mrs Hall decided the room was haunted by spirits that the stranger had put into her furniture.\n4. The neighbours decided the trouble was witchcraft.\n5. Their explanation was wrong because the stranger was not a spirit at all; his body was transparent, so money and furniture could move while nobody saw him.\n6. Suspicion grew when he suddenly produced ready cash after admitting that he had no money.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He and his wife looked under the desk, and behind the curtains,\nand even up the chimney. There wasn’t a sign of anybody.",
+            "She was convinced\nthat the room was haunted by spirits, and that the stranger had\nsomehow caused these to enter into her furniture.",
+            "Suspicion grew even stronger\nwhen he suddenly produced some ready cash, though he had admitted\nnot long before that he had no money."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:05:F:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/footprints-without-feet"
+      ],
+      "taxonomyChapterId": "english-10/footprints-without-feet",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Griffin succeeded in making the human body transparent. Why did this discovery bring him misery instead of fame?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Griffin discovered how to make the human body transparent, but used it only for himself.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He set fire to his landlord's house and robbed a shopkeeper of all the money he could find.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Because he could not be seen, he was never punished for it and went on misusing it.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He ended with no home, no money and no clothes, wandering in the bitter cold of mid-winter.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The villagers took him for an eccentric scientist and then suspected him of witchcraft.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He escaped again by throwing off one garment after another, so the discovery brought him only misery.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Griffin proved that the human body could become invisible, but he cared only for his own experiment.\n2. He never used it to help anyone; he set fire to his landlord's house and robbed a shopkeeper in Drury Lane.\n3. Because nobody could see him, he was never caught, and so he went on misusing it.\n4. He had no friends and no money, and in mid-winter he could not do without clothes.\n5. The villagers first took him for an eccentric scientist and then accused him of witchcraft.\n6. He ended by throwing off one garment after another and escaping unseen, with no one able to lay hands on him.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Griffin, the scientist, had carried out experiment after experiment\nto prove that the human body could become invisible.",
+            "after which he robbed him of all the money he could find.",
+            "He had chosen\na bad time of the year to wander about London without clothes. It was\nmid-winter."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch5",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "Mrs Hall almost falls down the stairs in hysterics and is sure the room is haunted. Her behaviour shows that she is"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "The people in the bar find themselves staring at a headless man who is still speaking. Their horror shows that they"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "The desk has been opened and the housekeeping money is missing, yet nobody is in the room. This shows that the thief"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      5
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

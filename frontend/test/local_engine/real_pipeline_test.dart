@@ -42,7 +42,8 @@ void main() {
     // 10 items that point at a figure or graph they do not carry.
     // 589 with the 95 model-written, book-quoted Science 10 questions (corpus/ai-cbse-9-10): 2- and 4-mark
     // case studies and short answers for all 13 chapters.
-    expect(science10.questionCount, 589);
+    // 625 with the second batch (2026-10-14): 36 more, assertion-reason and case-based.
+    expect(science10.questionCount, 625);
     expect(science10.chapters, 13);
   });
 

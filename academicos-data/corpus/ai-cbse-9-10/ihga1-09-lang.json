@@ -1,0 +1,1454 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:ihga1:09:A:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "competency_based",
+      "stem": "तुलसीदा स संस्कृत के श्रेष‍ठ ज्ञा ता थे। उनका अव धी और ब्रज दोनों भा षा ओं पर समा न अधिका र था । उन्होंने रामचरितमानस की रचना अव धी में और विनयपत्रिका तथा कवितावली की रचना ब्रजभा षा में की। का शी में उनका देहाव सा न हुआ। प्रस्तुत अंश ‘रामचरितमानस’ के ‘बालकांड’ से लिया गया है। सीता स्‍वयंवर में श्ीराम द्ारा\n\nअंश में वर्णित जानकारी के अनुसार तुलसीदास ने किन दो रचनाओं की रचना ब्रजभाषा में की थी? (A) रामचरितमानस और गीतावली (B) कृष्ण गीतावली और दोहावली (C) विनयपत्रिका और कवितावली (D) हनुमान बाहुक और रामचरितमानस",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "विनयपत्रिका और कवितावली",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उन्होंने रामचरितमानस की रचना अव धी में और विनयपत्रिका तथा कवितावली की रचना ब्रजभा षा में की।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "रामचरितमानस और गीतावली",
+            "B": "कृष्ण गीतावली और दोहावली",
+            "C": "विनयपत्रिका और कवितावली",
+            "D": "हनुमान बाहुक और रामचरितमानस"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:A:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "प्रस्तुत अंश ‘रामचरितमानस’ के ‘बालकांड’ से लिया गया है। सीता स्‍वयंवर में श्ीराम द्ारा शिव-धनुष भंग का समाचार जब मुन‍‍ि परशुराम को मिलता है तो वे आक्रोशित होकर वहाँ आते हैं। शिव-धनुष को खंडित देखकर वे तीव्र रोष प्रकट करते हैं और सभा में उपस्थ थित सभी राजाओं पर क्रोधित होते हैं। यहाँ तुलसीदास ने परशुराम के रोषपूर्ण और तेजस्वी रूप का वर्णन किया है।\n\nअंश के अनुसार शिव-धनुष को खंडित देखकर परशुराम ने अपना रोष किस ओर व्यक्त किया? (A) विश्वामित्र से राम-लक्ष्मण का परिचय कराने के लिए (B) सीता से शिव-धनुष के टूटने का सीधा प्रश्न पूछकर (C) जनक को शिव-धनुष तोड़ने का दोष देकर (D) सभा में उपस्थित सभी राजाओं के प्रति",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सभा में उपस्थित सभी राजाओं के प्रति",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "शिव-धनुष को खंडित देखकर वे तीव्र रोष प्रकट करते हैं और सभा में उपस्थ थित सभी राजाओं पर क्रोधित होते हैं। यहाँ तुलसीदास ने परशुराम के रोषपूर्ण और तेजस्वी रूप का वर्णन किया है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "विश्वामित्र से राम-लक्ष्मण का परिचय कराने के लिए",
+            "B": "सीता से शिव-धनुष के टूटने का सीधा प्रश्न पूछकर",
+            "C": "जनक को शिव-धनुष तोड़ने का दोष देकर",
+            "D": "सभा में उपस्थित सभी राजाओं के प्रति"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:A:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "अति डरु उतरु देत नृपु नाहीं। कुटि ल भूप हरषे मन माहीं॥ सुर मुनि ना ग नगर नर ना री। सोचहिं सकल त्रा स उर भा री॥ मन पछिताति सीय महता री। बिधि अब सँव री बा त बिगा री॥ भृगुपति कर सुभा उ सुनि सीता । अरध निमेष कलप सम बीता ॥ सभय बिलोके लोग सब जानि जा नकी भीरु। हृदयँ न हरषु बिषा दु कछु बोले श्ीरघुबीरु॥\n\nअंश में वर्णित स्थिति में लक्ष्मण ने कठोर वचन के बावजूद जिस मनःस्थिति से उत्तर दिया, वह कौन-सी थी? (A) क्रोध के साथ परशुराम का पक्ष लेकर (B) न हर्ष के, न विषाद के, शांत और संयत भाव से (C) पूरी तरह डरकर काँपते हुए (D) व्यंग्य से परशुराम का उपहास करते हुए",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "न हर्ष के, न विषाद के, शांत और संयत भाव से",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "सभय बिलोके लोग सब जानि जा नकी भीरु। हृदयँ न हरषु बिषा दु कछु बोले श्ीरघुबीरु॥"
+          ],
+          "objective": true,
+          "options": {
+            "A": "क्रोध के साथ परशुराम का पक्ष लेकर",
+            "B": "न हर्ष के, न विषाद के, शांत और संयत भाव से",
+            "C": "पूरी तरह डरकर काँपते हुए",
+            "D": "व्यंग्य से परशुराम का उपहास करते हुए"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:B:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "competency_based",
+      "stem": "गोस्‍व वामी तुलसीदा स का जन्म आज के उत्तर प्रदेश में हुआ था । इनका जीव न-का ल 16वीं–17वीं शता ब्दी (सन् 1532–1623)* के मध्य मा ना गया है। रामचरितमानस तुलसीदा स का प्रसिद्ध महा का व्‍य है। रामचरितमानस उनकी अनन्य रा मभक्‍त ति और उनके सृजना त्मक कौशल का मनोरम उदा हरण है। उनकी अन्य प्रमुख रचना एँ कवितावली, गीतावली, दोहावली, कृष्ण गीतावली, विनयपत्रिका, हनुमान बाहुक हैं। तुलसीदा स की रचना ओं में रा म मा नवीय मर्य यादा ओं और आदशशों के प्रतीक हैं जिनके मा ध्य म से उन्होंने नीति, स्नेह, शील, विनय , त्य या ग जैसे मूल्यों को प्रतिष्‍ठ‍ित किया है।\n\nअंश में दी गई सूची के अनुसार तुलसीदास की अन्य प्रमुख रचनाओं में से दो रचनाओं के नाम लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "कवितावली",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "गीतावली",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कवितावली और गीतावली।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उनकी अन्य प्रमुख रचना एँ कवितावली, गीतावली, दोहावली, कृष्ण गीतावली, विनयपत्रिका, हनुमान बाहुक हैं। तुलसीदा स की"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:B:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "competency_based",
+      "stem": "प्रस्तुत अंश ‘रामचरितमानस’ के ‘बालकांड’ से लिया गया है। सीता स्‍वयंवर में श्ीराम द्ारा शिव-धनुष भंग का समाचार जब मुन‍‍ि परशुराम को मिलता है तो वे आक्रोशित होकर वहाँ आते हैं। शिव-धनुष को खंडित देखकर वे तीव्र रोष प्रकट करते हैं और सभा में उपस्थ थित सभी राजाओं पर क्रोधित होते हैं। यहाँ तुलसीदास ने परशुराम के रोषपूर्ण और तेजस्वी रूप का वर्णन किया है।\n\nअंश में परशुराम के रूप का वर्णन करते समय किन दो विशेषताओं का उल्लेख किया गया है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "रोषपूर्ण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "तेजस्वी",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "रोषपूर्ण और तेजस्वी।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "यहाँ तुलसीदास ने परशुराम के रोषपूर्ण और तेजस्वी रूप का वर्णन किया है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:B:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "रामचरितमानस में यहाँ से आगे की कथा में परशुराम का आक्ोश, लक्ष ‍मण और परशुराम के बीच व्यंग्ययोक्‍त‍िपूर्ण संवाद और ऐसी स्थ थिति में भी राम के धीर-गंभीर शांत स्‍वरूप का वर्णन है। अंतत: राम के विनय और विश् ‍ववामित्र के समझाने पर तथा राम की शक्‍त‍ि की प‍रीक्ा लेकर परशुराम का आक्ोश शांत होता है।\n\nअंश के अनुसार परशुराम का आक्रोश किन दो कारणों से शांत हुआ?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "राम के विनय और विश्वामित्र के समझाने पर आक्रोश शांत हुआ",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "राम की शक्ति की परीक्षा लेकर आक्रोश शांत हुआ",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "राम के विनय और विश्वामित्र के समझाने पर, तथा राम की शक्ति की परीक्षा लेकर।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अंतत: राम के विनय और विश् ‍ववामित्र के समझाने पर तथा राम की शक्‍त‍ि की प‍रीक्ा लेकर परशुराम का आक्ोश शांत होता है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:C:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "mcq",
+      "stem": "आपके अभ्यास-पत्र में वाक्य “यहाँ तुलसीदास ने परशुराम के रोषपूर्ण और तेजस्वी रूप का वर्णन किया है।” दिया गया है। इस वाक्य में ‘रोषपूर्ण’ पद किस प्रकार का है? (A) विशेष्य (B) उपसर्ग (C) विशेषण (D) समास",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "विशेषण",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "यहाँ तुलसीदास ने परशुराम के रोषपूर्ण और तेजस्वी रूप का वर्णन किया है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "विशेष्य",
+            "B": "उपसर्ग",
+            "C": "विशेषण",
+            "D": "समास"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:C:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "mcq",
+      "stem": "साहित्य-मंडल में चर्चा के लिए आप यह वाक्य प्रस्तुत करते हैं—‘उनकी अन्य प्रमुख रचनाएँ कवितावली, गीतावली, दोहावली, कृष्ण गीतावली, विनयपत्रिका, हनुमान बाहुक हैं।’ इस वाक्य में ‘हैं’ किस काल की पहचान है? (A) आद्य काल (B) आगामी काल (C) भूत काल (D) वर्तमान काल",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "वर्तमान काल",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "दोहावली, कृष्ण गीतावली, विनयपत्रिका, हनुमान बाहुक हैं। तुलसीदा स की"
+          ],
+          "objective": true,
+          "options": {
+            "A": "आद्य काल",
+            "B": "आगामी काल",
+            "C": "भूत काल",
+            "D": "वर्तमान काल"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:C:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "mcq",
+      "stem": "आपके अभ्यास-पत्र में वाक्य “उन्होंने नीति, स्नेह, शील, विनय, त्याग जैसे मूल्यों को प्रतिष्ठित किया है।” दिया गया है। यह किस प्रकार का वाक्य है? (A) संयुक्त वाक्य (B) सरल वाक्य (C) मिश्र वाक्य (D) प्रश्नवाचक वाक्य",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सरल वाक्य",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "से उन्होंने नीति, स्नेह, शील, विनय , त्य या ग जैसे मूल्यों को प्रतिष्‍ठ‍ित किया है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "संयुक्त वाक्य",
+            "B": "सरल वाक्य",
+            "C": "मिश्र वाक्य",
+            "D": "प्रश्नवाचक वाक्य"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:D:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "देखत भृगुपति बेषु करा ला । उठे सकल भय बिकल भुआला ॥ पितु समेत कहि कहि निज ना मा । लगे करन सब दंड प्रना मा ॥ जेहि सुभायँ चितवहिं हितु जा नी। सो जा नइ जनु आइ खुटा नी॥ जनक बहोरि आइ सिरु नावा वा। सीय बोला इ प्रना मु करावा वा॥ आसिष दीन्हहि सखीं हरषानीं। निज समा ज लै गइ« सयानीं॥\n\nपंक्ति “पितु समेत कहि कहि निज ना मा । लगे करन सब दंड प्रना मा ॥” के अनुसार अंश में सभा में उपस्थित लोगों की मनःस्थिति किस प्रकार दर्शाई गई है? (A) आदर और सम्मान (B) क्रोध और तिरष्कार (C) उत्साह और गौरव (D) भय और विस्मय",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "भय और विस्मय",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "देखत भृगुपति बेषु करा ला । उठे सकल भय बिकल भुआला ॥ पितु समेत कहि कहि निज ना मा । लगे करन सब दंड प्रना मा ॥"
+          ],
+          "objective": true,
+          "options": {
+            "A": "आदर और सम्मान",
+            "B": "क्रोध और तिरष्कार",
+            "C": "उत्साह और गौरव",
+            "D": "भय और विस्मय"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:D:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "मन पछिताति सीय महता री। बिधि अब सँव री बा त बिगा री॥ भृगुपति कर सुभा उ सुनि सीता । अरध निमेष कलप सम बीता ॥ सभय बिलोके लोग सब जानि जा नकी भीरु। हृदयँ न हरषु बिषा दु कछु बोले श्ीरघुबीरु॥\n\nइन पंक्तियों में वर्णित लक्ष्मण के उत्तर का भाव किस प्रकार का है? (A) साहस और आवेग (B) भय और अनिश्चितता (C) संयम और परिपक्व बुद्धि (D) व्यंग्य और उपहास",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "संयम और परिपक्व बुद्धि",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "सभय बिलोके लोग सब जानि जा नकी भीरु। हृदयँ न हरषु बिषा दु कछु बोले श्ीरघुबीरु॥"
+          ],
+          "objective": true,
+          "options": {
+            "A": "साहस और आवेग",
+            "B": "भय और अनिश्चितता",
+            "C": "संयम और परिपक्व बुद्धि",
+            "D": "व्यंग्य और उपहास"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:D:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "समा चा र कहि जनक सुना ए। जेहि का रन महीप सब आए॥ सुनत बचन फिरि अनत निहा रे। देखे चा पखंड महि डा रे॥ अति रिस बोले बचन कठोरा । कहु जड़ जनक धनुष कै तोरा ॥ बेगि देखा उ मूढ़ न त आजू। उलटउँ महि जहँ लहि तव रा जू॥\n\nइन पंक्तियों के आधार पर परशुराम की मनःस्थिति किस प्रकार थी? (A) शोक और विषाद (B) क्रोध और उत्तेजना (C) विनम्रता और शांति (D) उत्सुकता और सहानुभूति",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "क्रोध और उत्तेजना",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अति रिस बोले बचन कठोरा । कहु जड़ जनक धनुष कै तोरा ॥ बेगि देखा उ मूढ़ न त आजू। उलटउँ महि जहँ लहि तव रा जू॥"
+          ],
+          "objective": true,
+          "options": {
+            "A": "शोक और विषाद",
+            "B": "क्रोध और उत्तेजना",
+            "C": "विनम्रता और शांति",
+            "D": "उत्सुकता और सहानुभूति"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:E:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "आपके मित्र ने पूछा कि तुलसीदास ने रामचरितमानस की रचना किस भाषा में की और वे कहाँ देहांत को प्राप्त हुए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "रामचरितमानस अवधी भाषा में रचित",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "काशी में उनका देहांत हुआ",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उन्होंने रामचरितमानस की रचना अवधी भाषा में की थी और काशी में ही उनका देहांत हुआ।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उन्होंने रामचरितमानस की रचना अव धी में और विनयपत्रिका तथा कवितावली की रचना ब्रजभा षा में की। का शी में उनका देहाव सा न हुआ।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:E:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "किसी शिक्षा-सत्र में आपको परशुराम का परिचय देना है; बताइए कि इस कविता में उन्हें किन-किन नामों से संबोधित किया गया है।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "भृगुपति और परसुधर",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भृगुकुलकेतू",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "भृगुपति, परसुधर और भृगुकुलकेतू।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "यहाँ परशुराम को विभिन्न नामों से संबोधित कि या गया है, जैसे– भृगुपति, परसुधर और भृगुकुलकेतू।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:E:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "प्रतियोगिता में भाग ले रहे एक विद्यार्थी की तरह बताइए कि रामचरितमानस के इस प्रसंग का मंचन किन कला-रूपों में किया जा सकता है और इसके लिए किन कलात्मक तकनीकों का उपयोग होता है।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "लोकनाट्य, रामलीला और कठपुतली कला",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "ध्वनि, भाव, संगीत और वेशभूषा जैसी कलात्मक तकनीकें",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "इस प्रसंग का मंचन लोकनाट्य, रामलीला और कठपुतली कला में बड़ी जीवंतता से किया जा सकता है; इसके लिए ध्वनि, भाव, संगीत और वेशभूषा जैसी कलात्मक तकनीकों का उपयोग किया जाता है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "रामचरितमानस के इस प्रसंग का मंचन लोकनाट्य , रामलीला और कठपुतली कला में बड़ी जीवंतता से किया जा सकता है। कलात्मक तकनीकों (ध्‍वनि‍, भाव, संगीत, वेशभूषा) का उपयोग करते हुए कविता को एक दृश्य नाटक के रूप में प्रस्तुत कीजिए।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:F:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "कक्षा-चर्चा में आपको यह समझाना है कि अंततः परशुराम का आक्रोश किन कारणों से शांत हुआ; लगभग ६० शब्दों में अपने शब्दों में उत्तर दीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "राम का धीर-गंभीर और शांत स्वरूप बना रहा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "राम के विनय और विश्वामित्र के समझाने पर आक्रोश शांत हुआ",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "राम की शक्ति की परीक्षा लेकर आक्रोश शांत हुआ",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "लक्ष्मण और परशुराम का संवाद व्यंग्ययुक्त था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "आगे की कथा में लक्ष्मण और परशुराम के बीच व्यंग्ययुक्त संवाद होता है, पर ऐसी स्थिति में भी राम का स्वरूप धीर-गंभीर और शांत बना रहता है। अंततः राम के विनय और विश्वामित्र के समझाने पर, तथा राम की शक्ति की परीक्षा लेकर परशुराम का आक्रोश शांत हो जाता है। इस प्रसंग से यह सीख मिलती है कि कठिन परिस्थितियों में भी सत्य और संयत बने रहने से ही समाधि मिलती है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अंतत: राम के विनय और विश् ‍ववामित्र के समझाने पर तथा राम की शक्‍त‍ि की प‍रीक्ा लेकर परशुराम का आक्ोश शांत होता है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:F:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपने मित्र को बताइए कि कठोर वचनों के बावजूद लक्ष्मण के मुस्कान और उपहास भरे वचनों का कारण क्या था; लगभग ६० शब्दों में अपने शब्दों में उत्तर दीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "परशुराम के कठोर और अपमानजनक वचन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सबके हृदय में भय के बावजूद लक्ष्मण का शांत उत्तर",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "लक्ष्मण ने न हर्ष के, न विषाद के बोला",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उत्तर व्यंग्यपूर्ण और सम्मानपूर्वक दिया गया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "परशुराम ने जनक को कठोर वचन कहे और सभा राजाओं पर क्रोध ढाड़ा। उस समय सबके हृदय में भय था, पर लक्ष्मण ने न हर्ष के, न विषाद के, शांत और व्यंग्यपूर्ण वचनों से उत्तर दिया। उनका उत्तर व्यंग्यपूर्ण था, इसलिए वह उत्तेजना से नहीं, बल्कि अपने अनुयायी राम के परिचय और सम्मान के रास्ते से दिया गया। कविता में संवादों की यही विशेषता सामने आती है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "सभय बिलोके लोग सब जानि जा नकी भीरु। हृदयँ न हरषु बिषा दु कछु बोले श्ीरघुबीरु॥"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:09:F:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/राम-लक्ष्मण-परशुराम-संवाद"
+      ],
+      "taxonomyChapterId": "hindi-9/राम-लक्ष्मण-परशुराम-संवाद",
+      "topic": "तुलसीदास",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "आपके मित्र ने सुना है कि सीता और उनकी माता सुनयना परशुराम के क्रोध से चिंतित थीं; बताइए कि कविता में सीता की मनःस्थिति किस प्रकार व्यक्त हुई है। लगभग ६० शब्दों में उत्तर दीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "परशुराम के क्रोध से सीता और उनकी माता सुनयना चिंतित हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सीता के लिए एक-एक पल युग के समान भारी और लंबा प्रतीत हो रहा है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "‘मन पछिताति सीय महता री’ पंक्ति में यह चिंता व्यक्त हुई है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "‘बिधि अब सँवरी बात बिगारी’ से भविष्य की आशंका का पता चलता है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "परशुराम के आगमन से सीता और उनकी माता सुनयना दोनों चिंतित हैं और सीता के लिए एक-एक पल युग के समान भारी और लंबा प्रतीत हो रहा है। कविता में इसका स्पष्ट संकेत ‘मन पछिताति सीय महता री’ और ‘बिधि अब सँवरी बात बिगारी’ जैसी पंक्तियों से मिलता है। सीता की मनःस्थिति भविष्य की चिंता और आशंका से भरी है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मन पछिताति सीय महता री। बिधि अब सँव री बा त बिगा री॥",
+            "1. परशुराम के क्रोध को देखकर सीता और उनकी माता सुनयना दोनों चिं तित हैं और सीता के लिए एक-एक पल युग के समान भारी और लं बा प्रतीत हो रहा है। उनकी मनःस्थथित का अनुमान"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "तुलसीदास",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "विद्यालय में साहित्य-चर्चा के लिए १२० शब्दों में एक अनुच्छेद लिखिए जिसमें बताया गया हो कि राम के विनय और संयत व्यवहार ने"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "तुलसीदास",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "पाठ्यक्रम के अनुसार १२० शब्दों में एक अनुच्छेद लिखिए जिसमें समझाया गया हो कि राम-लक्ष्मण-परशुराम का यह संवाद नाटकीय और प"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "तुलसीदास",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "साहित्य-विवाद में दो मत सामने आए हैं—राम का ‘विनय’ और लक्ष्मण का ‘तर्क’। १२० शब्दों में एक अनुच्छेद लिखिए जिसमें परशुराम"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "तुलसीदास",
+      "reason": "figure-not-in-text:१००",
+      "stem": "अपने विद्यालय के प्रधानाचार्य को १०० शब्दों में पत्र लिखिए, जिसमें आपने और आपके साथियों ने कविता के उन पंक्तियों का मंचन"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "तुलसीदास",
+      "reason": "figure-not-in-text:१००",
+      "stem": "अपने मित्र को १०० शब्दों में ईमेल लिखिए, जिसमें आप यह समझाएँ कि कठिन परिस्थिति में भी राम का धीर-गंभीर और शांत स्वरूप क्"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "तुलसीदास",
+      "reason": "figure-not-in-text:१००",
+      "stem": "अपने नगर में आयोजित लोकनाट्य प्रस्तुति में भाग लेने के लिए कार्यक्रम समिति के अध्यक्ष को १०० शब्दों में आवेदन-पत्र लिखिए"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "तुलसीदास",
+      "reason": "figure-not-in-text:५०",
+      "stem": "अपने विद्यालय में आयोजित कविता-गोष्ठी की सूचना विद्यार्थियों को देने के लिए ५० शब्दों में एक सूचना-पत्र तैयार कीजिए।"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "तुलसीदास",
+      "reason": "figure-not-in-text:५०",
+      "stem": "“कठिन परिस्थितियों में भी सत्य कहने का साहस करना आवश्यक है”— इस विषय पर ५० शब्दों में एक प्रभाव-शक्ति युक्त संदेश तैयार "
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "तुलसीदास",
+      "reason": "figure-not-in-text:५०",
+      "stem": "अपने प्रधानाचार्य की आज्ञा से विद्यालय के पुस्तक-विक्रेता के पास कवितावली तथा रामचरितमानस की प्रतियाँ उपलब्ध हैं; उनका ५"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "ihga1",
+    "chapters": [
+      9
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

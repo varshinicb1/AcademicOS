@@ -1,0 +1,984 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:01:B:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-triumph-of-surgery"
+      ],
+      "taxonomyChapterId": "english-10/a-triumph-of-surgery",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "While writing about a pet that has fallen ill, a classmate puts, “I thought he ___ suffering from malnutrition.” Which modal completes the sentence correctly? (A) will be (B) shall be (C) must be (D) can be",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "must be",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I thought he must be suffering from malnutrition, so I have been giving him some little extras between meals to build him up, some malt and cod-liver oil and a bowl of Horlicks at night to make him sleep — nothing much really."
+          ],
+          "objective": true,
+          "options": {
+            "A": "will be",
+            "B": "shall be",
+            "C": "must be",
+            "D": "can be"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:01:B:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-triumph-of-surgery"
+      ],
+      "taxonomyChapterId": "english-10/a-triumph-of-surgery",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "In a report on a pet's recovery, a student writes, “In two weeks he ___ into a lithe, hard-muscled animal.” Which form completes the sentence correctly? (A) was transformed (B) had transformed (C) has been transformed (D) had been transformed",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "had been transformed",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In two weeks he had been transformed into a lithe, hard-muscled animal; he was keeping up well with the pack, stretching out in great bounds, his chest almost brushing the ground."
+          ],
+          "objective": true,
+          "options": {
+            "A": "was transformed",
+            "B": "had transformed",
+            "C": "has been transformed",
+            "D": "had been transformed"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:01:B:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-triumph-of-surgery"
+      ],
+      "taxonomyChapterId": "english-10/a-triumph-of-surgery",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "mcq",
+      "stem": "Describing feeding time at a kennel, a student writes, “___ the usual headlong rush followed by the sounds of high-speed eating.” Which opening completes the sentence correctly? (A) There was (B) There were (C) There have been (D) There are",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "There was",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "There was the usual headlong rush followed by the sounds of high-speed eating; every dog knew that if he fell behind the others he was liable to have some competition for the last part of his meal."
+          ],
+          "objective": true,
+          "options": {
+            "A": "There was",
+            "B": "There were",
+            "C": "There have been",
+            "D": "There are"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:01:C:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-triumph-of-surgery"
+      ],
+      "taxonomyChapterId": "english-10/a-triumph-of-surgery",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a notice for your school notice board, in about 100 words, telling pet owners how to keep a dog or a cat healthy — how much to feed it, what to cut out, and how much exercise to give it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the notice explains that over-feeding and too little exercise weaken a pet and can make it ill.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: it has a clear heading, short numbered or bulleted points, and is signed by the issuer.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the points move logically from the mistake to the rules the owner should follow.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct subject-verb agreement, correct use of articles and correct spelling throughout.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: simple, direct sentences and suitable imperatives, laid out for a notice board.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Pets Need Less Food and More Exercise\n\nMany owners feed their pets rich extras whenever the animal begs. This is a mistake. A dog or cat that is over-fed and seldom exercised grows weak and listless and may fall ill. So please follow these simple rules: give your pet only its usual meals, cut down on sweets, and take it out for a walk every day. Say no kindly but firmly when your pet begs for more. A healthy pet needs discipline, not extra food.\n\nThe School Animal Care Club",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "You must harden your heart and keep him on a very strict diet.",
+            "If you don’t cut his food right down and give him more exercise he is going to be really ill."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:01:C:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-triumph-of-surgery"
+      ],
+      "taxonomyChapterId": "english-10/a-triumph-of-surgery",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "You are a veterinary surgeon. A client whose dog has grown fat, listless and unwilling to walk has been giving it rich extras between meals. Write a formal letter to the client, in about 100 words, telling her what must be changed.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the letter states that the dog is over-fed rather than under-fed, and that the rich extras caused the illness.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: it follows the formal letter layout — salutation, body, closing and signature with the writer's designation.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the advice comes in a clear order — diet first, then exercise, then firmness.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct subject-verb agreement, articles, prepositions and spelling throughout.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: a polite but firm tone, with clear instructions and no unnecessary wordiness.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dear Mrs Pumphrey,\n\nI have examined your dog and I am afraid his illness is not caused by a lack of food. He is fed far too well and seldom taken out. For the next fortnight please serve only his usual meal, cut out all cream cakes and chocolates, and give nothing sweet between meals. Take him out for a proper walk every day. Be firm even when he begs. If he seems weak, do not give him malt or cod-liver oil to build him up; that is exactly what has made him ill.\n\nYours sincerely,\nMr Herriot\nVeterinary Surgeon",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I thought he must be suffering from malnutrition, so I have been giving him some little extras between meals to build him up",
+            "Are you giving him plenty of exercise?"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:01:C:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-triumph-of-surgery"
+      ],
+      "taxonomyChapterId": "english-10/a-triumph-of-surgery",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a short article, in about 100 words, for your school magazine on why pets need daily exercise as much as proper food.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the article explains that over-feeding with little exercise leaves a pet sluggish and weak.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: it has an attractive headline, a short body and a closing line that sums up the writer's view.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the ideas move from the problem, to its effect, to what owners should do.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct subject-verb agreement, comparatives and correct spelling throughout.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: lively, simple language with at least one figure of speech, suitable for a magazine.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Why Pets Need Daily Exercise\n\nEvery pet owner wants a healthy animal, yet many of us give our dogs and cats plenty of food and almost no exercise. A pet that is over-fed and rarely exercised becomes sluggish and lazy, exactly like a child who is given too many sweets and no games. Daily walks and outdoor play keep a pet's body healthy, its spirits high and its appetite regular. So walk your dog every day, let it run about in the park, and keep biscuits for rewards and not for meals. Exercise is a duty, not a luxury.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "he has his little walks with me as you can see, but Hodgkin, the gardener, has been down with lumbago, so there has been no ring-throwing lately.",
+            "You must harden your heart and keep him on a very strict diet."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:01:E:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-triumph-of-surgery"
+      ],
+      "taxonomyChapterId": "english-10/a-triumph-of-surgery",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why did Mrs Pumphrey begin giving Tricki malt, cod-liver oil and Horlicks between his meals?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She noticed that Tricki was listless and seemed to have no energy.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She decided he must be suffering from malnutrition.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So she gave him malt, cod-liver oil and Horlicks to build him up.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Mrs Pumphrey noticed that Tricki was listless and seemed to have no energy. She wrongly decided he must be suffering from malnutrition, so she gave him malt, cod-liver oil and Horlicks to build him up. Her own explanation for all these extras was “nothing much really”.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He was so listless, Mr Herriot. He seemed to have no energy.",
+            "I thought he must be suffering from malnutrition, so I have been giving him some little extras between meals to build him up, some malt and cod-liver oil and a bowl of Horlicks at night to make him sleep"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:01:E:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-triumph-of-surgery"
+      ],
+      "taxonomyChapterId": "english-10/a-triumph-of-surgery",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why did Tricki recover so quickly after he was taken into the surgery?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "For two days he was given no food at all but plenty of water in a warm loose box.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Then he was allowed out to join the other dogs and took part in their scrimmages and play.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He ate with the pack and needed no medicinal treatment of any kind.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He was put in a warm loose box and given no food at all but plenty of water for two days. Then he joined the other dogs, rolling and scrimmaging with them, playing and hunting rats at night, and eating with the pack. He needed no medicinal treatment of any kind.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "For two days I kept an eye on him, giving him no food but plenty of water.",
+            "He had no medicinal treatment of any kind but all day he ran about with the dogs, joining in their friendly scrimmages."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:01:E:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-triumph-of-surgery"
+      ],
+      "taxonomyChapterId": "english-10/a-triumph-of-surgery",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "How did Mrs Pumphrey's own behaviour at the surgery change once she was told that Tricki was convalescing rapidly?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She began bringing round fresh eggs, two dozen at a time, to build up Tricki's strength.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Then bottles of wine began to arrive and lunch became a ceremonial occasion with two glasses before and several during the meal.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The brandy was rolled around, inhaled and reverently drunk by the partners.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The word “convalescing” acted on her at once. She began to bring round fresh eggs, two dozen at a time, to build up Tricki's strength. Then bottles of wine began to arrive, lunch became a ceremonial occasion with two glasses before and several during the meal, and the brandy was rolled around, inhaled and reverently drunk.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "She started to bring round fresh eggs, two dozen at a time, to build up Tricki’s strength.",
+            "Lunch became a ceremonial occasion with two glasses of wine before and several during the meal.",
+            "For a few nights the fine spirit was rolled around, inhaled and reverently drunk."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:01:F:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-triumph-of-surgery"
+      ],
+      "taxonomyChapterId": "english-10/a-triumph-of-surgery",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Trace, in order, the steps by which the veterinary surgeon's treatment changed Tricki's condition, giving the steps in the correct sequence.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "He was put on a strict diet, yet refused even his favourite dishes, vomited and lay panting.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The surgeon took him out of the house to the surgery to be kept under observation for about a fortnight.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "For two days he was given no food at all but plenty of water in a warm loose box.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "On the third day he began to whimper when he heard the dogs in the yard.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He joined the dogs, ate with the pack, scrimmaged and hunted rats, and needed no medicinal treatment.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In two weeks he was transformed into a lithe, hard-muscled animal keeping up with the pack.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Tricki was put on a strict diet, but within a few days he refused even his favourite dishes, vomited and lay panting on a rug.\n2. The surgeon took him out of the house to the surgery, to be kept under observation for about a fortnight.\n3. For two days he got no food but plenty of water in a warm loose box; on the third day he began to whimper at the sound of the dogs in the yard.\n4. He was then let out to join the dogs. He ate with the pack, scrimmaged with them and hunted rats in the old hen-house, needing no medicinal treatment.\n5. In two weeks he was transformed into a lithe, hard-muscled animal keeping up with the pack.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The expected call came within a few days. Mrs Pumphrey was distraught. Tricki would eat nothing.",
+            "For two days I kept an eye on him, giving him no food but plenty of water.",
+            "In two weeks he had been transformed into a lithe, hard-muscled animal"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:01:F:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-triumph-of-surgery"
+      ],
+      "taxonomyChapterId": "english-10/a-triumph-of-surgery",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A reader finds the remark “This is a triumph of surgery!” a surprising one to hear. Give the chain of reasons, in steps, that makes the remark apt.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "No operation is performed and no medicinal treatment of any kind is given.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Tricki's illness was caused by his over-feeding, not by any lack of food.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Mrs Pumphrey fed him malt, cod-liver oil, Horlicks, cream cakes and chocolates, and could not cut the sweets.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He got little exercise, since there had been no ring-throwing because Hodgkin had lumbago.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The surgeon took him out of the house for about a fortnight, gave no food for two days but plenty of water, and let him live with the dogs.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He ate with the pack, scrimmaged and hunted rats, and in two weeks became lithe and hard-muscled, so the cure was exercise and company.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. No operation is performed and no medicinal treatment of any kind is given.\n2. Tricki's illness was caused by his own mistress, who thought him malnourished and fed him malt, cod-liver oil, Horlicks, cream cakes and chocolates.\n3. She could not cut down the sweets, and there was no ring-throwing because Hodgkin had lumbago.\n4. He then refused even his favourite dishes, had bouts of vomiting and lay panting on a rug.\n5. The surgeon got him out of the house for about a fortnight, gave him no food for two days but plenty of water, and let him live with the dogs.\n6. He ate with the pack, scrimmaged and hunted rats, and in two weeks became lithe and hard-muscled. The cure was exercise and company, not surgery.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He had no medicinal treatment of any kind",
+            "He does love cream cakes and chocolates so. I can’t bear to refuse him.",
+            "Tricki’s only fault was greed."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch1",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "In the passage, the closing remark “nothing much really” shows that Mrs Pumphrey —"
+    },
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "A student who has read the passage concludes that the vet wanted Tricki hospitalised so that he could be —"
+    },
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "The way the eggs, wine and brandy are listed in the passage shows that the writer is —"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "In the passage, the writer compares Tricki to “a bloated sausage with a leg at each corner” mainly to show that the dog "
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "The scene in the passage shows the household —"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "In the passage, the writer says that he telephoned Mrs Pumphrey because he —"
+    },
+    {
+      "section": "F",
+      "qtype": "long_answer",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "Give the steps by which the surgeon brings himself to send Tricki back to Mrs Pumphrey, and the scene that follows at th"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      1
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

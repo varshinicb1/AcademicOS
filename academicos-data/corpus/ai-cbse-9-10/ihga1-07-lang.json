@@ -1,0 +1,2574 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:ihga1:07:A:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "उनका वह अनुभव था कि “मैं अमेरिका गया, इंग्लैं ड गया, फ्रांस गया और संसार के दूसरे देशों में भी घूमा, पर जहाँ भी मैं गया, भारतवर्ष की गुलामी की लज्जा का कलंक मेरे माथे पर लगा रहा।” क्या सचमुच यह अनुभव एक मानसिक भूकंप नहीं है है, जो मनुष्य को झकझोर कर कहे कि किसी मनुष्य के पास संसार के ही नहीं , यदि स्व र्ग के भी सब उपहार और साधन हों , पर उसका देश गुलाम हो या किसी भी दूसरे रूप में हीन हो तो वे सारे उपहार और साधन उसे गौरव नहीं दे सकते।\n\nइस गद्यांश के अनुसार, किस बात के अभाव में मनुष्य के पास संसार के सारे उपहार होते हुए भी उसे गौरव नहीं मिल सकता? (A) अपने देश के संसार-भ्रमण के अनुभव के अभाव में (B) अपने नगर के ज्ञान-भंडार के अभाव में (C) अपने देश के गौरव के अभाव में (D) अपने परिवार की ममता के अभाव में",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "अपने देश के गौरव के अभाव में",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "भारतवर्ष की गुलामी की लज्जा का कलंक मेरे माथे पर लगा रहा",
+            "यदि स्व र्ग के भी सब उपहार और साधन हों , पर उसका देश गुलाम हो या किसी भी दूसरे रूप में हीन हो तो वे सारे उपहार और साधन उसे गौरव नहीं दे सकते।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "अपने देश के संसार-भ्रमण के अनुभव के अभाव में",
+            "B": "अपने नगर के ज्ञान-भंडार के अभाव में",
+            "C": "अपने देश के गौरव के अभाव में",
+            "D": "अपने परिवार की ममता के अभाव में"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:A:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "कमालपाशा ने हँडिया को स्व यं खोला और उसमें से दो उँगलियाँ भरकर चाटने के बाद तीसरी उँगली शहद में भरकर बूढ़े के मुँह में दे दी, बूढ़ा निहाल हो गया। राष्‍ट्रपति ने कहा– दादा, आज सर्वोत्तम उपहार तुमने ही मुझे भेंट किया क्योंकि इसमें तुम्हारे हृदय का शुद्ध प्यार है है। उन्होंने आदेश दिया कि राष्‍ट्रपति की शाही कार में शाही सम्ममान के साथ उनके दादा को गाँव तक पहुँचाया जाए।\n\nइस गद्यांश में राष्‍ट्रपति ने बूढ़े किसान के उपहार को सर्वोत्तम किस कारण से कहा? (A) उपहार में मोती-हीरे होने के कारण (B) उपहार बहुत बड़ा होने के कारण (C) उपहार में तीसरी उँगली भर शहद होने के कारण (D) उपहार में शुद्ध प्यार होने के कारण",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उपहार में शुद्ध प्यार होने के कारण",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "दादा, आज सर्वोत्तम उपहार तुमने ही मुझे भेंट किया क्योंकि इसमें तुम्हारे हृदय का शुद्ध प्यार है है।",
+            "उन्होंने आदेश दिया कि राष्‍ट्रपति की शाही कार में शाही सम्ममान के साथ उनके दादा को गाँव तक पहुँचाया जाए।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "उपहार में मोती-हीरे होने के कारण",
+            "B": "उपहार बहुत बड़ा होने के कारण",
+            "C": "उपहार में तीसरी उँगली भर शहद होने के कारण",
+            "D": "उपहार में शुद्ध प्यार होने के कारण"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:A:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "तो वह खाट उसने उन्हें दी। पंडितजी को देखकर वह इतना भाव -मुग्ध हो गया कि मुँह से कुछ कह ही न सका। पंडितजी ने पूछा कि क्या चाहते हो तुम? उसने कहा, यही कि आप इसे स्वीकार करें। प्रधानमंत्री ने उसका यह उपहार स्वीकार ही नहीं किया, अपना एक फोटो दस्तखत कर उसे स्‍वयं उपहार में दिया— दस्तखती फोटो के लिए देश के बड़े-बड़े लोग, विद्वान और धनी तरसते हैं! वह क्या उस मामूली खाट के बदले में दिया गया था? ना, वह तो उस खाट वाले की भावना का ही सम्ममान था।\n\nइस गद्यांश के अनुसार, दस्तखती फोटो का मूल उस मामूली खाट से अधिक क्यों नहीं माना गया? (A) क्योंकि खाट बहुत बड़ा था (B) क्योंकि खाट वाले की भावना का ही सम्ममान था (C) क्योंकि फोटो में देश के बड़े-बड़े लोग दिखाए गए हैं (D) क्योंकि फोटो देना प्रधानमंत्री का कर्तव्य था",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "क्योंकि खाट वाले की भावना का ही सम्ममान था",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "प्रधानमंत्री ने उसका यह उपहार स्वीकार ही नहीं किया, अपना एक फोटो दस्तखत कर उसे स्‍वयं उपहार में दिया",
+            "ना, वह तो उस खाट वाले की भावना का ही सम्ममान था।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "क्योंकि खाट बहुत बड़ा था",
+            "B": "क्योंकि खाट वाले की भावना का ही सम्ममान था",
+            "C": "क्योंकि फोटो में देश के बड़े-बड़े लोग दिखाए गए हैं",
+            "D": "क्योंकि फोटो देना प्रधानमंत्री का कर्तव्य था"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:B:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "यह बहुत उचित है है, बहुत सुंदर है है; पर हम इसमें तब तक सफल नहीं हो सकते जब तक कि हम अपने देश की भीतरी दशा को ठीक से न समझ लें और उसे हमेशा अपने सामने न रखें। हमारे देश को दो बातों की सबसे पहले और सबसे ज्यादा जरूरत है है। एक शक्‍ त‍ि-बोध और दूसरा सौं दर्य-बोध। बस, हम यह समझ लें कि हमारा कोई भी काम ऐसा न हो जो देश में कमजोरी की भावना को बल दे या कुरुचि की भावना को ही।\n\nइस गद्यांश के अनुसार, देश को सबसे पहले और सबसे ज्यादा किन दो बोधों की जरूरत है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "पहला बोध – शक्तिबोध",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "दूसरा बोध – सौंदर्यबोध",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "शक्तिबोध और सौंदर्यबोध।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "हमारे देश को दो बातों की सबसे पहले और सबसे ज्यादा जरूरत है है। एक शक्‍ त‍ि-बोध और दूसरा सौं दर्य-बोध।",
+            "हमारा कोई भी काम ऐसा न हो जो देश में कमजोरी की भावना को बल दे या कुरुचि की भावना को ही।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:B:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "इस युव क ने पुस्तक में से निकाल लिए और पुस्तक वापस कर आया। किसी जापानी विद्यार्थी ने यह देख लिया और पुस्तकालय को इसकी सूचना दे दी। पुलिस ने तलाशी लेकर वे चित्र उस विद्यार्थी के कमरे से बरामद किए और उस विद्यार्थी को जापान से निकाल दिया गया। मामला यहीं तक रहता तो कोई बात न थी। अपराधी को दंड मिलना ही चाहिए, पर मामला यहीं तक न रुका और पुस्तकालय के बाहर बोर्ड पर लिख दिया गया कि उस देश का (जिसका वह विद्यार्थी था) कोई निवासी इस पुस्तकालय में प्रवे श नहीं कर सकता।\n\nइस गद्यांश में अपराधी को दंड देने के बावजूद मामला आगे क्यों बढ़ाया गया?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "अपराधी को केवल दंड देना पर्याप्त नहीं था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "पुस्तकालय में उस देश के निवासियों को प्रवेश से मना कर दिया गया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "क्योंकि उस देश के निवासियों पर प्रतिबंध लगा दिया गया।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अपराधी को दंड मिलना ही चाहिए, पर मामला यहीं तक न रुका",
+            "बोर्ड पर लिख दिया गया कि उस देश का (जिसका वह विद्यार्थी था) कोई निवासी इस पुस्तकालय में प्रवे श नहीं कर सकता।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:B:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "स्व वामी जी ने समझा कि यह कोई फल बेचने वाला है है और उनके दाम पूछे, पर उसने दाम लेने से इनकार कर दिया। बहुत आग्रह करने पर उसने कहा– आप इनका मूल्य देना ही चाहते हैं तो वह यह है है कि आप अपने देश में जाकर किसी से यह न कहिएगा कि जापान में अच्छे फल नहीं मिलते। स्व वामी जी युव क का यह उत्तर सुनकर मुग्ध हो गए, और वे क्या मुग्ध हो गए, उस युव क ने अपने इस कार्य से अपने देश का गौरव जाने कितना बढ़ा दिया!\n\nइस गद्यांश में फल देने वाले युवक ने दाम के बदले स्व वामी रामतीर्थ से कौन-सी बात कहने को कहा?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "युवक ने अपने देश में जाकर यह न कहिएगा कहा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "जापान में अच्छे फल नहीं मिलते, यह बात कही",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "अपने देश में जाकर यह न कहिएगा कि जापान में अच्छे फल नहीं मिलते।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "आप इनका मूल्य देना ही चाहते हैं तो वह यह है है कि आप अपने देश में जाकर किसी से यह न कहिएगा कि जापान में अच्छे फल नहीं मिलते।",
+            "उस युव क ने अपने इस कार्य से अपने देश का गौरव जाने कितना बढ़ा दिया!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:C:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "‘स्‍वयं’ शब्द में किस प्रकार की संधि हुई है? (A) व्यंजन संधि (B) स्वर संधि (C) विसर्ग संधि (D) अंतःस्थ संधि",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "स्वर संधि",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "नहीं किया, अपना एक फोटो दस्तखत कर उसे स्‍वयं उपहार में दिया— दस्तखती फोटो के"
+          ],
+          "objective": true,
+          "options": {
+            "A": "व्यंजन संधि",
+            "B": "स्वर संधि",
+            "C": "विसर्ग संधि",
+            "D": "अंतःस्थ संधि"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:C:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "‘अभिमानी’ शब्द में प्रयुक्त उपसर्ग पहचानिए। (A) अभि (B) अप (C) अ (D) अन",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "अभि",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अलौकिक, निरक्षरता, सम् ‍ममानित, अनाव श्यक, अपमानित, अभिमानी",
+            "इस प्रयोग को समझकर नीचे दिए गए शब्दों में उपसर्ग और प्रत्यय शब्द पहचानकर लिखिए—"
+          ],
+          "objective": true,
+          "options": {
+            "A": "अभि",
+            "B": "अप",
+            "C": "अ",
+            "D": "अन"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:C:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "‘भाषा संगम’ शब्द-युग्म में ‘भा’ के बाद आया अनुस्वार किस व्यंजन से बना है? (A) स (B) प (C) म (D) ष",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "ष",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "भाषा संगम “मैं अपने देश का नागरिक हूँ”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "स",
+            "B": "प",
+            "C": "म",
+            "D": "ष"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:D:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "सुनी है है आपने शल्य की बात? वह महाबली कर्ण का सारथी था। जब भी कर्ण अपने पक्ष के विजय की घोषणा करता, हुंकार भरता, वह अर्जुन की अजेयता का एक हल्का-सा उल्लेख कर देता। बार-बार के इस उल्लेख ने कर्ण के सघन आत्मविश्‍ ववास में संदेह की तरेड़ डाल दी, जो उसके मन में भावी पराजय की नीं व रखने में सफल हो गई।\n\nइस गद्यांश के अनुसार, शल्य के बार-बार अर्जुन की अजेयता का उल्लेख करने का क्या परिणाम हुआ? (A) कर्ण के सघन आत्मविश्वास में संदेह की तरेड़ पड़ी (B) कर्ण ने अपना पक्ष छोड़ दिया (C) कर्ण के सघन आत्मविश्वास में और दृढ़ता आई (D) शल्य को कर्ण से बातचीत का अवसर मिला",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कर्ण के सघन आत्मविश्वास में संदेह की तरेड़ पड़ी",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "वह अर्जुन की अजेयता का एक हल्का-सा उल्लेख कर देता।",
+            "बार-बार के इस उल्लेख ने कर्ण के सघन आत्मविश्‍ ववास में संदेह की तरेड़ डाल दी, जो उसके मन में भावी पराजय की नीं व रखने में सफल हो गई।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "कर्ण के सघन आत्मविश्वास में संदेह की तरेड़ पड़ी",
+            "B": "कर्ण ने अपना पक्ष छोड़ दिया",
+            "C": "कर्ण के सघन आत्मविश्वास में और दृढ़ता आई",
+            "D": "शल्य को कर्ण से बातचीत का अवसर मिला"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:D:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "दर्शकों की तालियों से खिलाड़ियों के पैरों में बिजली लग जाती है है और गिरते खिलाड़ी उभर जाते हैं? कवि-सम्मे लनों और मुशायरों की सारी सफलता दाद देने वालों पर ही निर्भर करती है है, इसलिए मैं अपने देश का कितना भी साधारण नागरिक क्यों न हूँ, अपने देश के सम्ममान की रक्ा के लिए बहुत कुछ कर सकता हूँ।\n\nइस गद्यांश में लेखक ने साधारण नागरिक के देश-सेवा योगदान की तुलना किस उपमा के आधार पर की है? (A) खिलाड़ी और क्रिकेट के मैदान के आधार पर (B) दर्शकों की तालियों और गिरते खिलाड़ी के आधार पर (C) कवि-सम्मेलन और मुशायरे के आधार पर (D) युद्ध के रसद और जय बोलने वालों के आधार पर",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "दर्शकों की तालियों और गिरते खिलाड़ी के आधार पर",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "दर्शकों की तालियों से खिलाड़ियों के पैरों में बिजली लग जाती है है और गिरते खिलाड़ी उभर जाते हैं?",
+            "कवि-सम्मे लनों और मुशायरों की सारी सफलता दाद देने वालों पर ही निर्भर करती है है"
+          ],
+          "objective": true,
+          "options": {
+            "A": "खिलाड़ी और क्रिकेट के मैदान के आधार पर",
+            "B": "दर्शकों की तालियों और गिरते खिलाड़ी के आधार पर",
+            "C": "कवि-सम्मेलन और मुशायरे के आधार पर",
+            "D": "युद्ध के रसद और जय बोलने वालों के आधार पर"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:D:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "मानस में भूकंप उठा था? हाँ जी, मानस में भूकंप उठा था और भूकंप में क्या कोई धरती थोड़े ही हिली थी, आकाश थोड़े ही काँपा था, एक तेजस्वी पुरुष का अनुभव ही वह भूकंप था, जिसने मुझे हिला दिया।\n\nइस गद्यांश के अनुसार, लेखक के मन में उठने वाला यह भूकंप किसका अनुभव था? (A) किसी प्रांत या प्रदेश के भूकंप का (B) अपने नगर के ज्ञान-भंडार का (C) एक तेजस्वी पुरुष का (D) अपने परिवार की ममता का",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "एक तेजस्वी पुरुष का",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "हाँ जी, मानस में भूकंप उठा था और भूकंप में क्या कोई धरती थोड़े ही हिली थी, आकाश",
+            "एक तेजस्वी पुरुष का अनुभव ही वह भूकंप था, जिसने मुझे हिला दिया।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "किसी प्रांत या प्रदेश के भूकंप का",
+            "B": "अपने नगर के ज्ञान-भंडार का",
+            "C": "एक तेजस्वी पुरुष का",
+            "D": "अपने परिवार की ममता का"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:E:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "स्व वामी रामतीर्थ को फल लेकर आए जापानी युवक के उत्तर ने उन्हें मुग्ध क्यों कर दिया?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "युवक ने दाम लेने से इनकार कर दिया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "दाम के बदले यह कहा कि जापान में अच्छे फल नहीं मिलते, यह न कहिएगा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "क्योंकि युवक ने दाम लेने से इनकार कर दिया और दाम के बदले केवल यही कहा कि आप अपने देश में जाकर यह न कहिएगा कि जापान में अच्छे फल नहीं मिलते।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "आप इनका मूल्य देना ही चाहते हैं तो वह यह है है कि आप अपने देश में जाकर किसी से यह न कहिएगा कि जापान में अच्छे फल नहीं मिलते।",
+            "स्व वामी जी युव क का यह उत्तर सुनकर मुग्ध हो गए"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:E:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "राष्‍ट्रपति के वर्ष गाँठ का उपहार लेने पैदल तीस मील चलकर आए बूढ़े किसान ने देर होने का कारण क्या बताया?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "बूढ़े ने बताया कि वे तीस मील से पैदल चलकर आ रहे हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "इसलिए उन्हें देर हो गई",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बूढ़े ने बताया कि वे मैं तीस मील से पैदल चलकर आ रहा हूँ, इसलिए मुझे देर हो गई। राष्‍ट्रपति ने उनका यह उपहार स्वीकार कर लिया।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बूढ़े ने कहा– मैं तीस मील से पैदल चलकर आ रहा हूँ, इसलिए मुझे देर हो गई।",
+            "उन्होंने बूढ़े किसान का उपहार स्वीकार किया।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:E:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "किसी व्यक्ति के पास संसार के सारे उपहार और साधन होते हुए भी उसे गौरव क्यों नहीं मिल पाता?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "उसका देश गुलाम हो",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "या देश किसी दूसरे रूप में हीन हो",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "क्योंकि उसका देश गुलाम हो या किसी दूसरे रूप में हीन हो। संसार के उपहार और साधन उसकी हीनता की भरपाई नहीं कर सकते।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "यदि स्व र्ग के भी सब उपहार और साधन हों , पर उसका देश गुलाम हो या किसी भी दूसरे रूप में हीन हो तो वे सारे उपहार और साधन उसे गौरव नहीं दे सकते।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:F:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "जापान यात्रा के दौरान स्व वामी रामतीर्थ से फल लेकर आए युवक ने उनसे दाम नहीं लिया, बल्कि दाम के बदले एक शर्त रखी। वह शर्त क्या थी और उस युवक के इस कार्य से उसके देश का गौरव कैसे बढ़ा — लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "युवक ने दाम लेने से इनकार कर दिया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "दाम के बदले यही शर्त रखी कि अपने देश में जाकर यह न कहिएगा कि जापान में अच्छे फल नहीं मिलते",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "यह शर्त उस अनुभव को बदल देती है जिसमें देश की गुलामी की लज्जा सामने आई थी",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "युवक के छोटे से कार्य से उसके देश का गौरव जाने कितना बढ़ा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "युवक ने दाम लेने से इनकार कर दिया और कहा कि आप इनका मूल्य देना ही चाहते हैं तो वह यह है कि आप अपने देश में जाकर किसी से यह न कहिएगा कि जापान में अच्छे फल नहीं मिलते। इस एक वचन ने उस अनुभव को बदल दिया जिसमें देश की गुलामी की लज्जा सामने आई थी। युवक ने अपने छोटे से कार्य से अपने देश का गौरव जाने कितना बढ़ा दिया।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "आप इनका मूल्य देना ही चाहते हैं तो वह यह है है कि आप अपने देश में जाकर किसी से यह न कहिएगा कि जापान में अच्छे फल नहीं मिलते।",
+            "उस युव क ने अपने इस कार्य से अपने देश का गौरव जाने कितना बढ़ा दिया!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:F:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "तुर्की के राष्‍ट्रपति कमालपाशा को वर्ष गाँठ का उपहार देने पैदल तीस मील चलकर आए बूढ़े किसान ने जो पाव -भर शहद की हँडिया भेंट की, उसे राष्‍ट्रपति ने सर्वोत्तम उपहार क्यों कहा? राष्‍ट्रपति ने बूढ़े के साथ कैसा व्यवहार किया — लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "उपहार में मोती-हीरे न होने के बावजूद उसमें शुद्ध प्यार था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "इसी कारण राष्‍ट्रपति ने उसे सर्वोत्तम उपहार कहा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "राष्‍ट्रपति शाही वस्त्र बदल चुके होने के बावजूद उसी कपड़ों में नीचे आए",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उन्होंने बूढ़े किसान का उपहार स्वीकार किया और शाही कार से उन्हें गाँव भेजा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कमालपाशा ने कहा कि दादा, आज सर्वोत्तम उपहार तुमने ही मुझे भेंट किया क्योंकि इसमें तुम्हारे हृदय का शुद्ध प्यार है है। उन्होंने शाही वस्त्र बदल चुके होने के बावजूद उसी कपड़ों में नीचे आकर बूढ़े किसान का उपहार स्वीकार किया। फिर उन्होंने आदेश दिया कि राष्‍ट्रपति की शाही कार में शाही सम्ममान के साथ उनके दादा को गाँव तक पहुँचाया जाए।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "दादा, आज सर्वोत्तम उपहार तुमने ही मुझे भेंट किया क्योंकि इसमें तुम्हारे हृदय का शुद्ध प्यार है है।",
+            "कमालपाशा विश्रा म के वस्‍ त्र बदल चुके थे, वे उन्हीं कपड़ों में नीचे चले आए और उन्होंने बूढ़े किसान का उपहार स्वीकार किया।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:F:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "‘देश का सम्मान और नागरिक का सम्मान एक-दूसरे से अटूट रूप से जुड़े होते हैं।’ — किस प्रकार के कार्य इस दावे को सत्य सिद्ध करते हैं? अपने शब्दों में लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "व्यक्ति का हर कार्य उसके परिवार, क्षेत्र और राष्‍ट्र से जुड़ा होता है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यक्ति की पूर्णता उसकी निजता में ही नहीं होती",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वह उसके परिवार, क्षेत्र विशेष और देश की पहचान तक से जुड़ी होती है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "इसलिए देश और नागरिक के सम्मान एक-दूसरे से अटूट रूप से जुड़े होते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "व्यक्ति द्ारा किया गया हर कार्य उसकी निजी पहचान के साथ-साथ उसके परिवार, क्षेत्र और राष्‍ट्र से भी जुड़ा होता है। इसलिए व्यक्ति की पूर्णता उसकी निजता में ही नहीं होती, बल्कि उसके परिवार, क्षेत्र विशेष और देश की पहचान तक से जुड़ी होती है। नागरिक अपने देश के सम्मान की रक्षा करते हुए अपने अधिकारों का भी प्रयोग करता है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "व्‍यक्‍त‍ि द्ारा किया गया हर कार्य उसकी पहचान के साथ -साथ उसके परिवार, क्षेत्र और राष्‍ट्र से भी जुड़ा होता है।",
+            "देश का सम्मान और नागरिक का सम्मान एक-दूसरे से अटूट रूप से जुड़े होते हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:G:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "विद्यालय के सभी सहपाथियों के समक्ष एक अनुच्छेद लिखिए, जिसमें बताया गया हो कि अपने विद्यालय और आस-पास के सार्वजनिक स्थानों की स्वच्छता और सौंदर्य-बोध को बनाए रखने के लिए हमें क्या-क्या करना चाहिए। अनुच्छेद १२० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: सार्वजनिक स्थानों की स्वच्छता और सौंदर्य-बोध की आवश्यकता के साथ शक्‍ त‍ि-बोध और सौं दर्य-बोध का उल्लेख",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: छिलका-कूड़ा फेंकने, गली गंदी रखने, पीक थूकने और ठेलमठेल करने जैसी आदतों से बचने के व्यावहारिक उदाहरण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: अपने देश को हीन बताने की तुलना का विरोध और ‘मैं अपना देश हूँ’ वाला भाव",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित स्वतंत्र अनुच्छेद का ढाँचा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: आरंभ, विस्तार और उपसंहार का सुसंगत एवं तार्किक क्रम",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता और अभिव्यक्ति: व्याकरण-वर्तनी की शुद्धि तथा सरल, प्रभावशाली भाषा-शैली",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सार्वजनिक स्थानों की स्वच्छता और सौंदर्य को बनाए रखना हर नागरिक का कर्तव्य है\n\nहमारे देश को दो बातों की सबसे पहले और सबसे ज्यादा जरूरत है — एक शक्‍ त‍ि-बोध और दूसरा सौं दर्य-बोध। विद्यालय, बस अड्डा, पुस्तकालय और पार्क जैसे सार्वजनिक स्थान तभी सुंदर बने रहते हैं जब हम अपनी छोटी-छोटी आदतों का ध्यान रखते हैं। केला खाकर छिलका रास्ते में फेंकने के बजाय उसे कूड़े-कचरे में डालना चाहिए। अपना घर, दफ्तर और गली गंदी नहीं रखनी चाहिए। होटलों-धर्मशालाओं में, ज़ीनों में और कोनों में पीक नहीं थूकना चाहिए। उत्सवों, मेलों, रेलों और खेलों में ठेलमठेल नहीं करनी चाहिए। मुँह से गंदे शब्दों का प्रयोग नहीं करना चाहिए। दूसरे देशों की तुलना में अपने देश को हीन बताना भी देश की संस्कृति को चोट पहुँचाता है। कवि-सम्मेलनों और मुशायरों की सारी सफलता दाद देने वालों पर निर्भर करती है। मैं अपने देश का नागरिक हूँ और मानता हूँ कि मैं अपना देश हूँ।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "हमारे देश को दो बातों की सबसे पहले और सबसे ज्यादा जरूरत है है। एक शक्‍ त‍ि-बोध और दूसरा सौं दर्य-बोध।",
+            "क्या आप कभी केला खाकर छिलका रास्ते में फेंकते हैं, अपने घर का कूड़ा बाहर फेंकते हैं; मुँह से गंदे शब्दों में गंदे भाव प्रकट करते हैं"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:G:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "अपने मोहल्ले के एक कार्यक्रम में आपको यह समझाना है कि नागरिकों के छोटे-छोटे काम भी देश की उन्नति में कितने महत्वपूर्ण हैं। इस पर एक अनुच्छेद लिखिए। अनुच्छेद १२० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: वैज्ञानिक और धनपति के बावजूद हरेक नागरिक की महत्वपूर्ण भूमिका पर ज़ोर",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: जीवन को युद्ध मानने और युद्ध में जय बोलने वालों के महत्व का उपयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: महत्व का कार्य की विशालता में नहीं, करने की भावना में होना तथा देश-सम्मान को न पहुँचाने का कर्तव्य",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित स्वतंत्र अनुच्छेद का ढाँचा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: तर्क, उदाहरण और निष्कर्ष का सुसंगत एवं तार्किक क्रम",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता और अभिव्यक्ति: व्याकरण-वर्तनी की शुद्धि तथा सरल, प्रभावशाली भाषा-शैली",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "नागरिकों के छोटे-छोटे काम कितने महत्वपूर्ण हैं\n\nकोई बड़ा वैज्ञानिक अपने आविष्कार से देश को कुछ बल दे, कोई बड़ा धनपति अपने धन का भामाशाह बनकर कुछ आगे कर सके। पर हरेक आदमी न तो ऐसा वैज्ञानिक ही हो सकता है, न धनिक। फिर भी जो हमारा देश का कितना भी साधारण नागरिक क्यों न हो, अपने देश के सम्ममान की रक्ा के लिए बहुत कुछ कर सकता है। जीवन एक युद्ध है और युद्ध में जय बोलने वालों का भी बहुत महत्व है। लड़ने वालों को रसद न पहुँचे तो वे कैसे लड़ें। इसीलिए छोटे-छोटे काम देश की उन्नति में उतने ही महत्वपूर्ण हैं। महत्‍व किसी कार्य की विशालता में नहीं, उस कार्य के करने की भावना में है। बड़े से बड़ा कार्य भी हीन है यदि उसके पीछे अच्छी भावना न हो। मैं अपना देश हूँ, इसलिए मेरा कर्तव्य है कि मैं अपने देश की स्व तंत्रता को, उसके सम्ममान को कोई धक्का न पहुँचाऊँ।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मैं अपने देश का कितना भी साधारण नागरिक क्यों न हूँ, अपने देश के सम्ममान की रक्ा के लिए बहुत कुछ कर सकता हूँ।",
+            "महत्‍व किसी कार्य की विशालता में नहीं है है, उस कार्य के करने की भावना में है है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:G:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "चुनाव के समय बहकावे में आकर लोग अक्सर गलत उम्मीदवार को मत दे देते हैं। वरिष्ठ नागरिक के रूप में आप उन्हें ठीक उम्मीदवार का मत देने के लिए किस प्रकार समझाएँगे — इस विषय पर एक अनुच्छेद लिखिए। अनुच्छेद १२० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: चुनाव को उच्चता और हीनता की कसौटी मानने का तर्क",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: उत्तेजक नारों और गलत व्यक्तियों के प्रभाव से मत देने की गलती",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: उम्मीदवार का चरित्र और योग्यता देखकर मत देने का कर्तव्य और अधिकार",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित स्वतंत्र अनुच्छेद का ढाँचा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: तर्क, उदाहरण और निष्कर्ष का सुसंगत एवं तार्किक क्रम",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता और अभिव्यक्ति: व्याकरण-वर्तनी की शुद्धि तथा सरल, प्रभावशाली भाषा-शैली",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "ठीक मनुष्य को ही अपना मत देने का महत्त्व\n\nहमारे देश की उच्चता और हीनता की कसौटी है है चुनाव। जिस देश के नागरिक यह समझते हैं कि चुनाव में किसे अपना मत देना चाहिए और किसे नहीं, वह देश उच्च है है। पर जहाँ के नागरिक गलत लोगों के उत्तेजक नारों या व्यक्‍त‍ियों के गलत प्रभाव में आकर मत देते हैं, वह हीन है है। इसलिए मतदान से पहले उम्मीदवार का चरित्र, उसकी योग्यता और उसके किए गए कामों को ध्यान से देखना चाहिए। किसी बड़े आदमी के कहने पर या किसी नारे के जोर पर अपना मत ऐसे व्यक्ति को दे देना, जो देश का निर्माण और सुधार नहीं कर सकता, देश के हित में नहीं है। हरेक नागरिक का यह कर्तव्य है कि वह जब भी कोई चुनाव हो, ठीक मनुष्य को अपना मत दें। यह उसका अधिकार भी है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "इस उच्चता और हीनता की कसौटी है है चुनाव ।",
+            "जहाँ के नागरिक गलत लोगों के उत्तेजक नारों या व्यक्‍त‍ियों के गलत प्रभाव में आकर मत देते हैं, वह हीन है है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:H:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपने विद्यालय के प्रधानाचार्य को पत्र लिखिए, जिसमें विद्यालय और उसके आस-पास के सार्वजनिक स्थानों की सफाई तथा सौंदर्य-बोध को बनाए रखने के लिए विद्यार्थियों से कुछ निश्चित कर्तव्य निभाने का अनुरोध हो। पत्र १०० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: सार्वजनिक स्थानों की सफाई और सौंदर्य-बोध को बनाए रखने की आवश्यकता का स्पष्ट कथन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: गली गंदी रखने, पीक थूकने और ठेलमठेल करने जैसी आदतों से बचने तथा शक्‍ त‍ि-बोध और सौं दर्य-बोध के बारे में व्यावहारिक बातें",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: पत्र का सही ढाँचा — संबोधन, विषय-सूचना पंक्ति, निवेदन, धन्यवाद और हस्ताक्षर-पंक्ति",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: पत्र की शुरुआत से लेकर अनुरोध तक का तार्किक एवं सुसंगत प्रवाह",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता और अभिव्यक्ति: व्याकरण-वर्तनी तथा विराम-चिह्नों की शुद्धि और औपचारिक पत्र-शैली",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "विद्यालय के प्रधानाचार्य महोदय,\n\nविनम्र निवेदन है कि विद्यालय और उसके आस-पास के सार्वजनिक स्थानों की सफाई तथा सौंदर्य-बोध को बनाए रखने के लिए विद्यार्थियों को कुछ निश्चित कर्तव्य निभाने चाहिए। अपना घर, दफ्तर और गली गंदी न रखना, होटलों-धर्मशालाओं में, ज़ीनों में और कोनों में पीक न थूकना तथा उत्सवों, मेलों, रेलों और खेलों में ठेलमठेल न करना — ये कुछ छोटी-छोटी आदतें ही सार्वजनिक स्थानों की स्वच्छता बनाए रख सकती हैं। हमारे देश को दो बातों की सबसे पहले और सबसे ज्यादा जरूरत है, एक शक्‍ त‍ि-बोध और दूसरा सौं दर्य-बोध। कृपया इन बातों पर विद्यार्थियों का ध्यान दिलाइए।\n\nआपका आज्ञाकारी शिष्य,\nनाम, कक्षा",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "हमारे देश को दो बातों की सबसे पहले और सबसे ज्यादा जरूरत है है। एक शक्‍ त‍ि-बोध और दूसरा सौं दर्य-बोध।",
+            "अपना घर, दफ्तर, गली गंदा रखते हैं, होटलों-धर्मशालाओं में या ऐसे ही दूसरे स्थथानों में, ज़ीनों में, कोनों में पीक थूकते हैं?"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:H:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपने विद्यालय के कार्यालय में लगने वाले प्रमाण-पत्र के फॉर्म पर तीस जानवर या वन्य-प्राणी देखने के लिए जाने की अनुमति के लिए आवेदन कैसे लिखा जाए — इसका नमूना लिखिए। आवेदन लगभग १०० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: प्रमाण-पत्र के लिए आवेदन करने का कारण और तीस जानवर या वन्य-प्राणी देखने की आवश्यकता का स्पष्ट कथन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: नियमों का पालन करने की प्रतिबद्धता तथा प्रमाण-पत्र रकम संलग्न करने का निर्देश",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: प्रमाण-पत्र आवेदन का सही ढाँचा — शीर्षक, सेवा में, पता, संबोधन, निवेदन, हस्ताक्षर और नाम-कक्षा-रोल नंबर",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: कारण, प्रतिबद्धता और अनुरोध का क्रमबद्ध एवं तार्किक प्रवाह",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता और अभिव्यक्ति: व्याकरण-वर्तनी तथा विराम-चिह्नों की शुद्धि और औपचारिक शैली",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "प्रमाण-पत्र\n\nसेवा में,\nप्रधानाचार्य,\nविद्यालय का नाम, नगर का नाम।\n\nमहोदय,\n\nसविनय निवेदन है कि मैं आपके विद्यालय का नियमित विद्यार्थी हूँ। मुझे अपने देश में प्रकृति-प्रेमी पक्षियों की खोज के लिए तीस जानवर या वन्य-प्राणियों को देखने के लिए दिन भर के लिए बाहर जाना है। मैं अपने देश का नागरिक हूँ और अपना देश हूँ, इसलिए आपके विद्यालय के सभी नियमों और विनय-विचारों का पूरा पालन करूँगा। प्रार्थना है कि प्रमाण-पत्र की रकम संलग्न कर मेरा आवेदन स्वीकृत कर मुझे यथाशीघ्र सूचना दें।\n\nआपका आज्ञाकारी शिष्य,\nनाम, कक्षा, रोल नंबर",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "इतिहास साक्ी है है, बहुत बार अकेले चने ने ही भाड़ फोड़ा है है",
+            "मैं अपने देश का नागरिक हूँ और मानता हूँ कि मैं अपना देश हूँ।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:H:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपने विद्यालय के प्रधानाचार्य को ई-मेल लिखिए, जिसमें अपने सहपाथियों से अनुरोध हो कि वे परीक्षा-कक्ष में प्रश्नपत्र सीधे कागज़ पर उतारकर न फेंकें, बल्कि ऊतारकर ही डालें। ई-मेल १०० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: प्रश्नपत्र सीधे कागज़ पर उतारकर फेंकने की गलती पर ज़ोर और ई-मेल का प्रयोजन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: बार-बार दोहराई जाने वाली आदत की तुलना और सामूहिक मानसिक बल पर पड़ने वाले दुष्प्रभाव की समझाना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: ई-मेल का सही ढाँचा — विषय-सूचना पंक्ति, संबोधन, निवेदन, हस्ताक्षर और पहचान-विवरण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: समस्या, उदाहरण और अनुरोध का क्रमबद्ध एवं तार्किक प्रवाह",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता और अभिव्यक्ति: व्याकरण-वर्तनी तथा विराम-चिह्नों की शुद्धि और औपचारिक ई-मेल-शैली",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "विषय: परीक्षा-कक्ष में प्रश्नपत्र फेंकने पर रोक\n\nमान्य प्रधानाचार्य महोदय,\n\nसप्रेम नमस्कार।\n\nमैं आपका विद्यार्थी हूँ। हमारे विद्यालय में परीक्षा के दिन प्रश्नपत्र बार-बार सीधे कागज़ पर उतारकर फेंक दिए जाते हैं, जिससे वहाँ कूड़ा-कचरा फैल जाता है और वातावरण सौंदर्य-बोध के लिए उपयुक्त नहीं रहता। किसी प्रांत या प्रदेश में बार-बार होने वाले भूकंप की तरह ही यह छोटी-छोटी आदत भी दिन-दिन कमजोरी की भावना को बल देती है और देश की सामूहिक मानसिक बल को चोट पहुँचाती है। कृपया विद्यार्थियों को समझाइए कि प्रश्नपत्र ऊतारकर ही डाला जाए और किसी भी सार्वजनिक स्थान पर कूड़ा फेंकने से बचा जाए।\n\nसधन्यवाद सहित,\nविद्यार्थी का नाम, कक्षा",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बार-बार के इस उल्लेख ने कर्ण के सघन आत्मविश्‍ ववास में संदेह की तरेड़ डाल दी, जो उसके मन में भावी पराजय की नीं व रखने में सफल हो गई।",
+            "हम यह समझ लें कि हमारा कोई भी काम ऐसा न हो जो देश में कमजोरी की भावना को बल दे या कुरुचि की भावना को ही।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:I:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपने विद्यालय की पत्रिका के लिए एक विज्ञापन तैयार कीजिए, जिसमें लोगों से अनुरोध हो कि वे चुनाव में गलत लोगों के बहकावे में न आकर ठीक मनुष्य को ही अपना मत दें। विज्ञापन ५० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: चुनाव को उच्चता और हीनता की कसौटी मानने का स्पष्ट उल्लेख",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: गलत लोगों के उत्तेजक नारों और गलत व्यक्तियों के प्रभाव से बचने तथा ठीक मनुष्य को मत देने का अनुरोध",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: आकर्षक शीर्षक और कारगर संदेश-पंक्तियों से विज्ञापन का स्वतंत्र एवं प्रभावशाली ढाँचा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता और अभिव्यक्ति: व्याकरण-वर्तनी की शुद्धि तथा संक्षिप्त, स्पष्ट और प्रभावशाली भाषा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "ठीक मनुष्य को अपना मत दें\n\nहमारे देश की उच्चता और हीनता की कसौटी है है चुनाव। जहाँ के नागरिक गलत लोगों के उत्तेजक नारों या व्यक्‍त‍ियों के गलत प्रभाव में आकर मत देते हैं, वह हीन है है। अतः बहकावे में न आकर, केवल योग्य और ठीक व्यक्ति को अपना मत देकर देश का उच्च बनाइए।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "इस उच्चता और हीनता की कसौटी है है चुनाव ।",
+            "जहाँ के नागरिक गलत लोगों के उत्तेजक नारों या व्यक्‍त‍ियों के गलत प्रभाव में आकर मत देते हैं, वह हीन है है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:I:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपने विद्यालय के सूचना-बोर्ड के लिए एक सन्देश तैयार कीजिए, जिसमें सार्वजनिक स्थानों को गंदा करने और कुरुचि फैलाने से बचने का आदेश हो। सन्देश ५० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: कूड़ा-कचरा बाहर न फेंकने, पीक न थूकने और ठेलमठेल न करने जैसी आदतों से बचने का स्पष्ट संदेश",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: छोटी-छोटी आदतों से देश की संस्कृति और सौंदर्य-बोध की रक्षा का आदेश",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित सन्देश का स्वतंत्र एवं प्रभावशाली ढाँचा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता और अभिव्यक्ति: व्याकरण-वर्तनी की शुद्धि तथा संक्षिप्त, स्पष्ट और प्रभावशाली भाषा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सार्वजनिक स्थानों को स्वच्छ रखिए\n\nकेला खाकर छिलका रास्ते में मत फेंकिए, घर का कूड़ा बाहर मत डालिए। होटलों-धर्मशालाओं में, ज़ीनों में और कोनों में पीक मत थूकिए। उत्सवों, मेलों, रेलों और खेलों में ठेलमठेल मत करिए। इन छोटी-छोटी आदतों से ही देश की संस्कृति और सौंदर्य-बोध बचता है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "क्या आप कभी केला खाकर छिलका रास्ते में फेंकते हैं, अपने घर का कूड़ा बाहर फेंकते हैं;",
+            "होटलों-धर्मशालाओं में या ऐसे ही दूसरे स्थथानों में, ज़ीनों में, कोनों में पीक थूकते हैं? उत्सवों , मेलों , रेलों और खेलों में ठेलमठेल करते हैं"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:07:I:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/मैं-और-मेरा-देश"
+      ],
+      "taxonomyChapterId": "hindi-9/मैं-और-मेरा-देश",
+      "topic": "कन्ह हैयालाल मिश्र ‘प्रभाकर’",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "एक प्रकाशन-संस्था के लिए एक छोटा विज्ञापन तैयार कीजिए, जिसमें बताया गया हो कि विदेश यात्रा पर जाने वाला हर नागरिक अपने देश की छवि ही बनाता है। विज्ञापन ५० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: विदेश यात्रा के दौरान देश की गुलामी की लज्जा का कलंक साथ लौटने का उल्लेख",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: अपने देश की स्व तंत्रता और सम्ममान को कोई धक्का न पहुँचाने की ज़िम्मेदारी का अह्वान",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: आकर्षक शीर्षक और कारगर संदेश-पंक्तियों से विज्ञापन का स्वतंत्र ढाँचा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता और अभिव्यक्ति: व्याकरण-वर्तनी की शुद्धि तथा प्रभावशाली और प्रेरक भाषा-शैली",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "आपकी छवि ही आपके देश की छवि है\n\nअमेरिका, इंग्लैं ड, फ्रांस — जहाँ भी आप गए, वहाँ भारतवर्ष की गुलामी की लज्जा का कलंक आपके माथे पर लगा रहा। आपके हाथों देश का सम्मान पहुँचे या उसे कोई धक्का, यह आपकी अपनी कसौटी है। अपने देश की रक्षा अवश्य कीजिए।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मैं अमेरिका गया, इंग्लैं ड गया, फ्रांस गया और संसार के दूसरे देशों में भी घूमा, पर जहाँ भी मैं गया, भारतवर्ष की गुलामी की लज्जा का कलंक मेरे माथे पर लगा रहा।",
+            "मैं कोई ऐसा काम न करूँ जिससे मेरे देश की स्व तंत्रता को, दूसरे शब्दों में, उसके सम्ममान को धक्का पहुँचे"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "ihga1",
+    "chapters": [
+      7
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

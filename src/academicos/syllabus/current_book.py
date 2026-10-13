@@ -114,7 +114,10 @@ LANGUAGES = ("English", "Hindi")
 def _book_title(subject: str, grade: int) -> Optional[str]:
     listed = book_chapters(subject, grade)
     if listed:
-        return listed[0].get("bookTitle")
+        # Every book the class reads from, in book order: class 10 English is First Flight and
+        # Footprints without Feet, and naming only the first misnamed the other's lessons.
+        titles = list(dict.fromkeys(c.get("bookTitle") for c in listed if c.get("bookTitle")))
+        return " and ".join(titles) or None
     path = cbse_syllabus._DATA_DIR / "taxonomy" / f"{subject.strip().replace(' ', '_')}_{grade}.json"
     return json.loads(path.read_text(encoding="utf-8")).get("book") if path.exists() else None
 

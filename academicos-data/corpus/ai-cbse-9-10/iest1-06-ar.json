@@ -1,0 +1,255 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iest1:06:AR:101",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Tracing Democratic Traditions from Early Times",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A Class 9 student is preparing a profile card on Canada for a school exhibition and wants to explain who heads the country's executive. The student writes down two statements and asks a teacher to check them.\n\n1. Assertion (A): Canada's executive includes a Governor-General who is appointed by the Monarch, while the Prime Minister is the Head of Government.\n2. Reason (R): Canada is a parliamentary democracy that has a multi-party system.\n\nChoose the correct option:",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Governor-General",
+            "appointed by\nmulti-party\nConstitution\n(Parliamentary\nwith the Prime\nthe Monarch\nsystem",
+            "Minister (Head of\nGovernment)"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:06:AR:102",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Tracing Democratic Traditions from Early Times",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A Class 9 student is comparing the constitutions of India and the United Kingdom for a class discussion and has to work out which of the two countries is guided by a single written Act. The student writes down two statements and asks a teacher to check them.\n\n1. Assertion (A): India is guided by a written constitution, whereas the United Kingdom is guided by an unwritten constitution.\n2. Reason (R): The Fundamental Rights and Duties of the United Kingdom are laid down in its written constitution.\n\nChoose the correct option:",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The assertion is true but the reason is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Written\nunion and\nDemocracy)\nof ministers\nGovernment)\nconstitution,",
+            "Unwritten\nSovereignty:\nKingdom\nDemocracy\nConstitutional\nof State), Prime\nconstitution,",
+            "Fundamental\ngovernments\nPrime Minister\nRights and\nas expressed\nDuties,\nin the union,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:06:AR:103",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/democracy"
+      ],
+      "taxonomyChapterId": "social-science-9/democracy",
+      "topic": "Tracing Democratic Traditions from Early Times",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "assertion_reason",
+      "stem": "A Class 9 student is explaining to a younger class why, in the United Kingdom, the Monarch is not the person who actually runs the government. The student writes down two statements and asks a teacher to check them.\n\n1. Assertion (A): In the United Kingdom the Monarch is the Head of State, while the Prime Minister is the Head of Government.\n2. Reason (R): The United Kingdom is a constitutional monarchy.\n\nChoose the correct option:",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Monarch (Head",
+            "Constitutional\nof State), Prime\nconstitution,\nDerived from\n(Parliamentary\nMonarchy,",
+            "Minister (Head of\nparliamentary\nthe Latin word\nsuperanus,\nDemocracy\nthe executive\nGovernment)"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch6",
+        "pages": [
+          1,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iest1",
+    "chapters": [
+      6
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

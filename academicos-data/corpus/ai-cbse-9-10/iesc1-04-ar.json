@@ -1,0 +1,250 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:04:AR:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/describing-motion-around-us"
+      ],
+      "taxonomyChapterId": "science-9/describing-motion-around-us",
+      "topic": "Motion in a Straight Line",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Two statements are given below. Read them and select the correct option.\n\n1. Rohit watches a car moving along a straight stretch of a highway near his house, and his father tells him that the car is in linear motion.\n\n2. When an object moves in a straight line, its motion is called linear motion.\n\n(A) Both assertion and reason are true and the reason is a correct explanation of the assertion.\n(B) Both assertion and reason are true but the reason is not a correct explanation of the assertion.\n(C) The assertion is true but the reason is false.\n(D) Both assertion and reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both assertion and reason are true and the reason is a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "You have learnt that when an object moves in a straight line, its motion is",
+            "in a swimming race, a vertically falling ball, a car moving along a straight",
+            "stretch of a highway or a train moving on a straight track (Fig. 4.1)?"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both assertion and reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both assertion and reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both assertion and reason are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch4",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          49,
+          51,
+          53,
+          55,
+          57,
+          61,
+          63,
+          65,
+          67,
+          69,
+          71
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:04:AR:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/describing-motion-around-us"
+      ],
+      "taxonomyChapterId": "science-9/describing-motion-around-us",
+      "topic": "Motion in a Straight Line",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Two statements are given below. Read them and select the correct option.\n\n1. Sara asks her teacher whether linear motion has any other name, and the teacher tells her that linear motion can also be called motion in a straight line.\n\n2. Sara's cousin then tells her that linear motion can also be called motion in a circle.\n\n(A) Both assertion and reason are true and the reason is a correct explanation of the assertion.\n(B) Both assertion and reason are true but the reason is not a correct explanation of the assertion.\n(C) The assertion is true but the reason is false.\n(D) Both assertion and reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The assertion is true but the reason is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It can also be called motion in a straight line.",
+            "You have learnt that when an object moves in a straight line, its motion is"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both assertion and reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both assertion and reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both assertion and reason are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch4",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          49,
+          51,
+          53,
+          55,
+          57,
+          61,
+          63,
+          65,
+          67,
+          69,
+          71
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:04:AR:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/describing-motion-around-us"
+      ],
+      "taxonomyChapterId": "science-9/describing-motion-around-us",
+      "topic": "Motion in a Straight Line",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Two statements are given below. Read them and select the correct option.\n\n1. Before Imran can discuss the motion of a ball, he first has to describe the ball's position at various instants of time.\n\n2. Imran's teacher says that motion can be described not only in words, but also with numbers, equations and graphs.\n\n(A) Both assertion and reason are true and the reason is a correct explanation of the assertion.\n(B) Both assertion and reason are true but the reason is not a correct explanation of the assertion.\n(C) The assertion is true but the reason is false.\n(D) Both assertion and reason are false.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both assertion and reason are true but the reason is not a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "To discuss about the motion of an object, you first need to describe its",
+            "not only in words, but also with numbers, equations and graphs."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both assertion and reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both assertion and reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both assertion and reason are false."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch4",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          49,
+          51,
+          53,
+          55,
+          57,
+          61,
+          63,
+          65,
+          67,
+          69,
+          71
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -1,0 +1,1530 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:02:A:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "Nelson Mandela has become South Africa’s first Black\nPresident after more than three centuries of White rule.\nMr Mandela’s African National Congress (ANC) party won\n252 of the 400 seats in the first democratic elections of South\nAfrica’s history.\nThe inauguration ceremony took place in the Union\nBuildings amphitheatre in Pretoria today, attended by\npoliticians and dignitaries from more than 140 countries\naround the world. “Never, never again will this beautiful land\nexperience the oppression of one by another, ” said Nelson\nMandela in his address.\n\nA student is asked how long the white minority had ruled South Africa before the change reported in the extract; which answer does the extract support? (A) For about thirty years. (B) For about one hundred years. (C) For about three hundred years. (D) For about four hundred years.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "For about three hundred years.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "President after more than three centuries of White rule.",
+            "Mandela had to spend thirty years in prison. Finally, democratic",
+            "252 of the 400 seats in the first democratic elections of South"
+          ],
+          "objective": true,
+          "options": {
+            "A": "For about thirty years.",
+            "B": "For about one hundred years.",
+            "C": "For about three hundred years.",
+            "D": "For about four hundred years."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:02:A:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "That day had come about through the\nunimaginable sacrifices of thousands of my people,\npeople whose suffering and courage can never be\ncounted or repaid. I felt that day, as I have on so\nmany other days, that I was simply the sum of all\nthose African patriots who had gone before me. That\nlong and noble line ended and now began again\nwith me. I was pained that I was not able to thank\nthem and that they were not able to see what their\nsacrifices had wrought.\n\nAfter reading the extract, a student says the writer looks on his own achievement as belonging to a long line of earlier fighters and not to himself alone; which option states that conclusion? (A) The writer believes that the freedom of his country was his own invention. (B) The writer believes that he is indebted to the patriots who went before him. (C) The writer believes that the sacrifices of those patriots were wasted. (D) The writer believes that only the people who were present can understand that day.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The writer believes that he is indebted to the patriots who went before him.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "counted or repaid. I felt that day, as I have on so\nmany other days, that I was simply the sum of all\nthose African patriots who had gone before me. That",
+            "long and noble line ended and now began again",
+            "unimaginable sacrifices of thousands of my people,\npeople whose suffering and courage can never be"
+          ],
+          "objective": true,
+          "options": {
+            "A": "The writer believes that the freedom of his country was his own invention.",
+            "B": "The writer believes that he is indebted to the patriots who went before him.",
+            "C": "The writer believes that the sacrifices of those patriots were wasted.",
+            "D": "The writer believes that only the people who were present can understand that day."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:02:B:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "Which option correctly completes the clause 'not only ___ , but my brothers and sisters were not free' with the word order that the rule requires? (A) I was free (B) I was not free (C) was I not free (D) not I was free",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "was I not free",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "But then I slowly saw that not only was I not\nfree, but my brothers and sisters were not free. I"
+          ],
+          "objective": true,
+          "options": {
+            "A": "I was free",
+            "B": "I was not free",
+            "C": "was I not free",
+            "D": "not I was free"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:02:B:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Which option continues the list of freedoms in the same grammatical form as 'the basic and honourable freedoms of achieving my potential'? (A) of earn my keep (B) of earning my keep (C) of earn my keeping (D) of earned my keep",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "of earning my keep",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "basic and honourable freedoms of achieving my\npotential, of earning my keep, of marrying and"
+          ],
+          "objective": true,
+          "options": {
+            "A": "of earn my keep",
+            "B": "of earning my keep",
+            "C": "of earn my keeping",
+            "D": "of earned my keep"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:02:B:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "In the sentence about the decades of oppression and brutality producing the Oliver Tambos and the Walter Sisulus of our time, what does the use of the definite article before these names show? (A) It shows that the writer is speaking directly to one named man. (B) It shows that a proper noun in the plural must never take an article. (C) It shows that the plural ending has turned the names into common nouns. (D) It shows that the article with a plural proper noun means many people of that type or kind.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "It shows that the article with a plural proper noun means many people of that type or kind.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "… the decades of oppression and brutality … produced the Oliver Tambos,\nthe Walter Sisulus, … of our time.",
+            "Used in this way with the and/or in the plural, a proper noun carries a",
+            "(b) many other men like Oliver Tambo, Walter Sisulu …/many men of\ntheir type or kind, whose names may not be as well known."
+          ],
+          "objective": true,
+          "options": {
+            "A": "It shows that the writer is speaking directly to one named man.",
+            "B": "It shows that a proper noun in the plural must never take an article.",
+            "C": "It shows that the plural ending has turned the names into common nouns.",
+            "D": "It shows that the article with a plural proper noun means many people of that type or kind."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:02:C:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school is holding an assembly to mark the anniversary of the day on which Nelson Mandela was sworn in as the first black President of South Africa. Write a speech of about 100 words for the Principal to deliver at that assembly, saying what the country gained by ending a system that separated people according to race.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Opens with a suitable greeting to the assembly and names the occasion.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Uses at least two concrete details of the day, such as the African National Congress winning 252 of the 400 seats, or dignitaries from more than 140 countries, or more than 100,000 people of all races celebrating in the streets.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains the change: a system that separated people according to race replaced by one that recognised the rights and freedoms of all peoples, regardless of the colour of their skin.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Ends with an appeal, such as Never, never again shall this beautiful land experience the oppression of one by another.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Uses a formal register, clear paragraphing and correct grammar and spelling.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Respected Principal, teachers and dear friends,\nToday we gather to mark the anniversary of a day that changed a nation. On 10 May 1994 Nelson Mandela was sworn in as South Africa's first black President. His African National Congress had won 252 of the 400 seats in the first democratic elections, and dignitaries from more than 140 countries came to Pretoria. In the streets more than 100,000 people of all races sang and danced together. A system that separated people according to race was replaced by one that recognised the rights and freedoms of all peoples. Never, never again shall this beautiful land experience the oppression of one by another. Thank you.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Mr Mandela’s African National Congress (ANC) party won\n252 of the 400 seats in the first democratic elections of South\nAfrica’s history.",
+            "Buildings amphitheatre in Pretoria today, attended by\npoliticians and dignitaries from more than 140 countries",
+            "together... More than 100,000 South African men, women\nand children of all races sang and danced with joy."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:02:C:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a letter of about 100 words to the Principal of your school, dated 10 May, proposing one activity by which the school could mark the anniversary of the day the first black President of South Africa was sworn in, and giving your reasons.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Uses the right format: the date 10 May, a salutation to the Principal and a closing signature.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Proposes one clear activity for the assembly or the school ground.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives at least two reasons drawn from what that day achieved, such as the ending of a system that separated people according to race, the recognition of the rights and freedoms of all peoples, or people of all races celebrating together.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Keeps a polite, formal tone throughout and stays within about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Uses correct grammar, spelling and punctuation, with no linking-word errors.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dear Sir,\nI am writing to suggest that our school mark the anniversary of 10 May, the day Nelson Mandela was sworn in as the first black President. I suggest that the whole school assemble in the ground at nine o'clock and that the first song be sung by all classes together. On that day a system that separated people according to race came to an end, and one that recognised the rights and freedoms of all peoples began instead. More than 100,000 people of all races then sang and danced together in the streets, so a joint assembly would show that idea in our own small way. I hope you will approve.\nYours obediently,\nA Class 10 student",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "this news item (from the BBC) of 10 May 1994.",
+            "overturned forever and replaced by one that\nrecognised the rights and freedoms of all peoples,\nregardless of the colour of their skin.",
+            "together... More than 100,000 South African men, women\nand children of all races sang and danced with joy."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:02:C:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Write an article of about 100 words for your school magazine, with the heading Let Freedom Reign, on what the world gained on 10 May 1994.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Uses the article format: a suitable heading and a clear beginning, middle and end.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Mentions at least three facts of the day, such as 252 of the 400 seats won, dignitaries from more than 140 countries, and more than 100,000 people celebrating.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that the new government recognised the rights and freedoms of all peoples, regardless of the colour of their skin.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Ends with a comment on why the day still matters to people today.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Keeps to about 100 words, in a clear style with correct grammar and spelling.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Let Freedom Reign\nOn 10 May 1994 a new nation began. In the first democratic elections in South Africa's history the African National Congress won 252 of the 400 seats. Dignitaries from more than 140 countries came to Pretoria for the inauguration, and more than 100,000 people of all races sang and danced with joy. A system which had separated people according to race was replaced by a government that recognised the rights and freedoms of all peoples, whatever the colour of their skin. Mandela had spent thirty years in prison for that change. The world gained proof that justice can win, and that is why this day still matters.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Mr Mandela’s African National Congress (ANC) party won\n252 of the 400 seats in the first democratic elections of South\nAfrica’s history.",
+            "Mandela had to spend thirty years in prison. Finally, democratic\nelections were held in South Africa in 1994, and Mandela became",
+            "together... More than 100,000 South African men, women\nand children of all races sang and danced with joy."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:02:D:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "• Have you heard of Nelson Mandela? Mandela, and his African\nNational Congress, spent a lifetime fighting against apartheid.\nMandela had to spend thirty years in prison. Finally, democratic\nelections were held in South Africa in 1994, and Mandela became\nthe first black President of a new nation.\n\nThe extract names a political system and a man; according to the extract, which option correctly describes what the man and his organisation did? (A) They fought against apartheid all their lives and then refused to take part in free elections. (B) They fought against apartheid all their lives and then went back to prison. (C) They fought against apartheid all their lives and then took part in free elections. (D) They fought against apartheid all their lives and then left the country for good.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "They fought against apartheid all their lives and then took part in free elections.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "• Have you heard of Nelson Mandela? Mandela, and his African\nNational Congress, spent a lifetime fighting against apartheid.",
+            "Mandela had to spend thirty years in prison. Finally, democratic\nelections were held in South Africa in 1994, and Mandela became"
+          ],
+          "objective": true,
+          "options": {
+            "A": "They fought against apartheid all their lives and then refused to take part in free elections.",
+            "B": "They fought against apartheid all their lives and then went back to prison.",
+            "C": "They fought against apartheid all their lives and then took part in free elections.",
+            "D": "They fought against apartheid all their lives and then left the country for good."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:02:D:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "a display of pinpoint precision and military force,\nbut a demonstration of the military’s loyalty to\ndemocracy, to a new government that had been\nfreely and fairly elected. Only moments before, the\nhighest generals of the South African defence force\nand police, their chests bedecked with ribbons and\nmedals from days gone by, saluted me and pledged\ntheir loyalty. I was not unmindful of the fact that\n\nIn the extract, the salute given by the generals is described; which option best explains the change that the salute shows? (A) They now salute a government that was freely and fairly elected, although not so many years before they would have arrested him. (B) They now salute a government that has taken power by force, although not so many years before they served it loyally. (C) They now refuse to salute, because the ribbons and medals on their chests belong to a war. (D) They now salute only because the ribbons and medals on their chests have been replaced.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "They now salute a government that was freely and fairly elected, although not so many years before they would have arrested him.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "but a demonstration of the military’s loyalty to\ndemocracy, to a new government that had been\nfreely and fairly elected. Only moments before, the",
+            "not so many years before they would not have\nsaluted but arrested me. Finally a chevron of Impala"
+          ],
+          "objective": true,
+          "options": {
+            "A": "They now salute a government that was freely and fairly elected, although not so many years before they would have arrested him.",
+            "B": "They now salute a government that has taken power by force, although not so many years before they served it loyally.",
+            "C": "They now refuse to salute, because the ribbons and medals on their chests belong to a war.",
+            "D": "They now salute only because the ribbons and medals on their chests have been replaced."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:02:D:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "courage, wisdom and generosity that their like may\nnever be known again. Perhaps it requires such\ndepths of oppression to create such heights of\ncharacter. My country is rich in the minerals and\ngems that lie beneath its soil, but I have always\nknown that its greatest wealth is its people, finer\nand truer than the purest diamonds.\n\nIn the extract, the writer argues that the real treasure of his country is not what lies under the ground; what does he say it is? (A) The diamonds mined from the deepest mines. (B) The people of the country, finer and truer than the purest diamonds. (C) The minerals that lie beneath the soil. (D) The gems that can be exported to other countries.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The people of the country, finer and truer than the purest diamonds.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "character. My country is rich in the minerals and\ngems that lie beneath its soil, but I have always\nknown that its greatest wealth is its people, finer\nand truer than the purest diamonds.",
+            "never be known again. Perhaps it requires such\ndepths of oppression to create such heights of"
+          ],
+          "objective": true,
+          "options": {
+            "A": "The diamonds mined from the deepest mines.",
+            "B": "The people of the country, finer and truer than the purest diamonds.",
+            "C": "The minerals that lie beneath the soil.",
+            "D": "The gems that can be exported to other countries."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:02:E:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "In about 50 words, explain why the writer says he is simply the sum of all those African patriots who had gone before him.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The day came about through the unimaginable sacrifices of thousands of his people.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Their suffering and courage can never be counted or repaid.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He therefore feels his own part is only the sum of what those patriots had already given.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "That day came about through the unimaginable sacrifices of thousands of his people, people whose suffering and courage can never be counted or repaid. He felt that he was simply the sum of all the African patriots who had gone before him: that long and noble line ended and began again with him. He was pained that he could not thank them.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "That day had come about through the\nunimaginable sacrifices of thousands of my people,\npeople whose suffering and courage can never be",
+            "many other days, that I was simply the sum of all\nthose African patriots who had gone before me. That"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:02:E:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "In about 50 words, say how the attitude of the highest generals of the South African defence force and police had changed by the day of the inauguration, and why it had changed.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "On the day they saluted him and pledged their loyalty.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Not so many years before they would not have saluted but arrested him.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The change came because the new government had been freely and fairly elected.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "On the day the highest generals of the defence force and police, their chests bedecked with ribbons and medals, saluted him and pledged their loyalty. Not so many years before, they would not have saluted but arrested him. The change came because the new government had been freely and fairly elected.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "medals from days gone by, saluted me and pledged\ntheir loyalty. I was not unmindful of the fact that",
+            "not so many years before they would not have\nsaluted but arrested me. Finally a chevron of Impala",
+            "democracy, to a new government that had been\nfreely and fairly elected. Only moments before, the"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:02:E:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "In about 50 words, state how the writer defines courage, and say from whom he learned that meaning of courage.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Courage is not the absence of fear but the triumph over it.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The brave man is not he who does not feel afraid, but he who conquers that fear.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He learned it from his comrades in the struggle, who risked and gave their lives for an idea.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He learned the meaning of courage from his comrades in the struggle, who risked and gave their lives for an idea and stood up to attacks and torture without breaking. Courage, he says, is not the absence of fear but the triumph over it: the brave man is not he who does not feel afraid, but he who conquers that fear.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It is from these comrades in the struggle that I\nlearned the meaning of courage. Time and again, I\nhave seen men and women risk and give their lives",
+            "that courage was not the absence of fear, but the",
+            "triumph over it. The brave man is not he who does"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:02:F:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "In about 120 words, and step by step, set out the pledge the writer makes to the Republic and its people, and the pledge he makes on behalf of all his people.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "He pledged to obey and uphold the Constitution.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He pledged to devote himself to the well-being of the Republic and its people.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He said the people had at last achieved their political emancipation.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They pledged to liberate all their people from the continuing bondage of poverty.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "And from deprivation, suffering, gender and other discrimination.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Never, never and never again shall the beautiful land experience the oppression of one by another.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 - When it was his turn, he pledged to obey and uphold the Constitution of the new Republic. Step 2 - He pledged to devote himself to the well-being of the Republic and its people. Step 3 - He told the assembled guests that the people had at last achieved their political emancipation. Step 4 - They pledged to liberate all their people from the continuing bondage of poverty. Step 5 - They pledged to free them also from deprivation, suffering, gender and other discrimination. Step 6 - They swore that never, never and never again should the beautiful land experience the oppression of one by another.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "When it was my turn, I pledged to obey and uphold\nthe Constitution and to devote myself to the well-\nbeing of the Republic and its people. To the",
+            "We have, at last, achieved our political emancipation.",
+            "continuing bondage of poverty, deprivation, suffering,\ngender and other discrimination."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:02:F:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "In about 120 words, and step by step, show how the writer's own experience in prison supports his claim that love, and not hate, is what people are born with.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "No one is born hating another person because of the colour of his skin, or his background, or his religion.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "People must learn to hate, and if they can learn to hate, they can be taught to love.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Love comes more naturally to the human heart than its opposite.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Even in the grimmest times in prison he saw a glimmer of humanity in one of the guards.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Perhaps just for a second, but it was enough to reassure him and keep him going.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Man's goodness is a flame that can be hidden but never extinguished.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 - No one is born hating another person because of the colour of his skin, or his background, or his religion. Step 2 - People must learn to hate, and if they can learn to hate, they can be taught to love. Step 3 - Love comes more naturally to the human heart than its opposite. Step 4 - Even in the grimmest times in prison, when he and his comrades were pushed to their limits, he would see a glimmer of humanity in one of the guards. Step 5 - Perhaps just for a second, but it was enough to reassure him and keep him going. Step 6 - Man's goodness is a flame that can be hidden but never extinguished.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "No one is born hating another person because of\nthe colour of his skin, or his background, or his\nreligion. People must learn to hate, and if they can\nlearn to hate, they can be taught to love, for love\ncomes more naturally to the human heart than its",
+            "see a glimmer of humanity in one of the guards,",
+            "a flame that can be hidden but never extinguished."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:02:F:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/nelson-mandela-long-walk-to-freedom"
+      ],
+      "taxonomyChapterId": "english-10/nelson-mandela-long-walk-to-freedom",
+      "topic": "Before You Read",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "In about 120 words, and step by step, show why the writer found it almost impossible in South Africa to do his duty to his people and his duty to his family at the same time.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Every man has twin obligations: to his family, parents, wife and children, and to his people, community and country.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In a civil and humane society each man is able to fulfil both obligations according to his own inclinations and abilities.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "But in a country like South Africa it was almost impossible for a man of his birth and colour to fulfil both.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A man of colour who attempted to live as a human being was punished and isolated.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A man who tried to fulfil his duty to his people was inevitably punished for it.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Each of the two obligations therefore brought punishment in that country.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 - Every man has twin obligations: to his family, to his wife and children, and to his people, his community and his country. Step 2 - In a civil and humane society each man is able to fulfil both according to his own inclinations and abilities. Step 3 - But in South Africa it was almost impossible for a man of his birth and colour to fulfil both. Step 4 - A man of colour who attempted to live as a human being was punished and isolated. Step 5 - A man who tried to fulfil his duty to his people was inevitably punished for it. Step 6 - Each of the two obligations therefore brought punishment, so he could fulfil neither.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In life, every man has twin obligations —\nobligations to his family, to his parents, to his wife\nand children; and he has an obligation to his people,",
+            "society, each man is able to fulfil those obligations\naccording to his own inclinations and abilities. But",
+            "colour who attempted to live as a human being was\npunished and isolated. In South Africa, a man who\ntried to fulfil his duty to his people was inevitably"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "Before You Read",
+      "reason": "distractor-ladder",
+      "stem": "A student has to place the events of the extract in the order in which they happened; which order is the correct one?"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      2
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

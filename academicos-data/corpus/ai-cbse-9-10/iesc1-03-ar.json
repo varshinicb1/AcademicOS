@@ -1,0 +1,241 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iesc1:03:AR:101",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/tissues-in-action"
+      ],
+      "taxonomyChapterId": "science-9/tissues-in-action",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A student is told that her arm moves on command because several different kinds of cells each do one particular job, instead of every cell doing every job at once.\nAssertion (1): In animals, muscle tissue enables movement and nervous tissue carries messages to different parts of the body.\nReason (2): The formation of different types of tissues leads to the division of labour, which increases the efficiency of the body and enables it to carry out complex life processes.\nChoose the correct option. (A) Both Assertion (1) and Reason (2) are true, and Reason (2) is the correct explanation of Assertion (1). (B) Both Assertion (1) and Reason (2) are true, but Reason (2) is not the correct explanation of Assertion (1). (C) Assertion (1) is true, but Reason (2) is false. (D) Assertion (1) is false, but Reason (2) is true.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both Assertion (1) and Reason (2) are true, and Reason (2) is the correct explanation of Assertion (1).",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "in animals, muscle tissue enables movement and nervous tissue carries",
+            "leads to the division of labour, which increases the efficiency of the"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both Assertion (1) and Reason (2) are true, and Reason (2) is the correct explanation of Assertion (1).",
+            "B": "Both Assertion (1) and Reason (2) are true, but Reason (2) is not the correct explanation of Assertion (1).",
+            "C": "Assertion (1) is true, but Reason (2) is false.",
+            "D": "Assertion (1) is false, but Reason (2) is true."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch3",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          29,
+          31,
+          33,
+          35,
+          37,
+          39,
+          41,
+          43,
+          45,
+          47
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:03:AR:102",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/tissues-in-action"
+      ],
+      "taxonomyChapterId": "science-9/tissues-in-action",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A student notices that the skin, the muscles and the bones of an animal body are each built from cells arranged in levels, one level sitting on another.\nAssertion (1): Cells of similar type performing similar function group together to form a tissue, and more than one type of tissues form organs.\nReason (2): A tissue is a group of cells (similar in structure) that work together to perform a specific function.\nChoose the correct option. (A) Both Assertion (1) and Reason (2) are true, and Reason (2) is the correct explanation of Assertion (1). (B) Both Assertion (1) and Reason (2) are true, but Reason (2) is not the correct explanation of Assertion (1). (C) Assertion (1) is true, but Reason (2) is false. (D) Assertion (1) is false, but Reason (2) is true.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both Assertion (1) and Reason (2) are true, but Reason (2) is not the correct explanation of Assertion (1).",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "function group together to form a tissue, more than one type of tissues",
+            "form organs, different organs form organ systems and organ systems",
+            "tissue is a group of cells (similar in structure) that work together to"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both Assertion (1) and Reason (2) are true, and Reason (2) is the correct explanation of Assertion (1).",
+            "B": "Both Assertion (1) and Reason (2) are true, but Reason (2) is not the correct explanation of Assertion (1).",
+            "C": "Assertion (1) is true, but Reason (2) is false.",
+            "D": "Assertion (1) is false, but Reason (2) is true."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch3",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          29,
+          31,
+          33,
+          35,
+          37,
+          39,
+          41,
+          43,
+          45,
+          47
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iesc1:03:AR:103",
+      "questionBankId": "ai-cbse:iesc1",
+      "subject": "Science",
+      "grade": 9,
+      "chapterIds": [
+        "science-9/tissues-in-action"
+      ],
+      "taxonomyChapterId": "science-9/tissues-in-action",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A student places a drop of pond water under the microscope and sees a single cell carrying out every activity of life, then looks at a potted plant standing nearby.\nAssertion (1): In a multicellular organism such as a plant, every cell performs all the functions of life.\nReason (2): A single cell performs all functions of life in unicellular organisms, such as amoeba.\nChoose the correct option. (A) Both Assertion (1) and Reason (2) are true, and Reason (2) is the correct explanation of Assertion (1). (B) Both Assertion (1) and Reason (2) are true, but Reason (2) is not the correct explanation of Assertion (1). (C) Assertion (1) is true, but Reason (2) is false. (D) Assertion (1) is false, but Reason (2) is true.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Assertion (1) is false, but Reason (2) is true.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "form an organism. In unicellular organisms, such as amoeba, a single",
+            "and animals, different groups of cells perform different functions."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both Assertion (1) and Reason (2) are true, and Reason (2) is the correct explanation of Assertion (1).",
+            "B": "Both Assertion (1) and Reason (2) are true, but Reason (2) is not the correct explanation of Assertion (1).",
+            "C": "Assertion (1) is true, but Reason (2) is false.",
+            "D": "Assertion (1) is false, but Reason (2) is true."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iesc1 ch3",
+        "pages": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          29,
+          31,
+          33,
+          35,
+          37,
+          39,
+          41,
+          43,
+          45,
+          47
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iesc1",
+    "chapters": [
+      3
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

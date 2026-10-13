@@ -1,0 +1,484 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:04:A:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "It was a quiet, kindly voice, but one with firmness in it. A woman was standing in the doorway, and Sherry was rubbing against her. She was young, quite pretty, and was dressed in red. She walked to the fireplace and straightened the ornaments there. “Down, Sherry,” she said. “Anyone would think I’d been away for a month!” She smiled at Horace, and went on, “However, I came back just in time, though I didn’t expect to meet a burglar.” Horace had some hope because she seemed to be amused at meeting him. He might avoid trouble if he treated her the right way.\n\nIn the passage, Horace has just been surprised by a woman standing in the doorway of the room he is in. Why does he still feel that he may be able to avoid trouble? (A) Because she says she heard him from the top of the house, so she must know he is not one of the family (B) Because she seems amused at meeting him, and he believes he can treat her the right way (C) Because the small dog has stopped making a noise, so nobody else in the house will hear him (D) Because she has already promised to forget that she ever saw him, and has said she will not speak",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Because she seems amused at meeting him, and he believes he can treat her the right way",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Horace had some hope because she seemed to be amused at meeting",
+            "him. He might avoid trouble if he treated her the right way.",
+            "“Of course, you could do that. But I would telephone the police and"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Because she says she heard him from the top of the house, so she must know he is not one of the family",
+            "B": "Because she seems amused at meeting him, and he believes he can treat her the right way",
+            "C": "Because the small dog has stopped making a noise, so nobody else in the house will hear him",
+            "D": "Because she has already promised to forget that she ever saw him, and has said she will not speak"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:B:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Your school magazine is running a feature on burglary, and you have to report in indirect speech what a thief said when the police caught him: “I’m not a man who threatens society. I steal only from those who have a lot of money.” Which reported sentence is correct? (A) He said that he is not a man who threatens society and he stole only from those who had a lot of money. (B) He said that he was not a man who threatens society and he stole only from those who have a lot of money. (C) He said that he is not a man who threatens society and he stole only from those who have a lot of money. (D) He said that he was not a man who threatened society and he stole only from those who had a lot of money.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He said that he was not a man who threatened society and he stole only from those who had a lot of money.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Horace smiled. “I’m not a man who threatens society. I steal only",
+            "from those who have a lot of money. I steal for a very good reason. And"
+          ],
+          "objective": true,
+          "options": {
+            "A": "He said that he is not a man who threatens society and he stole only from those who had a lot of money.",
+            "B": "He said that he was not a man who threatens society and he stole only from those who have a lot of money.",
+            "C": "He said that he is not a man who threatens society and he stole only from those who have a lot of money.",
+            "D": "He said that he was not a man who threatened society and he stole only from those who had a lot of money."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:C:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school is running a short safety drive on protecting the home. Write a notice for the school notice board in about 100 words. Give three precautions that students should take to keep valuables in the house safe, and name one thing about a house that makes it an easy target for a thief. Leave the date, the time and the name of the issuing club as blanks.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Format: a proper notice layout with the heading NOTICE, a title line, the advice set out in short lines, and the date, time and name of the issuing club left as blanks.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: gives three clear precautions for keeping valuables safe in the house, such as keeping jewellery and money in a bank rather than in a safe at home, never hanging the key to the house or kitchen door on a hook outside, and having a strong burglar alarm fitted.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: names one thing that makes a house an easy target, such as a magazine article printing a plan of all the rooms so that a thief knows where everything is kept.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: a clear title, short self-contained points arranged in a sensible order, and the blanks placed after the body of the notice.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct grammar and punctuation, notice-style language suited to a school board, kept to about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "NOTICE\nKeeping Your Home Safe\n\nOur school is running a safety drive on protecting the home. Please follow these precautions:\n\n• Keep your jewellery and money in a bank, not in a safe at home.\n• Never hang the key to your house or kitchen door on a hook outside.\n• Have a strong burglar alarm fitted, and get it checked often.\n\nOne habit that makes a house an easy target is letting a magazine article print a plan of all the rooms, so that a thief already knows where everything is kept.\n\nTake care!\n\nDate: ____________\nTime: ____________\nIssued by: ____________",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "A magazine article had described this house, giving a plan of",
+            "He had seen the housekeeper hang the key to the kitchen door on a",
+            "with locks and safes all his life. The burglar alarm was poorly built."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:D:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "How foolish people are when they own valuable things, Horace thought. A magazine article had described this house, giving a plan of all the rooms and a picture of this room. The writer had even mentioned that the painting hid a safe!\n\nAccording to the extract, what exactly made Horace conclude that the people who owned the house were foolish? (A) They had put the key to the kitchen door on a hook outside. (B) They had left a great bowl of flowers on the table in the drawing room. (C) They had allowed a magazine article to describe the house and print a plan of all its rooms. (D) They had kept the family jewels in the safe at home instead of taking them to the bank.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "They had allowed a magazine article to describe the house and print a plan of all its rooms.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "How foolish people are when they own valuable things, Horace",
+            "A magazine article had described this house, giving a plan of",
+            "that the painting hid a safe!"
+          ],
+          "objective": true,
+          "options": {
+            "A": "They had put the key to the kitchen door on a hook outside.",
+            "B": "They had left a great bowl of flowers on the table in the drawing room.",
+            "C": "They had allowed a magazine article to describe the house and print a plan of all its rooms.",
+            "D": "They had kept the family jewels in the safe at home instead of taking them to the bank."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:E:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Horace Danby was careful never to leave any fingerprints behind, yet his prints were later found all over the room at Shotover Grange. Explain how this happened, and what it cost him.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He took off his gloves and gave the young lady his cigarette lighter when she picked up a silver box and took a cigarette from it.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Hoping she would let him go, he opened the safe without gloves, so his fingerprints were all over the room.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Nobody believed his claim that the owner’s wife had asked him to open the safe; the gray-haired wife of sixty called the story nonsense, and he was arrested.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Horace took off his gloves to hand his cigarette lighter to the young lady, who had taken a cigarette from a silver box. Hoping she would let him go, he then opened the safe bare-handed, so his prints were left all over the room. Nobody believed that the owner’s wife had asked him to open it, and he was arrested.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "took off his gloves and gave her his cigarette lighter.",
+            "room, and no one believed him when he said that the wife of the owner",
+            "a gray-haired, sharp-tongued woman of sixty, said that the story"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:F:1",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Your literature teacher asks you to explain, step by step, how the young lady who came to the house at Shotover Grange managed to trick Horace Danby into opening her own safe for her. Write your answer in about 120 words, giving the steps in order.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "She interrupts him from the doorway by asking whether it is a cold or hay fever, so he answers without thinking and is taken off guard.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She seems amused at meeting a burglar, which gives Horace the hope that he can avoid trouble if he treats her the right way.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She threatens to telephone the police; because he hates the thought of prison, Horace begs to be let go and promises never to do it again.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She picks up a silver box and takes a cigarette from it, so Horace takes off his gloves and gives her his cigarette lighter, which is how his prints are left behind.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She claims she is the lady of the house and has forgotten the numbers to open the safe; he agrees to break it, and she says her husband will not be there for a month and the safe will be mended by then.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The trick fails because his fingerprints are all over the room, nobody believes that the owner’s wife asked him to open the safe, and she calls the story nonsense, so he is arrested.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. She asks from the doorway whether it is a cold or hay fever, so Horace answers without thinking.\n2. She seems amused at meeting a burglar, so Horace hopes to avoid trouble if he treats her right.\n3. She threatens to telephone the police; hating prison, he begs to be let go and promises to stop.\n4. She takes a cigarette from a silver box, so he takes off his gloves and hands her his lighter: his first slip.\n5. She says she is the lady of the house and has forgotten the numbers to open her own safe; he agrees to break it, and her husband is away for a month.\n6. His prints are all over the room, nobody believes the owner’s wife sent him, and he is arrested.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Horace had some hope because she seemed to be amused at meeting",
+            "took off his gloves and gave her his cigarette lighter.",
+            "room, and no one believed him when he said that the wife of the owner"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

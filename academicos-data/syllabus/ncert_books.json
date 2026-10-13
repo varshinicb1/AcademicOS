@@ -3489,6 +3489,515 @@
      "topics": []
     }
    ]
+  },
+  "English|10": {
+   "chapters": [
+    {
+     "id": "english-10/a-letter-to-god",
+     "name": "A Letter to God",
+     "book": "jeff1",
+     "bookTitle": "First Flight",
+     "number": 1,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "A Letter to God"
+      },
+      {
+       "id": "t2",
+       "title": "Dust of Snow"
+      },
+      {
+       "id": "t3",
+       "title": "Fire and Ice"
+      }
+     ]
+    },
+    {
+     "id": "english-10/nelson-mandela-long-walk-to-freedom",
+     "name": "Nelson Mandela: Long Walk to Freedom",
+     "book": "jeff1",
+     "bookTitle": "First Flight",
+     "number": 2,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "Nelson Mandela: Long Walk to Freedom"
+      },
+      {
+       "id": "t2",
+       "title": "A Tiger in the Zoo"
+      }
+     ]
+    },
+    {
+     "id": "english-10/two-stories-about-flying",
+     "name": "Two Stories about Flying",
+     "book": "jeff1",
+     "bookTitle": "First Flight",
+     "number": 3,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "His First Flight"
+      },
+      {
+       "id": "t2",
+       "title": "Black Aeroplane"
+      },
+      {
+       "id": "t3",
+       "title": "How to Tell Wild Animals"
+      },
+      {
+       "id": "t4",
+       "title": "The Ball Poem"
+      }
+     ]
+    },
+    {
+     "id": "english-10/from-the-diary-of-anne-frank",
+     "name": "From the Diary of Anne Frank",
+     "book": "jeff1",
+     "bookTitle": "First Flight",
+     "number": 4,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "From the Diary of Anne Frank"
+      },
+      {
+       "id": "t2",
+       "title": "Amanda!"
+      }
+     ]
+    },
+    {
+     "id": "english-10/glimpses-of-india",
+     "name": "Glimpses of India",
+     "book": "jeff1",
+     "bookTitle": "First Flight",
+     "number": 5,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "A Baker from Goa"
+      },
+      {
+       "id": "t2",
+       "title": "Coorg"
+      },
+      {
+       "id": "t3",
+       "title": "Tea from Assam"
+      },
+      {
+       "id": "t4",
+       "title": "The Trees"
+      }
+     ]
+    },
+    {
+     "id": "english-10/mijbil-the-otter",
+     "name": "Mijbil the Otter",
+     "book": "jeff1",
+     "bookTitle": "First Flight",
+     "number": 6,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "Mijbil the Otter"
+      },
+      {
+       "id": "t2",
+       "title": "Fog"
+      }
+     ]
+    },
+    {
+     "id": "english-10/madam-rides-the-bus",
+     "name": "Madam Rides the Bus",
+     "book": "jeff1",
+     "bookTitle": "First Flight",
+     "number": 7,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "Madam Rides the Bus"
+      },
+      {
+       "id": "t2",
+       "title": "The Tale of Custard the Dragon"
+      }
+     ]
+    },
+    {
+     "id": "english-10/the-sermon-at-benares",
+     "name": "The Sermon at Benares",
+     "book": "jeff1",
+     "bookTitle": "First Flight",
+     "number": 8,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "The Sermon at Benares"
+      },
+      {
+       "id": "t2",
+       "title": "For Anne Gregory"
+      }
+     ]
+    },
+    {
+     "id": "english-10/the-proposal",
+     "name": "The Proposal",
+     "book": "jeff1",
+     "bookTitle": "First Flight",
+     "number": 9,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "The Proposal"
+      }
+     ]
+    },
+    {
+     "id": "english-10/a-triumph-of-surgery",
+     "name": "A Triumph of Surgery",
+     "book": "jefp1",
+     "bookTitle": "Footprints without Feet",
+     "number": 1,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "A Triumph of Surgery"
+      }
+     ]
+    },
+    {
+     "id": "english-10/the-thief-s-story",
+     "name": "The Thief’s Story",
+     "book": "jefp1",
+     "bookTitle": "Footprints without Feet",
+     "number": 2,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "The Thief’s Story"
+      }
+     ]
+    },
+    {
+     "id": "english-10/the-midnight-visitor",
+     "name": "The Midnight Visitor",
+     "book": "jefp1",
+     "bookTitle": "Footprints without Feet",
+     "number": 3,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "The Midnight Visitor"
+      }
+     ]
+    },
+    {
+     "id": "english-10/a-question-of-trust",
+     "name": "A Question of Trust",
+     "book": "jefp1",
+     "bookTitle": "Footprints without Feet",
+     "number": 4,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "A Question of Trust"
+      }
+     ]
+    },
+    {
+     "id": "english-10/footprints-without-feet",
+     "name": "Footprints without Feet",
+     "book": "jefp1",
+     "bookTitle": "Footprints without Feet",
+     "number": 5,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "Footprints without Feet"
+      }
+     ]
+    },
+    {
+     "id": "english-10/the-making-of-a-scientist",
+     "name": "The Making of a Scientist",
+     "book": "jefp1",
+     "bookTitle": "Footprints without Feet",
+     "number": 6,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "The Making of a Scientist"
+      }
+     ]
+    },
+    {
+     "id": "english-10/the-necklace",
+     "name": "The Necklace",
+     "book": "jefp1",
+     "bookTitle": "Footprints without Feet",
+     "number": 7,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "The Necklace"
+      }
+     ]
+    },
+    {
+     "id": "english-10/bholi",
+     "name": "Bholi",
+     "book": "jefp1",
+     "bookTitle": "Footprints without Feet",
+     "number": 8,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "Bholi"
+      }
+     ]
+    },
+    {
+     "id": "english-10/the-book-that-saved-the-earth",
+     "name": "The Book That Saved the Earth",
+     "book": "jefp1",
+     "bookTitle": "Footprints without Feet",
+     "number": 9,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "The Book That Saved the Earth"
+      }
+     ]
+    }
+   ]
+  },
+  "Hindi|10": {
+   "chapters": [
+    {
+     "id": "hindi-10/सूरदास-ऊधौ-तुम-हौ-अति-बड़भागी-मन-की-मन-ही-माँझ-रही-हमारैं-हरि-हारिल-की-लकरी-हरि-हैं-राजनीति-पढ़ि-आए",
+     "name": "सूरदास — ऊधौ, तुम हौ अति बड़भागी; मन की मन ही माँझ रही; हमारैं हरि हारिल की लकरी; हरि हैं राजनीति पढ़ि आए",
+     "book": "jhks1",
+     "bookTitle": "Kshitij Part 2",
+     "number": 1,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "ऊधौ, तुम हौ अति बड़भागी"
+      },
+      {
+       "id": "t2",
+       "title": "मन की मन ही माँझ रही"
+      },
+      {
+       "id": "t3",
+       "title": "हमारैं हरि हारिल की लकरी"
+      },
+      {
+       "id": "t4",
+       "title": "हरि हैं राजनीति पढ़ि आए"
+      }
+     ]
+    },
+    {
+     "id": "hindi-10/तुलसीदास-राम-लक्ष्मण-परशुराम-संवाद",
+     "name": "तुलसीदास — राम-लक्ष्मण-परशुराम संवाद",
+     "book": "jhks1",
+     "bookTitle": "Kshitij Part 2",
+     "number": 2,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "राम-लक्ष्मण-परशुराम संवाद"
+      }
+     ]
+    },
+    {
+     "id": "hindi-10/जयशंकर-प्रसाद-आत्मकथ्य",
+     "name": "जयशंकर प्रसाद — आत्मकथ्य",
+     "book": "jhks1",
+     "bookTitle": "Kshitij Part 2",
+     "number": 3,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "आत्मकथ्य"
+      }
+     ]
+    },
+    {
+     "id": "hindi-10/सूर्यकांत-त्रिपाठी-निराला-उत्साह-अट-नहीं-रही-है",
+     "name": "सूर्यकांत त्रिपाठी ‘निराला’ — उत्साह; अट नहीं रही है",
+     "book": "jhks1",
+     "bookTitle": "Kshitij Part 2",
+     "number": 4,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "उत्साह"
+      },
+      {
+       "id": "t2",
+       "title": "अट नहीं रही है"
+      }
+     ]
+    },
+    {
+     "id": "hindi-10/नागार्जुन-यह-दंतुरित-मुसकान-फसल",
+     "name": "नागार्जुन — यह दंतुरित मुसकान; फसल",
+     "book": "jhks1",
+     "bookTitle": "Kshitij Part 2",
+     "number": 5,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "यह दंतुरित मुसकान"
+      },
+      {
+       "id": "t2",
+       "title": "फसल"
+      }
+     ]
+    },
+    {
+     "id": "hindi-10/मंगलेश-डबराल-संगतकार",
+     "name": "मंगलेश डबराल — संगतकार",
+     "book": "jhks1",
+     "bookTitle": "Kshitij Part 2",
+     "number": 6,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "संगतकार"
+      }
+     ]
+    },
+    {
+     "id": "hindi-10/स्वयं-प्रकाश-नेताजी-का-चश्मा",
+     "name": "स्वयं प्रकाश — नेताजी का चश्मा",
+     "book": "jhks1",
+     "bookTitle": "Kshitij Part 2",
+     "number": 7,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "नेताजी का चश्मा"
+      }
+     ]
+    },
+    {
+     "id": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+     "name": "रामवृक्ष बेनीपुरी — बालगोबिन भगत",
+     "book": "jhks1",
+     "bookTitle": "Kshitij Part 2",
+     "number": 8,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "बालगोबिन भगत"
+      }
+     ]
+    },
+    {
+     "id": "hindi-10/यशपाल-लखनवी-अंदाज़",
+     "name": "यशपाल — लखनवी अंदाज़",
+     "book": "jhks1",
+     "bookTitle": "Kshitij Part 2",
+     "number": 9,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "लखनवी अंदाज़"
+      }
+     ]
+    },
+    {
+     "id": "hindi-10/मन्नू-भंडारी-एक-कहानी-यह-भी",
+     "name": "मन्नू भंडारी — एक कहानी यह भी",
+     "book": "jhks1",
+     "bookTitle": "Kshitij Part 2",
+     "number": 10,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "एक कहानी यह भी"
+      }
+     ]
+    },
+    {
+     "id": "hindi-10/यतींद्र-मिश्र-नौबतखाने-में-इबादत",
+     "name": "यतींद्र मिश्र — नौबतखाने में इबादत",
+     "book": "jhks1",
+     "bookTitle": "Kshitij Part 2",
+     "number": 11,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "नौबतखाने में इबादत"
+      }
+     ]
+    },
+    {
+     "id": "hindi-10/भदंत-आनंद-कौसल्यायन-संस्कृति",
+     "name": "भदंत आनंद कौसल्यायन — संस्कृति",
+     "book": "jhks1",
+     "bookTitle": "Kshitij Part 2",
+     "number": 12,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "संस्कृति"
+      }
+     ]
+    },
+    {
+     "id": "hindi-10/माता-का-अँचल",
+     "name": "माता का अँचल",
+     "book": "jhkr1",
+     "bookTitle": "Kritika Part 2",
+     "number": 1,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "माता का अँचल"
+      }
+     ]
+    },
+    {
+     "id": "hindi-10/साना-साना-हाथ-जोड़ि",
+     "name": "साना-साना हाथ जोड़ि...",
+     "book": "jhkr1",
+     "bookTitle": "Kritika Part 2",
+     "number": 2,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "साना-साना हाथ जोड़ि..."
+      }
+     ]
+    },
+    {
+     "id": "hindi-10/मैं-क्यों-लिखता-हूँ",
+     "name": "मैं क्यों लिखता हूँ?",
+     "book": "jhkr1",
+     "bookTitle": "Kritika Part 2",
+     "number": 3,
+     "topics": [
+      {
+       "id": "t1",
+       "title": "मैं क्यों लिखता हूँ?"
+      }
+     ]
+    }
+   ]
   }
  }
 }

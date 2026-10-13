@@ -1,0 +1,2418 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:ihga1:03:A:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "भला हो गनपत का, जिसने ताई के सूनेपन को सहारा दे दिया था, वह न जाने कहाँ से एक प्यारा-सा पहाड़ी तोता ले आया था। ताई की सारी मम ता मिट्ठू पर बरस पड़ी । वह रात-दिन मिट्ठू को लेकर ही बेचैन रहने लगीं। जो ताई अपनी खातिर चूल्हा जलाने में आलस्य कर जाती थीं , वही अब नियम पूर्वक मिट्ठू के लिए दाल-भात बनातीं । मिट्ठू के वक्त-बेवक्त के तकाजों के लिए रोटी बचाकर रखतीं ।\n\nइस गद्यांश के आधार पर बताइए कि ताई के दैनिक व्यवहार में आए बदलाव से क्या प्रकट होता है? (A) मिट्ठू के कहने पर ताई ने पाठ सीखना शुरू किया (B) मिट्ठू उनके अकेलेपन का सहारा बन गया (C) ताई ने अपने परिवार को ही उनसे दूर कर दिया (D) ताई अब केवल अपनी सेहत का ध्यान रखती हैं",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मिट्ठू उनके अकेलेपन का सहारा बन गया",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "जो ताई अपनी खातिर चूल्हा जलाने में आलस्य कर जाती थीं , वही अब नियम पूर्वक मिट्ठू के लिए दाल-भात बनातीं",
+            "ताई की सारी मम ता मिट्ठू पर बरस पड़ी"
+          ],
+          "objective": true,
+          "options": {
+            "A": "मिट्ठू के कहने पर ताई ने पाठ सीखना शुरू किया",
+            "B": "मिट्ठू उनके अकेलेपन का सहारा बन गया",
+            "C": "ताई ने अपने परिवार को ही उनसे दूर कर दिया",
+            "D": "ताई अब केवल अपनी सेहत का ध्यान रखती हैं"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:A:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "जगन मास्टर का ध्यान अचानक ‘गीता-रहस्य ’ से हटकर मिट्ठू के पंखों की फड़फड़ा हट पर गया, फिर रोशनदान पर बैठे मिट्ठू पर। जगन मास्टर हाथ में अनाज लेकर ‘आ-आ’ की गुहार लगा ही रहे थे कि मिट्ठू ने फिर तिरछी आँख से रोशनदान के बाहर की दुनिया की ओर देखा और ये गए! वो गए!! अकेले मिट्ठू क्या उड़े, आदर्शवादी जगन मास्टर के हाथों के सभी तोते उड़ गए।\n\nइस गद्यांश के आधार पर बताइए कि मिट्ठू के रोशनदान की ओर उड़ जाने से क्या आभास होता है? (A) अनाज उसकी पसंद का भोजन नहीं था (B) जगन मास्टर ने उसे जान-बूझकर डराया था (C) पक्षियों में किसी व्यक्ति के प्रति श्रद्धा होती है (D) वह पिंजड़े से बाहर निकलना चाहता था",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "वह पिंजड़े से बाहर निकलना चाहता था",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मिट्ठू ने फिर तिरछी आँख से रोशनदान के बाहर की दुनिया की ओर देखा और ये गए! वो गए!!",
+            "जगन मास्टर हाथ में अनाज लेकर ‘आ-आ’ की गुहार लगा ही रहे थे",
+            "अकेले मिट्ठू क्या उड़े, आदर्शवादी जगन मास्टर के हाथों के सभी तोते उड़ गए।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "अनाज उसकी पसंद का भोजन नहीं था",
+            "B": "जगन मास्टर ने उसे जान-बूझकर डराया था",
+            "C": "पक्षियों में किसी व्यक्ति के प्रति श्रद्धा होती है",
+            "D": "वह पिंजड़े से बाहर निकलना चाहता था"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:A:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "अब ये ही दो प्राणी गाँव के बीच में स्थथित बड़े घर के उस सूने खंडहर में एक-दूसरे को सहारा देने के लिए रह गए थे। ताई ने अपने जीवन में अच्छे दिन भी देखे थे। पूत-परिवार, बहू-बेटियाँ, नौकर-चाकर, गाय -ढोर, क्या नहीं था बड़े घर में! देखते ही देखते क्या से क्या हो गया! बहू-बेटे गाँव का मोह छोड़कर शहरों के होकर रह गए।\n\nइस गद्यांश के आधार पर बताइए कि ताई की वर्तमान अवस्था का मुख्य कारण क्या था? (A) बहू-बेटों के गाँव छोड़कर शहर बस जाने के कारण (B) गाँव में उनका कोई परिचित न रहने के कारण (C) घर में उनके रहने की उपयुक्त जगह न रहने के कारण (D) बड़े घर की इमारत के पुरानी होने के कारण",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बहू-बेटों के गाँव छोड़कर शहर बस जाने के कारण",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "देखते ही देखते क्या से क्या हो गया!",
+            "बहू-बेटे गाँव का मोह छोड़कर शहरों के होकर रह गए।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "बहू-बेटों के गाँव छोड़कर शहर बस जाने के कारण",
+            "B": "गाँव में उनका कोई परिचित न रहने के कारण",
+            "C": "घर में उनके रहने की उपयुक्त जगह न रहने के कारण",
+            "D": "बड़े घर की इमारत के पुरानी होने के कारण"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:B:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "बिना मास्टराइन ने ताई का भार अपना लिया था। जगन मास्टर दूसरे मिजाज के आदमी थे। उन्होंने अपने कुछ नियम -सिद्धांंत बना रखे थे और भरसक कोशिश करते थे कि उनके कारण किसी को कोई कष्ट न पहुँचे। स्व तंत्र विचारों के आदमी थे। दूसरों की स्व तंत्रता पर बाधा नहीं डालना चाहते थे। पिंजड़े में बंद मिट्ठू को देखकर उन्हें बेचैनी होने लगती। जब-जब मिट्ठू को देखते, अपनी पत्नी की बुद्धि पर तरस खाते और अपने आप को भी दोषी अनुभव करते।\n\nइस गद्यांश के आधार पर बताइए कि जगन मास्टर दूसरों के प्रति कैसा व्यवहार करते थे?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "दूसरों की स्वतंत्रता पर बाधा नहीं डालते थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "यह भी चाहते थे कि उनके कारण किसी को कष्ट न पहुँचे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "दूसरों की स्वतंत्रता पर बाधा न डालने वाले",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "दूसरों की स्व तंत्रता पर बाधा नहीं डालना चाहते थे",
+            "कोशिश करते थे कि उनके कारण किसी को कोई कष्ट न पहुँचे"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:B:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "फिर मान-म नौवल का दौर चलता और ताई और मिट्ठू की दुनिया पहले की तरह प्रेम से चलने लगती। ताई को घड़ी -भर के लिए भी मिट्ठू का वियोग सहन नहीं हो सकता था। कभी-कभार गाँव में थोड़ी देर के लिए भी न्यौते-बुलावे में जातीं , तो दस बार खिड़की-दरवाजों की साँकलें टोहकर देखतीं , कंजूस के धन की तरह मिट्ठू को छिपाकर रखतीं और जल्दी लौट आने का दिलासा देकर देहरी से पाँव बाहर निकालतीं ।\n\nइस गद्यांश में ताई के मिट्ठू को छिपाकर रखने की तुलना किससे की गई है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "कंजूस व्यक्ति के धन से तुलना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "तुलना यह बताती है कि मिट्ठू को बहुत सँभालकर रखा जाता था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कंजूस के धन की तरह",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कंजूस के धन की तरह मिट्ठू को छिपाकर रखतीं",
+            "ताई को घड़ी -भर के लिए भी मिट्ठू का वियोग सहन नहीं हो सकता था"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:B:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "गाँव में सभी के म न में इस अनहोनी घटना ने एक गहरी आशंका को जन्म दे दिया था। ताई के तेज स्व भाव के अतिरिक्त मिट्ठू के प्रति उनके लगाव को सभी जानते थे और लौटकर मिट्ठू को न पाने पर उनकी क्या दशा हो सकती है, इसका अनुमान वे भली-भाँति लगा सकते थे। बहुत सोच-विचार के बाद आखिर गनपत ने ही एक सुझाव दिया कि मिट्ठू की ही सूरत-शक्ल का एक दूसरा तोता ले आया जाए, ताकि ताई को भ्रम में रखा जा सके और दूसरे दिन सच ही वह तोता लेकर हाजिर हो गया।\n\nइस गद्यांश में 'अनहोनी घटना' से किस घटना का बोध होता है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "मिट्ठू के उड़ जाने की घटना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "यह घटना ताई के सूनेपन से सीधी जुड़ी है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मिट्ठू के उड़ जाने की घटना",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "इस अनहोनी घटना ने एक गहरी आशंका को जन्म दे दिया था",
+            "मिट्ठू की ही सूरत-शक्ल का एक दूसरा तोता ले आया जाए, ताकि ताई को भ्रम में रखा जा सके"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:C:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "मिट्ठू ने कोई हरकत नहीं की। — यह वाक्य किस वाक्य-भेद में आता है? (A) विधानवाचक वाक्य (B) निषेधवाचक वाक्य (C) विस्मयादिबोधक वाक्य (D) इच्छावाचक वाक्य",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "निषेधवाचक वाक्य",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मिट्ठू ने कोई हरकत नहीं की।",
+            "2. निषेधवाचक वाक्य"
+          ],
+          "objective": true,
+          "options": {
+            "A": "विधानवाचक वाक्य",
+            "B": "निषेधवाचक वाक्य",
+            "C": "विस्मयादिबोधक वाक्य",
+            "D": "इच्छावाचक वाक्य"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:C:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "मिट्ठू अब पिंजरे में रहने के इतने आदी हो चुके थे कि उन्होंने बाहर आने की कोई इच्छा नहीं प्रकट की। — इस वाक्य में 'हो चुके थे' किस काल से बना है? (A) वर्तमान काल (B) भविष्य काल (C) अपूर्ण अतीत काल (D) पूर्वकालिक पूर्ण अतीत काल",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "पूर्वकालिक पूर्ण अतीत काल",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मिट्ठू अब पिंजरे में रहने के इतने आदी हो चुके थे कि उन्होंने बाहर आने की कोई इच्छा नहीं प्रकट की"
+          ],
+          "objective": true,
+          "options": {
+            "A": "वर्तमान काल",
+            "B": "भविष्य काल",
+            "C": "अपूर्ण अतीत काल",
+            "D": "पूर्वकालिक पूर्ण अतीत काल"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:C:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "अपनी डायरी में लिखे 'दिन-प्रतिदिन' और 'दिन-रात' — ये दोनों किस-किस प्रकार के शब्द-युग्म हैं? (A) पुनरुक्त और विपरीतार्थक (B) सजातीय और समानार्थक (C) समानार्थक और विपरीतार्थक (D) विपरीतार्थक और समानार्थक",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "समानार्थक और विपरीतार्थक",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "समानार्थक शब्द -युग्म, जैसे– दिन-प्रतिदिन",
+            "विपरीतार्थक शब्द -युग्म, जैसे– दिन-रात"
+          ],
+          "objective": true,
+          "options": {
+            "A": "पुनरुक्त और विपरीतार्थक",
+            "B": "सजातीय और समानार्थक",
+            "C": "समानार्थक और विपरीतार्थक",
+            "D": "विपरीतार्थक और समानार्थक"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:D:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "तो मिट्ठू भी जैसे ताई को भोर की झपकी से जगाने के लिए ही अपना पाठ शुरू कर देते— हर हर गंगे! हर हर गंगे!! सीताराम बोल! सीताराम बोल!! मिट्ठू राम राम ! मिट्ठू राम राम !! ताई अचकचाकर उठ बैठतीं । लाड़ से मिट्ठू को निहारकर आशीष देतीं — “जीते रहो बेटा, जुग-जुग जिओ” और मिट्ठू भी बदले में अपनी बुजुर्गी दिखाकर कहते— खुश रहो! खुश रहो!!\n\nइस गद्यांश में 'हर हर गंगे' और 'सीताराम बोल' पंक्तियाँ कौन बोलता है? (A) ताई (B) मिट्ठू (C) गनपत (D) जगन मास्टर",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मिट्ठू",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "तो मिट्ठू भी जैसे ताई को भोर की झपकी से जगाने के लिए ही अपना पाठ शुरू कर देते",
+            "हर हर गंगे! हर हर गंगे!! सीताराम बोल! सीताराम बोल!! मिट्ठू राम राम ! मिट्ठू राम राम !!"
+          ],
+          "objective": true,
+          "options": {
+            "A": "ताई",
+            "B": "मिट्ठू",
+            "C": "गनपत",
+            "D": "जगन मास्टर"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:D:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "ताई निहाल हो जातीं । वृद्धावस्था का शरीर और उस पर नई गृहस्थी का भार, काम -काज से थककर ताई जब कभी पिंजरे को बगल में रखकर सुस्ताने लगतीं तो अनायास ही मिट्ठू से सवाल कर बैठतीं , “मिट्ठू! अब कैसे कटेगी?” और नौजवान मिट्ठू ताई के बुढ़ापे का सहारा बनकर दम -खम के साथ उन्हें दिलासा देते— कटेगी! कटेगी!! कटेगी!!! ताई के थके शरीर में प्राण लौट आते\n\nइस गद्यांश में 'कटेगी! कटेगी!! कटेगी!!!' की पुनरावृत्ति मिट्ठू के किस गुण का प्रमाण है? (A) निराशा और उदासी (B) पशु-प्रेम का अभाव (C) स्वार्थ से भरा व्यवहार (D) ताई का संदेह दूर करने वाला उत्साह",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "ताई का संदेह दूर करने वाला उत्साह",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कटेगी! कटेगी!! कटेगी!!!",
+            "ताई के थके शरीर में प्राण लौट आते"
+          ],
+          "objective": true,
+          "options": {
+            "A": "निराशा और उदासी",
+            "B": "पशु-प्रेम का अभाव",
+            "C": "स्वार्थ से भरा व्यवहार",
+            "D": "ताई का संदेह दूर करने वाला उत्साह"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:D:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "competency_based",
+      "stem": "मिट्ठू ने फिर तिरछी आँख से रोशनदान के बाहर की दुनिया की ओर देखा और ये गए! वो गए!! अकेले मिट्ठू क्या उड़े, आदर्शवादी जगन मास्टर के हाथों के सभी तोते उड़ गए। ढीली धोती को दोनों हाथों से सँभालते हुए वह बाग में एक पेड़ से दूसरे पेड़ के पास, ‘मिट्ठू आ! मिट्ठू आ!!’ पुकारते हुए पसीना-पसीना होते रहे\n\nइस गद्यांश में मिट्ठू के उड़ जाने के बाद जगन मास्टर का पुकारते हुए पीछा पड़ना किस भाव का प्रतीक है? (A) पशु-प्रेम की तीव्रता और उसकी असफलता (B) निराशा का पूर्ण अभाव (C) आत्मविश्वास की कमी (D) आज़ाद होने की इच्छा",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "पशु-प्रेम की तीव्रता और उसकी असफलता",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "आदर्शवादी जगन मास्टर के हाथों के सभी तोते उड़ गए",
+            "पुकारते हुए पसीना-पसीना होते रहे"
+          ],
+          "objective": true,
+          "options": {
+            "A": "पशु-प्रेम की तीव्रता और उसकी असफलता",
+            "B": "निराशा का पूर्ण अभाव",
+            "C": "आत्मविश्वास की कमी",
+            "D": "आज़ाद होने की इच्छा"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:E:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "जगन मास्टर ने मिट्ठू के पिंजरे का दरवाजा खोलकर उसे बाहर आने का मौका क्यों दिया था?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "पत्नी के निर्णय को अपना दोष मानकर बेचैनी में रहना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "मिट्ठू को खुली हवा में भेजकर अपने पाप का प्रायश्चित करना चाहना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "पिंजड़े में बंद मिट्ठू को देखकर वे बेचैन हो उठते थे और अपनी पत्नी की बुद्धि पर तरस खाते हुए स्वयं को दोषी मानते थे। इसलिए मिट्ठू को कुछ देर के लिए खुली हवा में आने का मौका देकर वे अपने पाप का थोड़ा प्रायश्चित करना चाहते थे।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "पिंजड़े में बंद मिट्ठू को देखकर उन्हें बेचैनी होने लगती",
+            "अपनी पत्नी की बुद्धि पर तरस खाते और अपने आप को भी दोषी अनुभव करते"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:E:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "ताई के मुँह से निकली 'पर सूने घर की भाँय -भाँय जैसे उन्हें काटने को दौड़ती थी' — इस पंक्ति में ताई की किस दशा का बोध है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "परिवार के जाने से उत्पन्न अकेलेपन का बोध",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सूने घर की भाँय -भाँय से पैदा होने वाली खालीपन और उदासी का बोध",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "इस पंक्ति में ताई की अकेलेपन और सूनापन का बोध है। भोजन की कमी न होने पर भी खाली घर की भाँय-भाँय उन्हें काटने लगती है, क्योंकि परिवार जा चुकने से उनका सूना खंडहर अकेलापन और उदासी से भर गया है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "पर सूने घर की भाँय -भाँय जैसे उन्हें काटने को दौड़ती थी",
+            "स्थथित बड़े घर के उस सूने खंडहर में"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:E:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "ताई के लौटने से पहले ही गनपत ने दूसरा तोता क्यों लाने की सलाह दी थी?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "मिट्ठू के प्रति ताई के तेज स्वभाव और गहरे लगाव की जानकारी होना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "ताई को भ्रम में रखने के लिए दूसरे तोते का उपयोग करने का निर्णय",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सभी जानते थे कि ताई के तेज स्वभाव के अतिरिक्त मिट्ठू के प्रति उनका गहरा लगाव है और लौटकर मिट्ठू को न पाने पर ताई की क्या दशा होगी। इसी भय से गनपत ने मिट्ठू की ही सूरत-शक्ल का दूसरा तोता लाने की सलाह दी ताकि ताई को भ्रम में रखा जा सके।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "ताई के तेज स्व भाव के अतिरिक्त मिट्ठू के प्रति उनके लगाव को सभी जानते थे",
+            "ताकि ताई को भ्रम में रखा जा सके"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:F:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "बहू-बेटों के गाँव छोड़कर शहर चले जाने के बाद ताई के दैनिक व्यवहार में किस प्रकार का परिवर्तन आया?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "परिवार, खेती-बाड़ी और कारबार के बिछड़ जाने से उत्पन्न अकेलेपन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "स्वयं के लिए चूल्हा फूँकने की आदत में बदलाव",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भोजन की चिंता न होने पर भी मन में पीडा बनी रहना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सूने घर की भाँय -भाँय से कष्टित होना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "परिवार, खेती-बाड़ी और कारबार सब छिट्ट गए, तो ताई के जीवन में अकेलेपन और उदासी ने जन्म लिया। जो वे अपनी खातिर चूल्हा जलाने में आलस्य कर जाती थीं, अब वे अकेले सूने घर में दो जून का एक जून चूल्हा फूँकती हैं। भोजन की चिंता में उनकी कोई समस्या नहीं रही, अब तो सूने घर की भाँय-भाँय जैसे उन्हें काटने को दौड़ती है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अपनी अकेली जान के लिए ताई दो जून का एक जून चूल्हा फूँक लेतीं",
+            "व्रत-उपवास के बहाने चौका-चूल्हा टाल जातीं",
+            "जब खेती-बाड़ी नहीं , कारबार नहीं , तो नौकर-चाकर किस दम पर टिकते!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:F:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "short_answer",
+      "stem": "मिट्ठू ताई का केवल मनोरंजक नहीं, बल्कि सच्चा साथी किस प्रकार बन गया?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "ताई के पढ़ाए पाठ को हू-ब-हू दुहरा देना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "ताई के सवालों का सटीक उत्तर देना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "ताई को अपने पेट की समस्या के न होने का बोध कराना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वृद्ध ताई को दम -खम के साथ दिलासा देकर सहारा बनना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मिट्ठू ताई के लिए केवल एक पहाड़ी तोता नहीं, बल्कि संवाद का माध्यम और ममता का केंद्र बन गया। वह कुशाग्र बुद्धि छात्र की तरह उनके पढ़ाए पाठ को हू-ब-हू दुहराकर ताई के सवालों का सटीक उत्तर देता था। ताई ने उसके तकाजों के लिए नियम पूर्वक दाल-भात बनाना और रोटी बचाकर रखना शुरू किया। वृद्ध ताई को दम -खम के साथ दिलासा देकर उसके बुढ़ापे का सहारा बन गया।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कुशाग्र बुद्धि छात्र की तरह मिट्ठू ताई के पढ़ाए पाठ को न केवल हू-ब-हू दुहरा देता",
+            "वही अब नियम पूर्वक मिट्ठू के लिए दाल-भात बनातीं",
+            "और नौजवान मिट्ठू ताई के बुढ़ापे का सहारा बनकर दम -खम के साथ उन्हें दिलासा देते"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:F:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "short_answer",
+      "stem": "जगन मास्टर के 'स्व तंत्र विचारों के आदमी' होने का उनके किन कार्यों से प्रमाण मिलता है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "पिंजड़े में बंद मिट्ठू को देखकर बेचैन होना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "पिंजड़े का दरवाजा खोलकर उसे खुली हवा में आने का मौका देना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "दूसरों की स्वतंत्रता पर बाधा न डालने का स्वभाव",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "नए तोते को पढ़ाने के लिए अपनी फिक्र में खाना-पीना छोड़ देना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "वे दूसरों की स्वतंत्रता पर बाधा नहीं डालना चाहते थे और पिंजड़े में बंद मिट्ठू को देखकर उन्हें बेचैनी होने लगती थी। इसीलिए कमरा बंद कर उन्होंने मिट्ठू के पिंजरे का दरवाजा खोल दिया ताकि उसे कुछ देर के लिए सही, खुली हवा में आने का मौका मिले। मिट्ठू उड़ जाने पर भी वे निराश नहीं हुए, बल्कि नए तोते को पढ़ाने लगे और अपनी फिक्र में खाना-पीना तक छोड़ दिया।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "दूसरों की स्व तंत्रता पर बाधा नहीं डालना चाहते थे",
+            "कम रा बंदकर मिट्ठू के पिंजरे को जमीन पर रखा और उसका दरवाजा खोल दिया",
+            "वह तोते को पिंजरे में रखकर पाठ पढ़ाने लगे"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:G:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "अपने विद्यालय की पत्रिका के 'वृद्ध जीवन' स्तंभ के लिए बुजुर्गों की एकाकल दशा पर एक शीर्षक सहित अनुच्छेद लिखिए। अनुच्छेद १२० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: बुजुर्गों की एकाकल दशा के कारणों का स्पष्ट वर्णन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: साथी और संवाद की आवश्यकता पर ठहरना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित स्वतंत्र अनुच्छेद का ढाँचा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: क्रमबद्ध तार्किक प्रवाह और उपसंहार",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता: व्याकरण, वर्तनी और विराम-चिह्नों की शुद्ध प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-अभिव्यक्ति: सरल, सार्थक और प्रभावशाली भाषा-शैली",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बुजुर्गों की एकाकल दशा\n\nबड़े घर में जब बेटे गाँव छोड़कर शहर बस जाते हैं और बहू-बेटियाँ अपनी गृहस्थी में रम जाती हैं, तो वहाँ सूना खंडहर रह जाता है। न नौकर-चाकर टिकते हैं, न खेती-बाड़ी; भोजन की चिंता न होने पर भी सूने घर की भाँय-भाँय उन्हें काटने लगती है। ऐसे में एक नन्हा साथी भी उनका पूरा दिन बना देता है। जिसे वे कंजूस के धन की तरह सँभालकर रखते हैं, उसी के लिए वे दाल-भात बनाना भी सीख जाते हैं। संवाद ही इंसान को जीवित रखता है; जिसके पास कोई नहीं, वह धीरे-धीरे सूख जाता है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "स्थथित बड़े घर के उस सूने खंडहर में",
+            "कंजूस के धन की तरह मिट्ठू को छिपाकर रखतीं"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:G:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "विद्यालय की सांस्कृतिक प्रतियोगिता के लिए 'पशु भी संवाद करते हैं' विषय पर एक अनुच्छेद लिखिए। अनुच्छेद १२० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: पक्षियों और पशुओं के संवाद का ठोस उदाहरण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: पशु-प्रेम की भूमिका पर विचार",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित स्वतंत्र अनुच्छेद का ढाँचा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: आरंभ, विस्तार और उपसंहार का सुसंगत क्रम",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता: व्याकरण, वर्तनी और विराम-चिह्नों की शुद्ध प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-अभिव्यक्ति: बोधगम्य और प्रभावशाली भाषा-शैली",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "पशु भी संवाद करते हैं\n\nकभी सोचा है कि पक्षी बोल नहीं पाते, फिर भी उनके बीच संवाद चलता रहता है? सुबह पहली किरण पड़ते ही पेड़ों में चिड़ियाँ चहचहाने लगती हैं और कोई अपने साथी को बुलाता है, कोई अपना दिल दिखाता है। जिसे लोग केवल एक मौन पंछी समझते हैं, वही किसी वृद्ध के लिए सबसे घनिष्ठ संवादी बन जाता है और उसे 'हर हर गंगे' की रट लगाकर सुबह का उत्साह दे जाता है। बूढ़ा तक अपना साथी बिछड़ जाए, तो उसे कोई दिलासा देता है। बोली न बोल पाए, फिर भी मन की हर बात उस पुकार में होती है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "पेड़ों में चिड़ियाँ चहचहातीं",
+            "हर हर गंगे! हर हर गंगे!!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:G:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "आपके विद्यालय में ऐसा बुजुर्ग रहता है जिसके सभी बच्चे दूर शहरों में बस गए हैं। ऐसे बुजुर्गों का मन किस प्रकार प्रसन्न रखा जा सकता है — इस पर एक अनुच्छेद लिखिए। अनुच्छेद १२० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: बुजुर्गों की एकाकल दशा का उल्लेख",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: उपयोगी सुझावों की सूची",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित स्वतंत्र अनुच्छेद का ढाँचा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: सुझावों का क्रमबद्ध प्रस्तुतीकरण और उपसंहार",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता: व्याकरण, वर्तनी और विराम-चिह्नों की शुद्ध प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-अभिव्यक्ति: सहज और प्रभावशाली भाषा-शैली",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बुजुर्गों का मन प्रसन्न कैसे रखें\n\nबच्चे दूर शहर बस जाएँ, तो बड़ा घर सूना हो जाता है। ऐसे बुजुर्गों के मन को प्रसन्न रखने के लिए हर दिन उनके पास कोई न कोई इंसान जाना चाहिए। सुबह संवाद करके नाश्ता कराना, उनके खेत-बाड़ी या घर की पुरानी बातों पर बात करना और उनके लिए दाल-भात जैसा भोजन बनाना — इन छोटी-छोटी बातों से उनमें नया जोश आ जाता है। उनके पुराने किस्से सुनकर उन्हें अपनी अच्छी दिनों की याद दिलाना भी उनका मन हरा देता है। एक छोटा सा साथी चाहे वह पौधा हो या पक्षी, वह भी उनकी एकाकल दशा घटा देता है। संवाद ही जीवन का सबसे बड़ा उपहार है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "जगन मास्टर हाथ में अनाज लेकर ‘आ-आ’ की गुहार लगा ही रहे थे",
+            "वही अब नियम पूर्वक मिट्ठू के लिए दाल-भात बनातीं"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:H:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपने विद्यालय के प्रधानाचार्य को पत्र लिखिए और उनसे अपने मोहल्ले के एक ऐसे बुजुर्ग के लिए, जिसके सभी बच्चे दूर शहरों में बस गए हैं, प्रति सप्ताह 'वृद्ध सहायता दिवस' आयोजित करने का निवेदन कीजिए। पत्र १०० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: निवेदन के उद्देश्य और बुजुर्ग की एकाकल स्थिति का स्पष्ट उल्लेख",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: 'वृद्ध सहायता दिवस' के प्रस्ताव का तर्कसंगत कारण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: पत्र का शीर्षक, पता, संबोधन, समापन-पंक्ति और हस्ताक्षर-पंक्ति की सही व्यवस्था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता: व्याकरण, वर्तनी और विराम-चिह्नों की शुद्ध प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था और अभिव्यक्ति: तार्किक क्रम तथा औपचारिक मर्यादा के अनुकूल भाषा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सेवा,\nविद्यालय के माननीय प्रधानाचार्य महोदय,\nविद्यालय, ……………\n\nमहोदय,\n\nसविनय निवेदन है कि हमारे मोहल्ले में एक बुजुर्ग रहते हैं जिनके सभी बच्चे दूर शहरों में बस गए हैं। उनका बड़ा घर सूना हो गया है और वे प्रायः अकेले रहते हैं। उनके मन को प्रसन्न रखने के लिए प्रति सप्ताह 'वृद्ध सहायता दिवस' आयोजित कर विद्यार्थियों को उनके पास भेजा जाए, तो उनका मन हरा रहेगा और वे भी अपने अनुभव से विद्यार्थियों को लाभ पहुँचा सकेंगे।\n\nआप को आज्ञाकारी शिष्य,\nनाम: ……………\nकक्षा: ……………",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "स्थथित बड़े घर के उस सूने खंडहर में",
+            "ताई को घड़ी -भर के लिए भी मिट्ठू का वियोग सहन नहीं हो सकता था"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:H:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपने उस मित्र को ई-मेल लिखिए जो हाल में नए शहर में बस गया है। अपनी बातें लिखते हुए उसे संवाद के महत्त्व का एहसास दिलाइए। ई-मेल १०० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: दोस्ती और घर-परिवार की याद का स्वाभाविक ज़िक्र",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: संवाद के महत्त्व का स्पष्ट संदेश",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: ई-मेल की शैली में विषय-पंक्ति, संबोधन, समापन और हस्ताक्षर की सही व्यवस्था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता: व्याकरण, वर्तनी और विराम-चिह्नों की शुद्ध प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था और अभिव्यक्ति: तार्किक क्रम तथा सहज, मर्मस्पर्शी भाषा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "विषय: घर और पुरानी बातों की याद\n\nप्रिय मित्र,\n\nकैसे हो? यहाँ सब सलाम है। तुम्हारे चले जाने के बाद घर में सब कुछ वैसा ही रहा है, पर अब सुबह उठते ही तुम्हारी ही बातें याद आती हैं।\n\nतुम्हें याद है, वह नन्हा सा पक्षी कैसे हर सुबह हमारे बुजुर्ग को 'हर हर गंगे' सुनाकर उनका मन हरा देता था? मेरा मानना है कि संवाद ही इंसान को जीवित रखता है। नए शहर में भी ऐसा ही एक सच्चा साथी जरूर ढूँढ लेना, वरना समय बीतते ही सब बदल जाएगा।\n\nशीघ्र उत्तर कीजिए।\n\nआपका मित्र,\nनाम: ……………",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "हर हर गंगे! हर हर गंगे!!",
+            "कुशाग्र बुद्धि छात्र की तरह मिट्ठू ताई के पढ़ाए पाठ को न केवल हू-ब-हू दुहरा देता"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:H:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपने विद्यालय के प्रधानाचार्य को पत्र लिखिए और उनसे गर्मी की छुट्टी के दिनों में अपने मोहल्ले के बुजुर्गों को पत्र-व्यवहार सिखाने की अनुमति तथा उपयुक्त सामग्री उपलब्ध कराने का निवेदन कीजिए। पत्र १०० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: पत्र लिखने के उद्देश्य की स्पष्ट घोषणा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: बुजुर्गों की एकाकल स्थिति का उल्लेख और अनुमति का तर्क",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: पत्र का शीर्षक, पता, संबोधन, समापन-पंक्ति और हस्ताक्षर-पंक्ति की सही व्यवस्था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता: व्याकरण, वर्तनी और विराम-चिह्नों की शुद्ध प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था और अभिव्यक्ति: तार्किक क्रम तथा औपचारिक मर्यादा के अनुकूल भाषा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सेवा,\nविद्यालय के माननीय प्रधानाचार्य महोदय,\nविद्यालय, ……………\n\nमहोदय,\n\nसविनय निवेदन है कि गर्मी की छुट्टी के दिनों में मैं अपने मोहल्ले के बुजुर्गों के साथ बैठकर उन्हें पत्र लिखना सिखाना चाहता हूँ। उनके बच्चे दूर शहरों में बस गए हैं, इसलिए वे न अपनी बात किसी को कह पाते हैं, न किसी का जवाब पाते हैं। उन्हें पत्र-व्यवहार सिखाकर उन्हें जीवित रहने का एक सहारा मिल सकता है। हमें यदि पन्ने, पेन और एक डायरी उपलब्ध करा दी जाए तो यह कार्य सरल हो जाएगा।\n\nआप को आज्ञाकारी शिष्य,\nनाम: ……………\nकक्षा: ……………",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "स्थथित बड़े घर के उस सूने खंडहर में",
+            "न जाने किन अम राइयों में घूम रहा होगा"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:I:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपनी कल्पना से 'खोए हुए पंखी की खोज' के लिए एक छोटा विज्ञापन तैयार कीजिए। विज्ञापन ५० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: खोए हुए पंखी की खोज का स्पष्ट उल्लेख",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: खोज में सहयोग का आह्वान और संपर्क-विवरण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक, सूचना-पंक्ति और संपर्क-पंक्ति की सही व्यवस्था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता और अभिव्यक्ति: व्याकरण-वर्तनी की शुद्धि तथा स्पष्ट, आकर्षक भाषा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "विज्ञापन — एक प्यारे पंखी की खोज\n\nएक प्यारा सा पहाड़ी तोता हमारे पास रहता था, जो हमारे बुजुर्ग का सबसे घनिष्ठ साथी रहा। कुछ दिनों पहले वह हमसे बिछड़ गया। जो उसे पंखों सहित देखे या पकड़े, कृपया हमें सूचना दें। हम उसके लौटने की प्रतीक्षा कर रहे हैं।\nसंपर्क-विवरण: ……………",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "वह न जाने कहाँ से एक प्यारा-सा पहाड़ी तोता ले आया था",
+            "मिट्ठू ने फिर तिरछी आँख से रोशनदान के बाहर की दुनिया की ओर देखा और ये गए!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:I:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "विद्यालय के सूचना-बोर्ड के लिए एक सन्देश तैयार कीजिए, जिसमें बुजुर्गों के प्रति संवाद और सम्मान का आदेशन हो। सन्देश ५० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: बुजुर्गों के प्रति सम्मान और संवाद का स्पष्ट संदेश",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: दैनिक व्यवहार से जुड़ी व्यावहारिक सूचना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक सहित सन्देश का स्वतंत्र एवं प्रभावशाली ढाँचा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता और अभिव्यक्ति: व्याकरण-वर्तनी की शुद्धि तथा संक्षिप्त, स्पष्ट भाषा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बड़ों का सम्मान सभी का कर्तव्य है\n\nअपने मोहल्ले के बुजुर्गों से प्रतिदिन बातचीत कीजिए, उनकी बात ध्यान से सुनिए और उन्हें कभी अकेले न छोड़िए। उनकी सूनी दुनिया में आपकी एक मुलाकात ही उनके मन का संदेह दूर कर देती है। कभी-कभी इतना काफी होता है कि उनका पूरा दिन बन जाता है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "ताई निहाल हो जातीं",
+            "बहू-बेटे गाँव का मोह छोड़कर शहरों के होकर रह गए।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:03:I:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/संवा-दहीन"
+      ],
+      "taxonomyChapterId": "hindi-9/संवा-दहीन",
+      "topic": "शेखर जोशी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपने मोहल्ले के रहवासियों को एक सूचना संदेश भेजिए, जिसमें अकेले रहने वाले बुजुर्ग की देखभाल और सुरक्षा का ध्यान रखने का अनुरोध हो। संदेश ५० शब्दों का हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: अकेले रहने वाले बुजुर्ग की स्थिति का स्पष्ट उल्लेख",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: निर्धारित देखभाल संबंधी व्यावहारिक अनुरोध",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: संदेश का संक्षिप्त ढाँचा, संबोधन और समापन की सही व्यवस्था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सटीकता और अभिव्यक्ति: व्याकरण-वर्तनी की शुद्धि तथा सरल, प्रभावशाली भाषा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "प्रिय पड़ोसियों,\n\nआप सब जानते हैं कि हमारे मोहल्ले में एक बुजुर्ग अकेले रहते हैं, क्योंकि उनके सभी बच्चे दूर शहरों में बस गए हैं। कृपया उनके नाश्ते, दवा और दोपहर की देखभाल में थोड़ा समय देने की कृपा करें। उनकी हर मदद किसी बड़े का एहसान नहीं, एक ज़रूरतमंद के प्रति सद्भावना है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "स्थथित बड़े घर के उस सूने खंडहर में",
+            "बहू-बेटे गाँव का मोह छोड़कर शहरों के होकर रह गए।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "ihga1",
+    "chapters": [
+      3
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

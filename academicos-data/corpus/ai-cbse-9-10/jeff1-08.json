@@ -1,0 +1,351 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:08:B:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-sermon-at-benares"
+      ],
+      "taxonomyChapterId": "english-10/the-sermon-at-benares",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A classmate asks you to turn this sentence into indirect speech for a magazine report: And the people said, “She has lost her senses. The boy is dead.” Choose the option that reports the speaker’s words correctly. (A) The people said that she had lost her senses and the boy is dead. (B) The people said that she has lost her senses and the boy was dead. (C) The people said that she had lost her senses and the boy was dead. (D) The people said that she had lost her senses and the boy had died.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The people said that she had lost her senses and the boy was dead.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "them for medicine, and the people said, “She has lost her senses. The boy is dead.”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "The people said that she had lost her senses and the boy is dead.",
+            "B": "The people said that she has lost her senses and the boy was dead.",
+            "C": "The people said that she had lost her senses and the boy was dead.",
+            "D": "The people said that she had lost her senses and the boy had died."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:08:D:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-sermon-at-benares"
+      ],
+      "taxonomyChapterId": "english-10/the-sermon-at-benares",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "Your joy is your sorrow unmasked. And the selfsame well from which your laughter rises was oftentimes filled with your tears. And how else can it be? The deeper that sorrow carves into your being, the more joy you can contain. Is not the cup that holds your wine the very cup that was burned in the potter’s oven?\n\nIn your literature class a student asks what the speaker means by saying that the cup which holds the wine is the very cup that was burned in the potter’s oven; choose the option that best explains the image. (A) Wine tastes better when it is poured into a cup that has been baked hard (B) Sorrow and joy happen to two different people who never meet (C) The very thing that causes pain can also become the source of joy (D) The potter’s oven is the place where all sadness is finally destroyed",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The very thing that causes pain can also become the source of joy",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Your joy is your sorrow unmasked.",
+            "The deeper that sorrow carves into your being, the more joy you can contain.",
+            "Is not the cup that holds your wine the very cup that was burned in the potter’s oven?"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Wine tastes better when it is poured into a cup that has been baked hard",
+            "B": "Sorrow and joy happen to two different people who never meet",
+            "C": "The very thing that causes pain can also become the source of joy",
+            "D": "The potter’s oven is the place where all sadness is finally destroyed"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:08:E:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-sermon-at-benares"
+      ],
+      "taxonomyChapterId": "english-10/the-sermon-at-benares",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A classmate is preparing an oral test and asks you to explain why Kisa Gotami failed to get the mustard-seed on her first round, and what she came to realise when she sat down at the wayside at night. Answer in about 50 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She watches the lights of the city flicker up and be extinguished, and sees that men's lives do exactly the same",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She realises that death is common to all and that her own grief has been selfish",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She understands that surrendering all selfishness is the path to immortality, and so to peace of mind",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The second time round Kisa Gotami sat at the wayside and watched the city’s lights flicker up and be extinguished, and saw that men’s lives do the same. She realised that death is common to all, that her grief had been selfish, and that surrendering all selfishness leads to peace.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Kisa Gotami became weary and hopeless, and sat down at the wayside watching the lights of the city, as they flickered up and were extinguished again.",
+            "“How selfish am I in my grief! Death is common to all;",
+            "him to immortality who has surrendered all selfishness.”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:08:F:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-sermon-at-benares"
+      ],
+      "taxonomyChapterId": "english-10/the-sermon-at-benares",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "For a class discussion on grief, compare the Buddha’s advice to Kisa Gotami with Etzioni’s ‘Good Grief’. In about 120 words, and in steps, show what problem each one faced, what each one finally advises, and how the two answers agree.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Kisa Gotami could get no mustard-seed on her first round because there was no house but some beloved one had died in it",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Watching the lights of the city flicker up and be extinguished, she realised that men's lives do the same and that death is common to all",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She saw that her grief had been selfish and that surrendering all selfishness is the path to immortality",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The Buddha's advice: weeping and grieving bring no peace of mind, so the wise do not grieve, knowing the terms of the world, and draw out the arrow of lamentation, complaint and grief to become composed",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Etzioni was told that he and his children were not mourning in the right way and that it is wrong to jump to anger; he rejects the idea that there is a set form or a ‘right’ way to grieve",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "His answer agrees: we are not to ask why, but what — survivors in grief are bound to do something for one another, and focusing on what we do for one another is the only consolation",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Kisa Gotami’s problem: her only son died, and no house could give her the mustard-seed, since every house had lost someone.\n2. What she realised: the city’s lights flickered up and were extinguished, like men’s lives; death is common to all, and her grief was selfish.\n3. The Buddha’s advice: weeping brings no peace of mind; the wise do not grieve, and draw out the arrow of lamentation.\n4. Etzioni’s problem: a school psychologist told him that his children and he were not mourning in the right way.\n5. Etzioni’s solution: we are not to ask why, but what; survivors in grief must do something for one another, so he keeps busy and calls friends.\n6. Agreement: both turn outward from self — one surrenders all selfishness, the other serves others.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "And there was no house but some beloved one had died in it.",
+            "“Not from weeping nor from grieving will anyone obtain peace of mind; on the contrary, his pain will be the greater and his body will suffer.",
+            "A relative from Jerusalem, who is a psychiatrist, brought some solace by citing the maxim: ‘We are not to ask why, but what.’"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "Your classmate has not stopped blaming herself since her father died, and keeps telling you that she was a bad daughter "
+    },
+    {
+      "section": "C",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:10",
+      "stem": "A classmate in your class has lost her grandmother. She has stopped eating, spends the days in her room crying, and turn"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      8
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

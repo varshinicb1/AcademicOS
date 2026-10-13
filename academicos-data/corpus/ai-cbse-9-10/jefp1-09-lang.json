@@ -1,0 +1,599 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:09:C:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-book-that-saved-the-earth"
+      ],
+      "taxonomyChapterId": "english-10/the-book-that-saved-the-earth",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a letter of about 100 words to the Principal of your school suggesting how the school can make books useful to students, and asking for one immediate step to be taken.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: explains that books teach how, when, where and why, and can educate and decorate a life",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: correct letter layout with To and From lines, a respectful salutation and a proper closing",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: one clear request followed by the single immediate step, arranged in a sensible order",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, punctuation and subject-verb agreement throughout",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: polite, concise tone suited to a letter written to the Principal",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "To: The Principal\nFrom: A Class X Student\n\nRespected Sir,\n\nBooks are said to teach people how to, and when to, and where to, and why to. They can illustrate, educate, and even decorate a life. Yet in our school the library is opened only once a week, and few students read in it.\n\nI therefore request you to open the library every day, before and after school hours. Please also display a few books on the classroom notice boards, so that even a student with no time to visit the library meets books every day.\n\nYours obediently,\nA Class X Student",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Books taught people how to, and when to, and where to, and why to.",
+            "They illustrated, educated, punctuated, and even decorated."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:09:C:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-book-that-saved-the-earth"
+      ],
+      "taxonomyChapterId": "english-10/the-book-that-saved-the-earth",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "create",
+      "type": "short_answer",
+      "stem": "Write an advertisement of about 100 words for your school’s Annual Book Fair, giving it a slogan of your own that builds on the claim that a single book once stopped a Martian invasion.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: carries the idea that one book stopped an invasion and gives the fair a catchy slogan",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a bold headline, short inviting lines and a clear list of what is on sale",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: headline first, then appeal, then details, then a final call to visitors",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, punctuation and capitalisation of headings",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: lively, persuasive and suitable for a school notice and an advert",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "THE ANNUAL BOOK FAIR IS HERE!\n\nOne book once stopped a Martian invasion. Come and choose the ones that will stop your boredom!\n\nNew and second-hand story books, comics, atlases and reference books on sale.\nLook for the shelves marked nursery rhymes, adventure and nature.\nBring the books you have finished reading and trade them for a free pass.\nLibrary cards issued free at the stall.\nBorrow a book, read it at home, and tell your friends about it.\nCome in a group and win a free bookmark.\nCome early — the best titles go first!",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "You haven’t heard about the Martian invasion of 2040?",
+            "the invasion never really happened, because a single book stopped it."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:09:E:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-book-that-saved-the-earth"
+      ],
+      "taxonomyChapterId": "english-10/the-book-that-saved-the-earth",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why did the Martian commander insist that the object his crew had found on Earth was a sandwich?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He believed that Earth creatures are always eating",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So he decided the room the crew had entered was a crude refreshment stand",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Looking closely, he saw two slices of bread with a filling between them, and called it a sandwich, the main staple of Earth diet",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He insisted on it because he believed Earth creatures were always eating. So the room the crew had entered must be a crude refreshment stand. Looking closely at one item, he saw two slices of what Earthlings call bread with a filling between them, and therefore called it a sandwich, the main staple of Earth diet.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Since Earth creatures are always eating, the place in which you find yourselves is undoubtedly a crude refreshment stand.",
+            "There are two slices of what is called bread, and between them is some sort of filling.",
+            "Sandwiches are the main staple of Earth diet."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:09:E:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-book-that-saved-the-earth"
+      ],
+      "taxonomyChapterId": "english-10/the-book-that-saved-the-earth",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why does the speaker at the museum tell her audience that the Martian invasion of 2040 never really happened, and what does she say took its place?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She remarks that the audience has not heard about the invasion of 2040 and asks what children are taught nowadays",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She says the invasion never really happened, because a single book stopped it",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She rules out the noble encyclopedia, the tome about rockets and missiles and the secret file from outer space",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She says the audience has not heard about the invasion of 2040 and asks what children are taught nowadays. Then she says the invasion never really happened, because a single book stopped it, and that the book was neither a noble encyclopedia, nor a tome about rockets and missiles, nor a secret file from outer space.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "You haven’t heard about the Martian invasion of 2040? Tsk, tsk. What do they teach children nowadays?",
+            "the invasion never really happened, because a single book stopped it.",
+            "A noble encyclopedia? A tome about rockets and missiles? A secret file from outer space? No, it was none of those."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:09:F:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-book-that-saved-the-earth"
+      ],
+      "taxonomyChapterId": "english-10/the-book-that-saved-the-earth",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "In about 120 words, explain how the Historian introduces the twentieth century to her audience and what she says one single book actually did during the invasion of 2040.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "She welcomes the audience to the Museum of Ancient History and its department of twentieth-century curiosities",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She says the twentieth century was often called the Era of the Book, when there were books about everything, from ant eaters to Zulus",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She says books taught people how to, when to, where to and why to, and illustrated, educated, punctuated and even decorated",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She says the strangest thing a book ever did was to save the Earth",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She says the invasion of 2040 never really happened because a single book stopped it",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She rejects the encyclopedia, the book about rockets and missiles and the secret file from outer space, then uses the historiscope",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. She welcomes the audience to the Museum of Ancient History and to her department of twentieth-century curiosities.\n2. She says the twentieth century was often called the Era of the Book.\n3. She says there were books about everything, from ant eaters to Zulus.\n4. Books, she says, taught people how to, when to, where to and why to, and illustrated, educated, punctuated and even decorated.\n5. The strangest thing a book ever did, she adds, was to save the Earth.\n6. So the Martian invasion of 2040 never really happened, because a single book stopped it.\n7. It was not an encyclopedia, nor a book about rockets and missiles, nor a secret file from outer space.\n8. She then turns on the historiscope to show what happened.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The twentieth century was often called the Era of the Book.",
+            "the invasion never really happened, because a single book stopped it.",
+            "A noble encyclopedia? A tome about rockets and missiles? A secret file from outer space? No, it was none of those."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "passage-not-in-text",
+      "stem": "Choose the option that best shows the claim the speaker in the passage makes about what books of that era did for people"
+    },
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "evidence-not-in-text",
+      "stem": "Choose the option that best completes this sentence: The speaker’s angry scolding of his mirror shows that he..."
+    },
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "evidence-not-in-text",
+      "stem": "Choose the option that best completes this sentence: The order that his full salutation be repeated from the beginning s"
+    },
+    {
+      "section": "B",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "evidence-not-in-text",
+      "stem": "Choose the correct option to complete this sentence: “I’ve been to seven galaxies, but I _____ seen anything like this.”"
+    },
+    {
+      "section": "B",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "evidence-not-in-text",
+      "stem": "Choose the correct option to complete this sentence: A visitor who has just counted two thousand unfamiliar objects in a"
+    },
+    {
+      "section": "B",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "evidence-not-in-text",
+      "stem": "Choose the correct option to complete this sentence: Two friends hold an unfamiliar object to their ears and hear nothin"
+    },
+    {
+      "section": "C",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "evidence-not-in-text",
+      "stem": "Write a paragraph of about 100 words for your school magazine on why we should find out about a place or a people before"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "evidence-not-in-text",
+      "stem": "Choose the option that best describes how the speaker in the extract thinks about the planet he has been told about."
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "evidence-not-in-text",
+      "stem": "Choose the option that best completes this sentence: The two guesses of a storage barn and a haberdashery show that the "
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "passage-not-in-text",
+      "stem": "Choose the option that best explains how the speaker reaches his conclusion in the extract."
+    },
+    {
+      "section": "E",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "evidence-not-in-text",
+      "stem": "Why did Captain Omega hand the volume over to Sergeant Oop instead of ordering him to eat it herself?"
+    },
+    {
+      "section": "F",
+      "qtype": "long_answer",
+      "topic": "",
+      "reason": "evidence-not-in-text",
+      "stem": "In about 120 words, trace, in order, the steps by which the Martian crew and their commander worked out what the room th"
+    },
+    {
+      "section": "F",
+      "qtype": "long_answer",
+      "topic": "",
+      "reason": "evidence-not-in-text",
+      "stem": "In about 120 words, explain what the mirror scene shows about the Martian commander’s character, and how his talk of the"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      9
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -1,0 +1,219 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:06:AR:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/control-and-coordination"
+      ],
+      "taxonomyChapterId": "science-10/control-and-coordination",
+      "topic": "Animals – Nervous System",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion: A boy touches a hot pan and pulls his hand back before he has had any thought of being burnt; the junction that makes this speed possible is formed in the spinal cord, and the information about the heat still goes on to reach the brain.\n2. Reason: Nerves from all over the body meet in a bundle in the spinal cord on their way to the brain, so this is the first point at which the nerve that detects the heat and the nerve that moves the muscles can be joined.\nChoose the correct option: (A) Both 1 and 2 are true and 2 is the correct explanation for 1 (B) Both 1 and 2 are true but 2 is not the correct explanation for 1 (C) 1 is true but 2 is false (D) Both 1 and 2 are false",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both 1 and 2 are true and 2 is the correct explanation for 1",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Nerves from all over the body meet in a bundle in the spinal\ncord on their way to the brain. Reflex arcs are formed in this spinal cord\nitself, although the information input also goes on to reach the brain.",
+            "If all of this is\nto be done when we touch a hot object, it may take enough time for us to\nget burnt!"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both 1 and 2 are true and 2 is the correct explanation for 1",
+            "B": "Both 1 and 2 are true but 2 is not the correct explanation for 1",
+            "C": "1 is true but 2 is false",
+            "D": "Both 1 and 2 are false"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch6",
+        "pages": [
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:06:AR:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/control-and-coordination"
+      ],
+      "taxonomyChapterId": "science-10/control-and-coordination",
+      "topic": "Animals – Nervous System",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion: After finishing a full meal, a boy says he no longer feels hungry, and this is because a centre associated with hunger lies in a separate part of the fore-brain.\n2. Reason: This hunger centre lies in the mid-brain, the region to which information is passed on for the motor areas that control the movement of voluntary muscles such as our leg muscles.\nChoose the correct option: (A) Both 1 and 2 are true and 2 is the correct explanation for 1 (B) Both 1 and 2 are true but 2 is not the correct explanation for 1 (C) 1 is true but 2 is false (D) Both 1 and 2 are false",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1 is true but 2 is false",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The sensation of feeling full is because of a centre\nassociated with hunger, which is in a separate part of the fore-brain.",
+            "all this, a decision is made about how to respond and the information is\npassed on to the motor areas which control the movement of voluntary\nmuscles, for example, our leg muscles."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both 1 and 2 are true and 2 is the correct explanation for 1",
+            "B": "Both 1 and 2 are true but 2 is not the correct explanation for 1",
+            "C": "1 is true but 2 is false",
+            "D": "Both 1 and 2 are false"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch6",
+        "pages": [
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:06:AR:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/control-and-coordination"
+      ],
+      "taxonomyChapterId": "science-10/control-and-coordination",
+      "topic": "Animals – Nervous System",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion: A student tracing the route by which a message from the brain reaches the leg muscles finds that the brain and the spinal cord together make up the peripheral nervous system.\n2. Reason: The cranial nerves that arise from the brain are the nerves that carry messages between the central nervous system and the other parts of the body.\nChoose the correct option: (A) Both 1 and 2 are true and 2 is the correct explanation for 1 (B) Both 1 and 2 are true but 2 is not the correct explanation for 1 (C) 1 is true but 2 is false (D) Both 1 and 2 are false",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both 1 and 2 are false",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The\nbrain and spinal cord constitute the central nervous system (Fig. 6.3).",
+            "The communication between\nthe central nervous system and the other parts of the body is facilitated\nby the peripheral nervous system consisting of cranial nerves arising\nfrom the brain and spinal nerves arising from the spinal cord."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both 1 and 2 are true and 2 is the correct explanation for 1",
+            "B": "Both 1 and 2 are true but 2 is not the correct explanation for 1",
+            "C": "1 is true but 2 is false",
+            "D": "Both 1 and 2 are false"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch6",
+        "pages": [
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      6
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -1,0 +1,1318 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:02:A:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "Anil was asleep. A beam of moonlight stepped over the balcony and fell on the bed. I sat up on the floor, considering the situation. If I took the money, I could catch the 10.30 Express to Lucknow. Slipping out of the blanket, I crept up to the bed. Anil was sleeping peacefully. His face was clear and unlined; even I had more marks on my face, though mine were mostly scars.\n\nChoose the option that best explains why the speaker mentions his own scarred face at this moment. (A) admires how different a sleeping face can look (B) sets Anil's unmarked face against his own scarred one (C) checks whether the notes have been hidden somewhere else (D) wonders whether Anil is sleeping as lightly as he appears",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "sets Anil's unmarked face against his own scarred one",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Anil was sleeping peacefully.",
+            "face was clear and unlined; even I had more marks on my face, though"
+          ],
+          "objective": true,
+          "options": {
+            "A": "admires how different a sleeping face can look",
+            "B": "sets Anil's unmarked face against his own scarred one",
+            "C": "checks whether the notes have been hidden somewhere else",
+            "D": "wonders whether Anil is sleeping as lightly as he appears"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:A:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "I couldn’t cook his meals, run to the bazaar or learn to write whole sentences any more. I had forgotten about them in the excitement of the theft. Whole sentences, I knew, could one day bring me more than a few hundred rupees. It was a simple matter to steal — and sometimes just as simple to be caught. But to be a really big man, a clever and respected man, was something else. I should go back to Anil, I told myself, if only to learn to read and write.\n\nChoose the option that best explains the change in the speaker's plan as the night goes on. (A) He decides to hand the notes over to the police instead of Anil (B) He decides to stay in the bazaar until the rain stops (C) He decides to keep the money and leave by the first available train (D) He decides that learning to read and write matters more than the notes",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He decides that learning to read and write matters more than the notes",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "sentences, I knew, could one day bring me more than a few hundred",
+            "was something else. I should go back to Anil, I told myself, if only"
+          ],
+          "objective": true,
+          "options": {
+            "A": "He decides to hand the notes over to the police instead of Anil",
+            "B": "He decides to stay in the bazaar until the rain stops",
+            "C": "He decides to keep the money and leave by the first available train",
+            "D": "He decides that learning to read and write matters more than the notes"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:A:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "It was quite pleasant working for Anil. I made the tea in the morning and then would take my time buying the day’s supplies, usually making a profit of about a rupee a day. I think he knew I made a little money this way but he did not seem to mind.\n\nChoose the option that best completes this sentence: A student who is given money to spend for the class and who quietly keeps a small part of it, while the teacher in charge does not seem to mind, is in exactly the position of the speaker, who ______. (A) keeps a small gain from the daily shopping without being stopped (B) confesses openly that he has been overcharging for a month (C) reports every rupee he has saved to the class teacher each week (D) gives up the job of making the tea because he feels underpaid",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "keeps a small gain from the daily shopping without being stopped",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "a profit of about a rupee a day. I think he knew I made a little money",
+            "this way but he did not seem to mind."
+          ],
+          "objective": true,
+          "options": {
+            "A": "keeps a small gain from the daily shopping without being stopped",
+            "B": "confesses openly that he has been overcharging for a month",
+            "C": "reports every rupee he has saved to the class teacher each week",
+            "D": "gives up the job of making the tea because he feels underpaid"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:B:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that best completes this sentence: The shopkeeper has no money with him today, so he says, “But I ______ pay you.” (A) must not (B) need not (C) cannot (D) may not",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "cannot",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“But I can’t pay you.”",
+            "“If you can cook, then may be I can feed you.”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "must not",
+            "B": "need not",
+            "C": "cannot",
+            "D": "may not"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:B:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that best completes this sentence: The shopkeeper came home carrying a small bundle of notes and said that he ______ a book to a publisher that same evening. (A) has sold (B) had sold (C) will sell (D) has been selling",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "had sold",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "One evening he came home with a small bundle of notes, saying he\nhad just sold a book to a publisher."
+          ],
+          "objective": true,
+          "options": {
+            "A": "has sold",
+            "B": "had sold",
+            "C": "will sell",
+            "D": "has been selling"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:B:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that best completes this sentence: “If I ______ this money, he will only throw it away on his friends.” (A) don’t take (B) didn’t take (C) won’t take (D) hadn’t taken",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "don’t take",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "And if I don’t take the money, he’ll only waste it on his friends."
+          ],
+          "objective": true,
+          "options": {
+            "A": "don’t take",
+            "B": "didn’t take",
+            "C": "won’t take",
+            "D": "hadn’t taken"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:C:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your colony has opened an evening class for young people who work during the day and never went to school, and a boy of fifteen from your own colony has just learnt to write his name after joining it. Write a notice for the colony notice board announcing the class, saying who may join it and requesting volunteers. (100 words)",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the notice gives the purpose of the class (young people who work during the day and never went to school), who may join, when it meets and the request for volunteers",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a capitalised heading, the body of the notice in clear short paragraphs, and the signature or designation of the person issuing it at the end",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the details are arranged in a sensible order, that is, what the class is, who it is for, when it meets, how to join and who may volunteer",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, punctuation, capital letters and a formal and concise tone suitable for a notice board",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: simple sentences and suitable vocabulary that persuade young people to join and readers to volunteer",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "COLONY NOTICE BOARD\nEVENING CLASS\n\nResidents are requested to note that an evening class will begin in the community hall for young people who work during the day and never had the chance to go to school. The class will meet every evening after working hours and there is no age bar for learning. Boys and girls who wish to join may enrol at the ward office on any working day. Anyone who can read and write is requested to volunteer as a teacher. A boy of fifteen from our own colony could not write his name a month ago and can now add numbers. Please encourage every young person to come forward.\n\nSd/- Programme Officer",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He also taught me to write my name and said he would",
+            "I knew that once I could write like an educated man"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:C:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "You read a letter in your local newspaper in which a reader says that learning to read and write is the one thing that can change the life of a poor person. Write your own letter to the editor, in about 100 words, agreeing with this view, giving your reasons and ending with an appeal to readers to teach someone to read and write.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the letter agrees with the view that learning to read and write can change a poor person's life, gives reasons and ends with an appeal to readers to teach someone",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: the correct letter to the editor format, that is, the addressee, the subject line, a greeting, the body and a courteous closing with the writer's name",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the agreement comes first, followed by the reasons and then the appeal, in clear paragraphs",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, punctuation, capital letters and a polite, formal tone suitable for a letter to the editor",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: short, clear sentences with suitable vocabulary that convince the reader without repetition",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "To: The Editor\nSubject: Learning to read and write\n\nRespected Sir,\n\nI read with interest the letter in your paper on how learning to read and write can change the life of a poor person. I fully agree. A boy who cannot write his own name can be cheated easily, as one who cannot add numbers can be cheated on his shopping. A person who can read a whole sentence can stand on his own feet. Whole sentences, he knows, can one day bring him more than a few hundred rupees. I appeal to every reader to teach one person in this locality to read and write.\n\nYours faithfully,\nA Class 10 student",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "sentences, I knew, could one day bring me more than a few hundred",
+            "was something else. I should go back to Anil, I told myself, if only"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:C:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A shop in your area has decided to train and employ young people who cannot read or write, teaching them a trade along with the basics of reading and writing. Write a short advertisement of about 100 words for a local newspaper, giving the details and asking applicants to report.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the advertisement states that no qualification is needed, what the training will include and how applicants should report",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a bold heading and short paragraphs of information, in the style of a newspaper advertisement",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the details come in a sensible order, that is, what the offer is, who it is for, what the training includes and how to report",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, punctuation and capital letters, and a direct tone suitable for an advertisement",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: short, punchy sentences and suitable vocabulary that persuade young applicants to come and report",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "HIRING: TRAINED HANDS, NO QUALIFICATION\n\nA shop in your area will train and employ young people who cannot read or write. No school certificate and no experience are needed. You will be taught your trade and also the basics of reading and writing, and food and tea are provided during training. A boy of fifteen who worked here a month ago could not write his name; he can now write whole sentences and is paid regularly. If you are young and want to learn, report to the shop on any working day. Walk-ins welcome.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I want to work for you",
+            "“If you can cook, then may be I can feed you.”",
+            "he’d teach me to cook"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:D:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "When I reached the station I did not stop at the ticket office (I had never bought a ticket in my life) but dashed straight to the platform. The Lucknow Express was just moving out. The train had still to pick up speed and I should have been able to jump into one of the carriages, but I hesitated — for some reason I can’t explain — and I lost the chance to get away.\n\nChoose the option that best explains the speaker's hesitation at the platform. (A) He was frightened by the speed the train had picked up. (B) He remembered that he had never bought a ticket in his life. (C) He could not explain it himself, even afterwards. (D) He was sorry to leave the room over the sweet shop.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He could not explain it himself, even afterwards.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "never bought a ticket in my life) but dashed straight to the platform.",
+            "but I hesitated — for some reason I can’t explain — and I lost the"
+          ],
+          "objective": true,
+          "options": {
+            "A": "He was frightened by the speed the train had picked up.",
+            "B": "He remembered that he had never bought a ticket in his life.",
+            "C": "He could not explain it himself, even afterwards.",
+            "D": "He was sorry to leave the room over the sweet shop."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:D:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "I found myself in the maidan and sat down on a bench. The night was chilly — it was early November — and a light drizzle added to my discomfort. Soon it was raining quite heavily. My shirt and pyjamas stuck to my skin, and a cold wind blew the rain across my face.\n\nChoose the option that best completes this sentence: The image of the cold wind blowing the rain across the speaker's face shows a thief who is ______. (A) uncomfortable and exposed, with nowhere warm to go (B) delighted by the cool weather after a day's work (C) hiding from the crowd behind some shelter (D) eager to reach the station before the rain stops",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "uncomfortable and exposed, with nowhere warm to go",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I found myself in the maidan and sat down on a bench. The night",
+            "stuck to my skin, and a cold wind blew the rain across my face."
+          ],
+          "objective": true,
+          "options": {
+            "A": "uncomfortable and exposed, with nowhere warm to go",
+            "B": "delighted by the cool weather after a day's work",
+            "C": "hiding from the crowd behind some shelter",
+            "D": "eager to reach the station before the rain stops"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:D:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "I opened the door quietly, then stood in the doorway, in clouded moonlight. Anil was still asleep. I crept to the head of the bed, and my hand came up with the notes. I felt his breath on my hand. I remained still for a minute. Then my hand found the edge of the mattress, and slipped under it with the notes.\n\nChoose the option that best explains why the speaker remains still for a minute before slipping the notes back. (A) He is waiting for Anil to wake up and ask for the money (B) He is so nervous about being caught that he can hardly move (C) He wants Anil to wake up so that he can confess to him (D) He is counting the notes again to check the amount is right",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He is so nervous about being caught that he can hardly move",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I felt his breath on my hand. I remained still for a",
+            "minute. Then my hand found the edge of the mattress, and slipped under"
+          ],
+          "objective": true,
+          "options": {
+            "A": "He is waiting for Anil to wake up and ask for the money",
+            "B": "He is so nervous about being caught that he can hardly move",
+            "C": "He wants Anil to wake up so that he can confess to him",
+            "D": "He is counting the notes again to check the amount is right"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:E:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why does the speaker put the notes back under the mattress instead of escaping with them?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He realises that whole sentences could one day bring him more than a few hundred rupees",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He says stealing is a simple matter and sometimes just as simple to be caught, and that he is out of practice",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He wants to be a really big man, a clever and respected man, and goes back to Anil to learn to read and write",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He realises that whole sentences could one day bring him more than a few hundred rupees. Stealing, he says, is a simple matter, and sometimes just as simple to be caught, and he is out of practice. To be a really big man, a clever and respected man, was something else. So he goes back to Anil, if only to learn to read and write.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "sentences, I knew, could one day bring me more than a few hundred",
+            "But to be a really big man, a clever and respected man,",
+            "I should go back to Anil, I told myself, if only"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:E:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why does the speaker say it is difficult to rob a careless man?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "It is easy to rob a greedy man, because he can afford to be robbed",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A careless man sometimes does not even notice that he has been robbed",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Not noticing the loss takes all the pleasure out of the work, so the thief gets no satisfaction",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He says it is easy to rob a greedy man, because he can afford to be robbed. But a careless man sometimes does not even notice that he has been robbed, and that takes all the pleasure out of the work. Anil is the most trusting person he had ever met, so stealing from him would give him no satisfaction at all.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It’s easy to rob a\ngreedy man, because he can afford to be robbed; but it’s difficult to rob",
+            "a careless man — sometimes he doesn’t even notice he’s been robbed\nand that takes all the pleasure out of the work."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:E:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "How does Anil behave the next morning after the notes have been put back, and what does this show about him?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "He has already made the tea and offers the speaker a fifty-rupee note",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He explains that he made some money yesterday, that the speaker will now be paid regularly, and says they will start writing sentences",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He says nothing about the theft; he knew, yet neither his lips nor his eyes showed anything",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He has already made the tea and stretches out his hand with a fifty-rupee note between his fingers. He explains that he made some money yesterday and that the speaker will now be paid regularly, and he says that today they will start writing sentences. The note is still wet from the night's rain. He knew, yet neither his lips nor his eyes showed anything.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "note between his fingers.",
+            "“Today we’ll start writing sentences,” he said.",
+            "He knew. But neither his lips nor his eyes showed anything."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:F:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "Trace in steps how the speaker goes from deciding to rob Anil to putting the notes back under the mattress.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "He had worked for Anil for almost a month and, apart from cheating on the shopping, had done nothing in his line of work",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Anil had given him a key to the door, so he could come and go as he pleased",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He told himself it was time to do some real work, that he was out of practice, and that Anil would waste the money on his friends",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He crept up to the bed while Anil slept, drew out the notes and counted 600 rupees in fifties",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The Lucknow Express moved out while he hesitated and he lost the chance to get away",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "In the maidan and the shelter of the clock tower he realised whole sentences could bring more, so he slipped the notes back under the mattress",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. He had worked for Anil for almost a month, and apart from cheating on the shopping, had done nothing in his line of work. 2. Anil had given him a key to the door, so he could come and go as he pleased, and was the most trusting person he had ever met. 3. He told himself it was time to do some real work, that he was out of practice, and that if he did not take the money Anil would only waste it on his friends. 4. He crept up to the bed while Anil slept and drew out the notes, and counted 600 rupees in fifties on the road. 5. The Lucknow Express moved out while he hesitated, and he lost the chance to get away. 6. Sitting in the maidan and then in the shelter of the clock tower, he realised that whole sentences could one day bring him more than a few hundred rupees, and that to be a really big man was something else. 7. He hurried back and slipped the notes under the mattress.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I had been working for Anil for almost a month",
+            "600 rupees in fifties!",
+            "but I hesitated — for some reason I can’t explain — and I lost the"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:02:F:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-thief-s-story"
+      ],
+      "taxonomyChapterId": "english-10/the-thief-s-story",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "difficulty": "medium",
+      "bloomLevel": "evaluate",
+      "type": "long_answer",
+      "stem": "How does the speaker's idea of what it means to be a big man change during the night, and how does the meeting with Anil the next morning confirm the change?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "He first plans to take the money and catch the 10.30 Express to Lucknow",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He has always believed that stealing brings a few hundred rupees while whole sentences could bring him more",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He decides that stealing is simple but being caught is just as simple, and that being a really big man, a clever and respected man, was something else",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He remembers he can no longer cook Anil's meals, run to the bazaar or learn to write whole sentences",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He slips the notes back under the mattress, though returning them undetected is harder than stealing them",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Anil offers him a fifty-rupee note still wet from the rain, says he will be paid regularly and that they will start writing sentences, and shows nothing in his lips or eyes",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. At first he plans to take the money and catch the 10.30 Express to Lucknow. 2. He has always believed that stealing brings him a few hundred rupees, while whole sentences could one day bring him more than a few hundred rupees. 3. In the shelter of the clock tower he decides that stealing is a simple matter and sometimes just as simple to be caught, but that to be a really big man, a clever and respected man, was something else. 4. He remembers that he can no longer cook Anil's meals, run to the bazaar or learn to write whole sentences. 5. So he slips the notes back under the mattress, though returning them undetected is harder than stealing them. 6. The next morning Anil has made the tea and offers him a fifty-rupee note still wet from the rain, saying he will now be paid regularly and that today they will start writing sentences; he knew, yet neither his lips nor his eyes showed anything.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "sentences, I knew, could one day bring me more than a few hundred",
+            "But to be a really big man, a clever and respected man,",
+            "He knew. But neither his lips nor his eyes showed anything."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "F",
+      "qtype": "long_answer",
+      "topic": "Hari Singh Meets Anil and Works for Him",
+      "reason": "premise-not-supported",
+      "stem": "In what ways does Anil show that he trusts the speaker, and why does the speaker find it harder to rob him than to retur"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      2
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

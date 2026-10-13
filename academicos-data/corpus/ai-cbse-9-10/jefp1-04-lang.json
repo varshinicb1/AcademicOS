@@ -1,0 +1,1413 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:04:A:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "Horace had some hope because she seemed to be amused at meeting him. He might avoid trouble if he treated her the right way. He replied, “I didn’t expect to meet one of the family.” She nodded. “I see what an inconvenience it is for you to meet me. What are you going to do?” Horace said, “My first thought was to run.” “Of course, you could do that. But I would telephone the police and tell them all about you. They’d get you at once.”\n\nIn the passage, the woman says, “I see what an inconvenience it is for you to meet me.” Which meaning of the word “inconvenience” fits this line? (A) a painful wound (B) a long journey (C) an unpleasant interruption (D) a serious crime",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "an unpleasant interruption",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "She nodded. “I see what an inconvenience it is for you to meet me.",
+            "Horace said, “My first thought was to run.”",
+            "“Of course, you could do that. But I would telephone the police and tell them all about you. They’d get you at once.”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "a painful wound",
+            "B": "a long journey",
+            "C": "an unpleasant interruption",
+            "D": "a serious crime"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:A:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "He had seen the housekeeper hang the key to the kitchen door on a hook outside. He put on a pair of gloves, took the key, and opened the door. He was always careful not to leave any fingerprints. A small dog was lying in the kitchen. It stirred, made a noise, and moved its tail in a friendly way. “All right, Sherry,” Horace said as he passed. All you had to do to keep dogs quiet was to call them by their right names, and show them love.\n\nIn the passage, Horace greets the dog in the kitchen and claims that dogs are kept quiet by kindness instead of by force. What does this claim show us about Horace? (A) He believes that even a dog in the house can be won over by kindness if he treats it in the right way (B) He dislikes animals and frightens them on purpose (C) He has trained the dog to fetch the key to the kitchen door for him (D) He is afraid that the dog will lead the police to the kitchen door",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He believes that even a dog in the house can be won over by kindness if he treats it in the right way",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "A small dog was lying in the kitchen. It stirred, made a noise, and moved its tail in a friendly way.",
+            "“All right, Sherry,” Horace said as he passed. All you had to do to keep dogs quiet was to call them by their right names, and show them love."
+          ],
+          "objective": true,
+          "options": {
+            "A": "He believes that even a dog in the house can be won over by kindness if he treats it in the right way",
+            "B": "He dislikes animals and frightens them on purpose",
+            "C": "He has trained the dog to fetch the key to the kitchen door for him",
+            "D": "He is afraid that the dog will lead the police to the kitchen door"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:A:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "But Horace found that the flowers were hindering him in his work. He buried his face in his handkerchief. Then he heard a voice say from the doorway, “What is it? A cold or hay fever?” Before he could think, Horace said, “Hay fever,” and found himself sneezing again. The voice went on, “You can cure it with a special treatment, you know, if you find out just what plant gives you the disease. I think you’d better see a doctor, if you’re serious about your work. I heard you from the top of the house just now.”\n\nIn the passage, the woman in the doorway says, “I heard you from the top of the house just now.” What does this remark show about her? (A) She has no idea where Horace is in the house (B) Horace has been shouting loudly enough to be heard from the street (C) She has decided to leave the house and go back upstairs (D) She has been listening to him and is now telling him that she knows he is there",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She has been listening to him and is now telling him that she knows he is there",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Then he heard a voice say from the doorway, “What is it? A cold or",
+            "I heard you from the top of the house just now.”",
+            "The voice went on, “You can cure it with a special treatment, you know, if you find out just what plant gives you the disease."
+          ],
+          "objective": true,
+          "options": {
+            "A": "She has no idea where Horace is in the house",
+            "B": "Horace has been shouting loudly enough to be heard from the street",
+            "C": "She has decided to leave the house and go back upstairs",
+            "D": "She has been listening to him and is now telling him that she knows he is there"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:B:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that best completes the sentence: “I think you ____ see a doctor, if you’re serious about your work.” (A) will better (B) would better (C) had better (D) have better",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "had better",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I think you’d better see a doctor, if you’re serious about your work."
+          ],
+          "objective": true,
+          "options": {
+            "A": "will better",
+            "B": "would better",
+            "C": "had better",
+            "D": "have better"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:B:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that best completes the sentence: “This afternoon the two servants, who remained in the Grange while the family was in London, ____ to the movies.” (A) have gone (B) were going (C) are going (D) had gone",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "had gone",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "This afternoon the two servants, who remained in the Grange while the family was in London, had gone to the movies."
+          ],
+          "objective": true,
+          "options": {
+            "A": "have gone",
+            "B": "were going",
+            "C": "are going",
+            "D": "had gone"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:B:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "Choose the option that best reports, in indirect speech, the words “I didn’t expect to meet one of the family.” (A) Horace said that he did not expect to meet one of the family. (B) Horace said that I did not expect to meet one of the family. (C) Horace said that he didn’t expect to meet one of the family. (D) Horace said that did he not expect to meet one of the family.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Horace said that he did not expect to meet one of the family.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He replied, “I didn’t expect to meet one of the family.”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Horace said that he did not expect to meet one of the family.",
+            "B": "Horace said that I did not expect to meet one of the family.",
+            "C": "Horace said that he didn’t expect to meet one of the family.",
+            "D": "Horace said that did he not expect to meet one of the family."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:C:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your colony has a shop that makes strong locks and repairs burglar alarms. Write an advertisement for this shop in about 100 words, for a handbill to be put up in the colony. Begin with a catchy heading, give two reasons why people should choose this shop, and end with a line asking readers to leave their name and address. Leave the shop's name, its address and its telephone number as blanks.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Writes a clear, catchy heading that names the service offered.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains what the shop makes and repairs, namely strong locks and burglar alarms.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives two clear reasons why readers should choose the shop.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Ends with a call to action and leaves the shop's name, address and telephone number as blanks.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Uses correct spelling, punctuation, suitable linking words and an appropriate formal tone in about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "STRONG LOCKS FOR SAFE HOMES\nWorried about a break-in? We make strong locks and repair burglar alarms, so that a thief cannot open your door or your safe. Our skilled workers mend faulty alarms and fit new locks at your home without wasting your time. We use strong material, and our prices are fair. Do not wait for a theft to happen before you act. Leave your name and address below, or ring us today and we will call at your home.\nShop: ____________\nAddress: ____________\nTelephone: ____________",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He made locks and was successful enough at his business to have two helpers.",
+            "The burglar alarm was poorly built."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:C:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school is holding an assembly on the value of keeping promises. The Principal asks you to speak for a minute on why a person's word matters. Write your speech in about 100 words. Open with a greeting to the Principal, teachers and fellow students, give two reasons from your own life for keeping promises, and close with a short appeal.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Opens with a correct greeting to the Principal, the teachers and the students.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States the topic clearly, namely that people trust us only when we keep our promises.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives two reasons from the speaker's own life for keeping promises.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Ends with a short appeal to the audience and a courteous closing.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Uses clear and correct language, suitable linkers and a formal tone in about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Principal, teachers and dear friends,\nA promise is a promise. If we say we will do something and then do not do it, people stop trusting us, and trust is very hard to win back. I remember once promising a friend that I would help in a project, and then I let him down because of a football match. He never said anything, but I felt bad for weeks. From that day I keep every small promise. Let us promise only what we can really do, and do it. Then our words will be worth more than our marks. Thank you.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Look, I have no right to ask you for anything, but I’m desperate. Let me go and I promise never to do this kind of thing again. I really mean it.",
+            "For two days he kept his promise to the kind young lady."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:C:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A local newspaper has reported a rise in burglary in your area. Write a letter to the Editor of the newspaper in about 100 words, giving two simple ways in which every resident can help to protect homes from burglars, and asking the newspaper to print the letter. Leave your name and your address as blanks.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Uses the correct formal letter format, beginning with 'Dear Editor' and ending with 'Yours faithfully'.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States the subject clearly, namely how residents can protect their homes from burglars.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives two clear and practical precautions for the whole neighbourhood.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Makes a polite request that the letter be printed and leaves the name and address as blanks.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Uses correct grammar, spelling, punctuation and a formal tone in about 100 words.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dear Editor,\nBurglaries in our area have worried many families. I would like to suggest two simple steps that every resident can take. First, keep valuable jewellery and cash locked in a strong safe instead of leaving them in drawers. Second, make sure that the burglar alarm and the locks on your doors are in good working order, and never leave a window or a gate open at night. Small habits like these help the whole neighbourhood. I request you to print this letter so that more people may read it.\nYours faithfully,\n(Name: ____________)\n(Address: ____________)",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The burglar alarm was poorly built.",
+            "There were about fifteen thousand pounds’ worth of jewels in the Grange safe."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:D:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "Yes, Horace Danby was good and respectable — but not completely honest. Fifteen years ago, Horace had served his first and only sentence in a prison library. He loved rare, expensive books. So he robbed a safe every year. Each year he planned carefully just what he would do, stole enough to last for twelve months, and secretly bought the books he loved through an agent.\n\nIn the extract, Horace Danby is called “good and respectable — but not completely honest”. Which detail best explains the second half of this description? (A) He made locks and had two helpers, so people trusted him with their houses. (B) He had studied the house at Shotover Grange for two weeks before he entered it. (C) He stole enough each year to last for twelve months and spent it on rare, expensive books. (D) He served his first and only sentence fifteen years ago in a prison library.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He stole enough each year to last for twelve months and spent it on rare, expensive books.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He loved rare, expensive books.",
+            "Each year he planned carefully just what he would do, stole enough to last for twelve months, and secretly bought the books he loved through an agent."
+          ],
+          "objective": true,
+          "options": {
+            "A": "He made locks and had two helpers, so people trusted him with their houses.",
+            "B": "He had studied the house at Shotover Grange for two weeks before he entered it.",
+            "C": "He stole enough each year to last for twelve months and spent it on rare, expensive books.",
+            "D": "He served his first and only sentence fifteen years ago in a prison library."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:D:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "Horace is now the assistant librarian in the prison. He often thinks of the charming, clever young lady who was in the same profession as he was, and who tricked him. He gets very angry when anyone talks about ‘honour among thieves’.\n\nIn the extract, Horace gets very angry whenever anyone talks about ‘honour among thieves’. Why does the story leave him so angry? (A) He was ordered by the police to keep quiet about the case. (B) His two helpers at the locksmith's shop reported him to the police. (C) He had to serve a second sentence for the very same crime. (D) The young lady tricked him, so thieves do not keep their word with one another.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The young lady tricked him, so thieves do not keep their word with one another.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He often thinks of the charming, clever young lady who was in the same profession as he was, and who tricked him.",
+            "He gets very angry when anyone talks about ‘honour among thieves’."
+          ],
+          "objective": true,
+          "options": {
+            "A": "He was ordered by the police to keep quiet about the case.",
+            "B": "His two helpers at the locksmith's shop reported him to the police.",
+            "C": "He had to serve a second sentence for the very same crime.",
+            "D": "The young lady tricked him, so thieves do not keep their word with one another."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:D:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "The safe was in the drawing room, behind a rather poor painting. Horace wondered for a moment whether he should collect pictures instead of books. But they took up too much room. In a small house, books were better.\n\nIn the extract, Horace thinks of collecting pictures, then turns them down because “they took up too much room”. What does this reveal about him? (A) He believes that books are worth more than paintings. (B) He cares more about the space a thing takes up than about how rare or costly it is. (C) He cannot tell a good picture from a poor one. (D) He plans to sell whatever he steals at the earliest possible date.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He cares more about the space a thing takes up than about how rare or costly it is.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The safe was in the drawing room, behind a rather poor painting.",
+            "Horace wondered for a moment whether he should collect pictures instead of books.",
+            "In a small house, books were better."
+          ],
+          "objective": true,
+          "options": {
+            "A": "He believes that books are worth more than paintings.",
+            "B": "He cares more about the space a thing takes up than about how rare or costly it is.",
+            "C": "He cannot tell a good picture from a poor one.",
+            "D": "He plans to sell whatever he steals at the earliest possible date."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:E:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Explain, in about 50 words, why Horace Danby kept his promise to the young lady at Shotover Grange for only two days.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that he kept his promise to the young lady for two days.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that on the morning of the third day he thought of the rare, expensive books he loved.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that he knew he would have to look for another safe, so his love of books was stronger than his promise.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He kept his promise to the kind young lady for two days. But on the morning of the third day he thought of the rare, expensive books he loved and realised he would have to look for another safe. His love of books was stronger than the promise, so his plan began again in his head.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "For two days he kept his promise to the kind young lady.",
+            "On the morning of the third day, however, he thought of the books he wanted and he knew he would have to look for another safe.",
+            "He loved rare, expensive books."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:E:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Explain, in about 50 words, how both Horace Danby and the young lady at Shotover Grange break their word to each other, and what this shows about trust between strangers.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Explains that Horace begged to be let go and promised that he would never steal again.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that he kept his promise for two days and then began to think of another safe.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that the young lady also broke her word and tricked him, so trust between strangers is easily broken.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Horace begged to be let go and promised that he would never do it again. He kept his promise for two days, then began to think of another safe. The young lady also broke her word: she promised to forget him, but she tricked him instead. Trust between strangers is easily broken.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Let me go and I promise never to do this kind of thing again. I really mean it.",
+            "“Yes, but only if you’ll do something for me.”",
+            "no one believed him when he said that the wife of the owner of the house had asked him to open the safe for her."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:E:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Explain, in about 50 words, why Horace Danby stole only enough each year to last for twelve months, and what this says about the kind of thief he was.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Explains that he stole only enough because his one aim was to buy the rare, expensive books he loved.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that he planned each year carefully and bought the books secretly through an agent.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Explains that this shows he was not greedy and worked by a fixed rule of his own.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Horace stole only enough to last for twelve months because his one aim was to buy the rare, expensive books he loved. He planned each year carefully and bought the books secretly through an agent. This shows that he was not greedy, and that he followed a fixed rule of his own rather than taking whatever he could.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Each year he planned carefully just what he would do, stole enough to last for twelve months, and secretly bought the books he loved through an agent.",
+            "He loved rare, expensive books.",
+            "So he robbed a safe every year."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:F:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Your teacher asks you to explain, step by step, how the young lady who came to Shotover Grange managed to make Horace Danby open her own safe. Write your answer in about 120 words, giving the steps in order.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "She does not raise the alarm but asks calmly whether he has a cold or hay fever.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She makes it clear that she heard him from the top of the house and knows he is there.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She refuses to be frightened by his threat and asks if he would hurt her, so he admits he was only trying to frighten her.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She argues that society must be protected from men like him, which frightens him into begging.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She asks whether he is afraid of prison and says she has always liked the wrong kind of people, so he takes off his gloves to please her.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She says she has forgotten the numbers to open the safe and asks him to break it; he opens it, and because she is not the real wife, nobody believes him.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. She stayed calm and asked whether he had a cold or hay fever instead of calling the police.\n2. She told him she had heard him from the top of the house, so he knew she knew he was there.\n3. When he threatened to cut the telephone wires, she looked serious and asked if he would hurt her.\n4. He admitted he was only trying to frighten her, and she said society must be protected from men like him.\n5. He begged and promised never to steal again; she asked if he was afraid of prison and said she liked the wrong kind of people.\n6. He took off his gloves to give her his lighter, then broke her safe and gave her the jewels, and nobody believed his story afterwards.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Society must be protected from men like you.",
+            "“I have always liked the wrong kind of people.”",
+            "Just leave it to me and you’ll have them within an hour. But I’ll have to break your safe."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:F:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "Horace Danby planned his robbery at Shotover Grange carefully, and yet he ended up in prison. Explain, in about 120 words and in steps, where his plan went wrong.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "He never cut the telephone wires, so the woman was able to threaten to telephone the police.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He took off his gloves to give her his cigarette lighter and did not put them on again.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He opened her safe without gloves, so his fingerprints were left all over the room.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He did not run away when he heard her voice from the top of the house.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He admitted that he hated the thought of prison, and she used this weakness to control him.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The woman was not the real wife of the house, so nobody believed his story and a policeman arrested him.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. He studied the house for two weeks but never cut the telephone wires, so the woman was able to threaten to telephone the police.\n2. He took off his gloves to give the woman his cigarette lighter, and he did not put them on again.\n3. He opened her safe without gloves, so his fingerprints were left all over the room.\n4. He did not run away when he heard her voice from the top of the house.\n5. He told her plainly that he hated the thought of prison, and she used this to control him.\n6. The woman was not the real wife of the house, so nobody believed his story and he was arrested.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Horace said, “I would, of course, cut the telephone wires first and then...,”",
+            "Horace, eager to please her and seeing that she might help him, took off his gloves and gave her his cigarette lighter.",
+            "His fingerprints, for he had opened the safe without gloves, were all over the room"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:04:F:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/a-question-of-trust"
+      ],
+      "taxonomyChapterId": "english-10/a-question-of-trust",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A reader says that Horace Danby cannot be called a typical thief. Give the reasons from the story in about 120 words, and show how the ending answers the question raised by the title.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "He is not greedy and steals only enough to last for twelve months.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He has a clear purpose, buying the rare, expensive books he loves, and is now the assistant librarian in the prison.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He is careful and plans ahead, studying the house for two weeks and being careful not to leave any fingerprints.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He is not violent and admits that he was only trying to frighten the woman.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He keeps his word at least for a while, keeping his promise for two days.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He trusted a stranger who was not the wife of the house, so nobody believed him and he was sent to prison.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. He is not greedy: he stole only enough each year to last for twelve months.\n2. He has a clear purpose: he buys the rare, expensive books he loves, and he is now the assistant librarian in the prison.\n3. He is careful and plans ahead: he studied the house for two weeks and was always careful not to leave any fingerprints.\n4. He is not violent: he was only trying to frighten the woman, and he asked whether she would be hurt.\n5. He keeps his word, at least for a while: he kept his promise for two days.\n6. The title asks about trust. He trusted a stranger who was not the wife of the house, so nobody believed him and he was sent to prison.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "He was always careful not to leave any fingerprints.",
+            "Horace is now the assistant librarian in the prison.",
+            "For two days he kept his promise to the kind young lady."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

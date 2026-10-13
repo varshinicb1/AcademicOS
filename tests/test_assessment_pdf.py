@@ -992,3 +992,18 @@ def test_a_hindi_paper_embeds_a_devanagari_font_and_reads_back(tmp_path):
         body = ("Segoe", "DejaVu", "Helvetica", "Arial")
         assert any(not any(b in f for b in body) for f in fonts), fonts
         assert "फूल" in text
+
+
+def test_a_grammar_mcq_whose_options_are_joining_words_prints_them():
+    """English grammar asks for the preposition or conjunction, so "of", "and" and "or" are real options.
+    The mis-split guard read any such option as the tail of a mention list ("All of (A), (B) and (C)") and
+    printed the question with no options (ai:cbse:iebe1:03:B:103, 2026-10-14)."""
+    stem = ("Choose the preposition that completes the instruction: Match the words in Column 1 ________ "
+            "their meanings in Column 2. (A) by (B) with (C) on (D) of")
+    head, options = split_stem_and_options(stem)
+    assert options == ["by", "with", "on", "of"]
+    assert head.endswith("Column 2.")
+    assert split_stem_and_options("Which word joins the clauses? (A) and (B) but (C) or (D) so")[1] == \
+        ["and", "but", "or", "so"]
+    # A short run with a joining word is still the mis-split it was: printed as written.
+    assert split_stem_and_options("Name the parts (A) and (B) ?") == ("Name the parts (A) and (B) ?", [])

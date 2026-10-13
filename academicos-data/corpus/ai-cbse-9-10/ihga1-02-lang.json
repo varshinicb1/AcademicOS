@@ -1,0 +1,1794 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:ihga1:02:A:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "मुझे आज लिखना ही पड़ेगा। अंग्रेजी के प्रसिद्ध निबंध लेखक ए.जी . गार्ड डिन र का कथन है कि\nलिखने की एक विशे ष मानसि क स्थथिति होती है। उस समय मन में कुछ ऐसी उमंग-सी उठती\nहै, हृदय में कुछ ऐसी स्फ फू र्ति-सी आती है, मस्ततिष्क में कुछ ऐसा आवेग-सा उत्पन्न होता है कि\nलेख लिखना ही पड़ता है। उस समय विषय की चिंता नहीं रहती । कोई भी विषय हो, उसमें हम\nअपने हृदय के आवेग को भर ही देते हैं। हैट टाँगने के लिए कोई भी खूँटी काम दे सकती है।\n\nगद्यांश में उद्धृत गार्डिनर के कथन के अनुसार, लिखने का सर्वोत्तम समय कौन-सा होता है? (A) जब विषय की चिंता बनी रहे (B) जब रूपरेखा पहले से तय हो (C) जब समय बहुत कम हो (D) जब मन में भाव अपने आप उत्पन्न हों",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "जब मन में भाव अपने आप उत्पन्न हों",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "लिखने की एक विशे ष मानसि क स्थथिति होती है। उस समय मन में कुछ ऐसी उमंग-सी उठती",
+            "लेख लिखना ही पड़ता है। उस समय विषय की चिंता नहीं रहती । कोई भी विषय हो, उसमें हम"
+          ],
+          "objective": true,
+          "options": {
+            "A": "जब विषय की चिंता बनी रहे",
+            "B": "जब रूपरेखा पहले से तय हो",
+            "C": "जब समय बहुत कम हो",
+            "D": "जब मन में भाव अपने आप उत्पन्न हों"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:A:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "मुझमें खुसरो की प्रतिभा नहीं है, पर उन की इस पद्धति को स्वी कार करने से मेरी कठिनाई\nआधी रह जाती है। मैं भी एक निबंध में इन दोनों विषयों का समावेश कर दूँगा।\nदूर के ढोल सुहावने होते हैं, क्योंकि उन की कर्कश ता दूर तक नहीं पहुँचती । जब ढोल\nके पास बैठे हुए लोगों के कान के पर्दे फ टते रहते हैं, तब दूर किसी न दी के तट पर संध्या\n\nखुसरो की उस पद्धति को अपनाने पर लेखक अपनी कठिनाई के बारे में क्या कहता है? (A) उसकी कठिनाई आधी रह जाती है (B) उसकी कठिनाई पूरी रह जाती है (C) उसकी कठिनाई का कोई रास्ता नहीं (D) उसकी कठिनाई दो गुनी हो जाती है",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उसकी कठिनाई आधी रह जाती है",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मुझमें खुसरो की प्रतिभा नहीं है, पर उन की इस पद्धति को स्वी कार करने से मेरी कठिनाई",
+            "आधी रह जाती है। मैं भी एक निबंध में इन दोनों विषयों का समावेश कर दूँगा।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "उसकी कठिनाई आधी रह जाती है",
+            "B": "उसकी कठिनाई पूरी रह जाती है",
+            "C": "उसकी कठिनाई का कोई रास्ता नहीं",
+            "D": "उसकी कठिनाई दो गुनी हो जाती है"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:A:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "अंग्रेजी के निबंधकारों ने एक दूसरी ही पद्धति को अपनाया है। उन के निबंध इन आचार्यों\nकी कसौटी पर भले ही खरे सिद्ध न हों , पर अंग्रेजी साहित्य में उन का मान अवश्य है। उस\nपद्धति के जन्मदाता मान टेन समझे जाते हैं। उन्होंने स्वयं जो कुछ देखा, सुना और अनु भव\nकिया, उसी को अपने निबंधों में लिपिबद्ध कर दिया। ऐसे निबंधों की सबसे बड़ी विशे षता\nय ह है कि वे मन की स्वच्छंद रचनाएँ हैं। उनमें न कवि की उदात्त कल्पना रहती है, न\n\nअंग्रेजी के निबंधकारों की उस पद्धति में निबंध लेखक ने किसका सहारा लिया और निबंध में क्या उतारा? (A) गार्डिनर का सहारा, शीर्षक का काम (B) मान टेन का सहारा, देखी-सुनी-अनुभवी बातें (C) बाणभट्ट का सहारा, कादंबरी के लंबे वाक्य (D) सेनापति का सहारा, अलक्षण पंक्तियाँ",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मान टेन का सहारा, देखी-सुनी-अनुभवी बातें",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "पद्धति के जन्मदाता मान टेन समझे जाते हैं। उन्होंने स्वयं जो कुछ देखा, सुना और अनु भव",
+            "किया, उसी को अपने निबंधों में लिपिबद्ध कर दिया। ऐसे निबंधों की सबसे बड़ी विशे षता"
+          ],
+          "objective": true,
+          "options": {
+            "A": "गार्डिनर का सहारा, शीर्षक का काम",
+            "B": "मान टेन का सहारा, देखी-सुनी-अनुभवी बातें",
+            "C": "बाणभट्ट का सहारा, कादंबरी के लंबे वाक्य",
+            "D": "सेनापति का सहारा, अलक्षण पंक्तियाँ"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:B:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "मुझे कोई साधारण निबंध नहीं लिखना है। आज मुझे नमि ता और अमिता के लिए आदर्श\nनिबंध लिखना होगा। नमि ता का आदेश है कि मैं ‘दूर के ढोल सुहावने होते हैं’ इस विषय पर\nलिखूँ। अमिता का आग्रह है कि मैं समाज-सुधार पर लिखूँ, ये दोनों ही विषय परी क्ा में आ\nचुके हैं और उन दोनों पर आदर्श निबंध लिखकर मुझे उन दोनों को निबंध-रचना का रहस्य\nसमझाना पड़ेगा।\n\nगद्यांश के अनुसार लेखक को किन दो विषयों पर आदर्श निबंध लिखना है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "दोनों विषयों के नाम लिखना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "दोनों को आदर्श निबंध के विषय बताना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "‘दूर के ढोल सुहावने होते हैं’ और ‘समाज-सुधार’",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मुझे कोई साधारण निबंध नहीं लिखना है। आज मुझे नमि ता और अमिता के लिए आदर्श",
+            "निबंध लिखना होगा। नमि ता का आदेश है कि मैं ‘दूर के ढोल सुहावने होते हैं’ इस विषय पर\nलिखूँ। अमिता का आग्रह है कि मैं समाज-सुधार पर लिखूँ, ये दोनों ही विषय परी क्ा में आ"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:B:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "competency_based",
+      "stem": "एक विद्वान का कथन है कि निबंध छोटा होना चाहिए। छोटा निबंध बड़े की अपेक्ा\nअधिक अच्छा होता है, क्योंकि बड़े निबंध में रचना की सुंदरता नहीं बनी रह सकती । इस\nकथन को मान लेन में ही मेरा लाभ है। मुझे छोटा ही निबंध लिखना है, बड़ा नहीं। पर लिखूँ\nकैसे? निबंधशास्‍त्र के उन्हीं आचार्य महोदय का कथन है कि निबंध के दो प्रधान अंग हैं—\n\nगद्यांश के अनुसार निबंध के दो प्रधान अंग कौन-से हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "निबंध के दो प्रधान अंग होने की बात पक्की करना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "दोनों अंगों के नाम लिखना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सामग्री और शै ली",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कैसे? निबंधशास्‍त्र के उन्हीं आचार्य महोदय का कथन है कि निबंध के दो प्रधान अंग हैं—",
+            "सामग्री और शै ली । पहले तो मुझे सामग्री एकत्र करनी होगी , विचार-समूह संचित करना"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:B:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "य ह बात सच है कि दूर रहने से हमें य थार्थता की कठोरता का अनु भव नहीं होता। य ही\nकारण है कि जो तरुण संसार के जी वन -संग्राम से दूर हैं, उन्हें संसार का चित्र बड़ा ही मन मोहक\nप्रती त होता है; जो वृद्ध हो गए हैं, जो अपनी बाल्यावस्था और तरुणावस्था से दूर हट आए\nहैं, उन्हें अपने अती तकाल की स्मृति बड़ी सुखद लगती है। वे अती त का ही स्वप्न देखते\n\nगद्यांश के अनुसार संसार के जीवन-संग्राम से दूर बने तरुणों को संसार का चित्र कैसा प्रतीत होता है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "तरुणों के संसार-संग्राम से दूर होने का उल्लेख करना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "चित्र के प्रति उनके अनुभव का वर्णन करना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बड़ा ही मनमोहक",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कारण है कि जो तरुण संसार के जी वन -संग्राम से दूर हैं, उन्हें संसार का चित्र बड़ा ही मन मोहक",
+            "प्रती त होता है; जो वृद्ध हो गए हैं, जो अपनी बाल्यावस्था और तरुणावस्था से दूर हट आए"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:C:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "‘निबंध का शास्त्र’ के रूप में लिखे गए संयुक्त पद में किस प्रकार का समास है? (A) कर्मधारय समास (B) द्विगु समास (C) द्वंद्व समास (D) तत्पुरुष समास",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "तत्पुरुष समास",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "निबंधशास्‍त्र\nनिबंध का शास्‍त्र\nतत्पुरुष समास",
+            "इस समास में उत्तरपद प्रधान होता है और पूर्वपद गौण होता है। तत्पुरुष"
+          ],
+          "objective": true,
+          "options": {
+            "A": "कर्मधारय समास",
+            "B": "द्विगु समास",
+            "C": "द्वंद्व समास",
+            "D": "तत्पुरुष समास"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:C:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "‘आज तक कितने ही सुधारक हो गए हैं।’ — इस वाक्य में ‘सुधार’ के बाद कौन-सा प्रत्‍य जोड़कर ‘सुधारक’ शब्द बनाया गया है? (A) क (B) आई (C) दुर् (D) अन् ",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "क",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "• “आज तक कितने ही सुधारक हो गए हैं।”",
+            "रेखांकित श ब्दों में मूल श ब्द ‘सुधार’ के बाद में ‘क’ प्रत्‍य और ‘कठिन ’ श ब्द के बाद में ‘आई’",
+            "स्वतंत्र रूप में नहीं होता और जो श ब्दों के अंत में लगकर न ए श ब्दों का निर्माण करते हैं।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "क",
+            "B": "आई",
+            "C": "दुर्",
+            "D": "अन् "
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:C:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "‘सेनापति ने भी अपनी कविता दुर्बोध कर दी है।’ — इस वाक्य में ‘बोध’ के पहले कौन-सा उपसर्ग जोड़ा गया है? (A) अन्  (B) दुर् (C) क (D) आई",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "दुर्",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "• “सेनापति ने भी अपनी कविता दुर्बोध कर दी है।”",
+            "दिए गए वाक्यों में रेखांकित श ब्दों पर ध्य यान दीजि ए। दोनों रेखांकित श ब्दों में मूल श ब्द ‘बोध’\nके पहले ‘दुर्’ उपसर्ग और ‘अादि’ के पहले ‘अन् ’ उपसर्ग जोड़कर न ए श ब्द बनाए गए हैं। उपसर्ग",
+            "आरंभ में लगकर न ए श ब्दों का निर्माण करते हैं।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "अन् ",
+            "B": "दुर्",
+            "C": "क",
+            "D": "आई"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:D:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "कविता सुनने की इच्छा प्रकट की, दूसरी ने चरखे पर, ती सरी ने कुत्े पर और चौथी ने ढोल\nपर। अमी र खुसरो प्रतिभावान थे, उन्होंने एक ही पद्य में चारों की इच्छाओं की पूर्ति कर दी ।\nउन्होंने कहा—\nखी र पकाई जतन से, चरखा दिया चला।\nआया कुत्ा खा गया, तू बैठी ढोल बजा।।\n\nइस उद्धरण में एक ही पंक्त में चार अलग-अलग बातें किस प्रकार समा दी गई हैं? (A) चारों बातों को दोहराकर (B) प्रत्येक बात को अलग-अलग वाक्य में लिखकर (C) चारों पात्रों की बातों को एक-दूसरे से जोड़कर (D) केवल अंतिम पंक्ति पर रोककर",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "चारों पात्रों की बातों को एक-दूसरे से जोड़कर",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "पर। अमी र खुसरो प्रतिभावान थे, उन्होंने एक ही पद्य में चारों की इच्छाओं की पूर्ति कर दी ।",
+            "खी र पकाई जतन से, चरखा दिया चला।\nआया कुत्ा खा गया, तू बैठी ढोल बजा।।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "चारों बातों को दोहराकर",
+            "B": "प्रत्येक बात को अलग-अलग वाक्य में लिखकर",
+            "C": "चारों पात्रों की बातों को एक-दूसरे से जोड़कर",
+            "D": "केवल अंतिम पंक्ति पर रोककर"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:D:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "गाँव-गाँव में होता है। य ह सच है कि जी वन में\nन ए-न ए दोष उत्पन्न होते जाते हैं और न ए-न ए\nसुधार हो जाते हैं। न दोषों का अंत है और\nन सुधारों का। जो कभी सुधार थे, वही\nआज दोष हो गए हैं और उन सुधारों का\nफिर न व सुधार किया जाता है। तभी तो\nय ह जी वन प्रगतिशी शील माना गया है।\n\nइस उद्धरण के अनुसार जो कभी सुधार थे, वे आज किस हाल में हैं? (A) सदैव समाजहित में लगे रहे (B) दोष माने जाने लगे (C) किसी काम न रहे (D) नए सुधार का नेतृत्व करने लगे",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "दोष माने जाने लगे",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "न सुधारों का। जो कभी सुधार थे, वही\nआज दोष हो गए हैं और उन सुधारों का\nफिर न व सुधार किया जाता है। तभी तो",
+            "होती । सुधारकों का दल न गर-न गर और\nगाँव-गाँव में होता है। य ह सच है कि जी वन में"
+          ],
+          "objective": true,
+          "options": {
+            "A": "सदैव समाजहित में लगे रहे",
+            "B": "दोष माने जाने लगे",
+            "C": "किसी काम न रहे",
+            "D": "नए सुधार का नेतृत्व करने लगे"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:D:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "प्रदर्शन करने के लिए, अपना गौरव स्थथापित करने के लिए य ह आवश्य क है कि वाक्य कम-\nसे-कम आधे पृष्ठ में तो समाप्त हों । बाणभट्ट ने कादंबरी में ऐसे ही वाक्य लिखे हैं। वाक्यों\nमें अस्पष्टता भी चाहिए, क्योंकि य ह अस्पष्टता या दुर्बोधता गांभीर्य ला देती है। इसीलि ए\nसंस्कृत के प्रसिद्ध कवि श्री हर्ष ने जान -बूझकर अपने काव्य में ऐसी गुत्थथियाँ डाल दी हैं,\n\nइस उद्धरण में लेखक ने वाक्यों में अस्पष्टता को क्यों आवश्यक माना है? (A) क्योंकि अस्पष्टता गांभीरता ला देती है (B) क्योंकि इससे लेखक को अपनी विद्वता का प्रदर्शन मिलता है (C) क्योंकि इससे भाषा में प्रवाह बढ़ जाता है (D) क्योंकि इससे निबंध छोटा हो जाता है",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "क्योंकि अस्पष्टता गांभीरता ला देती है",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "में अस्पष्टता भी चाहिए, क्योंकि य ह अस्पष्टता या दुर्बोधता गांभीर्य ला देती है। इसीलि ए",
+            "संस्कृत के प्रसिद्ध कवि श्री हर्ष ने जान -बूझकर अपने काव्य में ऐसी गुत्थथियाँ डाल दी हैं,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "क्योंकि अस्पष्टता गांभीरता ला देती है",
+            "B": "क्योंकि इससे लेखक को अपनी विद्वता का प्रदर्शन मिलता है",
+            "C": "क्योंकि इससे भाषा में प्रवाह बढ़ जाता है",
+            "D": "क्योंकि इससे निबंध छोटा हो जाता है"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:E:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "‘दूर के ढोल सुहावने होते हैं’ और ‘समाज-सुधार’ — दोनों विषय एक ही निबंध में समेटने के लिए किसका उदाहरण अपनाया गया?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "अमीर और खुसरो की उस पद्धति का नाम लेना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "चारों की इच्छाओं को एक ही पद्य में पूरा करने का उल्लेख करना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "अमीर और खुसरो की उस कहानी का, जिसमें पानी माँगने पर चार औरतों ने क्रमशः खीर, चरखा, कुत्ता और ढोल की बात कही और खुसरो ने एक ही पद्य में चारों की इच्छाएँ पूरी कर दीं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "मुझे अमी र खुसरो की एक कहानी याद आई। एक बार प्यास लगने पर वे एक कुएँ के",
+            "पर। अमी र खुसरो प्रतिभावान थे, उन्होंने एक ही पद्य में चारों की इच्छाओं की पूर्ति कर दी ।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:E:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "निबंध का शीर्षक सोचते समय गार्डिनर को कितनी कठिनाई हुई और उन्होंने इसका कौन-सा उपाय किया?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "शीर्षक बनाने में ही सबसे अधिक कठिनाई होने का उल्लेख करना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "एक नाटक का नाम रखकर शीर्षक का भार मित्र पर छोड़ने का उपाय बताना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उन्हें अपने लेखों का शीर्षक बनाने में ही सबसे अधिक कठिनाई हुई। घबराकर उन्होंने अपने एक नाटक का नाम ‘जैसा तुम चाहो’ रखा और शीर्षक देने का भार अपने मित्र पर छोड़ दिया।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "लेते हैं? ए.जी . गार्ड डिन र को तो अपने लेखों का शीर्षक बनाने में ही सबसे अधिक कठिनाई",
+            "सकने के कारण उन्होंने अपने एक नाटक का नाम रखा ‘जैसा तुम चाहो’। इसलिए मुझसे तो"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:E:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "शैली निश्चित करते समय यह कथन था कि ‘भाषा में प्रवाह होना चाहिए’ — पर विद्वता और गौरव के प्रदर्शन के लिए वाक्य कैसे होने चाहिए?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "भाषा में प्रवाह तथा छोटे-छोटे संबद्ध वाक्यों की बात बताना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विद्वता और गौरव के लिए वाक्य आधे पृष्ठ तक लंबे रखने की बात बताना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "वाक्य छोटे-छोटे हों, पर एक-दूसरे से संबद्ध हों; किंतु प्रदर्शन और गौरव स्थापित करने के लिए वाक्य कम-से-कम आधे पृष्ठ में तो समाप्त होने चाहिए।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कथन है कि भाषा में प्रवाह\nहोना चाहिए। इसके लिए\nवाक्य छोटे-छोटे हों , पर\nएक-दूसरे से संबद्ध। य ह",
+            "प्रदर्शन करने के लिए, अपना गौरव स्थथापित करने के लिए य ह आवश्य क है कि वाक्य कम-"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:F:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "ढोल की कर्कश ध्वनि समीपस्थ लोगों को कटु नहीं लगती, लेकिन दूरस्थ लोगों के लिए मधुर क्यों बन जाती है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "ढोल की ध्वनि के साथ आनंद, उत्सव और प्रेम के संगीत का मिलना बताना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "दूर बैठे श्रोता के मन में इन तीनों का चित्र बनने का उल्लेख करना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उसके कानों में उसी शब्द से मधुरता का संचार होने का कारण बताना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "समीपस्थ लोगों को कर्कशता क्यों कटु लगती है, यह स्पष्ट करना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "ढोल की ध्वनि के साथ आनंद का कलरव, उत्सव का प्रमोद और प्रेम का संगीत— ये तीनों एक साथ मिले रहते हैं। दूर बैठा श्रोता इन्हीं तीनों का चित्र अपने मन में बना लेता है, इसलिए उसके कानों में वही शब्द मधुरता का संचार कर देते हैं। समीपस्थ लोग इन सबके बीच बैठे होने से केवल कर्कशता सुनते हैं और उसे ही कटु कहते हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "समय , किसी दूसरे के कान में वही श ब्द मधुरता का संचार कर देते हैं। ढोल के उन्हीं श ब्दों\nको सुन कर वह अपने हृदय में किसी के विवाहोत्सव का चित्र अंकित कर लेता है। कोलाहल",
+            "आनं द का कलरव, उत्सव का प्रमोद और प्रेम का संगी त, ये तीनों मिले रहते हैं। तभी उसकी\nकर्कश ता समी पस्थ लोगों को भी कटु नहीं प्रती त होती और दूरस्थ लोगों के लिए तो वह"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:F:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "हिंदी में प्रगतिशील साहित्य का निर्माण हो रहा है, फिर भी वह कुछ ही समय में अतीत का स्मारक बन जाएगा— ऐसा क्यों कहा गया है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "आज के तरुण ही वृद्ध होकर अतीत के गौरव का स्वप्न देखेंगे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उनके स्थान पर तरुणों का दूसरा दल आ जाएगा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वह नया दल भविष्य का स्वप्न देखेगा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "दोनों के स्वप्न सुखद होने का कारण बताना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "क्योंकि आज जो तरुण प्रगतिशील साहित्य की रचना कर रहे हैं, वे ही एक दिन वृद्ध होकर अतीत के गौरव का स्वप्न देखने लगेंगे। उनके स्थान पर तरुणों का फिर दूसरा दल आ जाएगा, जो भविष्य का स्वप्न देखेगा। दोनों के ही स्वप्न सुखद होते हैं, क्योंकि दूर के ढोल सुहावने होते हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "भी अती त का स्मारक हो जाएगा और आज जो तरुण हैं, वही वृद्ध होकर अती त के गौरव",
+            "का स्वप्न देखेंगे। उन के स्थथान में तरुणों का फिर दूसरा दल आ जाएगा, जो भविष्य का स्वप्न\nदेखेगा। दोनों के ही स्वप्न सुखद होते हैं, क्योंकि दूर के ढोल सुहावने होते हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:F:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "जीवन में बार-बार नए दोष उत्पन्न होते हैं और नए सुधार हो जाते हैं, फिर भी न दोषों का अंत है और न सुधारों का— इसका कारण क्या है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "जो कभी सुधार थे वे आज दोष हो गए हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उन सुधारों का फिर नव सुधार किया जाता है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सुधारकों का दल नगर-नगर और गाँव-गाँव में होता है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "न दोषों का अंत है न सुधारों का, इसलिए जीवन प्रगतिशील है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कारण यह है कि जो कभी सुधार थे, वही आज दोष हो गए हैं और उन सुधारों का फिर नव सुधार किया जाता है। सुधारकों का दल नगर-नगर और गाँव-गाँव में होता है, इसलिए न दोषों का अंत है और न सुधारों का। इसीलिए जीवन को प्रगतिशील माना गया है और वर्तमान काल सुधारों का काल बनता रहता है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "होती । सुधारकों का दल न गर-न गर और\nगाँव-गाँव में होता है। य ह सच है कि जी वन में",
+            "न सुधारों का। जो कभी सुधार थे, वही\nआज दोष हो गए हैं और उन सुधारों का\nफिर न व सुधार किया जाता है। तभी तो"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:H:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "विद्यालय में ‘निबंध लेखन प्रतियोगिता’ का आयोजन है। समाज-सुधार विषय पर विचार प्रकट करते हुए प्रतियोगिता के लिए आमंत्रण-पत्र का प्रारूप लगभग १०० शब्दों में लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "प्रारूप: सेवा-पत्र, पता लाइन, विषय, संबोधन, प्रार्थना और हस्ताक्षर-पंक्ति सहित सही ढाँचा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: प्रतियोगिता, उसका विषय ‘समाज-सुधार’ तथा प्रतिभागियों को सम्बोधित करने की बात",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: प्रारंभ में प्रस्तावना, बीच में निर्देश, अंत में धन्यवाद",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता: व्याकरण, वर्तनी और लेखन-बिंदु का सही प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रसाद एवं शब्द-सीमा: औपचारिक शैली तथा लगभग १०० शब्दों की सीमा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सेवा में,\nप्रधानाचार्य महोदय,\nविद्यालय, खैरागढ़\n\nविषय : निबंध लेखन प्रतियोगिता में आमंत्रण\n\nमहोदय,\nसविनय निवेदन है कि विद्यालय में ‘निबंध लेखन प्रतियोगिता’ आयोजित की जा रही है। इस वर्ष प्रतियोगिता का विषय ‘समाज-सुधार’ रखा गया है। प्रतिभागी अपना निबंध कक्षा अध्यापक को हस्तलिखित रूप में जमा कर सकते हैं। उत्कृष्ट रचनाओं को सम्मान-पत्र दिए जाएँगे। कृपया सभी विद्यार्थियों को इस प्रतियोगिता में भाग लेने के लिए प्रेरित करें।\n\nसधन्यवाद,\nनमिता\nवरिष्ठ छात्रा",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "लिखूँ। अमिता का आग्रह है कि मैं समाज-सुधार पर लिखूँ, ये दोनों ही विषय परी क्ा में आ",
+            "चुके हैं और उन दोनों पर आदर्श निबंध लिखकर मुझे उन दोनों को निबंध-रचना का रहस्य"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:H:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "विद्यालय में अगले सप्ताह ‘निबंध-लेखन कार्यशाला’ हो रही है और आपको ‘समाज-सुधार’ विषय पर बोलने के लिए कहा गया है— कक्षा अध्यापक को इसकी पुष्टि के लिए ई-मेल लगभग १०० शब्दों में लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "प्रारूप: विषय-पंक्ति, संबोधन, संदेश-पंक्ति, समापन-पंक्ति और हस्ताक्षर सहित ई-मेल का सही ढाँचा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: कार्यशाला, ‘समाज-सुधार’ विषय तथा समय-सारणी और शीर्षक भेजने का निर्देश",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: प्रारंभ में निमंत्रण, बीच में निर्देश, अंत में कृतज्ञता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता: व्याकरण, वर्तनी और लेखन-बिंदु का सही प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रसाद एवं शब्द-सीमा: औपचारिक-सरल शैली तथा लगभग १०० शब्दों की सीमा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "विषय : निबंध-लेखन कार्यशाला की पुष्टि\n\nआदरणीय महोदय,\n\nसविनय निवेदन है कि विद्यालय में अगले सप्ताह ‘निबंध-लेखन कार्यशाला’ का आयोजन किया जा रहा है। कार्यशाला में ‘समाज-सुधार’ विषय पर विचार प्रस्तुत करने के लिए मुझे आमंत्रित किया गया है। कृपया मुझे कार्यक्रम की समय-सारणी भेज दें और मैं अपना शीर्षक विषय-सूची में शामिल करा लूँ। व्याख्यान के बाद प्रश्न-उत्तर सत्र भी रहेगा, जिसमें मैं भाग लेने को तैयार हूँ। आपका सहयोग विद्यार्थियों के लिए अत्यंत उपयोगी होगा।\n\nसादर,\nनमिता\nविद्यार्थी",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "‘क्या लिखूँ?’ निबंध में पदुमलाल पुन्नालाल बख्शी ने निबंध की रचना प्रक्रिया को",
+            "समझाया है। इस निबंध में उन्‍होंने ‘दूर के ढोल सुहावने’ और ‘समाज-सुधार’ शीर्षक दो"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:02:H:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/क्-या-लिखूँ"
+      ],
+      "taxonomyChapterId": "hindi-9/क्-या-लिखूँ",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "समाज-सुधार के क्षेत्र में कार्यरत संस्था ने नागरिकों से सहयोग माँगने के लिए पत्र भेजा है— उस पत्र का प्रारूप लगभग १०० शब्दों में तैयार कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "प्रारूप: सेवा-पत्र, पता लाइन, विषय, संबोधन, प्रार्थना और हस्ताक्षर-पंक्ति सहित सही ढाँचा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विषय-वस्तु: संस्था का समाज-सुधार कार्य और नागरिकों से सहयोग की प्रार्थना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: प्रारंभ में प्रस्तावना, बीच में समस्या और समाधान, अंत में धन्यवाद",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता: व्याकरण, वर्तनी और लेखन-बिंदु का सही प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रसाद एवं शब्द-सीमा: औपचारिक शैली तथा लगभग १०० शब्दों की सीमा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सेवा में,\nअध्यक्ष,\n[संस्था का नाम यहाँ लिखिए]\n\nविषय : समाज-सुधार अभियान में सहयोग की प्रार्थना\n\nमहोदय,\nसविनय निवेदन है कि आपके संदर्भ में कार्यरत संस्था समाज-सुधार का कार्य चला रही है। दूर रहने के कारण अनेक दोष समय पर दिखाई नहीं दे पाते और इसी कारण वह काल बन जाता है। ऐसे समय पर किसी समस्या के समाधान के लिए बैठकर बातचीत करने के बजाय अनुभव और परंपरागत ढंग पर विश्वास रखने की आवश्यकता होती है। कृपया अपनी सहभागिता के बारे में शीघ्र सूचित करें।\n\nसधन्यवाद,\n[हस्ताक्षर]\n[नाम]\n[पता]",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "यदि उपर्युक्त वाक्य का भाव-विस्तार किया जाए तो कहा जा सकता है कि— यु वा पीढ़ी में किसी\nसमस्या को लेकर आक्रोश की भावना प्रबल होती है। वह किसी भी समस्या के समाधान के लिए बैठकर\nबातची त करने के बजाय उस पर त्वरित निर्ण य लेना चाहते हैं जबकि वृद्ध पीढ़ी किसी समस्या के समाधान\nके लिए अनु भव और परंपरागत ढंग पर विश्वास करती है।",
+            "मनु ष्य जाति के इतिहास में कोई ऐसा काल ही नहीं हुआ, जब सुधारों की आवश्य कता"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "समाज में सुधार होते ही नए दोष भी उत्पन्न हो जाते हैं और सुधारों का अंत कभी नहीं होता— इसी तथ्य पर विचार करते हुए समाज मे"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "तरुण और वृद्ध दोनों वर्तमान से असंतोष रहते हैं, पर उनके असंतोष के कारण भिन्न हैं— इस पर लगभग १२० शब्दों में एक अनुच्छेद "
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "अच्छे निबंध लेखन की कार्यवाही—सामग्री संग्रह, रूपरेखा निर्माण, शैली निर्धारण, भाव-विस्तार और समापन— पर लगभग १२० शब्दों म"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "reason": "figure-not-in-text:५०",
+      "stem": "समाज-सुधार दिवस के अवसर पर जन जागरूकता के लिए एक संदेश-पत्र लगभग ५० शब्दों में लिखिए।"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "reason": "figure-not-in-text:५०",
+      "stem": "‘निबंध लेखन प्रतियोगिता’ का विज्ञापन-पत्र लगभग ५० शब्दों में तैयार कीजिए।"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "पदुमलाल पुन्न ालाल बख्श शी",
+      "reason": "figure-not-in-text:५०",
+      "stem": "विद्यालय में समाज-सुधार विषय पर ‘संवाद प्रतियोगिता’ का आयोजन किया जा रहा है— इसकी सूचना देने वाला एक सूचना-पत्र लगभग ५० "
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "ihga1",
+    "chapters": [
+      2
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

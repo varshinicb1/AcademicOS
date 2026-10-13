@@ -1,0 +1,219 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iest1:08:AR:101",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/building-blocks-in-economics-the-problem-of-choice"
+      ],
+      "taxonomyChapterId": "social-science-9/building-blocks-in-economics-the-problem-of-choice",
+      "topic": "Choices and Limited Resources",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A Class 9 Economics period begins with a discussion of the Production Possibility Curve, the curve showing different combinations of goods that can be produced using all available resources. A student writes down two statements and asks the teacher to check them.\n\n1. Assertion (A): Every point on the Production Possibility Curve shows the maximum output that can be produced through efficient use of resources by avoiding wastage.\n2. Reason (R): Knowing these combinations of goods helps enterprises and governments in better planning and decision-making.\n\nChoose the correct option:",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "All the points on the PPC\nshow the maximum output that can be produced through efficient\nuse of resources by avoiding wastage.",
+            "This helps in better planning\nand decision-making by enterprises and the governments.",
+            "The curve\nshowing\ndifferent\ncombinations\nof goods\nthat can be\nproduced\nusing all\navailable\nresources."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch8",
+        "pages": [
+          1,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:08:AR:102",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/building-blocks-in-economics-the-problem-of-choice"
+      ],
+      "taxonomyChapterId": "social-science-9/building-blocks-in-economics-the-problem-of-choice",
+      "topic": "Choices and Limited Resources",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "A student notices that the same resources can be put to more than one use, and wonders who has the power to decide how they are used. The student writes down two statements and asks the teacher to check them.\n\n1. Assertion (A): Since resources have competing uses, individuals, enterprises and governments must decide how to best allocate them, and these decisions affect the well-being of people and society as a whole.\n2. Reason (R): Only the government can decide how to allocate resources that have competing uses, because individuals and enterprises never make such allocation decisions.\n\nChoose the correct option:",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The assertion is true but the reason is false.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Since resources have competing uses, individuals, enterprises,",
+            "and governments must decide how to best allocate them, as these",
+            "decisions affect the well-being of people and society as a whole."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch8",
+        "pages": [
+          1,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:iest1:08:AR:103",
+      "questionBankId": "ai-cbse:iest1",
+      "subject": "Social Science",
+      "grade": 9,
+      "chapterIds": [
+        "social-science-9/building-blocks-in-economics-the-problem-of-choice"
+      ],
+      "taxonomyChapterId": "social-science-9/building-blocks-in-economics-the-problem-of-choice",
+      "topic": "Choices and Limited Resources",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "assertion_reason",
+      "stem": "While watching a family divide the money it has, a student wonders how such a division ought to be decided. The student writes down two statements and asks the teacher to check them.\n\n1. Assertion (A): A decision on how to divide money among essential items, non-essential items and savings is a good decision only when it relies on data and analysis and not on guesswork.\n2. Reason (R): Families allocate their money for essential items such as food, medicines and school supplies, non-essential items such as jewellery, entertainment and restaurant meals, and savings.\n\nChoose the correct option:",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "However, good decisions rely on data and analysis, not guesswork.",
+            "For example, families allocate their money for essential items (such",
+            "as food, medicines, and school supplies), non-essential items (such"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both the assertion and the reason are true and the reason is a correct explanation of the assertion.",
+            "B": "Both the assertion and the reason are true but the reason is not a correct explanation of the assertion.",
+            "C": "The assertion is true but the reason is false.",
+            "D": "Both the assertion and the reason are false."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "iest1 ch8",
+        "pages": [
+          1,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iest1",
+    "chapters": [
+      8
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

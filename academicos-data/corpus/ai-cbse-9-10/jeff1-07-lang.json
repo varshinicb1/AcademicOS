@@ -1,0 +1,1611 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:07:A:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "was a girl named Valliammai who was called\nValli for short. She was eight years old and very\ncurious about things. Her favourite pastime was\nstanding in the front doorway of her house,\nwatching what was happening in the street outside.\nThere were no playmates of her own age on her\nstreet, and this was about all she had to do.\nBut for Valli, standing at the front door was every\nbit as enjoyable as any of the elaborate games other\nchildren played. Watching the street gave her many\nnew unusual experiences.\n\nValli has no playmates of her own age on her street, yet the extract shows that she is not bored. Which option explains this best? (A) Her mother keeps her inside the house all day so that she has nothing else to do (B) She is angry with her friends because they never come to her street (C) She is frightened of the vehicles that pass her doorway (D) Watching the street gives her new and unusual experiences, and she enjoys it as much as other children's games",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Watching the street gives her new and unusual experiences, and she enjoys it as much as other children's games",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "But for Valli, standing at the front door was every\nbit as enjoyable as any of the elaborate games other\nchildren played.",
+            "Watching the street gave her many\nnew unusual experiences."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Her mother keeps her inside the house all day so that she has nothing else to do",
+            "B": "She is angry with her friends because they never come to her street",
+            "C": "She is frightened of the vehicles that pass her doorway",
+            "D": "Watching the street gives her new and unusual experiences, and she enjoys it as much as other children's games"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:A:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "Suddenly Valli clapped her hands with glee. A\nyoung cow, tail high in the air, was running very\nfast, right in the middle of the road, right in front\nof the bus. The bus slowed to a crawl, and the driver\nsounded his horn loudly again and again. But the\nmore he honked, the more frightened the animal\nbecame and the faster it galloped\n\nValli claps her hands with glee when she sees the cow running in front of the bus. What does her reaction show? (A) She is frightened that the bus will knock the animal down and hurt it (B) She finds the sight of the frightened, galloping animal so funny that she cannot stop laughing (C) She is angry with the driver for sounding his horn again and again (D) She is relieved that the bus has finally stopped on the road",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She finds the sight of the frightened, galloping animal so funny that she cannot stop laughing",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Suddenly Valli clapped her hands with glee. A\nyoung cow, tail high in the air, was running very\nfast, right in the middle of the road, right in front\nof the bus.",
+            "the\nmore he honked, the more frightened the animal\nbecame and the faster it galloped"
+          ],
+          "objective": true,
+          "options": {
+            "A": "She is frightened that the bus will knock the animal down and hurt it",
+            "B": "She finds the sight of the frightened, galloping animal so funny that she cannot stop laughing",
+            "C": "She is angry with the driver for sounding his horn again and again",
+            "D": "She is relieved that the bus has finally stopped on the road"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:A:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "The most fascinating thing of all was the bus\nthat travelled between her village and the nearest\ntown. It passed through her street each hour, once\ngoing to the town and once coming back. The sight\nof the bus, filled each time with a new set of\npassengers, was a source of unending joy for Valli.\nDay after day she watched the bus, and\ngradually a tiny wish crept into her head and\ngrew there: she wanted to ride on that bus, even\nif just once. This wish became stronger and\nstronger, until it was an overwhelming desire.\n\nDay after day Valli watches the same bus pass her street, and the wish to ride in it keeps growing stronger. What does this show about her? (A) That she is easily put off by small difficulties (B) That she waits for others to decide for her (C) That the wish to ride the bus had become the strongest thing in her mind (D) That she is far more interested in the town than in the journey itself",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "That the wish to ride the bus had become the strongest thing in her mind",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Day after day she watched the bus, and\ngradually a tiny wish crept into her head and\ngrew there: she wanted to ride on that bus, even\nif just once.",
+            "This wish became stronger and\nstronger, until it was an overwhelming desire."
+          ],
+          "objective": true,
+          "options": {
+            "A": "That she is easily put off by small difficulties",
+            "B": "That she waits for others to decide for her",
+            "C": "That the wish to ride the bus had become the strongest thing in her mind",
+            "D": "That she is far more interested in the town than in the journey itself"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:B:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that completes this sentence correctly: 'Every day after lunch, Valli's mother ________ from about one to four in the afternoon.' (A) napped (B) would nap (C) has been napping (D) will nap",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "would nap",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Every day after lunch\nher mother would nap from about one to four or so.",
+            "Valli always used these hours"
+          ],
+          "objective": true,
+          "options": {
+            "A": "napped",
+            "B": "would nap",
+            "C": "has been napping",
+            "D": "will nap"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:B:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that changes this sentence into the passive voice correctly: 'We could see a speck of a train in the distance.' (A) A speck of a train was seen in the distance (B) A speck of a train was being seen in the distance (C) A speck of a train could been seen in the distance (D) A speck of a train could be seen in the distance",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A speck of a train could be seen in the distance",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "A speck of a train\ncould be seen in the distance, growing bigger and"
+          ],
+          "objective": true,
+          "options": {
+            "A": "A speck of a train was seen in the distance",
+            "B": "A speck of a train was being seen in the distance",
+            "C": "A speck of a train could been seen in the distance",
+            "D": "A speck of a train could be seen in the distance"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:B:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that completes this sentence correctly: 'She suddenly saw a young cow lying dead by the roadside, just where it ________ by some fast-moving vehicle.' (A) had been struck (B) has been struck (C) was striking (D) struck",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "had been struck",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "she saw a young cow lying\ndead by the roadside",
+            "dead by the roadside, just where it had been struck\nby some fast-moving vehicle."
+          ],
+          "objective": true,
+          "options": {
+            "A": "had been struck",
+            "B": "has been struck",
+            "C": "was striking",
+            "D": "struck"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:C:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "You are travelling by yourself from your village to the nearest town and will be back before four in the afternoon. Write a message of about 100 words to your mother telling her where you are going, when you will be back, and how you will pay for the ticket.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: names the town and gives the timing of the trip, reaching the town at one forty-five and coming back by about two forty-five",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: explains the payment, thirty paise to the town and another thirty paise to return, out of the sixty paise saved",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: written as a message, with a greeting at the start and a closing at the end",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the points run in a sensible order, where she is going, when she will be back, how she will pay, and a final reassurance",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling and punctuation, with short sentences joined into connected writing",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dear Mother, I am going to the town this afternoon. I will take the one o'clock bus, reach the town at one forty-five and come back on the same bus by about two forty-five. I will be home long before four. Please do not worry about me. I have sixty paise saved, so I can pay thirty paise for the ticket there and another thirty paise to come back. I have not touched the money in the tin. I will take my own ticket and keep it safe. Your loving daughter, Valli",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "town, if she stayed in her seat and paid another\nthirty paise, she could return home on the same\nbus.",
+            "her mother would nap from about one to four or so."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:C:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write an advertisement of about 100 words for your village notice board about the bus that runs between the village and the nearest town. Give the timings, the fare and the time the journey takes.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: states that the bus runs every hour, once to the town and once back",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: gives the distance of six miles, the journey time of forty-five minutes and the fare of thirty paise one way",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: mentions that another thirty paise brings the passenger home on the same bus",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: written as an advertisement, with a bold heading and short lines of advertising copy",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation, accuracy and expression: the facts are given in a clear order, with correct spelling, punctuation and joined sentences",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "BUS SERVICE: VILLAGE TO TOWN. A bus runs between this village and the nearest town every hour, once towards the town and once coming back. The town is six miles from the village and the trip takes forty-five minutes. The fare is thirty paise one way. If you stay in your seat at the town, you can return home on the same bus by paying another thirty paise. The one o'clock afternoon bus reaches the town at one forty-five and brings you back by about two forty-five. All are welcome to travel. Buy your ticket from the conductor and keep it safe.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It passed through her street each hour, once\ngoing to the town and once coming back.",
+            "The town was six miles from her village.",
+            "The fare was thirty paise one way"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:C:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A friend of yours says that a bus journey is boring because nothing happens on the road. Write a paragraph of about 100 words on 'What a traveller can watch from a fast-moving bus', using the sights you have seen from a moving vehicle.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: lists the sights seen from the window, such as rivers, green fields, hills, roadside shops and market places",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: includes railway tracks, moving trains and vehicles on the road",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: mentions trees, a crowd, clothes in shops and animals on the road",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format and organisation: one continuous paragraph, not a list, with a clear opening and a closing sentence",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling and punctuation, with sentences of different lengths joined smoothly",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A fast-moving bus shows a traveller far more than the road ahead. From the window one can see rivers, green fields and hills, and roadside shops and market places going by. Railway tracks run along the ground, and moving trains keep pace with the bus. Vehicles on the road appear and vanish in a moment. Trees seem to come running towards the bus and then stand still by the roadside. One can also see a crowd, clothes in shops and animals on the road. Even a vehicle that seems about to be swallowed by the bus passes on smoothly, and every view is a new one before the next begins.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "rivers\ngreen fields\nhills\nroadside shops\nmarket places",
+            "railway tracks\nmoving trains\nvehicles on the road\ntrees\na crowd\nclothes in shops\nanimals",
+            "Trees\ncame running towards them but then stopped as\nthe bus reached them and simply stood there"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:D:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "The bus was now going along the bank of a canal.\nThe road was very narrow. On one side there was\nthe canal and, beyond it, palm trees, grassland,\ndistant mountains, and the blue, blue sky. On the\nother side was a deep ditch\n\nThe extract places a canal on one side of the road and a deep ditch on the other. What is the effect of this on the journey? (A) It shows that the country outside the village is dull and unchanging (B) It shows that the driver had to stop the bus so that Valli could look at the scenery (C) It shows that the bus ran on a narrow road, with a canal on one side and a deep ditch on the other (D) It shows that the canal water was so wide that the bus could not cross it",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "It shows that the bus ran on a narrow road, with a canal on one side and a deep ditch on the other",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The road was very narrow. On one side there was\nthe canal and, beyond it, palm trees, grassland,\ndistant mountains, and the blue, blue sky. On the\nother side was a deep ditch"
+          ],
+          "objective": true,
+          "options": {
+            "A": "It shows that the country outside the village is dull and unchanging",
+            "B": "It shows that the driver had to stop the bus so that Valli could look at the scenery",
+            "C": "It shows that the bus ran on a narrow road, with a canal on one side and a deep ditch on the other",
+            "D": "It shows that the canal water was so wide that the bus could not cross it"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:D:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "in front of Valli, above the windshield, there was a\nbeautiful clock. The seats were soft and luxurious.\nValli devoured everything with her eyes. But\nwhen she started to look outside, she found her\nview cut off by a canvas blind that covered the lower\npart of her window. So she stood up on the seat\nand peered over the blind.\n\nIn the extract, Valli stands up on the seat instead of sitting down. What makes her do this? (A) She wants to reach the clock above the windshield so that she can read the time (B) She is angry with the conductor and refuses to sit anywhere near him (C) She has heard a loud noise outside and wants to see who is making it (D) A canvas blind has cut off the lower part of her view, so she stands up to peer over it",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A canvas blind has cut off the lower part of her view, so she stands up to peer over it",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "when she started to look outside, she found her\nview cut off by a canvas blind that covered the lower\npart of her window.",
+            "So she stood up on the seat\nand peered over the blind."
+          ],
+          "objective": true,
+          "options": {
+            "A": "She wants to reach the clock above the windshield so that she can read the time",
+            "B": "She is angry with the conductor and refuses to sit anywhere near him",
+            "C": "She has heard a loud noise outside and wants to see who is making it",
+            "D": "A canvas blind has cut off the lower part of her view, so she stands up to peer over it"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:D:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "At last the cow moved off the road. And soon the\nbus came to a railroad crossing. A speck of a train\ncould be seen in the distance, growing bigger and\nbigger as it drew near. Then it rushed past the\ncrossing gate with a tremendous roar and rattle,\n\nThe extract builds up one sight after another as the bus moves on. What does this show about Valli's first journey? (A) That Valli is bored by the time the bus reaches the crossing (B) That every new sight on the road fills her with wonder and excitement (C) That the journey is so long that she feels tired by the end of it (D) That she is more afraid of the train than of anything else on the road",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "That every new sight on the road fills her with wonder and excitement",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "A speck of a train\ncould be seen in the distance, growing bigger and\nbigger as it drew near.",
+            "Then it rushed past the\ncrossing gate with a tremendous roar and rattle,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "That Valli is bored by the time the bus reaches the crossing",
+            "B": "That every new sight on the road fills her with wonder and excitement",
+            "C": "That the journey is so long that she feels tired by the end of it",
+            "D": "That she is more afraid of the train than of anything else on the road"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:E:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why does Valli stand up on the seat instead of sitting down, and what does she see when she does so?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "A canvas blind covered the lower part of her window and cut off her view",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She stands up on the seat so that she can peer over the blind",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She sees the canal, palm trees, grassland, distant mountains, the blue sky, a deep ditch and green fields",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A canvas blind covered the lower part of Valli's window and cut off her view, so she stands up on the seat to peer over it. She now sees the bank of a canal on a very narrow road, with palm trees, grassland, distant mountains and the blue sky on one side, a deep ditch and green fields on the other.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "when she started to look outside, she found her\nview cut off by a canvas blind that covered the lower\npart of her window.",
+            "So she stood up on the seat\nand peered over the blind.",
+            "On one side there was\nthe canal and, beyond it, palm trees, grassland,\ndistant mountains, and the blue, blue sky."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:E:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why is Valli unwilling to befriend the elderly woman who comes and sits beside her on the bus?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The big holes in her ear lobes, the ugly earrings and the betel nut she chews make Valli find the woman repulsive",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The woman goes on prying into where Valli is going, which street and which house number",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Valli tells the woman to mind her own business",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Valli finds the elderly woman repulsive because of the big holes in her ear lobes, the ugly earrings in them and the smell of the betel nut she is chewing. The woman also goes on asking where Valli is going, which street and which house number. Valli tells her to mind her own business.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "big holes she had in her ear lobes, and such ugly",
+            "earrings in them! And she could smell the betel nut",
+            "But the old woman went on with her drivel."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:E:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "How does Valli save the money for her journey, and how does she manage to slip out of the house without her mother knowing?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She thriftily saves every stray coin that comes her way, resisting peppermints, toys and balloons",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "At the village fair she gives up even the merry-go-round although she has the money",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She chooses her mother's nap hours, from about one to four after lunch, and slips out without her mother knowing",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Valli thriftily saves whatever stray coins come her way, resisting every temptation to buy peppermints, toys and balloons, and at last she has a total of sixty paise. She even gives up the merry-go-round at the village fair although she has the money. Her mother naps from about one to four, and Valli uses these same hours for her excursion.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "thriftily saved whatever stray coins came her way,",
+            "total of sixty paise. How difficult it had been,",
+            "her mother would nap from about one to four or so."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:F:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Trace how Valli's wish to ride the bus grows into a careful plan and then into a real journey. Present your answer in steps.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "She has no playmates and watches the street from her doorway, where the hourly bus is the most fascinating thing of all",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The bus, filled each time with a new set of passengers, gives her unending joy, and a tiny wish grows into an overwhelming desire",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She listens to conversations between her neighbours and people who use the bus, and asks discreet questions",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She learns the town is six miles away, the fare is thirty paise one way, the trip takes forty-five minutes and another thirty paise brings her home",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She thriftily saves sixty paise, resisting peppermints, toys and balloons, and gives up the merry-go-round at the village fair",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She calculates that the one o'clock afternoon bus brings her home by about two forty-five, then stops the bus on a fine spring day and pays her own fare",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) Valli has no playmates, so she stands at her doorway and watches the street, where the hourly bus is the most fascinating thing of all. (2) Filled each time with new passengers, the bus gives her unending joy, and a tiny wish grows into an overwhelming desire to ride. (3) She listens carefully to conversations between her neighbours and people who use the bus, and asks discreet questions. (4) She learns that the town is six miles away, the fare is thirty paise one way, the trip takes forty-five minutes, and another thirty paise brings her home. (5) She thriftily saves sixty paise and gives up even the merry-go-round at the fair. (6) On a fine spring day she stops the bus and pays her own fare.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The most fascinating thing of all was the bus\nthat travelled between her village and the nearest\ntown.",
+            "Day after day she watched the bus, and\ngradually a tiny wish crept into her head and\ngrew there: she wanted to ride on that bus, even\nif just once.",
+            "carefully to conversations between her neighbours\nand people who regularly used the bus, and she also"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:F:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "How does Valli behave on the bus to show that she means to be treated as a grown-up passenger who has paid her own way? Present your answer in steps.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "She stands outside the moving bus, calls out to stop it and shows the conductor some coins",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She refuses the conductor's helping hand and insists that she can get on by herself",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The conductor jokes that she is a very grown-up madam and that a mere girl could not pay her own fare and travel to the city alone",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She tells the elderly man that there is nobody there who is a child and that she has paid her thirty paise like everyone else",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She reminds the conductor that he has not yet given her her ticket, and the conductor mimics her tone",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Everyone laughs, the conductor punches her ticket, and she stands on the seat again because she wants to",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) She stands outside the bus, calls out to stop it and shows the conductor some coins. (2) She refuses the hand he stretches out to help her up. (3) The conductor calls her a very grown-up madam and jokes that a mere girl could not pay her own fare and travel alone. (4) She tells the elderly man that there is nobody there who is a child and that she has paid her thirty paise like everyone else. (5) She reminds the conductor that he has not given her her ticket; he mimics her tone and everyone laughs. (6) Warned that she may fall, she says irritably that she is eight years old and stands up again because she wants to.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "She showed him some coins.",
+            "Do you think a mere girl\ncould pay her own fare and travel to the city",
+            "Everyone laughed, and gradually Valli too\njoined in the laughter."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:07:F:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/madam-rides-the-bus"
+      ],
+      "taxonomyChapterId": "english-10/madam-rides-the-bus",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "How does the writer bring out the wonder of Valli's first journey by bus? Present your answer in steps.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "The bus is new and comfortable, with a gleaming white outside, green stripes, shining bars, a clock and soft luxurious seats",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Valli devours everything with her eyes and stands on the seat to peer over the canvas blind",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The road is narrow, with a canal, palm trees, grassland, distant mountains and blue sky on one side and a deep ditch and green fields on the other",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Trees seem to come running towards the bus and then stand helplessly by the roadside",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The bus seems on the point of gobbling up another vehicle or a pedestrian, yet passes on smoothly, leaving all obstacles safely behind",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The galloping cow and the train rushing past the crossing gate with a tremendous roar and rattle fill her with excitement",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "(1) The bus is new: a gleaming white outside with green stripes, bars that shine like silver, a clock above the windshield and soft luxurious seats. (2) Valli devours everything with her eyes and stands on the seat to peer over the canvas blind. (3) The road is very narrow, with the canal, palm trees, grassland, distant mountains and blue sky on one side, a deep ditch and green fields on the other. (4) Trees seem to run towards the bus and then stand helplessly by the roadside. (5) The bus seems on the point of gobbling up another vehicle or a pedestrian, yet passes on smoothly. (6) A galloping cow and a train rushing past the crossing gate with a tremendous roar and rattle fill her with delight.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It was a new bus, its outside painted a gleaming\nwhite with some green stripes along the sides.",
+            "Trees\ncame running towards them but then stopped as\nthe bus reached them and simply stood there\nhelpless for a moment by the side of the road before\nrushing away in the other direction.",
+            "The bus slowed to a crawl, and the driver\nsounded his horn loudly again and again."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      7
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

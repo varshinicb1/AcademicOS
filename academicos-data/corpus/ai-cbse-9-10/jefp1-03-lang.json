@@ -1,0 +1,1409 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jefp1:03:A:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "“You are disappointed,” Ausable said wheezily over his shoulder. “You were told that I was a secret agent, a spy, dealing in espionage and danger. You wished to meet me because you are a writer, young and romantic. You envisioned mysterious figures in the night, the crack of pistols, drugs in the wine.”\n\nWhich picture of a secret agent had Fowler been expecting when he followed Ausable to the hotel? (A) A coded message slipped into his hand by a dark-eyed beauty (B) Mysterious figures in the night, the crack of pistols, drugs in the wine (C) A prosaic telephone call making an appointment in his room (D) A waiter arriving with a tray, a bottle and two glasses",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Mysterious figures in the night, the crack of pistols, drugs in the wine",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "You envisioned mysterious figures in the night, the crack of pistols, drugs in the wine.",
+            "“Instead, you have spent a dull evening in a French music hall with a sloppy fat man who, instead of having messages slipped into his hand by dark-eyed beauties, gets only a prosaic telephone call making an appointment in his room."
+          ],
+          "objective": true,
+          "options": {
+            "A": "A coded message slipped into his hand by a dark-eyed beauty",
+            "B": "Mysterious figures in the night, the crack of pistols, drugs in the wine",
+            "C": "A prosaic telephone call making an appointment in his room",
+            "D": "A waiter arriving with a tray, a bottle and two glasses"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:A:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "“It’s not my balcony,” Ausable said with extreme irritation. “It belongs to the next apartment.” He glanced explanatorily at Fowler. “You see,” he said, “this room used to be part of a large unit, and the next room — through that door there — used to be the living room. It had the balcony, which extends under my window now. You can get onto it from the empty room two doors down — and somebody did, last month. The management promised to block it off. But they haven’t.”\n\nWhich explanation from the passage best accounts for why the other spy believed the balcony was really there? (A) A balcony that the management blocked off after somebody used it last month (B) A balcony that the other spy had seen for himself before he climbed in (C) The balcony of the living room of the large unit this room was once part of (D) A balcony on the sixth and top floor that every guest could reach from the corridor",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The balcony of the living room of the large unit this room was once part of",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“It’s not my balcony,” Ausable said with extreme irritation. “It belongs to the next apartment.”",
+            "this room used to be part of a large unit, and the next room — through that door there — used to be the living room. It had the balcony, which extends under my window now.",
+            "The management promised to block it off. But they haven’t."
+          ],
+          "objective": true,
+          "options": {
+            "A": "A balcony that the management blocked off after somebody used it last month",
+            "B": "A balcony that the other spy had seen for himself before he climbed in",
+            "C": "The balcony of the living room of the large unit this room was once part of",
+            "D": "A balcony on the sixth and top floor that every guest could reach from the corridor"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:A:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "The door opened and a waiter stood there with a tray, a bottle and two glasses. “Here is the drink you ordered for when you returned,” he said, and set the tray on the table, deftly uncorked the bottle, and left the room. White-faced, Fowler stared after him. “But...” he stammered, “the police...” “There were no police.” Ausable sighed. “Only Henry, whom I was expecting.”\n\nA student finishes the extract and realises how completely the spy was fooled; which reaction shows that the young writer now understands the trick? (A) He is annoyed that the waiter uncorked the bottle without being asked. (B) He is certain that the police are still waiting outside the door. (C) He is relieved that the waiter has taken the empty bottle away. (D) He understands that there was never a balcony, so the spy cannot return.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He understands that there was never a balcony, so the spy cannot return.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“There were no police.” Ausable sighed. “Only Henry, whom I was expecting.”",
+            "“No,” said Ausable, “he won’t return. You see, my young friend, there is no balcony.”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "He is annoyed that the waiter uncorked the bottle without being asked.",
+            "B": "He is certain that the police are still waiting outside the door.",
+            "C": "He is relieved that the waiter has taken the empty bottle away.",
+            "D": "He understands that there was never a balcony, so the spy cannot return."
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:B:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that correctly completes this remark: “It might have saved me some trouble ______.” (A) if I knew about the balcony (B) had I known about the balcony (C) unless I had known about the balcony (D) when I would have known about the balcony",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "had I known about the balcony",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "It might have saved me some trouble had I known."
+          ],
+          "objective": true,
+          "options": {
+            "A": "if I knew about the balcony",
+            "B": "had I known about the balcony",
+            "C": "unless I had known about the balcony",
+            "D": "when I would have known about the balcony"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:B:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that correctly completes this sentence: “This is the second time in a month that somebody ______ into my room.” (A) had got (B) was getting (C) will get (D) has got",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "has got",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "This is the second time in a month that somebody has got into my room through that nuisance of a balcony!"
+          ],
+          "objective": true,
+          "options": {
+            "A": "had got",
+            "B": "was getting",
+            "C": "will get",
+            "D": "has got"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:B:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the option that correctly completes this sentence: “This room ______ part of a large unit before the new wall was put up.” (A) was used to being (B) is used to being (C) used to be (D) had been being",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "used to be",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "this room used to be part of a large unit, and the next room — through that door there — used to be the living room."
+          ],
+          "objective": true,
+          "options": {
+            "A": "was used to being",
+            "B": "is used to being",
+            "C": "used to be",
+            "D": "had been being"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:C:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a notice for the notice board of your apartment block, in about 100 words. A stranger has got into a flat on the top floor through an open balcony that extends under one of the windows, so warn residents and ask the management to block it off. Give your notice a suitable title.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: names the open balcony under the top-floor window and the danger of a stranger getting into a flat",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a clear title and a notice written to be pinned up, with a signature",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the warning comes first, then instructions to residents, then the request to the management",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, grammar and punctuation, with short simple sentences",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: clear, direct and polite wording suited to a notice board",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "NOTICE — DANGER ON THE TOP FLOOR\n\nThe management must block off the balcony that extends under the window of the sixth and top floor. Somebody has got into a flat through it, and the balcony is not even his own. Until the work is done, please do not step out on it and do not leave a room unlocked. If you hear a knock at the door after dark, ask who it is before you open it. Report anything strange to the management at once, and warn the children and older members of your family.\n\nA resident",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The management promised to block it off. But they haven’t.",
+            "this room used to be part of a large unit, and the next room — through that door there — used to be the living room. It had the balcony, which extends under my window now."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:C:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "You are staying in a hotel room on the sixth and top floor and a strange man walks in and waits by the window. Write a formal letter of 100 words to the manager: describe what happened and ask him to block off the balcony that extends under your window.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: describes the strange man, the room and the balcony that reaches the window",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a formal letter with a greeting, the body and a polite closing with a signature",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the complaint comes first, then the request for action and a reply",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, grammar, punctuation and the formal word order of a letter",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: polite but firm wording, clear and to the point",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dear Sir or Madam,\n\nDuring my stay in your hotel on the sixth and top floor, a strange man walked into my room and stood by the window. He said he had used a passkey. I believe he came in through the balcony that extends under my window from the next apartment, and that nobody should be able to reach a room from outside. Please block off that balcony at once and tell me what you have done about it.\n\nYours faithfully,\n[Your Name]",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“I’m going to raise the devil with the management this time, and you can bet on it,” he said grimly.",
+            "“Balcony?” Max said, with a rising inflection. “No, a passkey. I did not know about the balcony."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:C:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a paragraph of about 100 words on a moment when you or someone in your family kept calm in a dangerous situation and used presence of mind. Narrate one small incident and end with what you learnt from it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: narrates one clear incident in which somebody stayed calm and acted wisely",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a single connected paragraph of about 100 words, not a list",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the incident is told in order, from the danger to the action taken to the lesson",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, grammar, punctuation and consistent tense throughout",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: simple, direct language that conveys the feeling of remaining calm",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Last month a small fire started in my kitchen while I was cooking. Instead of panicking, I switched off the gas and poured water on the flames. I then called for help and moved my family to a safe place, and waited to see whether the fire was out before we went back into the kitchen. Nothing serious happened. I learnt that calmness in an emergency is the first step to safety, and that thinking ahead about what to do is a habit worth building long before the danger comes.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "In this story, Ausable shows great ‘presence of mind,’ or the ability to think quickly, and act calmly and wisely, in a situation of danger and surprise.",
+            "A small fire starts in your kitchen."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:D:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "“Instead, you have spent a dull evening in a French music hall with a sloppy fat man who, instead of having messages slipped into his hand by dark-eyed beauties, gets only a prosaic telephone call making an appointment in his room. You have been bored!”\n\nIn the extract, why does Ausable mock the young writer? (A) He is warning the writer that the report will not arrive tonight. (B) He is apologising for the poor service in the French music hall. (C) He is mocking the romantic picture of a spy that the writer had expected to meet. (D) He is angry that the writer has followed him back to his room.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He is mocking the romantic picture of a spy that the writer had expected to meet.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“Instead, you have spent a dull evening in a French music hall with a sloppy fat man who, instead of having messages slipped into his hand by dark-eyed beauties, gets only a prosaic telephone call making an appointment in his room. You have been bored!”",
+            "You envisioned mysterious figures in the night, the crack of pistols, drugs in the wine.”"
+          ],
+          "objective": true,
+          "options": {
+            "A": "He is warning the writer that the report will not arrive tonight.",
+            "B": "He is apologising for the poor service in the French music hall.",
+            "C": "He is mocking the romantic picture of a spy that the writer had expected to meet.",
+            "D": "He is angry that the writer has followed him back to his room."
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:D:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "Max was slender, a little less than tall, with features that suggested slightly the crafty, pointed countenance of a fox. There was about him — aside from the gun — nothing especially menacing. “The report,” he murmured. “The report that is being brought to you tonight concerning some new missiles. I thought I would take it from you. It will be safer in my hands than in yours.”\n\nIn the extract, the writer compares Max's face to that of a fox; what quality of Max does that image bring out? (A) That he is cunning and sly rather than openly violent (B) That he is physically weak and could be overpowered (C) That he is young and inexperienced in the spy's work (D) That he is loyal to the man he has come to see",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "That he is cunning and sly rather than openly violent",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Max was slender, a little less than tall, with features that suggested slightly the crafty, pointed countenance of a fox.",
+            "There was about him — aside from the gun — nothing especially menacing."
+          ],
+          "objective": true,
+          "options": {
+            "A": "That he is cunning and sly rather than openly violent",
+            "B": "That he is physically weak and could be overpowered",
+            "C": "That he is young and inexperienced in the spy's work",
+            "D": "That he is loyal to the man he has come to see"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:D:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "competency_based",
+      "stem": "“What will you do now, Max?” Ausable asked. “If I do not answer the door, they will enter anyway. The door is unlocked. And they will not hesitate to shoot.” Max’s face was black with anger as he backed swiftly towards the window. He swung a leg over the sill. “Send them away!” he warned. “I will wait on the balcony. Send them away or I’ll shoot and take my chances!”\n\nIn the extract, why does the mention of the police at the door make the man at the window climb out? (A) He realises that the balcony under the window is the only safe way out (B) He has suddenly remembered an appointment that he must keep downstairs (C) He prefers the cold balcony to staying any longer in the locked room (D) He believes the threat is real and trusts that the balcony gives him a way to escape",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He believes the threat is real and trusts that the balcony gives him a way to escape",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“What will you do now, Max?” Ausable asked. “If I do not answer the door, they will enter anyway. The door is unlocked. And they will not hesitate to shoot.”",
+            "Max’s face was black with anger as he backed swiftly towards the window. He swung a leg over the sill."
+          ],
+          "objective": true,
+          "options": {
+            "A": "He realises that the balcony under the window is the only safe way out",
+            "B": "He has suddenly remembered an appointment that he must keep downstairs",
+            "C": "He prefers the cold balcony to staying any longer in the locked room",
+            "D": "He believes the threat is real and trusts that the balcony gives him a way to escape"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:E:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Why does Ausable give such a detailed account of the balcony belonging to the next apartment instead of plainly denying that any balcony exists? Answer in about 50 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Max would not have believed a plain denial, so Ausable gave an explanation full of detail instead",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The details were checkable: the room was once part of a large unit whose living room had the balcony, and somebody had used it last month",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The management had promised to block the balcony off but had not, so the lie could not be tested",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Ausable knew Max would not believe a flat denial, so he gave a detailed explanation. The room had once been part of a large unit whose living room had the balcony. Somebody had used it last month, and the management had promised to block it off but had not. A lie packed with checkable facts is hard to argue with.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“It’s not my balcony,” Ausable said with extreme irritation. “It belongs to the next apartment.”",
+            "You can get onto it from the empty room two doors down — and somebody did, last month. The management promised to block it off. But they haven’t."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:E:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "How does Fowler's attitude towards Ausable change from the moment he follows him to the hotel until the waiter leaves the room? Answer in about 50 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "At first Fowler is let down, because Ausable is fat and has an accent instead of being the spy he had imagined",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He has his first authentic thrill of the day when the light comes on and a man with a small automatic pistol is revealed",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "By the end he is white-faced and disbelieving when a waiter enters instead of the police, and learns there is no balcony at all",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Fowler is first disappointed, because Ausable is a fat, accented American man and not the mysterious figure he had pictured. His first authentic thrill comes when the light comes on and a man with a small automatic pistol stands there. At the end he is white-faced when a waiter arrives instead of the police.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Following him down the musty corridor of the gloomy French hotel where Ausable had a room, Fowler felt let down.",
+            "And as the light came on, Fowler had his first authentic thrill of the day. For halfway across the room, a small automatic pistol in his hand, stood a man.",
+            "White-faced, Fowler stared after him. “But...” he stammered, “the police...”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:E:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "What does Max say about the report he has come to take, and why does he believe he should keep it? Answer in about 50 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Max says the report concerns some new missiles and is being brought to Ausable that night",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He wants to take it from Ausable because he believes it will be safer in his own hands than in Ausable's",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He means to take it only for the night, saying that no harm has been done and that he will get it back tonight",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Max says the report concerns some new missiles and is being brought to Ausable that night. He has come to take it because he believes it will be safer in his hands than in Ausable's. He does not mean to keep it, saying that no harm has been done and that he will get it back tonight.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“The report,” he murmured. “The report that is being brought to you tonight concerning some new missiles. I thought I would take it from you. It will be safer in my hands than in yours.”",
+            "“And we wish we knew how your people got the report. But no harm has been done. I will get it back tonight."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:F:101",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "A reader claims that Ausable planned every step of the encounter in advance. Set out, step by step, in about 120 words, how he actually gets rid of Max, and say whether he really worked the whole plan out beforehand.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Ausable tells Max that the police are at the door, that the door is unlocked and that they will shoot if he does not answer",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Max believes the threat, grows angry and backs swiftly towards the window",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Max swings a leg over the sill to wait on the balcony, believing that it is there",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Max pushes off the sill to drop down and screams once, shrilly",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A waiter enters with a tray, a bottle and two glasses instead of the police",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Ausable reveals that only Henry was expected and that there is no balcony, so Max will not return",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Ausable warns Max that he has asked the police to check on his room, and that the door is unlocked and they will not hesitate to shoot.\n2. Max believes him, grows angry, and backs swiftly towards the window.\n3. Max swings a leg over the sill and says he will wait on the balcony.\n4. Ausable keeps him covered until Max pushes off the sill to drop down, and Max screams once, shrilly.\n5. The doorknob turns and a waiter comes in with a tray, a bottle and two glasses.\n6. Ausable then explains that only Henry was expecting him and that there is no balcony, so Max will never return. The plan was made up as events happened.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“That will be the police,” he said. “I thought that such an important paper as the one we are waiting for should have a little extra protection. I told them to check on me to make sure everything was all right.”",
+            "“There were no police.” Ausable sighed. “Only Henry, whom I was expecting.”",
+            "“No,” said Ausable, “he won’t return. You see, my young friend, there is no balcony.”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:F:102",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "Explain, in about 120 words and in clear steps, why Ausable's appearance and his room are described in such detail before the man with the pistol is finally revealed, and what effect this has on the reader.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "The account opens by saying Ausable did not fit any description of a secret agent Fowler had ever read",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Ausable is described as fat and as still carrying the American accent he brought from Boston twenty years ago",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "His room is small, on the sixth and top floor, and scarcely a setting for a romantic adventure",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He speaks of a dull evening in a French music hall and of only a prosaic telephone call",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The reader is led to expect boredom and disappointment rather than danger",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The pistol is revealed when the light comes on, giving Fowler his first authentic thrill",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. The account opens by saying Ausable did not fit any description of a secret agent Fowler had ever read.\n2. He is described as fat, and as still carrying the American accent he brought to Paris from Boston twenty years ago.\n3. His room is small, on the sixth and top floor, and scarcely a setting for a romantic adventure.\n4. He speaks of a dull evening in a French music hall and of only a prosaic telephone call.\n5. Fowler and the reader are therefore prepared for boredom, not danger.\n6. So when the light comes on and a man with a small automatic pistol stands there, the surprise lands.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Ausable was, for one thing, fat. Very fat.",
+            "altogether lost the American accent he had brought to Paris from Boston twenty years ago.",
+            "And as the light came on, Fowler had his first authentic thrill of the day. For halfway across the room, a small automatic pistol in his hand, stood a man."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jefp1:03:F:103",
+      "questionBankId": "ai-cbse:jefp1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-midnight-visitor"
+      ],
+      "taxonomyChapterId": "english-10/the-midnight-visitor",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "long_answer",
+      "stem": "Set out, step by step and in about 120 words, how Ausable builds up the account of the balcony so completely that Max believes it, and explain what happens to Max as a result.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Ausable calls the balcony a nuisance and says this is only the second time in a month that somebody has got in through it",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He tells Max that a passkey is wrong, because the balcony is not his and belongs to the next apartment",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He explains that this room used to be part of a large unit and that the next room was the living room",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He says the balcony extends under his window and can be reached from the empty room two doors down",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He adds that somebody did so last month and that the management promised to block it off but did not",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Max never knew of the balcony, believes him, climbs out and screams, because there is no balcony at all",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Ausable complains that this is the second time in a month that somebody has got into his room through the balcony.\n2. When Max claims to have used a passkey, he replies that the balcony is not his; it belongs to the next apartment.\n3. He explains that this room used to be part of a large unit and that the next room was the living room.\n4. He adds that the balcony extends under his window and can be reached from the empty room two doors down.\n5. He adds that somebody did so last month and that the management promised to block it off but did not.\n6. Max is convinced. He climbs out, drops down and screams, because there is no balcony at all.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "“This is the second time in a month that somebody has got into my room through that nuisance of a balcony!”",
+            "“It’s not my balcony,” Ausable said with extreme irritation. “It belongs to the next apartment.”",
+            "“No,” said Ausable, “he won’t return. You see, my young friend, there is no balcony.”"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jefp1 ch3",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jefp1",
+    "chapters": [
+      3
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

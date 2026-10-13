@@ -1,0 +1,245 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jesc1:05:AR:101",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/life-processes"
+      ],
+      "taxonomyChapterId": "science-10/life-processes",
+      "topic": "What Are Life Processes?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion: A student watching a fish in the school aquarium finds that the fish opens and closes its mouth many more times in one minute than the student breathes in and out in one minute.\n2. Reason: The amount of dissolved oxygen is fairly low compared to the amount of oxygen in the air.\nChoose the correct option: (A) Both 1 and 2 are true and 2 is the correct explanation for 1 (B) Both 1 and 2 are true but 2 is not the correct explanation for 1 (C) 1 is true but 2 is false (D) Both 1 and 2 are false",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both 1 and 2 are true and 2 is the correct explanation for 1",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Since the amount of dissolved oxygen is fairly low compared\nto the amount of oxygen in the air, the rate of breathing in aquatic\norganisms is much faster than that seen in terrestrial organisms.",
+            "Count the number of times the fish opens and closes its mouth in\na minute.",
+            "Compare this to the number of times you breathe in and out in a\nminute."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both 1 and 2 are true and 2 is the correct explanation for 1",
+            "B": "Both 1 and 2 are true but 2 is not the correct explanation for 1",
+            "C": "1 is true but 2 is false",
+            "D": "Both 1 and 2 are false"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch5",
+        "pages": [
+          1,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:05:AR:102",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/life-processes"
+      ],
+      "taxonomyChapterId": "science-10/life-processes",
+      "topic": "What Are Life Processes?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion: In human beings, the exchange of oxygen and carbon dioxide during breathing takes place in the balloon-like structures called alveoli, whose walls carry an extensive network of blood-vessels.\n2. Reason: That exchange takes place across the rings of cartilage that are present in the throat.\nChoose the correct option: (A) Both 1 and 2 are true and 2 is the correct explanation for 1 (B) Both 1 and 2 are true but 2 is not the correct explanation for 1 (C) 1 is true but 2 is false (D) Both 1 and 2 are false",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1 is true but 2 is false",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "where the exchange of gases can take place. The walls of the alveoli",
+            "contain an extensive network of blood-vessels. As we have seen",
+            "present in the throat. These ensure that the air-passage does"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both 1 and 2 are true and 2 is the correct explanation for 1",
+            "B": "Both 1 and 2 are true but 2 is not the correct explanation for 1",
+            "C": "1 is true but 2 is false",
+            "D": "Both 1 and 2 are false"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch5",
+        "pages": [
+          1,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99
+        ],
+        "promptVersion": 1
+      }
+    },
+    {
+      "id": "ai:cbse:jesc1:05:AR:103",
+      "questionBankId": "ai-cbse:jesc1",
+      "subject": "Science",
+      "grade": 10,
+      "chapterIds": [
+        "science-10/life-processes"
+      ],
+      "taxonomyChapterId": "science-10/life-processes",
+      "topic": "What Are Life Processes?",
+      "difficulty": "medium",
+      "bloomLevel": "analyze",
+      "type": "assertion_reason",
+      "stem": "Assertion: A fish in an aquarium takes in air from the atmosphere through its mouth, in much the same way as a human being takes in air through the nostrils.\n2. Reason: The oxygen that a fish uses is taken up by its lungs and is then carried to the rest of the body by blood.\nChoose the correct option: (A) Both 1 and 2 are true and 2 is the correct explanation for 1 (B) Both 1 and 2 are true but 2 is not the correct explanation for 1 (C) 1 is true but 2 is false (D) Both 1 and 2 are false",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Both 1 and 2 are false",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Fishes take in water through their mouths and force it past the\ngills where the dissolved oxygen is taken up by blood.",
+            "Terrestrial animals can breathe the oxygen in the\natmosphere, but animals that live in water need to use the oxygen\ndissolved in water."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Both 1 and 2 are true and 2 is the correct explanation for 1",
+            "B": "Both 1 and 2 are true but 2 is not the correct explanation for 1",
+            "C": "1 is true but 2 is false",
+            "D": "Both 1 and 2 are false"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "AR Assertion-Reason",
+        "chapter": "jesc1 ch5",
+        "pages": [
+          1,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99
+        ],
+        "promptVersion": 1
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jesc1",
+    "chapters": [
+      5
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

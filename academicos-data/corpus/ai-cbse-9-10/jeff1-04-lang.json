@@ -1,0 +1,1175 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:04:B:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/from-the-diary-of-anne-frank"
+      ],
+      "taxonomyChapterId": "english-10/from-the-diary-of-anne-frank",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "You are copying out this line as a heading for your notebook — ‘______ a diary is like speaking to oneself.’ — which word correctly fills the blank? (A) Write (B) Written (C) Writing (D) To write",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Writing",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Writing a diary is like speaking to oneself. Plays (and often, novels) also have\nspeech in written form. So we usually come across contracted forms in"
+          ],
+          "objective": true,
+          "options": {
+            "A": "Write",
+            "B": "Written",
+            "C": "Writing",
+            "D": "To write"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:04:B:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/from-the-diary-of-anne-frank"
+      ],
+      "taxonomyChapterId": "english-10/from-the-diary-of-anne-frank",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A classmate asks you to help her look up a word in a dictionary and you tell her: ‘But you’ll find caught ______ under catch.’ Which word completes the sentence correctly? (A) list (B) lists (C) listing (D) listed",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "listed",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "You’ll find caught listed under catch."
+          ],
+          "objective": true,
+          "options": {
+            "A": "list",
+            "B": "lists",
+            "C": "listing",
+            "D": "listed"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:04:B:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/from-the-diary-of-anne-frank"
+      ],
+      "taxonomyChapterId": "english-10/from-the-diary-of-anne-frank",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "You are explaining the rule to a friend and say: ‘But if the first word is a grammatical word like a, the, for, etc., then ______ the next word.’ Which word completes the sentence correctly? (A) taking (B) take (C) you took (D) taken",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "take",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "But if the first word is a ‘grammatical’ word\nlike a, the, for, etc., then take the next word."
+          ],
+          "objective": true,
+          "options": {
+            "A": "taking",
+            "B": "take",
+            "C": "you took",
+            "D": "taken"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:04:C:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/from-the-diary-of-anne-frank"
+      ],
+      "taxonomyChapterId": "english-10/from-the-diary-of-anne-frank",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a letter to an old friend (about 100 words) telling her why you have started keeping a diary and why you have given your notebook a name.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: explains that she talks to her friends only about ordinary everyday things and that nobody gets any closer. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: says the diary is to be her friend instead of a bare record of facts, and gives it the name 'Kitty'. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a letter, with a greeting, the body in paragraphs and a suitable closing. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the reason and the plan are given in a clear, connected order. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct spelling, grammar and punctuation in a friendly tone. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dear Sunita,\nAll I think about when I am with my friends is having a good time. I cannot bring myself to talk about anything but ordinary everyday things, and we do not seem to be able to get any closer. That is why I have started a diary. I do not want to jot down facts the way most people do; I want the diary to be my friend, so I have called it ‘Kitty’. On paper I can say all the things I have kept off my chest.\nWrite back soon.\nYours,\nMeera",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "All I think about when I’m with friends is having a\ngood time. I can’t bring myself to talk about anything\nbut ordinary everyday things. We don’t seem to be\nable to get any closer, and that’s the problem.",
+            "in my imagination, I don’t want to jot down the\nfacts in this diary the way most people would do,\nbut I want the diary to be my friend, and I’m going\nto call this friend ‘Kitty’."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:04:C:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/from-the-diary-of-anne-frank"
+      ],
+      "taxonomyChapterId": "english-10/from-the-diary-of-anne-frank",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a speech (about 100 words) to be delivered in your school assembly on why students should keep a diary.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: gives the first reason — the writer seems to have everything, yet has nobody she can confide in. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: gives the second reason — paper has more patience than people and will listen without getting bored. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a speech, with a greeting to the audience and a short closing. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: opening, then the reasons in order, then a conclusion with advice. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct grammar and a formal, clear voice suited to an assembly. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Good morning, everyone. I want to speak to you about keeping a diary. Many of us have about thirty people we can call friends, and yet we speak to them only about ordinary everyday things. Paper has more patience than people. A notebook will not laugh at you, and it will listen to your worries without getting bored. So take a quiet half hour each evening and write honestly, and you will find that the thoughts you could not tell a friend are safely on paper. Start with one line about your day and go on from there. Thank you.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I have loving parents\nand a sixteen-year-old sister, and there are about\nthirty people I can call friends.",
+            "‘Paper has more patience than people.’ I thought\nof this saying on one of those days when I was feeling\na little depressed and was sitting at home with my\nchin in my hands, bored and listless, wondering"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:04:C:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/from-the-diary-of-anne-frank"
+      ],
+      "taxonomyChapterId": "english-10/from-the-diary-of-anne-frank",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write an e-mail (about 100 words) to your teacher asking for help, because you talk far too much in class and cannot seem to stop.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: admits to talking too much in class and says when this happens. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: asks for advice and promises to act on it. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: an e-mail, with a subject line, a greeting and a sign-off. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the problem, the attempt to improve and the request are set out in order. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy and expression: correct grammar and punctuation in a polite, respectful tone. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Subject: Request for help with talking too much in class\nDear Sir,\nI am writing to ask for your help. I know that I talk far too much in class, and I know that you have every reason to be annoyed with me. When my friends are behind me I get carried away and forget that the lesson is still going on. I once wrote three pages arguing that talking is a student’s trait, but I could not keep quiet in the very next lesson. Could you suggest something I can use when I feel the urge to speak? I promise to follow it.\nYours sincerely,\nIshaan",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "satisfied. I argued that talking is a student’s trait",
+            "but that I would never be able to cure myself of the\nhabit since my mother talked as much as I did if\nnot more, and that there’s not much you can do\nabout inherited traits."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:04:E:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/from-the-diary-of-anne-frank"
+      ],
+      "taxonomyChapterId": "english-10/from-the-diary-of-anne-frank",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Your friend keeps a notebook and has given it the name ‘Kitty’; why has she decided to do this?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She has no real friend to confide in and feels she has everything except her one true friend. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She does not want to jot down facts the way most people do; she wants the diary itself to be that friend. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Giving the friend the name ‘Kitty’ gives her someone to write to, as if a person were listening. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "She has no friend. She has loving parents and about thirty people she can call friends, but she seems to have everything except her one true friend. She does not want to jot down facts the way most people do; she wants the diary to be her friend, and she is going to call this friend ‘Kitty’.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Now I’m back to the point that prompted me\nto keep a diary in the first place: I don’t have a\nfriend.",
+            "in my imagination, I don’t want to jot down the\nfacts in this diary the way most people would do,\nbut I want the diary to be my friend, and I’m going\nto call this friend ‘Kitty’."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:04:E:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/from-the-diary-of-anne-frank"
+      ],
+      "taxonomyChapterId": "english-10/from-the-diary-of-anne-frank",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Your friend starts her diary with a page about her parents, her sister and the year she was born; why does she insist on doing this first?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "She says no one would understand a word of her stories to Kitty if she were to plunge right in. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So she decides to provide a brief sketch of her life, much as she dislikes doing so. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The sketch gives the family facts, such as Margot being born in Frankfurt in 1926 and her father emigrating to Holland in 1933. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "No one would understand a word of her stories to Kitty if she were to plunge right in, so she had better provide a brief sketch of her life. She records that Margot was born in Frankfurt in 1926, that she was born on 12 June 1929, and that her father emigrated to Holland in 1933.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Since no one would understand a word of my\nstories to Kitty if I were to plunge right in, I’d better\nprovide a brief sketch of my life, much as I dislike\ndoing so.",
+            "My sister, Margot, was born\nin Frankfurt in Germany in 1926. I was born on 12\nJune 1929. I lived in Frankfurt until I was four. My\nfather emigrated to Holland in 1933."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:04:E:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/from-the-diary-of-anne-frank"
+      ],
+      "taxonomyChapterId": "english-10/from-the-diary-of-anne-frank",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A teacher first punishes a pupil for talking in class and later reads her comic poem aloud to several other classes; how and why does his attitude change?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "At first he was annoyed with her for ages because she talked so much, and set her extra essays as punishment. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Then her friend, who was good at poetry, helped her write the poem in verse, and he took the joke the right way. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He read the poem to the class and to several other classes, and since then she has been allowed to talk with no extra homework. (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "He was annoyed with her for ages because she talked so much. Then her friend helped her write the poem in verse. He took the joke the right way, read it to the class and to several other classes, and since then she has been allowed to talk with no extra homework.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "annoyed with me for ages because I talked so much.",
+            "My friend,\nSanne, who’s good at poetry, offered to help me write\nthe essay from beginning to end in verse and I\njumped for joy.",
+            "allowed to talk and haven’t been assigned any extra\nhomework. On the contrary, Mr Keesing’s always\nmaking jokes these days."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:04:F:101",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/from-the-diary-of-anne-frank"
+      ],
+      "taxonomyChapterId": "english-10/from-the-diary-of-anne-frank",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Your friend finds that she can talk to her friends only about ordinary everyday things and that nobody seems to get any closer; set out, in steps, what she concludes about the problem and what she decides to do about it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Step 1: she notices that all she thinks about when she is with friends is having a good time (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: she cannot bring herself to talk about anything but ordinary everyday things (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: she and her friends do not seem to be able to get any closer, and that is the problem (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: maybe it is her fault that they do not confide in each other (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: in any case that is just how things are, and unfortunately they are not liable to change (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 6: so she starts a diary, wants it to be her friend rather than a bare record of facts, and calls that friend ‘Kitty’ (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. She notices that all she thinks about when she is with friends is having a good time.\n2. She cannot bring herself to talk about anything but ordinary everyday things.\n3. She and her friends do not seem to be able to get any closer, and that is the problem.\n4. Maybe it is her fault that they do not confide in each other.\n5. In any case that is just how things are, and unfortunately they are not liable to change.\n6. So she starts a diary. She does not want to jot down facts the way most people do; she wants the diary to be her friend, and she calls that friend ‘Kitty’.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "All I think about when I’m with friends is having a\ngood time. I can’t bring myself to talk about anything\nbut ordinary everyday things. We don’t seem to be\nable to get any closer, and that’s the problem.",
+            "any case, that’s just how things are, and\nunfortunately they’re not liable to change. This is\nwhy I’ve started the diary.",
+            "but I want the diary to be my friend, and I’m going\nto call this friend ‘Kitty’."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:04:F:102",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/from-the-diary-of-anne-frank"
+      ],
+      "taxonomyChapterId": "english-10/from-the-diary-of-anne-frank",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Mr Keesing punishes Anne again and again for talking far too much in class; set out, in steps, how three essays change his mind and win back her right to talk.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Step 1: Mr Keesing, the old fogey who teaches maths, was annoyed with her for ages because she talked so much, and after several warnings assigned extra homework (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: the first essay was on ‘A Chatterbox’; she wrote three pages arguing that talking is a student’s trait (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: she adds that she would never be able to cure the habit, because her mother talks as much as she does and it is an inherited trait (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: he laughs at her arguments, but when she talks her way through the next lesson he assigns a second essay, on ‘An Incorrigible Chatterbox’ (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: in the third lesson he has finally had enough and orders her to write ‘Quack, Quack, Quack, Said Mistress Chatterbox’ (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 6: Sanne helps her write it in verse; he takes the joke the right way, reads it to the class and to several other classes, and she is then allowed to talk with no extra homework (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. Annoyed — Mr Keesing, the old fogey who teaches maths, was annoyed with her for ages because she talked so much, and after several warnings assigned extra homework.\n2. First essay — the subject was ‘A Chatterbox’. She wrote three pages and argued that talking is a student’s trait.\n3. Her excuse — she would never be able to cure the habit, since her mother talks as much as she does.\n4. Second essay — he laughed, but when she talked her way through the next lesson he assigned one on ‘An Incorrigible Chatterbox’.\n5. Third punishment — in the third lesson he had finally had enough and ordered ‘Quack, Quack, Quack, Said Mistress Chatterbox’.\n6. He accepts her — Sanne wrote it in verse, he took the joke the right way, and she was then allowed to talk with no extra homework.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Keesing, the old fogey who teaches maths, was\nannoyed with me for ages because I talked so much.",
+            "not more, and that there’s not much you can do\nabout inherited traits.",
+            "poem to the class, adding his own comments, and\nto several other classes as well. Since then I’ve been\nallowed to talk and haven’t been assigned any extra\nhomework."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:04:F:103",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/from-the-diary-of-anne-frank"
+      ],
+      "taxonomyChapterId": "english-10/from-the-diary-of-anne-frank",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "Set out, in steps, the events in Anne’s family life that carry her from Frankfurt to the solemn dedication of her diary on 20 June 1942.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Step 1: her father emigrated to Holland in 1933, and her mother, Edith Hollander Frank, went with him in September (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: Margot and Anne were sent to Aachen to stay with their grandmother; Margot went to Holland in December and Anne followed in February (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: Anne went as a birthday present for Margot, and started at the Montessori nursery school, staying until she was six (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: in the sixth form her teacher was Mrs Kuperus, the headmistress, and at the end of the year the two said a heartbreaking farewell (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: in the summer of 1941 Grandma fell ill and had to have an operation, so Anne’s birthday passed with little celebration, and Grandma died in January 1942 (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 6: the 1942 celebration was meant to make up for that one, with Grandma’s candle lit along with the rest, and on 20 June 1942 the four of them were still doing well, so the diary is solemnly dedicated (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "1. 1933 — her father emigrated to Holland, and her mother Edith Hollander Frank went with him in September.\n2. Margot and Anne were sent to Aachen to stay with their grandmother. Margot went to Holland in December; Anne followed in February.\n3. Anne was a birthday present for Margot, and she started at the Montessori nursery school until she was six.\n4. In the sixth form her teacher was Mrs Kuperus, the headmistress, and at the year’s end they said a heartbreaking farewell.\n5. In the summer of 1941 Grandma fell ill and had an operation; she died in January 1942, and Anne’s 1942 birthday made up for the last one.\n6. Grandma’s candle was lit along with the rest, and on 20 June 1942 the four of them were still doing well, so the diary is solemnly dedicated.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "father emigrated to Holland in 1933. My mother,\nEdith Hollander Frank, went with him to Holland\nin September, while Margot and I were sent to\nAachen to stay with our grandmother.",
+            "In the summer of 1941 Grandma fell ill and had\nto have an operation, so my birthday passed with\nlittle celebration.",
+            "The four of us are still doing well, and that brings\nme to the present date of 20 June 1942, and the\nsolemn dedication of my diary."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch4",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "Someone has loving parents and about thirty people she can call friends, yet still says she has no ‘one true friend’; th"
+    },
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "You are feeling low and cannot decide whether to stay in or go out; the saying the writer turns to at such a moment is —"
+    },
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "Your own comic poem about a strict teacher is read out to the class and to several other classes, and the teacher is soo"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "You see two classmates staking their entire holiday savings on a bet and arguing about it from morning to night; accordi"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "You ask why a candle is lit at a birthday celebration for someone who can no longer attend; the extract shows that the w"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "stem-is-not-a-question",
+      "stem": "Your friend begins her diary with a long account of her childhood before writing anything personal; the best reason for "
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      4
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

@@ -1,0 +1,1290 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:ihga1:08:A:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/पद"
+      ],
+      "taxonomyChapterId": "hindi-9/पद",
+      "topic": "रैदास",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "अब कैसे छूटै राम रट लागी। प्रभु जी तुम चंदन हम पानी, जाकी अंग-अंग बास समानी। प्रभु जी तुम घन बन, हम मोरा, जैसे चितवत चंद चकोरा। प्रभु जी तुम दीपक, हम बाती, जाकी जोति बरै दिन राती। प्रभु जी तुम मोती, हम धागा, जैसे सोने मिलत सुहागा। प्रभु जी तुम स्वामी, हम दासा, ऐसी भगति करै रैदासा।\n\nउक्त पंक्तियों में भक्त ने आराध्य के लिए ‘स्वामी’ और अपने लिए ‘दासा’ कहा है; इससे भक्त की किस मनोवस्था का पता चलता है? (A) आराध्य के प्रति पूर्ण समर्पण और विनम्रता (B) आराध्य से कोई भी माँग न रखने का संकल्प (C) अपने श्रेष्ठत्व का घमंड (D) नाम जपने में असमर्थता की शिकायत",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "आराध्य के प्रति पूर्ण समर्पण और विनम्रता",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "प्रभु जी तुम स्वामी, हम दासा, ऐसी भगति करै रैदासा।",
+            "प्रभु जी तुम चंदन हम पानी, जाकी अंग-अंग बास समानी।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "आराध्य के प्रति पूर्ण समर्पण और विनम्रता",
+            "B": "आराध्य से कोई भी माँग न रखने का संकल्प",
+            "C": "अपने श्रेष्ठत्व का घमंड",
+            "D": "नाम जपने में असमर्थता की शिकायत"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:08:A:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/पद"
+      ],
+      "taxonomyChapterId": "hindi-9/पद",
+      "topic": "रैदास",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "competency_based",
+      "stem": "रैदास ने अपनी काव्य-रचनाओं में सरल, व्यावहारिक ब्रजभाषा का प्रयोग किया है, जिसमें अवधी, राजस्थानी, खड़ी बोली और उर्दू-फारसी के शब्दों का भी मिश्रण है। उनकी सरल ब्रज भाषा में लिखी भक्‍त ति रचनाएँ आदि श्री गुरु ग्रंथ साहिब जी में शामिल हैं और वे आज भी समानता, प्रेम और भाईचारे का संदेश देती हैं। उनकी रचनाएँ रैदास बानी में संकलित हैं।\n\nगद्यांश के अनुसार रैदास की भक्ति रचनाएँ आज भी किस मूल्य का संदेश देती हैं? (A) परंपरा और कर्मकांड का (B) व्यक्तिगत लाभ और यश का (C) अनुशासन और त्याग का (D) समानता, प्रेम और भाईचारे का",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "समानता, प्रेम और भाईचारे का",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "साहिब जी में शामिल हैं और वे आज भी समानता, प्रेम और भाईचारे का संदेश",
+            "देती हैं। उनकी रचनाएँ रैदास बानी में संकलित हैं।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "परंपरा और कर्मकांड का",
+            "B": "व्यक्तिगत लाभ और यश का",
+            "C": "अनुशासन और त्याग का",
+            "D": "समानता, प्रेम और भाईचारे का"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:08:B:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/पद"
+      ],
+      "taxonomyChapterId": "hindi-9/पद",
+      "topic": "रैदास",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "उन्होंने बाह्य आडंबरों का खंडन कर मन की शुद्धता और आंतरिक भक्‍त ति को ही सच्चा धर्म माना है। रैदास ने अपनी काव्य-रचनाओं में सरल, व्यावहारिक ब्रजभाषा का प्रयोग किया है, जिसमें अवधी, राजस्थानी, खड़ी बोली और उर्दू-फारसी के शब्दों का भी मिश्रण है। उनकी सरल ब्रज भाषा में लिखी भक्‍त ति रचनाएँ आदि श्री गुरु ग्रंथ साहिब जी में शामिल हैं और वे आज भी समानता, प्रेम और भाईचारे का संदेश देती हैं।\n\nगद्यांश में वर्णित संत के अनुसार सच्चा धर्म किन दो बातों को माना गया है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "मन की शुद्धता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आंतरिक भक्ति",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मन की शुद्धता और आंतरिक भक्ति।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उन्होंने बाह्य आडंबरों का खंडन कर मन की",
+            "शुद्धता और आंतरिक भक्‍त ति को ही सच्चा धर्म माना है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:08:B:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/पद"
+      ],
+      "taxonomyChapterId": "hindi-9/पद",
+      "topic": "रैदास",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "प्रभु जी तुम चंदन हम पानी, जाकी अंग-अंग बास समानी। प्रभु जी तुम घन बन, हम मोरा, जैसे चितवत चंद चकोरा। प्रभु जी तुम दीपक, हम बाती, जाकी जोति बरै दिन राती। प्रभु जी तुम मोती, हम धागा, जैसे सोने मिलत सुहागा। प्रभु जी तुम स्वामी, हम दासा, ऐसी भगति करै रैदासा।\n\nउक्त पंक्तियों में दिए गए जोड़ों में ‘चंदन-पानी’ और ‘मोती-धागा’ के अलावा कौन-कौन से जोड़े आराध्य और भक्त के लिए बनाए गए हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "घन-मोरा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "दीपक-बाती",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "घन-मोरा और दीपक-बाती।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "प्रभु जी तुम घन बन, हम मोरा, जैसे चितवत चंद चकोरा।",
+            "प्रभु जी तुम दीपक, हम बाती, जाकी जोति बरै दिन राती।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:08:B:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/पद"
+      ],
+      "taxonomyChapterId": "hindi-9/पद",
+      "topic": "रैदास",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "आपने रैदास के पद पढ़े। अब आप रैदास की तरह ही महाराष्‍ट्र के संत कवि नामदेव के आगे दिए गए दो पद पढ़ि ए। निर्गुण संत काव्य परंपरा के संत कवि नामदेव का जन्‍म 13वीं –14वीं शताब्दी में महाराष्‍ट्र में हुआ। अन्य संत कवियों की भाँति नामदेव ने भी बाह्य आडंबरों , सामाजिक रूढ़‍ ियों का विरोध कर सामाजिक समरसता, प्रेम एवं निराकार भक्‍ त‍ि से संबंधित पदों की रचना की है।\n\nगद्यांश के अनुसार नामदेव के पदों की रचना किन दो विषयों से संबंधित है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "सामाजिक समरसता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "निराकार भक्ति",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सामाजिक समरसता, प्रेम और निराकार भक्ति।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "समरसता, प्रेम एवं निराकार भक्‍ त‍ि से संबंधित पदों की रचना की है।",
+            "अन्य संत कवियों की भाँति नामदेव ने भी बाह्य आडंबरों , सामाजिक रूढ़‍ ियों का विरोध कर सामाजिक"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:08:C:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/पद"
+      ],
+      "taxonomyChapterId": "hindi-9/पद",
+      "topic": "रैदास",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "पंक्ति “प्रभु जी तुम घन बन, हम मोरा, जैसे चितवत चंद चकोरा।” में किस अलंकार का प्रयोग हुआ है? (A) उपमा अलंकार (B) अनुप्रास अलंकार (C) रूपक अलंकार (D) श्लेष अलंकार",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "अनुप्रास अलंकार",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "प्रभु जी तुम घन बन, हम मोरा, जैसे चितवत चंद चकोरा।",
+            "इसमें अनुप्रास अलंकार का प्रयोग किया"
+          ],
+          "objective": true,
+          "options": {
+            "A": "उपमा अलंकार",
+            "B": "अनुप्रास अलंकार",
+            "C": "रूपक अलंकार",
+            "D": "श्लेष अलंकार"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:08:C:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/पद"
+      ],
+      "taxonomyChapterId": "hindi-9/पद",
+      "topic": "रैदास",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "वाक्य “रैदास ने अपनी काव्य-रचनाओं में सरल, व्यावहारिक ब्रजभाषा का प्रयोग किया है, जिसमें अवधी, राजस्थानी, खड़ी बोली और उर्दू-फारसी के शब्दों का भी मिश्रण है।” किस प्रकार का वाक्य है? (A) सरल वाक्य (B) संयुक्त वाक्य (C) मिश्र वाक्य (D) पृथक्वाक्य",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "मिश्र वाक्य",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "रैदास ने अपनी काव्य-रचनाओं में सरल, व्यावहारिक ब्रजभाषा का प्रयोग",
+            "किया है, जिसमें अवधी, राजस्थानी, खड़ी बोली और उर्दू-फारसी के शब्दों का"
+          ],
+          "objective": true,
+          "options": {
+            "A": "सरल वाक्य",
+            "B": "संयुक्त वाक्य",
+            "C": "मिश्र वाक्य",
+            "D": "पृथक्वाक्य"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:08:C:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/पद"
+      ],
+      "taxonomyChapterId": "hindi-9/पद",
+      "topic": "रैदास",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "पंक्ति में प्रयुक्त पद “मोती-धागा” में किस प्रकार का समास है? (A) बहुव्रीहि समास (B) कर्मधारय समास (C) द्वन्द्व समास (D) द्विगु समास",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "द्विगु समास",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "प्रभु जी तुम मोती, हम धागा, जैसे सोने मिलत सुहागा।",
+            "मोती-धागा और बादल-मोर का संबंध अटूट होता है, वैसे ही भक्त से उसके आराध्य अलग"
+          ],
+          "objective": true,
+          "options": {
+            "A": "बहुव्रीहि समास",
+            "B": "कर्मधारय समास",
+            "C": "द्वन्द्व समास",
+            "D": "द्विगु समास"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:08:D:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/पद"
+      ],
+      "taxonomyChapterId": "hindi-9/पद",
+      "topic": "रैदास",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "जो तुम तोरौ राम मैं नहिं तोरौ, तुम सौ तोरि कवन सौं जोरौ। तीरथ बरत न करूँ अंदेसा, तुम्हरे चरन कमल एक भरोसां। जहँ जहँ जाओ तुम्हरी पूजा, तुम सा देव ओर नहिं दूजा।\n\nइस उद्धरण में भक्त तीर्थ और व्रत छोड़ने की बात किसके लिए कर रहा है? (A) मोक्ष प्राप्ति के लिए (B) चरण-कमल में विश्वास के लिए (C) देह-सुख के लिए (D) समाज-सेवा के लिए",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "चरण-कमल में विश्वास के लिए",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "तीरथ बरत न करूँ अंदेसा, तुम्हरे चरन कमल एक भरोसां।",
+            "जो तुम तोरौ राम मैं नहिं तोरौ, तुम सौ तोरि कवन सौं जोरौ।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "मोक्ष प्राप्ति के लिए",
+            "B": "चरण-कमल में विश्वास के लिए",
+            "C": "देह-सुख के लिए",
+            "D": "समाज-सेवा के लिए"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:08:D:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/पद"
+      ],
+      "taxonomyChapterId": "hindi-9/पद",
+      "topic": "रैदास",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "competency_based",
+      "stem": "रैदास नाम से विख्यात संत रविदास का जन्म काशी (वाराणसी) में हुआ। उनका जीवन-काल 15वीं शताब्‍दी (सन् 1388–1518)* माना जाता है।रैदास संत कवियों में गिने जाते हैं। उन्होंने बाह्य आडंबरों का खंडन कर मन की शुद्धता और आंतरिक भक्‍त ति को ही सच्चा धर्म माना है।\n\nइस उद्धरण के अनुसार संत रविदास का जन्म किस नगर में हुआ और वे किस वर्ग में गिने जाते हैं? (A) काशी (वाराणसी) – संत कवि (B) प्रयाग – संत कवि (C) मथुरा – संत कवि (D) काशी (वाराणसी) – आलोचक",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "काशी (वाराणसी) – संत कवि",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "रैदास नाम से विख्यात संत रविदास का जन्म काशी",
+            "(वाराणसी) में हुआ। उनका जीवन-काल 15वीं शताब्‍दी",
+            "माना जाता है।रैदास संत कवियों में"
+          ],
+          "objective": true,
+          "options": {
+            "A": "काशी (वाराणसी) – संत कवि",
+            "B": "प्रयाग – संत कवि",
+            "C": "मथुरा – संत कवि",
+            "D": "काशी (वाराणसी) – आलोचक"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:08:D:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/पद"
+      ],
+      "taxonomyChapterId": "hindi-9/पद",
+      "topic": "रैदास",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "निर्गुण संत काव्य परंपरा के संत कवि नामदेव का जन्‍म 13वीं –14वीं शताब्दी में महाराष्‍ट्र में हुआ। अन्य संत कवियों की भाँति नामदेव ने भी बाह्य आडंबरों , सामाजिक रूढ़‍ ियों का विरोध कर सामाजिक समरसता, प्रेम एवं निराकार भक्‍ त‍ि से संबंधित पदों की रचना की है।\n\nइस उद्धरण के अनुसार नामदेव ने किन विषयों से संबंधित पदों की रचना की है? (A) केवल धर्म-स्थान और कर्मकांड (B) व्यक्तिगत लाभ और यश (C) देह-सुख और सत्ता (D) सामाजिक समरसता, प्रेम एवं निराकार भक्ति",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सामाजिक समरसता, प्रेम एवं निराकार भक्ति",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अन्य संत कवियों की भाँति नामदेव ने भी बाह्य आडंबरों , सामाजिक रूढ़‍ ियों का विरोध कर सामाजिक",
+            "समरसता, प्रेम एवं निराकार भक्‍ त‍ि से संबंधित पदों की रचना की है।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "केवल धर्म-स्थान और कर्मकांड",
+            "B": "व्यक्तिगत लाभ और यश",
+            "C": "देह-सुख और सत्ता",
+            "D": "सामाजिक समरसता, प्रेम एवं निराकार भक्ति"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:08:E:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/पद"
+      ],
+      "taxonomyChapterId": "hindi-9/पद",
+      "topic": "रैदास",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "कक्षा में यह जानकारी मिली कि संत रैदास की भक्ति रचनाएँ किस पवित्र ग्रंथ में शामिल हैं और उनकी रचनाएँ किस नाम से संकलित हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "आदि श्री गुरु ग्रंथ साहिब जी में शामिल",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "रैदास बानी में संकलित",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "रैदास की भक्ति रचनाएँ आदि श्री गुरु ग्रंथ साहिब जी में शामिल हैं और उनकी रचनाएँ रैदास बानी में संकलित हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उनकी सरल ब्रज भाषा में लिखी भक्‍त ति रचनाएँ आदि श्री गुरु ग्रंथ",
+            "देती हैं। उनकी रचनाएँ रैदास बानी में संकलित हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:08:E:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/पद"
+      ],
+      "taxonomyChapterId": "hindi-9/पद",
+      "topic": "रैदास",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "तुम्हारे मित्र को लगता है कि संत के पास केवल दिखावे की भक्ति है; संत रैदास ने बाह्य आडंबरों के स्थान पर किन दो बातों को सच्चा धर्म माना है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "मन की शुद्धता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आंतरिक भक्ति",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उन्होंने बाह्य आडंबरों का खंडन कर मन की शुद्धता और आंतरिक भक्ति को ही सच्चा धर्म माना है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उन्होंने बाह्य आडंबरों का खंडन कर मन की",
+            "शुद्धता और आंतरिक भक्‍त ति को ही सच्चा धर्म माना है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:08:F:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/पद"
+      ],
+      "taxonomyChapterId": "hindi-9/पद",
+      "topic": "रैदास",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "रैदास के दोनों पदों में भक्त और आराध्य के अटूट संबंध को किन-किन उपमाओं के माध्यम से व्यक्त किया गया है? उन उपमाओं का अर्थ भी स्पष्ट कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "आराध्य को चंदन और अपने आप को पानी",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आराध्य को घन और भक्त को मोरा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आराध्य दीपक और भक्त बाती",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आराध्य मोती और भक्त धागा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "पहले पद में भक्त ने आराध्य को चंदन और अपने आप को पानी माना है, जिसकी बास अंग-अंग समान है। आराध्य को घन और भक्त को मोरा माना गया है, जैसे चकोरा चंद को देखकर। आराध्य दीपक और भक्त बाती है, जिसकी जोति दिन-रात बरसती है। आराध्य मोती और भक्त धागा है, जैसे सोने में सुहागा मिलता है। इन सबसे अनन्य भक्ति और समर्पण का भाव प्रकट होता है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "प्रभु जी तुम चंदन हम पानी, जाकी अंग-अंग बास समानी।",
+            "प्रभु जी तुम घन बन, हम मोरा, जैसे चितवत चंद चकोरा।",
+            "प्रभु जी तुम मोती, हम धागा, जैसे सोने मिलत सुहागा।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:08:F:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/पद"
+      ],
+      "taxonomyChapterId": "hindi-9/पद",
+      "topic": "रैदास",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "संत रैदास ने तीर्थ और व्रत छोड़ने की बात क्यों कही है और उनके अनुसार भक्ति का प्रमुख आधार क्या है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "तीर्थ और व्रत तो छोड़ सकते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "पर प्रभु-चरणों की भक्ति नहीं छोड़ सकते",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "मन की शुद्धता और आंतरिक भक्ति",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "बाह्य आडंबरों का खंडन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "रैदास कहते हैं कि वे तीर्थ और व्रत तो छोड़ सकते हैं, पर प्रभु-चरणों की भक्ति नहीं छोड़ सकते। उनके अनुसार सच्चे धर्म का आधार मन की शुद्धता और आंतरिक भक्ति है। इसीलिए उन्होंने बाह्य आडंबरों का खंडन कर आंतरिक भक्ति को ही सच्चा धर्म माना है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "दूसरे पद में भी आराध्य से भक्त का अटूट नाता व्यक्त किया गया है। वह तीर्थ और व्रत",
+            "छोड़ सकता है, पर प्रभु-चरणों की भक् ‍ति नहीं",
+            "शुद्धता और आंतरिक भक्‍त ति को ही सच्चा धर्म माना है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:08:F:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/पद"
+      ],
+      "taxonomyChapterId": "hindi-9/पद",
+      "topic": "रैदास",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "रैदास और नामदेव के पदों में कौन-कौन-सी बातें समान हैं? पदों से उदाहरण लेकर समझाइए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "दोनों कवियों ने बाह्य आडंबरों का विरोध किया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "मन की शुद्धता और आंतरिक भक्ति को ही सच्चा धर्म",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सामाजिक रूढ़ियों का विरोध",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रेम और समरसता का संदेश",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "दोनों कवियों ने बाह्य आडंबरों का विरोध किया है। रैदास ने बाह्य आडंबरों का खंडन कर मन की शुद्धता और आंतरिक भक्ति को ही सच्चा धर्म माना, जबकि नामदेव ने भी बाह्य आडंबरों और सामाजिक रूढ़ियों का विरोध कर सामाजिक समरसता, प्रेम एवं निराकार भक्ति से संबंधित पदों की रचना की। दोनों ने प्रेम और समरसता का संदेश दिया है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उन्होंने बाह्य आडंबरों का खंडन कर मन की",
+            "अन्य संत कवियों की भाँति नामदेव ने भी बाह्य आडंबरों , सामाजिक रूढ़‍ ियों का विरोध कर सामाजिक"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "रैदास",
+      "reason": "options-not-answerable",
+      "stem": "तुम्हारा मित्र कहता है कि भक्ति के लिए तीर्थ जाना और व्रत रखना अनिवार्य है; गद्यांश के अनुसार संत का इस पर क्या कथन है?"
+    },
+    {
+      "section": "E",
+      "qtype": "very_short_answer",
+      "topic": "रैदास",
+      "reason": "figure-not-in-text:१३",
+      "stem": "सांस्कृतिक कार्यक्रम में जानकारी दी गई कि निर्गुण संत कवि नामदेव का जन्म कहाँ और किस शताब्दी में हुआ?"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "रैदास",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "कक्षा में चर्चा चल रही है कि संत रैदास ने तीर्थ-व्रत छोड़कर भक्ति का कौन-सा आधार माना है। इसी विषय पर १२० शब्दों में एक "
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "रैदास",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "विद्यालय के साहित्य-समारोह में १२० शब्दों में ‘संत कवियों ने प्रेम और समानता का जो संदेश दिया, उस पर विचार’ विषय पर एक अ"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "रैदास",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "विद्यालय के संत-काव्य उत्सव में १२० शब्दों में ‘राम-नाम का महत्त्व’ विषय पर एक अनुच्छेद लिखिए।"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "रैदास",
+      "reason": "figure-not-in-text:१००",
+      "stem": "अपने विद्यालय के प्रधानाचार्य को १०० शब्दों में पत्र लिखिए, जिसमें उनके ‘संत कवि रैदास’ विषयक व्याख्यान के लिए धन्यवाद व"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "रैदास",
+      "reason": "figure-not-in-text:१००",
+      "stem": "अपने मित्र को १०० शब्दों में ईमेल लिखिए और उसे रैदास के पहले पद में दिए गए चंदन-पानी तथा मोती-धागा के उदाहरण समझाइए।"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "रैदास",
+      "reason": "figure-not-in-text:१००",
+      "stem": "अपने नगर में आयोजित सांस्कृतिक कार्यक्रम में भाग लेने के लिए आयोजन समिति के अध्यक्ष को १०० शब्दों में आवेदन-पत्र लिखिए।"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "रैदास",
+      "reason": "figure-not-in-text:५०",
+      "stem": "अपने विद्यालय में आयोजित संत-काव्य उत्सव की सूचना देने के लिए ५० शब्दों में एक सूचना-पत्र तैयार कीजिए।"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "रैदास",
+      "reason": "figure-not-in-text:५०",
+      "stem": "राम-नाम जप के महत्त्व को समझाते हुए ५० शब्दों में एक प्रभाव-शक्ति युक्त संदेश तैयार कीजिए।"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "रैदास",
+      "reason": "figure-not-in-text:५०",
+      "stem": "संत कवियों द्वारा दिए गए समानता, प्रेम और भाईचारे के संदेश को ५० शब्दों में एक संदेश के रूप में प्रस्तुत कीजिए।"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "ihga1",
+    "chapters": [
+      8
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

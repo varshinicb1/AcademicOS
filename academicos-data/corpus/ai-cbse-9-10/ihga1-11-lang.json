@@ -1,0 +1,1933 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:ihga1:11:A:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "उनके लेखन में देशप्रेम, स्‍तरी-केंद्रि त विषयों और स्वा धीनता संग्राम के प्रति गहन प्रतिबद्धता दिखा ई देती है। उनकी भा षा की सहजता ने उनकी रचना ओं को व्या पक लोकप्रि यता दिला ई। उनकी कुछ प्रमुख रचना एँ हैं— मुकुल, त्रिधारा (कविता संग्रह), बिखरे मोती, उन्ममादिनी, सीधे-सादे चित्र (कहानी संग्रह), कदंब का पेड़, सभा का खेल (बाल साहि त्य )। सुभद्रा कुमा री चौहा न को उनके\n\nपुस्तकालय में हिंदी की कहानी संग्रह चाहिए; इस गद्यांश में बताए गए प्रमुख रचनाओं में से कौन-सी कहानी संग्रह है? (A) मुकुल (B) त्रिधारा (C) सीधे-सादे चित्र (D) सभा का खेल",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सीधे-सादे चित्र",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उनकी कुछ प्रमुख रचना एँ हैं— मुकुल, त्रिधारा",
+            "सीधे-सादे चित्र (कहानी संग्रह),"
+          ],
+          "objective": true,
+          "options": {
+            "A": "मुकुल",
+            "B": "त्रिधारा",
+            "C": "सीधे-सादे चित्र",
+            "D": "सभा का खेल"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:A:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "कुटियों में थी विषम वेदना , महलों में आहत अपमा न, वीर सैनिकों के मन में था , अपने पुरखों का अभिमा न, ना ना धुंधूपंत पेशवा जुटा रहा था सब सा मा न, बहिन छबीली ने रण-चंडी का कर दिया प्रकट आह्वा न, हुआ यज्ञ प्रारंभ उन्हें तो सोई ज्ययोति जगा नी थी।\n\nइस गद्यांश में ‘सोई ज्ययोति जगा नी थी’ का आशय किस ओर संकेत करता है? (A) बुंदेलों के हरबोलों के कहने की कथा (B) स्वतंत्रता संग्राम के आरंभ होने की उम्मीद (C) पेशवा शासन के पूर्णतः समाप्त हो जाने की खबर (D) रानी के लिए बने महल के बिखरने की बात",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "स्वतंत्रता संग्राम के आरंभ होने की उम्मीद",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "ना ना धुंधूपंत पेशवा जुटा रहा था सब सा मा न,",
+            "हुआ यज्ञ प्रारंभ उन्हें तो",
+            "सोई ज्ययोति जगा नी थी।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "बुंदेलों के हरबोलों के कहने की कथा",
+            "B": "स्वतंत्रता संग्राम के आरंभ होने की उम्मीद",
+            "C": "पेशवा शासन के पूर्णतः समाप्त हो जाने की खबर",
+            "D": "रानी के लिए बने महल के बिखरने की बात"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:A:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "महलों ने दी आग, झों पड़ी ने ज्वा ला सुलगा ई थी, यह स्वतंत्रता की चिनगा री अंतरतम से आई थी, झाँ सी चेती, दिल्ली चेती, लखनऊ लपटें छा ई थीं , मेरठ, का नपुर, पटना ने भा री धूम मचा ई थी, जबलपुर, कोल्हा पुर में भी कुछ हलचल उकसा नी थी।\n\nइस गद्यांश के आधार पर 1857 के स्वतंत्रता संग्राम में किसका योगदान सबसे व्यापक था? (A) केवल रानी लक्ष्मीबाई का (B) केवल ब्रिटिश अधिकारियों का (C) केवल नाना धुंधूपंत और ताँतिया का (D) बुंदेलों सहित अनेक प्रदेशों के सामान्य लोगों का",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बुंदेलों सहित अनेक प्रदेशों के सामान्य लोगों का",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "झाँ सी चेती, दिल्ली चेती, लखनऊ लपटें छा ई थीं ,",
+            "कुछ हलचल उकसा नी थी।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "केवल रानी लक्ष्मीबाई का",
+            "B": "केवल ब्रिटिश अधिकारियों का",
+            "C": "केवल नाना धुंधूपंत और ताँतिया का",
+            "D": "बुंदेलों सहित अनेक प्रदेशों के सामान्य लोगों का"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:B:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "competency_based",
+      "stem": "का नपूर के ना ना की मुँहबोली बहन ‘छबीली’ थी, लक्मीबा ई ना म, पिता की वह संता न अकेली थी, ना ना के सँग पढ़ती थी वह, ना ना के सँग खेली थी, बरछी, ढा ल, कृपा ण, कटा री उसकी यही सहेली थी, वीर शिवा जी की गा था एँ उसको या द ज़बा नी थीं ।\n\nइस गद्यांश के अनुसार लक्ष्मीबाई की सहेलियाँ कौन-कौन थीं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "सहेलियों के रूप में आयुध बताए गए हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "बरछी, ढाल, कृपाण और कटारी नाम दिए गए हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बरछी, ढाल, कृपाण और कटारी",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बरछी, ढा ल, कृपा ण, कटा री उसकी यही सहेली थी,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:B:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "बुझा दीप झाँ सी का तब डलहौजी मन में हरषा या , रा ज्य हड़प करने का उसने यह अच्छा अवसर पा या , फौरन फौजें भेज दुर्ग पर अपना झंडा फहरा या , ला वा रिस का वा रिस बनकर ब्रिटिश रा ज्य झाँ सी आया , अश्ुपूर्ण रा नी ने देखा झाँ सी हुई बिरा नी थी।\n\nइस गद्यांश के अनुसार डलहौजी ब्रिटिश राज्य झाँसी किस नीति के कारण लेकर आया था?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "डलहौजी ‘लावारिस की नीति’ अपनाकर ब्रिटिश राज्य झाँसी आया था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उसने फौरन फौजें भेजकर दुर्ग पर अपना झंडा फहराया था",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "लावारिस की नीति",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "ला वा रिस का वा रिस बनकर ब्रिटिश रा ज्य झाँ सी आया ,",
+            "फौरन फौजें भेज दुर्ग पर अपना झंडा फहरा या ,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:B:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "इस स्व तंत्रता-महायज्ञ में कई वीरव र आए काम नाना धुंधूपंत, ताँतिया, चतुर अज़ीमुल्ला सरनाम, अहमद शाह मौलवी, ठाकुर कुँव रसिंह सैनिक अभिराम, भारत के इतिहास-गगन में अमर रहेंगे जिनके नाम, ले किन आज जुर्म कहलाती उनकी जो कुरबानी थी। बुंदेल हरबालों के मुँह हमने सुनी कहानी थी। खूब ल ड़ी मर्दा नी व ह तो झाँसी वाली रानी थी॥\n\nइस गद्यांश के अनुसार इन वीरों की कुरबानी को आज किस नाम से जाना जाता है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "इन वीरों की कुरबानी को आज ‘जुर्म’ कहा जाता है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कविता इसी पर व्यंग्य करती है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "जुर्म",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "ले किन आज जुर्म कहलाती",
+            "उनकी जो कुरबानी थी।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:C:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "अपने उत्तर में ‘सन्मुख’ शब्द का प्रयोग कीजिए— इस शब्द में कौन-सा संधि है? (A) वृद्धि संधि (B) यण संधि (C) महेश्वर संधि (D) गुण संधि",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "गुण संधि",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "अबके जनरल स्ममिथ सन्मुख था , उसने मुँह की खा ई थी,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "वृद्धि संधि",
+            "B": "यण संधि",
+            "C": "महेश्वर संधि",
+            "D": "गुण संधि"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:C:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "अपने उत्तर में ‘रण-चंडी’ पद का प्रयोग कीजिए— इसमें किस प्रकार का समास है? (A) संघी समास (B) तत्पुरुष समास (C) द्विगु समास (D) बहुव्रीहि समास",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "संघी समास",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बहिन छबीली ने रण-चंडी का कर दिया प्रकट आह्वा न,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "संघी समास",
+            "B": "तत्पुरुष समास",
+            "C": "द्विगु समास",
+            "D": "बहुव्रीहि समास"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:C:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "कहिए, ‘बुझा दीप झाँसी का’ में किस अलंकार का प्रयोग किया गया है? (A) उपमा अलंकार (B) अतिशयोक्ति अलंकार (C) श्लेष अलंकार (D) रूपक अलंकार",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "अतिशयोक्ति अलंकार",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बुझा दीप झाँ सी का तब डलहौजी मन में हरषा या ,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "उपमा अलंकार",
+            "B": "अतिशयोक्ति अलंकार",
+            "C": "श्लेष अलंकार",
+            "D": "रूपक अलंकार"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:D:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "सिंहा सन हिल उठे, रा जवंशों ने भृकुटी ता नी थी, बूढ़े भा रत में भी आई फिर से नई जवा नी थी, गुमी हुई आजा दी की कीमत सबने पहचा नी थी, दूर फि़रंगी को करने की सबने मन में ठा नी थी, चमक उठी सन्सत्ता वन में वह तलवा र पुरा नी थी।\n\nइस गद्यांश के अनुसार उस समय आम लोगों में कौन-सा भाव जाग उठा था? (A) निराशा और निराश्यता (B) आत्मविश्वास और स्वतंत्रता के प्रति समर्पण (C) अधिकार के लिए तैयार न होने की भावना (D) विदेश यात्रा की इच्छा",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "आत्मविश्वास और स्वतंत्रता के प्रति समर्पण",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बूढ़े भा रत में भी आई फिर से नई जवा नी थी,",
+            "दूर फि़रंगी को करने की सबने मन में ठा नी थी,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "निराशा और निराश्यता",
+            "B": "आत्मविश्वास और स्वतंत्रता के प्रति समर्पण",
+            "C": "अधिकार के लिए तैयार न होने की भावना",
+            "D": "विदेश यात्रा की इच्छा"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:D:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "डलहौजी ने पैर पसा रे अब तो पलट गई का या , रा जा ओं नव्ववाबों को भी उसने पैरों ठुकरा या , रा नी दा सी बनी, बनी यह दा सी अब महरा नी थी।\n\nइस गद्यांश के अनुसार डलहौजी की हालत में क्या परिवर्तन आया था? (A) वह युद्ध छोड़कर भारत लौट गया (B) वह पहले से अधिक शक्तिशाली हो गया (C) वह पहले की भाँति उत्साहित नहीं रहा (D) वह रानी से सच्चाई बातचीत करने लगा",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "वह पहले की भाँति उत्साहित नहीं रहा",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "डलहौजी ने पैर पसा रे अब तो पलट गई का या ,",
+            "दा सी अब महरा नी थी।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "वह युद्ध छोड़कर भारत लौट गया",
+            "B": "वह पहले से अधिक शक्तिशाली हो गया",
+            "C": "वह पहले की भाँति उत्साहित नहीं रहा",
+            "D": "वह रानी से सच्चाई बातचीत करने लगा"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:D:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "लक्मी थी या दुर्गा थी वह स्वयं वीरता की अवता र, देख मरा ठे पुलकित होते उसकी तलवारों के वा र, नकली युद्ध, व्यूह की रचना और खेलना खूब शिका र, सैन्य घेरना , दुर्ग तोड़ना , ये थे उसके प्रि य खिलवा र,\n\nइस गद्यांश से लक्ष्मीबाई के बचपन के बारे में कौन-सी बात प्रकट होती है? (A) उन्होंने बचपन से ही युद्ध और रणनीति का अभ्यास किया (B) उन्हें युद्धकौशल सीखने का कोई अवसर नहीं मिला (C) उन्हें केवल गाना गाना पसंद था (D) उनके पिता उन्हें युद्ध का प्रशिक्षण नहीं दे पाए",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उन्होंने बचपन से ही युद्ध और रणनीति का अभ्यास किया",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "नकली युद्ध, व्यूह की रचना और खेलना खूब शिका र,",
+            "सैन्य घेरना , दुर्ग तोड़ना , ये थे उसके प्रि य खिलवा र,"
+          ],
+          "objective": true,
+          "options": {
+            "A": "उन्होंने बचपन से ही युद्ध और रणनीति का अभ्यास किया",
+            "B": "उन्हें युद्धकौशल सीखने का कोई अवसर नहीं मिला",
+            "C": "उन्हें केवल गाना गाना पसंद था",
+            "D": "उनके पिता उन्हें युद्ध का प्रशिक्षण नहीं दे पाए"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:E:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "‘झाँसी की रानी’ कविता में लक्ष्मीबाई की सहेलियाँ कौन-कौन थीं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "सहेलियों के रूप में आयुध बताए गए हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "बरछी, ढाल, कृपाण और कटारी नाम दिए गए हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बरछी, ढाल, कृपाण और कटारी",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बरछी, ढा ल, कृपा ण, कटा री उसकी यही सहेली थी,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:E:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "‘झाँसी की रानी’ कविता में डलहौजी के झाँसी आने पर रानी की क्या दशा हुई?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "डलहौजी के आगमन पर रानी का मनोदशा टूट गया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "झाँसी बिरानी हो गया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "रानी का मनोदशा टूट गया और झाँसी बिरानी हो गया",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बुझा दीप झाँ सी का तब डलहौजी मन में हरषा या ,",
+            "झाँ सी हुई बिरा नी थी।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:E:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "‘झाँसी की रानी’ कविता में किस प्रमाण से पता चलता है कि समाज लड़कियों को पढ़ने-खेलने नहीं देता था?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "नाना के सँग न पढ़ती थी और न खेली थी",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उसकी सहेलियाँ केवल आयुध थीं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "वह नाना के सँग न पढ़ती थी और न खेलती थी; उसकी सहेलियाँ केवल बरछी, ढाल, कृपाण और कटारी थीं",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "ना ना के सँग पढ़ती थी वह, ना ना के सँग खेली थी,",
+            "बरछी, ढा ल, कृपा ण, कटा री उसकी यही सहेली थी,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:F:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "‘झाँसी की रानी’ कविता में लक्ष्मीबाई के जीवन-वृत्त का क्रम किस प्रकार दर्शाया गया है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "बचपन में मुँहबोली बहन ‘छबीली’, पिता की संतान और आयुधों का चित्र",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वीर शिवा जी की गाथाएँ याद होने का उल्लेख",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "डलहौजी के आगमन पर मनोदशा टूटना और झाँसी बिरानी होना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "काना एवं मंदरा सखियों के साथ युद्ध और अंत में वीर-गति",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "पहले उनके बचपन का चित्र आया — मुँहबोली बहन ‘छबीली’, पिता की संतान अकेली, बरछी-ढाल-कृपाण-कटारी सहेलियाँ और वीर शिवा जी की गाथाएँ। इसके बाद डलहौजी के आगमन पर मनोदशा टूटा और झाँसी बिरानी हुआ। इसके बाद काना और मंदरा सखियाँ उनके साथ उतरीं तथा अंग्रेज सेना पीछे भागी। अंत में उन्होंने वीर-गति पाई।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "का नपूर के ना ना की मुँहबोली बहन ‘छबीली’ थी,",
+            "वीर शिवा जी की गा था एँ",
+            "रा नी गई सिधा र, चिता अब उसकी दिव्य सवा री थी,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:F:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "‘झाँसी की रानी’ कविता में 1857 के संग्राम में सामान्य जनता की भूमिका को कैसे दर्शाया गया है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "कुटियों में विषम वेदना और महलों में आहत अपमान का चित्रण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "महलों ने आग दी और झोंपड़ियों ने ज्वाला सुलगाई",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "झाँसी, दिल्ली, लखनऊ, मेरठ, कानपुर, पटना, जबलपुर, कोल्हापुर में हलचल",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "जनता के व्यापक संगम तथा जनरल के विरुद्ध जोश का भाव",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कविता बताती है कि यह संग्राम केवल योद्धाओं तक सीमित नहीं था। कुटियों में विषम वेदना और महलों में आहत अपमान था; महलों ने आग दी और झोंपड़ियों ने ज्वाला सुलगाई। झाँसी, दिल्ली, लखनऊ, मेरठ, कानपुर, पटना, जबलपुर और कोल्हापुर तक हलचल फैली। इससे जनरल के विरुद्ध जनता के व्यापक संगम का भाव उभरता है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कुटियों में थी विषम वेदना , महलों में आहत अपमा न,",
+            "महलों ने दी आग, झों पड़ी ने ज्वा ला सुलगा ई थी,",
+            "झाँ सी चेती, दिल्ली चेती, लखनऊ लपटें छा ई थीं ,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:F:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "‘झाँसी की रानी’ कविता में डलहौजी के आगमन और उसकी नीति का वर्णन किस प्रकार किया गया है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "‘बुझा दीप झाँसी का’ कहकर डलहौजी के व्यवहार का उपहास",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "राज्य हड़प करने का अच्छा अवसर पाने का उल्लेख",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "फौजें भेजकर दुर्ग पर अपना झंडा फहराना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "नवाबों को भी पैरों ठुकराना और दशा महराना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "लेखक ने डलहौजी के आते ही उसे ‘बुझा दीप झाँसी का’ कहकर उसकी वीरता का उपहास किया है। डलहौजी मन में हर्षित हुआ, उसे राज्य हड़प करने का अच्छा अवसर मिला और उसने फौरन फौजें भेजकर दुर्ग पर अपना झंडा फहराया। वह ‘लावारिस की नीति’ अपनाकर आया, पैर पसारने लगा और नवाबों को भी पैरों ठुकराने लगा।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बुझा दीप झाँ सी का तब डलहौजी मन में हरषा या ,",
+            "ला वा रिस का वा रिस बनकर ब्रिटिश रा ज्य झाँ सी आया ,",
+            "रा जा ओं नव्ववाबों को भी उसने पैरों ठुकरा या ,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:H:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "रानी लक्ष्मीबाई के बारे में दिए गए विवरण के आधार पर १०० शब्दों में एक संक्षिप्त जीवन-वृत्त तैयार कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: क्षेत्र, बचपन, सहेलियाँ, शिक्षा और 1857 में युद्ध का सही विवरण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "जीवन-वृत्त का प्रारूप: शीर्षक और बिंदुवत सूची",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आयोजन: बचपन से लेकर अंत तक क्रमबद्ध प्रस्तुतीकरण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धि एवं व्याकरण की शुद्धता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "शब्द-चयन एवं अभिव्यक्ति की सहजता तथा १०० शब्दों की सीमा का पालन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "रानी लक्ष्मीबाई — संक्षिप्त जीवन-वृत्त\n\n• क्षेत्र — बुंदेलों का झाँसी\n• बचपन — पिता की संता न अकेली थीं; मुँहबोली बहन ‘छबीली’ थीं\n• सहेलियाँ — बरछी, ढाल, कृपाण और कटारी\n• शिक्षा — नाना के सँग न पढ़ सकीं; वीर शिवा जी की गाथाएँ याद रहीं\n• 1857 में — सौ मील निरंतर पार कर अंग्रेजों से लोह लिया\n• प्राप्ति — वीर-गति पाई और वह अमर हो गईं",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "का नपूर के ना ना की मुँहबोली बहन ‘छबीली’ थी,",
+            "रानी बढ़ी काल पी आई, कर सौ मील निरंतर पार",
+            "अभी उम्र कुल तेइस की थी, मनुज नहीं अवता री थी,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:I:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "रानी लक्ष्मीबाई की वीरता का श्रद्धांदा व्यक्त करते हुए ५० शब्दों में एक सार्वजनिक सूचना तैयार कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: रानी लक्ष्मीबाई की वीरता का श्रद्धांदा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सूचना का प्रारूप: शीर्षक, पंक्ति-क्रम और हस्ताक्षर-पद",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आयोजन एवं भाषा-शुद्धि की शुद्धता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "शब्द-चयन एवं अभिव्यक्ति की सहजता तथा ५० शब्दों की सीमा का पालन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सूचना\n\nसर्वप्रथम, वीर रानी लक्ष्मीबाई की वीरता का श्रद्धांदा व्यक्त करते हुए यह सूचना दी जाती है।\nरानी लक्ष्मीबाई ने 1857 के स्वतंत्रता संग्राम में वीरता, उत्साह और देशप्रेम की भावना से मन मोह लिया था।\nउनके स्मरण पर सभी कक्षाओं में शीघ्र मना-रस और दीप प्रज्वलन कराया जाएगा।\n\nविद्यालय प्रशासन",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "से हमारा ओजपूर्ण साक्ात्कार कराती है। य ह कविता वीरता, उत्साह और देशप्रेम की भावना से",
+            "खूब लड़ी मर्द दानी वह तो"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:I:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "कविता संग्रह ‘मुकुल’ की खासी बताते हुए ५० शब्दों में एक पुस्तक-विज्ञापन तैयार कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: रचना का नाम, लेखिका और रचना की विशेषता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "विज्ञापन का प्रारूप: शीर्षक, विवरण और विक्रेता-पंक्ति",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आयोजन एवं भाषा-शुद्धि की शुद्धता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "शब्द-चयन एवं अभिव्यक्ति की सहजता तथा ५० शब्दों की सीमा का पालन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "विज्ञापन\n\n‘मुकुल’ — सुभद्रा कुमारी चौहान की कविता संग्रह\n\nइस संग्रह में देशप्रेम, स्त्री-केंद्रित विषय और स्वाधीनता संग्राम के प्रति गहन प्रतिबद्धता मिलती है। इनकी भाषा की सहजता ने इन्हें व्यापक लोकप्रियता दिलाई। ‘मुकुल’ पर इन्हें दो बार ‘सेकसरिया पुरस्कार’ मिला।\n\nपुस्तकालय में उपलब्ध — प्रगति पुस्तक भंडार",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "व्या पक लोकप्रि यता दिला ई। उनकी कुछ प्रमुख रचना एँ हैं— मुकुल, त्रिधारा",
+            "कविता संग्रह मुकुल तथा कहा नी संग्रह बिखरे मोती के लिए दो बा र ‘सेकसरिया"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:11:I:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/झाँ-सी-की-रा-नी"
+      ],
+      "taxonomyChapterId": "hindi-9/झाँ-सी-की-रा-नी",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "स्वतंत्रता दिवस के अवसर पर 1857 के वीरवरों को याद करने का संदेश देते हुए ५० शब्दों में एक संदेश लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: 1857 के वीरवरों की अमरता और उनकी कुरबानी का स्मरण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "संदेश का प्रारूप: शीर्षक, पंक्ति-क्रम और समापन संबोधन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आयोजन एवं भाषा-शुद्धि की शुद्धता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "शब्द-चयन एवं अभिव्यक्ति की सहजता तथा ५० शब्दों की सीमा का पालन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "संदेश\n\nआज स्वतंत्रता दिवस पर हम 1857 के उन वीरवरों को याद करते हैं जिनके नाम भारत के इतिहास-गगन में अमर रहेंगे। जिसे कभी देश का गौरव कहा गया, आज उसी को ‘जुर्म’ कहा जाता है। उनके जोश और साहस से ही हमारा देश आज स्वतंत्र है।\n\nसभी को नमस्कार!",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "इस स्व तंत्रता-महायज्ञ में कई वीरव र आए काम",
+            "भारत के इतिहास-गगन में अमर रहेंगे जिनके नाम,",
+            "ले किन आज जुर्म कहलाती"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch11",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "सुभद्रा कुमारी चौहान की कविताओं में देशप्रेम और स्वाधीनता संग्राम के प्रति प्रतिबद्धता पर १२० शब्दों में अनुच्छेद लिखिए।"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "‘झाँसी की रानी’ कविता में वर्णित लक्ष्मीबाई के बचपन पर १२० शब्दों में अनुच्छेद लिखिए।"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "1857 के स्वतंत्रता संग्राम में सामान्य जनता की भूमिका पर १२० शब्दों में अनुच्छेद लिखिए।"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "reason": "figure-not-in-text:१२",
+      "stem": "अपने किसी मित्र को ‘झाँसी की रानी’ कविता का परिचय देते हुए १०० शब्दों में पत्र लिखिए।"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "सुभद्रा कुमा री चौहा न",
+      "reason": "figure-not-in-text:१००",
+      "stem": "अपने किसी मित्र को ई-मेल लिखकर बताइए कि ‘झाँसी की रानी’ कविता पाठकों में कौन-सी भावनाएँ जगाती है। शब्द-सीमा १०० शब्द।"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "ihga1",
+    "chapters": [
+      11
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

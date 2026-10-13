@@ -1,0 +1,1456 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jhks1:08:A:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "बालगोबिन भगत समूचा शरीर कीचड़ में लिथड़े, अपने खेत में रोपनी कर रहे हैं। उनकी अँगुली एक-एक धान के पौधे को, पंक्तिबद्ध, खेत में बिठा रही है। उनका कंठ एक-एक शब्द को संगीत के जीने पर चढ़ाकर कुछ को ऊपर, स्वर्ग की ओर भेज रहा है और कुछ को इस पृथ्वी की मिट्टी पर खड़े लोगों के कानों की ओर! बच्चे खेलते हुए झूम उठते हैं; मेंड़ पर खड़ी औरतों के होंठ काँप उठते हैं, वे गुनगुनाने लगती हैं; हलवाहों के पैर ताल से उठने लगते हैं; रोपनी करनेवालों की अँगुलियाँ एक अजीब क्रम से चलने लगती हैं!\n\nआप गाँव के मैदान में खड़े हैं और बालगोबिन भगत जैसा कोई कलाकार अपनी लहरी के साथ गाना शुरू कर दे, तो काम चलते हुए लोगों पर उसके संगीत का सबसे उपयुक्त प्रभाव क्या होगा? (A) उनके गाने से खेतों में रोपनी का काम पूरी तरह रुक गया (B) उनके गाने से काम करते हुए भी सबका मन उनके संगीत में खिंच गया (C) उनके गाने से आसमान के बादल छँट गए और धूप निकल आई (D) उनके गाने से गाँव वालों ने खेत छोड़कर अपने घर चले गए",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उनके गाने से काम करते हुए भी सबका मन उनके संगीत में खिंच गया",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उनका कंठ एक-एक शब्द को संगीत के जीने पर चढ़ाकर कुछ को ऊपर, स्वर्ग की ओर भेज रहा है और कुछ को इस पृथ्वी की मिट्टी पर खड़े लोगों के कानों की ओर!",
+            "बच्चे खेलते हुए झूम उठते हैं; मेंड़ पर खड़ी औरतों के होंठ काँप उठते हैं, वे गुनगुनाने लगती हैं; हलवाहों के पैर ताल से उठने लगते हैं; रोपनी करनेवालों की अँगुलियाँ एक अजीब क्रम से चलने लगती हैं!"
+          ],
+          "objective": true,
+          "options": {
+            "A": "उनके गाने से खेतों में रोपनी का काम पूरी तरह रुक गया",
+            "B": "उनके गाने से काम करते हुए भी सबका मन उनके संगीत में खिंच गया",
+            "C": "उनके गाने से आसमान के बादल छँट गए और धूप निकल आई",
+            "D": "उनके गाने से गाँव वालों ने खेत छोड़कर अपने घर चले गए"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:A:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "बेटे के क्रिया-कर्म में तूल नहीं किया; पतोहू से ही आग दिलाई उसकी। किंतु ज्योंही श्राद्ध की अवधि पूरी हो गई, पतोहू के भाई को बुलाकर उसके साथ कर दिया, यह आदेश देते हुए कि इसकी दूसरी शादी कर देना। इधर पतोहू रो-रोकर कहती—मैं चली जाऊँगी तो बुढ़ापे में कौन आपके लिए भोजन बनाएगा, बीमार पड़े, तो कौन एक चुल्लू पानी भी देगा? मैं पैर पड़ती हूँ, मुझे अपने चरणों से अलग नहीं कीजिए! लेकिन भगत का निर्णय अटल था। तू जा, नहीं तो मैं ही इस घर को छोड़कर चल दूँगा—यह थी उनकी आखिरी दलील और इस दलील के आगे बेचारी की क्या चलती?\n\nमान लीजिए आप कक्षा दस के अभिभावक हैं और भगत की पतोहू अपनी बात रखने आपके पास आई हैं, तो 'तू जा, नहीं तो मैं ही इस घर को छोड़कर चल दूँगा' — जैसे कथन से भगत के व्यक्तित्व का कौन-सा स्पष्ट संकेत मिलता है? (A) उनकी इच्छाशक्ति की अत्यधिकता (B) उनकी आर्थिक कठिनाई (C) उनका पतोहू के प्रति अनादर (D) श्राद्ध की अवधि पूरी न होने की चिंता",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "उनकी इच्छाशक्ति की अत्यधिकता",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "लेकिन भगत का निर्णय अटल था।",
+            "तू जा, नहीं तो मैं ही इस घर को छोड़कर चल दूँगा—यह थी उनकी आखिरी दलील और इस दलील के आगे बेचारी की क्या चलती?"
+          ],
+          "objective": true,
+          "options": {
+            "A": "उनकी इच्छाशक्ति की अत्यधिकता",
+            "B": "उनकी आर्थिक कठिनाई",
+            "C": "उनका पतोहू के प्रति अनादर",
+            "D": "श्राद्ध की अवधि पूरी न होने की चिंता"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:B:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "बालगोबिन भगत की संगीत-साधना का चरम उत्कर्ष उस दिन देखा गया जिस दिन उनका बेटा मरा। इकलौता बेटा था वह! कुछ सुस्त और बोदा-सा था, किंतु इसी कारण बालगोबिन भगत उसे और भी मानते। उनकी समझ में ऐसे आदमियों पर ही ज़्यादा नज़र रखनी चाहिए या प्यार करना चाहिए, क्योंकि ये निगरानी और मुहब्बत के ज़्यादा हकदार होते हैं। बड़ी साध से उसकी शादी कराई थी, पतोहू बड़ी ही सुभग और सुशील मिली थी।\n\nयदि आपके परिवार में कोई सदस्य शारीरिक दृष्टि से बहुत कमज़ोर हो और बाकी सब उसी की सेवा में लगे रहें, तो इस गद्यांश के अनुसार भगत उसके बारे में क्या मानते थे?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "ऐसे आदमियों पर ज़्यादा नज़र रखने या प्यार करने वाले मानते थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "क्योंकि वे निगरानी और मुहब्बत के ज़्यादा हकदार होते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "निगरानी और मुहब्बत के ज़्यादा हकदार",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कुछ सुस्त और बोदा-सा था, किंतु इसी कारण बालगोबिन भगत उसे और भी मानते।",
+            "उनकी समझ में ऐसे आदमियों पर ही ज़्यादा नज़र रखनी चाहिए या प्यार करना चाहिए, क्योंकि ये निगरानी और मुहब्बत के ज़्यादा हकदार होते हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:B:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "किंतु, खेतीबारी करते, परिवार रखते भी, बालगोबिन भगत साधु थे-साधु की सब परिभाषाओं में खरे उतरनेवाले। कबीर को 'साहब' मानते थे, उन्हीं के गीतों को गाते, उन्हीं के आदेशों पर चलते। कभी झूठ नहीं बोलते, खरा व्यवहार रखते। किसी से भी दो-टूक बात करने में संकोच नहीं करते, न किसी से खामखाह झगड़ा मोल लेते। किसी की चीज़ नहीं छूते, न बिना पूछे व्यवहार में लाते।\n\nकक्षा दस के किसी विद्यार्थी की यह समझ है कि संन्यासी वही हो सकता है जो वेशभूषा और बाह्य अनुष्ठानों का आचार करे; इस गद्यांश के अनुसार भगत 'साधु' किस आधार पर कहलाते थे?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "वे खेतीबारी करते, परिवार रखते, अतः पूर्णतः गृहस्थ थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "फिर भी साधु की सब परिभाषाओं में खरे उतरते थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "साधु की सब परिभाषाओं में खरे उतरना",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "किंतु, खेतीबारी करते, परिवार रखते भी, बालगोबिन भगत साधु थे-साधु की सब परिभाषाओं में खरे उतरनेवाले।",
+            "कभी झूठ नहीं बोलते, खरा व्यवहार रखते।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:B:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "मैं शुरू से ही देर तक सोनेवाला हूँ, किंतु, एक दिन, माघ की उस दाँत किटकिटानेवाली भोर में भी, उनका संगीत मुझे पोखरे पर ले गया था। अभी आसमान के तारों के दीपक बुझे नहीं थे। हाँ, पूरब में लोही लग गई थी जिसकी लालिमा को शुक्र तारा और बढ़ा रहा था। खेत, बगीचा, घर-सब पर कुहासा छा रहा था। सारा वातावरण अजीब रहस्य से आवृत मालूम पड़ता था। उस रहस्यमय वातावरण में एक कुश की चटाई पर पूरब मुँह, काली कमली ओढ़े, बालगोबिन भगत अपनी खंजड़ी लिए बैठे थे। उनके मुँह से शब्दों का ताँता लगा था, उनकी अँगुलियाँ खंजड़ी पर लगातार चल रही थीं।\n\nमान लीजिए आप माघ की दाँत किटकिटानेवाली भोर में पोखरे पर पहुँचे हैं और भगत का संगीत सुनाई देता है; गद्यांश के अनुसार उन्होंने किस बात पर बैठकर गाया था?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "पोखरे पर एक कुश की चटाई पर बैठे हुए गाते थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वे पूरब मुँह, काली कमली ओढ़े, अपनी खंजड़ी लिए बैठे थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कुश की चटाई पर",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "माघ की उस दाँत किटकिटानेवाली भोर में भी, उनका संगीत मुझे पोखरे पर ले गया था।",
+            "उस रहस्यमय वातावरण में एक कुश की चटाई पर पूरब मुँह, काली कमली ओढ़े, बालगोबिन भगत अपनी खंजड़ी लिए बैठे थे।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:C:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "अपनी व्याकरण-पुस्तिका के लिए उदाहरण चुनते हुए आप यह वाक्य लिख रहे हैं — 'वेशभूषा या बाह्य अनुष्ठानों से कोई संन्यासी नहीं होता, संन्यास का आधार जीवन के मानवीय सरोकार होते हैं।' इसके 'अनुष्ठान' शब्द में किस संधि का प्रयोग हुआ है? (A) गुण-संधि (B) यण्-संधि (C) कव्य-संधि (D) वृद्धि-संधि",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "यण्-संधि",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "वेशभूषा या बाह्य अनुष्ठानों से कोई संन्यासी नहीं होता, संन्यास का आधार जीवन के मानवीय सरोकार होते हैं।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "गुण-संधि",
+            "B": "यण्-संधि",
+            "C": "कव्य-संधि",
+            "D": "वृद्धि-संधि"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:C:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "जीवन-परिचय लिखते समय आपके सहपाठी ने यह वाक्य दिया — 'माता-पिता का निधन बचपन में ही हो जाने के कारण जीवन के आरंभिक वर्ष अभावों-कठिनाइयों और संघर्षों में बीते।' इसमें 'माता-पिता' किस समास का उदाहरण है? (A) तत्पुरुष समास (B) बहुव्रीहि समास (C) कर्मधारय समास (D) द्वंद्व समास",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "द्वंद्व समास",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "माता-पिता का निधन बचपन में ही हो जाने के कारण जीवन के आरंभिक वर्ष अभावों-कठिनाइयों और संघर्षों में बीते।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "तत्पुरुष समास",
+            "B": "बहुव्रीहि समास",
+            "C": "कर्मधारय समास",
+            "D": "द्वंद्व समास"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:C:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "mcq",
+      "stem": "किसी व्यक्ति के चरित्र पर टिप्पणी करते हुए आप यह वाक्य लिखते हैं — 'कभी झूठ नहीं बोलते, खरा व्यवहार रखते।' यह किस प्रकार का वाक्य है? (A) संयुक्त वाक्य (B) मिश्र वाक्य (C) सरल वाक्य (D) संकुल वाक्य",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "संयुक्त वाक्य",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कभी झूठ नहीं बोलते, खरा व्यवहार रखते।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "संयुक्त वाक्य",
+            "B": "मिश्र वाक्य",
+            "C": "सरल वाक्य",
+            "D": "संकुल वाक्य"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:D:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "गोदी में पियवा, चमक उठे सखिया, चिहुँक उठे ना!\" हाँ, पिया तो गोद में ही है, किंतु वह समझती है, वह अकेली है, चमक उठती है, चिहुँक उठती है। उसी भरे-बादलों वाले भादो की आधी रात में उनका यह गाना अँधेरे में अकस्मात कौंध उठने वाली बिजली की तरह किसे न चौंका देता?\n\nइस उपमान से यह प्रकट होता है कि गा रहे व्यक्ति के गाने का प्रभाव कैसा था? (A) इतना तेज़ था कि सबको कान से चोट पहुँच गई (B) अँधेरे में अचानक प्रकाश की कौंध फैठ गई (C) यह गाना केवल बिजली गिरने पर सुनाया गया (D) सुनने वाले सब कुंदे हो गए",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "अँधेरे में अचानक प्रकाश की कौंध फैठ गई",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "उसी भरे-बादलों वाले भादो की आधी रात में उनका यह गाना अँधेरे में अकस्मात कौंध उठने वाली बिजली की तरह किसे न चौंका देता?"
+          ],
+          "objective": true,
+          "options": {
+            "A": "इतना तेज़ था कि सबको कान से चोट पहुँच गई",
+            "B": "अँधेरे में अचानक प्रकाश की कौंध फैठ गई",
+            "C": "यह गाना केवल बिजली गिरने पर सुनाया गया",
+            "D": "सुनने वाले सब कुंदे हो गए"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:D:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "अब बुढ़ापा आ गया था, किंतु टेक वही जवानीवाली। इस बार लौटे तो तबीयत कुछ सुस्त थी। खाने-पीने के बाद भी तबीयत नहीं सुधरी, थोड़ा बुखार आने लगा। किंतु नेम-व्रत तो छोड़नेवाले नहीं थे। वही दोनों जून गीत, स्नानध्यान, खेतीबारी देखना। दिन-दिन छीजने लगे। लोगों ने नहाने-धोने से मना किया, आराम करने को कहा। किंतु, हँसकर टाल देते रहे।\n\nआप एक ऐसे बुज़ुर्ग का परिचय सुना रहे हैं जो बीमार पड़ने पर भी अपनी दिनचर्या से बिलकुल नहीं हटा; इस गद्यांश के अनुसार इसका कारण क्या था? (A) वे अपने श्रद्धा-संकल्प के प्रति बहुत दृढ़ थे (B) उनकी गृहिणी उन्हें बार-बार रोकती रही (C) वे केवल पड़ोसियों के कहने पर चलते थे (D) उन्हें किसी दूसरे व्रत का रुचि नहीं था",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "वे अपने श्रद्धा-संकल्प के प्रति बहुत दृढ़ थे",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "किंतु नेम-व्रत तो छोड़नेवाले नहीं थे।",
+            "वही दोनों जून गीत, स्नानध्यान, खेतीबारी देखना।",
+            "किंतु, हँसकर टाल देते रहे।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "वे अपने श्रद्धा-संकल्प के प्रति बहुत दृढ़ थे",
+            "B": "उनकी गृहिणी उन्हें बार-बार रोकती रही",
+            "C": "वे केवल पड़ोसियों के कहने पर चलते थे",
+            "D": "उन्हें किसी दूसरे व्रत का रुचि नहीं था"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:E:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "भारत-भ्रमण पर निकला एक परिवार तय करता है कि वह किसी व्यक्ति का स्मारक-दर्शन भी कर लेगा; यह निर्णय बताता है कि भगत के संबंध में कौन-सी बात सर्वोपरि थी?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "गंगा-स्नान पर उन्होंने उतनी आस्था नहीं रखी",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "संत-समागम और लोक-दर्शन पर उतनी या उससे अधिक आस्था रखते थे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "भगत गंगा-स्नान पर उतनी आस्था नहीं रखते थे, जितनी संत-समागम और लोक-दर्शन पर रखते थे; इसलिए संतों का साथ और उनका दर्शन उनके लिए स्नान से भी बढ़कर था।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "स्नान पर उतनी आस्था नहीं रखते, जितना संत-समागम और लोक-दर्शन पर।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:E:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "आपका साथी कहता है कि प्रभाती केवल कोमल भावनाओं के गीत होते हैं; उसकी यह समझ सही नहीं है, क्योंकि प्रभाती में किस भाव के बोल भी मिलते हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "प्रभातियाँ केवल सुकोमल भावनाओं तक सीमित नहीं हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "इनमें वीरता, साहस और उत्साह की बातें भी कही जाती हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "प्रभातियाँ केवल सुकोमल भावनाओं तक सीमित नहीं हैं; इनमें वीरता, साहस और उत्साह की बातें भी कही जाती हैं, इसलिए इनका भावक्षेत्र व्यापक है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "प्रभातियों या जागरण गीतों में केवल सुकोमल भावनाएँ ही नहीं वरन्वीरता, साहस और उत्साह की बातें भी कही जाती हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:E:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "very_short_answer",
+      "stem": "कोई व्यक्ति केवल वेशभूषा और बाह्य अनुष्ठान देखकर किसी को संन्यासी नहीं मानता; इस बात पर आप भगत के बारे में क्या कहेंगे?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "वेशभूषा या बाह्य अनुष्ठानों से कोई संन्यासी नहीं होता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "संन्यास का आधार जीवन के मानवीय सरोकार होते हैं, इसलिए भगत संन्यासी लगते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "वेशभूषा या बाह्य अनुष्ठानों से कोई संन्यासी नहीं होता; संन्यास का आधार जीवन के मानवीय सरोकार होते हैं, इसलिए भगत संन्यासी लगते हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "वेशभूषा या बाह्य अनुष्ठानों से कोई संन्यासी नहीं होता, संन्यास का आधार जीवन के मानवीय सरोकार होते हैं।",
+            "बालगोबिन भगत इसी आधार पर लेखक को संन्यासी लगते हैं।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:F:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "आपके मोहल्ले में किसी परिवार का इकलौता बेटा चल बसा है और बच्चों के रोने के कारण घर में रोना-कलाप छिड़ा हुआ है; इसी दुख में भगत ने अपनी भावनाएँ किस तरह व्यक्त कीं? लगभग ६० शब्दों में समझाइए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "बेटे को आँगन में चटाई पर लिटाकर सफ़ेद कपड़े से ढँक रखा और फूल व तुलसी-दल बिखराए",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "सिरहाने चिराग जलाया और ज़मीन पर आसन जमाकर स्वयं गीत गाते रहे",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "बेटे की क्रिया-कर्म में तूल नहीं किया, पतोहू से ही आग दिलाई",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "आत्मा परमात्मा के पास चली गई है, इसलिए यह हर्ष का विषय माना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बेटे को आँगन में एक चटाई पर लिटाकर सफ़ेद कपड़े से ढँक रखा है। उस पर फूल और तुलसी-दल बिखरे हैं, सिरहाने चिराग जला है और ज़मीन पर आसन जमाकर वे खुद गीत गाते रहे। बेटे की क्रिया-कर्म में तूल नहीं किया, पतोहू से ही आग दिलाई। उनका मानना था कि आत्मा परमात्मा के पास चली गई है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बेटे को आँगन में एक चटाई पर लिटाकर एक सफ़ेद कपड़े से ढाँक रखा है। वह कुछ फूल तो हमेशा ही रोपते रहते, उन फूलों में से कुछ तोड़कर उस पर बिखरा दिए हैं; फूल और तुलसीदल भी।",
+            "और, उसके सामने ज़मीन पर ही आसन जमाए गीत गाए चले जा रहे हैं! वही पुराना स्वर, वही पुरानी तल्लीनता।",
+            "बेटे के क्रिया-कर्म में तूल नहीं किया; पतोहू से ही आग दिलाई उसकी।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:F:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "आपके गाँव में एक कलाकार मौसम के हर ऋतु में अपने कला-कौशल का प्रदर्शन करता है; भगत के संगीत और दिनचर्या में ऋतु के अनुसार क्या-क्या बदलाव आता था? लगभग ६० शब्दों में लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "गर्मियों में 'संझा' आँगन में प्रेमियों के साथ खँजड़ी-करताल से होती और सबका मन-तन नृत्यशील हो जाता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कातिक आते ही प्रभातियाँ शुरू होकर फागुन तक चला करती थीं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भादो की अँधेरी अधरतिया में खँजड़ी डिमक-डिमक बजाकर गाते",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "माघ की भोर में नदी-स्नान करके पोखरे के ऊँचे भिंडे पर बैठकर गाने टेरते",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "गर्मियों में उनकी 'संझा' शाम को आँगन में अपने प्रेमियों के साथ खँजड़ी-करताल के साथ होती, एक पद को प्रेमी-मंडली दुहराती-तिहराती और सबका मन-तन नृत्यशील हो जाता। कातिक आते ही प्रभातियाँ शुरू हो जाती थीं जो फागुन तक चलतीं। भादो की अँधेरी अधरतिया में वे खँजड़ी बजाकर गाते। सर्दियों में माघ की भोर में नदी-स्नान करके पोखरे के ऊँचे भिंडे पर बैठकर गाने टेरते।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "गर्मियों में उनकी 'संझा' कितनी उमसभरी शाम को न शीतल करती!",
+            "कातिक आया नहीं कि बालगोबिन भगत की प्रभातियाँ शुरू हुईं, जो फागुन तक चला करतीं।",
+            "भादो की वह अँधेरी अधरतिया। अभी, थोड़ी ही देर पहले मुसलधार वर्षा खत्म हुई है।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:F:103",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "आपके समाज में भी कुछ मान्यताएँ ऐसी हैं जिन्हें बिना सोचे सब मान लेते हैं; भगत के जीवन-व्यवहार में ऐसी किन सामाजिक मान्यताओं का प्रहार हुआ है? लगभग ६० शब्दों में समझाइए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "संन्यास का आधार वेशभूषा या बाह्य अनुष्ठान नहीं, जीवन के मानवीय सरोकार बताए गए हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "वे गृहस्थ होते हुए भी साधु की सब परिभाषाओं में खरे उतरते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कबीर को 'साहब' मानते हैं, उनके गीत गाते और आदेशों पर चलते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "गृहिणी, बेटे और पतोहू के रहते हुए भी वे 'बिलकुल गृहस्थ' कहलाते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "भगत गृहस्थ होते हुए भी साधु की सब परिभाषाओं में खरे उतरते हैं; संन्यास का आधार वेशभूषा या बाह्य अनुष्ठान नहीं, जीवन के मानवीय सरोकार हैं। वे कबीर को 'साहब' मानते हैं, उनके गीत गाते और आदेशों पर चलते हैं। खेत-परिवार होने के बावजूद उनका आचरण साधुओं सा है, और उनकी गृहिणी, बेटे तथा पतोहू के रहते वे 'बिलकुल गृहस्थ' कहलाते हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "वेशभूषा या बाह्य अनुष्ठानों से कोई संन्यासी नहीं होता, संन्यास का आधार जीवन के मानवीय सरोकार होते हैं।",
+            "कबीर को 'साहब' मानते थे, उन्हीं के गीतों को गाते, उन्हीं के आदेशों पर चलते।",
+            "ऊपर की तसवीर से यह नहीं माना जाए कि बालगोबिन भगत साधु थे। नहीं, बिलकुल गृहस्थ!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:G:101",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "आपके गाँव में एक ऐसा व्यक्ति रहता है जो पहचान-पहचान से नहीं, बल्कि अपने काम और व्यवहार से जाना जाता है; ऐसे ही व्यक्तियों के बारे में लगभग १२० शब्दों में एक अनुच्छेद लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: संन्यास के आधार के रूप में जीवन के मानवीय सरोकार को स्पष्ट किया गया है",
+            "marks": 2,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: शीर्षक-सहित एक सतत अनुच्छेद के रूप में लिखा गया है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: आरंभ में बात, बीच में उनका वेशभूषा और आचरण, अंत में निष्कर्ष",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "शुद्धता: वर्तनी, विराम-चिह्न और देवनागरी लिपि का सही प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शैली: सरल, प्रवाहमय भाषा और सार्थक शब्द-चयन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "योजना — आरंभ: संन्यास का आधार किस बात को बताना है। मध्य: खेतीबारी करने वाले भगत साधु की सब परिभाषाओं में कैसे खरे उतरते थे और उनका वेशभूषा कैसा था। अंत: उनके आचरण से सारा निष्कर्ष।\n\nमानवीय सरोकार ही सच्चे संन्यास का आधार हैं। वेशभूषा या बाह्य अनुष्ठानों से कोई संन्यासी नहीं होता। बालगोबिन भगत खेतीबारी करते, परिवार रखते, फिर भी साधु की सब परिभाषाओं में खरे उतरते थे। उनकी वेशभूषा में कबीरपंथियों की-सी कनफटी टोपी और कमर में लंगोटी-मात्र थी, मस्तक पर चमकता रामानंदी चंदन। किंतु उनका असली संन्यास उनके सरोकार में था—कबीर को 'साहब' मानना, उनके गीत गाना, झूठ न बोलना, खरा व्यवहार रखना और किसी की चीज़ बिना पूछे न छूना।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "वेशभूषा या बाह्य अनुष्ठानों से कोई संन्यासी नहीं होता, संन्यास का आधार जीवन के मानवीय सरोकार होते हैं।",
+            "किंतु, खेतीबारी करते, परिवार रखते भी, बालगोबिन भगत साधु थे-साधु की सब परिभाषाओं में खरे उतरनेवाले।",
+            "मस्तक पर हमेशा चमकता हुआ रामानंदी चंदन, जो नाक के एक छोर से ही, औरतों"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jhks1:08:G:102",
+      "questionBankId": "ai-cbse:jhks1",
+      "subject": "Hindi",
+      "grade": 10,
+      "chapterIds": [
+        "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत"
+      ],
+      "taxonomyChapterId": "hindi-10/रामवृक्ष-बेनीपुरी-बालगोबिन-भगत",
+      "topic": "",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "आपके गाँव में कलाकारों के सम्मान में कार्यक्रम आयोजित किया गया है और शोभायात्रा में मंडप पर आपसे अभिभाषण देने की अपेक्षा की गई है; विद्यालय के मंडप से दिए गए प्रस्तुतिकरण पर लगभग १२० शब्दों में अभिभाषण लिखिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: कला के महत्त्व और कलाकारों के सम्मान पर केंद्रित विचार",
+            "marks": 2,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रारूप: अभिभाषण का शीर्षक, संबोधन, मुख्य भाग और अंत में धन्यवाद-समापन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: कला का महत्त्व, कलाकार के गाने का प्रभाव, अंत में आग्रह",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "शुद्धता: वर्तनी, विराम-चिह्न और देवनागरी अंकों का सही प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शैली: जन-भाषा में सरल, प्रभावशाली और उपयुक्त वाक्य-विन्यास",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सभा के सभी प्रिय मित्रों को मेरा प्रणाम।\n\nकला व्यक्ति के हृदय का वासना है, समाज का दीपक है। आज हम यहाँ उन कलाकारों का सम्मान करने बैठे हैं, जिन्होंने अपने गाँव की लोक-संस्कृति और लोक-गीत को अपनी साँसों के साथ जीवित रखा।\n\nआप सबने उस गाँव देखा होगा, जहाँ एक कलाकार अपनी लहरी के साथ खेत में काम करते हुए गाते हैं और उनका गाना सुनते ही पूरा माहौल जाग उठता है — बच्चे खेलते हुए झूम उठते हैं, मेंड़ पर खड़ी औरतें गुनगुनाने लगती हैं और हलवाहों के पैर ताल से उठने लगते हैं। उनके गाए का असर ही उनकी पहचान बन गया।\n\nमैं सभी से आग्रह करूँगा कि इन कलाकारों का गीत अपने घर में गाएँ और सुनाएँ।\n\nधन्यवाद।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बच्चे खेलते हुए झूम उठते हैं; मेंड़ पर खड़ी औरतों के होंठ काँप उठते हैं, वे गुनगुनाने लगती हैं; हलवाहों के पैर ताल से उठने लगते हैं; रोपनी करनेवालों की अँगुलियाँ एक अजीब क्रम से चलने लगती हैं!",
+            "बालगोबिन भगत का यह संगीत है या जादू!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "G Writing: paragraph",
+        "chapter": "jhks1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "options-not-answerable",
+      "stem": "इस गद्यांश में लेखक भगत के गंगा-स्नान के विवरण को इसलिए खींचा है ताकि पाठक को किस बात का स्पष्ट आभास हो?"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "",
+      "reason": "options-not-answerable",
+      "stem": "इन पंक्तियों में खेत में हल चलाने वाले और चरखा कातने वाली दो तस्वीरें साथ-साथ दी गई हैं; इसका क्या अर्थ है?"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "आपके विद्यालय में 'प्रभाती' गायन का कार्यक्रम आयोजित करने के लिए प्रधानाचार्य की अनुमति चाहिए; अपने प्रधानाचार्य को पत्र"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१००",
+      "stem": "आपके गाँव में 'संगीत समा' का आयोजन हो रहा है। अपने कक्षा के मित्र को पत्र लिखकर उसे इस आयोजन में आने और कुछ दिन गाँव में"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१००",
+      "stem": "आपके गाँव की युवा-मंडली ने आषाढ़ के अवसर पर 'संगीत समा' आयोजित करने का निर्णय लिया है। इस कार्यक्रम के लिए कलाकार को आमं"
+    },
+    {
+      "section": "H",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "figure-not-in-text:१००",
+      "stem": "आपने गाँव के एक वृद्ध कलाकार के प्रभाती गीत और उनके बारे में के स्मरण एकत्र करने का निर्णय लिया है। इस सामग्री को प्रदर्"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "too-many-marking-points",
+      "stem": "आपके गाँव की युवा-मंडली ने 'संगीत समा' आयोजित करने की घोषणा की है। इस कार्यक्रम का आमंत्रण-विज्ञापन तैयार कीजिए। (लगभग ५"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "too-many-marking-points",
+      "stem": "आपके मोहल्ले के सभी सहपाठियों को कार्यक्रम की जानकारी तुरंत मिल जानी चाहिए; अपने मित्रों के समूह को भेजने हेतु लगभग ५० श"
+    },
+    {
+      "section": "I",
+      "qtype": "short_answer",
+      "topic": "",
+      "reason": "too-many-marking-points",
+      "stem": "कक्षा दस के छात्रों के लिए 'प्रभाती गायन' का एक शिक्षण शिविर शुरू किया जा रहा है; इस शिविर का विज्ञापन तैयार कीजिए। (लगभ"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jhks1",
+    "chapters": [
+      8
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

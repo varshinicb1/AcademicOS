@@ -1,0 +1,2035 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:ihga1:06:A:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "रामस्व रूप : हाँ एक तो बाबू गोपालप्रसाद और दूसरा खुद लड़का है। देखो, उमा से\nकह देना कि ज़रा करीने से आए। ये लोग ज़रा ऐसे ही हैं, गुस्सा तो मुझे\nबहुत आता है इनके दकियानूसी खयालों पर। खुद पढ़े-लिखे हैं, वकील\nहैं, सभा-सोसाइटियों में जाते हैं, मगर लड़की चाहते हैं ऐसी कि ज्यादा\nपढ़ी-लिखी न हो।\n\nइस अंश में रामस्वरूप गोपालप्रसाद और शंकर की किस बात पर आपत्ति कर रहे हैं? (A) गोपालप्रसाद और शंकर ने शादी की तारीक़ तक तय नहीं कराई (B) गोपालप्रसाद और शंकर ने रतन के काम का इशारा नहीं समझा (C) गोपालप्रसाद और शंकर उनके यहाँ देर से आए हैं (D) गोपालप्रसाद और शंकर लड़की को अधिक पढ़ी-लिखी नहीं चाहते",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "गोपालप्रसाद और शंकर लड़की को अधिक पढ़ी-लिखी नहीं चाहते",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कह देना कि ज़रा करीने से आए। ये लोग ज़रा ऐसे ही हैं, गुस्सा तो मुझे",
+            "हैं, सभा-सोसाइटियों में जाते हैं, मगर लड़की चाहते हैं ऐसी कि ज्यादा"
+          ],
+          "objective": true,
+          "options": {
+            "A": "गोपालप्रसाद और शंकर ने शादी की तारीक़ तक तय नहीं कराई",
+            "B": "गोपालप्रसाद और शंकर ने रतन के काम का इशारा नहीं समझा",
+            "C": "गोपालप्रसाद और शंकर उनके यहाँ देर से आए हैं",
+            "D": "गोपालप्रसाद और शंकर लड़की को अधिक पढ़ी-लिखी नहीं चाहते"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading: unseen passage, objective",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:B:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "शंकर\n: जी, यही कोई साल-दो-साल।\nरामस्वरूप : साल-दो-साल?\nशंकर\n: हँ-हँ-हँ!... जी, एकाध साल का ‘मार्जि न’ रखता हूँ।\nगोपालप्रसाद : बात यह है साहब कि यह शंकर एक साल बीमार हो गया था। क्या बताएँ,\nइन लोगों को इसी उम्र में सारी बीमारियाँ सताती हैं। एक हमारा ज़माना था\nकि स्कूल से आकर दर्जनों कचौड़ि याँ उड़ा जाते थे, मगर फिर जो खाना\nखाने बैठते तो वैसी-की-वैसी ही भूख!\n\nइस अंश में शंकर अपने कोर्स में एक साल का मार्जिन क्यों रख रहा है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "मार्जिन रखने का कारण पूछा गया है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उत्तर — एक साल बीमार रहना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "एक साल तक बीमार रहना",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            ": हँ-हँ-हँ!... जी, एकाध साल का ‘मार्जि न’ रखता हूँ।",
+            "गोपालप्रसाद : बात यह है साहब कि यह शंकर एक साल बीमार हो गया था। क्या बताएँ,"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:B:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "शंकर\n: (खँखारकर) सुना है, सरकार अब ज्यादा चीनी लेने वालों पर ‘टैक्स’\nलगाएगी।\nगोपालप्रसाद : (चाय पीते हुए) हूँ। सरकार जो चाहे सो कर ले; पर अगर आमदनी करनी है\nतो सरकार को बस एक ही टैक्स लगाना चाहिए।\nरामस्व रूप : (शंकर को प्याला पकड़ा ते हुए) वह क्या?\nगोपालप्रसाद : खूबसूरती पर टैक्स! (रामस्व रूप और शंकर हँस पड़ते हैं।) मजाक नहीं\nसाहब, यह ऐसा टैक्स है जनाब कि देने वाले चूँ भी न करेंगे। बस शर्त यह\nहै कि हर एक औरत पर यह छोड़ दिया जाए कि वह अपनी खूबसूरती के\n\nइस अंश में गोपालप्रसाद चीनी वाली बात छोड़कर किस विचार पर पहुँच गए हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "बात का मज़ाक के रूप में टैक्स तक पहुँचना बताया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उत्तर — ख़ूबसूरती पर टैक्स",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "ख़ूबसूरती पर अलग टैक्स",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "गोपालप्रसाद : खूबसूरती पर टैक्स! (रामस्व रूप और शंकर हँस पड़ते हैं।) मजाक नहीं",
+            "साहब, यह ऐसा टैक्स है जनाब कि देने वाले चूँ भी न करेंगे। बस शर्त यह"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:B:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "गोपालप्रसाद : यह ठीक कहा आपने, बिल्कुल ठीक। (थोड़ी देर रुककर) लेकिन हाँ, यह\nजो मेरे कानों में भनक पड़ी है, यह तो गलत है न?\nरामस्व रूप : (चौं ककर) क्या?\nगोपालप्रसाद : यह पढ़ाई-लिखाई के बारे में!... जी हाँ, साफ बात है साहब, हमें ज्यादा\nपढ़ी-लिखी लड़की नहीं चाहिए। मेम साहब तो रखनी नहीं , कौन भुगतेगा\nउसके नखरों को। बस हद से हद मैट्रि क-पास होनी चाहिए... क्यों, शंकर?\n\nइस अंश में गोपालप्रसाद बेटी की शिक्षा के लिए कितनी हद तक चलने को तैयार हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "शिक्षा की सीमा बताई गई",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "उत्तर — बस मैट्रिक-पास",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "बस मैट्रिक तक",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "गोपालप्रसाद : यह पढ़ाई-लिखाई के बारे में!... जी हाँ, साफ बात है साहब, हमें ज्यादा",
+            "उसके नखरों को। बस हद से हद मैट्रि क-पास होनी चाहिए... क्यों, शंकर?"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Reading: unseen passage, short answer",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:C:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "उमा गोपालप्रसाद से कहती हैं— 'जी हाँ, और हमारी बेइज्जती नहीं होती जो आप इतनी देर से नाप-तोल कर रहे हैं?' — इस वाक्य में 'नाप-तोल' किस समास का उदाहरण है? (A) द्विगु समास (B) द्वन्द्व समास (C) कर्मधारय समास (D) तत्पुरुष समास",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "द्विगु समास",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "जी हाँ, और हमारी बेइज्जती नहीं होती जो आप इतनी देर से",
+            "नाप-तोल कर रहे हैं? और ज़रा अपने इन साहबजादे से पूछिए कि अभी"
+          ],
+          "objective": true,
+          "options": {
+            "A": "द्विगु समास",
+            "B": "द्वन्द्व समास",
+            "C": "कर्मधारय समास",
+            "D": "तत्पुरुष समास"
+          },
+          "correctOption": "A"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:C:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "गोपालप्रसाद उमा को समझाते हैं— 'ज़रा मुँह तो खोलना चाहिए।' — इस वाक्य में कौन-सा पद क्रिया-विशेषण है? (A) खोलना (B) ज़रा (C) चाहिए (D) मुँह",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "चाहिए",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "गोपालप्रसाद : (ज़रा रूखी आवाज़ में) ज़रा मुँह तो खोलना चाहिए।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "खोलना",
+            "B": "ज़रा",
+            "C": "चाहिए",
+            "D": "मुँह"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:C:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "गोपालप्रसाद कहते हैं— 'जनाब, मोर के पंख होते हैं, मोरनी के नहीं ; शेर के बाल होते हैं, शेरनी के नहीं।' — इस वाक्य में किस अलंकार का प्रयोग हुआ है? (A) उपमा (B) रूपक अलंकार (C) अतिशयोक्ति (D) पंक्तिबद्धता",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "पंक्तिबद्धता",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "गृहस्थी। जनाब, मोर के पंख होते हैं, मोरनी के नहीं ; शेर के बाल होते हैं,",
+            "शेरनी के नहीं ।"
+          ],
+          "objective": true,
+          "options": {
+            "A": "उपमा",
+            "B": "रूपक अलंकार",
+            "C": "अतिशयोक्ति",
+            "D": "पंक्तिबद्धता"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Grammar",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:D:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "रामस्व रूप : दो तरह का होता है। एक तो आदमी का बनाया हुआ। उसे एक बार चलाकर\nजब चाहे रोक लो। और दूसरा परमात्मा का बनाया हुआ। उसका रिकार्ड\nएक बार चढ़ा तो रुकने का नाम नहीं ।\n\nइस उदाहरण में रामस्वरूप किस बात की ओर इशारा कर रहे हैं? (A) किसी व्यक्ति की टाल-टूल करने की बात (B) शरीर की किसी हड्डी के बारे में जानकारी देने की बात (C) किसी काम से बाहर निकलकर आगे बढ़ जाने की बात (D) किसी बात को दोबारा सँभाल लेने की बात",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "किसी काम से बाहर निकलकर आगे बढ़ जाने की बात",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "एक बार चढ़ा तो रुकने का नाम नहीं ।",
+            "रामस्व रूप : दो तरह का होता है। एक तो आदमी का बनाया हुआ। उसे एक बार चलाकर"
+          ],
+          "objective": true,
+          "options": {
+            "A": "किसी व्यक्ति की टाल-टूल करने की बात",
+            "B": "शरीर की किसी हड्डी के बारे में जानकारी देने की बात",
+            "C": "किसी काम से बाहर निकलकर आगे बढ़ जाने की बात",
+            "D": "किसी बात को दोबारा सँभाल लेने की बात"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:D:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "रामस्व रूप : बताया तो था तुम्हें । बाप सेर है तो लड़का सवा सेर। बी.एससी. के बाद\nलखनऊ में ही तो पढ़ता है मेडिकल काॅलेज में। कहता है कि शादी का\nसवाल दूसरा है, तालीम का दूसरा। क्या करूँ, मजबूरी है। मतलब अपना है,\nवरना इन लड़कों और इनके बापों को ऐसी कोरी-कोरी सुनाता कि ये भी...\n\nशंकर के इस कथन से क्या पता चलता है? (A) कि वह शादी की बातचीत कोई दूसरे से करवाना चाहता है (B) कि वह मेडिकल की पढ़ाई छोड़कर घर चला जाना चाहता है (C) कि मेडिकल कॉलेज की पढ़ाई पूरी करना उसके लिए कठिन है (D) कि शंकर शादी को पढ़ाई से अधिक महत्व देता है",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कि शंकर शादी को पढ़ाई से अधिक महत्व देता है",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "सवाल दूसरा है, तालीम का दूसरा। क्या करूँ, मजबूरी है। मतलब अपना है,",
+            "रामस्व रूप : बताया तो था तुम्हें । बाप सेर है तो लड़का सवा सेर। बी.एससी. के बाद"
+          ],
+          "objective": true,
+          "options": {
+            "A": "कि वह शादी की बातचीत कोई दूसरे से करवाना चाहता है",
+            "B": "कि वह मेडिकल की पढ़ाई छोड़कर घर चला जाना चाहता है",
+            "C": "कि मेडिकल कॉलेज की पढ़ाई पूरी करना उसके लिए कठिन है",
+            "D": "कि शंकर शादी को पढ़ाई से अधिक महत्व देता है"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:D:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "लेकिन ज़रा नाश्ता तो कर लीजिए। (उठते हैं।)\nगोपालप्रसाद : (थोड़ी देर बाद दबी आवाज़ में) आदमी तो भला है। मकान-वकान से\nहैसियत भी बुरी नहीं मालूम होती। पता चले, लड़की कैसी है।\nशंकर\n: जी... (कुछ खँखारकर इधर-उधर देखता है।)\nगोपालप्रसाद : क्यों, क्या हुआ?\nशंकर\n: कुछ नहीं ।\nगोपालप्रसाद : झुककर क्यों बैठते हो? ब्याह तय करने आए हो, कमर सीधी करके बैठो।\nतुम्हारे दोस्त ठीक कहते हैं कि शंकर की ‘बैकबोन’... (इतने में बाबू\n\nइस उदाहरण में गोपालप्रसाद शंकर के व्यवहार के बारे में किस ओर संकेत कर रहे हैं? (A) कि शंकर के पिता की इच्छा पर ही सब कुछ टिका है (B) कि शंकर के व्यवहार में मज़बूती और आत्मविश्वास का अभाव है (C) कि शंकर के दोस्त उसकी मदद के लिए नहीं आए हैं (D) कि शंकर ने अपने बारे में जान-बूझकर कुछ नहीं बताया",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "कि शंकर के व्यवहार में मज़बूती और आत्मविश्वास का अभाव है",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "गोपालप्रसाद : झुककर क्यों बैठते हो? ब्याह तय करने आए हो, कमर सीधी करके बैठो।",
+            "तुम्हारे दोस्त ठीक कहते हैं कि शंकर की ‘बैकबोन’... (इतने में बाबू"
+          ],
+          "objective": true,
+          "options": {
+            "A": "कि शंकर के पिता की इच्छा पर ही सब कुछ टिका है",
+            "B": "कि शंकर के व्यवहार में मज़बूती और आत्मविश्वास का अभाव है",
+            "C": "कि शंकर के दोस्त उसकी मदद के लिए नहीं आए हैं",
+            "D": "कि शंकर ने अपने बारे में जान-बूझकर कुछ नहीं बताया"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Textbook: extract based MCQ",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:E:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "उमा से विवाह की बातचीत में गोपालप्रसाद लड़की की शिक्षा के लिए कौन-सी शर्त रखते हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "शिक्षा की सीमा बताई — बस मैट्रिक-पास",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "इसका कारण भी दिया — घर की औरतें राज़ी नहीं होतीं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "गोपालप्रसाद चाहते हैं कि लड़की हद से हद मैट्रिक तक पढ़ी हो। उससे अधिक पढ़ी-लिखी लड़की वे नहीं चाहते, क्योंकि घर की औरतें इस बात पर राज़ी नहीं होतीं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "गोपालप्रसाद : यह पढ़ाई-लिखाई के बारे में!... जी हाँ, साफ बात है साहब, हमें ज्यादा",
+            "पढ़ी-लिखी लड़की नहीं चाहिए। मेम साहब तो रखनी नहीं , कौन भुगतेगा"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:E:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "remember",
+      "type": "very_short_answer",
+      "stem": "गोपालप्रसाद अपने ज़माने के बच्चों की किस बात का ज़िक्र करते हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "स्कूल से आकर दर्जनों कचौड़ियाँ खाने का ज़िक्र किया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "खाना खाकर भी वैसी-की-वैसी भूख रहने की बात कही",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "गोपालप्रसाद बताते हैं कि उनके ज़माने में बच्चे स्कूल से आकर दर्जनों कचौड़ियाँ उड़ा लेते थे और फिर जो खाना खाने बैठते थे, वह खाकर भी उनकी वैसी-ही-वैसी भूख रह जाती थी।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कि स्कूल से आकर दर्जनों कचौड़ि याँ उड़ा जाते थे, मगर फिर जो खाना",
+            "खाने बैठते तो वैसी-की-वैसी ही भूख!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:E:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "very_short_answer",
+      "stem": "रामस्वरूप अपनी पत्नी प्रेमा को मेहमानों के सामने क्यों चुप रहने का इशारा करते हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 2,
+        "markingPoints": [
+          {
+            "description": "मेहमानों के सामने इज्ज़त बचाने की चिंता बताई",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "पहले ही सख्ती देने का ज़िक्र किया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "रामस्वरूप डरते हैं कि प्रेमा के मुँह से कुछ ऐसा न निकले जिससे उन लोगों के सामने घर की इज्ज़त जाती दे। इसीलिए वे पहले ही सख्ती दे चुके हैं कि उन सब के सामने ढंग से बोला जाएगा।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "जबान पर काबू नहीं है। कल ही यह बात बता दी थी कि उन सब लोगों के",
+            "सामने जिक्र और ढंग से होगा। मगर तुम तो अभी से सब-कुछ उगले देती"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 2,
+      "marks": 2,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Textbook: short answer",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:F:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "उमा की शिक्षा को लेकर प्रेमा और रामस्वरूप में जो विवाद है, उससे उस परिवार की किस मान्यता का पता चलता है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "बेटी की शिक्षा को परिवार में ज़रूरी न माना जाता",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "रामस्वरूप के अनुसार इंट्रेंस तक पढ़ाना ही काफ़ी है",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रेमा अपने ज़माने की शिक्षा को ही बेहतर मानती हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "दोनों अपने ही ज़माने की सोच को सही मानते हैं",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "इस विवाद से पता चलता है कि परिवार में बेटी की शिक्षा को ज़रूरी नहीं माना जाता। रामस्वरूप कहते हैं कि इंट्रेंस ही पास करा लेती तो लड़की को इतनी परेशानी न उठानी पड़ती। प्रेमा भी ख़ुद कोई अच्छी पढ़ी-लिखी नहीं मानतीं और इसीलिए उमा की पढ़ाई-लिखाई को जंजाल कहकर दो देती हैं। दोनों अपने ही ज़माने की सोच को सही मानते हैं।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "रहती, और इतनी परेशानी न उठानी पड़ती। पर तुम तो...",
+            "इतना सिर चढ़ा रखा है। मेरी समझ में तो ये पढ़ाई-लिखाई के जंजाल आते नहीं ।"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:F:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "शंकर के कमज़ोर न होने के लिए गोपालप्रसाद किन बातों का हवाला देते हैं?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "शंकर के एक साल बीमार रहने का हवाला दिया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "बच्चों के दर्जनों कचौड़ियाँ खाने का उदाहरण दिया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "बारह घंटे की सिटिंग का ज़िक्र किया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "मैट्रिक में अंग्रेजी फर्राटे के साथ लिखने वाली बात कही",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "गोपालप्रसाद बताते हैं कि शंकर एक साल बीमार रहा था और उनके ज़माने में बच्चों की भूख ही अलग थी। स्कूल से आकर बच्चे दर्जनों कचौड़ियाँ खा लेते थे, मगर फिर भी जो खाना मिलता था उसे खाकर वैसी-ही-वैसी भूख रहती थी। पढ़ाई में एक बार कुर्सी पर बैठते तो बारह घंटे की सिटिंग हो जाती थी और उनके ज़माने का मैट्रिक भी अंग्रेजी फर्राटे के साथ लिखता था।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कि स्कूल से आकर दर्जनों कचौड़ि याँ उड़ा जाते थे, मगर फिर जो खाना",
+            "खाने बैठते तो वैसी-की-वैसी ही भूख!",
+            "कि बारह घंटे की ‘सिटिंग’ हो गई, बारह घंटे! जनाब, मैं सच कहता हूँ कि"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:F:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "गोपालप्रसाद लड़की की ख़ूबसूरती और शिक्षा के बारे में जो कहते हैं, उसमें उनकी किस मान्यता का पता चलता है?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "ख़ूबसूरती को निहायत ज़रूरी माना",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "शिक्षा की सीमा मैट्रिक-पास तक बताई",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "घर की औरतों की राज़ी न होने का हवाला दिया",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "कुछ बातें सिर्फ़ पुरुषों के लिए हैं, यह सोच दोहराई",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "गोपालप्रसाद की मान्यता है कि लड़की का ख़ूबसूरत होना निहायत ज़रूरी है और शिक्षा हद से हद मैट्रिक तक ही होनी चाहिए। उनके अनुसार घर की औरतें इस बात पर राज़ी नहीं होतीं। इसीलिए वे कहते हैं कि कुछ बातें दुनिया में ऐसी हैं जो सिर्फ़ पुरुषों के लिए हैं, और ऊँची तालीम भी ऐसी ही चीज़ों में से एक है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "था, लड़की का खूबसूरत होना निहायत जरूरी है। कैसे भी हो, चाहे पाउडर",
+            "घर की औरतें तो राजी नहीं होतीं । आपकी लड़की तो ठीक है?",
+            "गोपालप्रसाद : हाँ, हाँ। वह भी सही है। कहने का मतलब यह है कि कुछ बातें दुनिया में ऐसी"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Supplementary reader: answer",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:H:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपने पिता को लगभग १०० शब्दों में पत्र लिखिए, जिसमें समझाइए कि लड़की की शिक्षा और उसके विवाह-योग्य होने के बीच का टकराव कैसे दूर करें।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: लड़की की शिक्षा और विवाह-योग्य होने के बीच के टकराव पर अपनी बात — दो अंक",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "स्वरूप: पत्र का प्रारूप, पत्र संबोधन, प्रस्तावना, विषय-वस्तु और हस्ताक्षर-संधारा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: समस्या बताना, अपनी राय देना और अंत में अनुरोध का क्रम",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता: व्याकरण, वर्तनी और लेखन-बिंदु का सही प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रसाद एवं शब्द-सीमा: सरल भाषा और लगभग १०० शब्दों की सीमा का पालन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "प्रिय पिताजी,\n\nआज सुबह घर में एक बहस ने मुझे आपके पास लिखने का काम दिया। मेरी बहन को कॉलेज में पढ़ने की उम्र है, पर हमारे घर में उसकी शिक्षा को लेकर लोग घुसकर आ गए। पिताजी, मेरी समझ में है कि बेटी पढ़े-लिखी हुई तो उसे घर का काम समझ आएगा, पर उसे घुसकर लेने वाले भी नहीं मिलेंगे। मेरा अनुभव कहता है कि जो बेटी पढ़ती है, वह विवाह में बहुत पहले बात कर पाती है। कृपया उसे पूरी पढ़ाई करने दीजिए।\n\nआपका पुत्र\n\n(हस्ताक्षर)",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "दो तरह का होता है। एक तो आदमी का बनाया हुआ। उसे एक बार चलाकर",
+            "उसके नखरों को। बस हद से हद मैट्रि क-पास होनी चाहिए... क्यों, शंकर?"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:H:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपनी सहेली को लगभग १०० शब्दों में ई-मेल लिखिए, जिसमें बताइए कि घर में ऊँची तालीम को अनावश्यक मानने वाली सोच का तुम पर क्या असर पड़ा।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: घर की सोच का अपनी पढ़ाई और निर्णय पर असर — दो अंक",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "स्वरूप: ई-मेल का विषय-पंक्ति, अभिवादन, प्रस्तावना, समापन और हस्ताक्षर",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: प्रश्न का उत्तर देने की प्रस्तावना, उदाहरण और अंत में प्रेरणादायक बात",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता: व्याकरण, वर्तनी और लेखन-बिंदु का सही प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रसाद एवं शब्द-सीमा: सरल भाषा और लगभग १०० शब्दों की सीमा का पालन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "विषय: घर की सोच का मेरी यात्रा पर असर\n\nनमस्कार,\n\nतुमने पूछा कि मेरी यात्रा में घर की किस सोच का सबसे ज़्यादा असर पड़ा। मैं बताऊँगी कि मेरे घर में सोचा जाता था कि पढ़े-लिखी बेटी घर की उम्मीदों पर ख़री नहीं उतरती। इसीलिए हर नए साल अभिभावक से मना करवानी पड़ती थी। मैंने कुछ किया नहीं, बस अपनी पढ़ाई को लेकर चुपचाप आगे बढ़ती रही। आज जब लोग सवाल पूछते हैं तो मैं तैयार रहती हूँ। बस तुम अपनी मेहनत मत रोकना।\n\nतुमकी सहेली",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "हैं जो सिर्फ मददों के लिए हैं। और ऊँची तालीम भी ऐसी चीजों में से एक है।",
+            "बहुत आता है इनके दकियानूसी खयालों पर। खुद पढ़े-लिखे हैं, वकील"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:H:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "अपना लगभग १०० शब्दों में जीवन-वृत्त (CV) तैयार कीजिए, जिसमें अपनी उपलब्धियों के साथ यह भी बताएँ कि आगे आप किस क्षेत्र में पढ़ना चाहते हैं।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: अपनी उपलब्धियों और आगे के अध्ययन के क्षेत्र का स्पष्ट वर्णन — दो अंक",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "स्वरूप: CV के प्रारूप में नाम, पेशा, शिक्षा का उल्लेख तथा अंत में संबंध-संधारा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: शिक्षा से उपलब्धि, फिर अभिरुचि तथा अंत में लक्ष्य का क्रम",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता: व्याकरण, वर्तनी और लेखन-बिंदु का सही प्रयोग",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "प्रसाद एवं शब्द-सीमा: सरल भाषा और लगभग १०० शब्दों की सीमा का पालन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "जीवन-वृत्त\n\nनाम: ——————————\nपेशा: विद्यार्थी\nशिक्षा: कक्षा नव, माध्यमिक विद्यालय\n\nमैंने अपनी प्रारंभिक शिक्षा पूरी करते हुए हर साल खेल-कूद और संगीत में भी भाग लिया। कुछ समय से मुझे कहानी लिखने का शौक रहा है और मेरी कहानियाँ पत्रिका में छपी हैं। मेरा लक्ष्य कक्षा दस के बाद किसी अच्छे विषय को पढ़ना और पत्रकारिता या साहित्य में काम करना है। पढ़ाई को सिर्फ़ कागज़ तक सीमित न रखना और घर वालों की सोच से हटकर अपने रास्ते पर चलना मेरे लिए बहुत महत्वपूर्ण है।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "सवाल दूसरा है, तालीम का दूसरा। क्या करूँ, मजबूरी है। मतलब अपना है,",
+            "पढ़ी-लिखी लड़की नहीं चाहिए। मेम साहब तो रखनी नहीं , कौन भुगतेगा"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "H Writing: letter, CV / e-mail",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:I:101",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "बेटियों की शिक्षा को प्रोत्साहन देने के लिए लगभग ५० शब्दों में एक संदेश लिखिए, जिसमें लक्ष्य भी बताए जाएँ।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: बेटियों की शिक्षा का महत्व और स्पष्ट लक्ष्य — दो अंक",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "स्वरूप: संदेश का शीर्षक, संदेश-पाठ और हस्ताक्षर अथवा श्रद्धासुमन-रेखा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: रुचि का आरंभ, महत्व और अंत में लक्ष्य-सहित प्रेरणादायक आह्वान",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं संक्षिप्तता: व्याकरण और लगभग ५० शब्दों की सीमा का पालन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "संदेश\n\nहर घर में बेटी को पढ़ाना केवल उसे जोड़ने का नहीं, आगे बढ़ाने का काम है। पढ़ी-लिखी बेटी किसी का बोझ नहीं बनती। लक्ष्य यही है कि उसे आगे पढ़ाकर ऐसा बनाया जाए कि वह अपने फ़ैसले ख़ुद करे और अपना हिस्सा आगे बढ़ाए।\n\n— एक विद्यार्थी",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "सामाजिक कुरीतियों को उजागर किया गया है। एकांकी की मुख्य पात्र उमा पढ़ी-लिखी सशक्त",
+            "पढ़ी-लिखी लड़की नहीं चाहिए। मेम साहब तो रखनी नहीं , कौन भुगतेगा"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:I:102",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "लड़कियों के लिए सप्ताह में एक दिन अतिरिक्त पाठ की व्यवस्था करने वाले विद्यालय के लिए लगभग ५० शब्दों में एक सूचना तैयार कीजिए।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: बैठक के दिन, समय और अनिवार्य उपस्थिति की सूचना — दो अंक",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "स्वरूप: सूचना का शीर्षक, उद्देश्य-बोधक पंक्ति, समय-विवरण और हस्ताक्षर-संधारा",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: दिन और समय, फिर उपस्थिति तथा अंत में संपर्क-सूचना का क्रम",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं संक्षिप्तता: व्याकरण और लगभग ५० शब्दों की सीमा का पालन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "सूचना\n\nविद्यालय में बुधवार को सप्ताह का विशेष दिन रखा गया है। उस दिन प्रातः से दोपहर तक बैठक के अतिरिक्त प्रशिक्षण दिया जाएगा और उपस्थिति अनिवार्य होगी।\n\nविद्यालय प्रशासन\n\nप्रश्नों के लिए कक्षा क्रम में संपर्क करें।",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "कि स्कूल से आकर दर्जनों कचौड़ि याँ उड़ा जाते थे, मगर फिर जो खाना",
+            "भई यह नया फैशन पसंद नहीं"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:ihga1:06:I:103",
+      "questionBankId": "ai-cbse:ihga1",
+      "subject": "Hindi",
+      "grade": 9,
+      "chapterIds": [
+        "hindi-9/रीढ़-की-हड्-डी"
+      ],
+      "taxonomyChapterId": "hindi-9/रीढ़-की-हड्-डी",
+      "topic": "जगदीशचंद्र माथुर",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "सितार और बाजा सिखाने वाले संगीत विद्यालय के लिए लगभग ५० शब्दों में एक विज्ञापन तैयार कीजिए, जिसमें कक्षा के समय और संपर्क-साधन का उल्लेख भी हो।",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 4,
+        "markingPoints": [
+          {
+            "description": "विषय-वस्तु: कक्षाओं की विशेषताएँ और लाभों का स्पष्ट वर्णन — दो अंक",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "स्वरूप: विज्ञापन का शीर्षक, आकर्षक पंक्ति, जानकारी और संपर्क-विवरण",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "व्यवस्था: शीर्षक, कक्षाओं, समय और संपर्क-सूचना का क्रम",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "भाषा-शुद्धता एवं संक्षिप्तता: व्याकरण और लगभग ५० शब्दों की सीमा का पालन",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "विज्ञापन\n\nवाद्य यंत्रों की कक्षाएँ\n\nसितार, बाजा और गाने का प्रशिक्षण, बच्चों और बड़ों दोनों के लिए अलग-अलग। प्रवेश निःशुल्क। संगीत का शौक जगाने के लिए विशेष ध्यान दिया जाता है। कक्षाएँ प्रतिदिन सुबह से शाम तक चलती हैं।\n\nसंपर्क: विद्यालय के मुख्य दरवाज़े पर लगा बोर्ड",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "बीबी जी के कमरे में से हारमोनियम उठा ला, और",
+            "सितार भी!... जल्दी जा!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 4,
+      "marks": 4,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "I Writing: advertisement / message",
+        "chapter": "ihga1 ch6",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "जगदीशचंद्र माथुर",
+      "reason": "options-not-answerable",
+      "stem": "इस अंश में प्रेमा अधिका न करने की सलाह क्यों देती हैं?"
+    },
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "जगदीशचंद्र माथुर",
+      "reason": "options-not-answerable",
+      "stem": "मोर और शेर का यह उदाहरण गोपालप्रसाद की किस सोच को पुष्ट करता है?"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "जगदीशचंद्र माथुर",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "आज भी कई घरों में बेटी की शिक्षा को हल्के में लिया जाता है — इस विषय पर लगभग १२० शब्दों में एक अनुच्छेद लिखिए।"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "जगदीशचंद्र माथुर",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "विवाह को केवल लेन-देन तक सीमित रखना उचित नहीं है — इस विचार पर लगभग १२० शब्दों में एक अनुच्छेद लिखिए।"
+    },
+    {
+      "section": "G",
+      "qtype": "long_answer",
+      "topic": "जगदीशचंद्र माथुर",
+      "reason": "figure-not-in-text:१२०",
+      "stem": "मेहनत और लगन के कारण ही पढ़ाई में सफलता मिलती है — इस विचार पर लगभग १२० शब्दों में एक अनुच्छेद लिखिए।"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "ihga1",
+    "chapters": [
+      6
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

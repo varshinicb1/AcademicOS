@@ -1,0 +1,1081 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:jeff1:09:A:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "The reception starts with toasts to the couple. A wedding toast is a custom where a close friend or relative of the groom or the bride says a few words to wish the couple, then everyone raises their glass of wine, and drink it up at the same moment. The groom is then asked to kiss the bride. After a few toasts, people start eating and drinking, and generally have fun.\n\nA student is noting the order of events at a Russian wedding reception for class notes; according to the passage, after which part of the reception do the guests begin eating and drinking? (A) the city tour of the sights (B) the bride being ‘stolen’ (C) the toasts to the couple (D) the return from the marriage registration",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "the toasts to the couple",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The reception starts with toasts to the\ncouple.",
+            "kiss the bride. After a few toasts, people start eating and\ndrinking, and generally have fun."
+          ],
+          "objective": true,
+          "options": {
+            "A": "the city tour of the sights",
+            "B": "the bride being ‘stolen’",
+            "C": "the toasts to the couple",
+            "D": "the return from the marriage registration"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:B:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A student writing a note about a complaint that may go to court reaches the phrase ‘I’ll have the matter ________ to court’; which form of ‘take’ correctly fills the blank? (A) taking (B) take (C) to take (D) taken",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "taken",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "I’ll have the matter taken to court, and then I’ll\nshow you!"
+          ],
+          "objective": true,
+          "options": {
+            "A": "taking",
+            "B": "take",
+            "C": "to take",
+            "D": "taken"
+          },
+          "correctOption": "D"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:C:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write a speech (100 words) for your school assembly on the topic ‘Customs of a Russian Wedding’, describing what a Russian wedding involves and how the groom fetches the bride for the registration.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Format: opens with a greeting to the audience and closes with a thank-you, and stays within about 100 words (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: says a Russian wedding is very simple and its planning includes only rings, a bride’s dress, cars and a reception, with the bride’s and groom’s families sharing the expenses (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: gives the length of a wedding — two days, and some as long as a week — and the friends’ preparations of posters, speeches and contests (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: describes the procession of several cars, and the groom climbing several stairs, answering a question at each landing and paying cash if he guesses wrong (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation and expression: presents the customs in a clear order in simple, accurate sentences (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Good morning everyone. A Russian wedding is very simple. The planning includes only rings, a bride’s dress, cars and a reception, and the bride’s and groom’s families now share the expenses. A wedding lasts two days; some last as long as a week. The best friends of the couple meet a few times before it to make posters, write speeches and organise contests. A procession of several cars is a necessary part. When the groom comes to fetch the bride for the registration, he must climb several stairs and answer a question at every landing. If he guesses wrong, he pays cash. Thank you.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "A Russian wedding\nis very simple. The planning only includes arranging for\nrings, brides’ dress, cars, and a reception.",
+            "A Russian wedding\nlasts for two days; some weddings last as long as a week,",
+            "the groom has to climb several stairs to reach\nhis bride. But at each landing he must answer a question\nto be allowed to go up."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:C:2",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Write an article (100 words) for your school magazine on the theme ‘Why quarrelling did not stop the proposal’, giving the reason the two families wanted the marriage and showing how the proposal was nearly forgotten.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Format: gives the article a suitable heading, keeps to about 100 words and presents the matter as connected prose (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: states that the play is about wealthy families seeking ties with other wealthy families to increase their estates by encouraging marriages that make good economic sense (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: names Ivan Lomov as the long time wealthy neighbour who comes to seek the hand of Stepan Chubukov’s twenty-five-year-old daughter, Natalya (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: explains that all three are quarrelsome and quarrel over petty issues, so the proposal is in danger of being forgotten (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content and expression: closes by saying economic good sense ensures that the proposal is made, although the quarrelling perhaps continues, and links cause to effect clearly (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Why Quarrelling Did Not Stop the Proposal\nThe one-act farce The Proposal is about the tendency of wealthy families to seek ties with other wealthy families, to increase their estates by encouraging marriages that make good economic sense. Ivan Lomov, a long time wealthy neighbour of Stepan Chubukov, also wealthy, comes to seek the hand of Chubukov’s twenty-five-year-old daughter, Natalya. All three are quarrelsome people, and they quarrel over petty issues, so the proposal is in danger of being forgotten. Yet economic good sense ensures that the proposal is made, after all, although the quarrelling perhaps continues.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The play is about the tendency of wealthy families to seek ties\nwith other wealthy families, to increase their estates by encouraging\nmarriages that make good economic sense.",
+            "Ivan Lomov, a long time\nwealthy neighbour of Stepan Chubukov, also wealthy, comes to\nseek the hand of Chubukov’s twenty-five-year-old daughter, Natalya.",
+            "The proposal is in danger of being forgotten amidst all this\nquarrelling. But economic good sense ensures that the proposal is\nmade, after all"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:D:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "competency_based",
+      "stem": "The play is about the tendency of wealthy families to seek ties with other wealthy families, to increase their estates by encouraging marriages that make good economic sense. Ivan Lomov, a long time wealthy neighbour of Stepan Chubukov, also wealthy, comes to seek the hand of Chubukov’s twenty-five-year-old daughter, Natalya. All three are quarrelsome people, and they quarrel over petty issues.\n\nIn the extract, the families are said to seek ties with other wealthy families; what do they hope to gain by encouraging marriages of this kind? (A) A larger staff to help them shell peas for drying (B) An increase in the estates they already own (C) A peaceful settlement of the quarrel about the Oxen Meadows (D) A daughter-in-law who is well-educated and not bad-looking",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "An increase in the estates they already own",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The play is about the tendency of wealthy families to seek ties\nwith other wealthy families, to increase their estates by encouraging\nmarriages that make good economic sense.",
+            "Ivan Lomov, a long time\nwealthy neighbour of Stepan Chubukov, also wealthy, comes to\nseek the hand of Chubukov’s twenty-five-year-old daughter, Natalya."
+          ],
+          "objective": true,
+          "options": {
+            "A": "A larger staff to help them shell peas for drying",
+            "B": "An increase in the estates they already own",
+            "C": "A peaceful settlement of the quarrel about the Oxen Meadows",
+            "D": "A daughter-in-law who is well-educated and not bad-looking"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "D Literature: extract based",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "extract"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:E:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A neighbour calling in evening dress and asking for a private word is enough to make a landowner suspect him; why does Chubukov first believe that Lomov has come to borrow money?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Notes that Lomov enters in a dress-jacket and white gloves, so the visit looks like a formal call rather than a courtship (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Notes that Chubukov comments on how formal Lomov’s get-up is and even compares it to paying a New Year’s Eve visit (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives his aside — ‘He’s come to borrow money. Shan’t give him any!’ — as the reason he expects a loan request and is unwilling to help (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Chubukov reads the visit as a request for cash, not for his daughter’s hand. Lomov has walked in wearing a dress-jacket and white gloves, and Chubukov at once complains that he is formal in his get-up and asks whether he is paying a New Year’s Eve visit. His aside settles his mind: ‘He’s come to borrow money. Shan’t give him any!’",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Lomov enters, wearing a dress-jacket and white gloves. Chubukov rises\nto meet him.",
+            "My dear fellow, why are you so formal in your get-up!",
+            "[aside] He’s come to borrow money. Shan’t give him any!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:E:2",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A visitor waiting to be called in trembles as though he had an examination before him; why does Lomov feel he must have his mind made up at once?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that Lomov is trembling all over, as if he had an examination before him (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives his reason: if he gives himself time to think, to hesitate, to talk a lot, or to look for an ideal or for real love, then he will never marry (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Adds that he is already 35, a critical age, and that it is impossible for him not to marry (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Lomov is trembling all over and says the great thing is that he must have his mind made up. He is sure that if he gives himself time to think, to hesitate, to talk a lot, or to look for an ideal or for real love, then he’ll never get married. So he fixes on proposing while his nerve lasts; he also says he is already 35, a critical age, and it is impossible for him not to marry.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "The great thing is, I must have\nmy mind made up. If I give myself time to think, to\nhesitate, to talk a lot, to look for an ideal, or for real\nlove, then I’ll never get married.",
+            "But I’m getting a\nnoise in my ears from excitement.",
+            "In the first place, I’m\nalready 35 — a critical age, so to speak."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:E:3",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Two neighbouring families, who say they have always been affectionate towards each other, end up arguing over the same plot of land; why does each side claim the Oxen Meadows?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Gives Lomov’s side: the Meadows are wedged in between the Chubukovs’ birchwoods and the Burnt Marsh (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Adds his family’s right: his aunt’s grandmother gave the free use of the Meadows in perpetuity to the peasants of Natalya’s grandfather, who had them for forty years and then regarded them as their own (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives Natalya’s side: both grandfather and great-grandfather reckoned that their land extended to Burnt Marsh, which makes the Meadows theirs (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Lomov claims the Meadows because they are wedged in between the Chubukovs’ birchwoods and the Burnt Marsh, and because his aunt’s grandmother gave the free use of them in perpetuity to the peasants of Natalya’s grandfather, who used them for forty years and then regarded them as their own. Natalya claims them because both grandfather and great-grandfather reckoned that their land extended to Burnt Marsh.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "wedged in between your birchwoods and the Burnt\nMarsh.",
+            "aunt’s grandmother gave the free use of these Meadows\nin perpetuity to the peasants of your father’s grandfather,\nin return for which they were to make bricks for her. The\npeasants belonging to your father’s grandfather had the\nfree use of the Meadows for forty years, and had got into\nthe habit of regarding them as their own,",
+            "grandfather reckoned that their land extended to Burnt\nMarsh — which means that Oxen Meadows were ours."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:E:4",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "Fundamental Rights",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "A father hears a neighbour ask for his daughter’s hand and then embraces and kisses the man, saying he has always loved him as his own son; what makes Chubukov accept Lomov so completely?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "States that Chubukov is overcome as soon as Lomov asks for the hand of his daughter, Natalya Stepanovna, in marriage (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Notes that he cries ‘By Jove!’ and asks Lomov to say it again (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Notes that he embraces and kisses Lomov, saying this has been his continual desire and that he has always loved him as if he were his own son (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Chubukov is overwhelmed the moment the request is named. When Lomov says he has come to ask the hand of Natalya Stepanovna in marriage, Chubukov cries ‘By Jove!’ and asks him to say it again, then embraces and kisses him. He says this has been his continual desire for a long time, and that he has always loved Lomov as if he were his own son.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "ask the hand of your daughter, Natalya Stepanovna,\nin marriage.",
+            "[joyfully] By Jove! Ivan Vassilevitch! Say it again — I\ndidn’t hear it all!",
+            "[Embraces and kisses\nLomov] I’ve been hoping for it for a long time. It’s been my\ncontinual desire. [Sheds a tear] And I’ve always loved you,\nmy angel, as if you were my own son."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:F:1",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A reader is told that the proposal in this marriage is almost lost in the noise of the quarrel; set out in steps why it was nearly forgotten and what finally carried it through.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Step 1: identifies Ivan Lomov as the long time wealthy neighbour who comes to seek the hand of Stepan Chubukov’s twenty-five-year-old daughter, Natalya (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: gives the reason behind the match — wealthy families seek ties with other wealthy families to increase their estates by encouraging marriages that make good economic sense (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: states that all three are quarrelsome people and quarrel over petty issues (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: states that the proposal is in danger of being forgotten amidst all this quarrelling (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: states that economic good sense ensures that the proposal is made, after all (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 6: adds that although the quarrelling perhaps continues, the proposal goes through (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 — The match being sought: Ivan Lomov, a long time wealthy neighbour of Stepan Chubukov, also wealthy, comes to seek the hand of Chubukov’s twenty-five-year-old daughter, Natalya.\nStep 2 — The reason behind it: the play is about the tendency of wealthy families to seek ties with other wealthy families, to increase their estates by encouraging marriages that make good economic sense.\nStep 3 — The danger: all three are quarrelsome people, and they quarrel over petty issues.\nStep 4 — The risk: the proposal is in danger of being forgotten amidst all this quarrelling.\nStep 5 — What saves it: economic good sense ensures that the proposal is made, after all.\nStep 6 — The catch: although the quarrelling perhaps continues, the match goes through.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Ivan Lomov, a long time\nwealthy neighbour of Stepan Chubukov, also wealthy, comes to\nseek the hand of Chubukov’s twenty-five-year-old daughter, Natalya.",
+            "The play is about the tendency of wealthy families to seek ties\nwith other wealthy families, to increase their estates by encouraging\nmarriages that make good economic sense.",
+            "All three are quarrelsome people, and they quarrel over petty issues.\nThe proposal is in danger of being forgotten amidst all this\nquarrelling. But economic good sense ensures that the proposal is\nmade, after all — although the quarrelling perhaps continues!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:jeff1:09:F:2",
+      "questionBankId": "ai-cbse:jeff1",
+      "subject": "English",
+      "grade": 10,
+      "chapterIds": [
+        "english-10/the-proposal"
+      ],
+      "taxonomyChapterId": "english-10/the-proposal",
+      "topic": "CONSTITUTION OF INDIA",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "long_answer",
+      "stem": "A reader watches the same young woman turn from a courteous hostess into the person who ends the argument; trace in steps how Natalya’s manner changes from the moment the visitor sits down to the end of the dispute.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Step 1: shows the courteous start — she excuses her apron and neglige, mentions the shelling of peas for drying, and questions the evening dress (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 2: shows the friendly small talk about the weather and about the hay he has stacked, with an offer of lunch (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 3: shows the first real challenge, when she interrupts to ask whether the Meadows are his and then claims they are theirs, not his (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 4: notes her half-retreat, answering only that yes, they’re ours, when he describes the Meadows as wedged in between the birchwoods and the Burnt Marsh (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 5: notes that she presses him by asking how long they have been his and says she will not believe it (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Step 6: shows her closing the dispute — grandfather and great-grandfather reckoned their land reached the Burnt Marsh, so the Meadows were hers, and there is nothing to argue about (1)",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 — Courteous hostess: she excuses her apron and neglige, explains that they are shelling peas for drying, and asks why the visitor is in evening dress.\nStep 2 — Idle talk: she asks him to sit down, offers him lunch, and chats about the weather and about how much hay he has stacked.\nStep 3 — The first challenge: she interrupts him to ask whether the Oxen Meadows are really his, then flatly says that Oxen Meadows are theirs, not his.\nStep 4 — A half-retreat: when he says they are wedged in between the birchwoods and the Burnt Marsh, she only answers that yes, they’re ours.\nStep 5 — She presses him: she asks how long they have been his and says she will not be got to believe it.\nStep 6 — She closes the argument: both grandfather and great-grandfather reckoned their land extended to Burnt Marsh, so the Meadows were ours, and she sees nothing to argue about.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "You must excuse my apron and neglige. We’re shelling\npeas for drying. Why haven’t you been here for such a\nlong time? Sit down... [They seat themselves.]",
+            "Yes, yes... they’re ours.",
+            "grandfather reckoned that their land extended to Burnt\nMarsh — which means that Oxen Meadows were ours. I\ndon’t see what there is to argue about. It’s simply silly!"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "jeff1 ch9",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "jeff1",
+    "chapters": [
+      9
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

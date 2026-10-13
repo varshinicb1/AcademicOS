@@ -1,0 +1,989 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iebe1:08:A:1",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/follow-that-dream",
+        "english-9/believe-in-yourself"
+      ],
+      "taxonomyChapterId": "english-9/follow-that-dream",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "competency_based",
+      "stem": "When you watch the Academy Awards for best actors and actresses and films, the winner always thanks a host of people that formed his/her support network. So, you see that for one winner, there is a group of people who stood by him/her. It is good to be able to fulfil your dreams but for a lot of people, dreams remain dreams.\n\nAfter reading the passage, a student feels that the writer is warning readers not to expect a prize to arrive on its own; which conclusion from the passage best supports this reading? (A) Success usually belongs to the person who works hardest on their own. (B) A winner's achievement depends on other people who stood by him or her. (C) Awards are decided mainly by the size of the audience watching the ceremony. (D) Most people who dream of success never manage to fulfil their dreams.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A winner's achievement depends on other people who stood by him or her.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the winner always thanks a host of people that formed his/her support network",
+            "So, you see that for one winner, there is a group of people who stood by him/her."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Success usually belongs to the person who works hardest on their own.",
+            "B": "A winner's achievement depends on other people who stood by him or her.",
+            "C": "Awards are decided mainly by the size of the audience watching the ceremony.",
+            "D": "Most people who dream of success never manage to fulfil their dreams."
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "A Reading",
+        "chapter": "iebe1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "reading"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:08:B:1",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/follow-that-dream",
+        "english-9/believe-in-yourself"
+      ],
+      "taxonomyChapterId": "english-9/follow-that-dream",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "A Class 9 student is telling his friend about his childhood habit of running long distances without stopping. Which modal correctly completes his sentence, \"When I was younger, I ____________ without stopping\"? (A) will (B) shall (C) could (D) must",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "could",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Complete the following sentences using ‘could’ with the functions mentioned within brackets.",
+            "When I was younger, I ____________ without stopping. (past ability)"
+          ],
+          "objective": true,
+          "options": {
+            "A": "will",
+            "B": "shall",
+            "C": "could",
+            "D": "must"
+          },
+          "correctOption": "C"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "iebe1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:08:C:1",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/follow-that-dream",
+        "english-9/believe-in-yourself"
+      ],
+      "taxonomyChapterId": "english-9/follow-that-dream",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your friend Ming has decided to give up learning the guitar because it costs too much and takes too long. Write a letter of 100 words to Ming, advising her to continue with her dream.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the letter advises Ming to carry on with the guitar and not to give up her dream.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a personal letter with the greeting 'Dear Ming', the closing 'Yours sincerely' and the writer's name.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the ideas move in order - the writer understands the worry, the value of effort, the real cost of the dream, and the support that is available.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, grammar and punctuation, with one consistent first-person voice.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: apt vocabulary of dreams, effort, sacrifice and support, in a warm and encouraging tone.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dear Ming,\nI understand your worry, but please do not stop. Great men and women become great because they have a dream and they pursue it till it comes true. What makes them different is the effort and the sacrifice they put in. Count the real cost in years of effort, money and patience before you decide. If the desire is still burning in you, then go ahead. The road will be uphill, but you are doing the work you love best. And no dreamer walks alone; a support network of parents, teachers and friends will hold you up.\nYours sincerely,\nNeha",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Great men and women become great because they have a dream and they pursue it till it comes true.",
+            "After all the obstacles are considered, if the burning conviction is still coursing through your veins, then go ahead and do something about it."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:08:C:2",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/follow-that-dream",
+        "english-9/believe-in-yourself"
+      ],
+      "taxonomyChapterId": "english-9/follow-that-dream",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your school is holding an assembly on the theme 'Follow That Dream'. Write a speech of 100 words for the assembly, telling the school how a person can keep a dream alive when it becomes difficult.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Content: the speech tells the school how a dream survives when the going becomes difficult.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Format: a speech with a greeting to the audience and a closing 'Thank you'.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation: the ideas move in order - the reality of dreaming, the cost of a dream, the support that keeps one going, and the first step.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Accuracy: correct spelling, grammar and punctuation, in a speaking voice addressed to the school.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Expression: strong, motivating vocabulary of dreams, effort and support, in an encouraging tone.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Good morning, everyone. Every one of us carries a dream, but some are afraid to speak of it. A dream does not come true by wishing alone. It begins with an interest, and grows when we work at it patiently, year after year. Be ready to spend time, money and effort on it, and to accept that the road will be uphill. When our stamina runs out, remember that we are doing the work we love best, and that we are not alone. Our support network keeps us on track. So do not let your dream remain a dream. Take the first step today. Thank you.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "the winner always thanks a host of people that formed his/her support network",
+            "When stamina is running out, the prospect of success will keep you on track."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:08:E:1",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/follow-that-dream",
+        "english-9/believe-in-yourself"
+      ],
+      "taxonomyChapterId": "english-9/follow-that-dream",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A classmate asks whether anyone can reach the top in any field. In a mother's advice to her teenage daughter, a dream is taken up only after its cost has been counted; what must a person count before taking up a dream, and what must still be alive afterwards?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The cost is counted in years of effort, financial investment and sacrifice.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Counting is needed because the road is uphill and a dream takes many years to realise.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The desire to do the work must still be alive, and then the person should act on the dream.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The cost must be counted in years of effort, in financial investment and in sacrifice, because the road is uphill and a dream takes many years to realise. The desire to do the work must still be alive. If the conviction is still burning, he or she should do something about the dream.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Count the cost in years of effort, financial investments and sacrifice.",
+            "After all the obstacles are considered, if the burning conviction is still coursing through your veins, then go ahead and do something about it."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:08:E:2",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/follow-that-dream",
+        "english-9/believe-in-yourself"
+      ],
+      "taxonomyChapterId": "english-9/follow-that-dream",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "In a mother's advice to her teenage daughter, many people end up exactly where they started, even though everyone dreams at some time or other. What has happened to those people?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "They have only said to themselves, “I wish I could be this or the other,” and have never got beyond wishful thinking.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "They could have preferred to trade their dream for security.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Perhaps changed circumstances have changed their lives.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Those people have only said to themselves, “I wish I could be this or the other,” and have never got beyond wishful thinking. The writer says they could have preferred to trade their dream for security, and that perhaps changed circumstances have changed their lives forever.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "to oneself, “I wish I could be this or the other,”",
+            "they have never got beyond just wishful thinking."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:08:E:3",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/follow-that-dream",
+        "english-9/believe-in-yourself"
+      ],
+      "taxonomyChapterId": "english-9/follow-that-dream",
+      "topic": "Critical Reflection",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A student in your class has changed her goal from singing to designing buildings. A mother writing to her teenage daughter says that life itself may change a person's dreams; explain what such a changed dream now demands of the person who holds it.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The changed dream has to be realised by negotiating a path through a maze of hurdles.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "It will take a much longer time to realise.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Many more people will take part in it, so the dreamer must be ready for a longer journey.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "A changed dream still has to be realised, and it demands a path negotiated through a maze of hurdles. It will take a much longer time to realise, and the people who take part in it would be many more. So the dreamer must be ready for a longer journey, with many more travellers on it.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "To fulfil them you will need to negotiate a path through a maze of hurdles. The dream will take a much longer time to realise, and the people who are participants in your dreamscape would be many more."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:08:F:1",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/follow-that-dream",
+        "english-9/believe-in-yourself"
+      ],
+      "taxonomyChapterId": "english-9/follow-that-dream",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A Class 9 student is asked to trace a mother's advice to her teenage daughter from its opening to its close. Explain, with reasons, how the mother encourages her daughter to follow a dream and at the same time warns her about what following it will cost. Answer in about 120 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "Opens by urging the daughter to follow the dream, because people who have a dream and pursue it till it comes true become great.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "States that what differentiates greatness from the ordinary is the effort and sacrifice invested in realising a dream.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Notes that a world-class standard in any field needs at least ten years of intense, single-minded pursuit.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Advises counting the cost in years of effort, financial investments and sacrifice before committing to the task.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Refuses to put a wet blanket on the dreams, while still insisting that the years needed must be considered.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Closes with encouragement and the hope that at least one of the daughter's dreams comes true too.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 - She urges her to follow the dream: great men and women become great because they have a dream and pursue it till it comes true.\nStep 2 - She warns that greatness differs from the ordinary only by the effort and sacrifice invested in realising a dream.\nStep 3 - A world-class standard needs at least ten years of pursuing the subject singularly and intensively.\nStep 4 - She tells the daughter to count the cost in years of effort, financial investments and sacrifice before committing to the task.\nStep 5 - She refuses to put a wet blanket on the dreams, but still insists the years needed must be considered.\nStep 6 - She closes with hope, wishing that at least one of the daughter's dreams comes true too.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Great men and women become great because they have a dream and they pursue it till it comes true.",
+            "is how much effort and sacrifice people invest to realise their dream.",
+            "singularly and intensively pursuing the subject for at least ten years?"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "iebe1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:08:F:2",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/follow-that-dream",
+        "english-9/believe-in-yourself"
+      ],
+      "taxonomyChapterId": "english-9/follow-that-dream",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "long_answer",
+      "stem": "A Class 9 student is asked what a mother's letter to her teenage daughter finally teaches about chasing a dream. Trace the main ideas of the advice and show how the writer's own experience supports this view. Answer in about 120 words.",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 6,
+        "markingPoints": [
+          {
+            "description": "A dream must be pursued, not merely wished for; people who only wish never get beyond wishful thinking.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Dreams change with life, and the new hopes and aspirations are no less than the dream of younger days.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A dream begins with a passion for a particular interest and then demands years of intense, single-minded effort.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The cost in years of effort, financial investment and sacrifice must be counted before the task is taken up.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The writer's own example of publishing this book, chased for the last ten years and not the dream of her youth, shows that a dream can change and still be real.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "She ends with the hope that one of her daughter's dreams comes true too.",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Step 1 - A dream must be pursued, not merely wished for: people who only wish never get beyond wishful thinking.\nStep 2 - A dream can change with life, and the new hopes are no less than the dream of younger days.\nStep 3 - It must be pursued seriously: it begins with a passion for an interest, then needs years of intense work.\nStep 4 - The cost in years of effort, money and sacrifice must be counted before the task is taken up.\nStep 5 - The writer's own example proves the point: publishing this book is a dream she has chased for the last ten years, and though it is not her youthful dream, she is really quite excited about it.\nStep 6 - She closes by wishing that one of her daughter's dreams comes true too.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "they have never got beyond just wishful thinking.",
+            "a person’s dreams. These hopes and aspirations are no less than the original dream of younger days.",
+            "it. So, I wish at least one of your dreams comes true too."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 6,
+      "marks": 6,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "F Literature: long answer",
+        "chapter": "iebe1 ch8",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "Reflect and Respond",
+      "reason": "stem-is-not-a-question",
+      "stem": "A student finds the expression 'buoyed up' in the extract hard to understand; in the extract, the person says the travel"
+    },
+    {
+      "section": "E",
+      "qtype": "short_answer",
+      "topic": "Reflect and Respond",
+      "reason": "premise-not-supported",
+      "stem": "A mother writing to her teenage daughter says that publishing her book is not the dream she had in her youth. What does "
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iebe1",
+    "chapters": [
+      8
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}

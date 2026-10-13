@@ -1,0 +1,769 @@
+{
+  "questions": [
+    {
+      "id": "ai:cbse:iebe1:07:B:1",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/carrier-of-words",
+        "english-9/words"
+      ],
+      "taxonomyChapterId": "english-9/carrier-of-words",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "mcq",
+      "stem": "Choose the correct form of the verb to complete your teacher’s instruction before the class discussion: “___ at the pictures given below of persons engaged in the same profession.” (A) Looks (B) Look (C) Looking (D) Looked",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 1,
+        "markingPoints": [],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Look",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": false,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Look at the pictures given below of persons engaged\nin the same profession."
+          ],
+          "objective": true,
+          "options": {
+            "A": "Looks",
+            "B": "Look",
+            "C": "Looking",
+            "D": "Looked"
+          },
+          "correctOption": "B"
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 1,
+      "marks": 1,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "B Grammar",
+        "chapter": "iebe1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "grammar"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:07:C:1",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/carrier-of-words",
+        "english-9/words"
+      ],
+      "taxonomyChapterId": "english-9/carrier-of-words",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "You are the secretary of the village panchayat in a village in the Thar desert, where a Gramin Dak Sewak delivers every letter and money order on foot. Write a notice for the village board telling all residents when and where he will deliver, and asking them to leave their dak with him. (100 words)",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Notice format: a clear heading, the word NOTICE, and the details of day, time and venue set out in order",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: names the Gramin Dak Sewak and makes clear that he delivers both letters and money orders",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Gives the time as before sundown and the venue as the Branch Post Office and the village round",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Practical instruction: residents must leave their letters and money orders with him, and may ask him to read out letters and write replies",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation and expression: short clear sentences, correct punctuation and spelling, and a signature line for the panchayat",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "SOMARAD BRANCH POST OFFICE\nNOTICE\nDelivery of Letters and Money Orders\n\nAll residents of the village are requested to note that the Gramin Dak Sewak will deliver letters and money orders on his round as follows.\n\nDay: ____________\nTime: before sundown\nVenue: from the Branch Post Office, along the village round\n\nAny dak to be delivered must be left with him at the Branch Post Office. He will also read out letters and write replies for anyone who asks him to.\n\nBy order,\nThe Secretary,\nVillage Panchayat",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "Sometimes severe heat forces him to\npostpone deliveries till after sundown.",
+            "he is the sole postman of Somarad Branch Post\nOffice.",
+            "Everyone feels comfortable asking him to read the\nletters and draft the replies."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:07:C:2",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/carrier-of-words",
+        "english-9/words"
+      ],
+      "taxonomyChapterId": "english-9/carrier-of-words",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "apply",
+      "type": "short_answer",
+      "stem": "Your grandfather lives in a village far from the nearest post office and has never received a money order. Write a letter to him explaining how the post reaches his village and what a money order can do for his family. (100 words)",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 5,
+        "markingPoints": [
+          {
+            "description": "Letter format: a correct salutation such as ‘Dear Grandfather’ and a closing such as ‘With love’ or ‘Yours affectionately’",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: gives the route of the mail — by mail train, then by bus, before being lifted onto the shoulders of a Gramin Dak Sewak",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: explains that he walks on to far-flung hamlets where no vehicle can go, and reads out letters and writes replies",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Content: explains that a money order is a small sum sent by a relative, on which many families depend to survive",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "Organisation and expression: the ideas run in clear order, with correct punctuation and spelling, and the letter answers the question asked",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Dear Grandfather,\n\nYou asked me how a letter or a money order reaches you, so I am writing to explain.\n\nIn our area the mail comes by train and then by bus. From the bus it is lifted onto the shoulders of a Gramin Dak Sewak, who walks it on to the far-flung hamlets where no vehicle can go. He stands at the door, reads out letters and writes replies for whoever asks him.\n\nA money order is the quickest way for a relative to send you a small sum, and many families here depend on it to survive.\n\nWith love,\nYour grandson",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "that ensures that the mail transferred from the\nmail train onto buses before being hefted onto his\nshoulders is delivered at the border, within 24 hours",
+            "And for each family which resides in this arid\nland, survival is partly dependent on money orders\nremitted by a relative."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 5,
+      "marks": 5,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "C Writing",
+        "chapter": "iebe1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "writing"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:07:E:1",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/carrier-of-words",
+        "english-9/words"
+      ],
+      "taxonomyChapterId": "english-9/carrier-of-words",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A postman in the desert says he delivers even when his body sends blazing signals; why does the temperature get recorded as 49.9 degrees celsius?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "A temperature recorded as 50 degrees celsius would mean a state holiday being declared",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So the recorded temperature must be kept at 49.9 degrees celsius",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "This lets him go on delivering instead of stopping work",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "Because a temperature recorded at 50 degrees celsius would mean a state holiday. If the reading were allowed to reach 50, he would have to stop work and no delivery could be made. So the day goes on as usual, and the letters and money orders still reach the far-flung hamlets.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "50 degrees celsius, but is recorded as 49.9 degrees\ncelsius, since 50 degrees celsius would mean a\nstate holiday."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:07:E:2",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/carrier-of-words",
+        "english-9/words"
+      ],
+      "taxonomyChapterId": "english-9/carrier-of-words",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A desert postman says, “Water is too precious to waste on washing, so I can only wipe my body”; what does his way of washing tell you about life in his area?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "Water is so scarce that it cannot be spent on washing the body",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "He is out walking in the desert heat and so cannot keep himself clean, and only wipes his body",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The effort leaves sand behind him — there is a sand dune at his feet every evening",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "It shows that water is scarce and cannot be wasted on washing, and that he has to walk long distances in the heat with a heavy mailbag on his shoulder. He cannot keep his body clean, so he only wipes off the sweat and the sand, and a sand dune is left at his feet every evening.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "which turn him into a walking sandman. “Water\nis too precious to waste on washing, so I can only\nwipe my body."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:07:E:3",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/carrier-of-words",
+        "english-9/words"
+      ],
+      "taxonomyChapterId": "english-9/carrier-of-words",
+      "topic": "Reflect and Respond",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "Khetaram says that his appointment gave him a new lease of life; why does this job matter so much to him?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "In a good year he gets only one crop of bajra",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "One crop cannot feed his family of five, so they would starve without this job",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "The job brings an assured income, and that is the new lease of life",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "In a good year he gets only one crop of bajra, and that cannot feed his family of five. Without the salary from this job the family would starve. The appointment therefore brings an assured income, and that is why he calls it a new lease of life.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "ago gave him a new lease of life. “Akaal or famine\nis a way of life here. In a good year, I get one\ncrop of bajra. That cannot feed my family of five."
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    },
+    {
+      "id": "ai:cbse:iebe1:07:E:4",
+      "questionBankId": "ai-cbse:iebe1",
+      "subject": "English",
+      "grade": 9,
+      "chapterIds": [
+        "english-9/carrier-of-words",
+        "english-9/words"
+      ],
+      "taxonomyChapterId": "english-9/carrier-of-words",
+      "topic": "Critical Reflection",
+      "difficulty": "medium",
+      "bloomLevel": "understand",
+      "type": "short_answer",
+      "stem": "A few years ago there was a proposal to scrap the Gramin Dak Sewak and hand the job over to the patwaris; why was the proposal summarily rejected?",
+      "stemLatex": "",
+      "parts": [],
+      "answerScheme": {
+        "totalMarks": 3,
+        "markingPoints": [
+          {
+            "description": "The patwaris are village record keepers, and it was felt they would not be able to do the job",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "A Gramin Dak Sewak delivers in interior areas that are often inaccessible by any means besides foot",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          },
+          {
+            "description": "So the work needed someone who could walk the letters and money orders on foot into the far-flung hamlets",
+            "marks": 1,
+            "keyword": "",
+            "isRequired": true,
+            "synonyms": []
+          }
+        ],
+        "rubricLevels": [],
+        "commonErrors": [],
+        "alternativeAnswers": [],
+        "modelAnswer": "The post office and the village elders knew that the patwaris, who only keep village records, would not be able to do the job. A Gramin Dak Sewak delivers in interior areas that are often inaccessible by any means besides foot, walking the mail to the far-flung hamlets on his shoulders.",
+        "modelAnswerLatex": "",
+        "hasPartialCredit": true,
+        "metadata": {
+          "answerSource": "generated",
+          "evidence": [
+            "years ago, a scheme to scrap the GDS and transfer",
+            "the job to patwaris (village record keepers) was\nproposed and summarily rejected.",
+            "GDS is invaluable, since they deliver in interior\nareas that are often inaccessible by any means"
+          ],
+          "objective": false
+        },
+        "provenance": "textbook_grounded"
+      },
+      "estimatedTimeMinutes": 3,
+      "marks": 3,
+      "source": "ai_generated",
+      "provenance": {
+        "method": "cbse-blueprint-generation",
+        "model": "opencode-go/space-bunny-free",
+        "section": "E Literature: short answer",
+        "chapter": "iebe1 ch7",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "promptVersion": 1
+      },
+      "metadata": {
+        "paperSection": "literature"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "section": "A",
+      "qtype": "mcq",
+      "topic": "Reflect and Respond",
+      "reason": "stem-is-not-a-question",
+      "stem": "A classmate who has read the passage asks why a desert postman still walks out to deliver in the hottest weeks; the answ"
+    },
+    {
+      "section": "D",
+      "qtype": "mcq",
+      "topic": "Reflect and Respond",
+      "reason": "stem-is-not-a-question",
+      "stem": "From the extract you can conclude that a Gramin Dak Sewak works"
+    },
+    {
+      "section": "F",
+      "qtype": "long_answer",
+      "topic": "Reflect and Respond",
+      "reason": "stem-is-not-a-question",
+      "stem": "Your classmate is amazed that a single postman can still keep a desert village connected with the outside world. Explain"
+    },
+    {
+      "section": "F",
+      "qtype": "long_answer",
+      "topic": "Reflect and Respond",
+      "reason": "stem-is-not-a-question",
+      "stem": "Explain, step by step, how the postal system in the country has changed from the British days to today, and why Gramin D"
+    }
+  ],
+  "meta": {
+    "model": "opencode-go/space-bunny-free",
+    "tiered": true,
+    "book": "iebe1",
+    "chapters": [
+      7
+    ],
+    "markBudget": 20,
+    "neurons": 0.0
+  }
+}
