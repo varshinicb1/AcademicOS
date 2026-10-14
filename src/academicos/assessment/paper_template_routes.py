@@ -444,7 +444,7 @@ def generate_from_template(
     # a set that repeats one of them must not inherit set A's OR with it.
     set_plans = [plans] + (_parallel_sets(
         template, plans, req.set_count, fill_from_outside_scope=req.fill_from_outside_scope,
-        stale=stale, school_id=current.school_id)
+        stale=stale, school_id=current.school_id, tier=req.tier)
         if req.set_count > 1 else [])
     for sp in set_plans:
         _attach_choices(sp)
@@ -467,7 +467,8 @@ def generate_from_template(
     branding = _branding(template, current.school_id)
     _papers.save_generated(paper, branding, school_id=current.school_id)
 
-    notes = [n for p in plans for n in p.notes] + list(report.scope_notes)
+    notes = [n for p in plans for n in p.notes] + list(report.scope_notes) + _tier_notes(
+        req.tier, report, plans, template, stale, req.fill_from_outside_scope, current.school_id)
     now = _now()
     _assessments.save(Assessment(
         id=asm_id, school_id=current.school_id, teacher_id=current.id, title=title,
@@ -490,7 +491,7 @@ def generate_from_template(
                           "id": s.id or f"s{i + 1}"}
                          for i, s in enumerate(template.sections)],
             "scope": template.scope.model_dump(by_alias=True, mode="json"),
-            "fillFromOutsideScope": req.fill_from_outside_scope},
+            "fillFromOutsideScope": req.fill_from_outside_scope, "tier": req.tier},
             "paperMarks": printed_marks(paper)},
     ))
     paper_timing.record_generation(
@@ -556,8 +557,28 @@ def _printed_on(plans: list[SectionPlan]) -> list[QuestionSchema]:
     return out + [alt for p in plans for alt in p.alternatives.values()]
 
 
+def _tier_notes(tier: str, report: AvailabilityReport, plans: list[SectionPlan], template: PaperTemplate,
+                stale: frozenset[str], fill_from_outside_scope: bool, school_id: Optional[str]) -> list[str]:
+    """What a Foundation or Advanced version says about itself (R-C4): why it is
+    the Standard paper where the bank judges no level (`tier_check`'s sentence),
+    or that it chose the Standard paper's questions -- as the quick paper says
+    (routes.py) -- rather than claim a version it is not."""
+    if tier == "standard":
+        return []
+    level = tier.capitalize()
+    if report.tiers is not None and not report.tiers.available:
+        return [f"{level} version: {report.tiers.sentence} It prints the Standard paper."]
+    _, standard = _plan(template, None, fill_from_outside_scope=fill_from_outside_scope, stale=stale,
+                        school_id=school_id)
+    picked = [q.id for p in plans for q in p.picked]
+    if picked == [q.id for p in standard for q in p.picked]:
+        return [f"{level} version: it chose the same questions as the Standard paper -- too few "
+                f"questions of these marks differ in a judged difficulty or Bloom level."]
+    return []
+
+
 def _parallel_sets(template: PaperTemplate, first: list[SectionPlan], set_count: int, *,
-                   fill_from_outside_scope: bool, stale: frozenset[str],
+                   fill_from_outside_scope: bool, stale: frozenset[str], tier: str = "standard",
                    school_id: Optional[str]) -> list[list[SectionPlan]]:
     """Sets B, C...: each its own questions, chosen by the template's own
     rules, the same blueprint as set A.
@@ -594,7 +615,7 @@ def _parallel_sets(template: PaperTemplate, first: list[SectionPlan], set_count:
     for index in range(1, set_count):
         used = {q.id for q in earlier}
         fresh = [q for q in candidates if q.id not in used and clashes(q, earlier) is None]
-        _, plans = plan(template, template.id, fresh, scope,
+        _, plans = plan(template, template.id, fresh, scope, tier=tier,
                         fill_from_outside_scope=fill_from_outside_scope, stale=stale,
                         keyed_ids=bank.keyed)
         shaped = [_as_set_a(mine, theirs, index) for mine, theirs in zip(plans, first)]

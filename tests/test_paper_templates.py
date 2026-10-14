@@ -1921,3 +1921,55 @@ def test_other_classes_and_other_subjects_keep_the_marks_only_match():
     section = _template_section("Section B - Grammar", 1)
     assert paper_templates._fits(_language_question("English", 8, None), section)
     assert paper_templates._fits(_language_question("Science", 10, None), section)
+
+
+# ---- R-C4: a Foundation or Advanced version of a template paper --------------
+
+def _tiered(qid: str, chapter: str, difficulty: str, quality: float = 0.8):
+    q = _chaptered(qid, chapter)
+    q.difficulty, q.quality_score = difficulty, quality
+    return q
+
+
+def _two(bank, tier):
+    from academicos.assessment.paper_templates import build_scope_filter, plan
+    from academicos.assessment.schemas import TemplateScope
+    t = PaperTemplateDraft.model_validate(_draft(
+        totalMarks=2, scope={}, sections=[_section("Section A", 2, 1, competencyShare=0.0)]))
+    scope = dataclasses.replace(build_scope_filter(TemplateScope(), bank), last_resort=frozenset())
+    _, plans = plan(t, "tpl", bank, scope, tier=tier)
+    return sorted(q.id for q in plans[0].picked)
+
+
+def test_a_foundation_or_advanced_version_takes_each_chapters_judged_level_first():
+    """The main builder sent no tier: a Foundation or Advanced paper was the Standard one (EX-3). A
+    tier now ranks each chapter's questions by their judged difficulty, the chapters still taken in
+    turn, so the paper keeps its spread: one question from each chapter, not two easy ones from one."""
+    bank = [_tiered(f"{c}{d[0]}", f"chap-{c}", d, quality=0.9 if d == "medium" else 0.8)
+            for c in "ab" for d in ("easy", "medium", "hard")]
+    assert _two(bank, "standard") == ["am", "bm"]
+    assert _two(bank, "foundation") == ["ae", "be"]
+    assert _two(bank, "advanced") == ["ah", "bh"]
+
+
+def test_a_tier_never_moves_a_difficulty_guessed_from_the_marks():
+    from academicos.assessment.paper_templates import tier_preference
+    judged = _tiered("j", "chap-a", "easy")
+    guessed = _tiered("g", "chap-a", "easy")
+    guessed.metadata = {**guessed.metadata, "difficultyInferred": True}
+    # Difficulty first, then the (judged) Bloom level "understand".
+    assert tier_preference(judged, "foundation") == (0, 0)
+    assert tier_preference(guessed, "foundation") == (1, 0)
+    assert tier_preference(judged, "advanced") == (2, 2)
+    assert tier_preference(judged, "standard") == (1, 1)
+
+
+def test_a_version_the_bank_cannot_make_says_it_prints_the_standard_paper():
+    from academicos.assessment.paper_template_routes import _tier_notes
+    from academicos.assessment.paper_templates import AvailabilityReport, TierCheck
+    report = AvailabilityReport.model_construct(
+        tiers=TierCheck(available=False, sentence="No question of these marks has a judged difficulty."))
+    [note] = _tier_notes("advanced", report, [], None, frozenset(), False, None)
+    assert note == ("Advanced version: No question of these marks has a judged difficulty. "
+                    "It prints the Standard paper.")
+    assert _tier_notes("standard", report, [], None, frozenset(), False, None) == []

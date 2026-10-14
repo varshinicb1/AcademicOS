@@ -132,6 +132,10 @@ class PaperBuilderController extends ChangeNotifier {
   bool fillFromOutsideScope = false;
   int setCount = 1;
 
+  /// 'foundation', 'standard' or 'advanced' (R-C4). Offered only where the
+  /// availability check says a version could differ ([tierChoice]).
+  String tier = 'standard';
+
   AvailabilityView? availability;
   bool checking = false;
   String? availabilityError;
@@ -327,6 +331,7 @@ class PaperBuilderController extends ChangeNotifier {
     chaptersRetryable = false;
     chapterIds.clear();
     fillFromOutsideScope = false;
+    tier = 'standard';
     availability = null;
     availabilityError = null;
     availabilityRetryable = false;
@@ -538,6 +543,16 @@ class PaperBuilderController extends ChangeNotifier {
     _changed();
   }
 
+  /// Whether to offer Foundation and Advanced: the server's tier check says a
+  /// version could print other questions. Where it cannot, the builder says
+  /// why instead (scope_step.dart), and every paper is the Standard one.
+  bool get tierChoice => availability?.tiers?.available ?? false;
+
+  void setTier(String t) {
+    tier = t;
+    _changed();
+  }
+
   /// The template's availability for the chosen chapters: the server's own
   /// selection run dry (Task 904), so what it says is what Generate prints.
   /// Re-run on every change; an answer to an older selection is dropped
@@ -643,6 +658,7 @@ class PaperBuilderController extends ChangeNotifier {
         fillFromOutsideScope: fillFromOutsideScope,
         avoidQuestionIds: avoid,
         teacherSeconds: teacherSeconds,
+        tier: tierChoice ? tier : 'standard',
       );
       restartTeacherClock();
       _resetPaper();

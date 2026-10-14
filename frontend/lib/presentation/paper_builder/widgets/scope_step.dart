@@ -59,6 +59,24 @@ class ScopeStep extends StatelessWidget {
           selected: {c.setCount},
           onSelectionChanged: (s) => c.setSets(s.first),
         ),
+        // A Foundation or Advanced version where the bank judges the levels
+        // these sections take (R-C4); the server ranks each chapter's
+        // questions by the judged level and says if it changed nothing.
+        if (c.tierChoice) ...[
+          const SizedBox(height: 12),
+          Text('Level', style: theme.textTheme.titleSmall),
+          const SizedBox(height: 6),
+          SegmentedButton<String>(
+            key: const ValueKey('builder-tier'),
+            segments: const [
+              ButtonSegment(value: 'foundation', label: Text('Foundation')),
+              ButtonSegment(value: 'standard', label: Text('Standard')),
+              ButtonSegment(value: 'advanced', label: Text('Advanced')),
+            ],
+            selected: {c.tier},
+            onSelectionChanged: (s) => c.setTier(s.first),
+          ),
+        ],
         // No Foundation/Advanced choice is offered; say why, beside the
         // versions the paper does have, rather than offer three that match.
         if (c.availability?.tiers case final tiers? when !tiers.available && tiers.sentence.isNotEmpty)
