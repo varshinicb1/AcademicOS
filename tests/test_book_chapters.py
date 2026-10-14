@@ -114,10 +114,12 @@ def test_a_hindi_chapter_id_keeps_its_script():
     assert tb.chapter_id("Hindi", 8, "स्वदेश") != tb.chapter_id("Hindi", 8, "मातृभूमि")
 
 
-def test_the_build_files_a_chapter_under_the_syllabus_id_that_names_it():
+def test_the_build_files_a_chapter_under_the_id_the_school_plans():
     import build_textbook_bank as build
-    # Social Science 6's file lists "Locating Places on the Earth" in a unit, under an id of its own.
-    assert build.chapter_ref("Social Science", 6, "Locating Places on the Earth") == "locating-places-on-the-earth"
+    # Social Science 6's syllabus file lists "Locating Places on the Earth" in a unit under an id of
+    # its own, "locating-places-on-the-earth"; a school plans it as the chapter below, and a question
+    # filed under the file's id was shown as not matched to a chapter (2026-10-14).
+    assert build.chapter_ref("Social Science", 6, "Locating Places on the Earth") ==         "social-science-6/locating-places-on-the-earth"
     assert build.chapter_ref("Social Science", 6, "A Chapter No File Names") == \
         "social-science-6/a-chapter-no-file-names"
 

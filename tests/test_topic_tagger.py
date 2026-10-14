@@ -359,7 +359,7 @@ def test_a_builder_filed_chapter_does_not_crash_the_report(tmp_path):
         "id": "ncert:tb:aejm1:01:Page-6", "grade": 1, "subject": "Mathematics",
         "stem": "Which is the furry cat?", "type": "short_answer",
         "taxonomyChapterId": "mathematics-1/finding-the-furry-cat",
-        "tagMethod": "source_chapter", "tagConfidence": 1.0,
+        "tagMethod": "source_chapter", "tagConfidence": {"chapter": 1.0, "topic": None, "subtopic": None},
     }
     bank = tmp_path / "bank.json"
     bank.write_text(json.dumps({"questions": [filed]}, ensure_ascii=False),
@@ -432,8 +432,11 @@ def test_gold_set_covers_every_class_and_subject_the_banks_hold():
     held = set()
     for path in (EXEMPLAR, CBE, BOARD, SQP):
         for rec in json.loads(path.read_text(encoding="utf-8"))["questions"]:
-            if rec.get("source") == "ai_generated":
-                continue       # filed under a chapter by its generator; the tagger never places it
+            if rec.get("source") == "ai_generated" or rec.get("tagMethod") == "source_chapter":
+                # Filed under a chapter by its generator, or by the textbook builder under the
+                # chapter it was transcribed from (Social Science 6-9's book exercises, served
+                # since 2026-10-14): the tagger never places it.
+                continue
             subject, grade = question_subject(rec), question_grade(rec)
             if subject and grade:
                 held.add((subject, grade))

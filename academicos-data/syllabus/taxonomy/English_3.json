@@ -9,8 +9,8 @@
   ],
   "chapters": [
     {
-      "id": "english-3/fun-with-friends",
-      "name": "Fun with Friends",
+      "id": "english-3/colours",
+      "name": "Colours",
       "number": 1,
       "book": "Santoor",
       "source_file": "chapters_text/cesa1/01.txt",
@@ -22,31 +22,31 @@
       "headingKind": "transcribed-heading-anchor",
       "topics": [
         {
-          "id": "english-3/fun-with-friends/fun-with-friends",
+          "id": "english-3/colours/fun-with-friends",
           "name": "Fun with Friends",
           "page": 1,
           "subtopics": []
         },
         {
-          "id": "english-3/fun-with-friends/colours",
+          "id": "english-3/colours/colours",
           "name": "Colours",
           "page": 3,
           "subtopics": []
         },
         {
-          "id": "english-3/fun-with-friends/let-us-speak",
+          "id": "english-3/colours/let-us-speak",
           "name": "Let us speak",
           "page": 6,
           "subtopics": []
         },
         {
-          "id": "english-3/fun-with-friends/let-us-learn",
+          "id": "english-3/colours/let-us-learn",
           "name": "Let us learn",
           "page": 7,
           "subtopics": []
         },
         {
-          "id": "english-3/fun-with-friends/let-us-do",
+          "id": "english-3/colours/let-us-do",
           "name": "Let us do",
           "page": 13,
           "subtopics": []

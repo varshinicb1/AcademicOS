@@ -122,5 +122,9 @@ def test_the_served_bank_has_no_written_question_under_cbse_and_no_written_mcq_w
     written = [q for q in served if q.get("source") == "ai_generated"]
     assert written, "the class 9-10 written questions are in the served bank"
     assert all((q.get("rights") or {}).get("origin") == "AcademicOS" for q in written)
+    # A written MCQ's key is the chapter's own words, or -- a sum from the textbook
+    # transcriptions (2026-10-14) -- an answer a second model solved alike
+    # (corpus/textbook.py, `two_model_solved`). Never neither.
     assert all(((q.get("answerScheme") or {}).get("metadata") or {}).get("evidence")
+               or (q.get("answerScheme") or {}).get("provenance") == "two_model_solved"
                for q in written if q["type"] == "mcq")

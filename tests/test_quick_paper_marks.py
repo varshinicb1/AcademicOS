@@ -64,8 +64,10 @@ def test_a_rebalanced_paper_says_what_it_changed(served, tmp_path, monkeypatch):
     is exercised on the bank as it was, without them."""
     from academicos.assessment.pool import QuestionPool
 
+    # Without the textbook transcriptions' questions too (ncert:tb:, 2026-10-14), which brought more
+    # 2- and 4-mark Science 10 questions of their own.
     as_audited = QuestionPool(questions=[q for q in served["Science"].questions
-                                         if not str((q.record or {}).get("id") or "").startswith("ai:")])
+                                         if not str((q.record or {}).get("id") or "").startswith(("ai:", "ncert:tb:"))])
     with _client_for(tmp_path, monkeypatch, as_audited) as client:
         paper = client.post(QUICK, headers=_auth(client), json={
             "subject": "Science", "grade": 10, "totalMarks": 40}).json()

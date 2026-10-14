@@ -43,7 +43,9 @@ void main() {
     // 589 with the 95 model-written, book-quoted Science 10 questions (corpus/ai-cbse-9-10): 2- and 4-mark
     // case studies and short answers for all 13 chapters.
     // 625 with the second batch (2026-10-14): 36 more, assertion-reason and case-based.
-    expect(science10.questionCount, 625);
+    // 656 with the NCERT textbook transcriptions (2026-10-14): 31 of Science 10's own exercises and
+    // topic questions.
+    expect(science10.questionCount, 656);
     expect(science10.chapters, 13);
   });
 

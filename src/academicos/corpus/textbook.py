@@ -33,6 +33,11 @@ BANK_TYPE = {"mcq": "mcq", "true_false": "very_short_answer", "fill_blank": "ver
              "very_short_answer": "very_short_answer", "match": "short_answer", "short_answer": "short_answer",
              "long_answer": "long_answer", "case_based": "case_study"}
 PROVENANCE = {"book": "ncert_textbook_answer", "grounded": "textbook_grounded", "solved": "two_model_solved"}
+def _words(text: Any) -> str:
+    return " ".join(re.findall(r"\w+", str(text or "").lower()))
+
+
+_ROMAN_CLASS = {1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI", 7: "VII", 8: "VIII", 9: "IX", 10: "X"}
 LETTERS = ("A", "B", "C", "D")
 
 
@@ -246,7 +251,8 @@ def chapter_id(subject: Any, grade: Any, title: Any) -> str:
     return f"{_slug(bank_subject(subject))}-{int(grade)}/{_slug(title)}"
 
 
-def record(q: dict, tb: dict, *, rid: str, built_at: str, chapter_ref: Optional[str] = None) -> dict:
+def record(q: dict, tb: dict, *, rid: str, built_at: str, chapter_ref: Optional[str] = None,
+           topic_is_chapter: bool = False) -> dict:
     book, chapter = tb.get("book") or {}, tb.get("chapter") or {}
     topics = {t.get("id"): t for t in tb.get("topics") or []}
     topic = topics.get(q.get("topic")) or {}
@@ -293,9 +299,19 @@ def record(q: dict, tb: dict, *, rid: str, built_at: str, chapter_ref: Optional[
         # The chapter the question was taken from or written for: certain, so
         # it is also the record's tag.
         "chapterIds": [chapter_ref] if chapter_ref else [],
-        **({"taxonomyChapterId": chapter_ref, "tagMethod": "source_chapter", "tagConfidence": 1.0}
+        # tagConfidence in the shape every tagger writes and QuestionSchema reads
+        # (tag_confidence: {"chapter", "topic", "subtopic"}). It was a bare 1.0, and
+        # the paper builder's pool refused every textbook record as an invalid
+        # QuestionSchema: class 4 Mathematics served 110 and offered none (2026-10-14).
+        **({"taxonomyChapterId": chapter_ref, "tagMethod": "source_chapter",
+            "tagConfidence": {"chapter": 1.0, "topic": None, "subtopic": None}}
            if chapter_ref else {}),
-        "topic": str(topic.get("title") or ""),
+        # A topic that is the chapter itself -- a chapter with no headings, or a lesson of a unit
+        # filed under that lesson -- is no label of its own. As one it outranked the chapter: an
+        # agent asking for "Tissues in Action" got the 3 questions carrying it as their topic, not
+        # the chapter's 74 (MCP reads a name the class's questions carry as that label first).
+        "topic": ("" if topic_is_chapter or _words(topic.get("title")) == _words(chapter.get("title"))
+                  else str(topic.get("title") or "")),
         "difficulty": q.get("difficulty") if q.get("difficulty") in DIFFICULTIES else "medium",
         **({"bloomLevel": q["bloom"]} if q.get("bloom") in BLOOMS else {}),
         "type": BANK_TYPE.get(qtype, "short_answer"),
@@ -317,6 +333,14 @@ def record(q: dict, tb: dict, *, rid: str, built_at: str, chapter_ref: Optional[
         "language": "hi" if book.get("language") == "hi" else "en",
         # A question written for the topic is the generator's, never passed off as the book's.
         "source": "ai_generated" if generated else "ncert_textbook",
+        # The book's own exercise is NCERT's, attributed as the Exemplar builder attributes its
+        # books. Without it the bank's default named all 361 "Central Board of Secondary
+        # Education, previous year question paper" (2026-10-14). A written question's rights are
+        # AcademicOS's, set by question_bank.enrich_record.
+        **({} if generated else {"rights": {
+            "origin": "NCERT", "redistribution": "unknown", "basis": "",
+            "attribution": (f"NCERT, {book.get('title')}, Class {_ROMAN_CLASS.get(int(book.get('class')))} "
+                            f"{bank_subject(book.get('subject'))}")}}),
         # Below every official source (board 0.6-0.77, selection.py): a paper
         # draws CBSE's and NCERT's own questions first, never ours ahead of them
         # (QB-4's order; review of #54).
@@ -345,11 +369,14 @@ class Built:
 
 
 def build(tb: dict, book_text: str, *, second: Optional[dict[str, str]] = None,
-          chapter_ref: Optional[str] = None, built_at: str = "2026-09-29T00:00:00+00:00") -> Built:
+          chapter_ref: Optional[str] = None, topic_refs: Optional[dict[str, str]] = None,
+          built_at: str = "2026-09-29T00:00:00+00:00") -> Built:
     """Every checked question of one chapter, and every refusal with its reason.
     `second` maps a question's `ref` to an independent second solve's answer.
     `chapter_ref` is the chapter's id in the class's syllabus when it names this
-    chapter; otherwise the chapter's own id (`chapter_id`)."""
+    chapter; otherwise the chapter's own id (`chapter_id`). `topic_refs` files a
+    question set on one of the chapter's topics under that topic's own chapter
+    id instead: a unit whose topics are the lessons a school plans."""
     book, chapter = tb.get("book") or {}, tb.get("chapter") or {}
     if chapter_ref is None and chapter.get("title") and book.get("class"):
         chapter_ref = chapter_id(book.get("subject"), book.get("class"), chapter.get("title"))
@@ -365,5 +392,7 @@ def build(tb: dict, book_text: str, *, second: Optional[dict[str, str]] = None,
         if reason:
             refused.append({"id": rid, "reason": reason})
             continue
-        records.append(record(q, tb, rid=rid, built_at=built_at, chapter_ref=chapter_ref))
+        by_topic = (topic_refs or {}).get(q.get("topic"))
+        records.append(record(q, tb, rid=rid, built_at=built_at, chapter_ref=by_topic or chapter_ref,
+                              topic_is_chapter=by_topic is not None))
     return Built(records, refused)

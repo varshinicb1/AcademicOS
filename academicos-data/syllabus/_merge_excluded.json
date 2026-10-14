@@ -38297,6 +38297,774 @@
    "stem": "Select the incorrect statement"
   },
   {
+   "id": "ncert:tb:aejm1:02:19",
+   "source": "ai_generated",
+   "reason": "answer-is-question-text",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "A ball is round."
+  },
+  {
+   "id": "ncert:tb:aejm1:02:43",
+   "source": "ai_generated",
+   "reason": "answer-is-question-text",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "We can make towers with different objects."
+  },
+  {
+   "id": "ncert:tb:aejm1:05:Let-us-Count-6",
+   "source": "ncert_textbook",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "7 + 1 = ___"
+  },
+  {
+   "id": "ncert:tb:aejm1:05:Add-in-Your-Own-Way-1",
+   "source": "ncert_textbook",
+   "reason": "mcq-answer-unresolved",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "Abdul and Rihana are adding numbers in two different ways. Help them to find the sum."
+  },
+  {
+   "id": "ncert:tb:aejm1:05:gen-t1-4",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "What is 1 + 1?"
+  },
+  {
+   "id": "ncert:tb:aejm1:05:gen-t4-2",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "3 + 6 = ___"
+  },
+  {
+   "id": "ncert:tb:aejm1:05:gen-t4-4",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "What is 5 + 5?"
+  },
+  {
+   "id": "ncert:tb:aejm1:05:gen-t6-2",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "3 + 7 = ___"
+  },
+  {
+   "id": "ncert:tb:aejm1:05:gen-t6-4",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "What is 4 + 5?"
+  },
+  {
+   "id": "ncert:tb:aejm1:05:gen-t7-2",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "5 + 4 = ___"
+  },
+  {
+   "id": "ncert:tb:aejm1:05:gen-t7-4",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "What is 3 + 3?"
+  },
+  {
+   "id": "ncert:tb:aejm1:05:gen-t8-2",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "8 + 1 = ___"
+  },
+  {
+   "id": "ncert:tb:aejm1:05:gen-t8-4",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "What is 4 + 4?"
+  },
+  {
+   "id": "ncert:tb:aejm1:05:gen-t9-2",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "1 + ___ = 9"
+  },
+  {
+   "id": "ncert:tb:aejm1:05:gen-t10-2",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "___ + ___ = 9"
+  },
+  {
+   "id": "ncert:tb:aejm1:05:gen-t15-2",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "10 − 4 = ___"
+  },
+  {
+   "id": "ncert:tb:aejm1:05:gen-t15-4",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "7 − 5 = ___"
+  },
+  {
+   "id": "ncert:tb:aejm1:05:gen-t17-2",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "7 − 2 = ___"
+  },
+  {
+   "id": "ncert:tb:aejm1:05:gen-t17-4",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 1,
+   "stem": "5 − 2 = ___"
+  },
+  {
+   "id": "ncert:tb:aemr1:02:g-t1-3",
+   "source": "ai_generated",
+   "reason": "answer-is-question-text",
+   "subject": "English",
+   "grade": 1,
+   "stem": "We say 'Good night' when we go to bed."
+  },
+  {
+   "id": "ncert:tb:aemr1:02:g-t8-2",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "English",
+   "grade": 1,
+   "stem": "Seema is ____."
+  },
+  {
+   "id": "ncert:tb:aemr1:02:g-t8-3",
+   "source": "ai_generated",
+   "reason": "answer-is-question-text",
+   "subject": "English",
+   "grade": 1,
+   "stem": "The dog is sleeping."
+  },
+  {
+   "id": "ncert:tb:aemr1:02:g-t16-2",
+   "source": "ai_generated",
+   "reason": "stem-too-short",
+   "subject": "English",
+   "grade": 1,
+   "stem": "We are a ____."
+  },
+  {
+   "id": "ncert:tb:aemr1:02:g-t20-3",
+   "source": "ai_generated",
+   "reason": "answer-is-question-text",
+   "subject": "English",
+   "grade": 1,
+   "stem": "You may include pets and plants in your drawing."
+  },
+  {
+   "id": "ncert:tb:aemr1:02:g-t21-3",
+   "source": "ai_generated",
+   "reason": "answer-is-question-text",
+   "subject": "English",
+   "grade": 1,
+   "stem": "The word 'mother' begins with the 'm' sound."
+  },
+  {
+   "id": "ncert:tb:aemr1:02:g-t24-3",
+   "source": "ai_generated",
+   "reason": "answer-is-question-text",
+   "subject": "English",
+   "grade": 1,
+   "stem": "You have to find the odd one out in each row."
+  },
+  {
+   "id": "ncert:tb:bejm1:01:Page-3-Tasty-Chikoos-Q2",
+   "source": "ncert_textbook",
+   "reason": "answer-bleed",
+   "subject": "Mathematics",
+   "grade": 2,
+   "stem": "Now help Manoj in placing all the chikoos in the trays for selling."
+  },
+  {
+   "id": "ncert:tb:bejm1:01:Page-13-Who-am-I",
+   "source": "ncert_textbook",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 2,
+   "stem": "Who am I?"
+  },
+  {
+   "id": "ncert:tb:cemm1:01:Let-us-Think-Page-6-Q2",
+   "source": "ncert_textbook",
+   "reason": "duplicate-stem",
+   "subject": "Mathematics",
+   "grade": 3,
+   "stem": "Write the number(s) between 1 and 99 that have the longest name."
+  },
+  {
+   "id": "ncert:tb:cesa1:02:Gen-T5-Q3",
+   "source": "ai_generated",
+   "reason": "options-missing",
+   "subject": "English",
+   "grade": 3,
+   "stem": "Talk in pairs about what you do _____ day:"
+  },
+  {
+   "id": "ncert:tb:demm1:04:Page-22-Let-Us-Do-Q5",
+   "source": "ncert_textbook",
+   "reason": "symbol-loss",
+   "subject": "Mathematics",
+   "grade": 4,
+   "stem": "Use the signs <, =, > to compare the following."
+  },
+  {
+   "id": "ncert:tb:demm1:04:Gen-t7-Q2",
+   "source": "ai_generated",
+   "reason": "symbol-loss",
+   "subject": "Mathematics",
+   "grade": 4,
+   "stem": "Which sign (<, =, >) correctly compares the pair: 2190 ___ 2910? (A) > (B) < (C) = (D) None of these"
+  },
+  {
+   "id": "ncert:tb:desa1:04:Let-us-Listen-Q2",
+   "source": "ncert_textbook",
+   "reason": "stem-fragment",
+   "subject": "English",
+   "grade": 4,
+   "stem": "leaf calm pale jail palm hall clean calf shelf chalk talk silk balm plum self Your teacher will read aloud a few words to you. Circle the words in which you don’t hear the ‘l’ sound."
+  },
+  {
+   "id": "ncert:tb:dhve1:01:Q1bbb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 4,
+   "stem": "‘तब मैं यही समझती थी बस इतना-सा ही है संसार’ इन पंिक्ततयों में ‘इतना-सा’ का अर्थ है — (A) बहुत छोटा (B) बहुत बड़ा (C) बहुत लंबा (D) रंग-बिरंगा"
+  },
+  {
+   "id": "ncert:tb:dhve1:01:Q2b",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 4,
+   "stem": "नीचे दी गई कविता की पपंक् तियों का मिलान उनके नीचे दी गई उपपयु् त पपंक् तियों से कीजिए —"
+  },
+  {
+   "id": "ncert:tb:dhve1:01:Q2bbbbb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 4,
+   "stem": "नीचे दिए गए वाक्ययों में कुछ रिक्त् त सथान हैं और कुछ शब्द रेखांकित किए गए हैं। उन शब्दों से वाक्ययों को पपूरा कीजिए जो रेखांकित शब्दों के विपपरीत अर्थ रखते हैं — (क) सूखा और ................... कचरा "
+  },
+  {
+   "id": "ncert:tb:dhve1:02:Q1bbb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 4,
+   "stem": "उद्यान की दीवाार में छेद देखकर घोंघे को कौन-सी बाात याद आती थी?"
+  },
+  {
+   "id": "ncert:tb:dhve1:04:Q6",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 4,
+   "stem": "नीचे दिए गए कथनों को ‘हाँ जी हाँ’ और ‘ना जी ना’ से पूरा कीजिए —"
+  },
+  {
+   "id": "ncert:tb:dhve1:04:Q4bb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 4,
+   "stem": "नीचे दिए गए शब्दों में से आपको केवल वर्ण बदलकर फल अथवा साग-तरकारी का नाम लिखना है। धयान रखिए कि मात्रा न बदले —"
+  },
+  {
+   "id": "ncert:tb:dhve1:04:Q1bbbbbb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 4,
+   "stem": "तीीन अक्षर का मेरा नाम, खाने के आता हूँ काम। मध्य कटे हवा हो जाता, अंत कटे तो हल कहलाता।"
+  },
+  {
+   "id": "ncert:tb:dhve1:04:Q2bbbbbbbbb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 4,
+   "stem": "कड़वीी भाजीजी मैं कहलाता, रहता सदा अकेला। मध्यय हटे कला बन जाऊँ, प्रथम हटे तो रेला।"
+  },
+  {
+   "id": "ncert:tb:eemm1:01:Let-Us-Do-Q2",
+   "source": "ncert_textbook",
+   "reason": "answer-bleed",
+   "subject": "Mathematics",
+   "grade": 5,
+   "stem": "Fill in the blanks appropriately. Use commas as required."
+  },
+  {
+   "id": "ncert:tb:eemm1:01:Let-Us-Do-Q5",
+   "source": "ncert_textbook",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 5,
+   "stem": "Digit swap"
+  },
+  {
+   "id": "ncert:tb:eemm1:01:Nearest-Tens-Hundreds-Thousands-Rounding-Table",
+   "source": "ncert_textbook",
+   "reason": "answer-bleed",
+   "subject": "Mathematics",
+   "grade": 5,
+   "stem": "Fill in the boxes appropriately. Number | Nearest Tens | Nearest Hundreds | Nearest Thousands 3,176 4,017 5,789 8,203"
+  },
+  {
+   "id": "ncert:tb:eemm1:02:Let-Us-Do-p.-22-Q1",
+   "source": "ncert_textbook",
+   "reason": "mcq-answer-unresolved",
+   "subject": "Mathematics",
+   "grade": 5,
+   "stem": "Fill in the blanks with equivalent fractions. There may be more than one answer."
+  },
+  {
+   "id": "ncert:tb:eemm1:02:Let-Us-Do-p.-22-Q3",
+   "source": "ncert_textbook",
+   "reason": "mcq-answer-unresolved",
+   "subject": "Mathematics",
+   "grade": 5,
+   "stem": "Fill in the boxes such that the fractions become equivalent."
+  },
+  {
+   "id": "ncert:tb:eemm1:04:Relationship-Between-Addition-and-Subtraction-Q1",
+   "source": "ncert_textbook",
+   "reason": "mcq-answer-unresolved",
+   "subject": "Mathematics",
+   "grade": 5,
+   "stem": "Find the relationship between the numbers in the given statements and fill in the blanks appropriately."
+  },
+  {
+   "id": "ncert:tb:eemm1:04:Quick-Sums-and-Differences-Page-11-Result-9-or-99",
+   "source": "ncert_textbook",
+   "reason": "mcq-answer-unresolved",
+   "subject": "Mathematics",
+   "grade": 5,
+   "stem": "Now, use the above solutions to find answers to the following problems. Do not calculate again. Namita wonders if she can get 9 or 99 as the answer to any subtraction problem. Find a way to get the de"
+  },
+  {
+   "id": "ncert:tb:eemm1:04:Let-Us-Think-and-Solve-Q1-Palindromes",
+   "source": "ncert_textbook",
+   "reason": "answer-bleed",
+   "subject": "Mathematics",
+   "grade": 5,
+   "stem": "Nitin likes numbers that read the same when read from left to right or from right to left. Such numbers are called palindrome numbers. The numbers 22, 363, 404, and 8,558 are some examples."
+  },
+  {
+   "id": "ncert:tb:eemm1:04:Let-Us-Do-Page-15-Q1-Add",
+   "source": "ncert_textbook",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 5,
+   "stem": "Add."
+  },
+  {
+   "id": "ncert:tb:eemm1:04:Let-Us-Do-Page-15-Q2-Subtract",
+   "source": "ncert_textbook",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 5,
+   "stem": "Subtract."
+  },
+  {
+   "id": "ncert:tb:eesa1:02:Let-us-Learn-C",
+   "source": "ncert_textbook",
+   "reason": "answer-bleed",
+   "subject": "English",
+   "grade": 5,
+   "stem": "Now encircle the adverbs in the following sentences and classify them into 'How many times the action happens/happened' or 'Time of the action':"
+  },
+  {
+   "id": "ncert:tb:ehve1:01:2bbbbb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 5,
+   "stem": "दिए गए रिक्त स्थाानों की पूर्ति रेखांकितत शब्दों के विपरीतत अर्थ वाले शब्दों से कीजिए —"
+  },
+  {
+   "id": "ncert:tb:ehve1:02:Generated-t1-Q2",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 5,
+   "stem": "एक लड़के ने टीले पर बैठकर क्या कहा? (A) मैं मंत्री हूँ (B) मैं राजाा हूँ और तुम सब मेरे दरबाारी (C) मैं सैनिक हूँ (D) मैं भगवान हूँ"
+  },
+  {
+   "id": "ncert:tb:ehve1:02:Generated-t1-Q3",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 5,
+   "stem": "एक लड़काा कूदताा-भाागताा एक ________ पर चढ़ गयाा।"
+  },
+  {
+   "id": "ncert:tb:ehve1:02:Generated-t3-Q2",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 5,
+   "stem": "तीसरी मूर्ति ने राजा से क्या पूछा? (A) क्या तुमने कभी झूठ नहीं बोला? (B) क्या तुम सबसे बुद्धिमान हो? (C) क्या तुमने कभी किसी को चोट नहीं पहुँचााई है? (D) क्या तुमने कभी चोरी नहीं की है?"
+  },
+  {
+   "id": "ncert:tb:ehve1:02:Q2bbbb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 5,
+   "stem": "“तीसरी मूर्ति भी उड़ गई।” इस वाक्य के आधार पपर प्रश् नों के उत्तर लिखिए —"
+  },
+  {
+   "id": "ncert:tb:ehve1:04:Q4b",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 5,
+   "stem": "“यहाँ के लोगों के मुखों पर सदैव मुसकान बनी रहती है।” इस वाक्य का क्याा अर्थ है? (A) यहाँ के लोग सदैव प्रसनन रहते हैं। (B) यहाँ के लोग सदैव प्रसनन रहने का अभिनय करते हैं। (C) यहाँ के लोगों को खेलना-कूद"
+  },
+  {
+   "id": "ncert:tb:ehve1:04:2",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 5,
+   "stem": "नीचे पाठ की कुछ पंिक्तक्तयों के भावार्थ दिए गए हैं। उदाहरण के अनुसार पाठ की उन पंिक्तक्तयों को लिखिए जो दिए गए भावार्थ पर आधारित हैं —"
+  },
+  {
+   "id": "ncert:tb:ehve1:04:4",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 5,
+   "stem": "जब किसी की बात जयों की तयों लिखी जाती है तब एक चिह्न लगाया जाता है। इसे उद्धरण चिह्न कहते हैं। उदाहरण के लिए — चाऊतान बोला, “आज से हमारा नया वर्ष आरंभ होता है।” पाठ में आए ऐसे चार वाक्यय खोजकर लेखन-पु"
+  },
+  {
+   "id": "ncert:tb:fegp1:01:gen.t5.q2",
+   "source": "ai_generated",
+   "reason": "mcq-answer-unresolved",
+   "subject": "Mathematics",
+   "grade": 6,
+   "stem": "In how many dimensions can shapes studied in mathematics occur, according to Section 1.5? (A) Exclusively in two dimensions (2D) (B) Exclusively in three dimensions (3D) (C) In one, two, or three dime"
+  },
+  {
+   "id": "ncert:tb:fegp1:03:Gen-t9-Q1",
+   "source": "ai_generated",
+   "reason": "mcq-options-unresolved",
+   "subject": "Mathematics",
+   "grade": 6,
+   "stem": "In Figure (a), the number 40 appears 11 times. What is the total sum using multiplication? (A) 400 (B) 440 (C) 480 (D) 500"
+  },
+  {
+   "id": "ncert:tb:fepr1:01:Let-us-learn-4",
+   "source": "ncert_textbook",
+   "reason": "answer-bleed",
+   "subject": "English",
+   "grade": 6,
+   "stem": "Match the phrases in Column A with the phrases in Column B. Use the connecting words given in the middle column to make meaningful sentences. Column A: The children submitted their work (When?) He did"
+  },
+  {
+   "id": "ncert:tb:fepr1:01:Let-us-learn-I-page-27",
+   "source": "ncert_textbook",
+   "reason": "mcq-answer-unresolved",
+   "subject": "English",
+   "grade": 6,
+   "stem": "Study the highlighted words in the following lines. • I’m feeling so sleepy. • It’s a thief. • They’re awake. The highlighted words given in the above sentences have one letter missing in each. Now, w"
+  },
+  {
+   "id": "ncert:tb:fepr1:01:Let-us-learn-VI-page-30",
+   "source": "ncert_textbook",
+   "reason": "mcq-answer-unresolved",
+   "subject": "English",
+   "grade": 6,
+   "stem": "Study the following sentences from the story and complete the table. One example has been done for you. 1. I’d better listen closely. 2. When he’s in the house, I’ll call out softly to him. 3. Then I’"
+  },
+  {
+   "id": "ncert:tb:fepr1:01:Let-us-learn-VIII-page-31",
+   "source": "ncert_textbook",
+   "reason": "mcq-answer-unresolved",
+   "subject": "English",
+   "grade": 6,
+   "stem": "Fill in the blanks with suitable adverbs from the box given below. There are two extra words that you do not need. [honestly, brightly, peacefully, sweetly, angrily, slowly, tirelessly] Once upon a ti"
+  },
+  {
+   "id": "ncert:tb:fepr1:01:Let-us-listen-page-32",
+   "source": "ncert_textbook",
+   "reason": "mcq-answer-unresolved",
+   "subject": "English",
+   "grade": 6,
+   "stem": "You will listen to a security guard making an announcement to the people in the neighbourhood. As you listen, fill in the blanks with only one word that you hear. (refer to page 38 for transcript) The"
+  },
+  {
+   "id": "ncert:tb:fepr1:02:Let-us-listen-I-Q1-A-Friend-s-Prayer",
+   "source": "ncert_textbook",
+   "reason": "passage-unavailable",
+   "subject": "English",
+   "grade": 6,
+   "stem": "You will listen to a talk about some outdoor activities that two friends spend their time doing. As you listen, answer the given question in one or two word(s) only. (refer to page 72 for transcript) "
+  },
+  {
+   "id": "ncert:tb:fepr1:02:Let-us-write-1-The-Chair",
+   "source": "ncert_textbook",
+   "reason": "options-missing",
+   "subject": "English",
+   "grade": 6,
+   "stem": "Now, choose the correct word given in brackets to complete Mario’s message to Guneet. Dear Guneet, I am __________________ (thankful to/requesting) God to have you as a __________________ (lucky/real)"
+  },
+  {
+   "id": "ncert:tb:fhml1:01:b",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 6,
+   "stem": "पाठ में से चुनकर कुछ शब्द नीचे दिए गए हैं। अपने समूह में इन पर चर्चा कीजिए और इनहें इनके सही अर्थों या संददर्भोंों से मिलाइए। इसके लिए आप शब्दकोश, इंटरनेट या अपने शिक्षकों की सहायता ले सकते हैं।"
+  },
+  {
+   "id": "ncert:tb:fhml1:01:bbbbbb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 6,
+   "stem": "सतंभ 1 और सतंभ 2 में कुछ पंक् तियाँ दी गई हैं। मिलते-जुलते भाव वाली पंक् तियों को रेखा खींचकर जोड़िए—"
+  },
+  {
+   "id": "ncert:tb:fhml1:01:bbbbbbbbbbbbb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 6,
+   "stem": "आज हम आपके लिए एक अनोखी पहेली लाए हैं। नीचे कुछ अक्षर दिए गए हैं। आप इन्हें मिलाकर कोई सार्थक शब्द बनाइए। अक्षरों को आगे-पीछे किया जा सकता है यानी उनका क्रम बदला जा सकता है। आप अपने मन से किसी भी अक्ष"
+  },
+  {
+   "id": "ncert:tb:gegp2:03:Figure-it-Out-Page-17-Q2",
+   "source": "ncert_textbook",
+   "reason": "stem-too-short",
+   "subject": "Mathematics",
+   "grade": 7,
+   "stem": ""
+  },
+  {
+   "id": "ncert:tb:gepr1:01:The-Day-the-River-Spoke-Let-us-think-and-reflect-I-Q1-i",
+   "source": "ncert_textbook",
+   "reason": "options-missing",
+   "subject": "English",
+   "grade": 7,
+   "stem": "Complete the sentence with the correct option from those given in the brackets. The tone of the River in the given extract is __________________. (assuring/sympathising)"
+  },
+  {
+   "id": "ncert:tb:gepr1:01:The-Day-the-River-Spoke-Let-us-learn-III-Borrowed-Words",
+   "source": "ncert_textbook",
+   "reason": "answer-bleed",
+   "subject": "English",
+   "grade": 7,
+   "stem": "The word ‘catamaran’ is used in the text. The word originates from Tamil language ‘kattu maram’ meaning ‘tied wood’. Find out the meanings of these words. From which Indian language these words were b"
+  },
+  {
+   "id": "ncert:tb:gepr1:01:The-Day-the-River-Spoke-Let-us-learn-VI-Prepositions",
+   "source": "ncert_textbook",
+   "reason": "mcq-options-unresolved",
+   "subject": "English",
+   "grade": 7,
+   "stem": "Now, fill in the blanks with suitable prepositions given within the brackets. Jahnavi takes the River’s advice and goes to school. On her first day 1. _________ (at/in/on) school, Jahnavi stood nervou"
+  },
+  {
+   "id": "ncert:tb:gepr1:01:The-Day-the-River-Spoke-Let-us-learn-VII-Prepositions-and-Adverbs",
+   "source": "ncert_textbook",
+   "reason": "mcq-options-unresolved",
+   "subject": "English",
+   "grade": 7,
+   "stem": "Fill in the blanks with prepositions or adverbs. 1. The cat jumped ___________ the table. (preposition) 2. The children played ___________ until dark. (adverb) 3. She quickly ran ___________ the park."
+  },
+  {
+   "id": "ncert:tb:gepr1:01:Try-Again-Let-us-discuss-I-Summary",
+   "source": "ncert_textbook",
+   "reason": "mcq-options-unresolved",
+   "subject": "English",
+   "grade": 7,
+   "stem": "Complete the summary of the poem by filling in the blanks with suitable words from the text given in the box below. Share your answers with the teacher. An example has been given. tried, mounted, desp"
+  },
+  {
+   "id": "ncert:tb:gepr1:01:Try-Again-Let-us-discuss-V-Q1",
+   "source": "ncert_textbook",
+   "reason": "options-missing",
+   "subject": "English",
+   "grade": 7,
+   "stem": "Fill in the blanks by choosing the correct answer from within the brackets. The rhyme scheme of the poem is ____________. (AABB/ABBA/ABAB)"
+  },
+  {
+   "id": "ncert:tb:gepr1:01:Try-Again-Let-us-discuss-V-Q2",
+   "source": "ncert_textbook",
+   "reason": "options-missing",
+   "subject": "English",
+   "grade": 7,
+   "stem": "Fill in the blanks by choosing the correct answer from within the brackets. ‘Bravo’ is an example of ____________. (conjunction/interjection/adjective)"
+  },
+  {
+   "id": "ncert:tb:gepr1:01:Try-Again-Let-us-discuss-V-Q3",
+   "source": "ncert_textbook",
+   "reason": "options-missing",
+   "subject": "English",
+   "grade": 7,
+   "stem": "Fill in the blanks by choosing the correct answer from within the brackets. The poet uses ‘twas and ‘tis for the sake of ____________. (rhythm/rhyme/contraction)"
+  },
+  {
+   "id": "ncert:tb:gepr1:01:Try-Again-Let-us-think-and-reflect-I-Q1-iv",
+   "source": "ncert_textbook",
+   "reason": "options-missing",
+   "subject": "English",
+   "grade": 7,
+   "stem": "Choose the correct option from the words given in the brackets. The phrase ‘silken filmy clue’ creates an image of something that is _____________________ (long and light/very delicate and soft)."
+  },
+  {
+   "id": "ncert:tb:ghml1:02:bb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 7,
+   "stem": "इस लोककथा में से चुनकर कुछ वाक्य नीचे स्तंभ 1 में िदए गए हैं। उनके भाव या अथर् से िमलते-जुलते वाक्य स्तंभ 2 में िदए गए हैं। स्तंभ 1 के वाक्यों को स्तंभ 2 के उपयुक्त वाक्यों से सुमेिलत कìिजए—"
+  },
+  {
+   "id": "ncert:tb:ghml1:02:bbbbbbbbbbbbbbbb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 7,
+   "stem": "नीचे िदए गए वाक्यों में कारक िलखकर इन्हें पूरा कìिजए –"
+  },
+  {
+   "id": "ncert:tb:ghml1:02:1bb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 7,
+   "stem": "कौन है यह प्राणी? 1. इसकì लंबी पूँछ होती है जो पेड़ों कì शाखाओं के चारों ओर िलपटी रहती है। 2. इसका मुख्य आहार कìट और छोटे जीव होते हैं िजन्हें यह चुपके से पकड़ता है। 3. यह प्राणी अपने पåरवेश में घुल-िमल"
+  },
+  {
+   "id": "ncert:tb:hees1:01:Questions-and-activities-1",
+   "source": "ncert_textbook",
+   "reason": "answer-bleed",
+   "subject": "Social Science",
+   "grade": 8,
+   "stem": "What can make what is today a renewable resource non-renewable tomorrow? Describe some actions that can prevent this from happening."
+  },
+  {
+   "id": "ncert:tb:hepr1:01:Let-us-discuss-Ib",
+   "source": "ncert_textbook",
+   "reason": "mcq-options-unresolved",
+   "subject": "English",
+   "grade": 8,
+   "stem": "Complete the following summary with exact words from the poem. One example has been done for you. Share your answers with your classmates and teacher."
+  },
+  {
+   "id": "ncert:tb:hepr1:01:Let-us-listen-Ib",
+   "source": "ncert_textbook",
+   "reason": "passage-unavailable",
+   "subject": "English",
+   "grade": 8,
+   "stem": "You will listen to a presentation about the wonderful Rock Garden of Chandigarh. As you listen, answer the following questions using one to three exact words from the presentation."
+  },
+  {
+   "id": "ncert:tb:hhml1:01:bbbbbbbbbbbbbbbbbb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 8,
+   "stem": "कविता से चुनकर कुछ शब्द निम्न तालिका मेेंं दिए गए हैैंं। दिए गए शब्दोंं से इनके समानार्थी शब्द ढूँढ़कर तालिका मेेंं दिए गए रिक्त स््थथानोोंं मेेंं लिखिए। शब्द: भू, दीप, हृदय, तलवार, पत्थर समानार्थी शब्"
+  },
+  {
+   "id": "ncert:tb:iebe1:02:Check-Your-Understanding-I-Page-28",
+   "source": "ncert_textbook",
+   "reason": "mcq-options-unresolved",
+   "subject": "English",
+   "grade": 9,
+   "stem": "Based on your understanding of the poem, state whether the following statements are true or false. Also, rectify the false statements. 1. The poem highlights the skilled work of craftsperson. 2. The p"
+  },
+  {
+   "id": "ncert:tb:ihga1:01:bbbbb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "कहानी मेें से चुनकर कुछ वाक््यय नीचे दिए गए हैैं। इन वाक््यों मेें मुहावरों को पहचानकर रेखांकित कीजिए। इन मुहावरों का प्रयोग करते हुए नए वाक््यय बनाकर लिखिए—"
+  },
+  {
+   "id": "ncert:tb:ihga1:03:Q1bbbbbb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "‘मिट््ठू’ शब्द का अर््थ होता है— ममधुरभाषी, ममीठा बोलनेवाला यया तोता। ययह शब्द इतना अधिक प्रचलित है कि इसका प्रययोग एक ममुहावरे मेें भी कियया जाता है— ‘अपने ममुँह मिययाँ मिट््ठू बनना’ जिसका अर््थ है ‘"
+  },
+  {
+   "id": "ncert:tb:ihga1:03:Q1bbbbbbbb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "पाठ मेें से चुनकर कुछ शब््द-युग्म नीचे दिए गए हैैं। उनका अर््थ स्पष्ट करते हुए वाक्य मेें प्रयोग कीजिए— वक्त-बेवक्त, नियम-सिद््धाांत, शाददी-ब््ययाह, तीज-त््ययोहार"
+  },
+  {
+   "id": "ncert:tb:ihga1:03:Q1bbbbbbbbb",
+   "source": "ncert_textbook",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "“ढीली धोती को ददोनों हाथोों से सँभालते हुए वह बाग मेें एक पेड़ से ददूसरे पेड़ के पास, ‘मिटट््ठू आ! मिटट््ठू आ!!’ पुकारते हुए पसीना-पसीना होते रहे और मिटट््ठू एक डाल से ददूसरी डाल पर, एक पेड़ से ददूसरे"
+  },
+  {
+   "id": "ncert:tb:jeff1:02:Thinking-about-Language-II-Sentences-1-3",
+   "source": "ncert_textbook",
+   "reason": "answer-bleed",
+   "subject": "English",
+   "grade": 10,
+   "stem": "Here are some more examples of ‘the’ used with proper names. Try to say what these sentences mean. (You may consult a dictionary if you wish. Look at the entry for ‘the’.)"
+  },
+  {
+   "id": "ncert:tb:jeff1:02:Looking-at-Contrasts-I",
+   "source": "ncert_textbook",
+   "reason": "mcq-answer-unresolved",
+   "subject": "English",
+   "grade": 10,
+   "stem": "Nelson Mandela’s writing is marked by balance: many sentences have two parts in balance. Use the following phrases to complete the sentences given below. (i) they can be taught to love. (ii) I was bor"
+  },
+  {
    "id": "ai:cbse:iebe1:06:A:102",
    "source": "ai_generated",
    "reason": "stem-fragment",
@@ -38473,6 +39241,262 @@
    "stem": "A student draws a graph for one mango buyer. On the vertical axis she writes the price of mangoes in rupees, and on the horizontal axis the quantity of mangoes in kilograms. She marks one point where "
   },
   {
+   "id": "ai:cbse:ihga1:01:A:101",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "प्रेमचंद की कहानियाँ मानसरोवर के आठ भागों में संकलित हैं। सेवासदन, प्ेमाश्रम, रंगभूमि, कायाकल्प , निर्मला, गबन, कर्मभूमि, गोदान उनके प्रमुख उपन्यास हैं। उन्होंने हंस, जागरण, माधुरी पत्रि काओं का संपाद"
+  },
+  {
+   "id": "ai:cbse:ihga1:01:A:102",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "‘दो बैलों की कथा’ में प्ेमचंद ने किसानों के जीवन और प शुओं के साथ उनके भावनात्मक संबंधों को मार्मि क ढंग से दिखाया है। इस कहानी में उन्होंने यह भी बताया है कि स्वतंत्रता सहज ही नहीं मिलती, उसके लिए बा"
+  },
+  {
+   "id": "ai:cbse:ihga1:01:C:101",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "हिंदी-व्याकरण कक्षा में ‘विद्ोहमय’ शब्द का संधि-विच्छेद कराया जा रहा है — इस शब्द में कौन-सा संधि हुआ है? (A) गुण संधि (B) वृद्धि संधि (C) यण संधि (D) जशत्व संधि"
+  },
+  {
+   "id": "ai:cbse:ihga1:02:B:101",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "मुझे कोई साधारण निबंध नहीं लिखना है। आज मुझे नमि ता और अमिता के लिए आदर्श\nनिबंध लिखना होगा। नमि ता का आदेश है कि मैं ‘दूर के ढोल सुहावने होते हैं’ इस विषय पर\nलिखूँ। अमिता का आग्रह है कि मैं समाज-सुधार"
+  },
+  {
+   "id": "ai:cbse:ihga1:02:B:102",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "एक विद्वान का कथन है कि निबंध छोटा होना चाहिए। छोटा निबंध बड़े की अपेक्ा\nअधिक अच्छा होता है, क्योंकि बड़े निबंध में रचना की सुंदरता नहीं बनी रह सकती । इस\nकथन को मान लेन में ही मेरा लाभ है। मुझे छोटा ह"
+  },
+  {
+   "id": "ai:cbse:ihga1:02:D:101",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "कविता सुनने की इच्छा प्रकट की, दूसरी ने चरखे पर, ती सरी ने कुत्े पर और चौथी ने ढोल\nपर। अमी र खुसरो प्रतिभावान थे, उन्होंने एक ही पद्य में चारों की इच्छाओं की पूर्ति कर दी ।\nउन्होंने कहा—\nखी र पकाई जतन"
+  },
+  {
+   "id": "ai:cbse:ihga1:04:B:103",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "ऐसी कोई खास बात मुझे याद नहीं आती। अलबत्ता इतना जरूर कहूँगी कि पचास का दशक रहा होगा, जब मैं फिल्म इंडस्ट्ी में नई-नई आई थी और मेरा काम कुछ चल निकलना शुरू हुआ था। उस दौरान मैंने कुछ सालों तक दीवाली के "
+  },
+  {
+   "id": "ai:cbse:ihga1:07:B:101",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "यह बहुत उचित है है, बहुत सुंदर है है; पर हम इसमें तब तक सफल नहीं हो सकते जब तक कि हम अपने देश की भीतरी दशा को ठीक से न समझ लें और उसे हमेशा अपने सामने न रखें। हमारे देश को दो बातों की सबसे पहले और सबस"
+  },
+  {
+   "id": "ai:cbse:ihga1:07:D:102",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "दर्शकों की तालियों से खिलाड़ियों के पैरों में बिजली लग जाती है है और गिरते खिलाड़ी उभर जाते हैं? कवि-सम्मे लनों और मुशायरों की सारी सफलता दाद देने वालों पर ही निर्भर करती है है, इसलिए मैं अपने देश का "
+  },
+  {
+   "id": "ai:cbse:ihga1:07:F:103",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "‘देश का सम्मान और नागरिक का सम्मान एक-दूसरे से अटूट रूप से जुड़े होते हैं।’ — किस प्रकार के कार्य इस दावे को सत्य सिद्ध करते हैं? अपने शब्दों में लिखिए।"
+  },
+  {
+   "id": "ai:cbse:ihga1:07:G:101",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "विद्यालय के सभी सहपाथियों के समक्ष एक अनुच्छेद लिखिए, जिसमें बताया गया हो कि अपने विद्यालय और आस-पास के सार्वजनिक स्थानों की स्वच्छता और सौंदर्य-बोध को बनाए रखने के लिए हमें क्या-क्या करना चाहिए। अनुच"
+  },
+  {
+   "id": "ai:cbse:ihga1:07:G:102",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "अपने मोहल्ले के एक कार्यक्रम में आपको यह समझाना है कि नागरिकों के छोटे-छोटे काम भी देश की उन्नति में कितने महत्वपूर्ण हैं। इस पर एक अनुच्छेद लिखिए। अनुच्छेद १२० शब्दों का हो।"
+  },
+  {
+   "id": "ai:cbse:ihga1:07:G:103",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "चुनाव के समय बहकावे में आकर लोग अक्सर गलत उम्मीदवार को मत दे देते हैं। वरिष्ठ नागरिक के रूप में आप उन्हें ठीक उम्मीदवार का मत देने के लिए किस प्रकार समझाएँगे — इस विषय पर एक अनुच्छेद लिखिए। अनुच्छेद १"
+  },
+  {
+   "id": "ai:cbse:ihga1:07:H:101",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "अपने विद्यालय के प्रधानाचार्य को पत्र लिखिए, जिसमें विद्यालय और उसके आस-पास के सार्वजनिक स्थानों की सफाई तथा सौंदर्य-बोध को बनाए रखने के लिए विद्यार्थियों से कुछ निश्चित कर्तव्य निभाने का अनुरोध हो। प"
+  },
+  {
+   "id": "ai:cbse:ihga1:07:I:101",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "अपने विद्यालय की पत्रिका के लिए एक विज्ञापन तैयार कीजिए, जिसमें लोगों से अनुरोध हो कि वे चुनाव में गलत लोगों के बहकावे में न आकर ठीक मनुष्य को ही अपना मत दें। विज्ञापन ५० शब्दों का हो।"
+  },
+  {
+   "id": "ai:cbse:ihga1:08:B:103",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "आपने रैदास के पद पढ़े। अब आप रैदास की तरह ही महाराष्‍ट्र के संत कवि नामदेव के आगे दिए गए दो पद पढ़ि ए। निर्गुण संत काव्य परंपरा के संत कवि नामदेव का जन्‍म 13वीं –14वीं शताब्दी में महाराष्‍ट्र में हुआ।"
+  },
+  {
+   "id": "ai:cbse:ihga1:08:D:103",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "निर्गुण संत काव्य परंपरा के संत कवि नामदेव का जन्‍म 13वीं –14वीं शताब्दी में महाराष्‍ट्र में हुआ। अन्य संत कवियों की भाँति नामदेव ने भी बाह्य आडंबरों , सामाजिक रूढ़‍ ियों का विरोध कर सामाजिक समरसता, प"
+  },
+  {
+   "id": "ai:cbse:ihga1:09:A:101",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "तुलसीदा स संस्कृत के श्रेष‍ठ ज्ञा ता थे। उनका अव धी और ब्रज दोनों भा षा ओं पर समा न अधिका र था । उन्होंने रामचरितमानस की रचना अव धी में और विनयपत्रिका तथा कवितावली की रचना ब्रजभा षा में की। का शी में "
+  },
+  {
+   "id": "ai:cbse:ihga1:09:A:102",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "प्रस्तुत अंश ‘रामचरितमानस’ के ‘बालकांड’ से लिया गया है। सीता स्‍वयंवर में श्ीराम द्ारा शिव-धनुष भंग का समाचार जब मुन‍‍ि परशुराम को मिलता है तो वे आक्रोशित होकर वहाँ आते हैं। शिव-धनुष को खंडित देखकर वे"
+  },
+  {
+   "id": "ai:cbse:ihga1:09:A:103",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "अति डरु उतरु देत नृपु नाहीं। कुटि ल भूप हरषे मन माहीं॥ सुर मुनि ना ग नगर नर ना री। सोचहिं सकल त्रा स उर भा री॥ मन पछिताति सीय महता री। बिधि अब सँव री बा त बिगा री॥ भृगुपति कर सुभा उ सुनि सीता । अरध नि"
+  },
+  {
+   "id": "ai:cbse:ihga1:09:B:101",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "गोस्‍व वामी तुलसीदा स का जन्म आज के उत्तर प्रदेश में हुआ था । इनका जीव न-का ल 16वीं–17वीं शता ब्दी (सन् 1532–1623)* के मध्य मा ना गया है। रामचरितमानस तुलसीदा स का प्रसिद्ध महा का व्‍य है। रामचरितमानस "
+  },
+  {
+   "id": "ai:cbse:ihga1:09:B:102",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "प्रस्तुत अंश ‘रामचरितमानस’ के ‘बालकांड’ से लिया गया है। सीता स्‍वयंवर में श्ीराम द्ारा शिव-धनुष भंग का समाचार जब मुन‍‍ि परशुराम को मिलता है तो वे आक्रोशित होकर वहाँ आते हैं। शिव-धनुष को खंडित देखकर वे"
+  },
+  {
+   "id": "ai:cbse:ihga1:09:B:103",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "रामचरितमानस में यहाँ से आगे की कथा में परशुराम का आक्ोश, लक्ष ‍मण और परशुराम के बीच व्यंग्ययोक्‍त‍िपूर्ण संवाद और ऐसी स्थ थिति में भी राम के धीर-गंभीर शांत स्‍वरूप का वर्णन है। अंतत: राम के विनय और वि"
+  },
+  {
+   "id": "ai:cbse:ihga1:09:D:102",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "मन पछिताति सीय महता री। बिधि अब सँव री बा त बिगा री॥ भृगुपति कर सुभा उ सुनि सीता । अरध निमेष कलप सम बीता ॥ सभय बिलोके लोग सब जानि जा नकी भीरु। हृदयँ न हरषु बिषा दु कछु बोले श्ीरघुबीरु॥\n\nइन पंक्तियों म"
+  },
+  {
+   "id": "ai:cbse:ihga1:10:A:101",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "‘भारति, जय, विजयकरे!’ कविता ‘निराला’ की देशप्रेम से ओत-प्रोत एक प्रे णादायक रचना\n\nहै। कविता के आरंभ में ही कवि ‘भारति, जय, विजयकरे!’ कहकर भारत को विजयश्ी प्ाप्‍त\n\nकरने की कामना करता है। वह भारतभूमि को"
+  },
+  {
+   "id": "ai:cbse:ihga1:10:A:102",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "सुंदरता का ऐसा चित्र खींचा गया है मानो भारत को ई देवी हो , जिसके चरणों को समुद्र अपने\n\nजल से धोता है। नदी, वन, पुष्प, हिमालय, गंगा आदि प्ाकृतिक शो भा को भारत के वस्‍तराभूषण\n\nकी तरह प्रस्तु किया गया है"
+  },
+  {
+   "id": "ai:cbse:ihga1:10:A:103",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "• “मु कुट शुभ्र हिम -तुषार”\n\nउपर्युक्त पंक्‍त‍ि में हिमालय को भारत का मु कुट कहा गया है। वास्तव में हिमालय मु कुट नहीं है,\n\nलेकिन कवि ने कल्पना के बल पर उसे मु कुट का रूप दे दिया। इससे भारत की छवि भव्"
+  },
+  {
+   "id": "ai:cbse:ihga1:10:B:101",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "‘भारति, जय, विजयकरे!’ कविता ‘निराला’ की देशप्रेम से ओत-प्रोत एक प्रे णादायक रचना\n\nहै। कविता के आरंभ में ही कवि ‘भारति, जय, विजयकरे!’ कहकर भारत को विजयश्ी प्ाप्‍त\n\nकरने की कामना करता है। वह भारतभूमि को"
+  },
+  {
+   "id": "ai:cbse:ihga1:10:B:102",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "• “शतमु ख-शतरव-मु खरे!”\n\nउपर्युक्त पंक्‍त‍ि के ‘शतमु ख’ और ‘शतरव’ में ‘श’ वर्ण की पुनरावृत्ति हो रही है, इसीलि ए यहाँ\n\nअनुप्रास अलंकार है।\n\n• “मु कुट शुभ्र हिम -तुषार”\n\nउपर्युक्त पंक्‍त‍ि में हिमालय क"
+  },
+  {
+   "id": "ai:cbse:ihga1:10:B:103",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "सूर्यकांत त्रिपाठी ‘निराला’ का जन्म सन् 1899 में बंगाल\n\nके महिषादल में हुआ। वे मू लतः गढ़ाकोला (उन्नाव), उत्तर\n\nप्रदेश के निवासी थे। निराला की औपचारिक शि क्ा नौवीं\n\nतक महिषादल में ही हुई। उन्होंने स्व"
+  },
+  {
+   "id": "ai:cbse:ihga1:11:B:102",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "बुझा दीप झाँ सी का तब डलहौजी मन में हरषा या , रा ज्य हड़प करने का उसने यह अच्छा अवसर पा या , फौरन फौजें भेज दुर्ग पर अपना झंडा फहरा या , ला वा रिस का वा रिस बनकर ब्रिटिश रा ज्य झाँ सी आया , अश्ुपूर्ण "
+  },
+  {
+   "id": "ai:cbse:ihga1:12:A:103",
+   "source": "ai_generated",
+   "reason": "garbled-script",
+   "subject": "Hindi",
+   "grade": 9,
+   "stem": "माँ कि जिसकी गोद में सिर,\nअभी तक चुपचाप है सब,\nरख लिया तो दुख नहीं फिर,\nरातवाली छाप है सब,\nगिर रहा पानी झरा-झर,\nमाँ कि जिसकी स्नेह-धारा\nका य हाँ तक भी पसारा,\nहिल रहे पत्े हरा-हर,\nउसे लिखना नहीं आता,\nब"
+  },
+  {
    "id": "ai:cbse:jeff1:02:D:102",
    "source": "ai_generated",
    "reason": "stem-fragment",
@@ -38523,19 +39547,19 @@
  ],
  "counts": {
   "no-verified-key": 3214,
-  "stem-fragment": 70,
-  "symbol-loss": 19,
-  "options-missing": 22,
-  "garbled-script": 112,
+  "stem-fragment": 71,
+  "symbol-loss": 21,
+  "options-missing": 29,
+  "garbled-script": 171,
   "page-furniture": 1,
   "figure-unavailable": 123,
   "scheme-marks-unallocated": 40,
-  "mcq-answer-unresolved": 276,
-  "passage-unavailable": 49,
-  "stem-too-short": 12,
+  "mcq-answer-unresolved": 287,
+  "passage-unavailable": 51,
+  "stem-too-short": 35,
   "parts-detached": 12,
   "figure-referenced": 133,
-  "mcq-options-unresolved": 190,
+  "mcq-options-unresolved": 196,
   "key-covers-one-part": 3,
   "header-as-stem": 13,
   "private-use-glyph": 5,
@@ -38545,13 +39569,13 @@
   "mcq-part-of-group": 4,
   "value-missing": 1,
   "stem-runs-on": 9,
-  "answer-bleed": 293,
+  "answer-bleed": 302,
   "option-labels-collide": 6,
   "stem-spans-sections": 19,
   "scrambled-math": 41,
   "key-rejected": 11,
-  "answer-is-question-text": 3,
-  "duplicate-stem": 78,
+  "answer-is-question-text": 10,
+  "duplicate-stem": 79,
   "figure-shown-below": 3,
   "stem-empty-after-strip": 2
  }

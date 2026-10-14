@@ -96,8 +96,8 @@
       ]
     },
     {
-      "id": "mathematics-4/where-are-you-hiding",
-      "name": "Where Are You Hiding?",
+      "id": "mathematics-4/hide-and-seek",
+      "name": "Hide and Seek",
       "number": 2,
       "book": "Math-Mela",
       "source_file": "chapters_text/demm1/02.txt",
@@ -109,37 +109,37 @@
       "headingKind": "transcribed-heading-anchor",
       "topics": [
         {
-          "id": "mathematics-4/where-are-you-hiding/hide-and-seek",
+          "id": "mathematics-4/hide-and-seek/hide-and-seek",
           "name": "Hide and Seek",
           "page": 1,
           "subtopics": []
         },
         {
-          "id": "mathematics-4/where-are-you-hiding/boxy-buldings",
+          "id": "mathematics-4/hide-and-seek/boxy-buldings",
           "name": "Boxy Buldings",
           "page": 4,
           "subtopics": []
         },
         {
-          "id": "mathematics-4/where-are-you-hiding/cat-finds-jagat",
+          "id": "mathematics-4/hide-and-seek/cat-finds-jagat",
           "name": "Cat Finds Jagat",
           "page": 4,
           "subtopics": []
         },
         {
-          "id": "mathematics-4/where-are-you-hiding/grid-game",
+          "id": "mathematics-4/hide-and-seek/grid-game",
           "name": "Grid Game",
           "page": 6,
           "subtopics": []
         },
         {
-          "id": "mathematics-4/where-are-you-hiding/grid-game-treasure-hunt",
+          "id": "mathematics-4/hide-and-seek/grid-game-treasure-hunt",
           "name": "Grid Game — Treasure Hunt",
           "page": 6,
           "subtopics": []
         },
         {
-          "id": "mathematics-4/where-are-you-hiding/drone-around-the-school",
+          "id": "mathematics-4/hide-and-seek/drone-around-the-school",
           "name": "Drone Around the School",
           "page": 8,
           "subtopics": []

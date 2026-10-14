@@ -115,6 +115,10 @@ void main() {
   // U+F044, U+F05E, U+F0DE all confirmed present) are leftover Wingdings/
   // Symbol-font glyph references from OCR, not real content -- genuinely
   // unmappable, so dropped rather than guessed at.
+  test('a thin space and the IPA length mark print as a space and a colon', () {
+    expect(pdfSafe('10 kg, the long /uː/ sound'), '10 kg, the long /u:/ sound');
+  });
+
   test('zero-width characters are dropped, not printed as boxes', () {
     // The model-written Hindi questions (2026-10-14) carry U+200D to form half letters; Helvetica
     // has no Devanagari and prints the joiner itself as a box.

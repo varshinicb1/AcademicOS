@@ -467,6 +467,53 @@ def test_correct_indic_text_is_not_flagged_as_garbled(subject, stem):
     assert bm.exclusion_reason(rec) is None
 
 
+@pytest.mark.parametrize("stem", [
+    # A conjunct consonant the text layer dropped leaves its vowel sign on a virama:
+    # प्रेमचंद, द्वारा, रक्षा (33 served Hindi 9 questions, 2026-10-14).
+    "प्ेमचंद की कहानी में हीरा और मोती द्ारा क्या संदेश दिया गया है?",
+    "गाँव की रक्ा किसने की?",
+    # One doubled sign, below `_vowel_sign_runs`' three: "दीवार".
+    "उद्यान की दीवाार में छेद देखकर घोंघे को क्या याद आया?",
+    # A sign written before the anusvara it follows: "पंक्तियों".
+    "इन पंिक्तयों का भाव लिखिए।",
+])
+def test_one_broken_hindi_word_is_garbled(stem):
+    rec = board(source="cbse_sample_paper", subject="Hindi", stem=stem)
+    assert bm.exclusion_reason(rec) == "garbled-script"
+
+
+def test_a_broken_hindi_word_in_a_part_is_garbled():
+    """A textbook exercise prints its items as parts; the extraction broke them there too."""
+    rec = board(source="cbse_sample_paper", subject="Hindi",
+                stem="नीचे दिए गए कथनों को ‘हाँ जी हाँ’ और ‘ना जी ना’ से पूरा कीजिए —",
+                parts=[{"text": "(क) तुम केवल आलू हीी लाना, मुझको है बस आलू खाना।"}])
+    assert bm.exclusion_reason(rec) == "garbled-script"
+
+
+@pytest.mark.parametrize("stem", [
+    "प्रेमचंद ने यह कहानी किसके द्वारा कही है? उनकी रक्षा किसने की?",
+    "उद्यान की दीवार में छेद देखकर घोंघे को क्या याद आया?",
+    "कॉलेज और काॅलेज दोनों लिखे जाते हैं। क़िले का नाम लिखिए।",
+])
+def test_correct_hindi_is_not_garbled(stem):
+    rec = board(source="cbse_sample_paper", subject="Hindi", stem=stem)
+    assert bm.exclusion_reason(rec) is None
+
+
+def test_a_listening_task_without_its_transcript_is_excluded():
+    rec = board(source="cbse_sample_paper", subject="English", stem=(
+        "You will listen to a talk about some outdoor activities that two friends spend their time "
+        "doing. As you listen, answer the given question in one or two word(s) only. (refer to page "
+        "72 for transcript) What do the two friends purchase?"))
+    assert bm.exclusion_reason(rec) == "passage-unavailable"
+
+
+def test_a_statement_keyed_with_itself_is_excluded():
+    rec = board(source="cbse_sample_paper", subject="Mathematics", stem="A ball is round and rolls.")
+    rec["answerScheme"]["modelAnswer"] = "A ball is round and rolls."
+    assert bm.exclusion_reason(rec) == "answer-is-question-text"
+
+
 def test_garble_in_the_answer_is_excluded():
     rec = board(source="cbse_sample_paper", subject="Hindi", stem="निम्नलिखित प्रश्न का उत्तर दीजिए।")
     rec["answerScheme"]["modelAnswer"] = "মনিিো নিিো " \
@@ -2159,6 +2206,25 @@ def test_the_relink_strips_no_served_non_board_key(tmp_path):
     assert rows
     _, report = _relinked(rows, tmp_path)
     assert report.quarantined == {}
+
+
+@pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
+def test_every_served_record_is_a_question_the_paper_builder_can_load():
+    """The paper builder's pool skips, with only a log warning, a served record that is not a
+    valid QuestionSchema. Every textbook record carried tagConfidence 1.0 where the schema reads
+    a {"chapter", "topic", "subtopic"} map, so classes 1-5 were served and no paper could use
+    one of them: the pool for class 4 Mathematics was empty (2026-10-14)."""
+    import json
+
+    from academicos.assessment.schemas import QuestionSchema
+
+    invalid = []
+    for rec in json.loads(SERVED_BANK.read_text(encoding="utf-8"))["questions"]:
+        try:
+            QuestionSchema.model_validate(rec)
+        except ValueError as err:
+            invalid.append((rec.get("id"), str(err).splitlines()[1:2]))
+    assert invalid == []
 
 
 # ---- symbol-font private-use glyphs (Task 121) -------------------------------
