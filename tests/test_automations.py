@@ -173,3 +173,82 @@ def test_a_hindi_principal_reads_the_cover_escalation_in_hindi(w):
     alerts = [i for i in _kinds(w, w.p) if i["kind"] == "principal_alert"]
     assert alerts and all(a["title"].startswith("स्थानापन्न चाहिए:") and "पीरियड" in a["title"] for a in alerts)
     assert all("स्वीकार नहीं हुआ" in a["body"] and "accepted" not in a["body"] for a in alerts)
+
+
+# ---- R-D2: each line of the principal's morning alert, once ---------------------------------------
+
+def _alerts(w):
+    return [i for i in _kinds(w, w.p) if i["kind"] == "principal_alert"]
+
+
+def test_lost_periods_owed_over_a_week_are_flagged_once(w):
+    """A lost period not made up for over a week (OWED_AFTER_DAYS) reaches the principal's morning
+    alert, and only once that morning."""
+    r = w.c.post(f"{BASE}/academic-years/{w.year}/closures", json={"date": MON, "reason": "heavy rain"},
+                 headers=w.p)
+    assert r.json()["lostPeriods"] == 6
+    _run(_at("2026-06-07", 8, 30))                      # six days on: not yet
+    assert not any("lost periods" in a["body"] for a in _alerts(w))
+    _run(_at("2026-06-08", 8, 30))                      # a week on
+    [alert] = _alerts(w)
+    assert "6 lost periods not made up for over a week" in alert["body"], alert["body"]
+    _run(_at("2026-06-08", 11, 0))                      # the same morning: not again
+    assert len(_alerts(w)) == 1
+
+
+def test_an_exam_within_the_week_that_is_not_ready_is_named(w):
+    """An exam starting within the week with no datesheet, with rooms nobody invigilates, or not
+    published: each is a line of the morning alert. One further off is not."""
+    subs = {s.name: s.id for g in w.store.grades_for_year(w.year) if g.number == 10
+            for s in w.store.subjects_for_grade(g.id)}
+
+    def exam(name, start, subject=None, invigilate=None):
+        eid = w.c.post("/api/v1/exams", json={"name": name, "startDate": start, "endDate": start, "grades": [10]},
+                       headers=w.p).json()["id"]
+        if subject:
+            r = w.c.put(f"/api/v1/exams/{eid}/datesheet", headers=w.p,
+                        json={"papers": [{"grade": 10, "subjectId": subs[subject], "date": start}]})
+            assert r.status_code == 200, r.text
+        if invigilate == "auto":
+            assert w.c.post(f"/api/v1/exams/{eid}/invigilation/auto", headers=w.p).status_code == 200
+        elif invigilate == "nobody":
+            papers = w.c.get(f"/api/v1/exams/{eid}", headers=w.p).json()["papers"]
+            duties = [{"examPaperId": p["id"], "sectionId": s, "teacherId": None}
+                      for p in papers for s in (w.a10, w.b10)]
+            r = w.c.put(f"/api/v1/exams/{eid}/invigilation", json={"duties": duties}, headers=w.p)
+            assert r.status_code == 200, r.text
+
+    exam("Half yearly", "2026-06-03")
+    exam("Unit test 2", "2026-06-04", "Science", invigilate="nobody")
+    exam("Unit test 3", "2026-06-05", "Maths", invigilate="auto")
+    exam("Unit test 4", "2026-06-20", "Maths", invigilate="auto")      # beyond the week
+    _run(_at(MON, 8, 30))
+    [alert] = _alerts(w)
+    body = alert["body"]
+    assert "Half yearly starts 2026-06-03 with no datesheet" in body, body
+    assert "Unit test 2 starts 2026-06-04: 2 rooms without an invigilator" in body, body
+    assert "Unit test 3 starts 2026-06-05: not published yet" in body, body
+    assert "Unit test 4" not in body
+
+
+def test_a_section_five_lessons_behind_its_plan_is_named_and_four_is_not(w, monkeypatch):
+    """BEHIND_LESSONS: a section five lessons behind is "falling behind". The lessons are the
+    plan's delayed ones (the store's own count is tested in test_curriculum_reporting); this is the
+    alert's threshold and its words."""
+    real = type(w.store).get_delayed_topics
+    behind = {"n": 4}
+
+    def delayed(self, **kw):
+        out = dict(real(self, **kw))
+        out["delayed_lessons"] = [{"section_id": w.a10}] * behind["n"]
+        return out
+
+    monkeypatch.setattr(type(w.store), "get_delayed_topics", delayed)
+    _run(_at(MON, 8, 30))
+    assert _alerts(w) == []
+    behind["n"] = 5
+    _run(_at("2026-06-02", 8, 30))
+    [alert] = _alerts(w)
+    label = w.store._section_label(w.store.get_section(w.a10))
+    assert f"{label} is 5 lessons behind its plan" in alert["body"], alert["body"]
+    assert alert["title"] == "Needs attention today (1)"
