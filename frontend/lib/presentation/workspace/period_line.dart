@@ -43,11 +43,13 @@ String? nextPeriodLine(List<Map> rows, DateTime now, {String Function(Map r)? wh
   }
   if (next == null || inMinutes == null) return null;
   final label = what?.call(next);
+  // Whole sentences with their values (trf), not words joined around them:
+  // "in 25 min" reads "25 मिनट में" in Hindi.
   final when = inMinutes == 0
       ? tr('now')
       : inMinutes < 60
-          ? '${tr('in')} $inMinutes min'
-          : '${tr('in')} ${inMinutes ~/ 60} h ${inMinutes % 60} min';
-  return '${tr('Next')}: ${tr('period')} ${next['period']} ${tr('at')} ${next['startTime']}'
-      '${label == null || label.isEmpty ? '' : ' · $label'} ($when)';
+          ? trf('in {m} min', {'m': inMinutes})
+          : trf('in {h} h {m} min', {'h': inMinutes ~/ 60, 'm': inMinutes % 60});
+  final head = trf('Next: period {n} at {time}', {'n': next['period'], 'time': next['startTime']});
+  return '$head${label == null || label.isEmpty ? '' : ' · $label'} ($when)';
 }

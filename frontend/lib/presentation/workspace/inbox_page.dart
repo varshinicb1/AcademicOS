@@ -26,7 +26,7 @@ class _InboxPageState extends State<InboxPage> {
   Future<void> _open(Map<String, dynamic> n) async {
     if (n['read'] != true) {
       try {
-        await Ops.send('POST', '/notifications/${n['id']}/read', label: 'Mark a notification read');
+        await Ops.send('POST', '/notifications/${n['id']}/read', label: tr('Mark a notification read'));
       } catch (_) {
         // not-a-failure: marking as read is a courtesy; opening the notification must not wait on it
       }
@@ -53,7 +53,7 @@ class _InboxPageState extends State<InboxPage> {
           onPressed: () async {
             final messenger = ScaffoldMessenger.of(context);
             try {
-              await Ops.send('POST', '/notifications/read-all', label: 'Mark all notifications read');
+              await Ops.send('POST', '/notifications/read-all', label: tr('Mark all notifications read'));
               _reload();
             } catch (e) {
               messenger.showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
@@ -62,7 +62,7 @@ class _InboxPageState extends State<InboxPage> {
           child: Text(tr('Mark all read')),
         ),
         IconButton(
-          tooltip: 'Notification settings',
+          tooltip: tr('Notification settings'),
           icon: const Icon(Icons.tune),
           onPressed: () => showDialog(context: context, builder: (_) => const _PreferencesDialog()),
         ),
@@ -70,7 +70,7 @@ class _InboxPageState extends State<InboxPage> {
         // theme: Settings was reachable only from the web's side navigation
         // (v3 audit N-4-7). The inbox is in every app's bottom bar.
         IconButton(
-          tooltip: 'Settings and sign out',
+          tooltip: tr('Settings and sign out'),
           icon: const Icon(Icons.account_circle_outlined),
           onPressed: () => context.push('/settings'),
         ),
@@ -82,8 +82,8 @@ class _InboxPageState extends State<InboxPage> {
           if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!), onRetry: _reload);
           final items = (snap.data!['items'] as List).cast<Map>();
           if (items.isEmpty) {
-            return const EmptyState(icon: Icons.notifications_none, title: 'Nothing yet',
-                message: 'Homework, cover duties, marks and exam news will appear here.');
+            return EmptyState(icon: Icons.notifications_none, title: tr('Nothing yet'),
+                message: tr('Homework, cover duties, marks and exam news will appear here.'));
           }
           return RefreshIndicator(
             onRefresh: () async => _reload(),
@@ -163,7 +163,7 @@ class _PreferencesDialogState extends State<_PreferencesDialog> {
   Widget build(BuildContext context) {
     final p = _prefs;
     return AlertDialog(
-      title: const Text('Notification settings'),
+      title: Text(tr('Notification settings')),
       content: SizedBox(
         width: 520,
         child: p == null
@@ -173,30 +173,30 @@ class _PreferencesDialogState extends State<_PreferencesDialog> {
                   if (_error != null) Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('Quiet hours'),
-                    subtitle: const Text('No push notifications in this window; they arrive after it.'),
+                    title: Text(tr('Quiet hours')),
+                    subtitle: Text(tr('No push notifications in this window; they arrive after it.')),
                     trailing: Wrap(spacing: 8, children: [
-                      OutlinedButton(onPressed: () => _pickTime('quietStart'), child: Text('From ${p['quietStart']}')),
-                      OutlinedButton(onPressed: () => _pickTime('quietEnd'), child: Text('To ${p['quietEnd']}')),
+                      OutlinedButton(onPressed: () => _pickTime('quietStart'), child: Text(trf('From {time}', {'time': p['quietStart']}))),
+                      OutlinedButton(onPressed: () => _pickTime('quietEnd'), child: Text(trf('To {time}', {'time': p['quietEnd']}))),
                     ]),
                   ),
                   // SA-5: one message a day instead of each as it comes.
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('Daily digest'),
+                    title: Text(tr('Daily digest')),
                     subtitle: Text(p['digestAt'] == null
-                        ? 'Off: push and email come as things happen.'
-                        : 'One push and one email a day at ${p['digestAt']}. The inbox still shows everything at once; '
-                            'cover requests still come straight away.'),
+                        ? tr('Off: push and email come as things happen.')
+                        : trf('One push and one email a day at {time}. The inbox still shows everything at once; '
+                            'cover requests still come straight away.', {'time': p['digestAt']})),
                     value: p['digestAt'] != null,
                     onChanged: (on) => on ? _pickTime('digestAt') : _save({'digestAt': ''}),
                   ),
                   if (p['digestAt'] != null)
                     Align(alignment: Alignment.centerLeft, child: OutlinedButton(
-                        onPressed: () => _pickTime('digestAt'), child: Text('Send it at ${p['digestAt']}'))),
+                        onPressed: () => _pickTime('digestAt'), child: Text(trf('Send it at {time}', {'time': p['digestAt']})))),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('Language'),
+                    title: Text(tr('Language')),
                     trailing: SegmentedButton<String>(
                       segments: const [ButtonSegment(value: 'en', label: Text('English')),
                         ButtonSegment(value: 'hi', label: Text('हिन्दी'))],
@@ -210,17 +210,17 @@ class _PreferencesDialogState extends State<_PreferencesDialog> {
                   for (final k in (p['kinds'] as List).cast<Map>())
                     Row(children: [
                       Expanded(child: Text(k['label'] as String)),
-                      const Text('Push'),
+                      Text(tr('Push')),
                       Checkbox(value: k['push'] as bool,
                           onChanged: (v) => _save({'kinds': [{'kind': k['kind'], 'push': v}]})),
-                      const Text('Email'),
+                      Text(tr('Email')),
                       Checkbox(value: k['email'] as bool,
                           onChanged: (v) => _save({'kinds': [{'kind': k['kind'], 'email': v}]})),
                     ]),
                 ]),
               ),
       ),
-      actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('Done'))],
+      actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text(tr('Done')))],
     );
   }
 }

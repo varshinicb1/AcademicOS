@@ -198,7 +198,7 @@ class _WeekHeader extends StatelessWidget {
             final entries = snap.hasData ? (snap.data!['entries'] as List).cast<Map>() : const <Map>[];
             if (entries.isEmpty) return Text(tr('This week'), style: theme.textTheme.bodyMedium);
             final subjects = {for (final e in entries) e['subjectName']}.length;
-            return Text('${entries.length} ${tr('lessons')} · $subjects ${tr('subjects')}',
+            return Text(trf('{n} lessons · {s} subjects', {'n': entries.length, 's': subjects}),
                 style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant));
           },
         ),
@@ -314,7 +314,7 @@ class _LoadCard extends StatelessWidget {
     return AppCard(
       margin: EdgeInsets.zero,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text('${load['periodsPerWeek'] ?? 0} ${tr('periods a week')}', style: theme.textTheme.titleMedium),
+        Text(trf('{n} periods a week', {'n': load['periodsPerWeek'] ?? 0}), style: theme.textTheme.titleMedium),
         if (busiest != null)
           Text('${tr('Busiest day')}: ${tr(_dayNames[busiest.key])} (${busiest.value})',
               style: theme.textTheme.bodySmall),

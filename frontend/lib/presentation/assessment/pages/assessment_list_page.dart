@@ -13,6 +13,7 @@ import '../../../domain/repositories/requests.dart';
 import '../../blocs/assessment_bloc.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import '../../workspace/strings.dart';
 import '../../paper_builder/pages/paper_builder_page.dart' show newPaperLocation;
 import '../widgets/paper_actions.dart';
 import 'package:academicos/core/theme/app_theme.dart';
@@ -85,10 +86,10 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
     return Scaffold(
       appBar: AppBar(
         leading: shellLeading(context),
-        title: const Text('Papers'),
+        title: Text(tr('Papers')),
         actions: [
           IconButton(
-            tooltip: 'Refresh',
+            tooltip: tr('Refresh'),
             icon: const Icon(Icons.refresh),
             // On a phone these actions are thumb-sized (Task 801); an
             // IconButton keeps the minimum on a desktop density too (see
@@ -99,14 +100,14 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
           // A word, not a bare icon: two icons with only tooltips sat beside
           // "New paper", and one of them was the same thing (QA P-14).
           Tooltip(
-            message: 'Quick paper (CBSE pattern)',
+            message: tr('Quick paper (CBSE pattern)'),
             child: TextButton.icon(
               key: const ValueKey('quick-paper'),
               // A TextButton, unlike an IconButton, takes the theme's
               // density: a desktop browser's `compact` drew it 40 px tall.
               style: TextButton.styleFrom(minimumSize: const Size(48, 48), visualDensity: VisualDensity.standard),
               icon: const Icon(Icons.flash_on),
-              label: const Text('Quick paper'),
+              label: Text(tr('Quick paper')),
               // Online, the quick paper is the builder on the class's CBSE
               // annual pattern (Task 902); the offline build keeps its dialog.
               onPressed: () => newPaperLocation(quick: true) == '/assessment/create'
@@ -144,7 +145,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push(newPaperLocation()),
         icon: const Icon(Icons.assignment_add),
-        label: const Text('New paper'),
+        label: Text(tr('New paper')),
       ),
     );
   }
@@ -154,10 +155,10 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
       // Scrollable, so pulling down to refresh works on an empty list too.
       return ListView(
         physics: const AlwaysScrollableScrollPhysics(),
-        children: const [
+        children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(24, 120, 24, 24),
-            child: Text('No papers yet. Start one with New paper.', textAlign: TextAlign.center),
+            padding: const EdgeInsets.fromLTRB(24, 120, 24, 24),
+            child: Text(tr('No papers yet. Start one with New paper.'), textAlign: TextAlign.center),
           ),
         ],
       );
@@ -182,7 +183,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                     const SizedBox(height: 4),
                     // The printed total: 79 once a question is removed, not
                     // the template's 80 (QA P-16).
-                    Text('${a.subject} · Class ${a.grade} · ${marksText(paperMarksOf(a))}',
+                    Text('${a.subject} · ${trf('Class {n}', {'n': a.grade})} · ${marksText(paperMarksOf(a))}',
                         style: theme.textTheme.bodySmall),
                     Text(paperByline(a),
                         style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
@@ -203,12 +204,12 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
   Widget _rowMenu(BuildContext context, Assessment a) {
     final can = PaperPermissions.of(a, grants: _grants.value);
     final items = <PopupMenuEntry<String>>[
-      if (paperIsEditable(a) && can.mayChange) const PopupMenuItem(value: 'rename', child: Text('Rename')),
-      if (can.mayDelete) const PopupMenuItem(value: 'delete', child: Text('Delete')),
+      if (paperIsEditable(a) && can.mayChange) PopupMenuItem(value: 'rename', child: Text(tr('Rename'))),
+      if (can.mayDelete) PopupMenuItem(value: 'delete', child: Text(tr('Delete'))),
     ];
     if (items.isEmpty) return const SizedBox(width: 8);
     return PopupMenuButton<String>(
-      tooltip: 'Actions for ${a.title}',
+      tooltip: trf('Actions for {title}', {'title': a.title}),
       itemBuilder: (_) => items,
       onSelected: (v) async {
         final changed = v == 'rename' ? await renamePaper(context, a) != null : await deletePaper(context, a);
@@ -258,11 +259,11 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
         return StatefulBuilder(
           builder: (context, setDialogState) {
             return AlertDialog(
-              title: const Row(
+              title: Row(
                 children: [
-                  Icon(Icons.flash_on, color: AppColors.warning),
-                  SizedBox(width: 8),
-                  Text('1-Click Quick Paper'),
+                  const Icon(Icons.flash_on, color: AppColors.warning),
+                  const SizedBox(width: 8),
+                  Text(tr('1-Click Quick Paper')),
                 ],
               ),
               content: SingleChildScrollView(
@@ -270,23 +271,18 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Instantly compile a PARAKH / CBSE standard assessment with competency questions and parallel sets.',
-                      style: TextStyle(fontSize: 13),
+                    Text(
+                      tr('Instantly compile a PARAKH / CBSE standard assessment with competency questions and parallel sets.'),
+                      style: const TextStyle(fontSize: 13),
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<int>(
                       key: ValueKey('quick_grade_$selectedGrade'),
                       initialValue: selectedGrade,
-                      decoration: const InputDecoration(labelText: 'Class'),
-                      items: const [
-                        DropdownMenuItem(value: 12, child: Text('Class 12')),
-                        DropdownMenuItem(value: 11, child: Text('Class 11')),
-                        DropdownMenuItem(value: 10, child: Text('Class 10')),
-                        DropdownMenuItem(value: 9, child: Text('Class 9')),
-                        DropdownMenuItem(value: 8, child: Text('Class 8')),
-                        DropdownMenuItem(value: 7, child: Text('Class 7')),
-                        DropdownMenuItem(value: 6, child: Text('Class 6')),
+                      decoration: InputDecoration(labelText: tr('Class')),
+                      items: [
+                        for (final g in const [12, 11, 10, 9, 8, 7, 6])
+                          DropdownMenuItem(value: g, child: Text(trf('Class {n}', {'n': g}))),
                       ],
                       onChanged: (v) => setDialogState(() {
                         selectedGrade = v!;
@@ -300,7 +296,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                     DropdownButtonFormField<String>(
                       key: ValueKey('quick_subject_${selectedGrade}_$selectedSubject'),
                       initialValue: selectedSubject,
-                      decoration: const InputDecoration(labelText: 'Subject'),
+                      decoration: InputDecoration(labelText: tr('Subject')),
                       items: _quickPaperSubjectsForGrade(selectedGrade)
                           .map((s) => DropdownMenuItem(value: s, child: Text(s)))
                           .toList(),
@@ -309,34 +305,34 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                     const SizedBox(height: 12),
                     DropdownButtonFormField<String>(
                       initialValue: selectedPreset,
-                      decoration: const InputDecoration(labelText: 'Exam Format'),
-                      items: const [
-                        DropdownMenuItem(value: 'class_test', child: Text('Class Test (25 marks · 45m)')),
-                        DropdownMenuItem(value: 'weekly_test', child: Text('Weekly Test (40 marks · 90m)')),
-                        DropdownMenuItem(value: 'monthly_test', child: Text('Monthly Test (50 marks · 120m)')),
-                        DropdownMenuItem(value: 'board', child: Text('Board Exam (80 marks · 180m)')),
+                      decoration: InputDecoration(labelText: tr('Exam Format')),
+                      items: [
+                        DropdownMenuItem(value: 'class_test', child: Text(tr('Class Test (25 marks · 45m)'))),
+                        DropdownMenuItem(value: 'weekly_test', child: Text(tr('Weekly Test (40 marks · 90m)'))),
+                        DropdownMenuItem(value: 'monthly_test', child: Text(tr('Monthly Test (50 marks · 120m)'))),
+                        DropdownMenuItem(value: 'board', child: Text(tr('Board Exam (80 marks · 180m)'))),
                       ],
                       onChanged: (v) => setDialogState(() => selectedPreset = v!),
                     ),
                     const SizedBox(height: 12),
                     DropdownButtonFormField<String>(
                       initialValue: selectedTier,
-                      decoration: const InputDecoration(labelText: 'Student Differentiation Tier'),
-                      items: const [
-                        DropdownMenuItem(value: 'foundation', child: Text('Foundation / Remedial (Easy 55%)')),
-                        DropdownMenuItem(value: 'standard', child: Text('Standard (Easy 30%, Medium 50%)')),
-                        DropdownMenuItem(value: 'advanced', child: Text('Advanced / HOTS (Hard 40%)')),
+                      decoration: InputDecoration(labelText: tr('Student Differentiation Tier')),
+                      items: [
+                        DropdownMenuItem(value: 'foundation', child: Text(tr('Foundation / Remedial (Easy 55%)'))),
+                        DropdownMenuItem(value: 'standard', child: Text(tr('Standard (Easy 30%, Medium 50%)'))),
+                        DropdownMenuItem(value: 'advanced', child: Text(tr('Advanced / HOTS (Hard 40%)'))),
                       ],
                       onChanged: (v) => setDialogState(() => selectedTier = v!),
                     ),
                     const SizedBox(height: 12),
                     DropdownButtonFormField<int>(
                       initialValue: setCount,
-                      decoration: const InputDecoration(labelText: 'Parallel Sets (Invariant Difficulty)'),
-                      items: const [
-                        DropdownMenuItem(value: 1, child: Text('1 Set (Single Paper)')),
-                        DropdownMenuItem(value: 2, child: Text('2 Sets (Set A & Set B)')),
-                        DropdownMenuItem(value: 3, child: Text('3 Sets (Set A, B, C)')),
+                      decoration: InputDecoration(labelText: tr('Parallel Sets (Invariant Difficulty)')),
+                      items: [
+                        DropdownMenuItem(value: 1, child: Text(tr('1 Set (Single Paper)'))),
+                        DropdownMenuItem(value: 2, child: Text(tr('2 Sets (Set A & Set B)'))),
+                        DropdownMenuItem(value: 3, child: Text(tr('3 Sets (Set A, B, C)'))),
                       ],
                       onChanged: (v) => setDialogState(() => setCount = v!),
                     ),
@@ -350,7 +346,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
               actions: [
                 TextButton(
                   onPressed: generating ? null : () => Navigator.of(dialogContext).pop(),
-                  child: const Text('Cancel'),
+                  child: Text(tr('Cancel')),
                 ),
                 FilledButton.icon(
                   onPressed: generating
@@ -398,7 +394,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                   icon: generating
                       ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
                       : const Icon(Icons.flash_on),
-                  label: Text(generating ? 'Generating…' : 'Generate Paper'),
+                  label: Text(generating ? tr('Generating…') : tr('Generate Paper')),
                 ),
               ],
             );

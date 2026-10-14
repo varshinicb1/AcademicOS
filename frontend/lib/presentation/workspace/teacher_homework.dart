@@ -24,7 +24,7 @@ class TeachingContext {
 
   static Future<TeachingContext> load() async {
     final years = await Ops.list('/curriculum/academic-years', query: {'school_id': CurrentSession.schoolId});
-    if (years.isEmpty) throw OpsError(409, 'Your school has no academic year set up yet.');
+    if (years.isEmpty) throw OpsError(409, tr('Your school has no academic year set up yet.'));
     years.sort((a, b) => (a['startDate'] as String).compareTo(b['startDate'] as String));
     final yearId = years.last['id'] as String;
     final sections = await Ops.list('/curriculum/academic-years/$yearId/sections');
@@ -76,8 +76,8 @@ class _TeacherHomeworkPageState extends State<TeacherHomeworkPage> {
           if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!), onRetry: _reload);
           final items = snap.data!;
           if (items.isEmpty) {
-            return const EmptyState(icon: Icons.assignment_outlined, title: 'No homework yet',
-                message: 'Set homework from the question bank for the sections you teach.');
+            return EmptyState(icon: Icons.assignment_outlined, title: tr('No homework yet'),
+                message: tr('Set homework from the question bank for the sections you teach.'));
           }
           return ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 96), children: [
             for (final h in items)
@@ -88,12 +88,14 @@ class _TeacherHomeworkPageState extends State<TeacherHomeworkPage> {
                   Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Text(h['title'], style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
                     const SizedBox(height: 4),
-                    Text('${h['subjectName']} · ${(h['sectionNames'] as List).join(', ')} · due ${readableDate(h['dueDate'])}',
+                    Text('${h['subjectName']} · ${(h['sectionNames'] as List).join(', ')} · '
+                        '${trf('due {date}', {'date': readableDate(h['dueDate'])})}',
                         style: theme.textTheme.bodySmall),
                   ])),
-                  ChipTag(label: '${h['submitted']}/${h['students']} in · ${h['graded']} marked'),
+                  ChipTag(label: trf('{in}/{of} in · {marked} marked',
+                      {'in': h['submitted'], 'of': h['students'], 'marked': h['graded']})),
                   const SizedBox(width: 8),
-                  if (h['status'] != 'published') ChipTag(label: h['status']),
+                  if (h['status'] != 'published') ChipTag(label: tr(h['status'] as String)),
                 ]),
               ),
           ]);
@@ -150,7 +152,7 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
         _questions
           ..clear()
           ..addAll((s['questions'] as List).take(5).map((q) => q['id'] as String));
-        if (_title.text.isEmpty && s['subtopicName'] != null) _title.text = 'Practice: ${s['subtopicName']}';
+        if (_title.text.isEmpty && s['subtopicName'] != null) _title.text = trf('Practice: {topic}', {'topic': s['subtopicName']});
       });
     } catch (e) {
       setState(() => _error = serverErrorMessage(e));
@@ -194,10 +196,10 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
             : SingleChildScrollView(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
                   if (subjects.isEmpty)
-                    const Text('You have no teaching allocations this year. Ask the principal to allocate your subjects.'),
+                    Text(tr('You have no teaching allocations this year. Ask the principal to allocate your subjects.')),
                   DropdownButtonFormField<String>(
                     initialValue: _subjectId,
-                    decoration: const InputDecoration(labelText: 'Subject'),
+                    decoration: InputDecoration(labelText: tr('Subject')),
                     items: [for (final s in subjects)
                       DropdownMenuItem(value: s, child: Text(ctx.subjectNames[s] ?? s))],
                     onChanged: (v) => setState(() {
@@ -218,11 +220,11 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
                     ]),
                   ],
                   TextField(controller: _title, onChanged: (_) => setState(() {}),
-                      decoration: const InputDecoration(labelText: 'Title')),
-                  TextField(controller: _instructions, decoration: const InputDecoration(labelText: 'Instructions (optional)')),
+                      decoration: InputDecoration(labelText: tr('Title'))),
+                  TextField(controller: _instructions, decoration: InputDecoration(labelText: tr('Instructions (optional)'))),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: Text('Due ${isoDate(_due)}'),
+                    title: Text(trf('Due {date}', {'date': isoDate(_due)})),
                     trailing: const Icon(Icons.edit_calendar),
                     onTap: () async {
                       final d = await showDatePicker(context: context, initialDate: _due,
@@ -238,12 +240,13 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
                   if (_suggestion != null) ...[
                     const SizedBox(height: 8),
                     if (_suggestion!['lessonFound'] == true)
-                      Text('Lesson on ${_suggestion!['date']}: ${_suggestion!['chapterName']} · ${_suggestion!['subtopicName']}',
+                      Text(trf('Lesson on {date}: {chapter} · {topic}', {'date': _suggestion!['date'],
+                          'chapter': _suggestion!['chapterName'], 'topic': _suggestion!['subtopicName']}),
                           style: theme.textTheme.bodySmall),
                     if (_suggestion!['note'] != null)
                       Text(_suggestion!['note'], style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.error)),
                     const SizedBox(height: 6),
-                    Text('Chapters', style: theme.textTheme.labelLarge),
+                    Text(tr('Chapters'), style: theme.textTheme.labelLarge),
                     Wrap(spacing: 6, runSpacing: 4, children: [
                       for (final c in (_suggestion!['bankChapters'] as List).cast<Map>())
                         FilterChip(
@@ -254,20 +257,21 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
                     ]),
                     if ((_suggestion!['questions'] as List).isNotEmpty) ...[
                       const SizedBox(height: 6),
-                      Text('Questions (or leave none ticked to pick $_count from the chapters)', style: theme.textTheme.labelLarge),
+                      Text(trf('Questions (or leave none ticked to pick {n} from the chapters)', {'n': _count}),
+                          style: theme.textTheme.labelLarge),
                       for (final q in (_suggestion!['questions'] as List).cast<Map>())
                         CheckboxListTile(
                           dense: true,
                           value: _questions.contains(q['id']),
                           onChanged: (on) => setState(() => on == true ? _questions.add(q['id']) : _questions.remove(q['id'])),
                           title: Text(q['stem'], maxLines: 2, overflow: TextOverflow.ellipsis),
-                          subtitle: Text('${q['type']} · ${q['marks']} marks'),
+                          subtitle: Text('${q['type']} · ${plural((q['marks'] as num).toInt(), 'mark')}'),
                         ),
                     ],
                     Wrap(spacing: 6, children: [
                       for (final t in const [('mcq', 'MCQ'), ('very_short_answer', 'Very short'),
                         ('short_answer', 'Short'), ('long_answer', 'Long')])
-                        FilterChip(label: Text(t.$2), selected: _types.contains(t.$1),
+                        FilterChip(label: Text(tr(t.$2)), selected: _types.contains(t.$1),
                             onSelected: (on) => setState(() => on ? _types.add(t.$1) : _types.remove(t.$1))),
                     ]),
                     // TA-4: how hard; none ticked means any.
@@ -278,7 +282,7 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
                             onSelected: (on) => setState(() => on ? _difficulties.add(d.$1) : _difficulties.remove(d.$1))),
                     ]),
                     Row(children: [
-                      const Text('Pick'),
+                      Text(tr('Pick')),
                       Expanded(child: Slider(value: _count.toDouble(), min: 1, max: 20, divisions: 19,
                           label: '$_count', onChanged: (v) => setState(() => _count = v.round()))),
                       Text('$_count'),
@@ -297,7 +301,7 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
                   (_questions.isEmpty && _chapters.isEmpty)
               ? null
               : _create,
-          child: const Text('Set and notify students'),
+          child: Text(tr('Set and notify students')),
         ),
       ],
     );
@@ -340,7 +344,7 @@ class _TeacherHomeworkDetailPageState extends State<TeacherHomeworkDetailPage> {
     try {
       final r = await Ops.post('/homework/${widget.homeworkId}/$what');
       if (mounted && what == 'remind') {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Reminded ${r['reminded']} students')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(trf('Reminded {n} students', {'n': r['reminded']}))));
       }
       _load();
     } catch (e) {
@@ -357,30 +361,31 @@ class _TeacherHomeworkDetailPageState extends State<TeacherHomeworkDetailPage> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(title: Text(hw['title']), actions: [
-        if (hw['status'] == 'draft') TextButton(onPressed: () => _act('publish'), child: const Text('Publish')),
+        if (hw['status'] == 'draft') TextButton(onPressed: () => _act('publish'), child: Text(tr('Publish'))),
         if (hw['status'] == 'published') ...[
-          TextButton(onPressed: () => _act('remind'), child: const Text('Remind')),
-          TextButton(onPressed: () => _act('close'), child: const Text('Close')),
+          TextButton(onPressed: () => _act('remind'), child: Text(tr('Remind'))),
+          TextButton(onPressed: () => _act('close'), child: Text(tr('Close'))),
         ],
       ]),
       body: ListView(padding: const EdgeInsets.all(16), children: [
-        Text('${hw['subjectName']} · ${(hw['sectionNames'] as List).join(', ')} · due ${readableDate(hw['dueDate'])} · '
-            '${hw['questionCount']} questions, ${hw['totalMarks']} marks · ${hw['status']}'),
+        Text('${hw['subjectName']} · ${(hw['sectionNames'] as List).join(', ')} · '
+            '${trf('due {date}', {'date': readableDate(hw['dueDate'])})} · '
+            '${trf('{q} questions, {m} marks', {'q': hw['questionCount'], 'm': hw['totalMarks']})} · ${tr(hw['status'] as String)}'),
         const SizedBox(height: 12),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: DataTable(columns: const [
-            DataColumn(label: Text('Student')), DataColumn(label: Text('Status')),
-            DataColumn(label: Text('Marks')), DataColumn(label: Text('To check')), DataColumn(label: Text('')),
+          child: DataTable(columns: [
+            DataColumn(label: Text(tr('Student'))), DataColumn(label: Text(tr('Status'))),
+            DataColumn(label: Text(tr('Marks'))), DataColumn(label: Text(tr('To check'))), const DataColumn(label: Text('')),
           ], rows: [
             for (final r in _rows)
               DataRow(cells: [
                 DataCell(Text(r['studentName'])),
-                DataCell(Text({'not_submitted': 'Not submitted', 'submitted': 'Submitted', 'graded': 'Marked'}[r['status']]! +
-                    (r['late'] == true ? ' (late)' : ''))),
+                DataCell(Text(tr({'not_submitted': 'Not submitted', 'submitted': 'Submitted', 'graded': 'Marked'}[r['status']]!) +
+                    (r['late'] == true ? ' (${tr('late')})' : ''))),
                 DataCell(Text(r['status'] == 'graded'
                     ? '${r['marks']}/${r['maxMarks']}'
-                    : (r['autoMarks'] != null ? '${r['autoMarks']} so far' : '-'))),
+                    : (r['autoMarks'] != null ? trf('{n} so far', {'n': r['autoMarks']}) : '-'))),
                 DataCell(Text(r['needsReview'] > 0 ? '${r['needsReview']}' : '')),
                 DataCell(r['status'] == 'not_submitted'
                     ? const SizedBox()
@@ -390,11 +395,11 @@ class _TeacherHomeworkDetailPageState extends State<TeacherHomeworkDetailPage> {
                               builder: (_) => _GradeDialog(homework: hw, row: r));
                           if (done == true) _load();
                         },
-                        child: Text(r['status'] == 'graded' ? 'Review' : 'Mark'))),
+                        child: Text(r['status'] == 'graded' ? tr('Review') : tr('Mark')))),
               ]),
           ]),
         ),
-        if (_rows.isEmpty) Text('No students in these sections yet.', style: theme.textTheme.bodySmall),
+        if (_rows.isEmpty) Text(tr('No students in these sections yet.'), style: theme.textTheme.bodySmall),
       ]),
     );
   }
@@ -427,7 +432,7 @@ class _GradeDialogState extends State<_GradeDialog> {
     for (final e in _marks.entries) {
       final v = double.tryParse(e.value.text.trim());
       if (v == null) {
-        setState(() => _error = 'Enter a number for every question');
+        setState(() => _error = tr('Enter a number for every question'));
         return;
       }
       marks[e.key] = v;
@@ -435,7 +440,7 @@ class _GradeDialogState extends State<_GradeDialog> {
     try {
       await Ops.send('POST', '/homework/${widget.homework['id']}/submissions/${widget.row['studentId']}/grade',
           body: {'marks': marks, if (_feedback.text.trim().isNotEmpty) 'feedback': _feedback.text.trim()},
-          label: 'Marks for ${widget.row['studentName'] ?? 'a student'}');
+          label: trf('Marks for {name}', {'name': widget.row['studentName'] ?? tr('a student')}));
       if (mounted) Navigator.pop(context, true);
     } on OpsQueued catch (e) {
       if (!mounted) return;
@@ -458,21 +463,22 @@ class _GradeDialogState extends State<_GradeDialog> {
         child: SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           for (final e in (widget.row['evaluations'] as List).cast<Map>()) ...[
             Text(questions[e['questionId']]?['stem'] ?? e['questionId'], style: theme.textTheme.bodyMedium),
-            Text('Answer: ${answers[e['questionId']] ?? '(blank)'}', style: theme.textTheme.bodySmall),
+            Text(trf('Answer: {answer}', {'answer': answers[e['questionId']] ?? tr('(blank)')}), style: theme.textTheme.bodySmall),
             if ((e['modelAnswer'] ?? '').toString().isNotEmpty)
-              Text('Model: ${e['modelAnswer']}', style: theme.textTheme.bodySmall?.copyWith(fontStyle: FontStyle.italic)),
+              Text(trf('Model: {answer}', {'answer': e['modelAnswer']}),
+                  style: theme.textTheme.bodySmall?.copyWith(fontStyle: FontStyle.italic)),
             Row(children: [
               SizedBox(width: 90, child: TextField(controller: _marks[e['questionId']],
                   decoration: InputDecoration(suffixText: '/${e['maxMarks']}'))),
               const SizedBox(width: 12),
-              if (e['needsReview'] == true) const ChipTag(label: 'Check this', color: AppColors.warning),
+              if (e['needsReview'] == true) ChipTag(label: tr('Check this'), color: AppColors.warning),
               const SizedBox(width: 8),
               Expanded(child: Text(e['reasoning'] ?? '', style: theme.textTheme.bodySmall, maxLines: 2)),
             ]),
             const Divider(),
           ],
           if ((widget.row['photoIds'] as List? ?? const []).isNotEmpty) ...[
-            Text('Written work', style: theme.textTheme.titleSmall),
+            Text(tr('Written work'), style: theme.textTheme.titleSmall),
             const SizedBox(height: 6),
             Wrap(spacing: 8, runSpacing: 8, children: [
               for (final id in (widget.row['photoIds'] as List).cast<String>())
@@ -480,13 +486,13 @@ class _GradeDialogState extends State<_GradeDialog> {
             ]),
             const Divider(),
           ],
-          TextField(controller: _feedback, decoration: const InputDecoration(labelText: 'Feedback (optional)')),
+          TextField(controller: _feedback, decoration: InputDecoration(labelText: tr('Feedback (optional)'))),
           if (_error != null) Text(_error!, style: TextStyle(color: theme.colorScheme.error)),
         ])),
       ),
       actions: [
         TextButton(onPressed: () => Navigator.pop(context), child: Text(tr('Cancel'))),
-        FilledButton(onPressed: _save, child: const Text('Save marks')),
+        FilledButton(onPressed: _save, child: Text(tr('Save marks'))),
       ],
     );
   }
