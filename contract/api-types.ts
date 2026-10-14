@@ -8847,6 +8847,12 @@ export interface components {
             teacherSeconds?: number | null;
             /** Templateid */
             templateId: string;
+            /**
+             * Tier
+             * @default standard
+             * @enum {string}
+             */
+            tier: "foundation" | "standard" | "advanced";
             /** Title */
             title?: string | null;
         };

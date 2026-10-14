@@ -71,7 +71,7 @@ from .competency import CBSE_COMPETENCY_TARGET, COMPETENCY_RULE_TEXT, competency
 from .pool import near_duplicate
 from .schemas import Camel, DifficultyDistribution, PaperTemplateDraft, QuestionSchema, \
     QuestionType, TemplateScope, TemplateSection
-from .selection import difficulty_signal, tier_signals, tiers_note
+from .selection import bloom_signal, difficulty_signal, tier_signals, tiers_note
 
 # Where the board-level topic taxonomy will live (being built in another
 # stream). Its absence is reported, never treated as "every id is invalid".
@@ -642,6 +642,7 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
          scope: ScopeFilter, *, fill_from_outside_scope: bool = False,
          stale: frozenset[str] = frozenset(),
          keyed_ids: Optional[frozenset[str]] = None,
+         tier: str = "standard",
          ) -> tuple[AvailabilityReport, list[SectionPlan]]:
     """Walks the sections in order, each claiming its questions so a later
     section with the same mark value only counts what is left.
@@ -703,13 +704,13 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
                                        and scope.in_scope(q)])
 
         needed = section.question_count
-        picked = _pick(eligible, section, needed, avoid=printed, stale=stale)
+        picked = _pick(eligible, section, needed, avoid=printed, stale=stale, tier=tier)
         printed.extend(picked)
         borrowed: list[QuestionSchema] = []
         notes: list[str] = []
         if len(picked) < needed and fill_from_outside_scope and outside:
             borrowed = _pick(outside, section, needed - len(picked), avoid=printed,
-                             stale=stale)
+                             stale=stale, tier=tier)
             printed.extend(borrowed)
             notes.append(
                 f"{section.title}: {len(borrowed)} question(s) taken from outside the "
@@ -734,7 +735,7 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
             section, picked + borrowed,
             [q for q in eligible if q.id not in claimed],
             [q for q in outside if q.id not in claimed] if fill_from_outside_scope else [],
-            avoid=printed, stale=stale)
+            avoid=printed, stale=stale, tier=tier)
         claimed.update(q.id for q in alternatives.values())
         printed.extend(alternatives.values())
         mix_notes, mix_fixes = _mix_notes(section, picked + borrowed, left_out)
@@ -920,6 +921,7 @@ def _pair_choices(section: TemplateSection, printed: list[QuestionSchema],
                   pool: list[QuestionSchema], outside: list[QuestionSchema], *,
                   avoid: Optional[list[QuestionSchema]] = None,
                   stale: frozenset[str] = frozenset(),
+                  tier: str = "standard",
                   ) -> dict[str, QuestionSchema]:
     """An OR alternative for `choice_count` of the printed questions.
 
@@ -937,7 +939,7 @@ def _pair_choices(section: TemplateSection, printed: list[QuestionSchema],
     if want <= 0:
         return {}
     on_paper = list(avoid or [])
-    left = _order(pool, stale) + _order(outside, stale)
+    left = _order(pool, stale, tier) + _order(outside, stale, tier)
     pairs: dict[str, QuestionSchema] = {}
     for primary in printed[len(printed) - want:]:
         chapters = set(primary.chapter_ids)
@@ -985,8 +987,30 @@ def _choice_notes(section: TemplateSection, printed: list[QuestionSchema],
     return notes, fixes
 
 
+_TIER_BLOOM = {"foundation": ({"remember", "understand"}, {"analyze", "evaluate", "create"}),
+               "advanced": ({"analyze", "evaluate", "create"}, {"remember", "understand"})}
+
+
+def tier_preference(q: QuestionSchema, tier: str) -> tuple[int, int]:
+    """Where a Foundation or Advanced version ranks `q` (R-C4, EX-3), by its
+    difficulty and then its Bloom level, as the quick paper's tier weighs them
+    (`selection._score`): 0 the level it wants, 2 the one it avoids, 1 any other.
+
+    Only a level someone judged or measured counts (`selection.difficulty_signal`,
+    `bloom_signal`, the signals `tier_check` offers a version on): one inferred
+    from the marks is None and ranks 1, so a tier never acts on a guess. A
+    Standard paper ranks every question (1, 1) and prints as it always did."""
+    if tier not in _TIER_BLOOM:
+        return 1, 1
+    want, avoid = ("easy", "hard") if tier == "foundation" else ("hard", "easy")
+    difficulty, bloom = difficulty_signal(q), bloom_signal(q)
+    wants, avoids = _TIER_BLOOM[tier]
+    return (0 if difficulty == want else 2 if difficulty == avoid else 1,
+            0 if bloom in wants else 2 if bloom in avoids else 1)
+
+
 def _order(pool: list[QuestionSchema],
-           stale: frozenset[str] = frozenset()) -> list[QuestionSchema]:
+           stale: frozenset[str] = frozenset(), tier: str = "standard") -> list[QuestionSchema]:
     """Best first within each chapter, the chapters taken in turn, and
     deterministic: the same bank, template and recent papers give the same
     paper. `stale` questions (see `plan`) go after every other one.
@@ -996,8 +1020,13 @@ def _order(pool: list[QuestionSchema],
     chapter. Once a teacher's recent questions went to the back (QA P-03),
     each new paper took the next block of ids: a whole-syllabus Class 10
     Science annual printed 29 of its 31 questions from Our Environment (QA
-    R-03). Taking the chapters in turn spreads a paper over them."""
-    ranked = sorted(pool, key=lambda q: (-q.quality_score, q.id))
+    R-03). Taking the chapters in turn spreads a paper over them.
+
+    A tier ranks first (`tier_preference`), still within each chapter's turn:
+    a Foundation paper takes each chapter's easiest judged question before
+    its others, and keeps the spread a global sort by difficulty would lose.
+    The template's difficulty mix still decides each slot (`_pick`)."""
+    ranked = sorted(pool, key=lambda q: (*tier_preference(q, tier), -q.quality_score, q.id))
     return (_chapters_in_turn([q for q in ranked if q.id not in stale])
             + _chapters_in_turn([q for q in ranked if q.id in stale]))
 
@@ -1035,7 +1064,7 @@ def clashes(q: QuestionSchema, printed: list[QuestionSchema]) -> Optional[Questi
 
 def _pick(pool: list[QuestionSchema], section: TemplateSection, n: int, *,
           avoid: Optional[list[QuestionSchema]] = None,
-          stale: frozenset[str] = frozenset()) -> list[QuestionSchema]:
+          stale: frozenset[str] = frozenset(), tier: str = "standard") -> list[QuestionSchema]:
     """Up to `n` questions honouring the section's difficulty mix and
     competency share as far as the pool allows. When a difficulty runs out,
     the slot goes to the nearest other difficulty rather than staying empty:
@@ -1046,7 +1075,7 @@ def _pick(pool: list[QuestionSchema], section: TemplateSection, n: int, *,
         return []
 
     printed = list(avoid or [])
-    remaining = _order(pool, stale)
+    remaining = _order(pool, stale, tier)
     targets = _difficulty_targets(section.difficulty_mix, n)
     # A section that names no competency share takes competency-based
     # questions first, wherever the bank has them. Only the presets'

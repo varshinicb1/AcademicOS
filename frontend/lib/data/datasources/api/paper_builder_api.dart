@@ -592,6 +592,7 @@ class PaperBuilderApi {
     bool fillFromOutsideScope = false,
     List<String> avoidQuestionIds = const [],
     double? teacherSeconds,
+    String tier = 'standard',
   }) async {
     final r = await _dio.post('/papers/generate-from-template',
         data: {
@@ -604,6 +605,9 @@ class PaperBuilderApi {
           // The teacher's time on this paper (time saved is the baseline less
           // it, server-side; audit D49).
           if (teacherSeconds != null) 'teacherSeconds': teacherSeconds,
+          // A Foundation or Advanced version (R-C4); the server notes when it
+          // could not make one.
+          if (tier != 'standard') 'tier': tier,
         },
         options: Options(receiveTimeout: const Duration(minutes: 3)));
     return TemplatePaperResult.fromJson(Map<String, dynamic>.from(r.data as Map));
