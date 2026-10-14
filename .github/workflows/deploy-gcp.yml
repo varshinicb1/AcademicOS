@@ -85,8 +85,13 @@ env:
   SERVICE: ${{ vars.GCP_SERVICE }}
 
 jobs:
+  # Every job pins ubuntu-24.04: GitHub moves ubuntu-latest to Ubuntu 26 from 2026-10-19 (its
+  # own annotation on these runs), and a new image can lack setup-python's 3.12 or the Flutter
+  # toolchain on day one. The first run after billing is restored deploys several merged PRs at
+  # once; it should not also be the first run on a new OS. Move the label deliberately, on a
+  # green run, not by default.
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # A real PostgreSQL server, not a mock: the Cloud SQL adapter tests
     # (tests/test_postgres_kv.py, tests/test_migrate_supabase_to_cloudsql.py)
     # assert on genuine SQL semantics -- upsert conflict resolution, integer
@@ -151,7 +156,7 @@ jobs:
   # deploy is not a gate. `frontend` needs this one, so a red app suite stops
   # the deploy as surely as a red pytest run does.
   frontend-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -203,7 +208,7 @@ jobs:
     #
     # So: green-skip when there is nothing to do, hard-fail when there is.
     if: vars.GCP_PROJECT_ID != ''
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       url: ${{ steps.deploy.outputs.url }}
     steps:
@@ -454,7 +459,7 @@ jobs:
 
   frontend:
     needs: [backend, frontend-test]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
