@@ -1846,6 +1846,34 @@ def test_a_recent_competency_question_comes_back_only_to_reach_cbses_half():
     assert sum(is_competency_question(q) for q in picked) == 2, [q.id for q in picked]
 
 
+def test_a_section_that_names_no_share_takes_competency_questions_of_another_difficulty():
+    """The class 9-10 Social Science papers fell from CBSE's 50% to 25-35% once the textbook
+    transcriptions brought easy recall questions into a bank whose competency-based ones are all
+    medium: each easy slot took an easy recall question. Where the bank has them, a competency-based
+    question of another difficulty goes before one that is not. A share the template names, 0
+    included, is still kept within each difficulty."""
+    from academicos.assessment.competency import is_competency_question
+    from academicos.assessment.paper_templates import build_scope_filter, plan
+    from academicos.assessment.schemas import TemplateScope
+    competency = [_chaptered(f"c{i}", "chap-a", cbe=True) for i in range(4)]
+    for q in competency:
+        q.difficulty = "medium"
+    recall = [_chaptered(f"e{i}", "chap-b") for i in range(4)]
+    for q in recall:
+        q.difficulty = "easy"
+    mix = {"easy": 0.5, "medium": 0.5, "hard": 0.0}
+    scope = dataclasses.replace(build_scope_filter(TemplateScope(), competency + recall),
+                                last_resort=frozenset())
+    t = PaperTemplateDraft.model_validate(_draft(
+        totalMarks=4, scope={}, sections=[_section("Section A", 4, 1, difficultyMix=mix)]))
+    _, plans = plan(t, "tpl", competency + recall, scope)
+    assert sum(is_competency_question(q) for q in plans[0].picked) == 4, [q.id for q in plans[0].picked]
+    named = PaperTemplateDraft.model_validate(_draft(
+        totalMarks=4, scope={}, sections=[_section("Section A", 4, 1, difficultyMix=mix, competencyShare=0.5)]))
+    _, plans = plan(named, "tpl", competency + recall, scope)
+    assert sum(is_competency_question(q) for q in plans[0].picked) == 2, [q.id for q in plans[0].picked]
+
+
 # --------------------------------------------------------------------------- #
 # classes 9-10 English and Hindi: a heading that names a kind takes only that kind
 # --------------------------------------------------------------------------- #

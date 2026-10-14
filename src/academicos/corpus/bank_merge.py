@@ -49,19 +49,23 @@ Nothing is dropped silently; every exclusion is returned with its reason.
   figure-unavailable     no surface can resolve a `cbe-figure:` asset; for a
                          board record, a stem that points at a figure, map,
                          graph or table and carries no asset id
-  passage-unavailable    a comprehension question with no passage to read
+  passage-unavailable    a comprehension question with no passage to read, or
+                         a listening task with no transcript
   header-as-stem         the "question" is a page header
   stem-too-short         no question text to speak of
   no-answer              rule Q1: no answer key, no question
   answer-is-question-text  the scheme joined the wrong text -- often another
-                         question's stem
+                         question's stem -- or the key is the stem itself
   answer-bleed           an answer far longer than its marks allow, or one that
                          runs on past a section heading: the scheme ran on
                          into the following questions
   figure-referenced      the stem points at a figure, graph, map or a table
                          "above" that was not extracted with it
   garbled-script         legacy-font extraction produced text nobody can read
-                         -- on a board stem, anywhere in it (`_legacy_font`)
+                         -- on a board stem, anywhere in it (`_legacy_font`);
+                         or a Devanagari vowel sign that follows no consonant,
+                         in the stem, its parts or the answer: one broken word
+                         (`_misplaced_vowel_signs`)
   symbol-loss            a math symbol the extraction dropped or misread:
                          "(Use = 3·14)", "(a ¹ b)", "c c b b a a = = ."
   private-use-glyph      a symbol-font character nothing can name (corpus/
@@ -558,6 +562,12 @@ _FIGURE_REF = re.compile(
     rf"|{_VISUAL}\s+(?:given|shown)\b"
     r"|table\s+(?:(?:given|shown)\s+)?above|above\s+table)", re.I)
 _PASSAGE_REF = re.compile(r"\bread the (?:following )?(?:passage|extract|poem|text)\b", re.I)
+# A listening task: what the student hears is a transcript at the back of the
+# book or a recording, neither of which the bank carries (Poorvi 6's "As you
+# listen, answer the given question ... (refer to page 72 for transcript)").
+_LISTENING = re.compile(
+    r"\bas you listen\b|\blisten to (?:a|an|the) (?:talk|announcement|conversation|recording|audio|"
+    r"interview|dialogue|speech)\b|\bfor (?:the )?transcript\b", re.I)
 # "... as shown below:" with the thing shown never arriving. `_FIGURE_REF`
 # reads a visual NAMED next to its position ("the chart below"); this reads the
 # other order, where the stem describes what it wants and only then points at
@@ -643,6 +653,46 @@ def _first_answer(rec: dict) -> str:
         return scheme["modelAnswer"].strip()
     points = scheme.get("markingPoints") or []
     return str(points[0].get("description") or "").strip() if points else ""
+
+
+_DEVANAGARI_VOWEL_SIGN = re.compile("[ा-ौॢॣ]")
+
+
+def _misplaced_vowel_signs(text: str) -> int:
+    """Devanagari vowel signs that do not follow a consonant (or its nukta).
+
+    A matra attaches to a consonant, so one after anything else is a word the
+    extraction broke. `_vowel_sign_runs` counts only sign after sign, and only
+    from three, so it passed what the NCERT Hindi text layers do to one word at
+    a time: a dropped conjunct consonant leaves the sign on a virama
+    ("प्ेमचंद" for प्रेमचंद, "द्ारा" for द्वारा, "रक्ा" for रक्षा), a doubled
+    one ("दीवाार", "मेेंं"), or a reordered one ("पंिक्त", "िदए"). The missing
+    letter varies (र, व, ष, त), so none of them can be mended with certainty;
+    33 of the 265 model-written Hindi 9 questions served by #148 copied them
+    from the chapter (2026-10-14).
+
+    One exception, measured on the served bank: "काॅलेज" types the English o
+    as aa + candra e, a spelling Hindi readers read without stopping."""
+    text = unicodedata.normalize("NFC", text)
+    count = 0
+    for m in _DEVANAGARI_VOWEL_SIGN.finditer(text):
+        prev = text[m.start() - 1] if m.start() else ""
+        if ("क" <= prev <= "ह" or "क़" <= prev <= "य़" or "ॸ" <= prev <= "ॿ"
+                or prev == "़"):
+            continue
+        if m.group() == "ॅ" and prev == "ा":
+            continue
+        count += 1
+    return count
+
+
+def _words(text: str) -> str:
+    return " ".join(re.findall(r"\w+", text.lower()))
+
+
+def _parts_text(rec: dict) -> str:
+    return " ".join(str(p.get("text") or p.get("stem") or "") for p in rec.get("parts") or []
+                    if isinstance(p, dict))
 
 
 def _vowel_sign_runs(text: str) -> int:
@@ -1002,6 +1052,8 @@ def source_reason(rec: dict) -> str | None:
         return "passage-unavailable"
     if not passage and _PASSAGE_REF.search(stem) and len(stem) < 400:
         return "passage-unavailable"
+    if not passage and _LISTENING.search(stem):
+        return "passage-unavailable"
     if _HEADER.match(stem):
         return "header-as-stem"
     if len(stem) < _MIN_STEM:
@@ -1026,7 +1078,8 @@ def source_reason(rec: dict) -> str | None:
         return "transcription-unverified"
     answer = _answer_text(rec)
     if (_vowel_sign_runs(stem) >= _GARBLE_RUNS or _vowel_sign_runs(answer) >= _GARBLE_RUNS
-            or _script_garbled(rec, f"{stem} {answer}")):
+            or _script_garbled(rec, f"{stem} {answer}")
+            or _misplaced_vowel_signs(f"{stem} {_parts_text(rec)} {answer}")):
         return "garbled-script"
     if board and not _ARTS.search(str(rec.get("subject") or "")) and _legacy_font(stem):
         # Board only: CBE and SQP language papers are in their own scripts, and
@@ -1039,6 +1092,11 @@ def source_reason(rec: dict) -> str | None:
     if not answer:
         return "no-answer"
     if INSTRUCTION.match(_first_answer(rec)):
+        return "answer-is-question-text"
+    if _words(_first_answer(rec)) and _words(_first_answer(rec)) == _words(stem):
+        # A statement keyed with itself: "A ball is round." => "A ball is round." (a
+        # class 1 textbook topic question; 6 of them in the 2026-10-14 transcriptions).
+        # It asks nothing, and its key says nothing either way.
         return "answer-is-question-text"
     marks = rec.get("marks") if _is_num(rec.get("marks")) else 1
     if len(answer) > max(600, 450 * max(int(marks), 1)) and not _placed_transcription(rec):
@@ -1250,7 +1308,12 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
     # Page furniture the SQP extraction left in the stem, where it would print.
     r["stem"] = _strip_furniture(str(r.get("stem") or ""))
     r["stemLatex"] = str(r.get("stemLatex") or "")
-    r["language"] = str(r.get("language") or "en")
+    # A Hindi question that names no language is printed in Hindi. Every model-written
+    # Hindi 9-10 question reached the bank without one and was served as "en" (347 of
+    # the 425 Hindi records, 2026-10-14), which is what the API and read-aloud see.
+    hindi = (str(r.get("subject") or "").strip().lower().startswith("hindi")
+             and re.search("[ऀ-ॿ]", str(r.get("stem") or "")))
+    r["language"] = str(r.get("language") or ("hi" if hindi else "en"))
     r["questionBankId"] = str(r.get("questionBankId") or r.get("source") or "unknown")
     if not _is_num(r.get("estimatedTimeMinutes")):
         r["estimatedTimeMinutes"] = max(1, marks * 2)

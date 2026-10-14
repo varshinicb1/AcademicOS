@@ -14,6 +14,10 @@ String pdfSafe(String text) {
   // The web renderer (assessment/pdf.py) draws with a Unicode font and keeps it.
   var out = text
       .replaceAll(RegExp('[​-‍⁠﻿]'), '')
+      // A thin space and the IPA length mark, both from the NCERT textbook
+      // questions (2026-10-14): "1 0 kg", a phonics answer's "/uː/".
+      .replaceAll(' ', ' ')
+      .replaceAll('ː', ':')
       .replaceAll('—', '-')
       .replaceAll('–', '-')
       .replaceAll('•', '-')

@@ -1,9 +1,9 @@
 {
  "checkedAt": "2026-09-24",
  "bank": "academicos-data/syllabus/questions.json as served (5,427 records), read with the splitter at this commit",
- "how": "Each key below was read against the source PDF it came from -- the CBSE sample paper's marking scheme (academicos-data/corpus/cbse-sqp/<year>/<Subject>-MS.pdf), the CBE item bank, or the NCERT Exemplar answer booklet (ncert-dataset/exemplar/<class>/<subject>/) -- and judged wrong when the board printed a different allocation, or when the points the split ships are not the answer the source prints for that question. Where the source prints no allocation at all, which is every Exemplar answer, 'correct' means the parts the split reads are the parts the book prints, and the question's marks divide equally over them. 'verdict: none' is a key the check read where the rules ship no split, kept so the reason stays with the record. Coverage: every key the rules split on the served bank is in this sample, by id (tests/test_corpus_marking_split.py holds the gate) -- the first check had read only 24 of the 74 list-equal splits, the rule whose allocation is ours rather than the board's. The judgements are an AI reviewer's, not a teacher's.",
- "checked": 128,
- "wrong": 1,
+ "how": "Each key below was read against the source PDF it came from -- the CBSE sample paper's marking scheme (academicos-data/corpus/cbse-sqp/<year>/<Subject>-MS.pdf), the CBE item bank, or the NCERT Exemplar answer booklet (ncert-dataset/exemplar/<class>/<subject>/) -- and judged wrong when the board printed a different allocation, or when the points the split ships are not the answer the source prints for that question. Where the source prints no allocation at all, which is every Exemplar answer, 'correct' means the parts the split reads are the parts the book prints, and the question's marks divide equally over them. 'verdict: none' is a key the check read where the rules ship no split, kept so the reason stays with the record. Coverage: every key the rules split on the served bank is in this sample, by id (tests/test_corpus_marking_split.py holds the gate) -- the first check had read only 24 of the 74 list-equal splits, the rule whose allocation is ours rather than the board's. The judgements are an AI reviewer's, not a teacher's. 2026-10-14: the seven splits the rules fire on the NCERT textbook transcriptions (corpus/ncert-textbook) were checked against the question each part answers, the sums worked by hand; the textbook prints no allocation, so 'correct' means the parts are the asks the stem prints and the marks divide equally over them.",
+ "checked": 135,
+ "wrong": 3,
  "split": 123,
  "samples": [
   {
@@ -3381,6 +3381,172 @@
    ],
    "verdict": "correct",
    "why": "The stem itself asks for ANY TWO ethical standards and the scheme lists six, closing with the board's own '(1+1)'. Six points of 1 mark with anyOf 2 is that reading: a teacher awards two of the six. Read as six REQUIRED points -- which is what the bank carried before this rebuild -- it told a teacher to award 6 marks on a 2-mark question."
+  },
+  {
+   "id": "ncert:tb:eemm1:04:Sums-of-Consecutive-Numbers-Q3",
+   "source": "ncert_textbook",
+   "sourceDocument": "ncert-textbook:eemm1",
+   "marks": 2,
+   "stem": "What will be the difference between two successive sums for — (a) 5 consecutive numbers (b) 6 consecutive numbers",
+   "answer": "(a) 5; (b) 6",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(a) 5;",
+     1
+    ],
+    [
+     "(b) 6",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "Two asks, (a) and (b), one mark each. Successive sums of n consecutive numbers differ by n: 5 and 6."
+  },
+  {
+   "id": "ncert:tb:eemm1:04:Let-Us-Solve-Page-10-Q4",
+   "source": "ncert_textbook",
+   "sourceDocument": "ncert-textbook:eemm1",
+   "marks": 2,
+   "stem": "A truck can carry 8,250 kg of goods. A factory loads 3,675 kg of cement and 2,850 kg of steel on it. (a) What is the total weight loaded onto the truck? (b) How much more weight can the truck carry before reaching its maximum capacity?",
+   "answer": "(a) 6,525 kg; (b) 1,725 kg",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(a) 6,525 kg;",
+     1
+    ],
+    [
+     "(b) 1,725 kg",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "3,675 + 2,850 = 6,525 kg; 8,250 - 6,525 = 1,725 kg. Two parts, one mark each."
+  },
+  {
+   "id": "ncert:tb:gegp2:03:Try-This-Page-16-Q1",
+   "source": "ncert_textbook",
+   "sourceDocument": "ncert-textbook:gegp2",
+   "marks": 2,
+   "stem": "You can try this method for these pairs of numbers.",
+   "answer": "(a) HCF: 30, LCM: 450. (b) HCF: 12, LCM: 924.",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(a) HCF: 30, LCM: 450.",
+     1
+    ],
+    [
+     "(b) HCF: 12, LCM: 924.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "HCF/LCM of 90 and 150 are 30/450; of 84 and 132, 12/924. Two pairs, one mark each."
+  },
+  {
+   "id": "ncert:tb:hegp2:01:Gen-t2-Q6",
+   "source": "ai_generated",
+   "sourceDocument": "ncert-textbook:hegp2",
+   "marks": 4,
+   "stem": "A cyclist completes 40% of a journey from City A to City B, covering 92 km. (a) What is the total distance between City A and City B? (b) How many more kilometres does the cyclist have to travel to reach City B?",
+   "answer": "(a) 230 km, (b) 138 km",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(a) 230 km,",
+     2
+    ],
+    [
+     "(b) 138 km",
+     2
+    ]
+   ],
+   "verdict": "correct",
+   "why": "40% is 92 km, so the journey is 230 km and 138 km remain. Two parts, two marks each."
+  },
+  {
+   "id": "ncert:tb:iemh1:02:End-of-Chapter-Exercises-Q8",
+   "source": "ncert_textbook",
+   "sourceDocument": "ncert-textbook:iemh1",
+   "marks": 2,
+   "stem": "If the temperature of a liquid can be measured in Kelvin units as x K and in Fahrenheit units as y °F, the relation between the two systems of measurement of temperature is given by the linear equation y = 9/5 (x – 273) + 32.",
+   "answer": "(i) 104 °F; (ii) 343 K",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(i) 104 °F;",
+     1
+    ],
+    [
+     "(ii) 343 K",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "y = 9/5 (313 - 273) + 32 = 104 F; 158 F is 70 C, 343 K. Two parts, one mark each."
+  },
+  {
+   "id": "ncert:tb:iemh1:02:End-of-Chapter-Exercises-Q5",
+   "source": "ncert_textbook",
+   "sourceDocument": "ncert-textbook:iemh1",
+   "marks": 2,
+   "stem": "If you have ₹800 and you save ₹250 every month, find the amount you have after (i) 6 months (ii) 2 years. Express this as a linear pattern.",
+   "answer": "(i) ₹2,300; (ii) ₹6,800; linear pattern: 800 + 250m (where m is the number of months)",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(i) ₹2,300;",
+     1
+    ],
+    [
+     "(ii) ₹6,800; linear pattern: 800 + 250m (where m is the number of months)",
+     1
+    ]
+   ],
+   "verdict": "wrong",
+   "why": "The stem asks three things: (i), (ii) and 'express this as a linear pattern'. The split reads two and folds the pattern into (ii)'s mark."
+  },
+  {
+   "id": "ncert:tb:jesc1:02:Exercise-9",
+   "source": "ncert_textbook",
+   "sourceDocument": "ncert-textbook:jesc1",
+   "marks": 5,
+   "stem": "Five solutions A,B,C,D and E when tested with universal indicator showed pH as 4,1,11,7 and 9, respectively. Which solution is",
+   "answer": "(a) D (b) C (c) B (d) A (e) E. Increasing order of H+ concentration: 11 < 9 < 7 < 4 < 1 (C < E < D < A < B).",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(a) D",
+     1
+    ],
+    [
+     "(b) C",
+     1
+    ],
+    [
+     "(c) B",
+     1
+    ],
+    [
+     "(d) A",
+     1
+    ],
+    [
+     "(e) E. Increasing order of H+ concentration: 11 < 9 < 7 < 4 < 1 (C < E < D < A < B).",
+     1
+    ]
+   ],
+   "verdict": "wrong",
+   "why": "Six asks: (a)-(e) and the order of H+ concentration. The split gives five marks to (a)-(e) and folds the order into (e)'s point."
   }
  ]
 }

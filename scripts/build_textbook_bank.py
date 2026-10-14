@@ -27,15 +27,31 @@ sys.path.insert(0, str(REPO / "src"))
 from academicos.assessment.chapter_filing import name_key  # noqa: E402
 from academicos.corpus import textbook as tb  # noqa: E402
 from academicos.syllabus import cbse_syllabus  # noqa: E402
+from academicos.syllabus.current_book import studied_chapters  # noqa: E402
 
 BOOKS_OUT = REPO / "academicos-data" / "syllabus" / "ncert_books.json"
 
 
+def planned_chapters(subject: str, grade: int) -> dict[str, str]:
+    """The chapters a school plans for this class (current_book.studied_chapters), by name.
+    They are the bank's chapters (#146): a question filed under any other id is shown as
+    not matched to a chapter."""
+    return {name_key(c.name): c.id for _u, c in studied_chapters(subject, grade) if name_key(c.name)}
+
+
 def chapter_ref(subject: str, grade: int, title: str) -> str:
-    """The id the class's syllabus file or taxonomy gives this chapter, matched
-    on the name the book prints; the book chapter's own id where neither names
-    it. Only real files are read -- never the book-chapter fallback this script
-    itself writes."""
+    """The id of the chapter a school plans under this name; else the id the
+    class's syllabus file or taxonomy gives it, matched on the name the book
+    prints; the book chapter's own id where none names it. Only real files are
+    read -- never the book-chapter fallback this script itself writes.
+
+    The planned chapter first: Social Science 6's syllabus file names "Locating
+    Places on the Earth" "locating-places-on-the-earth", the plan
+    "social-science-6/locating-places-on-the-earth", and all 81 of its questions
+    were filed under the first and shown as not matched (2026-10-14)."""
+    planned = planned_chapters(subject, grade)
+    if name_key(title) in planned:
+        return planned[name_key(title)]
     names: dict[str, str] = {}
     if cbse_syllabus._resolve_syllabus_file(subject, grade) is not None:
         doc = cbse_syllabus.load_syllabus(subject, grade)
@@ -82,8 +98,21 @@ def build(src: Path, text_dir: Path):
         s2 = f.with_suffix(".solve2.json")
         second = json.loads(s2.read_text(encoding="utf-8")) if s2.exists() else None
         subject, grade = tb.bank_subject(book.get("subject")), int(book.get("class") or 0)
-        ref = chapter_ref(subject, grade, chapter.get("title")) if chapter.get("title") else None
-        b = tb.build(t, txt.read_text(encoding="utf-8"), second=second, chapter_ref=ref)
+        # The book's own chapter list first, by book and number, as the generator files them: a
+        # transcription can title a chapter by its unit or its opening heading ("Fun with
+        # Friends" for Santoor 3's "Colours", "Where Are You Hiding?" for Math-Mela 4's "Hide
+        # and Seek"), and 39 questions were filed under ids no plan holds (2026-10-14). Of the
+        # 65 listed chapters transcribed, 62 carry the listed name and the other 3 are these.
+        listed = next((c["id"] for c in cbse_syllabus.book_chapters(subject, grade)
+                       if c.get("book") == book.get("code") and c.get("number") == chapter.get("number")), None)
+        ref = listed or (chapter_ref(subject, grade, chapter.get("title")) if chapter.get("title") else None)
+        # A book printed in units (Poorvi 6-8: one PDF per unit) is planned by its lessons, and
+        # the unit's topics are those lessons: each question goes to the lesson it was set on.
+        planned = planned_chapters(subject, grade)
+        topic_refs = ({} if listed or name_key(chapter.get("title") or "") in planned else
+                      {x.get("id"): planned[name_key(x.get("title") or "")] for x in t.get("topics") or []
+                       if name_key(x.get("title") or "") in planned})
+        b = tb.build(t, txt.read_text(encoding="utf-8"), second=second, chapter_ref=ref, topic_refs=topic_refs)
         records += b.records
         refused += [{**r, "file": f.name} for r in b.refused]
         report.append({"file": f.name, "class": book.get("class"), "subject": book.get("subject"),

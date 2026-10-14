@@ -404,5 +404,8 @@ def test_the_served_class_6_to_10_signals():
     # passage-based reading and extract questions, which CBSE calls competency-based.
     # 274 -> 591 (2026-10-14): the second batch of them, 920 questions (Hindi 9 and 10 for the first
     # time, English 9 and 10, Science and Social Science 9 and 10), 317 of them of those types.
-    assert dict(by_dict) == {"cbeItemBank": 364, "assertionReasonLabels": 2, "competencyType": 591}
+    # 591 -> 590 (2026-10-14): one of the 32 Hindi 9 questions withdrawn for a word the text layer
+    # broke (bank_merge._misplaced_vowel_signs) was a case study. The textbook transcriptions add
+    # none: their questions carry no competency type.
+    assert dict(by_dict) == {"cbeItemBank": 364, "assertionReasonLabels": 2, "competencyType": 590}
     assert not exemplar

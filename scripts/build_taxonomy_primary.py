@@ -40,6 +40,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from academicos.corpus import textbook as tb
+from academicos.syllabus import cbse_syllabus  # noqa: E402
 from academicos.syllabus import textbook_headings as th
 
 REPO = Path(__file__).resolve().parents[1]
@@ -166,8 +167,19 @@ def collect(transcriptions: Path, chapters_text: Path) -> tuple[dict, list[dict]
 
             # The book's own chapter id, so this chapter is the one a record
             # already points at; _unique only fires on a genuine title clash.
-            cid = th._unique(tb.chapter_id(subject, grade, title), used)
-            if cid != tb.chapter_id(subject, grade, title):
+            # The book's chapter list (ncert_books.json, from its contents page)
+            # names it by book and number first, with its printed name, as
+            # build_textbook_bank files the records: two transcriptions titled
+            # a chapter by its unit or opening heading ("Fun with Friends" for
+            # Santoor 3's "Colours"), and the tree named a chapter no record
+            # carries (2026-10-14).
+            listed = next((c for c in cbse_syllabus.book_chapters(subject, grade)
+                           if c.get("book") == code and c.get("number") == number), None)
+            if listed:
+                title = str(listed["name"])
+            own = listed["id"] if listed else tb.chapter_id(subject, grade, title)
+            cid = th._unique(own, used)
+            if cid != own:
                 problems.append({"file": entry["file"],
                                  "problem": f"duplicate chapter title {title!r}"})
             if title.casefold() in seen_titles:

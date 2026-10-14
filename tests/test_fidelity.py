@@ -225,6 +225,29 @@ def test_the_question_number_is_left_as_printed():
     assert reason == "stem-holds-group"
 
 
+@pytest.mark.parametrize("stem, key", [
+    # Exemplar's "State whether the following statements are true or false" is a section heading.
+    ("The value of the expression (cos² 23° – sin² 67°) is positive.", "False"),
+    ("2 and 2 altogether make 5.", "False"),
+    ("7 and 3 make 10.", "True."),
+])
+def test_a_bare_statement_keyed_true_or_false_says_so(stem, key):
+    rec = {**_cbe(stem, key), "id": "exemplar:q:10:mathematics:8:8.2:2", "source": "ncert_exemplar"}
+    fixed, made, reason = repair_source(rec)
+    assert fixed["stem"] == f"True or false: {stem}"
+    assert "true-false-labelled" in made and reason is None
+
+
+@pytest.mark.parametrize("stem, key", [
+    ("State true or false: 7 and 3 make 10.", "True"),
+    ("Is the statement correct or incorrect? 7 and 3 make 10.", "True"),
+    ("What is 7 and 3?", "10"),
+])
+def test_a_true_false_item_that_says_so_or_any_other_is_left(stem, key):
+    fixed, made, _ = repair_source(_cbe(stem, key))
+    assert fixed["stem"] == stem and "true-false-labelled" not in made
+
+
 # ---- the rebuilt bank -------------------------------------------------------
 
 @pytest.mark.skipif(not SERVED.exists(), reason="served bank not built")

@@ -228,6 +228,29 @@ def _reason(rec: dict) -> str | None:
     return None
 
 
+_RUPEE_BACKTICK = re.compile(r"`(?=\s?\d)")
+_TRUE_FALSE_KEY = re.compile(r"\s*(?:true|false)\s*[.!]?\s*", re.I)
+_SAYS_TRUE_FALSE = re.compile(r"\b(?:true|false|correct or incorrect|right or wrong)\b", re.I)
+
+
+def _bare_true_false(rec: dict) -> bool:
+    """A statement keyed "True" or "False" that never says it is to be judged.
+
+    NCERT Exemplar prints "State whether the following statements are true or
+    false" once, as a section heading, and its items reach the bank without it
+    (20 served records, e.g. exemplar:q:10:mathematics:8:8.2:2 "The value of
+    the expression (cos² 23° – sin² 67°) is positive."); the class 1-5 textbook
+    topic questions were written the same way ("2 and 2 altogether make 5.").
+    Printed bare, either reads as a fact to copy. The key leaves one reading,
+    so the label is a certain repair. English stems only: no Hindi item is
+    keyed this way, and one would be labelled in Hindi."""
+    scheme = rec.get("answerScheme") or {}
+    key = str(scheme.get("modelAnswer") or "").split("\n", 1)[0]
+    stem = str(rec.get("stem") or "")
+    return (bool(_TRUE_FALSE_KEY.fullmatch(key)) and not _SAYS_TRUE_FALSE.search(stem)
+            and not re.search("[ऀ-ॿ]", stem) and rec.get("type") != "mcq")
+
+
 def repair_source(rec: dict) -> tuple[dict, list[str], str | None]:
     """A copy of a CBE, SQP or Exemplar record with the certain repairs made,
     the names of those made, and why it still cannot be served (or None).
@@ -269,8 +292,18 @@ def repair_source(rec: dict) -> tuple[dict, list[str], str | None]:
     if restored != r:
         r = restored
         made.append("control-symbols-restored")
+    # NCERT sets ₹ in a font of its own and the text layer reads it as a backtick: "If you
+    # have `800 and you save `250 every month" (Ganita Manjari 9, 9 records, 2026-10-14). A
+    # backtick before an amount means nothing else in a school book.
+    rupees = _walk(r, lambda t: _RUPEE_BACKTICK.sub("₹", t))
+    if rupees != r:
+        r = rupees
+        made.append("rupee-restored")
     each_text(lambda t: _EMPTY_OPTIONS.sub("", t) if r.get("type") != "mcq" else t,
               "empty-option-labels", key=False)
+    if _bare_true_false(r):
+        r["stem"] = "True or false: " + str(r["stem"]).lstrip()
+        made.append("true-false-labelled")
 
     if source != CBE_SOURCE:
         return r, made, None

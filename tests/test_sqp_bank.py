@@ -68,8 +68,9 @@ def test_social_science_is_served_which_is_the_whole_point():
     ss = [r for r in corpus.records if r.get("subject") == "Social Science"]
     assert ss, "no Social Science records are served; the gap is still open"
     # Sample papers are class 10; the class 9 Social Science records are the model-written ones
-    # (corpus/ai-cbse-9-10), served only as a checked key.
-    assert all(r["grade"] == 10 for r in ss if r.get("source") != "ai_generated")
+    # (corpus/ai-cbse-9-10), served only as a checked key, and since 2026-10-14 classes 6-10 also
+    # serve the NCERT textbooks' own exercises (corpus/ncert-textbook).
+    assert all(r["grade"] == 10 for r in ss if r.get("source") not in ("ai_generated", "ncert_textbook"))
 
 
 # --- the gates ------------------------------------------------------------

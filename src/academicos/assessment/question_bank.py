@@ -1411,16 +1411,22 @@ def assigned_calibration() -> CalibrationSchema:
     return CalibrationSchema(measured=False, sample_size=0, basis="assigned")
 
 
-def rights_for_written_question() -> RightsSchema:
+def rights_for_written_question(solved: bool = False) -> RightsSchema:
     """A question AcademicOS wrote from an NCERT chapter (source
     "ai_generated"): ours, not CBSE's. The CBSE default named every one of the
     718 class 9-10 written questions "Central Board of Secondary Education,
     previous year question paper" in the question-bank API's `book` (review
-    2026-10-04)."""
+    2026-10-04).
+
+    The basis names the check the answer passed: a quote found in the chapter,
+    or, for a sum (`solved`, the textbook transcriptions' `two_model_solved`),
+    a second model's independent solve that reached the same answer
+    (corpus/textbook.py) -- 316 of the 1,690 written from them (2026-10-14)."""
     return RightsSchema(
         origin="AcademicOS",
         redistribution="unknown",
-        basis="written from the NCERT textbook chapter; every answer quotes it",
+        basis=("written from the NCERT textbook chapter; a sum two models solved alike" if solved
+               else "written from the NCERT textbook chapter; every answer quotes it"),
         attribution="AcademicOS, written from the NCERT textbook chapter",
     )
 
@@ -1438,7 +1444,8 @@ def enrich_record(rec: dict[str, Any]) -> dict[str, Any]:
     """
     written = rec.get("source") == "ai_generated"
     if not rec.get("rights") or (written and (rec["rights"] or {}).get("origin") == "CBSE"):
-        rights = rights_for_written_question() if written else rights_for_cbse_board_paper()
+        solved = ((rec.get("answerScheme") or {}).get("provenance") == "two_model_solved")
+        rights = rights_for_written_question(solved) if written else rights_for_cbse_board_paper()
         rec["rights"] = rights.model_dump(mode="json", by_alias=True)
 
     if not rec.get("calibration"):

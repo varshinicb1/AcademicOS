@@ -36,63 +36,69 @@
   {
    "subject": "Mathematics",
    "grade": 6,
-   "questions": 583,
+   "questions": 659,
    "byBank": {
-    "served": 549,
+    "served": 625,
     "ncert-exemplar": 12,
     "cbse-cbe": 22
    },
    "bySource": {
     "cbse_question_bank": 58,
-    "ncert_exemplar": 525
+    "ncert_exemplar": 525,
+    "ai_generated": 64,
+    "ncert_textbook": 12
    },
-   "keyed": 583,
+   "keyed": 659,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
     "cbse_marking_scheme": 58,
-    "ncert_exemplar_answer": 525
+    "ncert_exemplar_answer": 525,
+    "textbook_grounded": 38,
+    "two_model_solved": 29,
+    "ncert_textbook_answer": 9
    },
    "verified": {
     "state": "verified",
-    "passed": 583,
-    "of": 583,
+    "passed": 659,
+    "of": 659,
     "unchecked": 0,
     "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 229,
-     "pct": 39.3
+     "n": 305,
+     "pct": 46.3
     },
     "topic": {
      "n": 89,
-     "pct": 15.3
+     "pct": 13.5
     },
     "subtopic": {
      "n": 6,
-     "pct": 1.0
+     "pct": 0.9
     },
     "oldChapterIds": {
-     "n": 37,
-     "pct": 6.3
+     "n": 113,
+     "pct": 17.1
     }
    },
    "taggerCovers": true,
    "neverTagged": 0,
    "marks": {
-    "1": 408,
-    "2": 4,
+    "1": 444,
+    "2": 40,
     "3": 159,
-    "4": 5,
-    "5": 4,
+    "4": 6,
+    "5": 7,
     "6+": 3
    },
    "types": {
-    "mcq": 135,
-    "very_short_answer": 274,
-    "short_answer": 157,
-    "long_answer": 17
+    "mcq": 158,
+    "very_short_answer": 287,
+    "short_answer": 193,
+    "long_answer": 20,
+    "case_study": 1
    },
    "tree": true,
    "untaggedKeyed": 354,
@@ -100,14 +106,14 @@
     {
      "id": "mathematics-6/patterns-in-mathematics",
      "name": "Patterns in Mathematics",
-     "questions": 0,
-     "marks": 0,
+     "questions": 24,
+     "marks": 41,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 13,
+      "2": 9,
       "3": 0,
       "4": 0,
-      "5": 0,
+      "5": 2,
       "6+": 0
      },
      "number": 1,
@@ -374,14 +380,14 @@
     {
      "id": "mathematics-6/number-play",
      "name": "Number Play",
-     "questions": 5,
-     "marks": 7,
+     "questions": 57,
+     "marks": 93,
      "byMarks": {
-      "1": 4,
-      "2": 0,
+      "1": 27,
+      "2": 27,
       "3": 1,
-      "4": 0,
-      "5": 0,
+      "4": 1,
+      "5": 1,
       "6+": 0
      },
      "number": 3,
@@ -1189,7 +1195,6 @@
     }
    ],
    "emptyChapters": [
-    "mathematics-6/patterns-in-mathematics",
     "mathematics-6/playing-with-constructions"
    ],
    "chaptersWithout3Mark": [
@@ -1197,8 +1202,6 @@
     "mathematics-6/playing-with-constructions"
    ],
    "chaptersWithout5Mark": [
-    "mathematics-6/patterns-in-mathematics",
-    "mathematics-6/number-play",
     "mathematics-6/perimeter-and-area",
     "mathematics-6/fractions",
     "mathematics-6/playing-with-constructions",
@@ -1383,50 +1386,50 @@
    "chapterCountsComplete": false,
    "competency": {
     "all": {
-     "n": 583,
-     "competency": 58,
-     "pct": 9.9,
+     "n": 659,
+     "competency": 59,
+     "pct": 9.0,
      "bySignal": {
-      "cbeItemBank": 58
+      "cbeItemBank": 58,
+      "competencyType": 1
      },
      "byMarks": {
       "1": 36,
       "2": 4,
       "3": 6,
-      "4": 5,
+      "4": 6,
       "5": 4,
       "6+": 3
      }
     },
     "served": {
-     "n": 549,
-     "competency": 36,
-     "pct": 6.6,
+     "n": 625,
+     "competency": 37,
+     "pct": 5.9,
      "bySignal": {
-      "cbeItemBank": 36
+      "cbeItemBank": 36,
+      "competencyType": 1
      },
      "byMarks": {
       "1": 27,
       "2": 3,
       "3": 1,
-      "4": 2,
+      "4": 3,
       "5": 2,
       "6+": 1
      }
     }
    },
-   "servedKeyed": 549,
+   "servedKeyed": 625,
    "papers": {
     "all": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 412,
+       "usable": 484,
        "competencyBased": 40,
-       "pct": 9.7,
+       "pct": 8.3,
        "need": 15,
        "ceiling": 14,
        "ceilingPct": 93.3
@@ -1436,38 +1439,33 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 567,
+       "usable": 603,
        "competencyBased": 42,
-       "pct": 7.4,
+       "pct": 7.0,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
       }
      },
      "monthly_test": {
-      "possible": false,
-      "reasons": [
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 4"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 575,
+       "usable": 650,
        "competencyBased": 50,
-       "pct": 8.7,
+       "pct": 7.7,
        "need": 27,
        "ceiling": 26,
        "ceilingPct": 96.3
       }
      },
      "board": {
-      "possible": false,
-      "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 4"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 580,
-       "competencyBased": 55,
-       "pct": 9.5,
+       "usable": 656,
+       "competencyBased": 56,
+       "pct": 8.5,
        "need": 38,
        "ceiling": 37,
        "ceilingPct": 97.4
@@ -1476,14 +1474,12 @@
     },
     "served": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 393,
+       "usable": 465,
        "competencyBased": 30,
-       "pct": 7.6,
+       "pct": 6.5,
        "need": 15,
        "ceiling": 13,
        "ceilingPct": 86.7
@@ -1493,24 +1489,21 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 541,
+       "usable": 577,
        "competencyBased": 28,
-       "pct": 5.2,
+       "pct": 4.9,
        "need": 15,
        "ceiling": 11,
        "ceilingPct": 73.3
       }
      },
      "monthly_test": {
-      "possible": false,
-      "reasons": [
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 3",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 2"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 546,
+       "usable": 621,
        "competencyBased": 33,
-       "pct": 6.0,
+       "pct": 5.3,
        "need": 27,
        "ceiling": 21,
        "ceilingPct": 77.8
@@ -1519,30 +1512,29 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 2",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 2"
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 5",
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
       ],
       "competency": {
-       "usable": 548,
-       "competencyBased": 35,
-       "pct": 6.4,
+       "usable": 624,
+       "competencyBased": 36,
+       "pct": 5.8,
        "need": 38,
-       "ceiling": 28,
-       "ceilingPct": 73.7
+       "ceiling": 29,
+       "ceilingPct": 76.3
       }
      }
     }
    },
    "excluded": {
-    "n": 34,
+    "n": 36,
     "byReason": {
      "figure-unavailable": 10,
      "fraction-doubled": 4,
+     "mcq-answer-unresolved": 4,
      "stem-fragment": 4,
+     "mcq-options-unresolved": 3,
      "figure-referenced": 3,
-     "mcq-answer-unresolved": 3,
-     "mcq-options-unresolved": 2,
      "duplicate-stem": 2,
      "options-missing": 2,
      "stem-holds-group": 1,
@@ -1555,63 +1547,67 @@
   {
    "subject": "Mathematics",
    "grade": 7,
-   "questions": 602,
+   "questions": 690,
    "byBank": {
-    "served": 572,
+    "served": 660,
     "ncert-exemplar": 13,
     "cbse-cbe": 17
    },
    "bySource": {
     "cbse_question_bank": 41,
-    "ncert_exemplar": 561
+    "ncert_exemplar": 561,
+    "ncert_textbook": 31,
+    "ai_generated": 57
    },
-   "keyed": 602,
+   "keyed": 690,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
     "cbse_marking_scheme": 41,
-    "ncert_exemplar_answer": 561
+    "ncert_exemplar_answer": 561,
+    "two_model_solved": 56,
+    "textbook_grounded": 32
    },
    "verified": {
     "state": "verified",
-    "passed": 601,
-    "of": 602,
+    "passed": 689,
+    "of": 690,
     "unchecked": 0,
-    "pct": 99.8
+    "pct": 99.9
    },
    "tagged": {
     "chapter": {
-     "n": 203,
-     "pct": 33.7
+     "n": 291,
+     "pct": 42.2
     },
     "topic": {
      "n": 52,
-     "pct": 8.6
+     "pct": 7.5
     },
     "subtopic": {
      "n": 9,
-     "pct": 1.5
+     "pct": 1.3
     },
     "oldChapterIds": {
-     "n": 180,
-     "pct": 29.9
+     "n": 268,
+     "pct": 38.8
     }
    },
    "taggerCovers": true,
    "neverTagged": 0,
    "marks": {
-    "1": 452,
-    "2": 5,
+    "1": 489,
+    "2": 53,
     "3": 139,
     "4": 3,
-    "5": 3,
+    "5": 6,
     "6+": 0
    },
    "types": {
-    "mcq": 153,
-    "long_answer": 8,
-    "very_short_answer": 299,
-    "short_answer": 142
+    "mcq": 175,
+    "long_answer": 11,
+    "very_short_answer": 314,
+    "short_answer": 190
    },
    "tree": true,
    "untaggedKeyed": 399,
@@ -1619,11 +1615,11 @@
     {
      "id": "mathematics-7/large-numbers-around-us",
      "name": "Large Numbers Around Us",
-     "questions": 0,
-     "marks": 0,
+     "questions": 27,
+     "marks": 42,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 12,
+      "2": 15,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -1721,11 +1717,11 @@
     {
      "id": "mathematics-7/arithmetic-expressions",
      "name": "Arithmetic Expressions",
-     "questions": 0,
-     "marks": 0,
+     "questions": 16,
+     "marks": 20,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 12,
+      "2": 4,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -1897,11 +1893,11 @@
     {
      "id": "mathematics-7/expressions-using-letter-numbers",
      "name": "Expressions using Letter-Numbers",
-     "questions": 0,
-     "marks": 0,
+     "questions": 2,
+     "marks": 4,
      "byMarks": {
       "1": 0,
-      "2": 0,
+      "2": 2,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -2365,11 +2361,11 @@
     {
      "id": "mathematics-7/geometric-twins",
      "name": "Geometric Twins",
-     "questions": 18,
-     "marks": 30,
+     "questions": 23,
+     "marks": 36,
      "byMarks": {
-      "1": 13,
-      "2": 0,
+      "1": 17,
+      "2": 1,
       "3": 4,
       "4": 0,
       "5": 1,
@@ -2425,11 +2421,11 @@
     {
      "id": "mathematics-7/operations-with-integers",
      "name": "Operations with Integers",
-     "questions": 96,
-     "marks": 126,
+     "questions": 106,
+     "marks": 145,
      "byMarks": {
-      "1": 81,
-      "2": 0,
+      "1": 82,
+      "2": 9,
       "3": 15,
       "4": 0,
       "5": 0,
@@ -2471,14 +2467,14 @@
     {
      "id": "mathematics-7/finding-common-ground",
      "name": "Finding Common Ground",
-     "questions": 0,
-     "marks": 0,
+     "questions": 28,
+     "marks": 57,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 8,
+      "2": 17,
       "3": 0,
       "4": 0,
-      "5": 0,
+      "5": 3,
       "6+": 0
      },
      "number": 3,
@@ -2798,13 +2794,9 @@
     }
    ],
    "emptyChapters": [
-    "mathematics-7/large-numbers-around-us",
-    "mathematics-7/arithmetic-expressions",
     "mathematics-7/a-peek-beyond-the-point",
-    "mathematics-7/expressions-using-letter-numbers",
     "mathematics-7/number-play",
     "mathematics-7/working-with-fractions",
-    "mathematics-7/finding-common-ground",
     "mathematics-7/constructions-and-tilings"
    ],
    "chaptersWithout3Mark": [
@@ -2828,7 +2820,6 @@
     "mathematics-7/a-tale-of-three-intersecting-lines",
     "mathematics-7/working-with-fractions",
     "mathematics-7/operations-with-integers",
-    "mathematics-7/finding-common-ground",
     "mathematics-7/another-peek-beyond-the-point",
     "mathematics-7/connecting-the-dots",
     "mathematics-7/constructions-and-tilings",
@@ -3023,9 +3014,9 @@
    "chapterCountsComplete": false,
    "competency": {
     "all": {
-     "n": 602,
+     "n": 690,
      "competency": 41,
-     "pct": 6.8,
+     "pct": 5.9,
      "bySignal": {
       "cbeItemBank": 41
      },
@@ -3039,9 +3030,9 @@
      }
     },
     "served": {
-     "n": 572,
+     "n": 660,
      "competency": 24,
-     "pct": 4.2,
+     "pct": 3.6,
      "bySignal": {
       "cbeItemBank": 24
      },
@@ -3055,18 +3046,16 @@
      }
     }
    },
-   "servedKeyed": 572,
+   "servedKeyed": 660,
    "papers": {
     "all": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 5"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 457,
+       "usable": 537,
        "competencyBased": 33,
-       "pct": 7.2,
+       "pct": 6.1,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -3076,9 +3065,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 591,
+       "usable": 628,
        "competencyBased": 30,
-       "pct": 5.1,
+       "pct": 4.8,
        "need": 15,
        "ceiling": 12,
        "ceilingPct": 80.0
@@ -3088,9 +3077,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 599,
+       "usable": 682,
        "competencyBased": 38,
-       "pct": 6.3,
+       "pct": 5.6,
        "need": 27,
        "ceiling": 24,
        "ceilingPct": 88.9
@@ -3099,14 +3088,12 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 5",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 3",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
       ],
       "competency": {
-       "usable": 602,
+       "usable": 685,
        "competencyBased": 41,
-       "pct": 6.8,
+       "pct": 6.0,
        "need": 38,
        "ceiling": 33,
        "ceilingPct": 86.8
@@ -3115,14 +3102,12 @@
     },
     "served": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 430,
+       "usable": 510,
        "competencyBased": 19,
-       "pct": 4.4,
+       "pct": 3.7,
        "need": 15,
        "ceiling": 13,
        "ceilingPct": 86.7
@@ -3132,24 +3117,21 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 565,
+       "usable": 602,
        "competencyBased": 17,
-       "pct": 3.0,
+       "pct": 2.8,
        "need": 15,
        "ceiling": 11,
        "ceilingPct": 73.3
       }
      },
      "monthly_test": {
-      "possible": false,
-      "reasons": [
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 3",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 1"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 569,
+       "usable": 652,
        "competencyBased": 21,
-       "pct": 3.7,
+       "pct": 3.2,
        "need": 27,
        "ceiling": 20,
        "ceilingPct": 74.1
@@ -3158,14 +3140,13 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 1",
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 4",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
       ],
       "competency": {
-       "usable": 572,
+       "usable": 655,
        "competencyBased": 24,
-       "pct": 4.2,
+       "pct": 3.7,
        "need": 38,
        "ceiling": 24,
        "ceilingPct": 63.2
@@ -3174,7 +3155,7 @@
     }
    },
    "excluded": {
-    "n": 30,
+    "n": 31,
     "byReason": {
      "figure-referenced": 6,
      "mcq-options-unresolved": 6,
@@ -3182,70 +3163,76 @@
      "figure-unavailable": 4,
      "mcq-answer-unresolved": 4,
      "stem-holds-group": 2,
-     "stem-fragment": 2
+     "stem-fragment": 2,
+     "stem-too-short": 1
     }
    }
   },
   {
    "subject": "Mathematics",
    "grade": 8,
-   "questions": 892,
+   "questions": 939,
    "byBank": {
-    "served": 852,
+    "served": 899,
     "ncert-exemplar": 22,
     "cbse-cbe": 18
    },
    "bySource": {
     "cbse_question_bank": 54,
-    "ncert_exemplar": 838
+    "ncert_exemplar": 838,
+    "ncert_textbook": 21,
+    "ai_generated": 26
    },
-   "keyed": 892,
+   "keyed": 939,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
     "cbse_marking_scheme": 54,
-    "ncert_exemplar_answer": 838
+    "ncert_exemplar_answer": 838,
+    "two_model_solved": 30,
+    "textbook_grounded": 17
    },
    "verified": {
     "state": "verified",
-    "passed": 891,
-    "of": 892,
+    "passed": 938,
+    "of": 939,
     "unchecked": 0,
     "pct": 99.9
    },
    "tagged": {
     "chapter": {
-     "n": 507,
-     "pct": 56.8
+     "n": 554,
+     "pct": 59.0
     },
     "topic": {
      "n": 292,
-     "pct": 32.7
+     "pct": 31.1
     },
     "subtopic": {
      "n": 59,
-     "pct": 6.6
+     "pct": 6.3
     },
     "oldChapterIds": {
-     "n": 235,
-     "pct": 26.3
+     "n": 282,
+     "pct": 30.0
     }
    },
    "taggerCovers": true,
    "neverTagged": 0,
    "marks": {
-    "1": 657,
-    "2": 4,
+    "1": 674,
+    "2": 32,
     "3": 224,
-    "4": 3,
+    "4": 5,
     "5": 3,
     "6+": 1
    },
    "types": {
-    "short_answer": 217,
-    "mcq": 218,
+    "short_answer": 245,
+    "mcq": 228,
     "long_answer": 18,
-    "very_short_answer": 439
+    "very_short_answer": 446,
+    "case_study": 2
    },
    "tree": true,
    "untaggedKeyed": 385,
@@ -3253,11 +3240,11 @@
     {
      "id": "mathematics-8/a-square-and-a-cube",
      "name": "A Square and A Cube",
-     "questions": 123,
-     "marks": 213,
+     "questions": 136,
+     "marks": 230,
      "byMarks": {
-      "1": 78,
-      "2": 0,
+      "1": 87,
+      "2": 4,
       "3": 45,
       "4": 0,
       "5": 0,
@@ -3813,13 +3800,13 @@
     {
      "id": "mathematics-8/fractions-in-disguise",
      "name": "Fractions in Disguise",
-     "questions": 84,
-     "marks": 165,
+     "questions": 118,
+     "marks": 229,
      "byMarks": {
-      "1": 46,
-      "2": 0,
+      "1": 54,
+      "2": 24,
       "3": 35,
-      "4": 1,
+      "4": 3,
       "5": 2,
       "6+": 0
      },
@@ -4494,50 +4481,50 @@
    "chapterCountsComplete": false,
    "competency": {
     "all": {
-     "n": 892,
-     "competency": 54,
-     "pct": 6.1,
+     "n": 939,
+     "competency": 56,
+     "pct": 6.0,
      "bySignal": {
-      "cbeItemBank": 54
+      "cbeItemBank": 54,
+      "competencyType": 2
      },
      "byMarks": {
       "1": 32,
       "2": 4,
       "3": 11,
-      "4": 3,
+      "4": 5,
       "5": 3,
       "6+": 1
      }
     },
     "served": {
-     "n": 852,
-     "competency": 36,
+     "n": 899,
+     "competency": 38,
      "pct": 4.2,
      "bySignal": {
-      "cbeItemBank": 36
+      "cbeItemBank": 36,
+      "competencyType": 2
      },
      "byMarks": {
       "1": 21,
       "2": 2,
       "3": 8,
-      "4": 2,
+      "4": 4,
       "5": 3,
       "6+": 0
      }
     }
    },
-   "servedKeyed": 852,
+   "servedKeyed": 899,
    "papers": {
     "all": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 661,
+       "usable": 702,
        "competencyBased": 36,
-       "pct": 5.4,
+       "pct": 5.1,
        "need": 15,
        "ceiling": 14,
        "ceilingPct": 93.3
@@ -4547,23 +4534,21 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 881,
+       "usable": 898,
        "competencyBased": 43,
-       "pct": 4.9,
+       "pct": 4.8,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
       }
      },
      "monthly_test": {
-      "possible": false,
-      "reasons": [
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 4"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 888,
+       "usable": 929,
        "competencyBased": 50,
-       "pct": 5.6,
+       "pct": 5.4,
        "need": 27,
        "ceiling": 26,
        "ceilingPct": 96.3
@@ -4572,13 +4557,11 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 3",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 3"
       ],
       "competency": {
-       "usable": 891,
-       "competencyBased": 53,
+       "usable": 934,
+       "competencyBased": 55,
        "pct": 5.9,
        "need": 38,
        "ceiling": 36,
@@ -4588,14 +4571,12 @@
     },
     "served": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 2"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 627,
+       "usable": 668,
        "competencyBased": 23,
-       "pct": 3.7,
+       "pct": 3.4,
        "need": 15,
        "ceiling": 12,
        "ceilingPct": 80.0
@@ -4605,7 +4586,7 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 845,
+       "usable": 862,
        "competencyBased": 29,
        "pct": 3.4,
        "need": 15,
@@ -4614,14 +4595,12 @@
       }
      },
      "monthly_test": {
-      "possible": false,
-      "reasons": [
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 2"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 850,
+       "usable": 891,
        "competencyBased": 34,
-       "pct": 4.0,
+       "pct": 3.8,
        "need": 27,
        "ceiling": 24,
        "ceilingPct": 88.9
@@ -4630,17 +4609,15 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 2",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 3",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 2"
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 3"
       ],
       "competency": {
-       "usable": 852,
-       "competencyBased": 36,
+       "usable": 895,
+       "competencyBased": 38,
        "pct": 4.2,
        "need": 38,
-       "ceiling": 33,
-       "ceilingPct": 86.8
+       "ceiling": 34,
+       "ceilingPct": 89.5
       }
      }
     }
@@ -4664,63 +4641,67 @@
   {
    "subject": "Mathematics",
    "grade": 9,
-   "questions": 337,
+   "questions": 383,
    "byBank": {
-    "served": 265,
+    "served": 311,
     "ncert-exemplar": 6,
     "cbse-cbe": 66
    },
    "bySource": {
     "cbse_question_bank": 104,
-    "ncert_exemplar": 233
+    "ncert_exemplar": 233,
+    "ncert_textbook": 17,
+    "ai_generated": 29
    },
-   "keyed": 337,
+   "keyed": 383,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
     "cbse_marking_scheme": 104,
-    "ncert_exemplar_answer": 233
+    "ncert_exemplar_answer": 233,
+    "two_model_solved": 32,
+    "textbook_grounded": 14
    },
    "verified": {
     "state": "verified",
-    "passed": 337,
-    "of": 337,
+    "passed": 383,
+    "of": 383,
     "unchecked": 0,
     "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 111,
-     "pct": 32.9
+     "n": 157,
+     "pct": 41.0
     },
     "topic": {
      "n": 40,
-     "pct": 11.9
+     "pct": 10.4
     },
     "subtopic": {
      "n": 0,
      "pct": 0.0
     },
     "oldChapterIds": {
-     "n": 138,
-     "pct": 40.9
+     "n": 184,
+     "pct": 48.0
     }
    },
    "taggerCovers": true,
    "neverTagged": 0,
    "marks": {
-    "1": 164,
-    "2": 63,
+    "1": 178,
+    "2": 90,
     "3": 48,
     "4": 23,
-    "5": 26,
+    "5": 31,
     "6+": 13
    },
    "types": {
-    "mcq": 160,
-    "long_answer": 74,
-    "short_answer": 43,
-    "very_short_answer": 60
+    "mcq": 170,
+    "long_answer": 79,
+    "short_answer": 70,
+    "very_short_answer": 64
    },
    "tree": true,
    "untaggedKeyed": 226,
@@ -4802,14 +4783,14 @@
     {
      "id": "mathematics-9/introduction-to-linear-polynomials",
      "name": "Introduction to Linear Polynomials",
-     "questions": 21,
-     "marks": 37,
+     "questions": 67,
+     "marks": 130,
      "byMarks": {
-      "1": 15,
-      "2": 1,
+      "1": 29,
+      "2": 28,
       "3": 1,
       "4": 3,
-      "5": 1,
+      "5": 6,
       "6+": 0
      },
      "number": 2,
@@ -5771,9 +5752,9 @@
    "chapterCountsComplete": false,
    "competency": {
     "all": {
-     "n": 337,
+     "n": 383,
      "competency": 104,
-     "pct": 30.9,
+     "pct": 27.2,
      "bySignal": {
       "cbeItemBank": 104
      },
@@ -5787,9 +5768,9 @@
      }
     },
     "served": {
-     "n": 265,
+     "n": 311,
      "competency": 38,
-     "pct": 14.3,
+     "pct": 12.2,
      "bySignal": {
       "cbeItemBank": 38
      },
@@ -5803,16 +5784,16 @@
      }
     }
    },
-   "servedKeyed": 265,
+   "servedKeyed": 311,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 227,
+       "usable": 265,
        "competencyBased": 48,
-       "pct": 21.1,
+       "pct": 18.1,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -5822,9 +5803,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 212,
+       "usable": 226,
        "competencyBased": 52,
-       "pct": 24.5,
+       "pct": 23.0,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -5834,9 +5815,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 301,
+       "usable": 344,
        "competencyBased": 68,
-       "pct": 22.6,
+       "pct": 19.8,
        "need": 27,
        "ceiling": 27,
        "ceilingPct": 100.0
@@ -5846,9 +5827,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 324,
+       "usable": 367,
        "competencyBased": 91,
-       "pct": 28.1,
+       "pct": 24.8,
        "need": 38,
        "ceiling": 38,
        "ceilingPct": 100.0
@@ -5860,9 +5841,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 196,
+       "usable": 234,
        "competencyBased": 23,
-       "pct": 11.7,
+       "pct": 9.8,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -5872,9 +5853,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 174,
+       "usable": 188,
        "competencyBased": 19,
-       "pct": 10.9,
+       "pct": 10.1,
        "need": 15,
        "ceiling": 12,
        "ceilingPct": 80.0
@@ -5884,9 +5865,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 256,
+       "usable": 299,
        "competencyBased": 29,
-       "pct": 11.3,
+       "pct": 9.7,
        "need": 27,
        "ceiling": 24,
        "ceilingPct": 88.9
@@ -5896,9 +5877,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 260,
+       "usable": 303,
        "competencyBased": 33,
-       "pct": 12.7,
+       "pct": 10.9,
        "need": 38,
        "ceiling": 31,
        "ceilingPct": 81.6
@@ -5926,9 +5907,9 @@
   {
    "subject": "Mathematics",
    "grade": 10,
-   "questions": 425,
+   "questions": 440,
    "byBank": {
-    "served": 364,
+    "served": 379,
     "ncert-exemplar": 5,
     "cbse-cbe": 56
    },
@@ -5936,55 +5917,59 @@
     "cbse_board_paper": 4,
     "cbse_question_bank": 120,
     "cbse_sample_paper": 36,
-    "ncert_exemplar": 265
+    "ncert_exemplar": 265,
+    "ncert_textbook": 1,
+    "ai_generated": 14
    },
-   "keyed": 425,
+   "keyed": 440,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
     "cbse_marking_scheme": 160,
-    "ncert_exemplar_answer": 265
+    "ncert_exemplar_answer": 265,
+    "two_model_solved": 7,
+    "textbook_grounded": 8
    },
    "verified": {
     "state": "verified",
-    "passed": 419,
-    "of": 425,
+    "passed": 434,
+    "of": 440,
     "unchecked": 0,
     "pct": 98.6
    },
    "tagged": {
     "chapter": {
-     "n": 396,
-     "pct": 93.2
+     "n": 411,
+     "pct": 93.4
     },
     "topic": {
      "n": 227,
-     "pct": 53.4
+     "pct": 51.6
     },
     "subtopic": {
      "n": 5,
-     "pct": 1.2
+     "pct": 1.1
     },
     "oldChapterIds": {
-     "n": 137,
-     "pct": 32.2
+     "n": 152,
+     "pct": 34.5
     }
    },
    "taggerCovers": true,
    "neverTagged": 0,
    "marks": {
-    "1": 146,
-    "2": 100,
+    "1": 157,
+    "2": 103,
     "3": 86,
     "4": 16,
-    "5": 62,
+    "5": 63,
     "6+": 15
    },
    "types": {
-    "very_short_answer": 80,
-    "long_answer": 106,
-    "mcq": 139,
-    "short_answer": 100
+    "very_short_answer": 83,
+    "long_answer": 107,
+    "mcq": 147,
+    "short_answer": 103
    },
    "tree": true,
    "untaggedKeyed": 29,
@@ -6052,14 +6037,14 @@
     {
      "id": "mathematics-10/polynomials",
      "name": "Polynomials",
-     "questions": 15,
-     "marks": 24,
+     "questions": 28,
+     "marks": 44,
      "byMarks": {
-      "1": 12,
-      "2": 1,
+      "1": 21,
+      "2": 4,
       "3": 0,
       "4": 0,
-      "5": 2,
+      "5": 3,
       "6+": 0
      },
      "number": 2,
@@ -6112,10 +6097,10 @@
     {
      "id": "mathematics-10/pair-of-linear-equations-in-two-variables",
      "name": "Pair of Linear Equations in Two Variables",
-     "questions": 48,
-     "marks": 141,
+     "questions": 50,
+     "marks": 143,
      "byMarks": {
-      "1": 13,
+      "1": 15,
       "2": 5,
       "3": 16,
       "4": 2,
@@ -6901,9 +6886,9 @@
    "chapterCountsComplete": false,
    "competency": {
     "all": {
-     "n": 425,
+     "n": 440,
      "competency": 120,
-     "pct": 28.2,
+     "pct": 27.3,
      "bySignal": {
       "cbeItemBank": 120
      },
@@ -6917,9 +6902,9 @@
      }
     },
     "served": {
-     "n": 364,
+     "n": 379,
      "competency": 64,
-     "pct": 17.6,
+     "pct": 16.9,
      "bySignal": {
       "cbeItemBank": 64
      },
@@ -6933,16 +6918,16 @@
      }
     }
    },
-   "servedKeyed": 364,
+   "servedKeyed": 379,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 246,
+       "usable": 260,
        "competencyBased": 66,
-       "pct": 26.8,
+       "pct": 25.4,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -6952,9 +6937,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 232,
+       "usable": 243,
        "competencyBased": 62,
-       "pct": 26.7,
+       "pct": 25.5,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -6964,9 +6949,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 394,
+       "usable": 409,
        "competencyBased": 89,
-       "pct": 22.6,
+       "pct": 21.8,
        "need": 27,
        "ceiling": 27,
        "ceilingPct": 100.0
@@ -6976,9 +6961,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 410,
+       "usable": 425,
        "competencyBased": 105,
-       "pct": 25.6,
+       "pct": 24.7,
        "need": 38,
        "ceiling": 38,
        "ceilingPct": 100.0
@@ -6990,9 +6975,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 213,
+       "usable": 227,
        "competencyBased": 38,
-       "pct": 17.8,
+       "pct": 16.7,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -7002,9 +6987,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 202,
+       "usable": 213,
        "competencyBased": 36,
-       "pct": 17.8,
+       "pct": 16.9,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -7014,9 +6999,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 348,
+       "usable": 363,
        "competencyBased": 48,
-       "pct": 13.8,
+       "pct": 13.2,
        "need": 27,
        "ceiling": 27,
        "ceilingPct": 100.0
@@ -7026,9 +7011,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 357,
+       "usable": 372,
        "competencyBased": 57,
-       "pct": 16.0,
+       "pct": 15.3,
        "need": 38,
        "ceiling": 36,
        "ceilingPct": 94.7
@@ -7061,63 +7046,68 @@
   {
    "subject": "Science",
    "grade": 6,
-   "questions": 274,
+   "questions": 330,
    "byBank": {
-    "served": 245,
+    "served": 301,
     "ncert-exemplar": 1,
     "cbse-cbe": 28
    },
    "bySource": {
     "cbse_question_bank": 41,
-    "ncert_exemplar": 233
+    "ncert_exemplar": 233,
+    "ai_generated": 48,
+    "ncert_textbook": 8
    },
-   "keyed": 274,
+   "keyed": 330,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
     "cbse_marking_scheme": 41,
-    "ncert_exemplar_answer": 233
+    "ncert_exemplar_answer": 233,
+    "textbook_grounded": 54,
+    "two_model_solved": 2
    },
    "verified": {
     "state": "verified",
-    "passed": 270,
-    "of": 274,
+    "passed": 326,
+    "of": 330,
     "unchecked": 0,
-    "pct": 98.5
+    "pct": 98.8
    },
    "tagged": {
     "chapter": {
-     "n": 120,
-     "pct": 43.8
+     "n": 176,
+     "pct": 53.3
     },
     "topic": {
      "n": 55,
-     "pct": 20.1
+     "pct": 16.7
     },
     "subtopic": {
      "n": 8,
-     "pct": 2.9
+     "pct": 2.4
     },
     "oldChapterIds": {
-     "n": 37,
-     "pct": 13.5
+     "n": 93,
+     "pct": 28.2
     }
    },
    "taggerCovers": true,
    "neverTagged": 0,
    "marks": {
-    "1": 123,
-    "2": 35,
+    "1": 150,
+    "2": 58,
     "3": 60,
-    "4": 5,
-    "5": 42,
+    "4": 9,
+    "5": 44,
     "6+": 9
    },
    "types": {
-    "mcq": 125,
-    "long_answer": 53,
-    "very_short_answer": 38,
-    "short_answer": 58
+    "mcq": 142,
+    "long_answer": 55,
+    "very_short_answer": 48,
+    "short_answer": 81,
+    "case_study": 4
    },
    "tree": true,
    "untaggedKeyed": 154,
@@ -8241,48 +8231,50 @@
    "chapterCountsComplete": false,
    "competency": {
     "all": {
-     "n": 274,
-     "competency": 41,
-     "pct": 15.0,
+     "n": 330,
+     "competency": 45,
+     "pct": 13.6,
      "bySignal": {
-      "cbeItemBank": 41
+      "cbeItemBank": 41,
+      "competencyType": 4
      },
      "byMarks": {
       "1": 16,
       "2": 1,
       "3": 3,
-      "4": 5,
+      "4": 9,
       "5": 7,
       "6+": 9
      }
     },
     "served": {
-     "n": 245,
-     "competency": 13,
-     "pct": 5.3,
+     "n": 301,
+     "competency": 17,
+     "pct": 5.6,
      "bySignal": {
-      "cbeItemBank": 13
+      "cbeItemBank": 13,
+      "competencyType": 4
      },
      "byMarks": {
       "1": 8,
       "2": 0,
       "3": 1,
-      "4": 0,
+      "4": 4,
       "5": 1,
       "6+": 3
      }
     }
    },
-   "servedKeyed": 245,
+   "servedKeyed": 301,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 158,
+       "usable": 207,
        "competencyBased": 17,
-       "pct": 10.8,
+       "pct": 8.2,
        "need": 15,
        "ceiling": 11,
        "ceilingPct": 73.3
@@ -8292,9 +8284,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 183,
+       "usable": 210,
        "competencyBased": 19,
-       "pct": 10.4,
+       "pct": 9.0,
        "need": 15,
        "ceiling": 13,
        "ceilingPct": 86.7
@@ -8304,9 +8296,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 260,
+       "usable": 311,
        "competencyBased": 27,
-       "pct": 10.4,
+       "pct": 8.7,
        "need": 27,
        "ceiling": 21,
        "ceilingPct": 77.8
@@ -8316,9 +8308,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 265,
-       "competencyBased": 32,
-       "pct": 12.1,
+       "usable": 320,
+       "competencyBased": 36,
+       "pct": 11.2,
        "need": 38,
        "ceiling": 27,
        "ceilingPct": 71.1
@@ -8330,9 +8322,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 148,
+       "usable": 197,
        "competencyBased": 8,
-       "pct": 5.4,
+       "pct": 4.1,
        "need": 15,
        "ceiling": 8,
        "ceilingPct": 53.3
@@ -8342,9 +8334,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 172,
+       "usable": 199,
        "competencyBased": 9,
-       "pct": 5.2,
+       "pct": 4.5,
        "need": 15,
        "ceiling": 9,
        "ceilingPct": 60.0
@@ -8354,26 +8346,24 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 242,
+       "usable": 293,
        "competencyBased": 10,
-       "pct": 4.1,
+       "pct": 3.4,
        "need": 27,
        "ceiling": 10,
        "ceilingPct": 37.0
       }
      },
      "board": {
-      "possible": false,
-      "reasons": [
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 242,
-       "competencyBased": 10,
-       "pct": 4.1,
+       "usable": 297,
+       "competencyBased": 14,
+       "pct": 4.7,
        "need": 38,
-       "ceiling": 10,
-       "ceilingPct": 26.3
+       "ceiling": 13,
+       "ceilingPct": 34.2
       }
      }
     }
@@ -8394,62 +8384,65 @@
   {
    "subject": "Science",
    "grade": 7,
-   "questions": 355,
+   "questions": 383,
    "byBank": {
-    "served": 334,
+    "served": 362,
     "cbse-cbe": 21
    },
    "bySource": {
     "cbse_question_bank": 46,
-    "ncert_exemplar": 309
+    "ncert_exemplar": 309,
+    "ai_generated": 28
    },
-   "keyed": 355,
+   "keyed": 383,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
     "cbse_marking_scheme": 46,
-    "ncert_exemplar_answer": 309
+    "ncert_exemplar_answer": 309,
+    "textbook_grounded": 28
    },
    "verified": {
     "state": "verified",
-    "passed": 349,
-    "of": 355,
+    "passed": 377,
+    "of": 383,
     "unchecked": 0,
-    "pct": 98.3
+    "pct": 98.4
    },
    "tagged": {
     "chapter": {
-     "n": 134,
-     "pct": 37.7
+     "n": 162,
+     "pct": 42.3
     },
     "topic": {
      "n": 65,
-     "pct": 18.3
+     "pct": 17.0
     },
     "subtopic": {
      "n": 13,
-     "pct": 3.7
+     "pct": 3.4
     },
     "oldChapterIds": {
-     "n": 147,
-     "pct": 41.4
+     "n": 175,
+     "pct": 45.7
     }
    },
    "taggerCovers": true,
    "neverTagged": 0,
    "marks": {
-    "1": 149,
-    "2": 65,
+    "1": 163,
+    "2": 76,
     "3": 77,
-    "4": 3,
-    "5": 48,
+    "4": 4,
+    "5": 50,
     "6+": 13
    },
    "types": {
-    "very_short_answer": 72,
-    "mcq": 142,
-    "long_answer": 62,
-    "short_answer": 79
+    "very_short_answer": 78,
+    "mcq": 150,
+    "long_answer": 64,
+    "short_answer": 90,
+    "case_study": 1
    },
    "tree": true,
    "untaggedKeyed": 221,
@@ -8457,14 +8450,14 @@
     {
      "id": "science-7/the-ever-evolving-world-of-science",
      "name": "The Ever-Evolving World of Science",
-     "questions": 0,
-     "marks": 0,
+     "questions": 8,
+     "marks": 15,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 4,
+      "2": 3,
       "3": 0,
       "4": 0,
-      "5": 0,
+      "5": 1,
       "6+": 0
      },
      "number": 1,
@@ -8549,14 +8542,14 @@
     {
      "id": "science-7/electricity-circuits-and-their-components",
      "name": "Electricity: Circuits and their Components",
-     "questions": 12,
-     "marks": 34,
+     "questions": 32,
+     "marks": 69,
      "byMarks": {
-      "1": 4,
-      "2": 3,
+      "1": 14,
+      "2": 11,
       "3": 2,
-      "4": 0,
-      "5": 1,
+      "4": 1,
+      "5": 2,
       "6+": 2
      },
      "number": 3,
@@ -9372,7 +9365,6 @@
     }
    ],
    "emptyChapters": [
-    "science-7/the-ever-evolving-world-of-science",
     "science-7/the-world-of-metals-and-non-metals",
     "science-7/adolescence-a-stage-of-growth-and-change",
     "science-7/earth-moon-and-the-sun"
@@ -9385,7 +9377,6 @@
     "science-7/earth-moon-and-the-sun"
    ],
    "chaptersWithout5Mark": [
-    "science-7/the-ever-evolving-world-of-science",
     "science-7/the-world-of-metals-and-non-metals",
     "science-7/adolescence-a-stage-of-growth-and-change",
     "science-7/heat-transfer-in-nature",
@@ -9525,48 +9516,50 @@
    "chapterCountsComplete": false,
    "competency": {
     "all": {
-     "n": 355,
-     "competency": 46,
-     "pct": 13.0,
+     "n": 383,
+     "competency": 47,
+     "pct": 12.3,
      "bySignal": {
-      "cbeItemBank": 46
+      "cbeItemBank": 46,
+      "competencyType": 1
      },
      "byMarks": {
       "1": 18,
       "2": 2,
       "3": 0,
-      "4": 3,
+      "4": 4,
       "5": 10,
       "6+": 13
      }
     },
     "served": {
-     "n": 334,
-     "competency": 25,
-     "pct": 7.5,
+     "n": 362,
+     "competency": 26,
+     "pct": 7.2,
      "bySignal": {
-      "cbeItemBank": 25
+      "cbeItemBank": 25,
+      "competencyType": 1
      },
      "byMarks": {
       "1": 10,
       "2": 1,
       "3": 0,
-      "4": 2,
+      "4": 3,
       "5": 4,
       "6+": 8
      }
     }
    },
-   "servedKeyed": 334,
+   "servedKeyed": 362,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 214,
+       "usable": 238,
        "competencyBased": 20,
-       "pct": 9.3,
+       "pct": 8.4,
        "need": 15,
        "ceiling": 12,
        "ceilingPct": 80.0
@@ -9576,9 +9569,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 226,
+       "usable": 240,
        "competencyBased": 18,
-       "pct": 8.0,
+       "pct": 7.5,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -9588,23 +9581,21 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 339,
+       "usable": 365,
        "competencyBased": 30,
-       "pct": 8.8,
+       "pct": 8.2,
        "need": 27,
        "ceiling": 19,
        "ceilingPct": 70.4
       }
      },
      "board": {
-      "possible": false,
-      "reasons": [
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 342,
-       "competencyBased": 33,
-       "pct": 9.6,
+       "usable": 369,
+       "competencyBased": 34,
+       "pct": 9.2,
        "need": 38,
        "ceiling": 27,
        "ceilingPct": 71.1
@@ -9616,9 +9607,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 205,
+       "usable": 229,
        "competencyBased": 11,
-       "pct": 5.4,
+       "pct": 4.8,
        "need": 15,
        "ceiling": 11,
        "ceilingPct": 73.3
@@ -9628,9 +9619,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 218,
+       "usable": 232,
        "competencyBased": 10,
-       "pct": 4.6,
+       "pct": 4.3,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -9640,9 +9631,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 324,
+       "usable": 350,
        "competencyBased": 15,
-       "pct": 4.6,
+       "pct": 4.3,
        "need": 27,
        "ceiling": 13,
        "ceilingPct": 48.1
@@ -9651,15 +9642,15 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 2"
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
       ],
       "competency": {
-       "usable": 326,
-       "competencyBased": 17,
-       "pct": 5.2,
+       "usable": 353,
+       "competencyBased": 18,
+       "pct": 5.1,
        "need": 38,
-       "ceiling": 17,
-       "ceilingPct": 44.7
+       "ceiling": 18,
+       "ceilingPct": 47.4
       }
      }
     }
@@ -9678,62 +9669,66 @@
   {
    "subject": "Science",
    "grade": 8,
-   "questions": 435,
+   "questions": 470,
    "byBank": {
-    "served": 417,
+    "served": 452,
     "cbse-cbe": 18
    },
    "bySource": {
     "cbse_question_bank": 36,
-    "ncert_exemplar": 399
+    "ncert_exemplar": 399,
+    "ai_generated": 34,
+    "ncert_textbook": 1
    },
-   "keyed": 435,
+   "keyed": 470,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
     "cbse_marking_scheme": 36,
-    "ncert_exemplar_answer": 399
+    "ncert_exemplar_answer": 399,
+    "textbook_grounded": 35
    },
    "verified": {
     "state": "verified",
-    "passed": 431,
-    "of": 435,
+    "passed": 466,
+    "of": 470,
     "unchecked": 0,
     "pct": 99.1
    },
    "tagged": {
     "chapter": {
-     "n": 80,
-     "pct": 18.4
+     "n": 115,
+     "pct": 24.5
     },
     "topic": {
      "n": 33,
-     "pct": 7.6
+     "pct": 7.0
     },
     "subtopic": {
      "n": 2,
-     "pct": 0.5
+     "pct": 0.4
     },
     "oldChapterIds": {
-     "n": 38,
-     "pct": 8.7
+     "n": 73,
+     "pct": 15.5
     }
    },
    "taggerCovers": true,
    "neverTagged": 0,
    "marks": {
-    "1": 180,
-    "2": 102,
+    "1": 201,
+    "2": 113,
     "3": 81,
-    "4": 6,
-    "5": 59,
+    "4": 8,
+    "5": 60,
     "6+": 7
    },
    "types": {
-    "very_short_answer": 101,
-    "short_answer": 82,
-    "long_answer": 73,
-    "mcq": 179
+    "very_short_answer": 109,
+    "short_answer": 93,
+    "long_answer": 74,
+    "mcq": 192,
+    "case_study": 2
    },
    "tree": true,
    "untaggedKeyed": 355,
@@ -9741,13 +9736,13 @@
     {
      "id": "science-8/exploring-the-investigative-world-of-science",
      "name": "Exploring the Investigative World of Science",
-     "questions": 0,
-     "marks": 0,
+     "questions": 12,
+     "marks": 23,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 5,
+      "2": 5,
       "3": 0,
-      "4": 0,
+      "4": 2,
       "5": 0,
       "6+": 0
      },
@@ -9758,14 +9753,14 @@
     {
      "id": "science-8/the-invisible-living-world-beyond-our-naked-eye",
      "name": "The Invisible Living World: Beyond Our Naked Eye",
-     "questions": 31,
-     "marks": 47,
+     "questions": 54,
+     "marks": 80,
      "byMarks": {
-      "1": 23,
-      "2": 5,
+      "1": 39,
+      "2": 11,
       "3": 1,
       "4": 0,
-      "5": 1,
+      "5": 2,
       "6+": 1
      },
      "number": 2,
@@ -10841,7 +10836,6 @@
     }
    ],
    "emptyChapters": [
-    "science-8/exploring-the-investigative-world-of-science",
     "science-8/particulate-nature-of-matter",
     "science-8/the-amazing-world-of-solutes-solvents-and-solutions"
    ],
@@ -11042,48 +11036,50 @@
    "chapterCountsComplete": false,
    "competency": {
     "all": {
-     "n": 435,
-     "competency": 36,
-     "pct": 8.3,
+     "n": 470,
+     "competency": 38,
+     "pct": 8.1,
      "bySignal": {
-      "cbeItemBank": 36
+      "cbeItemBank": 36,
+      "competencyType": 2
      },
      "byMarks": {
       "1": 13,
       "2": 5,
       "3": 2,
-      "4": 6,
+      "4": 8,
       "5": 3,
       "6+": 7
      }
     },
     "served": {
-     "n": 417,
-     "competency": 18,
-     "pct": 4.3,
+     "n": 452,
+     "competency": 20,
+     "pct": 4.4,
      "bySignal": {
-      "cbeItemBank": 18
+      "cbeItemBank": 18,
+      "competencyType": 2
      },
      "byMarks": {
       "1": 5,
       "2": 3,
       "3": 1,
-      "4": 6,
+      "4": 8,
       "5": 2,
       "6+": 1
      }
     }
    },
-   "servedKeyed": 417,
+   "servedKeyed": 452,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 282,
+       "usable": 314,
        "competencyBased": 18,
-       "pct": 6.4,
+       "pct": 5.7,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -11093,9 +11089,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 261,
+       "usable": 282,
        "competencyBased": 15,
-       "pct": 5.7,
+       "pct": 5.3,
        "need": 15,
        "ceiling": 12,
        "ceilingPct": 80.0
@@ -11105,9 +11101,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 422,
+       "usable": 455,
        "competencyBased": 23,
-       "pct": 5.5,
+       "pct": 5.1,
        "need": 27,
        "ceiling": 22,
        "ceilingPct": 81.5
@@ -11117,9 +11113,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 428,
-       "competencyBased": 29,
-       "pct": 6.8,
+       "usable": 463,
+       "competencyBased": 31,
+       "pct": 6.7,
        "need": 38,
        "ceiling": 26,
        "ceilingPct": 68.4
@@ -11131,9 +11127,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 272,
+       "usable": 304,
        "competencyBased": 8,
-       "pct": 2.9,
+       "pct": 2.6,
        "need": 15,
        "ceiling": 8,
        "ceilingPct": 53.3
@@ -11143,9 +11139,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 252,
+       "usable": 273,
        "competencyBased": 6,
-       "pct": 2.4,
+       "pct": 2.2,
        "need": 15,
        "ceiling": 6,
        "ceilingPct": 40.0
@@ -11155,9 +11151,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 410,
+       "usable": 443,
        "competencyBased": 11,
-       "pct": 2.7,
+       "pct": 2.5,
        "need": 27,
        "ceiling": 11,
        "ceilingPct": 40.7
@@ -11167,9 +11163,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 416,
-       "competencyBased": 17,
-       "pct": 4.1,
+       "usable": 451,
+       "competencyBased": 19,
+       "pct": 4.2,
        "need": 38,
        "ceiling": 14,
        "ceilingPct": 36.8
@@ -11191,67 +11187,67 @@
   {
    "subject": "Science",
    "grade": 9,
-   "questions": 618,
+   "questions": 657,
    "byBank": {
-    "served": 589,
+    "served": 628,
     "ncert-exemplar": 6,
     "cbse-cbe": 23
    },
    "bySource": {
     "cbse_question_bank": 51,
     "ncert_exemplar": 425,
-    "ai_generated": 142
+    "ai_generated": 181
    },
-   "keyed": 618,
+   "keyed": 657,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
     "cbse_marking_scheme": 51,
     "ncert_exemplar_answer": 425,
-    "textbook_grounded": 142
+    "textbook_grounded": 181
    },
    "verified": {
     "state": "verified",
-    "passed": 615,
-    "of": 618,
+    "passed": 654,
+    "of": 657,
     "unchecked": 0,
     "pct": 99.5
    },
    "tagged": {
     "chapter": {
-     "n": 432,
-     "pct": 69.9
+     "n": 471,
+     "pct": 71.7
     },
     "topic": {
      "n": 95,
-     "pct": 15.4
+     "pct": 14.5
     },
     "subtopic": {
      "n": 26,
-     "pct": 4.2
+     "pct": 4.0
     },
     "oldChapterIds": {
-     "n": 368,
-     "pct": 59.5
+     "n": 407,
+     "pct": 61.9
     }
    },
    "taggerCovers": true,
    "neverTagged": 142,
    "marks": {
-    "1": 294,
-    "2": 55,
+    "1": 314,
+    "2": 70,
     "3": 145,
-    "4": 52,
-    "5": 55,
+    "4": 55,
+    "5": 56,
     "6+": 17
    },
    "types": {
-    "long_answer": 75,
-    "mcq": 252,
-    "very_short_answer": 59,
-    "short_answer": 142,
-    "assertion_reason": 39,
-    "case_study": 51
+    "long_answer": 76,
+    "mcq": 263,
+    "very_short_answer": 68,
+    "short_answer": 157,
+    "case_study": 54,
+    "assertion_reason": 39
    },
    "tree": true,
    "untaggedKeyed": 186,
@@ -11259,13 +11255,13 @@
     {
      "id": "science-9/exploration-entering-the-world-of-secondary-science",
      "name": "Exploration: Entering the World of Secondary Science",
-     "questions": 11,
-     "marks": 27,
+     "questions": 31,
+     "marks": 64,
      "byMarks": {
-      "1": 3,
-      "2": 4,
+      "1": 12,
+      "2": 12,
       "3": 0,
-      "4": 4,
+      "4": 7,
       "5": 0,
       "6+": 0
      },
@@ -11364,14 +11360,14 @@
     {
      "id": "science-9/tissues-in-action",
      "name": "Tissues in Action",
-     "questions": 57,
-     "marks": 99,
+     "questions": 76,
+     "marks": 129,
      "byMarks": {
-      "1": 38,
-      "2": 4,
+      "1": 49,
+      "2": 11,
       "3": 9,
       "4": 4,
-      "5": 2,
+      "5": 3,
       "6+": 0
      },
      "number": 3,
@@ -12767,50 +12763,50 @@
    "chapterCountsComplete": false,
    "competency": {
     "all": {
-     "n": 618,
-     "competency": 141,
-     "pct": 22.8,
+     "n": 657,
+     "competency": 144,
+     "pct": 21.9,
      "bySignal": {
       "cbeItemBank": 51,
-      "competencyType": 90
+      "competencyType": 93
      },
      "byMarks": {
       "1": 61,
       "2": 3,
       "3": 5,
-      "4": 52,
+      "4": 55,
       "5": 3,
       "6+": 17
      }
     },
     "served": {
-     "n": 589,
-     "competency": 118,
-     "pct": 20.0,
+     "n": 628,
+     "competency": 121,
+     "pct": 19.3,
      "bySignal": {
       "cbeItemBank": 28,
-      "competencyType": 90
+      "competencyType": 93
      },
      "byMarks": {
       "1": 54,
       "2": 2,
       "3": 4,
-      "4": 51,
+      "4": 54,
       "5": 3,
       "6+": 4
      }
     }
    },
-   "servedKeyed": 589,
+   "servedKeyed": 628,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 349,
+       "usable": 384,
        "competencyBased": 64,
-       "pct": 18.3,
+       "pct": 16.7,
        "need": 15,
        "ceiling": 13,
        "ceilingPct": 86.7
@@ -12820,9 +12816,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 439,
+       "usable": 459,
        "competencyBased": 66,
-       "pct": 15.0,
+       "pct": 14.4,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -12832,9 +12828,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 549,
+       "usable": 585,
        "competencyBased": 72,
-       "pct": 13.1,
+       "pct": 12.3,
        "need": 27,
        "ceiling": 25,
        "ceilingPct": 92.6
@@ -12844,9 +12840,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 601,
-       "competencyBased": 124,
-       "pct": 20.6,
+       "usable": 640,
+       "competencyBased": 127,
+       "pct": 19.8,
        "need": 38,
        "ceiling": 34,
        "ceilingPct": 89.5
@@ -12858,9 +12854,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 336,
+       "usable": 371,
        "competencyBased": 56,
-       "pct": 16.7,
+       "pct": 15.1,
        "need": 15,
        "ceiling": 12,
        "ceilingPct": 80.0
@@ -12870,9 +12866,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 426,
+       "usable": 446,
        "competencyBased": 58,
-       "pct": 13.6,
+       "pct": 13.0,
        "need": 15,
        "ceiling": 14,
        "ceilingPct": 93.3
@@ -12882,9 +12878,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 534,
+       "usable": 570,
        "competencyBased": 63,
-       "pct": 11.8,
+       "pct": 11.1,
        "need": 27,
        "ceiling": 23,
        "ceilingPct": 85.2
@@ -12894,9 +12890,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 585,
-       "competencyBased": 114,
-       "pct": 19.5,
+       "usable": 624,
+       "competencyBased": 117,
+       "pct": 18.8,
        "need": 38,
        "ceiling": 32,
        "ceilingPct": 84.2
@@ -12920,67 +12916,69 @@
   {
    "subject": "Science",
    "grade": 10,
-   "questions": 661,
+   "questions": 692,
    "byBank": {
-    "served": 625,
+    "served": 656,
     "ncert-exemplar": 8,
     "cbse-cbe": 28
    },
    "bySource": {
     "cbse_question_bank": 54,
     "ncert_exemplar": 476,
-    "ai_generated": 131
+    "ncert_textbook": 13,
+    "ai_generated": 149
    },
-   "keyed": 661,
+   "keyed": 692,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
     "cbse_marking_scheme": 54,
     "ncert_exemplar_answer": 476,
-    "textbook_grounded": 131
+    "two_model_solved": 8,
+    "textbook_grounded": 154
    },
    "verified": {
     "state": "verified",
-    "passed": 655,
-    "of": 661,
+    "passed": 686,
+    "of": 692,
     "unchecked": 0,
     "pct": 99.1
    },
    "tagged": {
     "chapter": {
-     "n": 558,
-     "pct": 84.4
+     "n": 589,
+     "pct": 85.1
     },
     "topic": {
      "n": 297,
-     "pct": 44.9
+     "pct": 42.9
     },
     "subtopic": {
      "n": 132,
-     "pct": 20.0
+     "pct": 19.1
     },
     "oldChapterIds": {
-     "n": 536,
-     "pct": 81.1
+     "n": 567,
+     "pct": 81.9
     }
    },
    "taggerCovers": true,
    "neverTagged": 131,
    "marks": {
-    "1": 364,
-    "2": 56,
+    "1": 379,
+    "2": 69,
     "3": 128,
-    "4": 44,
-    "5": 52,
+    "4": 45,
+    "5": 54,
     "6+": 17
    },
    "types": {
-    "very_short_answer": 60,
-    "mcq": 323,
-    "short_answer": 132,
-    "long_answer": 66,
-    "assertion_reason": 36,
-    "case_study": 44
+    "very_short_answer": 64,
+    "mcq": 334,
+    "short_answer": 145,
+    "long_answer": 68,
+    "case_study": 45,
+    "assertion_reason": 36
    },
    "tree": true,
    "untaggedKeyed": 103,
@@ -14057,50 +14055,50 @@
    "chapterCountsComplete": false,
    "competency": {
     "all": {
-     "n": 661,
-     "competency": 134,
-     "pct": 20.3,
+     "n": 692,
+     "competency": 135,
+     "pct": 19.5,
      "bySignal": {
       "cbeItemBank": 54,
-      "competencyType": 80
+      "competencyType": 81
      },
      "byMarks": {
       "1": 64,
       "2": 5,
       "3": 1,
-      "4": 44,
+      "4": 45,
       "5": 3,
       "6+": 17
      }
     },
     "served": {
-     "n": 625,
-     "competency": 106,
-     "pct": 17.0,
+     "n": 656,
+     "competency": 107,
+     "pct": 16.3,
      "bySignal": {
       "cbeItemBank": 26,
-      "competencyType": 80
+      "competencyType": 81
      },
      "byMarks": {
       "1": 55,
       "2": 1,
       "3": 0,
-      "4": 44,
+      "4": 45,
       "5": 2,
       "6+": 4
      }
     }
    },
-   "servedKeyed": 625,
+   "servedKeyed": 656,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 420,
+       "usable": 447,
        "competencyBased": 69,
-       "pct": 16.4,
+       "pct": 15.4,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -14110,9 +14108,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 492,
+       "usable": 507,
        "competencyBased": 65,
-       "pct": 13.2,
+       "pct": 12.8,
        "need": 15,
        "ceiling": 11,
        "ceilingPct": 73.3
@@ -14122,9 +14120,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 600,
+       "usable": 629,
        "competencyBased": 73,
-       "pct": 12.2,
+       "pct": 11.6,
        "need": 27,
        "ceiling": 23,
        "ceilingPct": 85.2
@@ -14134,9 +14132,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 644,
-       "competencyBased": 117,
-       "pct": 18.2,
+       "usable": 674,
+       "competencyBased": 118,
+       "pct": 17.5,
        "need": 38,
        "ceiling": 32,
        "ceilingPct": 84.2
@@ -14148,9 +14146,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 399,
+       "usable": 426,
        "competencyBased": 56,
-       "pct": 14.0,
+       "pct": 13.1,
        "need": 15,
        "ceiling": 11,
        "ceilingPct": 73.3
@@ -14160,9 +14158,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 474,
+       "usable": 489,
        "competencyBased": 55,
-       "pct": 11.6,
+       "pct": 11.2,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -14172,9 +14170,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 577,
+       "usable": 606,
        "competencyBased": 58,
-       "pct": 10.1,
+       "pct": 9.6,
        "need": 27,
        "ceiling": 18,
        "ceilingPct": 66.7
@@ -14184,9 +14182,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 621,
-       "competencyBased": 102,
-       "pct": 16.4,
+       "usable": 651,
+       "competencyBased": 103,
+       "pct": 15.8,
        "need": 38,
        "ceiling": 26,
        "ceilingPct": 68.4
@@ -14214,20 +14212,32 @@
   {
    "subject": "Social Science",
    "grade": 6,
-   "questions": 0,
-   "byBank": {},
-   "bySource": {},
-   "keyed": 0,
+   "questions": 81,
+   "byBank": {
+    "served": 81
+   },
+   "bySource": {
+    "ncert_textbook": 7,
+    "ai_generated": 74
+   },
+   "keyed": 81,
    "noKey": 0,
-   "keyedPct": 0.0,
-   "keyProvenance": {},
+   "keyedPct": 100.0,
+   "keyProvenance": {
+    "textbook_grounded": 79,
+    "two_model_solved": 2
+   },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 81,
+    "of": 81,
+    "unchecked": 0,
+    "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 0,
-     "pct": 0.0
+     "n": 81,
+     "pct": 100.0
     },
     "topic": {
      "n": 0,
@@ -14238,35 +14248,41 @@
      "pct": 0.0
     },
     "oldChapterIds": {
-     "n": 0,
-     "pct": 0.0
+     "n": 81,
+     "pct": 100.0
     }
    },
    "taggerCovers": true,
    "neverTagged": 0,
    "marks": {
-    "1": 0,
-    "2": 0,
+    "1": 46,
+    "2": 28,
     "3": 0,
-    "4": 0,
-    "5": 0,
+    "4": 4,
+    "5": 3,
     "6+": 0
    },
-   "types": {},
+   "types": {
+    "short_answer": 28,
+    "very_short_answer": 19,
+    "mcq": 27,
+    "case_study": 4,
+    "long_answer": 3
+   },
    "tree": true,
    "untaggedKeyed": 0,
    "chapters": [
     {
      "id": "social-science-6/locating-places-on-the-earth",
      "name": "Locating Places on the Earth",
-     "questions": 0,
-     "marks": 0,
+     "questions": 37,
+     "marks": 68,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 17,
+      "2": 15,
       "3": 0,
-      "4": 0,
-      "5": 0,
+      "4": 4,
+      "5": 1,
       "6+": 0
      },
      "number": 1,
@@ -14319,14 +14335,14 @@
     {
      "id": "social-science-6/oceans-and-continents",
      "name": "Oceans and Continents",
-     "questions": 0,
-     "marks": 0,
+     "questions": 22,
+     "marks": 39,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 11,
+      "2": 9,
       "3": 0,
       "4": 0,
-      "5": 0,
+      "5": 2,
       "6+": 0
      },
      "number": 2,
@@ -14393,11 +14409,11 @@
     {
      "id": "social-science-6/landforms-and-life",
      "name": "Landforms and Life",
-     "questions": 0,
-     "marks": 0,
+     "questions": 22,
+     "marks": 26,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 18,
+      "2": 4,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -15238,9 +15254,6 @@
     }
    ],
    "emptyChapters": [
-    "social-science-6/locating-places-on-the-earth",
-    "social-science-6/oceans-and-continents",
-    "social-science-6/landforms-and-life",
     "social-science-6/timeline-and-sources-of-history",
     "social-science-6/india-that-is-bharat",
     "social-science-6/the-beginnings-of-indian-civilisation",
@@ -15270,8 +15283,6 @@
     "social-science-6/economic-activities-around-us"
    ],
    "chaptersWithout5Mark": [
-    "social-science-6/locating-places-on-the-earth",
-    "social-science-6/oceans-and-continents",
     "social-science-6/landforms-and-life",
     "social-science-6/timeline-and-sources-of-history",
     "social-science-6/india-that-is-bharat",
@@ -15450,45 +15461,46 @@
    "chapterCountsComplete": true,
    "competency": {
     "all": {
-     "n": 0,
-     "competency": 0,
-     "pct": 0.0,
-     "bySignal": {},
+     "n": 81,
+     "competency": 4,
+     "pct": 4.9,
+     "bySignal": {
+      "competencyType": 4
+     },
      "byMarks": {
       "1": 0,
       "2": 0,
       "3": 0,
-      "4": 0,
+      "4": 4,
       "5": 0,
       "6+": 0
      }
     },
     "served": {
-     "n": 0,
-     "competency": 0,
-     "pct": 0.0,
-     "bySignal": {},
+     "n": 81,
+     "competency": 4,
+     "pct": 4.9,
+     "bySignal": {
+      "competencyType": 4
+     },
      "byMarks": {
       "1": 0,
       "2": 0,
       "3": 0,
-      "4": 0,
+      "4": 4,
       "5": 0,
       "6+": 0
      }
     }
    },
-   "servedKeyed": 0,
+   "servedKeyed": 81,
    "papers": {
     "all": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 0,
+       "usable": 74,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -15499,11 +15511,10 @@
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 46,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -15514,13 +15525,10 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
-       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
+       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 77,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 27,
@@ -15531,31 +15539,25 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 3"
       ],
       "competency": {
-       "usable": 0,
-       "competencyBased": 0,
-       "pct": 0.0,
+       "usable": 81,
+       "competencyBased": 4,
+       "pct": 4.9,
        "need": 38,
-       "ceiling": 0,
-       "ceilingPct": 0.0
+       "ceiling": 3,
+       "ceilingPct": 7.9
       }
      }
     },
     "served": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 0,
+       "usable": 74,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -15566,11 +15568,10 @@
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 46,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -15581,13 +15582,10 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
-       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
+       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 77,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 27,
@@ -15598,19 +15596,16 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 3"
       ],
       "competency": {
-       "usable": 0,
-       "competencyBased": 0,
-       "pct": 0.0,
+       "usable": 81,
+       "competencyBased": 4,
+       "pct": 4.9,
        "need": 38,
-       "ceiling": 0,
-       "ceilingPct": 0.0
+       "ceiling": 3,
+       "ceilingPct": 7.9
       }
      }
     }
@@ -15623,20 +15618,31 @@
   {
    "subject": "Social Science",
    "grade": 7,
-   "questions": 0,
-   "byBank": {},
-   "bySource": {},
-   "keyed": 0,
+   "questions": 86,
+   "byBank": {
+    "served": 86
+   },
+   "bySource": {
+    "ncert_textbook": 2,
+    "ai_generated": 84
+   },
+   "keyed": 86,
    "noKey": 0,
-   "keyedPct": 0.0,
-   "keyProvenance": {},
+   "keyedPct": 100.0,
+   "keyProvenance": {
+    "textbook_grounded": 86
+   },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 86,
+    "of": 86,
+    "unchecked": 0,
+    "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 0,
-     "pct": 0.0
+     "n": 86,
+     "pct": 100.0
     },
     "topic": {
      "n": 0,
@@ -15654,28 +15660,33 @@
    "taggerCovers": true,
    "neverTagged": 0,
    "marks": {
-    "1": 0,
-    "2": 0,
+    "1": 53,
+    "2": 28,
     "3": 0,
     "4": 0,
-    "5": 0,
+    "5": 5,
     "6+": 0
    },
-   "types": {},
+   "types": {
+    "short_answer": 28,
+    "mcq": 30,
+    "very_short_answer": 23,
+    "long_answer": 5
+   },
    "tree": true,
    "untaggedKeyed": 0,
    "chapters": [
     {
      "id": "social-science-7/geographical-diversity-of-india",
      "name": "Geographical Diversity of India",
-     "questions": 0,
-     "marks": 0,
+     "questions": 60,
+     "marks": 103,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 32,
+      "2": 23,
       "3": 0,
       "4": 0,
-      "5": 0,
+      "5": 5,
       "6+": 0
      },
      "number": 1,
@@ -16920,11 +16931,11 @@
     {
      "id": "social-science-7/the-story-of-indian-farming",
      "name": "The Story of Indian Farming",
-     "questions": 0,
-     "marks": 0,
+     "questions": 14,
+     "marks": 16,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 12,
+      "2": 2,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -17138,11 +17149,11 @@
     {
      "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries",
      "name": "Empires and Kingdoms: 6th to 10th Centuries",
-     "questions": 0,
-     "marks": 0,
+     "questions": 12,
+     "marks": 15,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 9,
+      "2": 3,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -17819,7 +17830,6 @@
     }
    ],
    "emptyChapters": [
-    "social-science-7/geographical-diversity-of-india",
     "social-science-7/understanding-the-weather",
     "social-science-7/climates-of-india",
     "social-science-7/new-beginnings-cities-and-states",
@@ -17831,9 +17841,7 @@
     "social-science-7/the-constitution-of-india-an-introduction",
     "social-science-7/from-barter-to-money",
     "social-science-7/understanding-markets",
-    "social-science-7/the-story-of-indian-farming",
     "social-science-7/india-and-her-neighbours",
-    "social-science-7/empires-and-kingdoms-6th-to-10th-centuries",
     "social-science-7/turning-tides-11th-and-12th-centuries",
     "social-science-7/india-a-home-to-many",
     "social-science-7/the-state-the-government-and-you",
@@ -17863,7 +17871,6 @@
     "social-science-7/banks-and-the-magic-of-finance"
    ],
    "chaptersWithout5Mark": [
-    "social-science-7/geographical-diversity-of-india",
     "social-science-7/understanding-the-weather",
     "social-science-7/climates-of-india",
     "social-science-7/new-beginnings-cities-and-states",
@@ -18277,7 +18284,7 @@
    "chapterCountsComplete": true,
    "competency": {
     "all": {
-     "n": 0,
+     "n": 86,
      "competency": 0,
      "pct": 0.0,
      "bySignal": {},
@@ -18291,7 +18298,7 @@
      }
     },
     "served": {
-     "n": 0,
+     "n": 86,
      "competency": 0,
      "pct": 0.0,
      "bySignal": {},
@@ -18305,17 +18312,14 @@
      }
     }
    },
-   "servedKeyed": 0,
+   "servedKeyed": 86,
    "papers": {
     "all": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 0,
+       "usable": 81,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -18326,11 +18330,10 @@
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 53,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -18341,13 +18344,10 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
-       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
+       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 86,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 27,
@@ -18358,14 +18358,12 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 5",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 86,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 38,
@@ -18376,13 +18374,10 @@
     },
     "served": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 0,
+       "usable": 81,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -18393,11 +18388,10 @@
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 53,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -18408,13 +18402,10 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
-       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
+       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 86,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 27,
@@ -18425,14 +18416,12 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 5",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 86,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 38,
@@ -18450,20 +18439,31 @@
   {
    "subject": "Social Science",
    "grade": 8,
-   "questions": 0,
-   "byBank": {},
-   "bySource": {},
-   "keyed": 0,
+   "questions": 156,
+   "byBank": {
+    "served": 156
+   },
+   "bySource": {
+    "ncert_textbook": 15,
+    "ai_generated": 141
+   },
+   "keyed": 156,
    "noKey": 0,
-   "keyedPct": 0.0,
-   "keyProvenance": {},
+   "keyedPct": 100.0,
+   "keyProvenance": {
+    "textbook_grounded": 156
+   },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 156,
+    "of": 156,
+    "unchecked": 0,
+    "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 0,
-     "pct": 0.0
+     "n": 156,
+     "pct": 100.0
     },
     "topic": {
      "n": 0,
@@ -18481,28 +18481,34 @@
    "taggerCovers": true,
    "neverTagged": 0,
    "marks": {
-    "1": 0,
-    "2": 0,
+    "1": 93,
+    "2": 53,
     "3": 0,
-    "4": 0,
-    "5": 0,
+    "4": 1,
+    "5": 9,
     "6+": 0
    },
-   "types": {},
+   "types": {
+    "short_answer": 53,
+    "long_answer": 9,
+    "mcq": 55,
+    "very_short_answer": 38,
+    "case_study": 1
+   },
    "tree": true,
    "untaggedKeyed": 0,
    "chapters": [
     {
      "id": "social-science-8/natural-resources-and-their-use",
      "name": "Natural Resources and Their Use",
-     "questions": 0,
-     "marks": 0,
+     "questions": 41,
+     "marks": 82,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 17,
+      "2": 18,
       "3": 0,
-      "4": 0,
-      "5": 0,
+      "4": 1,
+      "5": 5,
       "6+": 0
      },
      "number": 1,
@@ -18583,11 +18589,11 @@
     {
      "id": "social-science-8/reshaping-india-s-political-map",
      "name": "Reshaping India’s Political Map",
-     "questions": 0,
-     "marks": 0,
+     "questions": 17,
+     "marks": 21,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 13,
+      "2": 4,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -19209,14 +19215,14 @@
     {
      "id": "social-science-8/world-geography-some-glimpses",
      "name": "World Geography: Some Glimpses",
-     "questions": 0,
-     "marks": 0,
+     "questions": 36,
+     "marks": 51,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 24,
+      "2": 11,
       "3": 0,
       "4": 0,
-      "5": 0,
+      "5": 1,
       "6+": 0
      },
      "number": 1,
@@ -19283,11 +19289,11 @@
     {
      "id": "social-science-8/india-s-long-road-to-independence",
      "name": "India’s Long Road to Independence",
-     "questions": 0,
-     "marks": 0,
+     "questions": 22,
+     "marks": 27,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 17,
+      "2": 5,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -19767,14 +19773,14 @@
     {
      "id": "social-science-8/the-role-of-the-judiciary-in-our-society",
      "name": "The Role of the Judiciary in Our Society",
-     "questions": 0,
-     "marks": 0,
+     "questions": 40,
+     "marks": 67,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 22,
+      "2": 15,
       "3": 0,
       "4": 0,
-      "5": 0,
+      "5": 3,
       "6+": 0
      },
      "number": 4,
@@ -20360,17 +20366,12 @@
     }
    ],
    "emptyChapters": [
-    "social-science-8/natural-resources-and-their-use",
-    "social-science-8/reshaping-india-s-political-map",
     "social-science-8/the-rise-of-the-marathas",
     "social-science-8/the-colonial-era-in-india",
     "social-science-8/universal-franchise-and-india-s-electoral-system",
     "social-science-8/the-parliamentary-system-legislature-and-executive",
     "social-science-8/factors-of-production",
-    "social-science-8/world-geography-some-glimpses",
-    "social-science-8/india-s-long-road-to-independence",
     "social-science-8/a-journey-through-indian-architecture",
-    "social-science-8/the-role-of-the-judiciary-in-our-society",
     "social-science-8/citizenship-rights-and-duties",
     "social-science-8/dynamics-of-population",
     "social-science-8/india-s-urban-landscape",
@@ -20394,17 +20395,14 @@
     "social-science-8/cultural-currents-13-to-17-centuries"
    ],
    "chaptersWithout5Mark": [
-    "social-science-8/natural-resources-and-their-use",
     "social-science-8/reshaping-india-s-political-map",
     "social-science-8/the-rise-of-the-marathas",
     "social-science-8/the-colonial-era-in-india",
     "social-science-8/universal-franchise-and-india-s-electoral-system",
     "social-science-8/the-parliamentary-system-legislature-and-executive",
     "social-science-8/factors-of-production",
-    "social-science-8/world-geography-some-glimpses",
     "social-science-8/india-s-long-road-to-independence",
     "social-science-8/a-journey-through-indian-architecture",
-    "social-science-8/the-role-of-the-judiciary-in-our-society",
     "social-science-8/citizenship-rights-and-duties",
     "social-science-8/dynamics-of-population",
     "social-science-8/india-s-urban-landscape",
@@ -20761,45 +20759,46 @@
    "chapterCountsComplete": true,
    "competency": {
     "all": {
-     "n": 0,
-     "competency": 0,
-     "pct": 0.0,
-     "bySignal": {},
+     "n": 156,
+     "competency": 1,
+     "pct": 0.6,
+     "bySignal": {
+      "competencyType": 1
+     },
      "byMarks": {
       "1": 0,
       "2": 0,
       "3": 0,
-      "4": 0,
+      "4": 1,
       "5": 0,
       "6+": 0
      }
     },
     "served": {
-     "n": 0,
-     "competency": 0,
-     "pct": 0.0,
-     "bySignal": {},
+     "n": 156,
+     "competency": 1,
+     "pct": 0.6,
+     "bySignal": {
+      "competencyType": 1
+     },
      "byMarks": {
       "1": 0,
       "2": 0,
       "3": 0,
-      "4": 0,
+      "4": 1,
       "5": 0,
       "6+": 0
      }
     }
    },
-   "servedKeyed": 0,
+   "servedKeyed": 156,
    "papers": {
     "all": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 0,
+       "usable": 145,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -20810,11 +20809,10 @@
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 93,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -20825,13 +20823,10 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
-       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
+       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 154,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 27,
@@ -20842,31 +20837,25 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 1"
       ],
       "competency": {
-       "usable": 0,
-       "competencyBased": 0,
-       "pct": 0.0,
+       "usable": 155,
+       "competencyBased": 1,
+       "pct": 0.6,
        "need": 38,
-       "ceiling": 0,
-       "ceilingPct": 0.0
+       "ceiling": 1,
+       "ceilingPct": 2.6
       }
      }
     },
     "served": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 0,
+       "usable": 145,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -20877,11 +20866,10 @@
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 93,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -20892,13 +20880,10 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
-       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
+       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 154,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 27,
@@ -20909,54 +20894,53 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 1"
       ],
       "competency": {
-       "usable": 0,
-       "competencyBased": 0,
-       "pct": 0.0,
+       "usable": 155,
+       "competencyBased": 1,
+       "pct": 0.6,
        "need": 38,
-       "ceiling": 0,
-       "ceilingPct": 0.0
+       "ceiling": 1,
+       "ceilingPct": 2.6
       }
      }
     }
    },
    "excluded": {
-    "n": 0,
-    "byReason": {}
+    "n": 1,
+    "byReason": {
+     "answer-bleed": 1
+    }
    }
   },
   {
    "subject": "Social Science",
    "grade": 9,
-   "questions": 130,
+   "questions": 191,
    "byBank": {
-    "served": 130
+    "served": 191
    },
    "bySource": {
-    "ai_generated": 130
+    "ai_generated": 191
    },
-   "keyed": 130,
+   "keyed": 191,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
-    "textbook_grounded": 130
+    "textbook_grounded": 191
    },
    "verified": {
     "state": "verified",
-    "passed": 130,
-    "of": 130,
+    "passed": 191,
+    "of": 191,
     "unchecked": 0,
     "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 130,
+     "n": 191,
      "pct": 100.0
     },
     "topic": {
@@ -20975,20 +20959,20 @@
    "taggerCovers": true,
    "neverTagged": 130,
    "marks": {
-    "1": 27,
-    "2": 15,
+    "1": 66,
+    "2": 33,
     "3": 26,
-    "4": 25,
-    "5": 37,
+    "4": 26,
+    "5": 40,
     "6+": 0
    },
    "types": {
-    "mcq": 7,
+    "mcq": 32,
+    "short_answer": 44,
+    "very_short_answer": 29,
+    "long_answer": 38,
+    "case_study": 26,
     "assertion_reason": 20,
-    "short_answer": 26,
-    "long_answer": 35,
-    "case_study": 25,
-    "very_short_answer": 15,
     "map_based": 2
    },
    "tree": true,
@@ -20997,14 +20981,14 @@
     {
      "id": "social-science-9/understanding-social-science",
      "name": "Understanding Social Science",
-     "questions": 15,
-     "marks": 46,
+     "questions": 64,
+     "marks": 126,
      "byMarks": {
-      "1": 5,
-      "2": 0,
+      "1": 34,
+      "2": 16,
       "3": 3,
-      "4": 3,
-      "5": 4,
+      "4": 4,
+      "5": 7,
       "6+": 0
      },
      "number": 1,
@@ -21159,11 +21143,11 @@
     {
      "id": "social-science-9/atmosphere-and-climate",
      "name": "Atmosphere and Climate",
-     "questions": 17,
-     "marks": 50,
+     "questions": 29,
+     "marks": 64,
      "byMarks": {
-      "1": 5,
-      "2": 2,
+      "1": 15,
+      "2": 4,
       "3": 3,
       "4": 3,
       "5": 4,
@@ -21917,48 +21901,48 @@
    "chapterCountsComplete": true,
    "competency": {
     "all": {
-     "n": 130,
-     "competency": 45,
-     "pct": 34.6,
+     "n": 191,
+     "competency": 46,
+     "pct": 24.1,
      "bySignal": {
-      "competencyType": 45
+      "competencyType": 46
      },
      "byMarks": {
       "1": 20,
       "2": 0,
       "3": 0,
-      "4": 25,
+      "4": 26,
       "5": 0,
       "6+": 0
      }
     },
     "served": {
-     "n": 130,
-     "competency": 45,
-     "pct": 34.6,
+     "n": 191,
+     "competency": 46,
+     "pct": 24.1,
      "bySignal": {
-      "competencyType": 45
+      "competencyType": 46
      },
      "byMarks": {
       "1": 20,
       "2": 0,
       "3": 0,
-      "4": 25,
+      "4": 26,
       "5": 0,
       "6+": 0
      }
     }
    },
-   "servedKeyed": 130,
+   "servedKeyed": 191,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 42,
+       "usable": 99,
        "competencyBased": 20,
-       "pct": 47.6,
+       "pct": 20.2,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -21968,9 +21952,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 53,
+       "usable": 92,
        "competencyBased": 20,
-       "pct": 37.7,
+       "pct": 21.7,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -21980,9 +21964,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 105,
+       "usable": 165,
        "competencyBased": 20,
-       "pct": 19.0,
+       "pct": 12.1,
        "need": 27,
        "ceiling": 15,
        "ceilingPct": 55.6
@@ -21992,9 +21976,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 130,
-       "competencyBased": 45,
-       "pct": 34.6,
+       "usable": 191,
+       "competencyBased": 46,
+       "pct": 24.1,
        "need": 38,
        "ceiling": 23,
        "ceilingPct": 60.5
@@ -22006,9 +21990,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 42,
+       "usable": 99,
        "competencyBased": 20,
-       "pct": 47.6,
+       "pct": 20.2,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -22018,9 +22002,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 53,
+       "usable": 92,
        "competencyBased": 20,
-       "pct": 37.7,
+       "pct": 21.7,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -22030,9 +22014,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 105,
+       "usable": 165,
        "competencyBased": 20,
-       "pct": 19.0,
+       "pct": 12.1,
        "need": 27,
        "ceiling": 15,
        "ceilingPct": 55.6
@@ -22042,9 +22026,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 130,
-       "competencyBased": 45,
-       "pct": 34.6,
+       "usable": 191,
+       "competencyBased": 46,
+       "pct": 24.1,
        "need": 38,
        "ceiling": 23,
        "ceilingPct": 60.5
@@ -22063,63 +22047,65 @@
   {
    "subject": "Social Science",
    "grade": 10,
-   "questions": 297,
+   "questions": 355,
    "byBank": {
-    "served": 297
+    "served": 355
    },
    "bySource": {
     "cbse_sample_paper": 14,
-    "ai_generated": 283
+    "ncert_textbook": 4,
+    "ai_generated": 337
    },
-   "keyed": 297,
+   "keyed": 355,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
     "cbse_marking_scheme": 14,
-    "textbook_grounded": 283
+    "textbook_grounded": 340,
+    "two_model_solved": 1
    },
    "verified": {
     "state": "verified",
-    "passed": 297,
-    "of": 297,
+    "passed": 355,
+    "of": 355,
     "unchecked": 0,
     "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 293,
-     "pct": 98.7
+     "n": 351,
+     "pct": 98.9
     },
     "topic": {
      "n": 2,
-     "pct": 0.7
+     "pct": 0.6
     },
     "subtopic": {
      "n": 0,
      "pct": 0.0
     },
     "oldChapterIds": {
-     "n": 295,
-     "pct": 99.3
+     "n": 353,
+     "pct": 99.4
     }
    },
    "taggerCovers": true,
    "neverTagged": 283,
    "marks": {
-    "1": 96,
-    "2": 36,
+    "1": 125,
+    "2": 58,
     "3": 54,
-    "4": 48,
-    "5": 63,
+    "4": 51,
+    "5": 67,
     "6+": 0
    },
    "types": {
-    "short_answer": 54,
-    "mcq": 39,
+    "short_answer": 76,
+    "mcq": 56,
+    "very_short_answer": 48,
+    "case_study": 51,
+    "long_answer": 66,
     "assertion_reason": 57,
-    "very_short_answer": 36,
-    "long_answer": 62,
-    "case_study": 48,
     "map_based": 1
    },
    "tree": true,
@@ -23936,50 +23922,50 @@
    "chapterCountsComplete": false,
    "competency": {
     "all": {
-     "n": 297,
-     "competency": 106,
-     "pct": 35.7,
+     "n": 355,
+     "competency": 109,
+     "pct": 30.7,
      "bySignal": {
       "assertionReasonLabels": 1,
-      "competencyType": 105
+      "competencyType": 108
      },
      "byMarks": {
       "1": 58,
       "2": 0,
       "3": 0,
-      "4": 48,
+      "4": 51,
       "5": 0,
       "6+": 0
      }
     },
     "served": {
-     "n": 297,
-     "competency": 106,
-     "pct": 35.7,
+     "n": 355,
+     "competency": 109,
+     "pct": 30.7,
      "bySignal": {
       "assertionReasonLabels": 1,
-      "competencyType": 105
+      "competencyType": 108
      },
      "byMarks": {
       "1": 58,
       "2": 0,
       "3": 0,
-      "4": 48,
+      "4": 51,
       "5": 0,
       "6+": 0
      }
     }
    },
-   "servedKeyed": 297,
+   "servedKeyed": 355,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 132,
+       "usable": 183,
        "competencyBased": 58,
-       "pct": 43.9,
+       "pct": 31.7,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -23989,9 +23975,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 150,
+       "usable": 179,
        "competencyBased": 58,
-       "pct": 38.7,
+       "pct": 32.4,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -24001,9 +23987,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 249,
+       "usable": 304,
        "competencyBased": 58,
-       "pct": 23.3,
+       "pct": 19.1,
        "need": 27,
        "ceiling": 15,
        "ceilingPct": 55.6
@@ -24013,9 +23999,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 297,
-       "competencyBased": 106,
-       "pct": 35.7,
+       "usable": 355,
+       "competencyBased": 109,
+       "pct": 30.7,
        "need": 38,
        "ceiling": 23,
        "ceilingPct": 60.5
@@ -24027,9 +24013,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 132,
+       "usable": 183,
        "competencyBased": 58,
-       "pct": 43.9,
+       "pct": 31.7,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -24039,9 +24025,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 150,
+       "usable": 179,
        "competencyBased": 58,
-       "pct": 38.7,
+       "pct": 32.4,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -24051,9 +24037,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 249,
+       "usable": 304,
        "competencyBased": 58,
-       "pct": 23.3,
+       "pct": 19.1,
        "need": 27,
        "ceiling": 15,
        "ceilingPct": 55.6
@@ -24063,9 +24049,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 297,
-       "competencyBased": 106,
-       "pct": 35.7,
+       "usable": 355,
+       "competencyBased": 109,
+       "pct": 30.7,
        "need": 38,
        "ceiling": 23,
        "ceilingPct": 60.5
@@ -24091,31 +24077,35 @@
   {
    "subject": "English",
    "grade": 6,
-   "questions": 11,
+   "questions": 74,
    "byBank": {
-    "served": 7,
+    "served": 70,
     "cbse-cbe": 4
    },
    "bySource": {
-    "cbse_question_bank": 11
+    "cbse_question_bank": 11,
+    "ncert_textbook": 43,
+    "ai_generated": 20
    },
-   "keyed": 11,
+   "keyed": 74,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
-    "cbse_marking_scheme": 11
+    "cbse_marking_scheme": 11,
+    "textbook_grounded": 42,
+    "two_model_solved": 21
    },
    "verified": {
     "state": "verified",
-    "passed": 11,
-    "of": 11,
+    "passed": 74,
+    "of": 74,
     "unchecked": 0,
     "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 0,
-     "pct": 0.0
+     "n": 63,
+     "pct": 85.1
     },
     "topic": {
      "n": 0,
@@ -24127,24 +24117,25 @@
     },
     "oldChapterIds": {
      "n": 4,
-     "pct": 36.4
+     "pct": 5.4
     }
    },
    "taggerCovers": false,
    "neverTagged": 11,
    "marks": {
-    "1": 6,
-    "2": 4,
+    "1": 38,
+    "2": 34,
     "3": 0,
-    "4": 1,
+    "4": 2,
     "5": 0,
     "6+": 0
    },
    "types": {
-    "very_short_answer": 4,
-    "mcq": 3,
-    "short_answer": 3,
-    "long_answer": 1
+    "very_short_answer": 26,
+    "mcq": 13,
+    "short_answer": 33,
+    "long_answer": 1,
+    "case_study": 1
    },
    "tree": true,
    "untaggedKeyed": 11,
@@ -24152,11 +24143,11 @@
     {
      "id": "english-6/a-bottle-of-dew",
      "name": "A Bottle of Dew",
-     "questions": 0,
-     "marks": 0,
+     "questions": 11,
+     "marks": 16,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 6,
+      "2": 5,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -24169,11 +24160,11 @@
     {
      "id": "english-6/the-raven-and-the-fox",
      "name": "The Raven and the Fox",
-     "questions": 0,
-     "marks": 0,
+     "questions": 10,
+     "marks": 16,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 4,
+      "2": 6,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -24186,13 +24177,13 @@
     {
      "id": "english-6/rama-to-the-rescue",
      "name": "Rama to the Rescue",
-     "questions": 0,
-     "marks": 0,
+     "questions": 16,
+     "marks": 26,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 8,
+      "2": 7,
       "3": 0,
-      "4": 0,
+      "4": 1,
       "5": 0,
       "6+": 0
      },
@@ -24203,11 +24194,11 @@
     {
      "id": "english-6/the-unlikely-best-friends",
      "name": "The Unlikely Best Friends",
-     "questions": 0,
-     "marks": 0,
+     "questions": 11,
+     "marks": 15,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 7,
+      "2": 4,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -24220,11 +24211,11 @@
     {
      "id": "english-6/a-friend-s-prayer",
      "name": "A Friend’s Prayer",
-     "questions": 0,
-     "marks": 0,
+     "questions": 4,
+     "marks": 7,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 1,
+      "2": 3,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -24237,11 +24228,11 @@
     {
      "id": "english-6/the-chair",
      "name": "The Chair",
-     "questions": 0,
-     "marks": 0,
+     "questions": 8,
+     "marks": 12,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 4,
+      "2": 4,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -24305,11 +24296,11 @@
     {
      "id": "english-6/change-of-heart",
      "name": "Change of Heart",
-     "questions": 0,
-     "marks": 0,
+     "questions": 3,
+     "marks": 4,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 2,
+      "2": 1,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -24423,16 +24414,9 @@
     }
    ],
    "emptyChapters": [
-    "english-6/a-bottle-of-dew",
-    "english-6/the-raven-and-the-fox",
-    "english-6/rama-to-the-rescue",
-    "english-6/the-unlikely-best-friends",
-    "english-6/a-friend-s-prayer",
-    "english-6/the-chair",
     "english-6/neem-baba",
     "english-6/what-a-bird-thought",
     "english-6/spices-that-heal-us",
-    "english-6/change-of-heart",
     "english-6/the-winner",
     "english-6/yoga-a-way-of-life",
     "english-6/hamara-bharat-incredible-india",
@@ -24482,51 +24466,50 @@
    "chapterCountsComplete": false,
    "competency": {
     "all": {
-     "n": 11,
-     "competency": 11,
-     "pct": 100.0,
+     "n": 74,
+     "competency": 12,
+     "pct": 16.2,
      "bySignal": {
-      "cbeItemBank": 11
+      "cbeItemBank": 11,
+      "competencyType": 1
      },
      "byMarks": {
       "1": 6,
       "2": 4,
       "3": 0,
-      "4": 1,
+      "4": 2,
       "5": 0,
       "6+": 0
      }
     },
     "served": {
-     "n": 7,
-     "competency": 7,
-     "pct": 100.0,
+     "n": 70,
+     "competency": 8,
+     "pct": 11.4,
      "bySignal": {
-      "cbeItemBank": 7
+      "cbeItemBank": 7,
+      "competencyType": 1
      },
      "byMarks": {
       "1": 3,
       "2": 3,
       "3": 0,
-      "4": 1,
+      "4": 2,
       "5": 0,
       "6+": 0
      }
     }
    },
-   "servedKeyed": 7,
+   "servedKeyed": 70,
    "papers": {
     "all": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 6",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 10,
+       "usable": 72,
        "competencyBased": 10,
-       "pct": 100.0,
+       "pct": 13.9,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -24535,13 +24518,12 @@
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 6",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 6,
+       "usable": 38,
        "competencyBased": 6,
-       "pct": 100.0,
+       "pct": 15.8,
        "need": 15,
        "ceiling": 6,
        "ceilingPct": 40.0
@@ -24550,15 +24532,13 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 6",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 4",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 10,
+       "usable": 72,
        "competencyBased": 10,
-       "pct": 100.0,
+       "pct": 13.9,
        "need": 27,
        "ceiling": 10,
        "ceilingPct": 37.0
@@ -24567,33 +24547,28 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 6",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 1"
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 2"
       ],
       "competency": {
-       "usable": 11,
-       "competencyBased": 11,
-       "pct": 100.0,
+       "usable": 74,
+       "competencyBased": 12,
+       "pct": 16.2,
        "need": 38,
-       "ceiling": 11,
-       "ceilingPct": 28.9
+       "ceiling": 12,
+       "ceilingPct": 31.6
       }
      }
     },
     "served": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 3",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 6,
+       "usable": 68,
        "competencyBased": 6,
-       "pct": 100.0,
+       "pct": 8.8,
        "need": 15,
        "ceiling": 6,
        "ceilingPct": 40.0
@@ -24602,13 +24577,12 @@
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 3",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 3,
+       "usable": 35,
        "competencyBased": 3,
-       "pct": 100.0,
+       "pct": 8.6,
        "need": 15,
        "ceiling": 3,
        "ceilingPct": 20.0
@@ -24617,15 +24591,13 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 3",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 3",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 6,
+       "usable": 68,
        "competencyBased": 6,
-       "pct": 100.0,
+       "pct": 8.8,
        "need": 27,
        "ceiling": 6,
        "ceilingPct": 22.2
@@ -24634,58 +24606,64 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 3",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 1"
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 2"
       ],
       "competency": {
-       "usable": 7,
-       "competencyBased": 7,
-       "pct": 100.0,
+       "usable": 70,
+       "competencyBased": 8,
+       "pct": 11.4,
        "need": 38,
-       "ceiling": 7,
-       "ceilingPct": 18.4
+       "ceiling": 8,
+       "ceilingPct": 21.1
       }
      }
     }
    },
    "excluded": {
-    "n": 4,
+    "n": 11,
     "byReason": {
+     "mcq-answer-unresolved": 4,
+     "passage-unavailable": 3,
      "figure-unavailable": 2,
-     "passage-unavailable": 2
+     "answer-bleed": 1,
+     "options-missing": 1
     }
    }
   },
   {
    "subject": "English",
    "grade": 7,
-   "questions": 44,
+   "questions": 60,
    "byBank": {
+    "served": 16,
     "cbse-cbe": 44
    },
    "bySource": {
+    "ncert_textbook": 11,
+    "ai_generated": 5,
     "cbse_question_bank": 44
    },
-   "keyed": 44,
+   "keyed": 60,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
+    "two_model_solved": 11,
+    "textbook_grounded": 5,
     "cbse_marking_scheme": 44
    },
    "verified": {
     "state": "verified",
-    "passed": 44,
-    "of": 44,
+    "passed": 60,
+    "of": 60,
     "unchecked": 0,
     "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 0,
-     "pct": 0.0
+     "n": 16,
+     "pct": 26.7
     },
     "topic": {
      "n": 0,
@@ -24697,24 +24675,24 @@
     },
     "oldChapterIds": {
      "n": 42,
-     "pct": 95.5
+     "pct": 70.0
     }
    },
    "taggerCovers": false,
    "neverTagged": 44,
    "marks": {
-    "1": 26,
-    "2": 14,
+    "1": 36,
+    "2": 20,
     "3": 4,
     "4": 0,
     "5": 0,
     "6+": 0
    },
    "types": {
-    "long_answer": 4,
-    "short_answer": 10,
-    "very_short_answer": 18,
-    "mcq": 12
+    "mcq": 21,
+    "short_answer": 16,
+    "very_short_answer": 19,
+    "long_answer": 4
    },
    "tree": true,
    "untaggedKeyed": 44,
@@ -24722,11 +24700,11 @@
     {
      "id": "english-7/the-day-the-river-spoke",
      "name": "The Day the River Spoke",
-     "questions": 0,
-     "marks": 0,
+     "questions": 4,
+     "marks": 5,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 3,
+      "2": 1,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -24739,11 +24717,11 @@
     {
      "id": "english-7/try-again",
      "name": "Try Again",
-     "questions": 0,
-     "marks": 0,
+     "questions": 9,
+     "marks": 13,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 5,
+      "2": 4,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -24756,11 +24734,11 @@
     {
      "id": "english-7/three-days-to-see",
      "name": "Three Days to See",
-     "questions": 0,
-     "marks": 0,
+     "questions": 3,
+     "marks": 4,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 2,
+      "2": 1,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -24976,9 +24954,6 @@
     }
    ],
    "emptyChapters": [
-    "english-7/the-day-the-river-spoke",
-    "english-7/try-again",
-    "english-7/three-days-to-see",
     "english-7/animals-birds-and-dr-dolittle",
     "english-7/a-funny-man",
     "english-7/say-the-right-thing",
@@ -25032,9 +25007,9 @@
    "chapterCountsComplete": false,
    "competency": {
     "all": {
-     "n": 44,
+     "n": 60,
      "competency": 44,
-     "pct": 100.0,
+     "pct": 73.3,
      "bySignal": {
       "cbeItemBank": 44
      },
@@ -25048,7 +25023,7 @@
      }
     },
     "served": {
-     "n": 0,
+     "n": 16,
      "competency": 0,
      "pct": 0.0,
      "bySignal": {},
@@ -25062,16 +25037,16 @@
      }
     }
    },
-   "servedKeyed": 0,
+   "servedKeyed": 16,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 40,
+       "usable": 56,
        "competencyBased": 40,
-       "pct": 100.0,
+       "pct": 71.4,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -25083,9 +25058,9 @@
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 4"
       ],
       "competency": {
-       "usable": 30,
+       "usable": 40,
        "competencyBased": 30,
-       "pct": 100.0,
+       "pct": 75.0,
        "need": 15,
        "ceiling": 14,
        "ceilingPct": 93.3
@@ -25098,9 +25073,9 @@
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 44,
+       "usable": 60,
        "competencyBased": 44,
-       "pct": 100.0,
+       "pct": 73.3,
        "need": 27,
        "ceiling": 24,
        "ceilingPct": 88.9
@@ -25114,9 +25089,9 @@
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 44,
+       "usable": 60,
        "competencyBased": 44,
-       "pct": 100.0,
+       "pct": 73.3,
        "need": 38,
        "ceiling": 29,
        "ceilingPct": 76.3
@@ -25125,13 +25100,10 @@
     },
     "served": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ],
+      "possible": true,
+      "reasons": [],
       "competency": {
-       "usable": 0,
+       "usable": 16,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -25142,11 +25114,10 @@
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 10,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -25157,13 +25128,12 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
+       "Section A (MCQ): needs 15 keyed 1-mark questions, has 10",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 16,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 27,
@@ -25174,14 +25144,13 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
+       "Section A (MCQ): needs 20 keyed 1-mark questions, has 10",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 16,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 38,
@@ -25192,30 +25161,44 @@
     }
    },
    "excluded": {
-    "n": 44,
+    "n": 53,
     "byReason": {
      "passage-unavailable": 39,
-     "figure-unavailable": 5
+     "figure-unavailable": 5,
+     "options-missing": 5,
+     "mcq-options-unresolved": 3,
+     "answer-bleed": 1
     }
    }
   },
   {
    "subject": "English",
    "grade": 8,
-   "questions": 0,
-   "byBank": {},
-   "bySource": {},
-   "keyed": 0,
+   "questions": 10,
+   "byBank": {
+    "served": 10
+   },
+   "bySource": {
+    "ai_generated": 9,
+    "ncert_textbook": 1
+   },
+   "keyed": 10,
    "noKey": 0,
-   "keyedPct": 0.0,
-   "keyProvenance": {},
+   "keyedPct": 100.0,
+   "keyProvenance": {
+    "textbook_grounded": 10
+   },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 10,
+    "of": 10,
+    "unchecked": 0,
+    "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 0,
-     "pct": 0.0
+     "n": 10,
+     "pct": 100.0
     },
     "topic": {
      "n": 0,
@@ -25233,25 +25216,29 @@
    "taggerCovers": false,
    "neverTagged": 0,
    "marks": {
-    "1": 0,
-    "2": 0,
+    "1": 6,
+    "2": 4,
     "3": 0,
     "4": 0,
     "5": 0,
     "6+": 0
    },
-   "types": {},
+   "types": {
+    "mcq": 4,
+    "very_short_answer": 2,
+    "short_answer": 4
+   },
    "tree": true,
    "untaggedKeyed": 0,
    "chapters": [
     {
      "id": "english-8/the-wit-that-won-hearts",
      "name": "The Wit that Won Hearts",
-     "questions": 0,
-     "marks": 0,
+     "questions": 3,
+     "marks": 4,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 2,
+      "2": 1,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -25264,11 +25251,11 @@
     {
      "id": "english-8/a-concrete-example",
      "name": "A Concrete Example",
-     "questions": 0,
-     "marks": 0,
+     "questions": 3,
+     "marks": 5,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 1,
+      "2": 2,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -25281,11 +25268,11 @@
     {
      "id": "english-8/wisdom-paves-the-way",
      "name": "Wisdom Paves the Way",
-     "questions": 0,
-     "marks": 0,
+     "questions": 4,
+     "marks": 5,
      "byMarks": {
-      "1": 0,
-      "2": 0,
+      "1": 3,
+      "2": 1,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -25501,9 +25488,6 @@
     }
    ],
    "emptyChapters": [
-    "english-8/the-wit-that-won-hearts",
-    "english-8/a-concrete-example",
-    "english-8/wisdom-paves-the-way",
     "english-8/a-tale-of-valour-major-somnath-sharma-and-the-battle-of-badg",
     "english-8/somebody-s-mother",
     "english-8/verghese-kurien-i-too-had-a-dream",
@@ -25557,7 +25541,7 @@
    "chapterCountsComplete": true,
    "competency": {
     "all": {
-     "n": 0,
+     "n": 10,
      "competency": 0,
      "pct": 0.0,
      "bySignal": {},
@@ -25571,7 +25555,7 @@
      }
     },
     "served": {
-     "n": 0,
+     "n": 10,
      "competency": 0,
      "pct": 0.0,
      "bySignal": {},
@@ -25585,17 +25569,17 @@
      }
     }
    },
-   "servedKeyed": 0,
+   "servedKeyed": 10,
    "papers": {
     "all": {
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 6",
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 2 (2 more at 2 marks are outside difficulty easy/medium)"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 8,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -25606,11 +25590,11 @@
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 6",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 6,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -25621,13 +25605,13 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
+       "Section A (MCQ): needs 15 keyed 1-mark questions, has 6",
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 2 (2 more at 2 marks are outside difficulty easy/medium)",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 8,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 27,
@@ -25638,14 +25622,14 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
+       "Section A (MCQ): needs 20 keyed 1-mark questions, has 6",
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 2 (2 more at 2 marks are outside difficulty easy/medium)",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 8,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 38,
@@ -25658,11 +25642,11 @@
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 6",
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 2 (2 more at 2 marks are outside difficulty easy/medium)"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 8,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -25673,11 +25657,11 @@
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 6",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 6,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -25688,13 +25672,13 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
+       "Section A (MCQ): needs 15 keyed 1-mark questions, has 6",
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 2 (2 more at 2 marks are outside difficulty easy/medium)",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 8,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 27,
@@ -25705,14 +25689,14 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
+       "Section A (MCQ): needs 20 keyed 1-mark questions, has 6",
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 2 (2 more at 2 marks are outside difficulty easy/medium)",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 8,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 38,
@@ -25723,40 +25707,45 @@
     }
    },
    "excluded": {
-    "n": 0,
-    "byReason": {}
+    "n": 2,
+    "byReason": {
+     "mcq-options-unresolved": 1,
+     "passage-unavailable": 1
+    }
    }
   },
   {
    "subject": "English",
    "grade": 9,
-   "questions": 249,
+   "questions": 269,
    "byBank": {
-    "served": 241,
+    "served": 261,
     "cbse-cbe": 8
    },
    "bySource": {
     "cbse_question_bank": 47,
-    "ai_generated": 202
+    "ncert_textbook": 13,
+    "ai_generated": 209
    },
-   "keyed": 249,
+   "keyed": 269,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
     "cbse_marking_scheme": 47,
-    "textbook_grounded": 202
+    "two_model_solved": 9,
+    "textbook_grounded": 213
    },
    "verified": {
     "state": "verified",
-    "passed": 248,
-    "of": 249,
+    "passed": 268,
+    "of": 269,
     "unchecked": 0,
     "pct": 99.6
    },
    "tagged": {
     "chapter": {
-     "n": 202,
-     "pct": 81.1
+     "n": 222,
+     "pct": 82.5
     },
     "topic": {
      "n": 0,
@@ -25768,23 +25757,23 @@
     },
     "oldChapterIds": {
      "n": 13,
-     "pct": 5.2
+     "pct": 4.8
     }
    },
    "taggerCovers": false,
    "neverTagged": 249,
    "marks": {
-    "1": 91,
-    "2": 29,
+    "1": 99,
+    "2": 41,
     "3": 54,
     "4": 0,
     "5": 39,
     "6+": 36
    },
    "types": {
-    "mcq": 40,
-    "short_answer": 122,
-    "very_short_answer": 5,
+    "mcq": 42,
+    "short_answer": 134,
+    "very_short_answer": 11,
     "competency_based": 46,
     "long_answer": 36
    },
@@ -25794,11 +25783,11 @@
     {
      "id": "english-9/how-i-taught-my-grandmother-to-read",
      "name": "How I Taught My Grandmother to Read",
-     "questions": 23,
-     "marks": 73,
+     "questions": 24,
+     "marks": 75,
      "byMarks": {
       "1": 8,
-      "2": 0,
+      "2": 1,
       "3": 7,
       "4": 0,
       "5": 4,
@@ -25828,11 +25817,11 @@
     {
      "id": "english-9/the-pot-maker",
      "name": "The Pot Maker",
-     "questions": 21,
-     "marks": 80,
+     "questions": 40,
+     "marks": 110,
      "byMarks": {
-      "1": 4,
-      "2": 0,
+      "1": 12,
+      "2": 11,
       "3": 7,
       "4": 0,
       "5": 5,
@@ -26100,9 +26089,9 @@
    "chapterCountsComplete": false,
    "competency": {
     "all": {
-     "n": 249,
+     "n": 269,
      "competency": 93,
-     "pct": 37.3,
+     "pct": 34.6,
      "bySignal": {
       "cbeItemBank": 47,
       "competencyType": 46
@@ -26117,9 +26106,9 @@
      }
     },
     "served": {
-     "n": 241,
+     "n": 261,
      "competency": 85,
-     "pct": 35.3,
+     "pct": 32.6,
      "bySignal": {
       "cbeItemBank": 39,
       "competencyType": 46
@@ -26134,16 +26123,16 @@
      }
     }
    },
-   "servedKeyed": 241,
+   "servedKeyed": 261,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 120,
+       "usable": 140,
        "competencyBased": 93,
-       "pct": 77.5,
+       "pct": 66.4,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -26153,9 +26142,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 145,
+       "usable": 153,
        "competencyBased": 64,
-       "pct": 44.1,
+       "pct": 41.8,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -26165,9 +26154,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 213,
+       "usable": 233,
        "competencyBased": 93,
-       "pct": 43.7,
+       "pct": 39.9,
        "need": 27,
        "ceiling": 20,
        "ceilingPct": 74.1
@@ -26179,9 +26168,9 @@
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 213,
+       "usable": 233,
        "competencyBased": 93,
-       "pct": 43.7,
+       "pct": 39.9,
        "need": 38,
        "ceiling": 25,
        "ceilingPct": 65.8
@@ -26193,9 +26182,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 112,
+       "usable": 132,
        "competencyBased": 85,
-       "pct": 75.9,
+       "pct": 64.4,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -26205,9 +26194,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 142,
+       "usable": 150,
        "competencyBased": 61,
-       "pct": 43.0,
+       "pct": 40.7,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -26217,9 +26206,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 205,
+       "usable": 225,
        "competencyBased": 85,
-       "pct": 41.5,
+       "pct": 37.8,
        "need": 27,
        "ceiling": 20,
        "ceilingPct": 74.1
@@ -26231,9 +26220,9 @@
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 205,
+       "usable": 225,
        "competencyBased": 85,
-       "pct": 41.5,
+       "pct": 37.8,
        "need": 38,
        "ceiling": 25,
        "ceilingPct": 65.8
@@ -26242,45 +26231,48 @@
     }
    },
    "excluded": {
-    "n": 11,
+    "n": 12,
     "byReason": {
      "passage-unavailable": 7,
      "stem-fragment": 3,
-     "mcq-answer-unresolved": 1
+     "mcq-answer-unresolved": 1,
+     "mcq-options-unresolved": 1
     }
    }
   },
   {
    "subject": "English",
    "grade": 10,
-   "questions": 386,
+   "questions": 421,
    "byBank": {
-    "served": 383,
+    "served": 418,
     "cbse-cbe": 3
    },
    "bySource": {
     "cbse_question_bank": 13,
     "cbse_sample_paper": 2,
-    "ai_generated": 371
+    "ncert_textbook": 4,
+    "ai_generated": 402
    },
-   "keyed": 386,
+   "keyed": 421,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
     "cbse_marking_scheme": 15,
-    "textbook_grounded": 371
+    "textbook_grounded": 405,
+    "two_model_solved": 1
    },
    "verified": {
     "state": "verified",
-    "passed": 383,
-    "of": 386,
+    "passed": 418,
+    "of": 421,
     "unchecked": 0,
-    "pct": 99.2
+    "pct": 99.3
    },
    "tagged": {
     "chapter": {
-     "n": 371,
-     "pct": 96.1
+     "n": 406,
+     "pct": 96.4
     },
     "topic": {
      "n": 0,
@@ -26291,26 +26283,26 @@
      "pct": 0.0
     },
     "oldChapterIds": {
-     "n": 4,
-     "pct": 1.0
+     "n": 6,
+     "pct": 1.4
     }
    },
    "taggerCovers": false,
    "neverTagged": 386,
    "marks": {
-    "1": 159,
-    "2": 7,
+    "1": 178,
+    "2": 22,
     "3": 81,
     "4": 0,
-    "5": 70,
+    "5": 71,
     "6+": 69
    },
    "types": {
-    "very_short_answer": 5,
-    "short_answer": 158,
-    "competency_based": 84,
-    "mcq": 70,
-    "long_answer": 69
+    "very_short_answer": 12,
+    "short_answer": 173,
+    "mcq": 82,
+    "long_answer": 70,
+    "competency_based": 84
    },
    "tree": false,
    "untaggedKeyed": 15,
@@ -26324,9 +26316,9 @@
    "chapterCountsComplete": false,
    "competency": {
     "all": {
-     "n": 386,
+     "n": 421,
      "competency": 97,
-     "pct": 25.1,
+     "pct": 23.0,
      "bySignal": {
       "cbeItemBank": 13,
       "competencyType": 84
@@ -26341,9 +26333,9 @@
      }
     },
     "served": {
-     "n": 383,
+     "n": 418,
      "competency": 94,
-     "pct": 24.5,
+     "pct": 22.5,
      "bySignal": {
       "cbeItemBank": 10,
       "competencyType": 84
@@ -26358,16 +26350,16 @@
      }
     }
    },
-   "servedKeyed": 383,
+   "servedKeyed": 418,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 166,
+       "usable": 199,
        "competencyBased": 97,
-       "pct": 58.4,
+       "pct": 48.7,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -26377,9 +26369,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 240,
+       "usable": 259,
        "competencyBased": 92,
-       "pct": 38.3,
+       "pct": 35.5,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -26389,9 +26381,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 317,
+       "usable": 351,
        "competencyBased": 97,
-       "pct": 30.6,
+       "pct": 27.6,
        "need": 27,
        "ceiling": 20,
        "ceilingPct": 74.1
@@ -26403,9 +26395,9 @@
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 317,
+       "usable": 351,
        "competencyBased": 97,
-       "pct": 30.6,
+       "pct": 27.6,
        "need": 38,
        "ceiling": 25,
        "ceilingPct": 65.8
@@ -26417,9 +26409,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 163,
+       "usable": 196,
        "competencyBased": 94,
-       "pct": 57.7,
+       "pct": 48.0,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -26429,9 +26421,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 237,
+       "usable": 256,
        "competencyBased": 89,
-       "pct": 37.6,
+       "pct": 34.8,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -26441,9 +26433,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 314,
+       "usable": 348,
        "competencyBased": 94,
-       "pct": 29.9,
+       "pct": 27.0,
        "need": 27,
        "ceiling": 20,
        "ceilingPct": 74.1
@@ -26455,9 +26447,9 @@
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 314,
+       "usable": 348,
        "competencyBased": 94,
-       "pct": 29.9,
+       "pct": 27.0,
        "need": 38,
        "ceiling": 25,
        "ceilingPct": 65.8
@@ -26466,15 +26458,15 @@
     }
    },
    "excluded": {
-    "n": 145,
+    "n": 147,
     "byReason": {
      "no-verified-key": 127,
-     "answer-bleed": 6,
+     "answer-bleed": 7,
      "stem-fragment": 5,
      "stem-too-short": 2,
+     "mcq-answer-unresolved": 2,
      "passage-unavailable": 1,
      "mcq-options-unresolved": 1,
-     "mcq-answer-unresolved": 1,
      "answer-is-question-text": 1,
      "figure-referenced": 1
     }
@@ -26483,20 +26475,30 @@
   {
    "subject": "Hindi",
    "grade": 6,
-   "questions": 0,
-   "byBank": {},
-   "bySource": {},
-   "keyed": 0,
+   "questions": 12,
+   "byBank": {
+    "served": 12
+   },
+   "bySource": {
+    "ai_generated": 12
+   },
+   "keyed": 12,
    "noKey": 0,
-   "keyedPct": 0.0,
-   "keyProvenance": {},
+   "keyedPct": 100.0,
+   "keyProvenance": {
+    "textbook_grounded": 12
+   },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 12,
+    "of": 12,
+    "unchecked": 0,
+    "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 0,
-     "pct": 0.0
+     "n": 12,
+     "pct": 100.0
     },
     "topic": {
      "n": 0,
@@ -26514,14 +26516,19 @@
    "taggerCovers": false,
    "neverTagged": 0,
    "marks": {
-    "1": 0,
-    "2": 0,
+    "1": 6,
+    "2": 5,
     "3": 0,
     "4": 0,
-    "5": 0,
+    "5": 1,
     "6+": 0
    },
-   "types": {},
+   "types": {
+    "very_short_answer": 3,
+    "short_answer": 5,
+    "mcq": 3,
+    "long_answer": 1
+   },
    "tree": false,
    "untaggedKeyed": 0,
    "chapters": [],
@@ -26534,7 +26541,7 @@
    "chapterCountsComplete": true,
    "competency": {
     "all": {
-     "n": 0,
+     "n": 12,
      "competency": 0,
      "pct": 0.0,
      "bySignal": {},
@@ -26548,7 +26555,7 @@
      }
     },
     "served": {
-     "n": 0,
+     "n": 12,
      "competency": 0,
      "pct": 0.0,
      "bySignal": {},
@@ -26562,17 +26569,17 @@
      }
     }
    },
-   "servedKeyed": 0,
+   "servedKeyed": 12,
    "papers": {
     "all": {
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 6",
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3 (2 more at 2 marks are outside difficulty easy/medium)"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 9,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -26583,11 +26590,11 @@
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 6",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 6,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -26598,13 +26605,13 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
+       "Section A (MCQ): needs 15 keyed 1-mark questions, has 6",
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 3 (2 more at 2 marks are outside difficulty easy/medium)",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
+       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 1"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 10,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 27,
@@ -26615,14 +26622,14 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
+       "Section A (MCQ): needs 20 keyed 1-mark questions, has 6",
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3 (2 more at 2 marks are outside difficulty easy/medium)",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 1",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 10,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 38,
@@ -26635,11 +26642,11 @@
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 6",
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3 (2 more at 2 marks are outside difficulty easy/medium)"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 9,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -26650,11 +26657,11 @@
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 6",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 6,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -26665,13 +26672,13 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
+       "Section A (MCQ): needs 15 keyed 1-mark questions, has 6",
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 3 (2 more at 2 marks are outside difficulty easy/medium)",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
+       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 1"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 10,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 27,
@@ -26682,14 +26689,14 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
+       "Section A (MCQ): needs 20 keyed 1-mark questions, has 6",
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3 (2 more at 2 marks are outside difficulty easy/medium)",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 1",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 10,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 38,
@@ -26700,8 +26707,10 @@
     }
    },
    "excluded": {
-    "n": 0,
-    "byReason": {}
+    "n": 3,
+    "byReason": {
+     "garbled-script": 3
+    }
    }
   },
   {
@@ -26924,27 +26933,39 @@
     }
    },
    "excluded": {
-    "n": 0,
-    "byReason": {}
+    "n": 3,
+    "byReason": {
+     "garbled-script": 3
+    }
    }
   },
   {
    "subject": "Hindi",
    "grade": 8,
-   "questions": 0,
-   "byBank": {},
-   "bySource": {},
-   "keyed": 0,
+   "questions": 1,
+   "byBank": {
+    "served": 1
+   },
+   "bySource": {
+    "ai_generated": 1
+   },
+   "keyed": 1,
    "noKey": 0,
-   "keyedPct": 0.0,
-   "keyProvenance": {},
+   "keyedPct": 100.0,
+   "keyProvenance": {
+    "textbook_grounded": 1
+   },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 1,
+    "of": 1,
+    "unchecked": 0,
+    "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 0,
-     "pct": 0.0
+     "n": 1,
+     "pct": 100.0
     },
     "topic": {
      "n": 0,
@@ -26962,14 +26983,16 @@
    "taggerCovers": false,
    "neverTagged": 0,
    "marks": {
-    "1": 0,
+    "1": 1,
     "2": 0,
     "3": 0,
     "4": 0,
     "5": 0,
     "6+": 0
    },
-   "types": {},
+   "types": {
+    "very_short_answer": 1
+   },
    "tree": false,
    "untaggedKeyed": 0,
    "chapters": [],
@@ -26982,7 +27005,7 @@
    "chapterCountsComplete": true,
    "competency": {
     "all": {
-     "n": 0,
+     "n": 1,
      "competency": 0,
      "pct": 0.0,
      "bySignal": {},
@@ -26996,7 +27019,7 @@
      }
     },
     "served": {
-     "n": 0,
+     "n": 1,
      "competency": 0,
      "pct": 0.0,
      "bySignal": {},
@@ -27010,17 +27033,17 @@
      }
     }
    },
-   "servedKeyed": 0,
+   "servedKeyed": 1,
    "papers": {
     "all": {
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 1",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 1,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -27031,11 +27054,11 @@
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 1",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 1,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -27046,13 +27069,13 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
+       "Section A (MCQ): needs 15 keyed 1-mark questions, has 1",
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 1,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 27,
@@ -27063,14 +27086,14 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
+       "Section A (MCQ): needs 20 keyed 1-mark questions, has 1",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 1,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 38,
@@ -27083,11 +27106,11 @@
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 1",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 1,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -27098,11 +27121,11 @@
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 1",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 1,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 15,
@@ -27113,13 +27136,13 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
+       "Section A (MCQ): needs 15 keyed 1-mark questions, has 1",
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 1,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 27,
@@ -27130,14 +27153,14 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
+       "Section A (MCQ): needs 20 keyed 1-mark questions, has 1",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 0,
+       "usable": 1,
        "competencyBased": 0,
        "pct": 0.0,
        "need": 38,
@@ -27148,36 +27171,38 @@
     }
    },
    "excluded": {
-    "n": 0,
-    "byReason": {}
+    "n": 1,
+    "byReason": {
+     "garbled-script": 1
+    }
    }
   },
   {
    "subject": "Hindi",
    "grade": 9,
-   "questions": 265,
+   "questions": 236,
    "byBank": {
-    "served": 265
+    "served": 236
    },
    "bySource": {
-    "ai_generated": 265
+    "ai_generated": 236
    },
-   "keyed": 265,
+   "keyed": 236,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
-    "textbook_grounded": 265
+    "textbook_grounded": 236
    },
    "verified": {
     "state": "verified",
-    "passed": 265,
-    "of": 265,
+    "passed": 236,
+    "of": 236,
     "unchecked": 0,
     "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 265,
+     "n": 236,
      "pct": 100.0
     },
     "topic": {
@@ -27194,21 +27219,21 @@
     }
    },
    "taggerCovers": false,
-   "neverTagged": 265,
+   "neverTagged": 233,
    "marks": {
-    "1": 104,
-    "2": 73,
+    "1": 93,
+    "2": 61,
     "3": 0,
-    "4": 56,
-    "5": 19,
-    "6+": 13
+    "4": 54,
+    "5": 18,
+    "6+": 10
    },
    "types": {
-    "competency_based": 104,
+    "very_short_answer": 38,
     "mcq": 37,
-    "very_short_answer": 36,
-    "short_answer": 75,
-    "long_answer": 13
+    "competency_based": 79,
+    "short_answer": 72,
+    "long_answer": 10
    },
    "tree": true,
    "untaggedKeyed": 0,
@@ -27216,10 +27241,10 @@
     {
      "id": "hindi-9/दो-बैलों-की-कथा",
      "name": "दो बैलों की कथा",
-     "questions": 28,
-     "marks": 58,
+     "questions": 26,
+     "marks": 56,
      "byMarks": {
-      "1": 12,
+      "1": 10,
       "2": 10,
       "3": 0,
       "4": 5,
@@ -27233,11 +27258,11 @@
     {
      "id": "hindi-9/क्-या-लिखूँ",
      "name": "क् या लिखूँ?",
-     "questions": 21,
-     "marks": 48,
+     "questions": 18,
+     "marks": 43,
      "byMarks": {
-      "1": 9,
-      "2": 6,
+      "1": 8,
+      "2": 4,
       "3": 0,
       "4": 3,
       "5": 3,
@@ -27250,10 +27275,10 @@
     {
      "id": "hindi-9/संवा-दहीन",
      "name": "संवा दहीन",
-     "questions": 27,
-     "marks": 78,
+     "questions": 29,
+     "marks": 80,
      "byMarks": {
-      "1": 9,
+      "1": 11,
       "2": 6,
       "3": 0,
       "4": 6,
@@ -27318,15 +27343,15 @@
     {
      "id": "hindi-9/मैं-और-मेरा-देश",
      "name": "मैं और मेरा देश",
-     "questions": 27,
-     "marks": 78,
+     "questions": 19,
+     "marks": 44,
      "byMarks": {
-      "1": 9,
-      "2": 6,
+      "1": 8,
+      "2": 5,
       "3": 0,
-      "4": 6,
-      "5": 3,
-      "6+": 3
+      "4": 4,
+      "5": 2,
+      "6+": 0
      },
      "number": 7,
      "book": "Ganga",
@@ -27352,11 +27377,11 @@
     {
      "id": "hindi-9/पद",
      "name": "पद",
-     "questions": 16,
-     "marks": 30,
+     "questions": 14,
+     "marks": 27,
      "byMarks": {
-      "1": 8,
-      "2": 5,
+      "1": 7,
+      "2": 4,
       "3": 0,
       "4": 3,
       "5": 0,
@@ -27386,11 +27411,11 @@
     {
      "id": "hindi-9/भा-रति-जय-विजयकरे",
      "name": "भा रति, जय, विजयकरे!",
-     "questions": 18,
-     "marks": 33,
+     "questions": 12,
+     "marks": 24,
      "byMarks": {
-      "1": 9,
-      "2": 6,
+      "1": 6,
+      "2": 3,
       "3": 0,
       "4": 3,
       "5": 0,
@@ -27403,11 +27428,11 @@
     {
      "id": "hindi-9/झाँ-सी-की-रा-नी",
      "name": "झाँ सी की रा नी",
-     "questions": 22,
-     "marks": 50,
+     "questions": 21,
+     "marks": 48,
      "byMarks": {
       "1": 9,
-      "2": 6,
+      "2": 5,
       "3": 0,
       "4": 6,
       "5": 1,
@@ -27420,10 +27445,10 @@
     {
      "id": "hindi-9/घर-की-या-द",
      "name": "घर की या द",
-     "questions": 25,
-     "marks": 74,
+     "questions": 24,
+     "marks": 73,
      "byMarks": {
-      "1": 9,
+      "1": 8,
       "2": 4,
       "3": 0,
       "4": 6,
@@ -27490,15 +27515,15 @@
    "chapterCountsComplete": true,
    "competency": {
     "all": {
-     "n": 265,
-     "competency": 104,
-     "pct": 39.2,
+     "n": 236,
+     "competency": 79,
+     "pct": 33.5,
      "bySignal": {
-      "competencyType": 104
+      "competencyType": 79
      },
      "byMarks": {
-      "1": 67,
-      "2": 37,
+      "1": 54,
+      "2": 25,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -27506,15 +27531,15 @@
      }
     },
     "served": {
-     "n": 265,
-     "competency": 104,
-     "pct": 39.2,
+     "n": 236,
+     "competency": 79,
+     "pct": 33.5,
      "bySignal": {
-      "competencyType": 104
+      "competencyType": 79
      },
      "byMarks": {
-      "1": 67,
-      "2": 37,
+      "1": 54,
+      "2": 25,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -27522,16 +27547,16 @@
      }
     }
    },
-   "servedKeyed": 265,
+   "servedKeyed": 236,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 177,
-       "competencyBased": 104,
-       "pct": 58.8,
+       "usable": 154,
+       "competencyBased": 79,
+       "pct": 51.3,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -27543,9 +27568,9 @@
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 104,
-       "competencyBased": 67,
-       "pct": 64.4,
+       "usable": 93,
+       "competencyBased": 54,
+       "pct": 58.1,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -27557,9 +27582,9 @@
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 196,
-       "competencyBased": 104,
-       "pct": 53.1,
+       "usable": 172,
+       "competencyBased": 79,
+       "pct": 45.9,
        "need": 27,
        "ceiling": 20,
        "ceilingPct": 74.1
@@ -27571,9 +27596,9 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0"
       ],
       "competency": {
-       "usable": 252,
-       "competencyBased": 104,
-       "pct": 41.3,
+       "usable": 226,
+       "competencyBased": 79,
+       "pct": 35.0,
        "need": 38,
        "ceiling": 25,
        "ceilingPct": 65.8
@@ -27585,9 +27610,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 177,
-       "competencyBased": 104,
-       "pct": 58.8,
+       "usable": 154,
+       "competencyBased": 79,
+       "pct": 51.3,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -27599,9 +27624,9 @@
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 104,
-       "competencyBased": 67,
-       "pct": 64.4,
+       "usable": 93,
+       "competencyBased": 54,
+       "pct": 58.1,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -27613,9 +27638,9 @@
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 196,
-       "competencyBased": 104,
-       "pct": 53.1,
+       "usable": 172,
+       "competencyBased": 79,
+       "pct": 45.9,
        "need": 27,
        "ceiling": 20,
        "ceilingPct": 74.1
@@ -27627,9 +27652,9 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0"
       ],
       "competency": {
-       "usable": 252,
-       "competencyBased": 104,
-       "pct": 41.3,
+       "usable": 226,
+       "competencyBased": 79,
+       "pct": 35.0,
        "need": 38,
        "ceiling": 25,
        "ceilingPct": 65.8
@@ -27638,8 +27663,10 @@
     }
    },
    "excluded": {
-    "n": 0,
-    "byReason": {}
+    "n": 36,
+    "byReason": {
+     "garbled-script": 36
+    }
    }
   },
   {
@@ -27870,30 +27897,31 @@
   }
  ],
  "excluded": {
-  "records": 4815,
-  "inScope": 2181,
-  "outOfScope": 2634,
+  "records": 4943,
+  "inScope": 2249,
+  "outOfScope": 2694,
   "byReason": {
    "no-verified-key": 3214,
-   "answer-bleed": 293,
-   "mcq-answer-unresolved": 276,
-   "mcq-options-unresolved": 190,
+   "answer-bleed": 302,
+   "mcq-answer-unresolved": 287,
+   "mcq-options-unresolved": 196,
+   "garbled-script": 171,
    "figure-referenced": 133,
    "figure-unavailable": 123,
-   "garbled-script": 112,
-   "duplicate-stem": 78,
-   "stem-fragment": 70,
-   "passage-unavailable": 49,
+   "duplicate-stem": 79,
+   "stem-fragment": 71,
+   "passage-unavailable": 51,
    "mcq-marks-implausible": 43,
    "scrambled-math": 41,
    "scheme-marks-unallocated": 40,
-   "options-missing": 22,
-   "symbol-loss": 19,
+   "stem-too-short": 35,
+   "options-missing": 29,
+   "symbol-loss": 21,
    "stem-spans-sections": 19,
    "header-as-stem": 13,
-   "stem-too-short": 12,
    "parts-detached": 12,
    "key-rejected": 11,
+   "answer-is-question-text": 10,
    "stem-runs-on": 9,
    "option-labels-collide": 6,
    "private-use-glyph": 5,
@@ -27901,7 +27929,6 @@
    "fraction-doubled": 4,
    "mcq-part-of-group": 4,
    "key-covers-one-part": 3,
-   "answer-is-question-text": 3,
    "figure-shown-below": 3,
    "stem-empty-after-strip": 2,
    "page-furniture": 1,
@@ -27911,17 +27938,18 @@
    "cbse_board_paper": 3267,
    "cbse_sample_paper": 1091,
    "cbse_question_bank": 356,
+   "ai_generated": 91,
    "ncert_exemplar": 73,
-   "ai_generated": 28
+   "ncert_textbook": 65
   }
  },
- "builtAt": "2026-10-13",
+ "builtAt": "2026-10-14",
  "inputs": [
   {
    "label": "served",
    "path": "academicos-data/syllabus/questions.json",
-   "sha256": "76afdceb703ca8244281d7529eefc9bcc55a162076849f0a859f19ea04bc56c2",
-   "records": 6955
+   "sha256": "d881c5f9d31150df769e2d9d6b7da9787966b4edd7a56ae21cb16d84911e1549",
+   "records": 8974
   },
   {
    "label": "ncert-exemplar",
@@ -27938,8 +27966,8 @@
   {
    "label": "excluded",
    "path": "academicos-data/syllabus/_merge_excluded.json",
-   "sha256": "2f94062da650a91a144a5893f6e6a7ee64ce2ffffaf63194fcfb63ff32edf0f7",
-   "records": 4815
+   "sha256": "d313a555f0c5d801cbcecc7be827441a8b1edee563b7e5dcfaa2efe043502bea",
+   "records": 4943
   }
  ],
  "excludedPath": "academicos-data/syllabus/_merge_excluded.json",

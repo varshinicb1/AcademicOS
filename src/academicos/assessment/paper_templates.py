@@ -1074,7 +1074,8 @@ def _pick(pool: list[QuestionSchema], section: TemplateSection, n: int, *,
             return False
         return True
 
-    def take(from_list: list[QuestionSchema]) -> Optional[QuestionSchema]:
+    def take(from_list: list[QuestionSchema],
+             wider: Optional[list[QuestionSchema]] = None) -> Optional[QuestionSchema]:
         cbq_now = sum(1 for q in picked if is_competency_question(q))
         if cbq_now < cbq_target:
             # A question from the teacher's recent papers comes back for being
@@ -1082,14 +1083,20 @@ def _pick(pool: list[QuestionSchema], section: TemplateSection, n: int, *,
             # naming none, CBSE's 50%: preferring them all would reprint every
             # one of a small bank's on each new paper (QA P-03).
             reuse = named or cbq_now < cbq_floor
-            for q in from_list:
+            # A section that names no share takes them wherever the bank has
+            # them, of another difficulty before a question that is not one:
+            # read within the slot's difficulty alone, the class 9-10 Social
+            # Science papers fell from CBSE's 50% to 25-35% once the textbook
+            # transcriptions brought easy recall questions into a bank whose
+            # competency-based ones are all medium (2026-10-14).
+            for q in [*from_list, *([] if named else wider or [])]:
                 if is_competency_question(q) and usable(q) and (reuse or q.id not in stale):
                     return q
         return next((q for q in from_list if usable(q)), None)
 
     for difficulty, count in targets:
         for _ in range(count):
-            q = take([c for c in remaining if difficulty is None or c.difficulty == difficulty])
+            q = take([c for c in remaining if difficulty is None or c.difficulty == difficulty], remaining)
             if q is None:
                 break
             picked.append(q)

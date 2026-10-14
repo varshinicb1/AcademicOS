@@ -68,11 +68,24 @@ def test_printed_book_subject_names_the_tree_file(tmp_path):
     # the tree has to be EVS_3.json or nothing downstream will find it.
     mod = _script()
     book = dict(BOOK, code="ceev1", **{"class": 3, "subject": "The World Around Us"})
-    tr, ct = _write(tmp_path, book, 1, "My Body", [_topic(1)], "[page 5]\nstart of 1\n")
+    # Chapter 99: one the book's list does not hold, so the title names it.
+    tr, ct = _write(tmp_path, book, 99, "My Body", [_topic(1)], "[page 5]\nstart of 1\n")
     trees, _ = mod.collect(tr, ct)
     assert set(trees) == {("EVS", 3)}
     [(chapter)] = trees[("EVS", 3)]["chapters"]
     assert chapter["id"] == tb.chapter_id("EVS", 3, "My Body")
+
+
+def test_a_listed_chapter_takes_the_books_id_and_name_whatever_the_transcription_titles_it(tmp_path):
+    """Two transcriptions titled a chapter by its unit or opening heading ("Fun with Friends" for
+    Santoor 3's "Colours"), and the tree named a chapter no record carries: the book's own list
+    (ncert_books.json, by book and number) names it, as build_textbook_bank files its questions."""
+    mod = _script()
+    book = dict(BOOK, code="ceev1", **{"class": 3, "subject": "The World Around Us"})
+    tr, ct = _write(tmp_path, book, 1, "My Body", [_topic(1)], "[page 5]\nstart of 1\n")
+    trees, _ = mod.collect(tr, ct)
+    [(chapter)] = trees[("EVS", 3)]["chapters"]
+    assert (chapter["id"], chapter["name"]) == ("evs-3/family-and-friends", "Family and Friends")
 
 
 def test_a_heading_gets_the_page_it_prints_on(tmp_path):

@@ -42,28 +42,31 @@ def _printed_total(paper: dict) -> int:
 
 
 @pytest.fixture(scope="module")
-def real_english_10(tmp_path_factory):
+def real_english_8(tmp_path_factory):
     if not _REAL_BANK.exists():
         pytest.skip("the served question bank is not in this checkout")
     from academicos.config import Config
 
     cfg = Config(data_root=tmp_path_factory.mktemp("bank"))
     cfg._load_baked_questions = True
-    return pool_mod.build_pool(cfg, subject="English", grade="X")
+    return pool_mod.build_pool(cfg, subject="English", grade="VIII")
 
 
 def test_a_short_quick_paper_says_so_and_prints_its_real_total(
-        tmp_path, monkeypatch, real_english_10):
-    monkeypatch.setitem(pool_mod._CACHE, ("English", "X"), real_english_10)
+        tmp_path, monkeypatch, real_english_8):
+    # A real bank that cannot fill the paper. The audit's was English 10 (20 of 80 marks); since
+    # the class 9-10 and textbook questions (2026-10-14) it fills all 80, and English 8 -- ten
+    # NCERT textbook questions -- is short the way it was.
+    monkeypatch.setitem(pool_mod._CACHE, ("English", "VIII"), real_english_8)
     with _boot_client(tmp_path, monkeypatch) as client:
         t = _register(client, "school_1", "ana@example.com")
-        r = client.post(QUICK, json={"subject": "English", "grade": 10, "totalMarks": 80},
+        r = client.post(QUICK, json={"subject": "English", "grade": 8, "totalMarks": 80},
                         headers=t)
         assert r.status_code == 200, r.text
         paper = r.json()
 
         real = _printed_total(paper)
-        assert 0 < real < 80, "the audit measured 20 of 80 on this bank"
+        assert 0 < real < 80, "the English 8 bank holds ten questions"
         # The header states what the paper holds, never what was asked for.
         assert paper["metadata"]["totalMarks"] == real
         assert f"Maximum Marks: {real}" in paper["formattedContent"]

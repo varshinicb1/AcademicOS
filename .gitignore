@@ -138,7 +138,9 @@ academicos-data/corpus/cbse-sqp/*/*.pdf
 
 # Test copies of corpora that live in the data directory. These were made in the
 # worktree so the merge and tag runs had something to read; the originals are not
-# in the repository and neither should the copies be.
+# in the repository and neither should the copies be. corpus/ncert-textbook/ is no
+# longer one of them: since 2026-10-14 it is a served source, built by
+# scripts/build_textbook_bank.py from the bank-pipeline transcriptions, and committed
+# like corpus/ai-cbse-9-10.
 academicos-data/corpus/cbse-board/
 academicos-data/corpus/cbse-sqpt/
-academicos-data/corpus/ncert-textbook/
