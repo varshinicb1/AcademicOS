@@ -20,7 +20,7 @@ import dataclasses
 import time
 import uuid
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Literal, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import Field
@@ -131,6 +131,9 @@ class GenerateFromTemplateRequest(Camel):
     # As QuickPaperRequest.teacher_seconds: the builder session, from opening
     # the builder to pressing Generate, as the web app measured it.
     teacher_seconds: Optional[float] = Field(None, ge=0, le=86_400)
+    # R-C4: a Foundation or Advanced version, acting only where the bank's questions carry a
+    # judged or measured difficulty (`paper_templates.tier_order`); a note says so where none do.
+    tier: Literal["foundation", "standard", "advanced"] = "standard"
 
 
 class TemplatePaperResponse(Camel):
@@ -340,7 +343,8 @@ def _names_scope(scope: TemplateScope) -> bool:
 def _plan(template: PaperTemplate, scope: Optional[TemplateScope], *,
           fill_from_outside_scope: bool = False,
           stale: frozenset[str] = frozenset(),
-          school_id: Optional[str] = None) -> tuple[AvailabilityReport, list[SectionPlan]]:
+          school_id: Optional[str] = None,
+          tier: str = "standard") -> tuple[AvailabilityReport, list[SectionPlan]]:
     """`plan` over the template's bank and scope, with the competency and
     tier checks attached to the report.
 
@@ -363,7 +367,7 @@ def _plan(template: PaperTemplate, scope: Optional[TemplateScope], *,
     scope_filter = build_scope_filter(template.scope, candidates, subtopic_questions)
     report, plans = plan(template, template.id, candidates, scope_filter,
                          fill_from_outside_scope=fill_from_outside_scope, stale=stale,
-                         keyed_ids=bank.keyed)
+                         keyed_ids=bank.keyed, tier=tier)
     whole_plans = None
     if _names_scope(template.scope):
         _, whole_plans = plan(template, template.id, candidates,
@@ -421,7 +425,7 @@ def generate_from_template(
     stale = frozenset(req.avoid_question_ids) | frozenset(
         _recent_ids(current.id, template.grade, template.subject))
     report, plans = _plan(template, None, fill_from_outside_scope=req.fill_from_outside_scope,
-                          stale=stale, school_id=current.school_id)
+                          stale=stale, school_id=current.school_id, tier=req.tier)
 
     # The gaps are the availability report's own: one plan run decides both.
     gaps: list[SectionAvailability] = [p.availability for p in plans if p.availability.shortfall]

@@ -6099,6 +6099,16 @@
             "title": "Templateid",
             "type": "string"
           },
+          "tier": {
+            "default": "standard",
+            "enum": [
+              "foundation",
+              "standard",
+              "advanced"
+            ],
+            "title": "Tier",
+            "type": "string"
+          },
           "title": {
             "anyOf": [
               {

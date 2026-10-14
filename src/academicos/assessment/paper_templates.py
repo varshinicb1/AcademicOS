@@ -642,6 +642,7 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
          scope: ScopeFilter, *, fill_from_outside_scope: bool = False,
          stale: frozenset[str] = frozenset(),
          keyed_ids: Optional[frozenset[str]] = None,
+         tier: str = "standard",
          ) -> tuple[AvailabilityReport, list[SectionPlan]]:
     """Walks the sections in order, each claiming its questions so a later
     section with the same mark value only counts what is left.
@@ -703,13 +704,13 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
                                        and scope.in_scope(q)])
 
         needed = section.question_count
-        picked = _pick(eligible, section, needed, avoid=printed, stale=stale)
+        picked = _pick(eligible, section, needed, avoid=printed, stale=stale, tier=tier)
         printed.extend(picked)
         borrowed: list[QuestionSchema] = []
         notes: list[str] = []
         if len(picked) < needed and fill_from_outside_scope and outside:
             borrowed = _pick(outside, section, needed - len(picked), avoid=printed,
-                             stale=stale)
+                             stale=stale, tier=tier)
             printed.extend(borrowed)
             notes.append(
                 f"{section.title}: {len(borrowed)} question(s) taken from outside the "
@@ -1033,9 +1034,24 @@ def clashes(q: QuestionSchema, printed: list[QuestionSchema]) -> Optional[Questi
     return None
 
 
+def tier_order(ranked: list[QuestionSchema], tier: str) -> list[QuestionSchema]:
+    """`ranked` -- best first, the chapters taken in turn (`_order`) -- re-ordered for a
+    Foundation or Advanced version of the paper (R-C4, EX-3).
+
+    Only a difficulty someone judged or measured may move a question:
+    `selection.difficulty_signal(q)` is "easy", "medium" or "hard", or None where the
+    record's value was inferred from its marks, and a None must not move. A Standard
+    paper is the order as it is. `_pick` then takes from this order slot by slot, the
+    template's difficulty mix and competency-first rule still deciding which slot."""
+    if tier == "standard":
+        return ranked
+    # TODO(R-C4): the Foundation / Advanced rule, in 5-10 lines.
+    return ranked
+
+
 def _pick(pool: list[QuestionSchema], section: TemplateSection, n: int, *,
           avoid: Optional[list[QuestionSchema]] = None,
-          stale: frozenset[str] = frozenset()) -> list[QuestionSchema]:
+          stale: frozenset[str] = frozenset(), tier: str = "standard") -> list[QuestionSchema]:
     """Up to `n` questions honouring the section's difficulty mix and
     competency share as far as the pool allows. When a difficulty runs out,
     the slot goes to the nearest other difficulty rather than staying empty:
@@ -1046,7 +1062,7 @@ def _pick(pool: list[QuestionSchema], section: TemplateSection, n: int, *,
         return []
 
     printed = list(avoid or [])
-    remaining = _order(pool, stale)
+    remaining = tier_order(_order(pool, stale), tier)
     targets = _difficulty_targets(section.difficulty_mix, n)
     # A section that names no competency share takes competency-based
     # questions first, wherever the bank has them. Only the presets'
