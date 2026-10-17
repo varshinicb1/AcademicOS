@@ -41,11 +41,11 @@ LIFETIME = timedelta(minutes=10)
 MAX_ATTEMPTS = 5
 ROLES = ("principal", "student", "parent")
 
-_request_limiter = RateLimiter(max_requests=5, window_seconds=600)
-_verify_limiter = RateLimiter(max_requests=20, window_seconds=600)
+_request_limiter = RateLimiter(max_requests=5, window_seconds=600, name="code_request")
+_verify_limiter = RateLimiter(max_requests=20, window_seconds=600, name="code_verify")
 # At most 30 tries a day per email: a guesser's chance is 1 in about 33,000 a
 # day, where the 10-minute limit alone allows 2,880 tries a day.
-_daily_verify_limiter = RateLimiter(max_requests=30, window_seconds=86400)
+_daily_verify_limiter = RateLimiter(max_requests=30, window_seconds=86400, name="code_verify_daily")
 
 
 def _hash(email: str, code: str) -> str:

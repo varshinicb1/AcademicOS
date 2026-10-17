@@ -237,3 +237,14 @@ CREATE TABLE IF NOT EXISTS learner_models (
     student_id TEXT PRIMARY KEY,
     payload    JSONB
 );
+
+-- -- rate_limit_hits (not created here) ----------------------------------------
+-- The shared rate limiter (src/academicos/api/rate_limit.py, R-A3) creates its
+-- own table on first use, because its rows are disposable hits and no store
+-- reads them; /health/storage does not list it. If the app's database user
+-- may not create tables, run this once instead:
+--
+--   create table if not exists rate_limit_hits (limiter text not null,
+--     key text not null, at timestamptz not null default now());
+--   create index if not exists idx_rate_limit_hits
+--     on rate_limit_hits (limiter, key, at);
