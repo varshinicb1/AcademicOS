@@ -41,9 +41,10 @@ import re
 import sqlite3
 import threading
 import weakref
+from contextlib import contextmanager
 from functools import lru_cache
 from pathlib import Path
-from typing import Any, Iterable, Optional, Sequence
+from typing import Any, Iterable, Iterator, Optional, Sequence
 
 logger = logging.getLogger(__name__)
 
@@ -269,6 +270,8 @@ def translate(sql: str) -> Translated:
     ed = _Edits(sql)
     for m in re.finditer(r"\bIS\s+(NOT\s+)?\?", masked, re.I):
         ed.replace(m.start(), m.end(), "IS DISTINCT FROM ?" if m.group(1) else "IS NOT DISTINCT FROM ?")
+    for m in re.finditer(r"\b(WHERE|AND|OR|ON|WHEN)\s+([01])\b(?!\s*[-+*/%=<>!|.])", masked, re.I):
+        ed.replace(m.start(2), m.end(2), "TRUE" if m.group(2) == "1" else "FALSE")
     for m in re.finditer(r"\bLIKE\b", masked, re.I):
         ed.replace(m.start(), m.end(), "ILIKE")
     for m in re.finditer(r"\bCOLLATE\s+NOCASE\b", masked, re.I):
@@ -631,10 +634,13 @@ class Connection:
                 self._conn.execute("ROLLBACK TO SAVEPOINT acos_s")
                 self._conn.execute("RELEASE SAVEPOINT acos_s")
         except Exception:  # noqa: BLE001 - the savepoint itself never started: roll the transaction back
+            logger.warning("store %s: rolling back the transaction after a failed statement", self.schema,
+                           exc_info=True)
             try:
                 self._conn.rollback()
             except Exception:  # noqa: BLE001 - a broken connection is reopened by the next _ensure
-                pass
+                logger.warning("store %s: rollback failed; the connection reopens on next use", self.schema,
+                               exc_info=True)
             self._dirty = False
 
     def execute(self, sql: str, params: Any = ()) -> Cursor:
@@ -715,6 +721,45 @@ class Connection:
         with psycopg.connect(**self._dsn, autocommit=True) as conn:
             for t in tables:
                 conn.execute(f'VACUUM {self.schema}."{t}"')
+
+
+_PROCESS_LOCKS: dict[str, threading.Lock] = {}
+_PROCESS_LOCKS_GUARD = threading.Lock()
+
+
+@contextmanager
+def exclusive(conn: Any, name: str) -> Iterator[bool]:
+    """At most one holder of `name` across threads and, for a store on Postgres, across instances:
+    yields True to the holder and False to anyone who arrives meanwhile, who should skip this round.
+
+    For the work every instance starts on its own (the automations every five minutes of traffic,
+    notification delivery), where a check-then-act sequence run twice at once sends things twice.
+    Postgres side: a session advisory lock, keyed by the store's schema and `name`; it is reentrant
+    within a session, which is why the process lock comes first."""
+    with _PROCESS_LOCKS_GUARD:
+        local = _PROCESS_LOCKS.setdefault(f"{getattr(conn, 'schema', id(conn))}:{name}", threading.Lock())
+    if not local.acquire(blocking=False):
+        yield False
+        return
+    try:
+        if not isinstance(conn, Connection):
+            yield True
+            return
+        key = f"{conn.schema}:{name}"
+        got = conn._run("SELECT pg_try_advisory_lock(hashtext(%s))", [key], write=False)._rows[0][0]
+        if not got:
+            yield False
+            return
+        try:
+            yield True
+        finally:
+            try:
+                conn._run("SELECT pg_advisory_unlock(hashtext(%s))", [key], write=False)
+            except sqlite3.Error:
+                logger.warning("store %s: could not release lock %s; it ends with the connection",
+                               conn.schema, name, exc_info=True)
+    finally:
+        local.release()
 
 
 def connect(kind: str, db_path: Path) -> Connection:

@@ -23,6 +23,7 @@ import pytest
 import requests
 
 from academicos.storage import blobs
+from store_backend import sqlite_only
 
 ROOT = Path(__file__).resolve().parents[1]
 BUCKET = "school-media"
@@ -126,6 +127,7 @@ def _install_fake_gcs(monkeypatch, client: FakeGcsClient) -> None:
     monkeypatch.setitem(sys.modules, "google.cloud.storage", storage_mod)
 
 
+@sqlite_only
 def test_copies_snapshot_and_nested_scan_media_then_the_store_boots_from_it(
         env, tmp_path: Path) -> None:
     snapshot = _sqlite_bytes(tmp_path, ["cbse", "icse"])

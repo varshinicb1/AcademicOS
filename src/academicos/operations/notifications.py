@@ -493,7 +493,11 @@ class NotificationsMixin(MessagingMixin):
                 return sent
             try:
                 self._deliver_again = False
-                sent += self._deliver_pass(now or datetime.now(timezone.utc))
+                # Across instances too: each one's pass read the same due rows (pg_sqlite.exclusive).
+                from ..storage.pg_sqlite import exclusive
+                with exclusive(self.conn, "deliveries") as mine:
+                    if mine:
+                        sent += self._deliver_pass(now or datetime.now(timezone.utc))
             finally:
                 lock.release()
         return sent
