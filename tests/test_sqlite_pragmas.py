@@ -32,6 +32,9 @@ WAL_EXEMPT = {
     ("assessment/question_bank.py", "_load"):
         "opened read-only via a `mode=ro` URI; setting the journal mode is a "
         "write and raises 'attempt to write a readonly database'",
+    ("storage/migrate_stores.py", "migrate_store"):
+        "R-A1's copy reads a snapshot read-only (`mode=ro`) to copy it into "
+        "Postgres; the journal mode is a write",
 }
 
 

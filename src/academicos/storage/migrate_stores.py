@@ -80,6 +80,7 @@ def migrate_store(kind: str, sqlite_path: Path) -> dict:
 
     import psycopg
     src = sqlite3.connect(f"file:{sqlite_path.as_posix()}?mode=ro", uri=True)
+    src.execute("PRAGMA busy_timeout=60000")      # AGENTS.md section 5; WAL is a write, not set read-only
     counts: dict[str, int] = {}
     with psycopg.connect(**pg_sqlite._dsn()) as dst:
         dst.execute(f"SET search_path TO {schema}")
@@ -219,7 +220,7 @@ def main(argv: list[str] | None = None) -> int:
             try:
                 durable_blob_store(purpose).upload(MOVED_MARKER, note, "text/plain")
             except BlobConflict:
-                pass                    # marked by an earlier run of the cutover: it stays as it was
+                print(f"{kind}: {purpose} was already marked by an earlier run; left as it was")
             print(f"{kind}: marked moved in {purpose}")
     if a.latency:
         summary["round_trip_ms"] = round(round_trip_ms(), 3)

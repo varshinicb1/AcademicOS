@@ -80,7 +80,7 @@ def refuse_if_moved(purpose: str) -> None:
     sets ACOS_STORE_BACKEND=sqlite, which says so explicitly."""
     if os.environ.get("ACOS_STORE_BACKEND", "").strip().lower() == "sqlite":
         return
-    from .blobs import BlobNotFound, BlobUnavailable, durable_blob_store
+    from .blobs import BlobNotFound, durable_blob_store
     remote = durable_blob_store(purpose)
     if not remote.enabled:
         return
@@ -88,9 +88,11 @@ def refuse_if_moved(purpose: str) -> None:
         note = remote.download(MOVED_MARKER).decode("utf-8", "replace").strip()
     except BlobNotFound:
         return
-    except BlobUnavailable:
-        logger.warning("could not check %s for the Postgres move marker; starting on the snapshot", purpose,
-                       exc_info=True)
+    except Exception as exc:  # noqa: BLE001 - checking for the marker must never stop a boot by itself
+        if getattr(getattr(exc, "response", None), "status_code", None) == 404:
+            return              # Supabase storage answers a missing object with a 404 error
+        logger.warning("could not check %s for the Postgres move marker; starting on the snapshot "
+                       "(its own boot checks still apply)", purpose, exc_info=True)
         return
     raise RuntimeError(f"{purpose}: this store moved to Postgres ({note}). Deploy with "
                        "ACOS_STORE_BACKEND=postgres, or with ACOS_STORE_BACKEND=sqlite to roll back on purpose.")
