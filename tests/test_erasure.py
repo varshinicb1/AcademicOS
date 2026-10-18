@@ -14,6 +14,7 @@ import pytest
 from _auth_helpers import grant_consent, register_invited
 from test_cover_routes import w  # noqa: F401 - `w` is a fixture
 from test_homework import _q
+from store_backend import sqlite_only
 
 ANSWER = "chlorophyll-traps-light-ASHA-ONLY"   # a string only Asha's answers hold
 PNG = b"\x89PNG\r\n\x1a\n" + b"asha-photo-bytes" * 8
@@ -230,6 +231,7 @@ def _file_bytes(db_path) -> bytes:
     return b"".join(f.read_bytes() for f in Path(db_path).parent.glob(Path(db_path).name + "*"))
 
 
+@sqlite_only
 def test_the_deleted_text_is_not_left_in_the_database_or_its_wal(w, school):
     """The snapshot uploaded to the blob store is this file, and the
     container disk holds the WAL. Some SQLite builds turn secure_delete on by
@@ -380,6 +382,7 @@ def test_every_cloud_sql_table_is_erased_or_kept_with_a_reason():
     assert set(DURABLE_ERASED_BY.values()) <= {p.key for p in PARTS} | {"account"}
 
 
+@sqlite_only
 def test_the_curriculum_store_names_a_student_only_in_enrollments(tmp_path):
     from academicos.curriculum.store import CurriculumStore
     store = CurriculumStore(tmp_path / "curriculum.sqlite")

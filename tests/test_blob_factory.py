@@ -34,6 +34,7 @@ import requests
 from academicos.assessment.supabase_kv import SupabaseStorage
 from academicos.storage import blobs
 from academicos.storage.blobs import blob_backend, durable_blob_store
+from store_backend import sqlite_only
 
 
 # --------------------------------------------------------------------------- #
@@ -276,6 +277,7 @@ def _boards_in(data: bytes, tmp_path: Path) -> set[str]:
         conn.close()
 
 
+@sqlite_only
 def test_curriculum_store_uses_gcs_on_gcp(shared_gcs, tmp_path: Path) -> None:
     from academicos.curriculum.store import CurriculumStore
     store = CurriculumStore(tmp_path / "a" / "curriculum.sqlite")
@@ -288,6 +290,7 @@ def test_curriculum_store_uses_gcs_on_gcp(shared_gcs, tmp_path: Path) -> None:
 
 
 
+@sqlite_only
 def test_shutdown_flushes_edits_still_inside_the_window(
         shared_gcs, tmp_path: Path, monkeypatch) -> None:
     """Cloud Run sends SIGTERM and allows 10 s. The app's shutdown hook must
@@ -314,6 +317,7 @@ def test_shutdown_flushes_edits_still_inside_the_window(
 
 
 
+@sqlite_only
 def test_empty_gcs_boot_needs_an_explicit_acknowledgement(
         shared_gcs, tmp_path: Path, monkeypatch) -> None:
     """Before the GCS move the snapshot lived in Supabase Storage. The first
@@ -334,6 +338,7 @@ def test_empty_gcs_boot_needs_an_explicit_acknowledgement(
     assert not db_path.exists(), "a refused boot must leave nothing to boot from"
 
 
+@sqlite_only
 def test_an_allowed_empty_boot_saves_its_snapshot_so_the_next_deploy_starts(
         shared_gcs, tmp_path: Path, monkeypatch) -> None:
     """The live GCP service first booted with ACOS_CURRICULUM_ALLOW_EMPTY_BOOT=1
@@ -364,6 +369,7 @@ def test_empty_boot_guard_does_not_apply_off_gcs(clean_env, tmp_path: Path) -> N
     store.close()
 
 
+@sqlite_only
 def test_boot_refuses_to_start_empty_when_gcs_is_unreachable(
         shared_gcs, tmp_path: Path) -> None:
     """Unreachable is not "no snapshot yet". Starting empty here serves a blank
@@ -388,6 +394,7 @@ def test_boot_refuses_to_start_empty_when_gcs_is_unreachable(
     store.close()
 
 
+@sqlite_only
 def test_stale_curriculum_snapshot_write_is_refused(shared_gcs, tmp_path: Path, caplog) -> None:
     """Two instances, one snapshot blob -- the overlap every Cloud Run rollout
     has, since --max-instances is per revision. B restores A's snapshot and
@@ -531,6 +538,7 @@ def test_health_storage_reports_blob_backend(clean_env) -> None:
     }
 
 
+@sqlite_only
 def test_operations_snapshot_that_stops_saving_shows_in_health(shared_gcs, tmp_path: Path) -> None:
     """N-9-2: the operations store (homework, marks, exams, notifications,
     parent links) is a whole-file snapshot like the curriculum. If its uploads

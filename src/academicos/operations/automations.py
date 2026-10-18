@@ -535,7 +535,19 @@ JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
 
 def run_due(ops, cs, users, notify, now: Optional[datetime] = None) -> dict[str, Any]:
     """Run every job whose window is open and whose period is not done.
-    A failing job is logged and reported, and does not stop the others."""
+    A failing job is logged and reported, and does not stop the others.
+
+    One run at a time (pg_sqlite.exclusive): every instance, and the scheduler's route, starts runs
+    on its own, and two at once both found a job "not done" and both ran it (#143, finding 1).
+    A run that finds another going answers `{"busy": true}`; the other covers the same jobs."""
+    from ..storage.pg_sqlite import exclusive
+    with exclusive(ops.conn, "automations") as mine:
+        if not mine:
+            return {"busy": True}
+        return _run_due(ops, cs, users, notify, now)
+
+
+def _run_due(ops, cs, users, notify, now: Optional[datetime]) -> dict[str, Any]:
     now = now or datetime.now(timezone.utc)
     local = now.astimezone(IST)
     out: dict[str, Any] = {}

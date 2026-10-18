@@ -713,6 +713,11 @@ def _blob_backend() -> str:
     return blob_backend()
 
 
+def _school_stores() -> dict:
+    from ..storage import pg_sqlite
+    return pg_sqlite.describe()
+
+
 def _refresh_storage_probe(cfg) -> dict:
     tables, exists = _probe_all_tables()
     reachable = all(status == "ok" for status in tables.values())
@@ -734,6 +739,8 @@ def _refresh_storage_probe(cfg) -> dict:
         "supabase_reachable": reachable if backend == "supabase" else None,
         "tables": tables,
         "durable_stores": _DURABLE_STORES,
+        # R-A1: CurriculumStore and OperationsStore, SQLite files with GCS snapshots or Postgres.
+        "school_stores": _school_stores(),
     }
     _probe_cache.update(at=time.monotonic(), body=body)
     return body
@@ -797,6 +804,7 @@ def _storage_probe() -> dict:
             "supabase_reachable": None,
             "tables": {},
             "durable_stores": _DURABLE_STORES,
+            "school_stores": _school_stores(),
         }
     cached = _probe_cache["body"]
     if cached is not None and time.monotonic() - _probe_cache["at"] < _STORAGE_PROBE_TTL_S:

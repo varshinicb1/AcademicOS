@@ -12,6 +12,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 
 @pytest.fixture(autouse=True)
+def _close_idle_store_connections():
+    """With ACOS_STORE_BACKEND=postgres every store holds a Postgres connection; a test's stores
+    are closed after it (the next use of one reopens it), or the suite runs out of connections."""
+    yield
+    from academicos.storage import pg_sqlite
+    if pg_sqlite.enabled():
+        pg_sqlite.close_idle()
+
+
+@pytest.fixture(autouse=True)
 def _no_ambient_data_root(monkeypatch):
     """Stop `ACOS_DATA_ROOT` leaking between tests.
 

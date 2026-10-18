@@ -10,6 +10,7 @@ guarantees.
 """
 from __future__ import annotations
 
+from store_backend import sqlite_only
 import sys
 from pathlib import Path
 
@@ -170,6 +171,7 @@ def test_multi_day_event_marker_does_not_remove_any_date(store):
         assert d in result.dates
 
 
+@sqlite_only
 def test_migration_adds_end_date_column_to_a_pre_existing_database(tmp_path):
     """Real production concern: school_1 already has real seeded holiday rows
     under the OLD schema (no end_date column) by the time this feature ships.
