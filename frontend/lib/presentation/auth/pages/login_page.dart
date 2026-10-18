@@ -774,7 +774,7 @@ class _BrandPanel extends StatelessWidget {
             style: theme.textTheme.displaySmall?.copyWith(
                 fontWeight: FontWeight.w800, height: 1.15, color: ink, letterSpacing: -0.5)),
         const SizedBox(height: 12),
-        Text('Papers, timetables, lesson plans, homework and reports for classes 6 to 10, '
+        Text('Papers, timetables, lesson plans, homework and reports for classes 1 to 10, '
             'from the NCERT books.',
             style: theme.textTheme.titleMedium?.copyWith(color: muted, height: 1.4)),
         const SizedBox(height: 28),
@@ -802,7 +802,7 @@ class _BrandPanel extends StatelessWidget {
             ]),
           ),
         const Spacer(flex: 2),
-        Text('For CBSE schools · Classes 6 to 10 · Your data stays your school\'s',
+        Text('For CBSE schools · Classes 1 to 10 · Your data stays your school\'s',
             style: theme.textTheme.bodySmall?.copyWith(color: muted)),
       ]),
     );
