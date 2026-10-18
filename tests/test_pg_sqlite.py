@@ -155,3 +155,41 @@ def test_nulls_sort_first_and_text_sorts_by_bytes_as_in_sqlite(conn):
         conn.execute("INSERT INTO sections (id, grade, name, seats) VALUES (?,?,?,?)", (f"s{i}", g, f"n{i}", seats))
     assert [r[0] for r in conn.execute("SELECT seats FROM sections ORDER BY seats").fetchall()] == [None, 1, 2]
     assert [r[0] for r in conn.execute("SELECT grade FROM sections ORDER BY grade").fetchall()] == ["B", "a", "b"]
+
+
+# ---- the cutover marker ------------------------------------------------------------------------
+
+class _Remote:
+    enabled = True
+
+    def __init__(self, marker):
+        self.marker = marker
+
+    def download(self, key):
+        from academicos.storage.blobs import BlobNotFound
+        if key != pg_sqlite.MOVED_MARKER or self.marker is None:
+            raise BlobNotFound(key)
+        return self.marker
+
+
+def test_a_sqlite_boot_after_the_move_refuses_unless_rolling_back_on_purpose(monkeypatch, tmp_path):
+    """After the cutover the GCS snapshot is frozen; a deploy that forgot the backend setting would
+    restore it and lose every write since. The marker stops that boot, and only an explicit
+    ACOS_STORE_BACKEND=sqlite (a deliberate rollback) goes past it."""
+    from academicos.storage import blobs
+    monkeypatch.setattr(blobs, "durable_blob_store", lambda purpose: _Remote(b"moved 2026-10-20T21:00:00+00:00"))
+    monkeypatch.delenv("ACOS_STORE_BACKEND", raising=False)
+    with pytest.raises(RuntimeError, match="moved to Postgres"):
+        pg_sqlite.refuse_if_moved("curriculum-snapshots")
+    from academicos.curriculum.store import CurriculumStore
+    with pytest.raises(RuntimeError, match="ACOS_STORE_BACKEND=postgres"):
+        CurriculumStore(tmp_path / "curriculum.sqlite")
+    monkeypatch.setenv("ACOS_STORE_BACKEND", "sqlite")
+    pg_sqlite.refuse_if_moved("curriculum-snapshots")
+
+
+def test_no_marker_boots_as_before(monkeypatch):
+    from academicos.storage import blobs
+    monkeypatch.setattr(blobs, "durable_blob_store", lambda purpose: _Remote(None))
+    monkeypatch.delenv("ACOS_STORE_BACKEND", raising=False)
+    pg_sqlite.refuse_if_moved("operations-snapshots")

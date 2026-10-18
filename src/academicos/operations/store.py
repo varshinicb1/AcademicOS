@@ -45,6 +45,7 @@ class OperationsStore(NotificationsMixin, HomeworkMixin, LearningMixin, Guardian
             self._snapshots = pg_sqlite.NoSnapshots()
             self.conn = pg_sqlite.connect("operations", db_path)
         else:
+            pg_sqlite.refuse_if_moved("operations-snapshots")
             self._snapshots = SnapshotSync("operations-snapshots", self._SNAPSHOT_KEY, db_path, self._conn_lock,
                                            debounce_seconds=self._SNAPSHOT_DEBOUNCE_SECONDS,
                                            on_reload=self._bring_up_to_date, allow_empty_boot=True)

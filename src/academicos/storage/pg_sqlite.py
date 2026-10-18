@@ -68,6 +68,44 @@ def _dsn() -> Optional[dict[str, str]]:
     return _dsn_parts()
 
 
+MOVED_MARKER = "MOVED_TO_POSTGRES"
+
+
+def refuse_if_moved(purpose: str) -> None:
+    """Stop a SQLite-mode boot of a store whose data has moved to Postgres (docs/r-a1-cutover.md).
+
+    After the cutover the GCS snapshot is frozen at the moment of the move. A deploy that forgot
+    ACOS_STORE_BACKEND=postgres would restore it and run on, losing every write since, so the
+    cutover leaves a marker beside the snapshot and this refuses to start. Rolling back on purpose
+    sets ACOS_STORE_BACKEND=sqlite, which says so explicitly."""
+    if os.environ.get("ACOS_STORE_BACKEND", "").strip().lower() == "sqlite":
+        return
+    from .blobs import BlobNotFound, BlobUnavailable, durable_blob_store
+    remote = durable_blob_store(purpose)
+    if not remote.enabled:
+        return
+    try:
+        note = remote.download(MOVED_MARKER).decode("utf-8", "replace").strip()
+    except BlobNotFound:
+        return
+    except BlobUnavailable:
+        logger.warning("could not check %s for the Postgres move marker; starting on the snapshot", purpose,
+                       exc_info=True)
+        return
+    raise RuntimeError(f"{purpose}: this store moved to Postgres ({note}). Deploy with "
+                       "ACOS_STORE_BACKEND=postgres, or with ACOS_STORE_BACKEND=sqlite to roll back on purpose.")
+
+
+def describe() -> dict[str, Any]:
+    """Where CurriculumStore and OperationsStore keep their tables, for /health/storage: the cutover
+    is verified by reading this on the live service."""
+    if not enabled():
+        return {"backend": "sqlite_snapshots"}
+    return {"backend": "postgres",
+            "schemas": {k: os.environ.get(f"ACOS_PG_SCHEMA_{k.upper()}", "").strip() or "per-path"
+                        for k in ("curriculum", "operations")}}
+
+
 def schema_for(kind: str, db_path: Path) -> str:
     """The store's schema: named in production, derived from the file path otherwise."""
     named = os.environ.get(f"ACOS_PG_SCHEMA_{kind.upper()}", "").strip()
@@ -461,7 +499,7 @@ def _params(params: Any) -> Sequence[Any]:
 def _configure_types(conn: Any) -> None:
     """Loose typing like SQLite's: an int parameter is an untyped literal ('5'), so it compares with
     a TEXT column and fills an INTEGER one; numerics and booleans come back as int or float."""
-    from psycopg.adapt import Dumper, Loader
+    from psycopg.adapt import Loader
     from psycopg.types.numeric import IntDumper
 
     class LooseInt(IntDumper):
@@ -490,7 +528,6 @@ def _configure_types(conn: Any) -> None:
     conn.adapters.register_dumper(int, LooseInt)
     conn.adapters.register_loader("numeric", NumericLoader)
     conn.adapters.register_loader("bool", BoolAsInt)
-    del Dumper
 
 
 def _map_error(exc: Exception) -> sqlite3.Error:

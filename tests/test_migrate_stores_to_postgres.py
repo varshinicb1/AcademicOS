@@ -1,16 +1,11 @@
-"""R-A1: scripts/migrate_stores_to_postgres.py copies both SQLite stores into Postgres, and the app
+"""R-A1: academicos.storage.migrate_stores copies both SQLite stores into Postgres, and the app
 then reads the same data there. Needs a Postgres (ACOS_STORE_PG_HOST or ACOS_TEST_PG_HOST)."""
 from __future__ import annotations
 
-import importlib.util
 import os
 import uuid
-from pathlib import Path
 
 import pytest
-
-ROOT = Path(__file__).resolve().parents[1]
-
 
 def _pg_env() -> dict[str, str] | None:
     if os.environ.get("ACOS_STORE_PG_HOST"):
@@ -27,10 +22,8 @@ pytestmark = pytest.mark.skipif(_pg_env() is None, reason="set ACOS_STORE_PG_HOS
 
 
 def _script():
-    spec = importlib.util.spec_from_file_location("migrate_stores", ROOT / "scripts" / "migrate_stores_to_postgres.py")
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
+    from academicos.storage import migrate_stores
+    return migrate_stores
 
 
 @pytest.fixture
@@ -87,7 +80,8 @@ def test_both_stores_copy_and_read_the_same_on_postgres(tmp_path, monkeypatch, e
     mod = _script()
     summary = tmp_path / "summary.json"
     assert mod.main(["--curriculum", str(tmp_path / "curriculum.sqlite"),
-                     "--operations", str(tmp_path / "operations.sqlite"), "--summary", str(summary)]) == 0
+                     "--operations", str(tmp_path / "operations.sqlite"), "--summary", str(summary),
+                     "--latency"]) == 0
 
     monkeypatch.setenv("ACOS_STORE_BACKEND", "postgres")
     from academicos.curriculum.store import CurriculumStore
@@ -119,3 +113,16 @@ def test_a_second_run_replaces_rather_than_doubles(tmp_path, monkeypatch, env):
     first = mod.migrate_store("curriculum", tmp_path / "curriculum.sqlite")
     assert mod.main(args) == 0
     assert mod.migrate_store("curriculum", tmp_path / "curriculum.sqlite") == first
+
+
+def test_a_value_sqlite_stored_with_another_type_than_its_column_stops_the_copy(tmp_path, monkeypatch, env):
+    """SQLite types each value, not the column: an INTEGER column keeps 5.5 as it is. Postgres would
+    round it to 6 without a word, and the app would read another number; the copy says where and stops."""
+    import sqlite3
+    _sqlite_stores(tmp_path, monkeypatch)
+    raw = sqlite3.connect(tmp_path / "operations.sqlite")
+    raw.execute("UPDATE practice_sets SET grade = 5.5")
+    raw.commit()
+    raw.close()
+    with pytest.raises(SystemExit, match=r"practice_sets: rowid \d+ column 'grade' reads back as a int, was a float"):
+        _script().migrate_store("operations", tmp_path / "operations.sqlite")

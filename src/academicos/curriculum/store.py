@@ -437,6 +437,7 @@ class CurriculumStore(SchoolModelMixin, TeachingGroupsMixin, CoverMixin, SchoolP
             self._snapshots = pg_sqlite.NoSnapshots()
             self.conn = pg_sqlite.connect("curriculum", db_path)
         else:
+            pg_sqlite.refuse_if_moved("curriculum-snapshots")
             # Restores the last snapshot into db_path before the connect below;
             # upload, conflicts and flush live there too (storage/snapshot_sync.py).
             self._snapshots = SnapshotSync("curriculum-snapshots", self._SNAPSHOT_KEY, db_path,
