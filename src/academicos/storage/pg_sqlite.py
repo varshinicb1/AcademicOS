@@ -40,6 +40,7 @@ import os
 import re
 import sqlite3
 import threading
+import weakref
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Iterable, Optional, Sequence
@@ -463,6 +464,14 @@ def _configure_types(conn: Any) -> None:
     class LooseInt(IntDumper):
         oid = 0
 
+        # IntDumper hands each value to a size-specific dumper (int2/int4/int8/numeric), which
+        # would print a typed literal again; this one keeps every int.
+        def get_key(self, obj: int, format: Any) -> type:
+            return self.cls
+
+        def upgrade(self, obj: int, format: Any) -> "LooseInt":
+            return self
+
         def quote(self, obj: int) -> bytes:  # noqa: D401 - psycopg API
             return b"'" + str(int(obj)).encode() + b"'"
 
@@ -507,6 +516,19 @@ def _map_error(exc: Exception) -> sqlite3.Error:
 # the connection
 
 _BOOT_LOCK = 7_360_224_502
+_OPEN: "weakref.WeakSet[Connection]" = weakref.WeakSet()
+
+
+def close_idle() -> int:
+    """Close every connection with no uncommitted writes; the next use reopens it (`_ensure`).
+    Production holds two stores per process, so two connections; the test suite makes thousands of
+    stores, and without this each kept a Postgres connection until garbage collection."""
+    closed = 0
+    for c in list(_OPEN):
+        if not c._dirty and c._conn is not None and not c._conn.closed:
+            c.close()
+            closed += 1
+    return closed
 
 
 class Connection:
@@ -524,6 +546,7 @@ class Connection:
         self._dirty = False
         self._conn = None
         self._connect()
+        _OPEN.add(self)
 
     # -- connection ---------------------------------------------------------------------------------
     def _connect(self) -> None:
