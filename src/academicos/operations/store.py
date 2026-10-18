@@ -8,6 +8,7 @@ import threading
 from pathlib import Path
 from typing import Optional
 
+from ..storage import pg_sqlite
 from ..storage.snapshot_sync import SnapshotSync
 from .automations import AUTOMATIONS_SCHEMA, AutomationsMixin
 from .exams import EXAMS_SCHEMA, ExamsMixin
@@ -39,12 +40,17 @@ class OperationsStore(NotificationsMixin, HomeworkMixin, LearningMixin, Guardian
     def __init__(self, db_path: Path):
         self.db_path = db_path
         self._conn_lock = threading.RLock()
-        self._snapshots = SnapshotSync("operations-snapshots", self._SNAPSHOT_KEY, db_path, self._conn_lock,
-                                       debounce_seconds=self._SNAPSHOT_DEBOUNCE_SECONDS,
-                                       on_reload=self._bring_up_to_date, allow_empty_boot=True)
-        db_path.parent.mkdir(parents=True, exist_ok=True)
-        self.conn = sqlite3.connect(str(db_path), check_same_thread=False)
-        self.conn.row_factory = sqlite3.Row
+        if pg_sqlite.enabled():
+            # R-A1: see CurriculumStore.__init__.
+            self._snapshots = pg_sqlite.NoSnapshots()
+            self.conn = pg_sqlite.connect("operations", db_path)
+        else:
+            self._snapshots = SnapshotSync("operations-snapshots", self._SNAPSHOT_KEY, db_path, self._conn_lock,
+                                           debounce_seconds=self._SNAPSHOT_DEBOUNCE_SECONDS,
+                                           on_reload=self._bring_up_to_date, allow_empty_boot=True)
+            db_path.parent.mkdir(parents=True, exist_ok=True)
+            self.conn = sqlite3.connect(str(db_path), check_same_thread=False)
+            self.conn.row_factory = sqlite3.Row
         self._exec("PRAGMA journal_mode=WAL")
         self._exec("PRAGMA busy_timeout=60000")
         self._bring_up_to_date()

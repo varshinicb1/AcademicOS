@@ -34,6 +34,11 @@ _SETTING = {0: "OFF", 1: "ON", 2: "FAST"}
 
 @contextlib.contextmanager
 def secure_delete(conn: sqlite3.Connection) -> Iterator[None]:
+    if not isinstance(conn, sqlite3.Connection):
+        # A store on Postgres (storage/pg_sqlite.py): there is no secure_delete to turn on;
+        # truncate_wal below vacuums its tables once the erasure is committed.
+        yield
+        return
     before = conn.execute("PRAGMA secure_delete").fetchone()[0]
     conn.execute("PRAGMA secure_delete=ON")
     try:
@@ -46,6 +51,9 @@ def truncate_wal(conn: sqlite3.Connection) -> bool:
     """Checkpoint the whole WAL into the database and empty it. Call after
     the commit. False when another connection's reader kept a frame in use
     (logged): the frames go at the next checkpoint instead."""
+    if not isinstance(conn, sqlite3.Connection):
+        conn.scrub()
+        return True
     busy, _, _ = conn.execute("PRAGMA wal_checkpoint(TRUNCATE)").fetchone()
     if busy:
         log.warning("the WAL could not be emptied after an erasure: another connection is reading")

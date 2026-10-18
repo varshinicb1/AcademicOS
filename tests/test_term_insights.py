@@ -24,6 +24,7 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
 
+from store_backend import sqlite_only
 import pytest
 
 from academicos.assessment import paper_timing as pt
@@ -382,6 +383,7 @@ def test_editing_a_terms_dates_keeps_its_baseline(tmp_path, monkeypatch, seeded)
         assert store.get_term(term.id).manual_baseline_minutes == 75
 
 
+@sqlite_only
 def test_an_existing_terms_table_gains_the_baseline_column(tmp_path):
     """A school's database from before this change has a terms table without
     the column; opening it must add the column, not fail on the first read."""

@@ -19,6 +19,9 @@ import pytest
 import requests
 
 from academicos.curriculum.store import CurriculumStore
+from store_backend import sqlite_only
+
+pytestmark = sqlite_only
 
 
 def _enable_remote(store: CurriculumStore) -> None:

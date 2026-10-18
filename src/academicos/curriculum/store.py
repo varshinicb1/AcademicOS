@@ -60,6 +60,7 @@ import uuid
 from pathlib import Path
 from typing import Any, Optional
 
+from ..storage import pg_sqlite
 from ..storage.snapshot_sync import SnapshotSync
 
 from .models import (
@@ -430,16 +431,20 @@ class CurriculumStore(SchoolModelMixin, TeachingGroupsMixin, CoverMixin, SchoolP
         # the snapshot sync nest a raw connection use inside their own
         # acquisition -- a plain Lock would deadlock those paths.
         self._conn_lock = threading.RLock()
-        # Restores the last snapshot into db_path before the connect below;
-        # upload, conflicts and flush live there too (storage/snapshot_sync.py).
-        self._snapshots = SnapshotSync("curriculum-snapshots", self._SNAPSHOT_KEY, db_path,
-                                       self._conn_lock, debounce_seconds=self._SNAPSHOT_DEBOUNCE_SECONDS,
-                                       on_reload=self._bring_up_to_date)
-
-        db_path.parent.mkdir(parents=True, exist_ok=True)
-
-        self.conn = sqlite3.connect(str(db_path), check_same_thread=False)
-        self.conn.row_factory = sqlite3.Row
+        if pg_sqlite.enabled():
+            # R-A1: the tables live in Postgres (storage/pg_sqlite.py), so there is no
+            # file to snapshot, and more than one instance can serve the school.
+            self._snapshots = pg_sqlite.NoSnapshots()
+            self.conn = pg_sqlite.connect("curriculum", db_path)
+        else:
+            # Restores the last snapshot into db_path before the connect below;
+            # upload, conflicts and flush live there too (storage/snapshot_sync.py).
+            self._snapshots = SnapshotSync("curriculum-snapshots", self._SNAPSHOT_KEY, db_path,
+                                           self._conn_lock, debounce_seconds=self._SNAPSHOT_DEBOUNCE_SECONDS,
+                                           on_reload=self._bring_up_to_date)
+            db_path.parent.mkdir(parents=True, exist_ok=True)
+            self.conn = sqlite3.connect(str(db_path), check_same_thread=False)
+            self.conn.row_factory = sqlite3.Row
         self._exec("PRAGMA journal_mode=WAL")
         self._exec("PRAGMA busy_timeout=60000")
         self._exec("PRAGMA foreign_keys=ON")
