@@ -1,14 +1,16 @@
-"""Copy the two SQLite stores into Postgres (R-A1): CurriculumStore and OperationsStore.
+"""Copy the four SQLite stores into Postgres (R-A1): CurriculumStore, OperationsStore, and the
+question bank API's keys and webhooks, whose snapshots sit beside OperationsStore's.
 
     python -m academicos.storage.migrate_stores --from-gcs        # the live snapshots
-    python -m academicos.storage.migrate_stores --curriculum c.sqlite --operations o.sqlite
+    python -m academicos.storage.migrate_stores --curriculum c.sqlite --operations o.sqlite \
+        --api-keys k.sqlite --webhooks w.sqlite
 
 It is in the package, not only in scripts/, so the deployed image can run it as a one-off Cloud Run
 job with the service's own settings (docs/r-a1-cutover.md): the live data never leaves Google Cloud.
 
 The target is the database the app's Postgres store backend uses (`ACOS_STORE_PG_*`, else the Cloud SQL
-settings `ACOS_POSTGRES_*`), in the schemas `ACOS_PG_SCHEMA_CURRICULUM` and `ACOS_PG_SCHEMA_OPERATIONS`,
-which a production run must name (the app is then deployed with the same two values).
+settings `ACOS_POSTGRES_*`), in the schemas `ACOS_PG_SCHEMA_CURRICULUM`, `_OPERATIONS`, `_API_KEYS` and
+`_WEBHOOKS`, which a production run must name (the app is then deployed with the same four values).
 
 For each store, in one transaction:
   1. the schema is created by the store itself, so its tables are exactly the ones the app makes;
@@ -36,6 +38,8 @@ STORES = {
     # kind: (blob purpose, blob key)
     "curriculum": ("curriculum-snapshots", "curriculum.sqlite"),
     "operations": ("operations-snapshots", "operations.sqlite"),
+    "api_keys": ("operations-snapshots", "api_keys.sqlite"),
+    "webhooks": ("operations-snapshots", "webhooks.sqlite"),
 }
 
 
@@ -72,9 +76,15 @@ def migrate_store(kind: str, sqlite_path: Path) -> dict:
     if kind == "curriculum":
         from academicos.curriculum.store import CurriculumStore
         store = CurriculumStore(sqlite_path)
-    else:
+    elif kind == "operations":
         from academicos.operations.store import OperationsStore
         store = OperationsStore(sqlite_path)
+    elif kind == "api_keys":
+        from academicos.assessment.api_keys import ApiKeyStore
+        store = ApiKeyStore(sqlite_path)
+    else:
+        from academicos.assessment.webhooks import WebhookStore
+        store = WebhookStore(sqlite_path)
     store.conn.commit()
     store.conn.close()
 
@@ -184,6 +194,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--from-gcs", action="store_true", help="download the live snapshots first")
     ap.add_argument("--curriculum", type=Path, help="a local copy of curriculum.sqlite")
     ap.add_argument("--operations", type=Path, help="a local copy of operations.sqlite")
+    ap.add_argument("--api-keys", type=Path, help="a local copy of api_keys.sqlite")
+    ap.add_argument("--webhooks", type=Path, help="a local copy of webhooks.sqlite")
     ap.add_argument("--summary", type=Path, help="write the counts and file hashes here as JSON")
     ap.add_argument("--latency", action="store_true", help="also measure one statement's round trip")
     ap.add_argument("--mark-moved", action="store_true",
@@ -216,12 +228,13 @@ def main(argv: list[str] | None = None) -> int:
         from .pg_sqlite import MOVED_MARKER
         note = (f"moved {datetime.now(timezone.utc).isoformat(timespec='seconds')}, "
                 f"{sum(v['total'] for v in summary.values())} rows").encode()
-        for kind, (purpose, _) in STORES.items():
+        # One marker per snapshot folder: three of the stores share operations-snapshots.
+        for purpose in dict.fromkeys(p for p, _ in STORES.values()):
             try:
                 durable_blob_store(purpose).upload(MOVED_MARKER, note, "text/plain")
+                print(f"{purpose}: marked moved")
             except BlobConflict:
-                print(f"{kind}: {purpose} was already marked by an earlier run; left as it was")
-            print(f"{kind}: marked moved in {purpose}")
+                print(f"{purpose}: already marked by an earlier run; left as it was")
     if a.latency:
         summary["round_trip_ms"] = round(round_trip_ms(), 3)
         print(f"one statement's round trip: {summary['round_trip_ms']} ms (median of 200)")

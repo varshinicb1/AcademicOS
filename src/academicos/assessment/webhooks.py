@@ -313,12 +313,19 @@ class WebhookStore:
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._lock = threading.RLock()
         self._snapshots = None
-        if durable:
-            from ..storage.snapshot_sync import SnapshotSync
-            self._snapshots = SnapshotSync("operations-snapshots", "webhooks.sqlite", self.db_path, self._lock,
-                                           debounce_seconds=2.0, allow_empty_boot=True)
-        self.conn = sqlite3.connect(str(self.db_path), check_same_thread=False)
-        self.conn.row_factory = sqlite3.Row
+        from ..storage import pg_sqlite
+        if pg_sqlite.enabled():
+            # R-A1: in Postgres every instance shares the subscriptions and the delivery queue.
+            self._snapshots = pg_sqlite.NoSnapshots()
+            self.conn = pg_sqlite.connect("webhooks", self.db_path)
+        else:
+            if durable:
+                from ..storage.snapshot_sync import SnapshotSync
+                pg_sqlite.refuse_if_moved("operations-snapshots")
+                self._snapshots = SnapshotSync("operations-snapshots", "webhooks.sqlite", self.db_path, self._lock,
+                                               debounce_seconds=2.0, allow_empty_boot=True)
+            self.conn = sqlite3.connect(str(self.db_path), check_same_thread=False)
+            self.conn.row_factory = sqlite3.Row
         with self._lock:
             self.conn.execute("PRAGMA journal_mode=WAL")
             self.conn.execute("PRAGMA busy_timeout=60000")
@@ -492,6 +499,16 @@ class WebhookService:
         ids against the last load's, records the new set, and makes one event
         per chapter of new ids for each webhook whose key may read them. The
         first load ever announces nothing. Returns the events made."""
+        # One instance at a time: during a rollout the old and the new instance both load the bank,
+        # and both found the same new ids and announced them twice. The second one here finds the
+        # set already recorded and announces nothing.
+        from ..storage.pg_sqlite import exclusive
+        with exclusive(self.store.conn, "webhook-announce") as mine:
+            if not mine:
+                return 0
+            return self._on_bank_loaded(bank)
+
+    def _on_bank_loaded(self, bank: Any) -> int:
         served = {str(r.get("id")): r for r in bank.records if has_answer_key(r)}
         before = self.store.served_ids()
         if set(served) == before:
@@ -570,15 +587,20 @@ class WebhookService:
         if not self._sending.acquire(blocking=False):
             return counts
         try:
-            # Batches until nothing is due, so events made while this run was
-            # sending go out in it too (their kick found the run busy). Each
-            # outcome takes a delivery out of "due", so this ends.
-            for _ in range(50):
-                batch = self.store.due(self.clock())
-                if not batch:
-                    break
-                for d in batch:
-                    counts[self._deliver(d)] += 1
+            # Across instances too (pg_sqlite.exclusive): each instance's run read the same due rows.
+            from ..storage.pg_sqlite import exclusive
+            with exclusive(self.store.conn, "webhook-deliveries") as mine:
+                if not mine:
+                    return counts
+                # Batches until nothing is due, so events made while this run was
+                # sending go out in it too (their kick found the run busy). Each
+                # outcome takes a delivery out of "due", so this ends.
+                for _ in range(50):
+                    batch = self.store.due(self.clock())
+                    if not batch:
+                        break
+                    for d in batch:
+                        counts[self._deliver(d)] += 1
         finally:
             self._sending.release()
         return counts
