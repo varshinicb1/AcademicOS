@@ -253,12 +253,19 @@ class ApiKeyStore:
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._lock = threading.RLock()
         self._snapshots = None
-        if durable:
-            from ..storage.snapshot_sync import SnapshotSync
-            self._snapshots = SnapshotSync("operations-snapshots", "api_keys.sqlite", self.db_path, self._lock,
-                                           debounce_seconds=2.0, allow_empty_boot=True)
-        self.conn = sqlite3.connect(str(self.db_path), check_same_thread=False)
-        self.conn.row_factory = sqlite3.Row
+        from ..storage import pg_sqlite
+        if pg_sqlite.enabled():
+            # R-A1: in Postgres every instance shares the keys and their counts; nothing to snapshot.
+            self._snapshots = pg_sqlite.NoSnapshots()
+            self.conn = pg_sqlite.connect("api_keys", self.db_path)
+        else:
+            if durable:
+                from ..storage.snapshot_sync import SnapshotSync
+                pg_sqlite.refuse_if_moved("operations-snapshots")
+                self._snapshots = SnapshotSync("operations-snapshots", "api_keys.sqlite", self.db_path, self._lock,
+                                               debounce_seconds=2.0, allow_empty_boot=True)
+            self.conn = sqlite3.connect(str(self.db_path), check_same_thread=False)
+            self.conn.row_factory = sqlite3.Row
         self.conn.execute("PRAGMA journal_mode=WAL")
         self.conn.execute("PRAGMA busy_timeout=60000")
         self.conn.executescript(SCHEMA)
@@ -392,11 +399,17 @@ class ApiKeyStore:
         now = _now()
         window = now.replace(second=0, microsecond=0)
         window_key = window.isoformat()
-        row = self.conn.execute(
-            "SELECT count FROM api_key_usage WHERE key_id=? AND window_start=?",
-            (key.id, window_key)).fetchone()
+        # One statement counts the request only while the window is under the quota, and says
+        # whether it did: no row back means the quota was already used. Reading the count and then
+        # adding to it let two instances (or two requests) both see "one left" and both pass.
+        # A refused request is not counted, as before.
+        counted = self.conn.execute(
+            "INSERT INTO api_key_usage (key_id, window_start, count) VALUES (?,?,1) "
+            "ON CONFLICT(key_id, window_start) DO UPDATE SET count = api_key_usage.count + 1 "
+            "WHERE api_key_usage.count < ? RETURNING count",
+            (key.id, window_key, key.quota_per_minute)).fetchone()
 
-        if row is not None and row["count"] >= key.quota_per_minute:
+        if counted is None or counted["count"] > key.quota_per_minute:
             self.conn.execute(
                 "DELETE FROM api_key_usage WHERE window_start < ?",
                 ((window - timedelta(minutes=5)).isoformat(),))
@@ -408,12 +421,6 @@ class ApiKeyStore:
             # it waited a full minute when the window reopened in two seconds.
             left = (window + timedelta(minutes=1) - now).total_seconds()
             raise QuotaExceeded(key, retry_after=math.ceil(left))
-
-        self.conn.execute(
-            "INSERT INTO api_key_usage (key_id, window_start, count) VALUES (?,?,1) "
-            "ON CONFLICT(key_id, window_start) DO UPDATE SET count = count + 1",
-            (key.id, window_key),
-        )
         self.conn.commit()
 
     @_locked

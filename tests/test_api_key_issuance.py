@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from test_blob_factory import clean_env, shared_gcs  # noqa: F401 - fixtures
 from test_homework import w  # noqa: F401 - `w` is a fixture
+from store_backend import sqlite_only
 
 
 def test_a_minted_key_opens_v1_until_revoked(w, monkeypatch):
@@ -87,6 +88,7 @@ def test_a_key_limited_to_classes_and_subjects_on_the_running_app(w, monkeypatch
     assert w.c.get("/v1/questions/q1", headers=h).status_code == 200
 
 
+@sqlite_only
 def test_the_store_keeps_keys_through_a_snapshot(shared_gcs, tmp_path):
     """With a blob store behind it, a key minted before a restart
     authenticates after one, on a container whose disk started empty."""
