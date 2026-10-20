@@ -14,7 +14,6 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from academicos.assessment import qbank_routes as routes
 from academicos.assessment.api_keys import (
-from store_backend import sqlite_only
     FORBIDDEN_SCOPES,
     SCOPES,
     ApiKeyStore,
@@ -23,6 +22,7 @@ from store_backend import sqlite_only
     hash_key,
     validate_scopes,
 )
+from store_backend import sqlite_only
 
 
 @pytest.fixture
