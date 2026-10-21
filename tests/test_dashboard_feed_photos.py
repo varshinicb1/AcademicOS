@@ -37,6 +37,41 @@ def test_the_calendar_feed_is_private_and_resettable(w):
     assert w.c.get("/api/v1/ics/not-a-token.ics").status_code == 404
 
 
+def test_a_closed_accounts_calendar_feed_stops(w):
+    """Security review 2026-10: the feed served whoever's token it was, closed or not, so someone
+    who had left the school kept a live view of its week in their calendar app."""
+    from academicos.curriculum import routes as cr
+    url = w.c.get("/api/v1/calendar-feed", headers=w.s1).json()["url"]
+    path = "/api/v1/ics/" + url.rsplit("/ics/", 1)[1]
+    assert w.c.get(path).status_code == 200
+    users = cr._require_users()
+    users.close_account(users.get_by_email("s1@example.com").id)
+    assert w.c.get(path).status_code == 404
+
+
+def test_logout_says_so_when_the_session_could_not_be_ended(w):
+    """ASVS V3.3.1: the durable session store failing at logout left the session valid there while
+    the route answered ok."""
+    import requests
+
+    from academicos.curriculum import routes as cr
+
+    class Down:
+        enabled = True
+
+        def delete(self, **_):
+            raise requests.exceptions.ConnectionError("the session store is unreachable")
+
+    users = cr._require_users()
+    real = users._remote_sessions
+    users._remote_sessions = Down()
+    try:
+        assert w.c.post("/api/v1/auth/logout", headers=w.s1).status_code == 503
+    finally:
+        users._remote_sessions = real
+    assert w.c.post("/api/v1/auth/logout", headers=w.s1).status_code == 200
+
+
 def test_v1_homework_sets(w, monkeypatch):
     from academicos.assessment import qbank_routes
     from academicos.assessment.qbank_engine import QuestionBank

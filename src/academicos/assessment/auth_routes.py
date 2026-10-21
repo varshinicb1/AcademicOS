@@ -21,6 +21,7 @@ import secrets
 from typing import Optional
 from urllib.parse import quote
 
+import requests
 from fastapi import APIRouter, Depends, Header, HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import ConfigDict
@@ -29,6 +30,7 @@ from pydantic.alias_generators import to_camel
 from ..api.rate_limit import account_failures, rate_limit_login, rate_limit_register
 from ..config import Config
 from .schemas import Camel
+from .supabase_kv import SupabaseUnavailable
 from .users import (
     OWNER_ROLE, AccountClosed, EmailAlreadyRegistered, InvalidCredentials, Invite, InviteAlreadyUsed,
     InviteNotFound, RegistrationRefused, User, UserStore, get_user_store, is_closed,
@@ -212,7 +214,14 @@ def login(req: LoginRequest) -> AuthResponse:
 def logout(authorization: str = Header(default="")) -> dict:
     token = _bearer_token(authorization)
     if token:
-        _require().delete_session(token)
+        try:
+            _require().delete_session(token, strict=True)
+        except (SupabaseUnavailable, requests.exceptions.RequestException):
+            # The session is still valid on the durable store: say so, so the app can try again
+            # rather than report a sign-out that did not happen.
+            logging.getLogger(__name__).warning("logout could not end the session on the durable store",
+                                                exc_info=True)
+            raise HTTPException(503, "could not sign you out on the server; try again")
     return {"ok": True}
 
 

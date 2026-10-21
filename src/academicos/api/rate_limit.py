@@ -25,6 +25,7 @@ of its own.
 from __future__ import annotations
 
 import collections
+import hashlib
 import logging
 import os
 import threading
@@ -173,7 +174,11 @@ class RateLimiter:
         if retry_after is _LOCAL:
             retry_after = self._memory_take(key, count=True)
         if retry_after is not None:
-            logger.warning("Rate limit exceeded for key %s (max %d in %ds)", key, self.max_requests, self.window_seconds)
+            # A hash, not the key: keys hold whatever email was typed, newlines included, which
+            # put any address in the logs and let a request forge log lines (ASVS V7.3.1).
+            logger.warning("Rate limit exceeded for %s key %s (max %d in %ds)", self.name,
+                           hashlib.sha256(key.encode("utf-8")).hexdigest()[:12], self.max_requests,
+                           self.window_seconds)
             raise HTTPException(
                 status_code=429,
                 detail=f"Rate limit exceeded. Please try again in {retry_after} seconds.",

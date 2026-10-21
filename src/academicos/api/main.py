@@ -166,7 +166,14 @@ class _SecurityHeaders:
         (b"x-content-type-options", b"nosniff"),
         (b"x-frame-options", b"DENY"),
         (b"referrer-policy", b"strict-origin-when-cross-origin"),
+        # Security review 2026-10 (ASVS V8.2.1): API answers carry children's records, and a
+        # shared school browser kept them in its cache. A route that may be cached says so itself.
+        (b"cache-control", b"no-store"),
     ]
+    # ASVS V14.4.3: an API answer is never a page to run. Not on the developer docs, which are a
+    # page (and are off in production).
+    CSP = (b"content-security-policy", b"default-src 'none'; frame-ancestors 'none'")
+    DOCS = ("/docs", "/redoc")
 
     def __init__(self, app_: Any) -> None:
         self.app = app_
@@ -176,18 +183,51 @@ class _SecurityHeaders:
             await self.app(scope, receive, send)
             return
 
+        wanted = self.HEADERS
+        if not str(scope.get("path", "")).startswith(self.DOCS):
+            wanted = [*wanted, self.CSP]
+
         async def with_headers(message: Any) -> None:
             if message["type"] == "http.response.start":
                 present = {k.lower() for k, _ in message.get("headers", [])}
                 message.setdefault("headers", [])
                 message["headers"] = list(message["headers"]) + [
-                    (k, v) for k, v in self.HEADERS if k not in present]
+                    (k, v) for k, v in wanted if k not in present]
             await send(message)
 
         await self.app(scope, receive, with_headers)
 
 
 app.add_middleware(_SecurityHeaders)
+
+
+class _RefusalLog:
+    """Logs every 401 and 403 the API answers: the route, who was signed in (when anyone was) and
+    the client address. Refusals are raised in many places, handlers included, so they are
+    caught here, on the way out, rather than at each one (security review 2026-10, ASVS V7.2.1
+    and V7.2.2: credential stuffing or one school probing another's ids left no trace but a
+    request line)."""
+
+    def __init__(self, app_: Any) -> None:
+        self.app = app_
+
+    async def __call__(self, scope: Any, receive: Any, send: Any) -> None:
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+
+        async def watch(message: Any) -> None:
+            if message["type"] == "http.response.start" and message.get("status") in (401, 403):
+                route = getattr(scope.get("route"), "path", None) or "(no route)"
+                client = (scope.get("client") or ("?",))[0]
+                logger.warning("access refused: %s %s -> %d actor=%s client=%s", scope.get("method"), route,
+                               message["status"], scope.get("acos_actor") or "-", client)
+            await send(message)
+
+        await self.app(scope, receive, watch)
+
+
+app.add_middleware(_RefusalLog)
 
 
 class _AdminActionAudit:
@@ -320,7 +360,15 @@ def _on_supabase_unavailable(_request: Any, exc: SupabaseUnavailable) -> JSONRes
     incident this closes."""
     logger.error("Supabase call failed: %s", exc, exc_info=exc)
     return JSONResponse(status_code=503,
-                        content={"detail": f"storage backend unavailable: {exc}"})
+                        content={"detail": f"storage backend unavailable: {_public(exc)}"})
+
+
+def _public(exc: SupabaseUnavailable) -> str:
+    """What a client may see of a storage failure: the operation, the table and the HTTP status.
+    The backend's own message is logged, not returned: a Postgres error carries SQL, column names
+    and the values of a violated key, such as an email (security review 2026-10, ASVS V7.4.1)."""
+    status = f" (HTTP {exc.status})" if getattr(exc, "status", None) is not None else ""
+    return f"{getattr(exc, 'op', 'call')} on {getattr(exc, 'table', '?')!r} failed{status}"
 
 
 # --- domain exceptions that used to surface as bare 500s -------------------
@@ -651,7 +699,8 @@ def _probe_table(table: str) -> tuple[str, str, Optional[bool]]:
         durable_table(table).select(limit=1)
         return table, "ok", True
     except SupabaseUnavailable as exc:
-        return table, f"error: {exc}", (False if _table_missing(exc) else None)
+        logger.warning("storage probe of %s failed: %s", table, exc)
+        return table, f"error: {_public(exc)}", (False if _table_missing(exc) else None)
 
 
 def _probe_all_tables() -> tuple[dict[str, str], dict[str, Optional[bool]]]:
